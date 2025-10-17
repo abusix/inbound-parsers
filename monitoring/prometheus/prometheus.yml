@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'inbound-parsers-dev'
+    environment: 'development'
+
+scrape_configs:
+  # Bento FBL pipeline metrics
+  - job_name: 'bento-fbl'
+    static_configs:
+      - targets: ['bento-fbl:4195']
+        labels:
+          pipeline: 'fbl'
+          service: 'bento'
+
+  # FBL Python worker metrics
+  - job_name: 'fbl-worker'
+    static_configs:
+      - targets: ['fbl-worker:8001']
+        labels:
+          pipeline: 'fbl'
+          service: 'python-worker'
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Grafana monitoring
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']

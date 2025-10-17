@@ -1,0 +1,178 @@
+# Bento FBL Pipeline Configuration
+# Processes FBL (Feedback Loop) emails from Kafka and outputs parsed events
+
+http:
+  enabled: true
+  address: 0.0.0.0:4195
+  root_path: /bento
+  debug_endpoints: true
+
+input:
+  kafka:
+    addresses:
+      - "${KAFKA_BOOTSTRAP_SERVERS}"
+    topics:
+      - "${KAFKA_INPUT_TOPIC}"
+    consumer_group: "${KAFKA_GROUP_ID}"
+    client_id: "bento-fbl-${HOSTNAME}"
+
+    # Partition assignment strategy
+    start_from_oldest: true
+
+    # Manual offset commit (critical for data safety!)
+    commit_period: "0s"  # Disabled - we commit manually after successful output
+
+    # TLS/SASL config (if needed)
+    # tls:
+    #   enabled: true
+    # sasl:
+    #   mechanism: PLAIN
+    #   user: "${KAFKA_USERNAME}"
+    #   password: "${KAFKA_PASSWORD}"
+
+    # Batching
+    batching:
+      count: 1  # Process one message at a time for FBL
+      period: "100ms"
+
+pipeline:
+  processors:
+    # 1. Check if message has FBL tag
+    - branch:
+        request_map: |
+          root = this
+          meta tags = metadata("tags").parse_json()
+        processors:
+          - filter:
+              jmespath:
+                query: "contains(tags, 'DATA-TYPE-FBL')"
+        result_map: |
+          root = if this.error != null {
+            throw("Message does not have DATA-TYPE-FBL tag: " + this.error)
+          } else { deleted() }
+
+    # 2. Extract message and metadata for parser
+    - mapping: |
+        root.message = content().string()
+        root.metadata = {
+          "auth_header": metadata("auth_header").or(""),
+          "envelope_from": metadata("envelope_from").or(""),
+          "envelope_to": metadata("envelope_to").parse_json().or([]),
+        }
+        root.tags = metadata("tags").parse_json().or([])
+
+    # 3. Call FBL parser worker via HTTP
+    - http:
+        url: "${WORKER_URL}/parse"
+        verb: POST
+        headers:
+          Content-Type: application/json
+        max_in_flight: 10
+        rate_limit: ""
+        timeout: "30s"
+        retries: 2
+        retry_period: "1s"
+
+    # 4. Parse response and extract events
+    - mapping: |
+        root = if this.success != true {
+          throw("Parser returned error: " + this.error)
+        } else if this.events.length() == 0 {
+          # Email was rejected (not FBL), skip it
+          deleted()
+        } else {
+          # Return first event (FBL parser yields one event per email)
+          this.events.index(0)
+        }
+
+    # 5. Enrich event with Kafka metadata
+    - mapping: |
+        root.kafka_partition = metadata("kafka_partition")
+        root.kafka_offset = metadata("kafka_offset")
+        root.kafka_topic = metadata("kafka_topic")
+        root.kafka_timestamp = metadata("kafka_timestamp_unix")
+        root.processed_at = now().ts_unix()
+
+    # 6. Add event schema version
+    - mapping: |
+        root.schema_version = "1.0"
+        root.parser_version = "inbound-parsers-v2"
+
+output:
+  broker:
+    outputs:
+      # Primary output: FBL events to Kafka
+      - kafka:
+          addresses:
+            - "${KAFKA_BOOTSTRAP_SERVERS}"
+          topic: "${KAFKA_OUTPUT_TOPIC}"
+          client_id: "bento-fbl-output-${HOSTNAME}"
+
+          # Use IP as message key for partitioning
+          key: "${! this.ip }"
+
+          # Batching for performance
+          batching:
+            count: 100
+            period: "1s"
+
+          # Compression
+          compression: snappy
+
+          # Idempotent producer
+          idempotent_write: true
+
+          # Wait for acks from all in-sync replicas
+          acks: all
+
+          # Max retries
+          max_retries: 5
+          retry_as_batch: false
+
+          # Metadata
+          metadata:
+            include_prefixes: []
+            include_patterns: []
+
+      # Fallback: Log errors
+      - switch:
+          cases:
+            - check: 'errored()'
+              output:
+                file:
+                  codec: lines
+                  path: /dev/stderr
+
+# Metrics
+metrics:
+  prometheus:
+    prefix: bento_fbl
+    push_interval: "15s"
+  mapping: |
+    # Add custom metrics
+    meta pipeline = "fbl"
+    meta version = "0.1.0"
+
+# Logging
+logger:
+  level: "${LOG_LEVEL:INFO}"
+  format: json
+  add_timestamp: true
+  static_fields:
+    '@service': bento-fbl
+    pipeline: fbl
+
+# Tracing (optional)
+# tracer:
+#   jaeger:
+#     agent_address: jaeger:6831
+#     sampler_type: const
+#     sampler_param: 1.0
+
+# Shutdown timeout
+shutdown_timeout: "30s"
+
+# Buffer between input and pipeline (for backpressure)
+buffer:
+  memory:
+    limit: 1000  # Max 1000 messages in memory

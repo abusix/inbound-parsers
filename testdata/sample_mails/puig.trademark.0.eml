@@ -1,0 +1,140 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 46E4950D-D4C7-4D99-A3C8-65FDB4DB184B.1
+	envelope-from <abuse+bncBAABBHE46GVQMGQE6XBIZUA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 15 Dec 2023 13:01:17 +0000
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-1d35634deabsf3061185ad.0
+        for <abuse@digitalocean.abusehq.net>; Fri, 15 Dec 2023 05:01:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1702645276; x=1703250076; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=s/9t9M2VZu9RMFjnMTWBcLIRrxEeAUDyf1OE+Za0aBo=;
+        b=gW8kJZbXw+9Sg68TeajGAWzQ02vQrXwzTNQZDEcO/hW/ft3DFtAFpVQJX89mDe6aDs
+         ZatC4S6xqLyo0vlj60l4qwN9jUtbx0SbJXksLvZdw4LIORjDOKiETXE6cTILXDwDwFbY
+         fvEgP/qxyH0NgAp3BmRkMBsqX+uqWMKvgeJKM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702645276; x=1703250076;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :subject:message-id:to:from:date:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=s/9t9M2VZu9RMFjnMTWBcLIRrxEeAUDyf1OE+Za0aBo=;
+        b=XV9xUWPPX4eSlnrPbB8SjGVQzK2+6oVZyy7oQwIEoX5KmkrGdAo7l+T3YS+bACNXwq
+         9C5aSzeCPmb4MEUw3ShUMVmbHmhQfJZEgPW/hB+QKpvszpk/1zGGQoIEk2E99cZkIac1
+         p0wNMWkC8u5lMxuY0UaW3jERPltMiXFRDBcCQ3BHeY5dM81Uw35Jre9A6CDR3GllHC4N
+         wNQcoefCGXfy67mUGhqYAqsrisNr2WYXZPCZVRFfdu9q2wBqYjSI43OrfwgM8HJhK7V6
+         q/JbA+cwrhWZnaJRlQzMyloYYlPY6zGi+S+N4jZP6/tvnxCmmZRPFvnqEN7asa50FhIo
+         ypsg==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0Yw9UWqBkBI4y1y6SqadLhVeea4TiC08FA32HrLsHTOMeuzmmILp
+	Xp4dHY3B4+P055ONHYL8LKifJg==
+X-Google-Smtp-Source: AGHT+IG9x1SX/H9ltsaFQNht4ZkUiWe55LIKnLpz16gAVyi+SdnNrM0cNz9xK9/0YkKzukM9O6/t5Q==
+X-Received: by 2002:a17:902:e80a:b0:1d0:6ffd:6e6c with SMTP id u10-20020a170902e80a00b001d06ffd6e6cmr7066922plg.100.1702645276240;
+        Fri, 15 Dec 2023 05:01:16 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:ced2:b0:1d3:6238:7282 with SMTP id
+ d18-20020a170902ced200b001d362387282ls370822plg.0.-pod-prod-01-us; Fri, 15
+ Dec 2023 05:01:15 -0800 (PST)
+X-Received: by 2002:a17:902:d58b:b0:1d3:86d1:4302 with SMTP id k11-20020a170902d58b00b001d386d14302mr580824plh.33.1702645275012;
+        Fri, 15 Dec 2023 05:01:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1702645274; cv=none;
+        d=google.com; s=arc-20160816;
+        b=P1PEu4Zpt8vAUQKVo1bn12geAFn1XBBMYnk0pD0ncJXz21Caa/nkJDMSD6gm3/3DI8
+         mca1oDvA2uXRMp9JeHRgC2Rwn4cknunI7v5+Hibjqsai360rHRXBLSmU7VK2Lsv2IrQ/
+         Bsd054Xqne4YX+jXXFXrpos/cJjzdINrYk+aBJYE0VXAelh/aBE4OWmKw53OT2KUqvo1
+         SPkm7qASU+auMBw4KxXcd3C4GA+3Ct5SMQRoWPl8OW9bXjHPuCKbMfzsmUxu0TTBtsCC
+         nndTFkvgplz42U5fZXzXtPfK58Vr9ukOPSb6Cn2nKKJ92QsVd3jMUNiSM+0tRrwrj0Od
+         7bxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:subject:message-id:to:from:date;
+        bh=s/9t9M2VZu9RMFjnMTWBcLIRrxEeAUDyf1OE+Za0aBo=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=MgmB6nodOXaKLps/AQ+0oavqkDnp27DSiXM7Hy1CgNji1h4tZoZLRi+J1eRRY9nN/p
+         NpiHj8rdRQ1FyGAmb5V6+ltxmCTRDoRCYIzmCFr0vOglRS6WSjhanCisKU+mWRCi1DYH
+         GnFUKj1cP5eGcGwZozqKPRBtMcrtG4D5q6Uck4/HgskimLGHWtbr74WRYQGoWa/Cvise
+         m3hSHsooC2AGsq3t9/kAnYGotcBHGGwfAzqPBUiSFUDqsxcvusJSYieCwjNnP80WD5eF
+         C9YloATMLun7Xhb9Vb5xmygJKq28THLG0J7vr87mz/gemThHd427+0qEIjBypaU9p5U2
+         VSMg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of enforcements@puigbrandprotection.com designates 54.185.63.24 as permitted sender) smtp.mailfrom=enforcements@puigbrandprotection.com
+Received: from cloudmail.opsecsecurity.com (cloudmail.opsecsecurity.com. [54.185.63.24])
+        by mx.google.com with ESMTPS id k5-20020a170902c40500b001d2eb1a4f12si13370319plk.233.2023.12.15.05.01.14
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 15 Dec 2023 05:01:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of enforcements@puigbrandprotection.com designates 54.185.63.24 as permitted sender) client-ip=54.185.63.24;
+Received: from enforcement-sendmail-service-6d9df769cc-2kz4q (ip-10-152-139-154.us-west-2.compute.internal [10.152.139.154])
+	by cloudmail.opsecsecurity.com (8.14.7/8.14.7) with ESMTP id 3BFD1E0C019109;
+	Fri, 15 Dec 2023 05:01:14 -0800
+Date: Fri, 15 Dec 2023 13:01:14 +0000 (UTC)
+From: enforcements@puigbrandprotection.com
+To: abuse@digitalocean.com
+Message-ID: <2141747377.234290.1702645274574@enforcement-sendmail-service-6d9df769cc-2kz4q>
+Subject: Notice of Infringement splashfragrance.in [ECIN:29937F3C98E]
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_234288_1777899007.1702645274525"
+X-Original-Sender: enforcements@puigbrandprotection.com
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of enforcements@puigbrandprotection.com designates 54.185.63.24 as
+ permitted sender) smtp.mailfrom=enforcements@puigbrandprotection.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part_234288_1777899007.1702645274525
+Content-Type: multipart/related; 
+	boundary="----=_Part_234289_1035591774.1702645274525"
+
+------=_Part_234289_1035591774.1702645274525
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Dear ISP,
+
+Penhaligon's Limited is the owner of several trademarks in the perfumery in=
+dustry, including the European trademark n. 011289931 in classes n. 3, 4 an=
+d 35. These trademarks are used to identify, advertise, and promote Penhali=
+gon=E2=80=99s products and activities.  They are protected around the world=
+ under European and international trademark law.=20
+
+Penhaligon=E2=80=99s markets and sells its products and services through we=
+bsites including www.penhaligons.com.=20
+
+You are the Internet Service Provider to splashfragrance.in .  The site off=
+ers a counterfeit item for sale that constitutes trademark infringement and=
+ unfair competition.  The website also violates your acceptable use policy =
+as an Internet Service Provider.
+
+Infringing URL(s):
+https://splashfragrance.in/the-tragedy-of-lord-george-by-penhaligons-edp-pe=
+rfume-tester-india
+
+We informed the registrant of our complaint, but were not able to resolve t=
+his issue.  In addition to the legal action Penhaligon's Limited may take a=
+gainst the registrant, we request that you immediately suspend the site fro=
+m publication for the offenses outlined above. =20
+
+Please reply to this email if you need additional information.  We apprecia=
+te your assistance.=20
+
+Sincerely,
+Penhaligon's Brand Protection
+
+------=_Part_234289_1035591774.1702645274525--
+
+------=_Part_234288_1777899007.1702645274525--

@@ -1,0 +1,225 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=invalid (verification error) header.i=@cert.pl header.d=cert.pl header.s=cmx
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021092.outbound.protection.outlook.com [52.101.100.92])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id DFD6901B-F3F0-498C-8DE7-DB8568A203BD.1
+	envelope-from <cert@cert.pl>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 06 Feb 2025 00:00:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qo4anZlEPuwkpfQY7GXq0hI4cYEP3MgNgThGZ/l49pKVmSJh6bEWdSV8LzOOEC42dKy7i6oGhJTfbDIJR1ZYLFuOxZu8JFQwJ6bZ7QFus9Eq4iCykuvv+5wGMWRkrhJ9+tO/aql9hfZpcC/YBXo2UA2YNEXxpx3ast0HZYCE0tIFa017Boz+6UIibWFltIe6nNy65GnVrtk+0zZDSiAIPvia3zHCWyNAcw9Hie1oVXzniFcQRcwoOu+mC/6LYW1jVkAl2xWWtn1Rb5EyJwXxcya8X3PGCOkzGfvcxW0Vj4wzY5PFOoU3cCK6T02y6/f3IG+fS5TXtj1R82YGRZvAhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jt3wakq+5cLYC9bj1ElQEnJoN7SPq+FdejfcU8WWbC0=;
+ b=LmwoacpZi6xoYfIeiB7z1MCEX7iAL3EGoR0ZgytdVDTYmdSGaUCIcqOfiCybZnVdJXc1rFpCeuuQU5juy9lef6UIHkoGUvh3oaOZNd+lnvJ0A9h3/wfYxyiUtI6l0djPi0u94kr0ImWHe8G7bkHt67Speu7AcbvVjf7/5zqUPdutslCoASMQyQRwRYVSs48216IbK0pqdj5cUfRRXFKR2e6ARucUClkyCbGaeVqB9dZDcCJS9SZwrCXo19bKoiLEbglZ70XWkpmfUgcPvkUBveaV+mKjntsmDdZERr34IcKspBsBrqeeS3ku3er1gdZNPgWbRILK0RjTU3rVDdnY6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.187.6.5) smtp.rcpttodomain=abuseradar.com smtp.mailfrom=cert.pl;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=cert.pl;
+ dkim=pass (signature was verified) header.d=cert.pl; arc=none (0)
+Received: from LO4P265CA0159.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2c7::9)
+ by LO3P265MB1978.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:103::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.12; Thu, 6 Feb
+ 2025 00:00:56 +0000
+Received: from LN2PEPF000100CA.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c7:cafe::98) by LO4P265CA0159.outlook.office365.com
+ (2603:10a6:600:2c7::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.28 via Frontend Transport; Thu,
+ 6 Feb 2025 00:00:56 +0000
+Received-SPF: Pass (protection.outlook.com: domain of cert.pl designates
+ 195.187.6.5 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.187.6.5; helo=cmx1.cert.pl; pr=C
+Received: from cmx1.cert.pl (195.187.6.5) by
+ LN2PEPF000100CA.mail.protection.outlook.com (10.167.240.4) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.14
+ via Frontend Transport; Thu, 6 Feb 2025 00:00:55 +0000
+Received: from cmx1.cert.pl (localhost.localdomain [127.0.0.1])
+	by cmx1.cert.pl (Proxmox) with ESMTP id 6469942379
+	for <report@abuseradar.com>; Thu,  6 Feb 2025 01:00:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cert.pl; h=cc
+	:content-transfer-encoding:content-type:content-type:date:from
+	:from:in-reply-to:message-id:mime-version:references:reply-to
+	:reply-to:subject:subject:to:to; s=cmx; bh=Jt3wakq+5cLYC9bj1ElQE
+	nJoN7SPq+FdejfcU8WWbC0=; b=Lp8Ohi8tMjUOe3t1r7oNmohvNniJgRwBW4f4A
+	bfH4aLWvWB3LZih+SpNIZ6053fPFssyHn7KdFJaUpyKhwyT9Hwj0nCXSev/e8u+/
+	eY2JMi1Y3Nr8CVN3TleifRF/6H6L7F18+/s5KU9leAvEXuNna+Fa0ZEaICakyFNJ
+	THLqq5MLW4cdBP1o5GQ0Z5hmeFLhVfKI0H8DgAolJkZ1xQzvWasSOP3Td059Gvop
+	Lw45JjjXJB1JFwHzRcNrmeo8WSEf9cZtDWabaumWwX/ZTo097/bqkPnLduCBnuHr
+	IBcgfSXBAEhWVfKSYs9s/T66AzBprB1cXS8MLbKWXLc2dyNagHhkBfqk1IM1XyH4
+	n4J+A8ItNhH0ZLycqvruETlwV7VBN3tdYCoe4lZWqGixLOSj5lG11iaumCBq779p
+	D1ElDPqrRf1fmlK9sURy/HLHVUCqLRYey/fNww9rf+E+XO8SUZ6fQeBIQkxbftOB
+	5f1abt0iEryCYTQ/euntgaQIi0XBmake4wTuGA9DpBoZylGNWnGXLfFT50K0WNzh
+	JvGzesTIkxnxZ79srm2U1oP+bSiAywEFejVPDQoQXHA5IP84jzEARJv2Djo0U5j3
+	ktUm0+H+06LlIhaZM9OE/vBhckvCw+g71xc3CJ4BXdqZxafuf+VhCqWPAGfyhb6l
+	vXJ/h0=
+Content-Type: multipart/alternative;
+ boundary="----------=_1738800054-16639-362"
+Message-ID: <rt-5.0.5-16639-1738800054-1705.4042706-10-0@Cert>
+X-RT-Loop-Prevention: rt.cert.pl
+Subject: =?UTF-8?B?W0NFUlQuUEwgIzQwNDI3MDZdIFBvd2lhZG9taWVuaWUgQ0VSVCBQb2xza2Ev?= =?UTF-8?B?Q1NJUlQgTkFTSyBvIGRvc3TEmXBuZWogdXPFgnVkemUgIG1vZ8SFY2VqIHN0?= =?UTF-8?B?YW5vd2nEhyB6YWdyb8W8ZW5pZTogVW5pdHJvbmljcyBITUk=?=
+In-Reply-To:
+Reply-To: cert@cert.pl
+References: <RT-Ticket-4042706@Cert>
+X-RT-Ticket: rt.cert.pl #4042706
+To: report@abuseradar.com
+From: "CERT Polska via RT" <cert@cert.pl>
+X-Managed-BY: RT 5.0.5 (http://www.bestpractical.com/rt/)
+Precedence: bulk
+Date: Thu, 06 Feb 2025 01:00:54 +0100
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Return-Path: cert@cert.pl
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 4b06f27d-d0bc-45cd-b169-d61de1bca836:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LN2PEPF000100CA:EE_|LO3P265MB1978:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb05f573-c5ad-454d-11b4-08dd46415468
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|9140799003|376014|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TkpHQWE3NjV3ajAxN0hlRkJSb3pMS1RBbmhia1lTdEc4Q1lFQ0JYYkhUQ2pV?=
+ =?utf-8?B?NjBiR1pZeGVCRmpJYjNkYUVGUWk0Y1hzVDBUNElEOC92QjVzNnE0RnRBVGFV?=
+ =?utf-8?B?WTl6UTczNGp3RWJWeGdnWGFWbDRpNFhoaW1UbVpXUHlCMVY4QlJOM2FvRnc5?=
+ =?utf-8?B?bWthcll2U0w4WHp6bUtJM1dCV3lGSkR1TnlSWUxoQ3hONG1CVFNwb3JhZjNy?=
+ =?utf-8?B?RHFiWWcvK2YxQ1R2blo2aGw3VExWU1djSmtORGYzeTY3bUNMMlYrRHRRWGlZ?=
+ =?utf-8?B?TElzTkJTS08vSGpIcmx5cGZjOHJSTVRwQXlEU21YZzhjam5LaXNLTDlsWTZH?=
+ =?utf-8?B?ZDhFY25LdjdLOFl6ZGNjZTBHeVpDdmd2UVd2RHYrWUJkdURXQXpvMCtwemxi?=
+ =?utf-8?B?Z2VIWHFLdHJtWi9qdWZad2tUSG9JTzhibUlmdE9McldQQkxzSFpJMWdWSXJl?=
+ =?utf-8?B?RWcwaC94TnFwYUlQRmdVQzFtTnFyaXR2eUp4TmZyK1ZHMjNTT29tNWNBK0hV?=
+ =?utf-8?B?QzBnOVBxenYvYS9ZMHJWTWhHNGw2bXZEaXZXK2NRbTdkcC9RVW5tY0lSRGk5?=
+ =?utf-8?B?a1RkOTIwc2NXQUJwRVg2Z29pay9PNExCUTRnZktZVlRreW1UbFE3TG93SXFP?=
+ =?utf-8?B?V21nZ2NEYWxDN1ZUZGRBNXNCdlNDR3NSeFZlY0pGZmgwN2ZBdXNTVS9SSHh1?=
+ =?utf-8?B?VWg4ZVlCWVlFZzFVbmVyeVlCZ2hhSVRjeFpqTyt6bWp6MUJXcWpqdFhEeWJk?=
+ =?utf-8?B?bENvUGNjblNrQVdVWkQ5KzZ4NWt4RjNGZGlpU2E1SGZkNmMwWE1UbTdCTXIr?=
+ =?utf-8?B?a3V5QTFXV0ltYk11aG9TOFQ3SGRQcVJ1cjJFdGlla09wUzVHZzJ6djQ2Um44?=
+ =?utf-8?B?alF1QWpjMEZ6TTIvM01Hemk4MjUwbUVjUm9zL1lFY2tvdG1QMS9wMUc3RENi?=
+ =?utf-8?B?OVJIUERFTjFEbStQdGRORkhqbm45RDNSeDBvRjdXQVlpQk55andQZVBOL3dZ?=
+ =?utf-8?B?K1ZDbS9xVTh1bi9sNHZ3Uk5yQ2k1TCtJNEhvcTAxS0JLVEtqSkRvMFBIZFc4?=
+ =?utf-8?B?dFR0UjVMRmt4dzJaRzYzdTlXUWRCWEZ1d01QOHJ0TGdwMThCTGxHQ1NWWGFi?=
+ =?utf-8?B?M2Uwd0VUSFVSSERVK1Y5MlVvYllRZGtFZGttbE0ySFRRaFgvckhFUS9nS04r?=
+ =?utf-8?B?RTZ3aHpyMlBnN1NCUmVGcUlaU1c4dFYrTkp3UG5lbFZUZXB0am8rMGJpdGw5?=
+ =?utf-8?B?NEU2K3V4bXI1OXFNcUlwVkZjNVM3MkpSWExJUlI4SFlPcHk0VjJBcEhzcW1C?=
+ =?utf-8?B?MjdlNFFVU2NHN013RkNMOW9oQ3g2VmRzaW0wSk5jTkI5dHRaTHNyNmFuNStv?=
+ =?utf-8?B?endZOU15WTVBVVFVVFJ0TFk1Y1YxazdZMDNyZmNCOEpxeUpGK29hYWxaZVZL?=
+ =?utf-8?B?SzRJNlJRMXZYSU1VQmZOVm96K0lyWDZoRXlBYTYwa2JtYlFPQkxYdzRGYmx2?=
+ =?utf-8?B?a0NpTDdHUytzbVExTkhlL3JYVWpTRXREbmJlY0l1OVdPTEhQd0tCdm13MDZu?=
+ =?utf-8?B?UGR6L2NGKzVienkwTlllM2xQNFcrNlNjN2FHUXJ6WVpKTEFieGlQcVFxaHRS?=
+ =?utf-8?B?dlAwNkZWSEJsdVIzcGNveVROSVZhTWd3U2Vkd1hqbEE0VHFWQ0xXMjFwQmV6?=
+ =?utf-8?B?MTJ4cU1XODVQbHJ4WDhaTXg0Z0c0MEJmdkJ2V1dsVEJVcmxQZDBoWTc3aUxF?=
+ =?utf-8?B?Si90dkN3Ym1OeDdBYWNLQmdrWHJ5cjdNWFI1RFFsOWN0WDBJQkxiaTIydU8w?=
+ =?utf-8?B?eGV0cWJNNTBlTjJINk83OTlFbzF5WDl3SW1UaFlJUXRQc3BDeXoramRqUDBX?=
+ =?utf-8?B?NEZaanFJdHBPOFZNelRRR3g4SmpwSmRtU1pWbnpCYzhSQVA4VUNjUG5URDVD?=
+ =?utf-8?B?SHBHaFpSeXhOMGl6cFRFZDN6MjVaL0U5cFZHcDZPTE9YekxuVU9udS9lVXJs?=
+ =?utf-8?B?L3NDOHE5bEt3RE5icnBVYzcyOTU5SWZQcDhOREpaRVMxOE9IZHBVajN1SmFP?=
+ =?utf-8?B?dUhPZkVRUWtLVjJ2QTN4ak0zdUZwSFZvR1ZpdXRCMi95WlB0ZkF2dXhWSi95?=
+ =?utf-8?Q?s5DM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:195.187.6.5;CTRY:PL;LANG:pl;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:cmx1.cert.pl;PTR:cmx1.cert.pl;CAT:NONE;SFS:(13230040)(61400799027)(9140799003)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-OriginatorOrg: netutils.io
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 00:00:55.8309
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb05f573-c5ad-454d-11b4-08dd46415468
+X-MS-Exchange-CrossTenant-Id: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-MS-Exchange-CrossTenant-AuthSource: LN2PEPF000100CA.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB1978
+Original-Authentication-Results: spf=pass (sender IP is 195.187.6.5)
+ smtp.mailfrom=cert.pl; dkim=pass (signature was verified)
+ header.d=cert.pl;dmarc=pass action=none header.from=cert.pl;
+
+This is a multi-part message in MIME format...
+
+------------=_1738800054-16639-362
+RT-Attach-Message: yes
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-RT-Original-Encoding: utf-8
+
+Szanowni Pa=C5=84stwo,
+jeste=C5=9Bmy zespo=C5=82em reagowania na incydenty bezpiecze=C5=84stwa inf=
+ormatycznego CERT Polska.
+
+Wiadomo=C5=9B=C4=87 ta przeznaczona jest dla osoby odpowiedzialnej za bezpi=
+ecze=C5=84stwo informatyczne. Je=C5=9Bli nie s=C4=85 Pa=C5=84stwo odpowiedn=
+imi adresatami prosimy o poinformowanie nas o tym oraz przekazanie niniejsz=
+ej wiadomo=C5=9Bci do odpowiednich os=C3=B3b.
+
+W ci=C4=85gu ostatnich 4 dni zaobserwowali=C5=9Bmy nast=C4=99puj=C4=85ce pu=
+blicznie dost=C4=99pne us=C5=82ugi Unitronics HMI:
+- 31.57.228.23:80 [tcp]
+
+
+Ich publiczna dost=C4=99pno=C5=9B=C4=87 mo=C5=BCe stanowi=C4=87 niebezpiecz=
+e=C5=84stwo dla pa=C5=84stwa system=C3=B3w. Je=C5=9Bli konieczny jest dost=
+=C4=99p zdalny zalecamy wykorzystanie VPN z wielosk=C5=82adnikowym uwierzyt=
+elnianiem.=20
+
+Obserwujemy dzia=C5=82ania licznych grup, najcz=C4=99=C5=9Bciej prorosyjski=
+ch, wymierzone w systemy automatyki przemys=C5=82owej. Tego typu systemy ni=
+gdy nie powinny by=C4=87 dost=C4=99pne bezpo=C5=9Brednio z internetu, nawet=
+ je=C5=9Bli s=C4=85 chronione has=C5=82em.
+
+Zwracamy si=C4=99 z uprzejm=C4=85 pro=C5=9Bb=C4=85 o weryfikacje us=C5=82ug=
+ pod wskazanymi adresami i podj=C4=99cie dzia=C5=82a=C5=84 w celu ich zabez=
+pieczenia. Wi=C4=99cej o zagro=C5=BCeniu i rekomendacjach mo=C5=BCna przecz=
+yta=C4=87 pod adresem: https://cert.pl/posts/2024/05/rekomendacje-ot/=20
+
+B=C4=99dziemy wdzi=C4=99czni za wszelk=C4=85 pomoc, jakiej mog=C4=85 Pa=C5=
+=84stwo udzieli=C4=87 na tym etapie, oraz przekazanie informacji o podj=C4=
+=99tych przez Pa=C5=84stwa dzia=C5=82aniach w celu rozwi=C4=85zania problem=
+u.
+
+Z powa=C5=BCaniem
+Zesp=C3=B3=C5=82 CSIRT NASK / CERT Polska
+www.cert.pl
+
+
+------------=_1738800054-16639-362
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-RT-Original-Encoding: utf-8
+
+<pre style=3D"white-space: pre-wrap; font-family: monospace;">Szanowni Pa=
+=C5=84stwo,
+jeste=C5=9Bmy zespo=C5=82em reagowania na incydenty bezpiecze=C5=84stwa inf=
+ormatycznego CERT Polska.
+
+Wiadomo=C5=9B=C4=87 ta przeznaczona jest dla osoby odpowiedzialnej za bezpi=
+ecze=C5=84stwo informatyczne. Je=C5=9Bli nie s=C4=85 Pa=C5=84stwo odpowiedn=
+imi adresatami prosimy o poinformowanie nas o tym oraz przekazanie niniejsz=
+ej wiadomo=C5=9Bci do odpowiednich os=C3=B3b.
+
+W ci=C4=85gu ostatnich 4 dni zaobserwowali=C5=9Bmy nast=C4=99puj=C4=85ce pu=
+blicznie dost=C4=99pne us=C5=82ugi Unitronics HMI:
+- 31.57.228.23:80 [tcp]
+
+
+Ich publiczna dost=C4=99pno=C5=9B=C4=87 mo=C5=BCe stanowi=C4=87 niebezpiecz=
+e=C5=84stwo dla pa=C5=84stwa system=C3=B3w. Je=C5=9Bli konieczny jest dost=
+=C4=99p zdalny zalecamy wykorzystanie VPN z wielosk=C5=82adnikowym uwierzyt=
+elnianiem.=20
+
+Obserwujemy dzia=C5=82ania licznych grup, najcz=C4=99=C5=9Bciej prorosyjski=
+ch, wymierzone w systemy automatyki przemys=C5=82owej. Tego typu systemy ni=
+gdy nie powinny by=C4=87 dost=C4=99pne bezpo=C5=9Brednio z internetu, nawet=
+ je=C5=9Bli s=C4=85 chronione has=C5=82em.
+
+Zwracamy si=C4=99 z uprzejm=C4=85 pro=C5=9Bb=C4=85 o weryfikacje us=C5=82ug=
+ pod wskazanymi adresami i podj=C4=99cie dzia=C5=82a=C5=84 w celu ich zabez=
+pieczenia. Wi=C4=99cej o zagro=C5=BCeniu i rekomendacjach mo=C5=BCna przecz=
+yta=C4=87 pod adresem: https://cert.pl/posts/2024/05/rekomendacje-ot/=20
+
+B=C4=99dziemy wdzi=C4=99czni za wszelk=C4=85 pomoc, jakiej mog=C4=85 Pa=C5=
+=84stwo udzieli=C4=87 na tym etapie, oraz przekazanie informacji o podj=C4=
+=99tych przez Pa=C5=84stwa dzia=C5=82aniach w celu rozwi=C4=85zania problem=
+u.
+
+Z powa=C5=BCaniem
+Zesp=C3=B3=C5=82 CSIRT NASK / CERT Polska
+www.cert.pl</pre>
+
+------------=_1738800054-16639-362--

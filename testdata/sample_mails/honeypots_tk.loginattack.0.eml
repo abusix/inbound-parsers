@@ -1,0 +1,227 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 1332DFF5-C13E-4EEE-A247-A39404A50A0E.1
+	envelope-from <abuse+bncBAABBSEFTOPQMGQE2VJR2NA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 10 Feb 2023 22:18:49 +0000
+Received: by mail-ed1-f71.google.com with SMTP id p36-20020a056402502400b004aab6614de9sf4348159eda.6
+        for <abuse@digitalocean.abusehq.net>; Fri, 10 Feb 2023 14:18:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676067529; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=rWuI4XvDMPflzRyOCDLxlMLdM+iiNKP6lMelbjqr3y+RDVNZvUxUSYstwuBrOCopAj
+         A/RPqg9jQo5i+UHRXiHNf+CAvAr3uCeSEd2sqwvyhs89Ekc7cXbBdvmB8VdQbjOkzXJz
+         0bVPOJY7nHzMrztN1j2fs1l7ua195EZWoXZT5dkuB7o5C03Cq/x1YCHdBprRrJt09jms
+         o3vaSZyoLz8vfhjvYt+p+UW5X4kElsYqRZHC7jFB5bBp39xkvl8pjvM66+s+takcDuHf
+         0EQinmFy6+AOMppGYcm3oOE2Xikq2v0WU8gBxa93GPyFcSHHRsSb/S0znLAwSf5P5X2U
+         FyHg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:date:message-id:subject:reply-to:to:from
+         :mime-version:dkim-filter:dkim-signature;
+        bh=azY6Y/Pf6WJSiDzMUcehGPdzuhvCyx+m08pCyeYaNIs=;
+        b=m8+OIusnsA9Wg4oh+GgKdNcjhz/Iykaacl0o13/NM/DvQix0UFqWHG3bqrRq6lBoPD
+         1qs3IwbOKUEp3y+OY3L6jZx5LdNC3F5xGSamvIuLOjOB+l1o+lK4AeWioWpDk5sEQP5o
+         9TMQGbcLd3H5L0JES3V3AMdi2b6Hlh1Khcvp3zOHJ+GLvpYdV+C6F4NFHbEe+1HmZf3g
+         qgl+Hcz1upHs91APKZ6x12Qe39dcJcsWYWtRMGTpRdvA/gIK3Tcf601qhwJ9tsdZKhBG
+         Hl60qf2n6QXDkCSMhEgvEyZnMCGxeQxoQkNJ/UUjfuFsKkeP0Atr6B5pzadaidyuG3Bv
+         lCVA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@honeypots.tk header.s=E0852896-7C4D-11EC-BFCB-03E8CE3ADAD1 header.b="lB/fUVvC";
+       spf=pass (google.com: domain of abuse-robot@honeypots.tk designates 46.4.222.117 as permitted sender) smtp.mailfrom=abuse-robot@honeypots.tk;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=honeypots.tk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:message-id:subject:reply-to:to:from
+         :mime-version:dkim-filter:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=azY6Y/Pf6WJSiDzMUcehGPdzuhvCyx+m08pCyeYaNIs=;
+        b=HHU/7WCeFKaZ2PUEXOXLYZpk6Or/MxkUVdYXSROoj/msmhADV4doyF1MknwvLpy4np
+         kt2rTOpDFLBtoz1hB9zDYATPQOMyJKOYgfTUOOyEl6rVVTMXqUUbLSRel7RnSI0qvD8t
+         GE/0KOhFMTKkdB+hzG+eO8wroNwNEGYxoQtEo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:message-id
+         :subject:reply-to:to:from:mime-version:dkim-filter
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=azY6Y/Pf6WJSiDzMUcehGPdzuhvCyx+m08pCyeYaNIs=;
+        b=xkiuJZwjx9laillvXbdIdYW0lGcKdNyfl3TP/f0vxxKXtFSZmCO+XrnSwlZZKuj1a7
+         G8L+G3afIpAw5IbITLLptINyTTG67vreEVb0CVyIcl2/MADBs55u0cCJlo2Ytp3DpUlm
+         fory9Dv3mcngp2OG/g/Ks2YgFdnn9HqS+pVMk7UZsKVytWzEGa0u8dHcuEXAB/7XVBE+
+         koRYLVvXy7qy6SLepLb+q1QtSvgfGTK/KV7ti6WLm/Z8BB0EbzquvAWztbuwMENROJ1T
+         9WoL7JVxTPk6jDHllm9PKj4mw144SmdyGOSVQ/8DI+mqQ/EWQLOiaG4jO+sAwBQD0ABu
+         03Hg==
+X-Gm-Message-State: AO0yUKVhNIqmMiYYs3mEhnkMe8qKXXgiNS3rkZvIeHxzSxeK2NG/0/UA
+	6KPa30YefIaTUuuFXQFcGmenKA==
+X-Google-Smtp-Source: AK7set/4SfKqXCTP5dh80L7pnMalddrKH+jICWpBFM8DabyndqRh5GRvn8NHGzeXTkb1nwhYPD8SEA==
+X-Received: by 2002:a17:907:1de6:b0:8ae:cb48:3c80 with SMTP id og38-20020a1709071de600b008aecb483c80mr1605205ejc.7.1676067529024;
+        Fri, 10 Feb 2023 14:18:49 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:906:7055:b0:897:68a7:5262 with SMTP id
+ r21-20020a170906705500b0089768a75262ls4704041ejj.10.-pod-prod-gmail; Fri, 10
+ Feb 2023 14:18:48 -0800 (PST)
+X-Received: by 2002:a17:907:ca85:b0:8aa:bea6:ce85 with SMTP id ul5-20020a170907ca8500b008aabea6ce85mr13698889ejc.77.1676067527516;
+        Fri, 10 Feb 2023 14:18:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676067527; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ACvUin3+Er4oLu1uedYHsjLOiMkBdsENH8ZWQirSo8zftdNDAsYYOhtcjwnAv9o7nP
+         bsoIsg0nkhFr2xk9FNgUxuJKCwT/lcFtjiGab19f5WHSeqgkmi/c5Q2PQUofTgg0BReN
+         dRR6zPEl3ncY3EFC7U1VvkBTHZCqh0aE5B09IsNzocXUepnUeCPV7fBURAK6z4rf4mV5
+         RR4qWVtvjGu3FERRcXeD6xY5Rfq4adxOrLfRYZqA6u5PtK1zRcsG0AnqlXRq/jvoBG/j
+         lM8cWG+j3egtd4bcojNa9YqkWVtfCFf3VQlC+owy0ui0sAwdtRgumidWYBvrmaO3/wma
+         i98g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:subject:reply-to:to:from:mime-version
+         :dkim-signature:dkim-filter;
+        bh=azY6Y/Pf6WJSiDzMUcehGPdzuhvCyx+m08pCyeYaNIs=;
+        b=yo4oLNR4O2VSjYruP1Z9Iku7i58SxvZTyzPKWFglebZrduVhd0bi2AYMRI6PRO01dV
+         i05XUarS3e3M9+U5VJIPHbxDq73jQGFxJswyi9u+8JbtGfQh8MyWzgJG3Ot16Y71m5fF
+         dE++g2eWWzvgBmTXLnYGcYOq+EA1/CcLrD8OR4jKvasboU9yJl/2d8yMrUnx5uaKxQGD
+         y2q2fODx6mPQDzhr88rnYyGNtljrGscb5e+0wOSwG/86e6zw3BdMzDPDtbBB5fjFvIsi
+         3SDsN9ivnOqW4e9DdBjyoc+22XnOPF3n55UGtm1griWHU+oj5Ae8r/f25COZlreEVsyE
+         XWaw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@honeypots.tk header.s=E0852896-7C4D-11EC-BFCB-03E8CE3ADAD1 header.b="lB/fUVvC";
+       spf=pass (google.com: domain of abuse-robot@honeypots.tk designates 46.4.222.117 as permitted sender) smtp.mailfrom=abuse-robot@honeypots.tk;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=honeypots.tk
+Received: from mail.muratti66.com (mail.muratti66.com. [46.4.222.117])
+        by mx.google.com with ESMTPS id fq7-20020a1709069d8700b008873dfff51asi5598327ejc.138.2023.02.10.14.18.46
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Feb 2023 14:18:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of abuse-robot@honeypots.tk designates 46.4.222.117 as permitted sender) client-ip=46.4.222.117;
+Received: from mail.muratti66.com (localhost [127.0.0.1])
+	by mail.muratti66.com (Postfix) with ESMTPS id 126F05E02FE;
+	Fri, 10 Feb 2023 22:18:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.muratti66.com (Postfix) with ESMTP id EC2C05E0310;
+	Fri, 10 Feb 2023 22:18:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.muratti66.com EC2C05E0310
+X-Amavis-Modified: Mail body modified (using disclaimer) - mail.muratti66.com
+X-Virus-Scanned: amavisd-new at muratti66.com
+Received: from mail.muratti66.com ([127.0.0.1])
+	by localhost (mail.muratti66.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id rdH0Goj8G-rY; Fri, 10 Feb 2023 22:18:45 +0000 (UTC)
+Received: from reports.honeypots.tk (unknown [10.0.1.105])
+	by mail.muratti66.com (Postfix) with ESMTP id 610465E02FE;
+	Fri, 10 Feb 2023 22:18:45 +0000 (UTC)
+Content-Type: multipart/alternative; boundary="===============6461433732884351795=="
+MIME-Version: 1.0
+From: abuse-robot via abuse <abuse@digitalocean.com>
+To: abuse@digitalocean.com, admin@honeypots.tk
+reply-to: admin@honeypots.tk
+Subject: Abuse Alert for 159.65.199.187
+Message-Id: <20230210221845.610465E02FE@mail.muratti66.com>
+Date: Fri, 10 Feb 2023 22:18:45 +0000 (UTC)
+X-Original-Sender: abuse-robot@honeypots.tk
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@honeypots.tk header.s=E0852896-7C4D-11EC-BFCB-03E8CE3ADAD1
+ header.b="lB/fUVvC";       spf=pass (google.com: domain of
+ abuse-robot@honeypots.tk designates 46.4.222.117 as permitted sender)
+ smtp.mailfrom=abuse-robot@honeypots.tk;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=honeypots.tk
+X-Original-From: abuse-robot@honeypots.tk
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--===============6461433732884351795==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Abuse Robot Notification :
+
+Dear Sir or Madam;
+
+    We have determined attacks of from 159.65.199.187 (from your network) to 46.4.222.114 (to our honeypot) with the ssh, https protocol.
+    This situation is need to be review and resolve with the following information.
+
+Information:
+
+  - Detected Address : 159.65.199.187
+  - Date Ranges : 2023-01-26 05:35:44 to 2023-02-10 22:17:33 (with GMT Timezone)
+  - Count-s : 62
+  - Harm Potential-s : High (x60), Low (x2)
+  - Protocol-s : ssh, https
+  - Effected Server-s : 46.4.222.114
+
+Other details can be found with below steps;
+
+  - Enter to the data url : https://www.honeypots.tk/data
+  - Put your detected (159.65.199.187) address to address text box and click to the search button
+  - Now you can access the details such as time, service, transaction id of  detected server address.
+  - There is the way of the attack with the observation link and the raw content of the data sent in the attack with the detail link..
+
+If you want to remove your ip address in our database, Please review and fix the root cause of the problem first.
+And later, please feel free for request to us.
+
+With the hope that it will be useful..
+
+*Note : This message is generated with automatically by the abusing robot.
+Notification has been prepared only for guidance and evaluation.
+--===============6461433732884351795==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Honeypots.tk Abuse Robot</title>
+</head>
+<body>
+    <h4>Abuse Robot Notification</h4>
+    <p></p>
+    <h5 style='font-weight: normal;'>Dear Sir or Madam;
+        <p></p>
+        <br>&emsp;We have determined attacks of from 159.65.199.187 (from your network) to 46.4.222.114 (our trap address) with the ssh, https protocol.
+        <br>&emsp;This situation is need to be review and resolve with the following information.
+        <br>
+        <br>Information:
+        <p></p>
+        <ul>
+            <li style='margin-left: 10px;'>Detected Address : 159.65.199.187</li>
+            <li style='margin-left: 10px;'>Date Ranges : 2023-01-26 05:35:44 to 2023-02-10 22:17:33 (GMT Timezone)</li>
+            <li style='margin-left: 10px;'>Count-s : 62</li>
+            <li style='margin-left: 10px;'>Harm Potential-s : High (x60), Low (x2)</li>
+            <li style='margin-left: 10px;'>Protocol-s : ssh, https</li>
+            <li style='margin-left: 10px;'>Effected Server-s : 46.4.222.114</li>
+        </ul>
+        <p></p>
+        <br>Other details can be found with below steps;
+        <p></p>
+        <ul>
+            <li style='margin-left: 10px;'>Enter to the data url : https://www.honeypots.tk/data</li>
+            <li style='margin-left: 10px;'>Put your detected (159.65.199.187) address to address text box and click to the search button</li>
+            <li style='margin-left: 10px;'>Now you can access the details such as time, service, transaction id of  detected server address.</li>
+            <li style='margin-left: 10px;'>There is the way of the attack with the observation link and the raw content of the data sent in the attack with the detail link..</li>
+        </ul>
+        <p></p>
+        <br>If you want to remove your ip address in our database, Please review and fix the root cause of the problem first.
+        <br>And later, And later, please feel free for request to us.
+        <br>
+        <br>With the hope that it will be useful..
+    </h5>
+    <h6>
+        *Note : This message is generated with automatically by the abusing robot.
+        <br>Notification has been prepared only for guidance and evaluation.
+    </h6>
+
+<br><pre>
+(null)</pre><br>
+</body>
+</html>
+--===============6461433732884351795==--

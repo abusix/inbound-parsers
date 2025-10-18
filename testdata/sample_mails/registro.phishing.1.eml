@@ -1,0 +1,277 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=fail (body hash did not verify) header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@registro.br header.d=registro.br header.s=clone
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01on2070.outbound.protection.outlook.com [40.107.121.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 885E1728-CC82-4441-B249-9887C4A684D3.1
+	envelope-from <bounces+SRS=NRalD=I3@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Wed, 17 Jan 2024 12:58:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EagybWVaJ4KkROv8rIrOUAL/2yuDN4jTaboYxQc7xSU=;
+ b=2rS7AVHSp8aRT17D9IHd4E8xpz/fdT5jgPZvpWloV1aeUT30ejr7qhCfGnf+kg1ijWmNMDmRBb3VxYlcmQt2qvP/8szLj8IdWASmwTNje2kcf2SCRu3//SfScM1i/K/2kYGdTBDChIr7on1SP3PsjgU53wyUPt2NiUQT7/sNynq0BbjzWuZJPVk1bb9nrISGLaJoket2zWZOBMReQDqwcQzFWNz0ktMhvRYnGPyyOmrRjA132NUKxyVFSjT5gAoaYDXkqWZ+4qlQR/nb5DqA9+pu9AmzUVYRgvNn+6ooLzx7elJ0oS0Zk2aT6SlqMZ65RhGDdQZ27o8F/jdQ0AyuLA==
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=fail;
+ b=fw6nUGQg1CmDhu3syTQ6RF3BJ1OtZfRTYVE3J/LqjixGLuvgoBS1p/UAplGLllBB0vhTemW0Dl5RJStOKreRFIsXyzmrR38psks1wOz2KkJX5ej7XVMMCjpyQ6edE8Iw8asrUMnmdCPqJNOjDYWxZrhJUWIwOXeirBCrejnMne++vaLAf7otqwuXS7cMVc9xV21NIOAG5uQTBY7hfpLynEMaRaOKucGDB33IF4Xux2conXOQMOEzFmzMh5UUBbi033NpmpxEaVQNXNHenc8JqL6pVGq+6uQXrRUKRZ3HZcNPs4WhY2Tyn2A9EDAW8EF0wAE2AD12QcH3y+hcG3B7qw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EagybWVaJ4KkROv8rIrOUAL/2yuDN4jTaboYxQc7xSU=;
+ b=mCkM6NyPaPqEGJORs3CuyehbFvvurRY5OW3HR9+BlPUsaECEeTSNJ07tpQwUFVDnfJFkTwtMS3TV8GCFF1j3oFUElXT+kb+UcPrWKB0AX0Q7ba0QgvkDrCOer+DclYW5uGfPDaU8S/jvyxIHWOHQNJ5RcqYZ601DdzGVGqnJ7h/KTlXj4j3kC7sQBNSsPbiBNCuPR8FO8wHLJEC6xP29/obbiWyYSuNvD8tmD8Cb8MNv3s1gJrmTuQlEMgafuFopIKSz/telIsDKxz/gi5enDKiVQoEgJPdIdG3XUKvyEZ8UXDcP7wWp9KtrMKjslfWfG1Ubbx49f/nMisehtd/rbQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 200.160.2.4) smtp.rcpttodomain=ipxo.com smtp.mailfrom=registro.br; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=registro.br; dkim=pass
+ (signature was verified) header.d=registro.br; arc=fail (35)
+Received: from LO4P123CA0028.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:151::15)
+ by LO2P302MB0072.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:377::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Wed, 17 Jan
+ 2024 12:58:35 +0000
+Received: from LN2PEPF000100CD.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:151:cafe::bd) by LO4P123CA0028.outlook.office365.com
+ (2603:10a6:600:151::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23 via Frontend
+ Transport; Wed, 17 Jan 2024 12:58:35 +0000
+Received-SPF: Pass (protection.outlook.com: domain of registro.br designates
+ 200.160.2.4 as permitted sender) receiver=protection.outlook.com;
+ client-ip=200.160.2.4; helo=clone.registro.br; pr=C
+Received: from clone.registro.br (200.160.2.4) by
+ LN2PEPF000100CD.mail.protection.outlook.com (10.167.240.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7202.16 via Frontend Transport; Wed, 17 Jan 2024 12:58:34 +0000
+Received: by clone.registro.br (Postfix, from userid 1007)
+	id 4943763130; Wed, 17 Jan 2024 09:58:31 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=registro.br; s=clone;
+	t=1705496311;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SBdHaLqrwfMTFxqIgwbH+dQLJVDf2tFhfpr7NQ1ZTt0=;
+	b=JkJAG9ojuuoNfFjxRlEJj5yj75FHD1CKa+a9UqyU3xyJNV/704xhXgF+EQGOlVT5aauueK
+	9Pzko/qLry8tvo4Rod1suQlLohBEjrKVIucAmOdK8jaVbPopK7W30IDFIOcwlYXKwZL4tt
+	05fYIQpL5m29Y+zTbzrYgpZjbWvAMRLmC272Mu9UdY8FJjR9S+ZO/8EFpWwqIJPQxDyc9N
+	voCtLGr/zjAApLm8nESanmd7msL5JgRmIhVoKyUjZkYCB9EuAZUY+Q6iBROetd7mFO6z17
+	YT1J/sja3kLmXAgWcf2Vx24tsq8Snkg91ri30YCl0wDcsn3/16fha5FzgigGEw==
+ARC-Seal: i=1; s=clone; d=registro.br; t=1705496311; a=rsa-sha256;
+	cv=none;
+	b=jtkdAYKjQ+z8jgyWKSuNs9oy+0PlNybpnhUy0rKItINiZ1UQaOCDgW2Oh+NWLVn89lhrcL
+	RtNY1luxtnp3bJt+cZ91ZiqiBy7Gcevw3USnfJrnJL2ZP3EHdja/L3ugFRZdH/yfgCSBEt
+	3klxAdhejy8CXpEXe3+6TmBGql52IELSQnQuoLQxUutCONeZh0XS2SiVOg4c+WiTVooVZx
+	jTsEh4SfMB3MrTGnKz6LM1asyb3YXz4iVj6OHMghynAAJQq8L7NdK72LgN3/OdgkDtH9uW
+	Jle+kfYP+kSg8YK5OmAoFiVtffgpkZZnT3hSiK+Gv0HSpXxtxeDBAB8lQg+cdA==
+ARC-Authentication-Results: i=1;
+	clone.registro.br;
+	none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=registro.br;
+	s=clone; t=1705496311;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SBdHaLqrwfMTFxqIgwbH+dQLJVDf2tFhfpr7NQ1ZTt0=;
+	b=P4PRDjnw//texdQY24jqivRfvx3wx/wLVPqKu6IAPMyXbXSd7/WI8gxKnX29aCsNJUG5gl
+	53UtnBkg5PC1RJSHNclJqKKNnxaOg/27vWbIC4VZVfRuLCtG7J7p1ZWFACKOP2lZopS23b
+	x8E4s1ubP1hKWlwb6EW627rnu0y4AklMqDAnqUaH1IIRhzsZbLlp4w6ch+CaR0djzwIRWM
+	UMqFanl24KNom+ze2wsGtprcexuOCVBLKnzAkRb+9m/zg9LI08kNTD6+bA2+F0A5rl3FEI
+	5nfAwWAR0tW/B5nxSeG6/LEWYJfE3RWsE2lK/YFvKxA6mDKtdVyHbzorpLOFjw==
+Date: Wed, 17 Jan 2024 09:58:31 -0300
+From: Registry Security Officer <rso@registro.br>
+To: muth@muthcorretora.com.br, mateuskalil@gmail.com, abuse@locaweb.com.br,
+	abuse@cloudflare.com
+Cc: cert@cert.br, rso@registro.br, abuse@ipxo.com
+Subject: =?iso-8859-1?Q?Notifica=E7=E3?= =?iso-8859-1?Q?o?= de Incidente -
+ muthcorretora .com .br
+Message-ID: <ZafO90XV_KJfwGFV@registro.br>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4943763130
+X-Rspamd-Server: clone.registro.br
+X-Spamd-Result: default: False [5.00 / 15.00];
+	BAYES_SPAM(5.10)[100.00%];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[muthcorretora.com.br,gmail.com,locaweb.com.br,cloudflare.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_ZERO(0.00)[0];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	DKIM_SIGNED(0.00)[registro.br:s=clone];
+	FROM_HAS_DN(0.00)[];
+	ARC_SIGNED(0.00)[registro.br:s=clone:i=1];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Action: no action
+Return-Path: rso@registro.br
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LN2PEPF000100CD:EE_|LO2P302MB0072:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6ed5f3f-4249-443e-7a0d-08dc175c03dc
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Rz2pfe1yDTzKoJD1VmxLDdNlgtjS+q+xXZoXLaBqWJwYdZAUrVVitOGyoJT/yhzArCXjDRG746HMrha6hZKQNcAnu7TLTE4dVaxPqHYcrqPyL+zJkv1UzDCHwRe1LsIomZKB6HZyRlZALzdTNdioT5/Y1+A0N9XnKxbHbyMF7k423Df5V33l0LBtZWbRegjnsli2b5myixq7F7A+iBFmMWD+3K6EWv2UawHC0n8B2imsc+3/fWVa0j0BtyZkQWbAxbLcLH/+VQXOLiwlCL8RqwWBdyuY3WNdZvL/0neb0D6luA49t9OEPvXx34TW69f0Sh/NkVBqfPB9CmRbkDVC2gLeYKm/nrOjGV6BaV5eDZ4wgqPRTFEkD7RUMT5O0GfbPmLUM1yY0QggsaVBxUBgbBjGqERsxQGQFg2BzHceJ4q6w4DQa+kD7kWlRDs5Q4jCzeIOBA9uV3UimO+HkSAcRArWYCvyGenWrvll/oRepAmYkN5eynsNjakQNgvFknNgHp9MppxCsfZUMpRI/rwsc9t6jqz20SZd2MlVrGmH1R/TSR7HLov3+MvyZgywtwt/r1FToJppg5wwQFvG+7DqIVRs7JIemuCNWmEOZeeUh/gHvrqU3a9sl6mqR+MPafkmrdnkgePf6STFSLfBquHezaFKIPwIYpjqN5/sN70zcXb6VyDeJ9KwORJMuWOwwKNNYhFDQFdK3GOSFAl7/MQw8lHHYzu2X8hmWNLgxMfVrY07QvbdbIDHaUaKscMbN0nBhF5q5Kqizo7EkyxXOubRlvlfgE4wKrtVXnrHINhbdm5X5oPLzI5x3uz0c+ASHbpMI+HgYvdE1H9Zm29qkHSX+w==
+X-Forefront-Antispam-Report:
+	CIP:200.160.2.4;CTRY:BR;LANG:pt;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:clone.registro.br;PTR:clone.registro.br;CAT:NONE;SFS:(13230031)(4636009)(396003)(39850400004)(346002)(136003)(376002)(451199024)(61400799012)(64100799003)(5660300002)(2906002)(224303003)(26005)(2616005)(107886003)(83380400001)(66574015)(336012)(6266002)(426003)(498600001)(4326008)(86362001)(7596003)(68406010)(70586007)(316002)(356005)(7636003)(36756003)(42186006)(142923001)(75936004)(14776008);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 12:58:34.4759
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6ed5f3f-4249-443e-7a0d-08dc175c03dc
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: LN2PEPF000100CD.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P302MB0072
+Original-Authentication-Results: spf=pass (sender IP is 200.160.2.4)
+ smtp.mailfrom=registro.br; dkim=pass (signature was verified)
+ header.d=registro.br;dmarc=pass action=none header.from=registro.br;
+
+Caros respons�veis,
+
+Somos  da �rea  de Seguran�a  no Servi�o  de Registro  de dom�nios  do
+N�cleo de Informa��o e Coordena��o do Ponto BR - NIC.br/ Registro.br.
+
+Voc� recebeu esta mensagem porque � o contato da rede citada abaixo no
+WHOIS/RDAP. Esta mensagem � destinada ao respons�vel pela seguran�a de
+sua rede e, se este n�o  for o endere�o correto, por favor encaminhe-a
+ao destinat�rio apropriado.
+
+Usu�rios  de nossa  rede  receberam mensagens  de  fraudes enviadas  a
+partir do seguinte servidor de e-mail sob sua responsabilidade:
+
+DOMINIO: muthcorretora .com .br
+
+DNS: joan .ns .cloudflare .com, vern .ns .cloudflare .com
+
+SERVIDOR: mcbain0013 .email .locaweb .com .br
+
+ENDERE�O: 189 .126 .112 .18 [LOCAWEB]
+
+AUTHENTICATED SENDER: avalo8 @muthcorretora .com .br
+
+AUTHENTICATED SENDER IP: 191 .96 .5 .17 [IPXO]
+
+Voc� recebeu esta mensagem porque � o contato da rede citada abaixo no
+WHOIS. Esta mensagem � destinada  ao respons�vel pela seguran�a de sua
+rede e, se  este n�o for o endere�o correto,  por favor encaminhe-a ao
+destinat�rio apropriado.
+
+Ao  final  desta  mensagem   anexamos  o  e-mail  original,  incluindo
+cabe�alhos, para sua an�lise.
+
+Pode tratar-se de:
+
+  * uma conta de usu�rio  comprometida (senha conhecida pelo atacante)
+    sendo abusada para envio de phishing;
+
+  * um servidor  de e-mail  configurado como "open  relay", permitindo
+    envio de mensagens por terceiros, externos � sua rede;
+
+  * um servidor ou  dispositivo de usu�rio infectado  com malware para
+    envio de phishing;
+
+  * algum  sistema  Web,  com  capacidade  de  envio  de  e-mail  (ex:
+    formul�rio em p�gina Web), sendo abusado;
+
+  * algum usu�rio leg�timo envolvido em atividades que, provavelmente,
+    s�o contr�rias � sua pol�tica de uso aceit�vel da rede.
+
+Em qualquer um dos casos pedimos  sua colabora��o na an�lise e solu��o
+deste incidente.
+
+Agradecemos desde j� e solicitamos que, se poss�vel, uma resposta nos
+seja enviada confirmando o recebimento desta mensagem.
+
+Atenciosamente,
+Seguran�a no Servi�o de Registro de Dom�nios
+Registro.br - NIC.br
+
+###########################(CABE�ALHO)###############################
+
+
+Return-Path: <Amelialo8Art@muthcorretora .com .br>
+Delivered-To: contato@xxxxxxxxxxx .com
+Received: from hm1831-27 .locaweb .com .br (hm1831-27 .locaweb .com .br 
+[189 .126 .112 .47])
+     by nl-srv-smtpin4 .hostinger .io (mx .hostinger .com) with ESMTP id 
+4T9WF246sBz41d9F
+     for <contato@xxxxxxxxxxx .com>; Thu, 11 Jan 2024 04:01:26 +0000 (UTC)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; 
+d=xxxxxxxxxxx .com;
+     s=hostingermail-a; t=1704945687;
+     
+h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+     to:to:cc:mime-version:mime-version:content-type:content-type;
+     bh=0NB7AVT68iq7L5/prWEB0lBlAnu1u9ggz8PEynDNYqY=;
+     
+b=BJU2b4e7o9oiFB5J5cRcqfwsUTTqrQiSS/nM7yGCCTe9BvmX9Wax2tKoSy9su0vUy9Bhgi
+     
+NpwuUyQOdUqtMdaOiciBsf1ygc7z97j5807FdkbVeZi3DGoIVnHxBlQTkv7dbkvd6B7gIv
+     
+l9KN7oFbQv96LIlDmnHEMzNGkDRQX+Y22MrhnccNk9f9FAusUqpZJ1ZpwA8fVsWzPLo1Lj
+     
+2CU/Lf/QYRoal1mtcgcsG1vWJh1bUbsoZsReLSA0oMryf5VPHNZlpIYALnIwzOl9DuB+jv
+     qFQZ4fs4XAFj/4P3af5209ECIFMX7AdQyZa6kDon7rS5hGO8yBvCWxVmSAgY2A==
+ARC-Seal: i=1; s=hostingermail-a; d=xxxxxxxxxxx .com; t=1704945687;
+     a=rsa-sha256; cv=none;
+     
+b=ZuFJHrZ7h2dH98PxAM8slQpm3onEXWdXvjBWcZEswd2GEz8NwhvraRnkN/RHl+xxQUbuRd
+     
+bLOuz7qXjGcmYSS9V8+FWWxAvCl66U7XcUp0hcsd6cKhGw7TaFPYNv+6oYPro0Oxl29svN
+     
+DjZpbE86EmYbv39IvaLsQX1DeVgT1EehlwOaI3edL7l5DjOFdETDtVb/mE1iooeOd8cS7e
+     
+rlM4rpf3ECdAhjB6Gcn5ZQz2SRqlWWf2j9V+RQeRO94Kua+qhZiwkrpOwz22pSU7UjFyk/
+     cj2D7vr1GLzoI9XT602/zO5YhDh3W0yxgE/H6VtTHrXQM85fmH0dkqFRxFmt1Q==
+ARC-Authentication-Results: i=1;
+     nl-srv-smtpin4 .hostinger .io;
+     dkim=none;
+     dmarc=none;
+     spf=pass (nl-srv-smtpin4 .hostinger .io: domain of 
+Amelialo8Art@muthcorretora .com .br designates 189 .126 .112 .47 as permitted 
+sender) smtp .mailfrom=Amelialo8Art@muthcorretora .com .br
+Received: from mcbain0013 .email .locaweb .com .br (189 .126 .112 .18) by 
+hm1831-n-113 .locaweb .com .br id hjtjq82n8lg6 for 
+<contato@xxxxxxxxxxx .com>; Thu, 11 Jan 2024 00:59:32 -0300 (envelope-from 
+<Amelialo8Art@muthcorretora .com .br>)
+Received: from proxy .email-ssl .com .br (unknown [10 .31 .120 .236])
+     by mcbain0013 .email .locaweb .com .br (Postfix) with ESMTP id 
+C36B0D40198
+     for <contato@xxxxxxxxxxx .com>; Thu, 11 Jan 2024 01:04:00 -0300 (-03)
+x-locaweb-id: 
+JTXk2SNi_7Adp_Qi_Lp1cRODISuZrsDAQDvwEollHfjUQghc-jBQZwipNIiTGiWq41kRjWOqd_cVvoPmHT2i-Hd5XMpRhwoe_vq2hHIit7cXuGf2-AG3Iw6W5RZOHYd9iy3Th5P_BCqi46ZJwBlJ9aepDbc9Hgz73moQw9UOmGKfn4Xp4KqfE0UZFSjnJi3yFhKnSB6AmMb-lqskepfPvOwidam0CKCDXoq8j3bjGm0= 
+NjE3NjYxNmM2ZjM4NDA2ZDc1NzQ2ODYzNmY3MjcyNjU3NDZmNzI2MTJlNjM2ZjZkMmU2Mjcy
+X-LocaWeb-COR: locaweb_2009_x-mail
+Received: from DESKTOP-SLGNFKI (unknown [191 .96 .5 .17])
+     (Authenticated sender: avalo8@muthcorretora .com .br)
+     by proxy .email-ssl .com .br (Postfix) with ESMTPSA id B8B3A4203AC
+     for <contato@xxxxxxxxxxx .com>; Thu, 11 Jan 2024 01:01:22 -0300 (-03)
+ From: "Registro BR" <Amelialo8Art@muthcorretora .com .br>
+Subject: =?UTF-8?B?QSBmYXR1cmEgZG9zIHNlcnZpw6dvcyBSZWdpc3Ryby5iciBl?=
+     =?UTF-8?B?c3TDoSBwcmVzdGVzIGEgdmVuY2VyIQ==?=
+To: <contato@xxxxxxxxxxx .com>
+Content-Type: multipart/mixed; 
+boundary="7nUvhACJoYWI9HwMh7WKpitchOIhOw=_fP"
+MIME-Version: 1 .0
+Date: Thu, 11 Jan 2024 01:01:24 -0300
+Message-Id: <112320240101015DA4B94891-98C4301517@muthcorretora .com .br>
+X-CM-Envelope: 
+MS4xfGJdR4ydt/qpMd5YgRVwikFh/YmIH3U0O/nWUAe8/X5jeJPia+D/uP3/JIH5qNf5g5iLpj+YjhCarknzqA5bsavD4AyFAGE/a/RPVlKvwYewo3eTB51h 
+2YsN8eyQEzXKAHQGJnt+lCyqx5bVkx5fAtPgzaeeWRsxZQVe32fdjTN6ilIcCkFPOZgQX3XrE1ma5dHoUo95NRQukS30pAlKOxvRN2Pw1kumYkVSY0ae9UGj
+X-CM-Analysis: v=2 .4 cv=KOhcDkFo c=0 sm=1 tr=0 ts=659f6817 
+p=Moh_6jI9HsPMatbw:21 a=KQwqit15263JFKyrLmMqaA==:117 
+a=f3z45x8M3C7SHe4ptOoyRw==:17 a=dEuoMetlWLkA:10 a=5KLPUuaC_9wA:10 
+a=9DvhAHx2yrWFMPxQWpQA:9 a=0Ee4fNkPAAAA:8 a=3M00tFGrh2L0iOPApfsA:9 
+a=QEXdDO2ut3YA:10 a=Pc-iT1jMFlLYlPrKlscA:9
+X-Spam: Yes
+--=_8fe16950f35a9cf78672e14f75ec1905
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8

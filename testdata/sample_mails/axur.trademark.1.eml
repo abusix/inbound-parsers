@@ -1,0 +1,160 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 12ECE40C-CDB9-4E6F-ACB4-63A239B2A730.1
+	envelope-from <abuse+bncBCC25NF33YKRBH5YQKWAMGQER2EHFZY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 18 Dec 2023 19:23:12 +0000
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-6d9dc17134dsf4129851a34.2
+        for <abuse@digitalocean.abusehq.net>; Mon, 18 Dec 2023 11:23:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1702927391; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=eie0CuL1GCfbc/dm3lJPEG18NMh/0EV5mRvtcol6229hBJ80bAVbIQMUrXD5iTmLKE
+         oA6FIOF8Wr2SJDWpn7wDF6PDBdu2wicgrVmVznKZcKXGE1S6ledVS4l9cErP2T4OQ1lq
+         n7x7AgrjMV0pFImR5I2YTU+h5bHFK6sYLnqo5O9dLud1q74Xn6pSxSiHYyQ+Em0oZw/b
+         jDHIDhhGDFOPNDvZJwE2ck/RLhhDVZK2SEzyiTQ7wpcOEKOYtjPV0XM7df00Q2/t90+7
+         6nrBSx+vFW6e6m9K7ZLtfopPJ2QeJx4rdsxRWOBGhP0l20SGQhMkaTr4diV+aiaxlzP0
+         1kDA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:feedback-id:mime-version:subject
+         :message-id:to:from:date:dkim-signature;
+        bh=pPCFjefpS93rq70G61NYjsRIF+rq5Z+vJrzuw25Rdvc=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=YuIpR8+ElqcnYxM2RdAzXXvDWZdKRPufSoW1ky1aUFHxxzN9cgKeMqAhyYHzKZXQod
+         4/BURe5eohdTb71KVRZfG7+gYHvQqqeKwSksTFNTpqNQVr9JUc0G5q/fsHK3lv+CmTg6
+         Bv80cNxtCll8CNS/VucSojFZIWyKisjhAq7wzn1Fc2sewWgTHOSEy2HqCTjOl9gPnCYM
+         pa1zwI5LW94q3XWDw432NuhCQ6Eo5UMDjcj18S+8myrs0hJgvnDfWeEDJ1NPdXqj2ejT
+         Yp/esy2Fe0j55hShA5IE1aIfKsDPxQH2GT3WLYFJmsb5xPH7PgGRzqss4nGXLDyf0kAl
+         /TCw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@axur.com header.s=qpmiccjn5b774ssedvcryovbhxf4qlrh header.b=hBqCvJns;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=Qa8U9IXH;
+       spf=pass (google.com: domain of 0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com designates 54.240.8.195 as permitted sender) smtp.mailfrom=0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=axur.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1702927391; x=1703532191; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:mime-version:subject:message-id:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pPCFjefpS93rq70G61NYjsRIF+rq5Z+vJrzuw25Rdvc=;
+        b=f1YSY5ELsp9c5+FFJGHu8bLgz6bwKdqVKrwIJCZtzbvAYTPDZgkocmudgAQZAO0CCO
+         7W2O4yzeK0mpMRV4hy6BarBBQnkMay0uEqjZE/IQLO59TsMiUNHXcP1+f8OrEHF66We7
+         sj/NesMIOhDhmML3O8HYv9RBez61EVqmJuMaM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702927391; x=1703532191;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :mime-version:subject:message-id:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pPCFjefpS93rq70G61NYjsRIF+rq5Z+vJrzuw25Rdvc=;
+        b=PkXK63puHxuYxTAPDvfFgJ0C903b6O4NISR5lbTFxRDRBlsL9NIuji+pa7GcZ3Yx6c
+         lmAVe/gdCo1r2nYWeNgMvfeTYoSIbXy+kSjRJAYO6uhHavm/PLYpl8wDHp7K5GTysmX6
+         QVmlPaNwPnMAsAnHS0eRQsrwD96ODiySZQ9P4kLoLGwLkDw4N7NOrPHK6XvMcTAC4C/z
+         ELKirgN2+TycIzQZIgFCf3BS79mKSMdZTdrebg8/J3Gtcue2S6Hvf7H9+v+dXD8+3zgZ
+         Ww5Z5N8EDz2xwJsEG/cLMS2lvOzeBHMDAsDd5QFINwgLyH3hwIJBebljJK5wclcYUCca
+         QECw==
+X-Gm-Message-State: AOJu0Yw6mg8rwo11Yb2s1j9ES+YJjMDUg68mGX2/nmFdK3OjBei+FOuf
+	jNgKU4dMA+ndY4Pr7Dknw6QZlA==
+X-Google-Smtp-Source: AGHT+IFu7460ZTy1J2Pe+be2rLiJbaKNKiG7/25lT7asC7VquzXY+vuimLg1jGH3MelFQ1oxiIFW4w==
+X-Received: by 2002:a9d:7a46:0:b0:6d9:ee09:eb24 with SMTP id z6-20020a9d7a46000000b006d9ee09eb24mr17183364otm.37.1702927391617;
+        Mon, 18 Dec 2023 11:23:11 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:ac8:67d7:0:b0:425:7ea5:45f0 with SMTP id r23-20020ac867d7000000b004257ea545f0ls4677702qtp.2.-pod-prod-04-us;
+ Mon, 18 Dec 2023 11:23:11 -0800 (PST)
+X-Received: by 2002:a05:622a:40f:b0:425:7b26:820a with SMTP id n15-20020a05622a040f00b004257b26820amr23342244qtx.127.1702927390807;
+        Mon, 18 Dec 2023 11:23:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1702927390; cv=none;
+        d=google.com; s=arc-20160816;
+        b=rQ1NR3eyzNyy4QOCLK8+9Ah872YRFd1VnCNFwswBVAXClDFSuRennyP7xKCMT6o/6m
+         xHnCWxXHVRHP7owXB3qxCoS8yyEuSCXxCrcJGvKvT+Pnh0Q+DkFAyVTXGkg6Qatpj4ex
+         Pg4fhmh/AnbJ4pJs/SU6QgdTv5kMr195JumsU6NKRL5yibbChJLIASPkUV3Sj0HW1UZg
+         +o9WLB29iDu+xpc9uSsB8dzEQWsnhxPkfCfs6buiGz6bilPecH0Y0HPQXvZs713gAzeI
+         pc+0Z1mQtrkBHAjyPv2Am2lDG43xVV/v9UbGj8yeIgwFsuovXjh/n9TodnKPTcc2qIti
+         rI6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:mime-version:subject:message-id:to:from:date
+         :dkim-signature:dkim-signature;
+        bh=pPCFjefpS93rq70G61NYjsRIF+rq5Z+vJrzuw25Rdvc=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=T12+dp7mfK6+Ct14UeS38y6OB3OjTBtzWKo6luJ6Er/iRaO2LKxtgwqkF8VWlZmuGf
+         R4B5zqJgx3iHMwzDMm+bjG8GB3MXLuuUjMzS8A7b1gqVkgqjqo9yEWzJ8sDvSrbSHYx0
+         0LX9oCzrnifqaKO0mQqDEwbBISckVJ1GnfjJrvxk/P5soEfmwcZycW54t1heNJKAJOqa
+         FOpaiompylF66fudGPjjtcs0oRaGtWkr6qRyX+HdvZhp2tahCvVoj18gUSXN8kVOJlNx
+         MJnPr4p7Feh7FDP10xS1GeB0MM0fFShcdhuZGKF/6lUbmLnlVYLNRF8laTj47TlUFe1J
+         0u5Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@axur.com header.s=qpmiccjn5b774ssedvcryovbhxf4qlrh header.b=hBqCvJns;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=Qa8U9IXH;
+       spf=pass (google.com: domain of 0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com designates 54.240.8.195 as permitted sender) smtp.mailfrom=0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=axur.com
+Received: from a8-195.smtp-out.amazonses.com (a8-195.smtp-out.amazonses.com. [54.240.8.195])
+        by mx.google.com with ESMTPS id g16-20020ac85d50000000b00425a179c882si25658619qtx.511.2023.12.18.11.23.10
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Dec 2023 11:23:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of 0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com designates 54.240.8.195 as permitted sender) client-ip=54.240.8.195;
+Date: Mon, 18 Dec 2023 19:23:10 +0000
+From: "abuse.efc via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Message-ID: <0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@email.amazonses.com>
+Subject: Abuse Report: Content Removal (Tracking: #EFC2443880)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_145898_1436173389.1702927390121"
+Feedback-ID: 1.us-east-1.mR9CBhEVjWOSBm2JfqbUKSUhIg9Q0yq7vGnsob9WAws=:AmazonSES
+X-SES-Outgoing: 2023.12.18-54.240.8.195
+X-Original-Sender: abuse.efc@axur.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@axur.com header.s=qpmiccjn5b774ssedvcryovbhxf4qlrh
+ header.b=hBqCvJns;       dkim=pass header.i=@amazonses.com
+ header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=Qa8U9IXH;       spf=pass
+ (google.com: domain of 0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com
+ designates 54.240.8.195 as permitted sender) smtp.mailfrom=0100018c7e61d5f7-cc2aa28e-b633-4bbc-88cc-9e1fc5c73bc3-000000@bounce.axur.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=axur.com
+X-Original-From: abuse.efc@axur.com
+Reply-To: abuse.efc@axur.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part_145898_1436173389.1702927390121
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<pre>
+Dear Sir/Madam,&#10;&#10;My name is Giulio Scalpini from Axur and we are th=
+e Authorized Representative of the owner of the brand GaleraBet with tradem=
+ark registration number duly registered at the trademark nacional registrat=
+ion office under the following numbers: 926207059, in issues involving the =
+violation of intellectual property and fraud on the Internet. &#10;&#10;The=
+ authorization letter with GaleraBet as proof that we can act on behalf of =
+them is available in this link:  https://njoyjnztcx.s3.amazonaws.com/bb59f3=
+2934eb12c6b8dfc7d35db38e547b0876cd5271be0750a482a844f40119.pdf  &#10;&#10;W=
+e detected a infringing content at your network:&#10; &#10;http://apostas-s=
+ite.com&#10;https://galerabet.br.com/&#10;https://galerabetaposta.com/&#10;=
+ &#10;Host: apostas-site.com IP: 104.248.194.134&#10;Host: galerabet.br.com=
+ IP: 104.21.35.120&#10;Host: galerabetaposta.com IP: 172.67.205.173&#10; &#=
+10;As we mentioned above, there are indications that the reported website i=
+s using our client&#39;s brand to attract users to a possible scam.&#10;&#1=
+0;The organization&#39;s legitimate website is: https://www.galera.bet/&#10=
+;&#10;We kindly ask your cooperation, according to your policies, to cease =
+this activity and shut down the reported content as soon as possible. &#10;=
+&#10;Thank you in advance for your support. We look forward to your respons=
+e. Have a great day!&#10;To contact us about this matter, please inform the=
+ tracking code: #EFC2443880.&#10;&#10;Electronic assignment: Giulio Scalpin=
+i  &#10;&#10;Best regards,&#10;AXUR&#10;abuse.efc@axur.com
+</pre><img name=3D'confirmation' src=3D'https://api.axur.com/gateway/1.0/em=
+ail-sender/notify/email/read/A76YsJmLYaFIwd5ca5L2M' style=3D'display:none' =
+id=3D'confirmation' />
+------=_Part_145898_1436173389.1702927390121--

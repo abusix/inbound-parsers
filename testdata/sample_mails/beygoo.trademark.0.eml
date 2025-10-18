@@ -1,0 +1,123 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=fail (body hash did not verify) header.i=@beygoo.io header.d=beygoo.io header.s=google;
+	dkim=pass header.i=@aruba.it header.d=aruba.it header.s=a1
+Received: from smtpstaff01-out01.staff.aruba.it (smtpstaff01-out01.staff.aruba.it [94.177.209.55])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id E616EA36-5239-46BF-A457-0C36209BEA48.1
+	envelope-from <antifraud@beygoo.io>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 11 Jul 2025 15:36:27 +0000
+Received: from pepi1mx-mbest01.ad.aruba.it ([10.10.10.97])
+	by bizsmtp with ESMTP
+	id aFnWugcWJx5agaFnWumzFw; Fri, 11 Jul 2025 17:36:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1752248187; bh=Ug3Svm0PLGSb2WrDoXSlaMGwXdERr7vE/88SggZxOUI=;
+	h=Content-Type:MIME-Version:Subject:From:To:Date;
+	b=ZznbvvICLXqxpNKRnnNkpKIVNPgFOXUj6G7RwNJO9yMumQz9pjAnnbV+vHa3AXW/u
+	 Tzj4M2dO7HFZ5EluT/99ZRNSLHlH8xtTDU8YNeBsr3n9kwZ9CbetSGFMxZ0/SefF+X
+	 pQ2y71HL5SbAIBh0ERKYyHvrsZa2RwRdOqJwV6tzx7LnYXRKjAHcxiOIYq1S1mRE/H
+	 6/m6+91iYCkRnxX0yVL0K256Chi9c5OAZI5BZROPuEo6yJrvaQwQBnT1arIlJulSrT
+	 QgNG7R2Z1dXkmXDysFIcQckEapRHsqXGttgeQ4BcLZTNjvK15A1H0ASTFy8tR2VYux
+	 j1w6NgatzFpdQ==
+Received: from localhost (localhost [127.0.0.1])
+	by pepi1mx-mbest01.ad.aruba.it (Postfix) with QMQP id 80592201AC06
+	for <abuse@aruba.abusehq.net>; Fri, 11 Jul 2025 17:36:26 +0200 (CEST)
+Delivered-To: abuse@staff.aruba.it
+Delivered-To: abuse@staff.aruba.it
+Received: from pepi1mx-mfest04.ad.aruba.it (unknown [10.10.14.15])
+	by pepi1mx-mbest01.ad.aruba.it (Postfix) with ESMTPS id 7AA3320140EF
+	for <abuse@staff.aruba.it>; Fri, 11 Jul 2025 17:36:26 +0200 (CEST)
+Received: from mail-pl1-f171.google.com ([209.85.214.171])
+	by bizsmtp with ESMTPS
+	id aFnUufz08iU0GaFnVuuoxR; Fri, 11 Jul 2025 17:36:26 +0200
+X-Spam-Report: v=2.4 cv=fcj/yFQF c=1 sm=1 tr=0 ts=68712f7a cx=a_exe
+ a=bhq3n9Va5qLdRPODfS1a7Q==:117 a=Dxom3InWdgv/devR9josGg==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=o7RQ4xYNruAA:10
+ a=xzDFnhe7iZTJgGxbs88A:9 a=QEXdDO2ut3YA:10
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2349f096605so29457035ad.3
+        for <abuse@staff.aruba.it>; Fri, 11 Jul 2025 08:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=beygoo.io; s=google; t=1752248183; x=1752852983; darn=staff.aruba.it;
+        h=message-id:date:reply-to:to:from:subject:content-transfer-encoding
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ymej/PpSp/G6NSDxODj9ZQ/ZUYgAVYd7/YFJ8OUErh0=;
+        b=AYJBiNgs6x/eaqzI7YdIeiMjWZOn6yhWDeyD8ubg8b4qBGiCC+WhnOxwuhMhUHM7pF
+         vZmiQvSOJrurIk9+P26q0DmBUq4bwRL0D8wvpEsu4Qo6KHUm8P/8SkoMfc4IXh8CUSrp
+         E6kIcxFukUDyGEkncfZgmLpxbEkniXVCmZFPdCRt049N5XyvqzAz6CA+DqEGnREH67i/
+         znZ2YqL2Bf66IBnlHUEOT/1Aor39d44qIENWZZJa/dYyG6Y+8ghvZFqzdY5Vs/ZLb5X6
+         j60QtkxYtulcA7dA4PXODORa1kF4esMXOcMchYQskpn7bXRO1hUGxKUb8cdCm18amS1e
+         Rn5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752248183; x=1752852983;
+        h=message-id:date:reply-to:to:from:subject:content-transfer-encoding
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ymej/PpSp/G6NSDxODj9ZQ/ZUYgAVYd7/YFJ8OUErh0=;
+        b=KrobZnJoSDIOLGcYCrdsbdAJhWs0h1T/vzhZ69XToGQtZ87zmKf1Z/wY+UJw0gcADy
+         HZGjxUnyCYfI94jcCoXrslFX9vxAxzISBYuul3QzjAkZDPmaJgxBA+jgBxEDJqbQNS/w
+         7sSpnVhGj9t3+YcihKGlW+dL/jX9EiPU7svWF0surHHiFe11QE9dNOiDbvgT+kvF6Mxz
+         KfhFg9RBx8k+8t1l6JfamH7QGa1XX5yK7yoUEaCqNpJXCX4Zy8qMnAbgtj7QM6FT6plW
+         QtoONx9E5QaJxVwKirRREnaGsaaumVuOUckoCDYFl7e93ubKMtE6pCCXWclkJoB+kqdJ
+         qQVQ==
+X-Gm-Message-State: AOJu0YzE8O7E0F6xx0EoHDzBGJz+zjrSJAY71fy7qFHbYmO+BVsOTX9O
+	DvQKcPeQ/ovxM6BST6Tr03fl2HmNLUNUD3v+q2vfML4KXLi4Y7/B8PRpqO5Z/aIx6DHca/XvS9A
+	yAJ/a
+X-Gm-Gg: ASbGncsuI8rRW0C7f3T72w8j3U9PpHrxd/ACutEI5uSWoQ4y/v8kCw6GdsI0Xjco6vC
+	E7IYs5aC8IAqwfTmM1qfM5UJQ3F7hZYRWukibn0Mc/O8eN5omkvD7bfcM34dEEP84xYn4ph8wEG
+	5MI+XfJq2qVyYrhfRrEz49Lj++IfmZ4ISfy8d147Gao6bTWyuivv4F6jznND4YVaVGsb7KtmDmy
+	dbm46cyAHlzACjGnAyK7bM97TF+wFWUqWqsJNQAJt06Gzi43ya2ZaXoTJMadPETu+NmODghenHB
+	8HZtgj5OGUHRyu1TSvOklygDr2QAd7Fp8//N1W0alTzptltViXYuLaya/KgmLhwo3X0Mx7ISF/K
+	OqLvZKVoKF+k=
+X-Google-Smtp-Source: AGHT+IGi/rYQGM7I1nW6m3nOVqoXVQVUJV005w+o1nHxTDLOxEa7WcNllh/BwJ0u+ZlTnkBV81Pn9Q==
+X-Received: by 2002:a17:902:d54e:b0:237:ed38:a5b3 with SMTP id d9443c01a7336-23dee17b702mr47198695ad.8.1752248183338;
+        Fri, 11 Jul 2025 08:36:23 -0700 (PDT)
+Received: from inno01 ([190.2.47.236])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4322b65sm49085975ad.109.2025.07.11.08.36.22
+        for <abuse@staff.aruba.it>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 08:36:22 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Subject: [External Sender] Urgent: Suspected Deceptive Website Utilizing
+ Banco de La Pampa Branding - https://uplinkhost[.]click
+From: antifraud@beygoo.io
+To: abuse@staff.aruba.it
+Reply-To: antifraud+249+30642@beygoo.io
+Date: Fri, 11 Jul 2025 15:36:22 -0000
+Message-ID: <175224818217.1055126.11332312497128039073@inno01>
+X-CMAE-Envelope: MS4xfIGB2TLbALKhtc3sURafEFz5szEWZ4D8ZDdyMr5hMeeb58paJwvgNTRzCM3k8cWTkTbYFhcn5e/s1cAT3gJGb37SblBgQYeBg5MSkyxJ+64TnxRYMWk/
+ CWxLO1s33A1iLVxviMPN3lr3KmypjGUblAuZd/SQPSv8FOfa/IsgDLxqIGSJ5BsUP6+QlLpWmRz8eyAj/cT+0ZKw42T7n+Z9yWA=
+Original-Authentication-Results: pepi1mx-mfest04.ad.aruba.it;
+	dkim=pass header.d=beygoo.io header.b=AYJBiNgs;
+	dmarc=pass header.from=beygoo.io
+
+[NOTICE: Pay attention - external email - Sender is antifraud@beygoo.io ] 
+
+
+
+
+
+Dear ARUBAUK-NET Team.
+
+We are reaching out on behalf of Banco de La Pampa concerning matters pertaining to the infringement of intellectual property rights and fraudulent activities online.
+
+Banco de La Pampa is the exclusive owner of the Banco de La Pampa trademark and holds or licenses numerous trademark registrations worldwide.
+
+Only Banco de La Pampa is authorized to utilize the registered trademarks, logos, and phrases. Any unauthorized usage by third parties constitutes a violation of trademark rights.
+
+We have noticed that this domain https://uplinkhost[.]click was registered/hosted within your company and is associated with the Banco de La Pampa trademark without prior written consent from the trademark holder. This unauthorized use creates confusion between the Banco de La Pampa trademark and the domain.
+
+Furthermore, by misusing the Banco de La Pampa trademark, your website is diluting its significance, compromising the brand's distinctiveness, and potentially misleading consumers about any affiliation with the trademark holder.
+
+For your reference, the official website of Company is: https://digital[.]bancodelapampa[.]com[.]ar.
+
+Given the infringement of intellectual property rights, we kindly request the prompt removal of all content accessible via the attached URL(s) that exploit the aforementioned trademark without proper authorization.
+
+We affirm under penalty of perjury that we are duly authorized to represent the trademark owner, and this notice complies with international regulations governing internet and intellectual property matters.Should you require further information or wish to discuss this matter further, please feel free to reply to this email.
+
+When communicating with us regarding this issue, please reference the tracking code: 249+30642.
+
+Regards,
+Antifraud
+Consultant
+BG

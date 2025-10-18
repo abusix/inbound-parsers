@@ -1,0 +1,933 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id C6379FCE-E0DE-454B-93A1-C912D42FDE76.1
+	envelope-from <abuse+bncBDC67UFC4MDRBQU44OPAMGQEG7ROG4A@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 31 Jan 2023 08:16:03 +0000
+Received: by mail-ej1-f70.google.com with SMTP id lf9-20020a170907174900b0087861282038sf8977876ejc.6
+        for <abuse@digitalocean.abusehq.net>; Tue, 31 Jan 2023 00:16:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:message-id:mime-version:subject:date
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vy6YNHh4F5/MM51IxVWz/PWAEYLnK5Y7sAMK1U1StwA=;
+        b=OVG3E3Dy8AjHOwx5jNpCqs8sRce41pmpYfzDN/UPvlRsgQdHVq5jYB8ydUq9YXWjot
+         wT4svrS5vprPwPljO3C2duhP/Qf1Txad0J8mBPy0o5bAXXqUHFlE8acwNEZjjPOqcqvD
+         mgmtTWLFNnSeuT+ljgA2b0nf+/4nByOJs7Icw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :message-id:mime-version:subject:date:to:from:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vy6YNHh4F5/MM51IxVWz/PWAEYLnK5Y7sAMK1U1StwA=;
+        b=GhS9h4WlPstKsWzYzjrCa7fESBqCUMW4cbPDgVg8nV/XE5vk5RPjbWrpVfk4pa+4SQ
+         F0EfuzN69WD1n1PBwoPggI3PUz1aTAaeIk6C+m+vCr0hp4DgDollbepTCW/cWzb/Y3ux
+         XpcP2VAjyy8r3T0GenG9H/1wD8Su1eVLWrRWjK09idwOT0qiguPkr45fLclcN4DVj9/S
+         OlGATRFkO2Blao3Tc4l+WauE5sHUVlxyQhBrZyMMPYTKIxDPOLT1O3teeMg68qE6icE2
+         YYFeBGFF/f1MV7EgJ/Z5TusR6LFjCSseQ+wBC01T/szZKisWv7h4vdsLdBhlvFyGYRMF
+         QJbg==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AFqh2koBdGQluHi+TYxTOOlMaWEMYica+XG0iAz6b7/iJ/edUrC9HtvU
+	RdX0YDApBV9+FlW9+sh7mWB+5A==
+X-Google-Smtp-Source: AMrXdXsXGF6LQJtsE91dYPfq8TgJnoVaH9iFt+Wqm8CWD5TFGodyqm5EHmcOITvKXxRZM1zBQz107Q==
+X-Received: by 2002:a17:907:c787:b0:873:1b57:b27e with SMTP id tz7-20020a170907c78700b008731b57b27emr9320163ejc.206.1675152962715;
+        Tue, 31 Jan 2023 00:16:02 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:906:b219:b0:84d:1543:d10e with SMTP id
+ p25-20020a170906b21900b0084d1543d10els9894255ejz.1.-pod-prod-gmail; Tue, 31
+ Jan 2023 00:16:01 -0800 (PST)
+X-Received: by 2002:a17:906:5417:b0:877:5dbc:da84 with SMTP id q23-20020a170906541700b008775dbcda84mr44703140ejo.72.1675152960502;
+        Tue, 31 Jan 2023 00:16:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675152960; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Qi5ufDnnhLGKomrl37zacA13WvnJY6L9LN1er6ZYtJ6maiVTRkV+F49BXAgIA52vF0
+         TuZaxVMkKWO2oh5Bs/6mRnslYytoJON5FSaKF+fra4v4/amK0hqp0sTxYaqSrxMom39e
+         ZBzXkFy/QViE1Mw9Otw40KbJb64K45CaiJE41z/uW9ED969GVMBua6Daa/xlBn+YRC9n
+         6s7Jb+Q58lg5K+Yz/rMX8Fpey2lTBzYF19NmEqmSTPAFvZ1ujc6aWtxeJc2z7Zc4yjVG
+         /XYeMaYgPT000skzpwYzzQppDzxY+enW09OaCR4TSwx9Z/k1cCjOOrF1rJZlyXx7lUY1
+         J7IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:message-id:mime-version:subject:date:to:from;
+        bh=vy6YNHh4F5/MM51IxVWz/PWAEYLnK5Y7sAMK1U1StwA=;
+        b=Y7YQtj4NtTSxCUdpjFTEBwe+dw487A8Ifc6JlambztweK2AVM9gA1lV0d7mfmVXoCw
+         T+1DQJx1e56pqUkzJd8EB3ATzQpgvJwelyL6n0RJzVsvVVpS9UmMo/oJBfKpy7nJT3pR
+         uaSGW4iITrLpH1QNXwwD3w7ymuMuRcu2HPyLFNaiLWRozUhaDAjZRFXvrLvKDL7RiSzo
+         IRXuXKE0RHTEO+fCPM0NS2fQlkYA0jKrRjA9L7N9TTHc6kofrVGuRnpJgFeI2aZnLLXu
+         yxtIheX3cv7D8A3LvtWa0EyWoLauyzL/nNC7IU6XWxJFD3e64pUN17/TBcTrc4NCqIfx
+         va1Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of pgeens@perso.be designates 213.182.54.15 as permitted sender) smtp.mailfrom=pgeens@perso.be
+Received: from msg-4.mailo.com (msg-4.mailo.com. [213.182.54.15])
+        by mx.google.com with ESMTPS id p31-20020a056402501f00b004a08c6ced0dsi2298732eda.536.2023.01.31.00.16.00
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Jan 2023 00:16:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of pgeens@perso.be designates 213.182.54.15 as permitted sender) client-ip=213.182.54.15;
+Received: by www.net-c.com with http webmail; Tue, 31 Jan 2023
+  09:06:53 +0100 (CET)
+X-EA-Auth: dofoqJqgDehIqf1BVjmN4+k+0gd43oGmj9HA6yiVFN9F+rQCesdwZNvwgp+t8419toodGPJbH0pKM+rnV3x4SA==
+From: pgeens@perso.be
+To: verdacht@safeonweb.be,
+ abuse@digitalocean.com,
+ abuse@encom.co.za,
+ abuse@hetzner.com
+Date: Tue, 31 Jan 2023 09:06:53 +0100 (CET)
+Subject: Fw: Your DHL parcel is coming today. Select delivery location
+ now...
+X-Priority: 3
+MIME-Version: 1.0
+X-Mailer: COMS/EA22.05/r20221103
+Message-ID: <ea-mime-63d8cc1d-7dbd-2529e7d1@www.net-c.com>
+In-Reply-To: <ae2c6bac5887f26043efc66d99698389e0e69152@aol.com>
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_001_63d8cc1d_7dbd_6bb13fc9"
+X-Original-Sender: pgeens@perso.be
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of pgeens@perso.be designates 213.182.54.15 as permitted sender) smtp.mailfrom=pgeens@perso.be
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_NextPart_001_63d8cc1d_7dbd_6bb13fc9
+Content-Type: text/plain;
+ charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Return-Path: <dhl-jagjy@aol.com>
+Received: from bitwarden [65.108.63.173]
+	by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	for <pgeens@perso.be>; Mon, 30 Jan 2023 19:29:46 +0100 (CET)
+X-EA-Recv: time=3D1675103386;block(261,725,1,527)=3D0;adbook=3D0
+Received: from 22c58c3c97cae0edae044dd2e62343947d40 (unknown [172.177.131.=
+96])
+	by bitwarden (Postfix) with SMTP id CF06D60F58
+	for <pgeens@perso.be>; Mon, 30 Jan 2023 19:29:44 +0100 (CET)
+Message-ID: <ae2c6bac5887f26043efc66d99698389e0e69152@aol.com>
+From: DHL Post <dhl-jagjy@aol.com>
+To: pgeens@perso.be
+Subject: Your DHL parcel is coming today. Select delivery location now...
+Date: Mon, 30 Jan 2023 21:29:42 +0300
+Organization: DHL Express
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary=3D"aa4f06b61d406a67248ec7586=
+ca9c908b04b"
+
+Van: DHL Post <dhl-jagjy@aol.com>
+Aan: pgeens@perso.be
+Onderwerp: Your DHL parcel is coming today. Select delivery location now..=
+.
+Datum: 30/01/2023 19:29:42 Europe/Paris
+
+=C2=A0 =C2=A0 =C2=A0 =C2=A0http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551=
+749545&id=3Du1=C2=A0=20
+
+Important information about your parcel =20
+
+Online version =20
+=20
+=20
+
+=20
+
+=20
+
+Hello,
+
+Your DHL package=C2=A0will be delivered to you today by your letter and pa=
+rcel carrier. =20
+=20
+
+
+Best regards =20
+=20
+=20
+
+=20
+
+=20
+
+=20
+
+=20
+
+Your shipment status =20
+
+=20
+
+Estimated delivery: =20
+
+Today =20
+
+=20
+=20
+
+Your shipment from:
+Schucks Auto Supply
+
+Tracking number:
+CPF 057 200 664 645=C2=A0=C2=A0https://dhl.de.laforma.co.za/verfolgung/sui=
+vie.php?id=3Def0b641ccca611ecaebeb178&page=3Du1=C2=A0=20
+=20
+
+=C2=A0 =20
+
+=20
+=20
+
+Confirm delivery=C2=A0http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D755174954=
+5&id=3Du1=C2=A0Logistique mondiale - Exp=C3=A9ditions internationales | Acc=
+ueil DHL | France (laforma.co.za)=C2=A0=20
+
+=20
+
+You're not here? =20
+
+=20
+=20
+
+ Specify location =C2=A0=20
+=20
+
+ Delivering to neighbours =C2=A0=20
+=20
+=20
+
+=20
+
+=20
+=20
+
+=C2=A0 =20
+
+Help avoid extra journeys with our DHL services and contribute to climate-=
+friendly reception. =20
+=20
+=20
+
+=20
+
+=20
+=20
+=20
+=20
+=20
+
+Would you like to stop receiving information about your shipments in futur=
+e? =20
+Click here! =20
+=20
+
+=C2=A0 =20
+
+Privacy policy =20
+Imprint =20
+=20
+=20
+
+=20
+
+=20
+
+Deutsche Post DHL Group =20
+=20
+
+=C2=A0 =20
+
+2023 =C2=A9 DHL Paket GmbH. All rights reserved. =20
+=20
+=20
+
+=20
+=20
+=20
+
+
+------=_NextPart_001_63d8cc1d_7dbd_6bb13fc9
+Content-Type: text/html;
+ charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<pre><b>Return-Path:</b> &lt;dhl-jagjy@aol.com&gt;<br><b>Received:</b> from=
+ bitwarden [65.108.63.173]<br>	by b-4.in.mailobj.net [192.168.90.14] with E=
+SMTP<br>	via ip-206.mailobj.net [213.182.55.206]<br>	for &lt;pgeens@perso.b=
+e&gt;; Mon, 30 Jan 2023 19:29:46 +0100 (CET)<br><b>X-EA-Recv:</b> time=3D16=
+75103386;block(261,725,1,527)=3D0;adbook=3D0<br><b>Received:</b> from 22c58=
+c3c97cae0edae044dd2e62343947d40 (unknown [172.177.131.96])<br>	by bitwarden=
+ (Postfix) with SMTP id CF06D60F58<br>	for &lt;pgeens@perso.be&gt;; Mon, 30=
+ Jan 2023 19:29:44 +0100 (CET)<br><b>Message-ID:</b> &lt;ae2c6bac5887f26043=
+efc66d99698389e0e69152@aol.com&gt;<br><b>From:</b> DHL Post &lt;dhl-jagjy@a=
+ol.com&gt;<br><b>To:</b> pgeens@perso.be<br><b>Subject:</b> Your DHL parcel=
+ is coming today. Select delivery location now...<br><b>Date:</b> Mon, 30 J=
+an 2023 21:29:42 +0300<br><b>Organization:</b> DHL Express<br><b>MIME-Versi=
+on:</b> 1.0<br><b>Content-Type:</b> multipart/alternative; boundary=3D&quot=
+;aa4f06b61d406a67248ec7586ca9c908b04b&quot;</pre><br><br><blockquote type=
+=3D"cite" style=3D"margin:0 0 0 0.5em;border-left:1px #00f solid;padding-le=
+ft:1em;">Van: DHL Post &lt;dhl-jagjy@aol.com&gt;<br>
+Aan: pgeens@perso.be<br>
+Onderwerp: Your DHL parcel is coming today. Select delivery location now..=
+.<br>
+Datum: 30/01/2023 19:29:42 Europe/Paris</blockquote><blockquote type=3D"ci=
+te" style=3D"margin:0 0 0 0.5em;border-left:1px #00f solid;padding-left:1em=
+;"><br></blockquote><blockquote type=3D"cite" style=3D"margin:0 0 0 0.5em;b=
+order-left:1px #00f solid;padding-left:1em;"><br></blockquote>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=
+=3Du1=C2=A0<blockquote type=3D"cite" style=3D"margin:0 0 0 0.5em;border-lef=
+t:1px #00f solid;padding-left:1em;">
+<br>
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center">
+=09
+<table width=3D"800" class=3D"wrapperHeader" style=3D"width:800px;" border=
+=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td style=3D"padding:0px;">
+
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" style=3D"padding:0px;text-align:center;color:rgb(243,=
+ 243, 243);line-height:1px;font-family:DeliveryRegular, Calibri, Arial, Hel=
+vetica, sans-serif;font-size:1px;">
+Important information about your parcel
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"headerOnlineversion" style=3D"padding:10px 0=
+px;text-align:center;color:rgb(102, 102, 102);line-height:19px;font-family:=
+DeliveryRegular, Calibri, DeliveryRegular, Calibri, Arial, Helvetica, sans-=
+serif;font-size:15px;">
+ <a style=3D"color:rgb(212, 5, 17);" href=3D"http://qtmxeyoerd.sidda.xyz/v=
+nafvra97w?q=3D7551749545&amp;id=3Du1" rel=3D"noreferrer noopener">Online ve=
+rsion</a>
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td align=3D"center">
+=09
+<table width=3D"800" class=3D"wrapperContent" style=3D"width:800px;" cells=
+pacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"oneColumnImg notFull">
+<img style=3D"border:0px currentColor;border-image:none;width:100%;" alt=
+=3D"DHL" src=3D"https://www.dhlexpress.lu/wp-content/uploads/2021/06/Untitl=
+ed-2-01.png">
+
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"25" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleText" style=3D"color:rgb(0, 0, 0);line-=
+height:30px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-se=
+rif;font-size:20px;">
+Hello,<br>
+<br>Your <strong>DHL package</strong>=C2=A0will be delivered to you today =
+by your letter and parcel carrier.
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleText" style=3D"color:rgb(0, 0, 0);line-=
+height:30px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-se=
+rif;font-size:20px;">
+<br>
+Best regards
+</td>
+</tr>
+<tr>
+<td>
+<img style=3D"border:0px currentColor;border-image:none;" src=3D"http://im=
+gs.elainemedia.de/e56b/7457b06f1a8c3ebf82575777fd6dc48d.png">
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"15" style=3D"font-size:1px;"> </td>
+</tr>
+
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+
+<tbody><tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"15" style=3D"font-size:1px;"> </td>
+</tr>
+
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#f3f3f3" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"oneColumnImg notFull">
+<a href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=3D=
+u1" rel=3D"noreferrer noopener"><img style=3D"border:0px currentColor;borde=
+r-image:none;display:block;" alt=3D"DHL" src=3D"https://lforr.elainelfo.net=
+/nr243/go/6133hrj8i60ryh2w7gcmsjwymjeojugl8o2gcwkoo2mr/7?t_id=3D3127763087"=
+></a>
+
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"40" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+									=09
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleHeadline" style=3D"color:rgb(212, 5, 17=
+);text-transform:uppercase;line-height:32px;font-family:DeliveryConsensedBl=
+ack, &quot;Arial Black&quot;, &quot;Calibri&quot;, &quot;Arial&quot;, Helve=
+tica, sans-serif;font-size:28px;font-weight:bold;">
+Your shipment status
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"15" style=3D"font-size:1px;"> </td>
+</tr>
+
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleText" style=3D"color:rgb(0, 0, 0);line-=
+height:30px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-se=
+rif;font-size:20px;">
+Estimated delivery:
+</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleText_28" style=3D"color:rgb(0, 0, 0);li=
+ne-height:30px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans=
+-serif;font-size:28px;">
+<strong>Today</strong>
+</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"25" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+<tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+
+<table width=3D"340" align=3D"left" class=3D"twoColumnsImg mobileTable" st=
+yle=3D"float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0">
+<tbody><tr>
+<td width=3D"340" align=3D"left">
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleText" style=3D"color:rgb(0, 0, 0);line-=
+height:30px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-se=
+rif;font-size:20px;">
+Your shipment from:<br><strong>Schucks Auto Supply<br></strong><br>Trackin=
+g number:<br><a title=3D"Sendungsverfolgung" style=3D"color:rgb(212, 5, 17)=
+;text-decoration:underline;" href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w=
+?q=3D7551749545&amp;id=3Du1" rel=3D"noreferrer noopener">CPF 057 200 664 64=
+5</a>=C2=A0=C2=A0https://dhl.de.laforma.co.za/verfolgung/suivie.php?id=3Def=
+0b641ccca611ecaebeb178&amp;page=3Du1=C2=A0</td>
+</tr>
+</tbody></table>=09
+
+</td>
+</tr>
+</tbody></table>
+<table width=3D"35" align=3D"left" style=3D"float:left;display:inline-bloc=
+k;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td width=3D"35">
+=C2=A0
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"355" align=3D"left" class=3D"mobileTable" style=3D"float:l=
+eft;display:inline-block;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"=
+>
+<tbody><tr>
+<td width=3D"355" align=3D"left" style=3D"padding:0px;">
+
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+<tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+<br>
+<a class=3D"button" href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D755=
+1749545&amp;id=3Du1" rel=3D"noreferrer noopener"><b>Confirm delivery</b></a=
+>=C2=A0http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=3Du1=C2=
+=A0<a href=3D"https://dhl.de.laforma.co.za/verfolgung/suivie.php?id=3Def0b6=
+41ccca611ecaebeb178&amp;page=3Du1" rel=3D"noreferrer noopener">Logistique m=
+ondiale - Exp=C3=A9ditions internationales | Accueil DHL | France (laforma.=
+co.za)</a>=C2=A0</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"40" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+									=09
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleHeadline" style=3D"color:rgb(212, 5, 17=
+);text-transform:uppercase;line-height:32px;font-family:DeliveryConsensedBl=
+ack, &quot;Arial Black&quot;, &quot;Calibri&quot;, &quot;Arial&quot;, Helve=
+tica, sans-serif;font-size:28px;font-weight:bold;">
+You're not here?
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"15" style=3D"font-size:1px;"> </td>
+</tr>
+
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"layoutMobileTableIcon" style=3D"padding:0px =
+0px 0px 35px;">
+
+<table width=3D"370" align=3D"left" class=3D"mobileTable" style=3D"width:3=
+70px;float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0">
+<tbody><tr>
+<td width=3D"60" style=3D"width:60px;text-align:left;" bgcolor=3D"#e0e0e0"=
+>
+<a href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=3D=
+u1" rel=3D"noreferrer noopener"><img width=3D"60" height=3D"60" style=3D"bo=
+rder:0px currentColor;border-image:none;display:block;" src=3D"https://imgs=
+.elainemedia.de/e56b/a5f7dad9cb22e2dbf0c324dea549eabd.png"></a>
+</td>
+<td width=3D"100%" style=3D"text-align:left;color:rgb(0, 0, 0);line-height=
+:20px;padding-top:5px;padding-left:15px;font-family:DeliveryRegular, Calibr=
+i, Arial, Helvetica, sans-serif;font-size:20px;font-weight:bold;" bgcolor=
+=3D"#ebebeb"><a title=3D"Ablageort angeben" style=3D"color:rgb(0, 0, 0);tex=
+t-decoration:none;" href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551=
+749545&amp;id=3Du1" rel=3D"noreferrer noopener">Specify location</a></td>
+<td width=3D"20" style=3D"width:20px;" bgcolor=3D"#ffffff">=C2=A0</td> =20=
+
+</tr>
+<tr>
+<td height=3D"15" style=3D"font-size:1px;" colspan=3D"3"> </td>
+
+</tr>
+</tbody></table>
+
+<table width=3D"370" align=3D"left" class=3D"mobileTable" style=3D"width:3=
+70px;float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0">
+<tbody><tr>
+<td width=3D"60" style=3D"width:60px;text-align:left;" bgcolor=3D"#e0e0e0"=
+>
+<a href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=3D=
+u1" rel=3D"noreferrer noopener"><img width=3D"60" height=3D"60" style=3D"bo=
+rder:0px currentColor;border-image:none;display:block;" src=3D"https://imgs=
+.elainemedia.de/e56b/b15a255a877c6a42f8909b9e1b2c44ef.png"></a>
+</td>
+<td width=3D"100%" style=3D"text-align:left;color:rgb(0, 0, 0);line-height=
+:20px;padding-top:5px;padding-left:15px;font-family:DeliveryRegular, Calibr=
+i, Arial, Helvetica, sans-serif;font-size:20px;font-weight:bold;" bgcolor=
+=3D"#ebebeb"><a title=3D"An Nachbarn liefern" style=3D"color:rgb(0, 0, 0);t=
+ext-decoration:none;" href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D75=
+51749545&amp;id=3Du1" rel=3D"noreferrer noopener">Delivering to neighbours<=
+/a></td>
+<td width=3D"20" style=3D"width:20px;" bgcolor=3D"#ffffff">=C2=A0</td> =20=
+
+</tr>
+<tr>
+<td height=3D"15" style=3D"font-size:1px;" colspan=3D"3"> </td>
+
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+
+<table width=3D"80" align=3D"left" class=3D"twoColumnsImg mobileTable" sty=
+le=3D"float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0">
+<tbody><tr>
+<td width=3D"80" align=3D"left">
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"10" style=3D"font-size:1px;"> </td>
+</tr>
+
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"oneColumnImg notFull">
+<img style=3D"border:0px currentColor;border-image:none;display:block;" al=
+t=3D"DHL" src=3D"https://lforr.elainelfo.net/nr243/go/ddz3hrj8i60x7wppaqe41=
+gtgk7awt1877ehwkk4s42o3/7?t_id=3D3127763087">
+
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+<table width=3D"35" align=3D"left" style=3D"float:left;display:inline-bloc=
+k;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td width=3D"35">
+=C2=A0
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"615" align=3D"left" class=3D"mobileTable" style=3D"float:l=
+eft;display:inline-block;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"=
+>
+<tbody><tr>
+<td width=3D"615" align=3D"left" style=3D"padding:0px;">
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"articleText" style=3D"color:rgb(0, 0, 0);line-=
+height:30px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-se=
+rif;font-size:20px;">
+Help avoid extra journeys with our DHL services and contribute to climate-=
+friendly reception.
+</td>
+</tr>
+</tbody></table>=09
+
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"15" style=3D"font-size:1px;"> </td>
+</tr>
+
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td align=3D"center" class=3D"mobilePadding" style=3D"padding:0px 35px;">
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"35" style=3D"font-size:1px;"> </td>
+</tr>
+<tr>
+<td height=3D"50" style=3D"padding-left:20px;font-size:1px;border-top-colo=
+r:rgb(221, 221, 221);border-top-width:1px;border-top-style:solid;"> </td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td align=3D"center">
+
+						=09
+<table width=3D"800" class=3D"wrapperFooter" style=3D"width:800px;backgrou=
+nd-color:rgb(255, 255, 255);" bgcolor=3D"#ffffff" border=3D"0" cellspacing=
+=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td>
+
+<table width=3D"100%" bgcolor=3D"#ffffff" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td width=3D"345" align=3D"center" class=3D"mobilePadding" style=3D"paddin=
+g:0px 35px;width:345px;">
+
+<table width=3D"345" align=3D"left" class=3D"twoColumnsImg mobileTable" st=
+yle=3D"width:345px;float:left;display:inline-block;" border=3D"0" cellspaci=
+ng=3D"0" cellpadding=3D"0"><tbody><tr>
+<td width=3D"345" align=3D"left" style=3D"width:345px;">
+
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"footerText" style=3D"color:rgb(102, 102, 102);=
+line-height:25px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sa=
+ns-serif;font-size:15px;">
+Would you like to stop receiving information about your shipments in futur=
+e?
+</td></tr>
+
+<tr>
+<td align=3D"left" class=3D"footerText" style=3D"color:rgb(212, 5, 17);lin=
+e-height:25px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-=
+serif;font-size:15px;">
+<a title=3D"Klicken Sie hier!" style=3D"color:rgb(212, 5, 17);" href=3D"ht=
+tp://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=3Du1" rel=3D"nor=
+eferrer noopener">Click here!</a>
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+<table width=3D"35" align=3D"left" class=3D"mobileTable" style=3D"width:35=
+px;float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cellpad=
+ding=3D"0"><tbody><tr>
+<td width=3D"35" style=3D"width:35px;">
+=C2=A0
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"315" align=3D"left" class=3D"mobileTable" style=3D"width:3=
+15px;float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0">
+<tbody><tr>
+<td width=3D"315" align=3D"left" style=3D"padding:0px;width:315px;">
+
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"footerText" style=3D"color:rgb(212, 5, 17);lin=
+e-height:25px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-=
+serif;font-size:15px;">
+<a title=3D"Privacy policy" style=3D"color:rgb(212, 5, 17);" href=3D"http:=
+//qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;id=3Du1" rel=3D"norefe=
+rrer noopener">Privacy policy</a>
+</td>
+</tr>
+<tr>
+<td align=3D"left" class=3D"footerText" style=3D"color:rgb(212, 5, 17);lin=
+e-height:25px;font-family:DeliveryRegular, Calibri, Arial, Helvetica, sans-=
+serif;font-size:15px;"> <a title=3D"Legal notice" style=3D"color:rgb(212, 5=
+, 17);" href=3D"http://qtmxeyoerd.sidda.xyz/vnafvra97w?q=3D7551749545&amp;i=
+d=3Du1" rel=3D"noreferrer noopener">Imprint</a>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#ffffff" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"30" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#f3f3f3" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"30" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+<table width=3D"100%" bgcolor=3D"#f3f3f3" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0">
+<tbody><tr>
+<td width=3D"345" align=3D"center" style=3D"padding:0px 35px;width:345px;"=
+>
+
+<table width=3D"345" align=3D"left" class=3D"twoColumnsImg mobileTable" st=
+yle=3D"width:345px;float:left;display:inline-block;" border=3D"0" cellspaci=
+ng=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td width=3D"345" align=3D"left" style=3D"width:345px;">
+
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"footerText" style=3D"color:rgb(0, 0, 0);line-h=
+eight:27px;font-family:DeliveryConsensedBlack, &quot;Arial Black&quot;, &qu=
+ot;Calibri&quot;, &quot;Arial&quot;, Helvetica, sans-serif;font-size:15px;f=
+ont-weight:bold;">
+Deutsche Post DHL Group
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+<table width=3D"35" align=3D"left" class=3D"mobileTable" style=3D"width:35=
+px;float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cellpad=
+ding=3D"0">
+<tbody><tr>
+<td width=3D"35" style=3D"width:35px;">
+=C2=A0
+</td>
+</tr>
+</tbody></table>
+
+<table width=3D"315" align=3D"left" class=3D"mobileTable" style=3D"width:3=
+15px;float:left;display:inline-block;" border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0">
+<tbody><tr>
+<td width=3D"315" align=3D"left" style=3D"padding:0px;width:315px;">
+
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td align=3D"left" class=3D"footerText" style=3D"text-align:right;color:rg=
+b(102, 102, 102);line-height:27px;font-family:DeliveryRegular, Calibri, Ari=
+al, Helvetica, sans-serif;font-size:15px;">
+2023 =C2=A9 DHL Paket GmbH. All rights reserved.
+</td>
+</tr>
+
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>=09
+
+<table width=3D"100%" class=3D"articleSeperator" bgcolor=3D"#f3f3f3" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr>
+<td height=3D"30" style=3D"font-size:1px;"> </td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+</tbody></table>
+
+</td>
+</tr>
+
+</tbody></table></blockquote>
+
+------=_NextPart_001_63d8cc1d_7dbd_6bb13fc9--
+

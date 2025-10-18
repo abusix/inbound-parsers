@@ -1,0 +1,951 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@Softwarelink.onmicrosoft.com header.d=Softwarelink.onmicrosoft.com header.s=selector2-Softwarelink-onmicrosoft-com;
+	dkim=pass header.i=@amazonses.com header.d=amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx;
+	dkim=pass header.i=@services.secureserver.net header.d=services.secureserver.net header.s=atlassian-3c8fdc
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2117.outbound.protection.outlook.com [40.107.92.117])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 30D84774-EB6E-40E2-B284-49483F97A72F.1
+	envelope-from <bounces+SRS=vbofn=2D@summithosting.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 22 Jul 2025 06:44:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n9TBe4tvORU9jwPdqx/Z3uLxZnlKiNqg0A2RPRfpQ6VCb8gWPueoEjsj9NuQMjdy+e2Ij6m3i3lJnIhRcfaoBTzVhioIEjeQyDFcigfaVdU7TITmLAW+OmNwFf4YMKGleQoKQgBwygGYnfJFeq7pAkyZYsLt9TQI4URdEXeuzzA+cwn+z7DBLN9qT7rRh9Wqoat9Hc1kfSSc8d01u85ex3botGSi4Dxwl93S+fAhYNBk4Xj7kWU6vv3FtJbuUh5aTT7YeZcMEfKGi1WGxQip1xmWH9EaEI2D2buPMWqD0Q3KRfNK6gfRz8zUZ/KpA/iqt2k+8sY02prNjFH5VpFelA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xtmntD2yuOrklltTFPjUgnc0jX/CtAvAuLhGNp4HsZk=;
+ b=VEIInbZWDW10+OxApja6chErMPg7coe901JOHtChp45HnSYTmuDbSlAhxXHRq20q2DA+HC+O/ZRMjwFxkjk466P1s3mpIHx20usoZgrAOYI4EHq8sMOAJ7DiPw/uVaL0d0XF/VeyYyTiuQVEvn2tdvhiNTyiJ5aWVXka+EIwJG2xSRnnb9n/YOdEqpa2ag6aKvMDg0Exic/sGYfrIYuKJZ1pfRnuCh5AhwZw/0glmkUG11QNSPeivtxOC6VBJcuT6Z1n6Fbl9kqfg5C26pTcBjFcyWnPoNPny++93E/CxN/BkHbHM6Lr46nfPVYlR9Z0nM2w3rLEbgM0Qkw5GaCJdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 76.223.147.206) smtp.rcpttodomain=servercentral.com
+ smtp.mailfrom=atlassian-bounces.services.secureserver.net; dmarc=pass (p=none
+ sp=none pct=100) action=none header.from=services.secureserver.net; dkim=pass
+ (signature was verified) header.d=services.secureserver.net; dkim=pass
+ (signature was verified) header.d=amazonses.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Softwarelink.onmicrosoft.com; s=selector2-Softwarelink-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xtmntD2yuOrklltTFPjUgnc0jX/CtAvAuLhGNp4HsZk=;
+ b=cA0ONI6KRzpo5rrVXnaDOuPxcZyZNIddN3EGwYeL/K/fhdUJIzvXUvWf/s4hX0D7qEp0gzN28qZLrjWVqSpwx9Xs7JnLa/sPH04NySPD7YPJyeni+MvqlxMw7uBbMrOzXIFeogkcmk65t/31uhPZsKz97507dMCe/xN8izI2CYw=
+Received: from BLAPR03CA0116.namprd03.prod.outlook.com (2603:10b6:208:32a::31)
+ by IA2PR18MB5933.namprd18.prod.outlook.com (2603:10b6:208:4b9::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
+ 2025 06:44:54 +0000
+Received: from MN1PEPF0000F0E4.namprd04.prod.outlook.com
+ (2603:10b6:208:32a:cafe::40) by BLAPR03CA0116.outlook.office365.com
+ (2603:10b6:208:32a::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.29 via Frontend Transport; Tue,
+ 22 Jul 2025 06:44:54 +0000
+Received-SPF: Pass (protection.outlook.com: domain of
+ atlassian-bounces.services.secureserver.net designates 76.223.147.206 as
+ permitted sender) receiver=protection.outlook.com; client-ip=76.223.147.206;
+ helo=c147-206.smtp-out.us-west-2.amazonses.com; pr=C
+Received: from c147-206.smtp-out.us-west-2.amazonses.com (76.223.147.206) by
+ MN1PEPF0000F0E4.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.20
+ via Frontend Transport; Tue, 22 Jul 2025 06:44:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=atlassian-3c8fdc; d=services.secureserver.net; t=1753166692;
+	h=Content-Type:Date:From:In-Reply-To:Message-Id:Mime-Version:References:Subject:To:Reply-To;
+	bh=Ycjn2qkwD0m86d6f89iQGShSbNj9KtzXP6zu7ktM5M8=;
+	b=uZ1Hzqzj3lqbyTVVz8PwK9LH7swGWdbX7vWrDL5dZ68WjwP5aH7eqWKAo+R23ePS
+	nLC9FX9m7hLnm4H6CNk6JgvBMxZzNQLRgLCLr/GX2veWQ0KAoOtHODq0pmi2XQR2Qec
+	llZjo2EPCc3HmtwrQhMnniBvIxGN+pgTxUkjVxvk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753166692;
+	h=Content-Type:Date:Feedback-Id:From:In-Reply-To:Message-Id:Mime-Version:References:Subject:To:Reply-To;
+	bh=Ycjn2qkwD0m86d6f89iQGShSbNj9KtzXP6zu7ktM5M8=;
+	b=VZPqrk4LsN5k9NtR7pPlrEwmRKlSSvWQCafptohIFdW825Amk0ZeqRVn7aUQ0K8M
+	UzWqtp4fxnB8uL1dzAkRnSTXHQZuHwDpB72n2EM3MyTc3J0QHvSZoC15LZKfYhdFI87
+	fHwlTmgORGYQRhwjqSlQIFeB5u5tctlB8tahoJZU=
+Auto-Submitted: auto-generated
+Content-Type: multipart/related;
+ boundary=enmime-c90ee66b-3501-4d77-a593-e9530fa252e2
+Date: Tue, 22 Jul 2025 06:44:52 +0000
+Feedback-Id: ip.81ee6cfa:la.jira-servicedesk.CN_PUBLIC_COMMENT_ADDED:1.us-west-2.u9hdoCrnwzQL898efjSTx45gSzOWeGOryLqifXjQ7UQ=:AmazonSES
+From: Claim Support <care@services.secureserver.net>
+In-Reply-To: <JIRA.5786682.1736245540000@Atlassian.JIRA>
+Message-ID: <0101019830e0c05d-0b87fd91-4f8f-44d3-aa46-0325185d2ec8-000000@us-west-2.amazonses.com>
+Mime-Version: 1.0
+Precedence: bulk
+References: <JIRA.5786682.1736245540000@Atlassian.JIRA>
+ <JIRA.5786682.1736245540128@eee17c970363>
+Subject: Notice of claimed infringement - beetsneakers.com (104.19.164.107)
+ - LEGO-47582
+To: "abuse@servercentral.com" <abuse@servercentral.com>
+X-Atlassian-Mail-Message-Id: <JIRA.5786682.1736245540000.9ead746d-d238-49df-8774-342c32782e92.1753166691798@Atlassian.JIRA>
+X-Atlassian-Mail-Transaction-Id: 3e05eb65-8bbe-463c-9fd3-380ca1c09c17
+X-Jira-Fingerprint: 266e05c6bd2426ddd3a59e13571c2bb84045d7c3acaf3513ea0866c50d5be7b9
+Reply-To: review@secureserver.net
+X-SES-Outgoing: 2025.07.22-76.223.147.206
+Return-Path:
+	0101019830e0c05d-0b87fd91-4f8f-44d3-aa46-0325185d2ec8-000000@atlassian-bounces.services.secureserver.net
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: b7124e88-0e78-46ed-b6cf-2a05bd791c0b:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E4:EE_|IA2PR18MB5933:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07f505f2-937d-4046-16e2-08ddc8eb443b
+X-LD-Processed: b7124e88-0e78-46ed-b6cf-2a05bd791c0b,ExtAddr
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|9140799003|7093399015|69100299015|376014|48200799018|61400799027|32142699015|8096899003|4053099003|13003099007|9766925004;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eDNPakpoYmZ0aWl5UitCSmhZZ1B6NzExQzlUMkNZK2tPZW02cGNGR1FXR0tu?=
+ =?utf-8?B?MjZ1dVJJeWtYWnlhZ1YxNEdZSkk2VUVnQ3BmZ296TkZUSFZMZDQybFBiQ0My?=
+ =?utf-8?B?dUNDUnV4eXMyYXJyeTNJcUNNanR6dFNPTzY0amV3ZGxVZlkxT2VqRkZWWUF4?=
+ =?utf-8?B?dmU1Nm1INHhxZ0Z1ZitsWEFpQXpxbWdCdWtkUkUxSlBwTkR2UGx2cjNKNXFh?=
+ =?utf-8?B?elYya3hQcWFaOFZ5dTN4VWtCYW82UGRObDc2bVBCelpEb002UWhhQ250cWh1?=
+ =?utf-8?B?QXVRWllERnhLWjZ4VlJ4c2VhVCtqQ2JkenJzblF4bFIxUEFLTG82NlovZ084?=
+ =?utf-8?B?T2F0MFRPaHZRYVNxcW8zaDMrN1M2VlVRbkFlQ3pxeEhvYTBsajdsMVIyOC9U?=
+ =?utf-8?B?TFdyVHFRajNraUkxRnMzVERlaU5wS2oyQ21HZG1xL1lxUURTbG1FajN4OVNR?=
+ =?utf-8?B?UU5JdFRhL3cxaUk5Ui9pSE9JNzJ1bW5LajFxRThUMVJ6NGtteGpHYmh4U25Q?=
+ =?utf-8?B?M1RFV3NBMHF6RWxlOWpqdGszM1RNTmV1MVJoNHg3VU0xMUhuOURqWEgzQkx0?=
+ =?utf-8?B?aU1MMTdlM0tETTNNSWpXeXkzSnp6aElDN1NHSlJjYmhkdnAxYWxjcXE1Y3d1?=
+ =?utf-8?B?ZVBYTlRWN0RobmErT0dNSFlMQ3l3ZHA3bkRrWmZJVnBocm1oRzh1TmNpamE2?=
+ =?utf-8?B?bkhTOEoyemdRMVlFeXlqU01MOHlKcHRYdlBmeks2aWFkcUJqdExoSDVyYno0?=
+ =?utf-8?B?NHF0aGRuMWQ3TVVoR0lkOFp4eU5Hb2RUNk43VVBYWVdoNnJJTTNQblB0b0xi?=
+ =?utf-8?B?TjM4RnArUUZMek5oNzBYT1JkbytvaWFDRVJCTDhZc3Y1TnkxbGhERGl1b2ZP?=
+ =?utf-8?B?ZXdaZ0dTR3lyK3BKa0t1OEZ1Z1FvdWdaWDQ2Qjlsc1pLaXFUS1hDeHYxdGdD?=
+ =?utf-8?B?TTExUThYbmVweHE5dHhzVGFCejJoYzJOYzJmVC85Z0hXKzVnekVxOVNkYVg0?=
+ =?utf-8?B?SlppVEJwQU1PK08rT2dVdnFoU0lWcit2ZUtmWjkyT0l6YjZZMk1GUHlQQUVN?=
+ =?utf-8?B?cERiVnJ1M2dRN0ZDWE12ZHhyb0Z6RnpRNVdvSTZheUtFelVJNlozSTZaSFBF?=
+ =?utf-8?B?M1F5elQ5KzcvUjZ4aktuUGhYYjBRWGgrWFZTNTJydkNDVHI4dFNvODFFYTl1?=
+ =?utf-8?B?dVBZSnBMbEpLZGV2MHlINU5mb09wbU02djYrT0tNRlJ6a3BQWi9aazVjVVJ4?=
+ =?utf-8?B?eUduc1grUGIraDhZcVJFYjc4cUtTSzZXSFlYU3JxL2dWYk5pVHdlWDRwemRo?=
+ =?utf-8?B?MHprUS9qNU9Na0taYlcwT3BlZE5mVHlpNHRhdDc4UCsxaWhXellJTnlPMWRG?=
+ =?utf-8?B?UHJtc1hkTyttdUVJOEhYd3o4SkkvdzVRTjlLeXVqeDFHd2dLTW55RlpzWkd6?=
+ =?utf-8?B?ci9rNWEreW9CVmJuS0pndnVuMGE1dlU0RGg4Z3BiTDgyUlNKYTl0TVNoQ1Vk?=
+ =?utf-8?B?NVROMFN2UlZpUUE2ZWpMeUxsL3JnVlp1UFEwUng4OHB2YW9BNE9Nbi8xMDcz?=
+ =?utf-8?B?OCs3cjFXVUp1U1BLanJ5MUR5MEdRbWZMRnpyNGF1KzRDOEZmcmk1NytzQ3JY?=
+ =?utf-8?B?dWd4R3Y2MzRxSER1Unp5U0hDMWJ2SUwzVDZyUENJMnpacFpWSElubDRybHd4?=
+ =?utf-8?B?VmQ2VndESnpIeXpZcUFNclBIWjBUQlZlM0R3UG5OK2ZBQjNSZDRlY3ZkMTQ5?=
+ =?utf-8?B?bCtBTDNnSVhrSTJTVisxZUVYZkN2ZFl2cXhlZ1hzV0NyV29UUlhrY1pnVjFZ?=
+ =?utf-8?B?Y1paL2hEM0VOdW5EMWlldmVwb3VnNW9LSlRzZ05BOWZxKzZ3WUh4ckZONWdT?=
+ =?utf-8?B?cHBwOXk4RTQ1Q2RQZFlHY0hxOEFPbVZYL3ZtMVFscThvWHdqdTBzTGdpVDgr?=
+ =?utf-8?B?dU9CQWliTnozQlp4YWEybjBUN2crSnhzNExrUFVobWlzeDBuYTR4RUdnS3lI?=
+ =?utf-8?B?dldkSUd1bGQzcHlDQkE0cHpIbFo3UjRNeTFaQWd4KzdIWGlVZ0lwcld5R3ZB?=
+ =?utf-8?Q?uQDuCd?=
+X-Forefront-Antispam-Report:
+	CIP:76.223.147.206;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:c147-206.smtp-out.us-west-2.amazonses.com;PTR:c147-206.smtp-out.us-west-2.amazonses.com;CAT:NONE;SFS:(13230040)(9140799003)(7093399015)(69100299015)(376014)(48200799018)(61400799027)(32142699015)(8096899003)(4053099003)(13003099007)(9766925004);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: b7124e88-0e78-46ed-b6cf-2a05bd791c0b
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-OriginatorOrg: summithosting.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 06:44:53.8130
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07f505f2-937d-4046-16e2-08ddc8eb443b
+X-MS-Exchange-CrossTenant-Id: b7124e88-0e78-46ed-b6cf-2a05bd791c0b
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000F0E4.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA2PR18MB5933
+Original-Authentication-Results: spf=pass (sender IP is 76.223.147.206)
+ smtp.mailfrom=atlassian-bounces.services.secureserver.net; dkim=pass
+ (signature was verified) header.d=services.secureserver.net;dkim=pass
+ (signature was verified) header.d=amazonses.com;dmarc=pass action=none
+ header.from=services.secureserver.net;
+
+--enmime-c90ee66b-3501-4d77-a593-e9530fa252e2
+Content-Type: multipart/alternative;
+ boundary=enmime-7819b041-aff5-429b-a4d5-4f6b868a6817
+
+--enmime-7819b041-aff5-429b-a4d5-4f6b868a6817
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+=E2=80=94-=E2=80=94-=E2=80=94-=E2=80=94
+
+Reply above this line.
+
+
+
+Notice of Claimed Infringement
+
+To Whom It May Concern:
+
+Authentix Inc (=E2=80=9CATX=E2=80=9D) represents Levi Strauss & Co. (=E2=80=
+=98Client=E2=80=99), a company incorporated in United States, in the monito=
+ring and worldwide enforcement of its intellectual property rights online.
+
+Our Client is the registered proprietor of the trademark LEVI=E2=80=99S in =
+numerous countries around the world including =E2=80=9CCanada=E2=80=9D via =
+Registration No. UCA15514. By virtue of extensive use and promotion, the tr=
+ademark enjoys a high degree of reputation and is associated with the Clien=
+t and their products worldwide.
+
+It has come to our attention that the website =E2=80=9C[1]https://www.utrec=
+htsemode.nl/en/products/levi-trendy-corduroy-jas-voor-heren?srsltid=3DAfmBO=
+ooUAnW8hHGEFD6zyZFsy6IyOInBoRqQssgjwM1-aTglVl_S6CwP=E2=80=9D is offering fo=
+r sale products bearing our Client=E2=80=99s trademark. The details of the =
+infringing products are as follows:
+
+Infringing url	Domain Name	IP Adress
+[2]https://www.utrechtsemode.nl/en/products/levi-trendy-corduroy-jas-voor-h=
+eren?srsltid=3DAfmBOooUAnW8hHGEFD6zyZFsy6IyOInBoRqQssgjwM1-aTglVl_S6CwP	utr=
+echtsemode.nl	23.227.38.65
+
+The listings in the reported website is using our client=E2=80=99s register=
+ed trademark LEVI=E2=80=99S in the product title/description without their =
+authorization. Such unauthorized use is likely to confuse consumers into be=
+lieving that the product in the listing is associated with our client=E2=80=
+=99s brand, which is not the case. This is highly detrimental to our client=
+=E2=80=99s business and infringes upon their trademark rights. Therefore, t=
+he listing should be removed.
+
+In view the above, we ask that you immediately remove the infringing websit=
+e and inform the registrant/owner of their infringing use.
+
+Please acknowledge receipt of the letter as soon as possible.
+
+We look forward to hearing from you.
+
+Yours sincerely,
+
+Authentix Inc (=E2=80=9CATX=E2=80=9D)
+
+(On behalf of Levi Strauss & Co.)
+
+:EXTERNAL: :NOTICE: The contents of this communication (whether in physical=
+ or electronic form) contains confidential and proprietary information that=
+ is the property of Authentix, Inc., its subsidiaries and affiliates, and i=
+s not for publication, distribution or dissemination without the express wr=
+itten consent of Authentix, Inc., its subsidiaries and affiliates and is in=
+tended for use only by the recipient.
+
+[3]LEVI'S Canada 8, 9, 12, 14, 16, 18, 21, 24, 25, 28, 35 (ba037685-691d-4b=
+8a-a25c-560b7e1b101c).pdf (329 kB)
+
+[4]LEVI STRAUSS & CO. - DE CERTIFIED COPY business liscence (05650fb3-eb97-=
+4928-96d9-6d4317bced39).PDF (146 kB)
+
+[5]
+
+[6]Levi's Brands POA (6b396fa3-2537-4f2c-99a9-70be10feaed2).pdf (587 kB)
+
+[7]Authentix, Incorporation (59362dc5-39db-41de-94af-ecfac2f05e17).pdf (102=
+2 kB)
+---------------------------------------------------------------------------=
+-------------
+[1] https://urldefense.com/v3/__https://www.utrechtsemode.nl/en/products/le=
+vi-trendy-corduroy-jas-voor-heren?srsltid=3DAfmBOooUAnW8hHGEFD6zyZFsy6IyOIn=
+BoRqQssgjwM1-aTglVl_S6CwP__;!!Hj18uoVe_Lnx!tOA64FGStbrwEJhKe27T1Y1AAsVWd98B=
+q3nPaybRDyCDgs4_MDOX3HkjvRC_Lt2nlQcec_0o5pCitbHTC91PxC0$
+[2] https://urldefense.com/v3/__https://www.utrechtsemode.nl/en/products/le=
+vi-trendy-corduroy-jas-voor-heren?srsltid=3DAfmBOooUAnW8hHGEFD6zyZFsy6IyOIn=
+BoRqQssgjwM1-aTglVl_S6CwP__;!!Hj18uoVe_Lnx!tOA64FGStbrwEJhKe27T1Y1AAsVWd98B=
+q3nPaybRDyCDgs4_MDOX3HkjvRC_Lt2nlQcec_0o5pCitbHTC91PxC0$
+[3] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZj=
+lkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3O=
+GNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk0MyIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV4=
+cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.dlNQJLmANHwiGiKI1SfhIbe56TccgHpA=
+Dlt1xo4SOuQ
+[4] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZj=
+lkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3O=
+GNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk0NiIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV4=
+cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.4Iqbiy1JlqkBGZx57J3-T74leHP6ZiqQ=
+YFo16aeNgYA
+[5] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZj=
+lkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3O=
+GNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk0OCIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV4=
+cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.2d02Zl4mdxj_GczONbwc-Xv8QJuXr2OX=
+77t82NUa8A8
+[6] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZj=
+lkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3O=
+GNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk1MSIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV4=
+cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.kL4HjbkZJcMpLGmuXeXfVOwW2Mm0re9S=
+EtzdqWokLUw
+[7] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZj=
+lkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3O=
+GNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk1NSIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV4=
+cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.1BlA8SZF1dztyPhNl9akydRrydVzBILa=
+0dgnziZFvCQ
+--enmime-7819b041-aff5-429b-a4d5-4f6b868a6817
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office" lang=3D"en"=
+>
+ <head>
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0"><base href=3D"https://care-godaddy.atlassian.net">
+ </head>
+ <body style=3D"background-color:#F5F7F8;; margin: 0; padding: 0; -webkit-t=
+ext-size-adjust: 100%; -ms-text-size-adjust: 100%; line-height: 34px; margi=
+n: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100=
+%; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adj=
+ust: 100%">
+  <script type=3D"application/ld+json">{"@context":"http://schema.org","typ=
+e":"EmailMessage","description":"View request","potentialAction":{"@type":"=
+ViewAction","target":"https://care.support.secureserver.net/servicedesk/cus=
+tomer/portal/51/LEGO-47582?token=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ=
+0Z3QiOiJhbm9ueW1vdXMtbGluayIsInFzaCI6ImMzNzNjMTI5MjlhMzRjNWYxMDc4ODVhODc2Mj=
+JlYTBkYmJlYzVmNGE2MmU5YThkMzdiOWM0OThkZDM3MGVhNjQiLCJpc3MiOiJzZXJ2aWNlZGVza=
+y1qd3QtdG9rZW4taXNzdWVyIiwiY29udGV4dCI6eyJ1c2VyIjoiMTIyNTY4NiIsImlzc3VlIjoi=
+TEVHTy00NzU4MiJ9LCJleHAiOjE3NTU1ODU4OTEsImlhdCI6MTc1MzE2NjY5MX0.JABNRvm1RPh=
+o6AD5fhyAXgu3l50PfXzAnRmhIJ2PbnI&sda_source=3Dnotification-email-action","n=
+ame":"View request"},"publisher":{"@type":"Organization","name":"Atlassian"=
+,"url":"https://www.atlassian.com"}}</script>
+  <div class=3D"jsd-reply-marker" style=3D"visibility: hidden; color: #f5f7=
+f8">
+   =E2=80=94-=E2=80=94-=E2=80=94-=E2=80=94
+  </div>
+  <title> </title> <!--[if !mso]><!-- -->
+  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"> <!--<![endif]=
+-->
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+  <style type=3D"text/css">
+    #outlook a {
+      padding: 0;
+    }
+
+    .ReadMsgBody {
+      width: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+
+    .ExternalClass * {
+      line-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    p {
+      display: block;
+      margin: 13px 0;
+    }
+  </style> <!--[if !mso]><!-->
+  <style type=3D"text/css">
+    @media only screen and (max-width:480px) {
+      @-ms-viewport {
+        width: 320px;
+      }
+      @viewport {
+        width: 320px;
+      }
+    }
+  </style> <!--<![endif]--> <!--[if mso]>
+        <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+        <![endif]--> <!--[if lte mso 11]>
+        <style type=3D"text/css">
+          .outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]--> <!--[if !mso]><!-->
+  <link href=3D"https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
+0,700" rel=3D"stylesheet" type=3D"text/css">
+  <style type=3D"text/css">
+    @import url(https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
+0,700);
+  </style> <!--<![endif]-->
+  <style type=3D"text/css">
+    @media only screen and (min-width:480px) {
+      .mj-column-per-100 {
+        width: 100% !important;
+        max-width: 100%;
+      }
+    }
+  </style>
+  <style type=3D"text/css">
+    @media only screen and (max-width:480px) {
+      table.full-width-mobile {
+        width: 100% !important;
+      }
+      td.full-width-mobile {
+        width: auto !important;
+      }
+    }
+  </style>
+  <div style=3D"background-color:#F5F7F8;">
+   <!--[if mso | IE]>
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:600px;" width=3D"600"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]-->
+   <div style=3D"background:#FFFFFF;background-color:#FFFFFF;Margin:0px aut=
+o;max-width:600px;">
+    <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"background:#FFFFFF;background-color:#FFFFF=
+F;width:100%;; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-=
+rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rs=
+pace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspa=
+ce: 0pt">
+     <tbody>
+      <tr>
+       <td style=3D"direction:ltr;font-size:0px;padding:10px 0;text-align:c=
+enter;vertical-align:top;; border-collapse: collapse; mso-table-lspace: 0pt=
+; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; =
+mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; ms=
+o-table-rspace: 0pt"><!--[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+               =20
+        <tr>
+     =20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:600px;"
+            >
+          <![endif]-->
+        <div class=3D"mj-column-per-100 outlook-group-fix" style=3D"font-si=
+ze:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:t=
+op;width:100%;">
+         <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pr=
+esentation" style=3D"vertical-align:top;; border-collapse: collapse; mso-ta=
+ble-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-tabl=
+e-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-=
+lspace: 0pt; mso-table-rspace: 0pt" width=3D"100%">
+          <tbody>
+           <tr>
+            <td align=3D"center" style=3D"font-size:0px;word-break:break-wo=
+rd;; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;=
+ border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+             <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
+=3D"presentation" style=3D"border-collapse:collapse;border-spacing:0px;; bo=
+rder-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; bord=
+er-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border=
+-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+              <tbody>
+               <tr>
+                <td style=3D"border-collapse: collapse; mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt=
+; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; =
+mso-table-rspace: 0pt"></td>
+               </tr>
+              </tbody>
+             </table></td>
+           </tr>
+           <tr>
+            <td style=3D"font-size:0px; padding:20px 25px; word-break:break=
+-word;; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace:=
+ 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0=
+pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt=
+"><p style=3D"border-top:solid 2px #BAC0C3;font-size:1;margin:0px auto;widt=
+h:100%;; display: block; margin: 13px 0; display: block; margin: 13px 0; di=
+splay: block; margin: 13px 0"></p> <!--[if mso | IE]>
+        <table
+           align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:solid 2px #1BDBDB;font-size:1;margin:0px auto;width:5=
+50px;" role=3D"presentation" width=3D"550px"
+        >
+          <tr>
+            <td style=3D"height:0;line-height:0;">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      <![endif]--></td>
+           </tr>
+           <tr>
+            <td align=3D"left" style=3D"font-size:0px; padding:10px 25px; w=
+ord-break:break-word;; border-collapse: collapse; mso-table-lspace: 0pt; ms=
+o-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-=
+table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-ta=
+ble-rspace: 0pt">
+             <div style=3D"font-family:helvetica, sans-serif;font-size:16px=
+;line-height:1.5;text-align:left;color:#000000;">
+              <div class=3D"jsd-activity-item-content">
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><b>Notice of Claimed Infrin=
+gement</b></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">To Whom It May Concern:</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><b>Authentix Inc (=E2=80=9C=
+ATX=E2=80=9D)</b> represents <b>Levi Strauss &amp; Co.</b> (=E2=80=98Client=
+=E2=80=99), a company incorporated in United States, in the monitoring and =
+worldwide enforcement of its intellectual property rights online.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">Our Client is the registere=
+d proprietor of the trademark <b>LEVI=E2=80=99S</b> in numerous countries a=
+round the world including =E2=80=9CCanada=E2=80=9D via Registration No. UCA=
+15514. By virtue of extensive use and promotion, the trademark enjoys a hig=
+h degree of reputation and is associated with the Client and their products=
+ worldwide.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">It has come to our attentio=
+n that the website =E2=80=9C<font color=3D"#172B4D"></font><a href=3D"https=
+://urldefense.com/v3/__https://www.utrechtsemode.nl/en/products/levi-trendy=
+-corduroy-jas-voor-heren?srsltid=3DAfmBOooUAnW8hHGEFD6zyZFsy6IyOInBoRqQssgj=
+wM1-aTglVl_S6CwP__;!!Hj18uoVe_Lnx!tOA64FGStbrwEJhKe27T1Y1AAsVWd98Bq3nPaybRD=
+yCDgs4_MDOX3HkjvRC_Lt2nlQcec_0o5pCitbHTC91PxC0$" class=3D"external-link" re=
+l=3D"nofollow noreferrer">https://www.utrechtsemode.nl/en/products/levi-tre=
+ndy-corduroy-jas-voor-heren?srsltid=3DAfmBOooUAnW8hHGEFD6zyZFsy6IyOInBoRqQs=
+sgjwM1-aTglVl_S6CwP</a><font color=3D"#172B4D"></font>=E2=80=9D is offering=
+ for sale products bearing our Client=E2=80=99s trademark. The details of t=
+he infringing products are as follows:<font color=3D"#172B4D"></font></p>
+               <div class=3D"table-wrap">
+                <table class=3D"confluenceTable" style=3D"border-collapse: =
+collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: co=
+llapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: coll=
+apse; margin: 5px 0 5px 2px; border-collapse: collapse; mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt">
+                 <tbody>
+                  <tr>
+                   <td class=3D"confluenceTd" style=3D"border: 1px solid #c=
+ccccc; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; padding: 3px 4px; height: auto; width: auto; border-collapse: collapse; =
+mso-table-lspace: 0pt; mso-table-rspace: 0pt"><b><font color=3D"white"> <b>=
+Infringing url</b></font></b></td>
+                   <td class=3D"confluenceTd" style=3D"border: 1px solid #c=
+ccccc; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; padding: 3px 4px; height: auto; width: auto; border-collapse: collapse; =
+mso-table-lspace: 0pt; mso-table-rspace: 0pt"><b><font color=3D"white"> <b>=
+Domain Name</b></font></b></td>
+                   <td class=3D"confluenceTd" style=3D"border: 1px solid #c=
+ccccc; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; padding: 3px 4px; height: auto; width: auto; border-collapse: collapse; =
+mso-table-lspace: 0pt; mso-table-rspace: 0pt"><b><font color=3D"white"> <b>=
+IP Adress</b></font></b></td>
+                  </tr>
+                  <tr>
+                   <td class=3D"confluenceTd" style=3D"border: 1px solid #c=
+ccccc; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; padding: 3px 4px; height: auto; width: auto; border-collapse: collapse; =
+mso-table-lspace: 0pt; mso-table-rspace: 0pt"><font color=3D"#172B4D"></fon=
+t><a href=3D"https://urldefense.com/v3/__https://www.utrechtsemode.nl/en/pr=
+oducts/levi-trendy-corduroy-jas-voor-heren?srsltid=3DAfmBOooUAnW8hHGEFD6zyZ=
+Fsy6IyOInBoRqQssgjwM1-aTglVl_S6CwP__;!!Hj18uoVe_Lnx!tOA64FGStbrwEJhKe27T1Y1=
+AAsVWd98Bq3nPaybRDyCDgs4_MDOX3HkjvRC_Lt2nlQcec_0o5pCitbHTC91PxC0$" class=3D=
+"external-link" rel=3D"nofollow noreferrer">https://www.utrechtsemode.nl/en=
+/products/levi-trendy-corduroy-jas-voor-heren?srsltid=3DAfmBOooUAnW8hHGEFD6=
+zyZFsy6IyOInBoRqQssgjwM1-aTglVl_S6CwP</a><font color=3D"#172B4D"></font></t=
+d>
+                   <td class=3D"confluenceTd" style=3D"border: 1px solid #c=
+ccccc; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; padding: 3px 4px; height: auto; width: auto; border-collapse: collapse; =
+mso-table-lspace: 0pt; mso-table-rspace: 0pt"><font color=3D"#172B4D">utrec=
+htsemode.nl</font></td>
+                   <td class=3D"confluenceTd" style=3D"border: 1px solid #c=
+ccccc; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; padding: 3px 4px; height: auto; width: auto; border-collapse: collapse; =
+mso-table-lspace: 0pt; mso-table-rspace: 0pt"><font color=3D"#172B4D">23.22=
+7.38.65</font></td>
+                  </tr>
+                 </tbody>
+                </table>
+               </div>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">The listings in the reporte=
+d website is using our client=E2=80=99s registered trademark <b>LEVI=E2=80=
+=99S</b> in the product title/description without their authorization. Such=
+ unauthorized use is likely to confuse consumers into believing that the pr=
+oduct in the listing is associated with our client=E2=80=99s brand, which i=
+s not the case. This is highly detrimental to our client=E2=80=99s business=
+ and infringes upon their trademark rights. Therefore, the listing should b=
+e removed.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">In view the above, we ask t=
+hat you immediately remove the infringing website and inform the registrant=
+/owner of their infringing use.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">Please acknowledge receipt =
+of the letter as soon as possible.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">We look forward to hearing =
+from you.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">Yours sincerely,</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">Authentix Inc (=E2=80=9CATX=
+=E2=80=9D)</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">(On behalf of <b>Levi Strau=
+ss &amp; Co.</b>)</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0">:EXTERNAL: :NOTICE: The con=
+tents of this communication (whether in physical or electronic form) contai=
+ns confidential and proprietary information that is the property of Authent=
+ix, Inc., its subsidiaries and affiliates, and is not for publication, dist=
+ribution or dissemination without the express written consent of Authentix,=
+ Inc., its subsidiaries and affiliates and is intended for use only by the =
+recipient.</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZ=
+jlkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3=
+OGNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk0MyIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV=
+4cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.dlNQJLmANHwiGiKI1SfhIbe56TccgHp=
+ADlt1xo4SOuQ" title=3D"LEVI'S Canada 8, 9, 12, 14, 16, 18, 21, 24, 25, 28, =
+35 (ba037685-691d-4b8a-a25c-560b7e1b101c).pdf attached to LEGO-47582" data-=
+attachment-type=3D"file" data-attachment-name=3D"LEVI'S Canada 8, 9, 12, 14=
+, 16, 18, 21, 24, 25, 28, 35 (ba037685-691d-4b8a-a25c-560b7e1b101c).pdf" da=
+ta-media-services-type=3D"file" data-media-services-id=3D"47395e41-9c21-4ce=
+e-823c-d989ea8cb8d3" rel=3D"noreferrer">LEVI'S Canada 8, 9, 12, 14, 16, 18,=
+ 21, 24, 25, 28, 35 (ba037685-691d-4b8a-a25c-560b7e1b101c).pdf<sup><img cla=
+ss=3D"rendericon" src=3D"cid:jira-generated-image-static-link_attachment_7-=
+8698a489-2056-4403-8652-81dc5e86641a" height=3D"7" width=3D"7" align=3D"abs=
+middle" alt=3D"" border=3D"0" style=3D"border: 0; height: auto; line-height=
+: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicub=
+ic; border: 0; height: auto; line-height: 100%; outline: none; text-decorat=
+ion: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-h=
+eight: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: =
+bicubic"></sup></a></span> <em>(329 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZ=
+jlkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3=
+OGNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk0NiIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV=
+4cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.4Iqbiy1JlqkBGZx57J3-T74leHP6Ziq=
+QYFo16aeNgYA" title=3D"LEVI STRAUSS &amp; CO. - DE CERTIFIED COPY business =
+liscence (05650fb3-eb97-4928-96d9-6d4317bced39).PDF attached to LEGO-47582"=
+ data-attachment-type=3D"file" data-attachment-name=3D"LEVI STRAUSS &amp; C=
+O. - DE CERTIFIED COPY business liscence (05650fb3-eb97-4928-96d9-6d4317bce=
+d39).PDF" data-media-services-type=3D"file" data-media-services-id=3D"36795=
+fd7-f1e1-478e-bd2a-421ea3fe1770" rel=3D"noreferrer">LEVI STRAUSS &amp; CO. =
+- DE CERTIFIED COPY business liscence (05650fb3-eb97-4928-96d9-6d4317bced39=
+).PDF<sup><img class=3D"rendericon" src=3D"cid:jira-generated-image-static-=
+link_attachment_7-8698a489-2056-4403-8652-81dc5e86641a" height=3D"7" width=
+=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"border: 0; height=
+: auto; line-height: 100%; outline: none; text-decoration: none; -ms-interp=
+olation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline:=
+ none; text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; h=
+eight: auto; line-height: 100%; outline: none; text-decoration: none; -ms-i=
+nterpolation-mode: bicubic"></sup></a></span> <em>(146 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"image-wrap" =
+style=3D""><a id=3D"4971948_thumb" href=3D"https://care.support.secureserve=
+r.net/servicedesk/customer/attachment?jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI=
+1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsInFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZ=
+jhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEwZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2=
+aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTE=
+iLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZjlkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6Ym=
+MwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3OGNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3M=
+Tk0OCIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV4cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2=
+NjkxfQ.2d02Zl4mdxj_GczONbwc-Xv8QJuXr2OX77t82NUa8A8" title=3D"utrechtsemode.=
+nl.png" file-preview-type=3D"image" file-preview-id=3D"4971948" file-previe=
+w-title=3D"utrechtsemode.nl.png">
+                  <jira-attachment-thumbnail url=3D"https://care-godaddy.at=
+lassian.net/rest/api/3/attachment/thumbnail/4971948?default=3Dfalse" jira-u=
+rl=3D"https://care-godaddy.atlassian.net/rest/api/3/attachment/thumbnail/49=
+71948" filename=3D"utrechtsemode.nl.png">
+                   <img src=3D"cid:jira-generated-image-static-e918b8c7-dfb=
+6-4046-abeb-df6f01ae12bb" data-attachment-name=3D"utrechtsemode.nl.png" dat=
+a-attachment-type=3D"thumbnail" data-media-services-id=3D"d77999c2-1836-426=
+1-9957-671e18b04e85" data-media-services-type=3D"file" style=3D"border: 0px=
+ solid black; border: 0; height: auto; line-height: 100%; outline: none; te=
+xt-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: au=
+to; line-height: 100%; outline: none; text-decoration: none; -ms-interpolat=
+ion-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: non=
+e; text-decoration: none; -ms-interpolation-mode: bicubic">=20
+                  </jira-attachment-thumbnail></a></span></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZ=
+jlkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3=
+OGNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk1MSIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV=
+4cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.kL4HjbkZJcMpLGmuXeXfVOwW2Mm0re9=
+SEtzdqWokLUw" title=3D"Levi's Brands POA (6b396fa3-2537-4f2c-99a9-70be10fea=
+ed2).pdf attached to LEGO-47582" data-attachment-type=3D"file" data-attachm=
+ent-name=3D"Levi's Brands POA (6b396fa3-2537-4f2c-99a9-70be10feaed2).pdf" d=
+ata-media-services-type=3D"file" data-media-services-id=3D"68f5198b-aa54-47=
+0c-b111-42f40b291853" rel=3D"noreferrer">Levi's Brands POA (6b396fa3-2537-4=
+f2c-99a9-70be10feaed2).pdf<sup><img class=3D"rendericon" src=3D"cid:jira-ge=
+nerated-image-static-link_attachment_7-8698a489-2056-4403-8652-81dc5e86641a=
+" height=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=
+=3D"border: 0; height: auto; line-height: 100%; outline: none; text-decorat=
+ion: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-h=
+eight: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: =
+bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-de=
+coration: none; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(587=
+ kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJzZXJ2aWNlRGVza0lkIjoiNTEiLCJhY2NvdW50SWQiOiJxbTpiOWFlZmE2OS1lZ=
+jlkLTRlOWUtYWU0Yi00Mjk4MzAxMmU0MDE6YmMwMzUyYzQtODc3MC00NDZlLWIyZDQtMDYzOGM3=
+OGNlNGQ3IiwiYXR0YWNobWVudElkIjoiNDk3MTk1NSIsImlzc3VlSWQiOiI1Nzg2NjgyIn0sImV=
+4cCI6MTc1NTU4NTg5MSwiaWF0IjoxNzUzMTY2NjkxfQ.1BlA8SZF1dztyPhNl9akydRrydVzBIL=
+a0dgnziZFvCQ" title=3D"Authentix, Incorporation (59362dc5-39db-41de-94af-ec=
+fac2f05e17).pdf attached to LEGO-47582" data-attachment-type=3D"file" data-=
+attachment-name=3D"Authentix, Incorporation (59362dc5-39db-41de-94af-ecfac2=
+f05e17).pdf" data-media-services-type=3D"file" data-media-services-id=3D"fc=
+3bcaeb-7eb7-4900-8c9a-0c44a626aba3" rel=3D"noreferrer">Authentix, Incorpora=
+tion (59362dc5-39db-41de-94af-ecfac2f05e17).pdf<sup><img class=3D"renderico=
+n" src=3D"cid:jira-generated-image-static-link_attachment_7-8698a489-2056-4=
+403-8652-81dc5e86641a" height=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"=
+" border=3D"0" style=3D"border: 0; height: auto; line-height: 100%; outline=
+: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; =
+height: auto; line-height: 100%; outline: none; text-decoration: none; -ms-=
+interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; ou=
+tline: none; text-decoration: none; -ms-interpolation-mode: bicubic"></sup>=
+</a></span> <em>(1022 kB)</em></p>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td style=3D"font-size:0px;padding:25px; word-break:break-word;=
+; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; =
+border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; bo=
+rder-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt"><p s=
+tyle=3D"border-top:solid 2px #BAC0C3;font-size:1;margin:0px auto;width:100%=
+;; display: block; margin: 13px 0; display: block; margin: 13px 0; display:=
+ block; margin: 13px 0"></p> <!--[if mso | IE]>
+        <table
+           align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:solid 2px #BAC0C3;font-size:1;margin:0px auto;width:5=
+50px;" role=3D"presentation" width=3D"550px"
+        >
+          <tr>
+            <td style=3D"height:0;line-height:0;">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      <![endif]--></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></td>
+      </tr>
+      <tr>
+      </tr>
+     </tbody>
+    </table>
+    <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" =
+bgcolor=3D"#f5f5f5" style=3D"border-collapse: collapse; mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt=
+; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; =
+mso-table-rspace: 0pt">
+     <tbody>
+      <tr>
+       <td align=3D"left" style=3D"padding-top:10px;padding-bottom:0;paddin=
+g-right:0;padding-left:0;text-align:left;; border-collapse: collapse; mso-t=
+able-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-tab=
+le-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table=
+-lspace: 0pt; mso-table-rspace: 0pt"><p style=3D"text-align:center;Margin-t=
+op:0px;Margin-bottom:0px;font-family:'gdsherpa', Helvetica, Arial, sans-ser=
+if;font-size:12px;line-height:22px;;color:#BAC0C3;; display: block; margin:=
+ 13px 0; display: block; margin: 13px 0; display: block; margin: 13px 0"><a=
+ href=3D"https://sso.secureserver.net/federate/osp-jira-care?RelayState=3Dh=
+ttps://care.support.secureserver.net/servicedesk/customer/portal/51/LEGO-47=
+582?token=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbG=
+luayIsInFzaCI6ImMzNzNjMTI5MjlhMzRjNWYxMDc4ODVhODc2MjJlYTBkYmJlYzVmNGE2MmU5Y=
+ThkMzdiOWM0OThkZDM3MGVhNjQiLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVy=
+IiwiY29udGV4dCI6eyJ1c2VyIjoiMTIyNTY4NiIsImlzc3VlIjoiTEVHTy00NzU4MiJ9LCJleHA=
+iOjE3NTU1ODU4OTAsImlhdCI6MTc1MzE2NjY5MH0.7NW7bScF14-xMWn4JnlTDeKIb-mrqZu5Jy=
+Qhm-qSMaY&amp;sda_source=3Dnotification-email" target=3D"_blank" style=3D"c=
+olor: #BAC0C3;"><b>Reply via portal here</b></a></p><p class=3D"centered" s=
+tyle=3D"font-family: Helvetica, Arial, sans-serif;font-size:10px;line-heigh=
+t:1;text-align:center;color:#BAC0C3;; display: block; margin: 13px 0; displ=
+ay: block; margin: 13px 0; display: block; margin: 13px 0"><br> By using th=
+ese products, you agree that you are bound by the Terms of Service. <br><br=
+>This email is shared with levis@obp.authentix.com, abuse@amazonaws.com, ri=
+r@cloudflare.com, and 17 other people.</p></td>
+      </tr>
+     </tbody>
+    </table> <!--[if mso | IE]>
+            </td>
+         =20
+        </tr>
+     =20
+                  </table>
+                <![endif]-->
+   </div> <!--[if mso | IE]>
+          </td>
+        </tr>
+      </table>
+      <![endif]-->
+   <div style=3D"visibility: hidden; opacity: 0; font-size: 1px; display: n=
+one; width:0; max-height: 0; overflow: hidden">
+    Sent on July 21, 2025 11:44:51 PM MST
+   </div>
+  </div>
+ <img alt=3D"" src=3D"http://atlassian-trk.prd.msg.ss-inf.net/CI0/010101983=
+0e0c05d-0b87fd91-4f8f-44d3-aa46-0325185d2ec8-000000/CNTwnUkQMJGSJz5Qq1sTdh2=
+ghEfwdwbjJZ_zwoqBVDY=3D414" style=3D"display: none; width: 1px; height: 1px=
+;">
+</body>
+</html>
+--enmime-7819b041-aff5-429b-a4d5-4f6b868a6817--
+
+--enmime-c90ee66b-3501-4d77-a593-e9530fa252e2
+Content-Disposition: inline;
+ filename=jira-generated-image-static-e918b8c7-dfb6-4046-abeb-df6f01ae12bb
+Content-Id: <jira-generated-image-static-e918b8c7-dfb6-4046-abeb-df6f01ae12bb>
+Content-Transfer-Encoding: base64
+Content-Type: image/jpeg;
+ name=jira-generated-image-static-e918b8c7-dfb6-4046-abeb-df6f01ae12bb
+
+/9j/4AAQSkZJRgABAgAAAQABAAD/wAARCABrAMgDAREAAhEBAxEB/9sAQwAIBgYHBgUIBwcHCQkI
+CgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJ
+CQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy
+MjIyMjIy/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3XPPX
+8KAI1RhO8hlJUjAXsKAJM/OzbiAVwFwOD60ARFZSjAXBDHo3lLxQBH5V1gD7cc56+QtAAIroH/j/
+AGI94EoAdGk6433bPxj/AFSigCTEnH78/wDfsUAAD85nPP8A0zXigAHmDOZiemP3Y4oAaWZODcAZ
+zjKKKAF8zkZuB0wflWgBN5HW65/3FoAkimQJtaQSN64ANAAGDQbA5J6bwBmgBzMCUwSAOowOaAI5
+FZ3iKysgRssoAw4x0P8AOgCN4He+iuBdTLGilTAMbHz3PGcj60ra3LUrRcbL16jlSRbuSU3DNEyg
+LDtGFPrnrRZ3vcHKPIo217iQJLG85knMqu+6MFcbB6e9MJyi0rK1vxCNJVtmje4LyHOJNuMfhQQG
+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
+GiTYOQMcUAIlrBCxeOJVY9SBSA//2Q==
+
+--enmime-c90ee66b-3501-4d77-a593-e9530fa252e2
+Content-Disposition: inline;
+ filename=jira-generated-image-static-link_attachment_7-8698a489-2056-4403-8652-81dc5e86641a
+Content-Id: <jira-generated-image-static-link_attachment_7-8698a489-2056-4403-8652-81dc5e86641a>
+Content-Transfer-Encoding: base64
+Content-Type: image/gif;
+ name=jira-generated-image-static-link_attachment_7-8698a489-2056-4403-8652-81dc5e86641a
+
+R0lGODlhBwAHAMQAAABEAFLQN///zEJxQpnMmQB2AEDEKnXmTWfeRYr1W4DvVQF4AABKAFzWPU1+
+TUbJL0XIL////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUU
+ABEALAAAAAAHAAcAAAUgYLQsTmQWgrAQ45IoAgoMxYEIARCxTfDoCxzEAAQYjSEAOw==
+
+--enmime-c90ee66b-3501-4d77-a593-e9530fa252e2--

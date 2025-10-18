@@ -1,0 +1,639 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@linode.com header.d=linode.com header.s=g1
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com [209.85.219.197])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id B047CCF1-B512-4759-A92E-586807A7C6DD.1
+	envelope-from <abuse+bncBDTNF7WO3YORBFHMROYAMGQEQJUXYZA@linode.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 26 Mar 2024 16:21:42 +0000
+Received: by mail-yb1-f197.google.com with SMTP id 3f1490d57ef6-dcd94cc48a1sf9086471276.3
+        for <abuse@linode.abusehq.net>; Tue, 26 Mar 2024 09:21:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1711470101; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Wk56z+QH54c6GrXaWX/p/BjCGLNrRUv3CfUnisx/h0ojSk54MzRjIHeTG9LeQ/MuPZ
+         DSEhHCfEWphp98SMvNswRx/evuO7SXIbjce8Z/9FQh/p9KeZ5EJ/0qHY2t2iKmu/jOml
+         Fhk1cSMlgPj4gQQDhFy5fYBrJgzgB9edCZtSlQ8+Nu9DbybDy4sWPfu1fgmqJb/iDEuC
+         iVOKT+42a4zP9G8LIcAsMbUJVWZrjU3Ep7kg2XTUBr56vZVT0sMg+492otRAGe7p2bpW
+         hDCVbTllAq7PlmcLdNte0//S1M6ZdKZS/KYwcSkeSITh3I8Vox1WOCJKbkbEOcqaMcTG
+         vNkA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:dkim-signature;
+        bh=NVs/g4YweMWUcfoCUpW1Wcu+h/7Ze4Esf7nnYHgDIoo=;
+        fh=xTtBeMN4m10BiKKr2p6kRyWYvQolN1MKPTgABDVqJUc=;
+        b=Smhdk4m+tHstR+q3MzMpxxFeuAdUtexvFkFIvoWwAvKKekj5Q/7VZCAb0IMQqSAF5X
+         1ClNdWpQoaU9mz9YD6sULcFfJkg5gr8dDsKq5eiJbTsGh7fF7XOVhDxIRHSg6DhIo9vn
+         ntc/C0qiY1mLFOMbjK5Fh/ao+T1Ch08JWBx90Foo9P4Qva9sbzM3oaPF25SoFI71tG/Q
+         Qzjk0/2eImCCi3v0zv81AfJrLGLmMyiQnTf0/tAi2lfD6NhDLP4MB5/LHi9tZMuqGwie
+         jtuj3dIPwlV1wAwTDzgdLLoXEJv03+NIZCUJVhZQhlxyegYyhzcOzXJGPbF/XssD1wBz
+         7rWg==;
+        darn=linode.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D0VAT20r;
+       spf=pass (google.com: domain of victor4@gmail.com designates 209.85.208.181 as permitted sender) smtp.mailfrom=victor4@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linode.com; s=g1; t=1711470101; x=1712074901; darn=linode.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NVs/g4YweMWUcfoCUpW1Wcu+h/7Ze4Esf7nnYHgDIoo=;
+        b=ez3ktAAonP/BuzdJEi0rMaEiy7uYszmlo+OKEOja6JBLdPPt2ZwCyuYry61mnnDEUW
+         Ud9Gs5JF5o4QmTD0Dr0g6ogGA4Vg5eqpceledzw+KxNjEavpDBl3p05DVgQC1cXTo6Sg
+         dYE7SmJ1bpQH08IcHRraMBVZAQ63S80Tq61Pts18hohoBEfFdhBuEGYwuLEJGw/APRsi
+         EVowkoB78m98ZJ9f/wWFqYuQhw410wKjReBUSuS5Ga91EryBHVCWEuNxC0a0/8MF96Fp
+         1D7WVL0J9fkENP2qA261w7UFQ+eoE/ccVTHDVNAMuM8LalXcdRpYTykCmqSb7bXMSIH3
+         LgCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711470101; x=1712074901;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NVs/g4YweMWUcfoCUpW1Wcu+h/7Ze4Esf7nnYHgDIoo=;
+        b=v5ZTDOzMdT4PFchX9ikNL7EriDH2F/tcuMsrfv0syfPLEXHt9u2E9nVo1y2VTd2x1A
+         9/UP2pnYu7G8iMfKasp5osgGLXrrqqakvZsJAtEWNa938TUTjqonrtIENFQ5HmHtq8eG
+         Xq3dTyhgPf0DRQ29PZ3lAqLUsM1xzkF6QdIA3tdRy6PJXtOnjh9pkx3Udk6039vBpRBZ
+         abHfCBZ67QhLMn2FiMuQ4hPoSbxeDM6oU7bCtGp0/yANr4ixCWFKmQU6+QU4nZqEhdVh
+         dGL4GU/6aIyo4JhJqV0Mdj8mKpVnij4HzHNfGZSuls2NEXsX2YStW+ZmQmMrI+5f46he
+         rNJA==
+Sender: abuse@linode.com
+X-Forwarded-Encrypted: i=2; AJvYcCVCUlNbimoVnC9YDDnVtcMxbcbQxKNb/X2pzgZuGiwHyUuhLJ66lHx9ZSNN9EomBLVWrxViFd98olUp7R7ockqpO1hxtr7cZ9c=
+X-Gm-Message-State: AOJu0Yy9bmWGWjLEnmGa1VokDeDmoni3ifX95I3m7RyHyq1I1ABjl7OU
+	Z5byLDNzNvRTLlm6CINISHsHqFs6xpfmagHggP8JV8NCFulu6Oz9Dq6iB2hLOHA=
+X-Google-Smtp-Source: AGHT+IHb//hmS3fJFQYVm1B1Z702eHIC1K5+TVK+vokB2FCw0YogugDLEOCXry9rp9Akg9a5qiFJ0w==
+X-Received: by 2002:a25:6913:0:b0:dc6:3610:c344 with SMTP id e19-20020a256913000000b00dc63610c344mr9263956ybc.13.1711470100686;
+        Tue, 26 Mar 2024 09:21:40 -0700 (PDT)
+X-BeenThere: abuse@linode.com
+Received: by 2002:a25:7542:0:b0:dcd:a08f:c83e with SMTP id q63-20020a257542000000b00dcda08fc83els2974921ybc.2.-pod-prod-07-us;
+ Tue, 26 Mar 2024 09:21:39 -0700 (PDT)
+X-Received: by 2002:a25:83d0:0:b0:dcd:24b6:1ae7 with SMTP id v16-20020a2583d0000000b00dcd24b61ae7mr7475164ybm.63.1711470099484;
+        Tue, 26 Mar 2024 09:21:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1711470099; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Lpe25egK+fwQgw8qY6wjLhWTn4FE03kg+TuP5I5iiU9raD4kHtOGRN/G3VCrpc6DeJ
+         yZUca8RAhhV8lLPKMsL7HSYaIH6AyCm7OdYdgaquUvykMhtVW0C77U/Axuo4Uwy5SSl2
+         z22Hvc4yJgYSHIsbz9T17sn+gmDvZ37UnQJI6DqoH8tHEQPdqEjL1DAtfds5ljoCEMXr
+         P5VtW0QQlZbm4MXrLiqc9AKuh7lYgsDr7DUdC/xckhHDvNOU25pRabo0p3Ck9pqmEIuw
+         8/j/ixOIEGlTXSpHx+owa6uOxhnOguRKxr13BXeXV9IUmoe2uJB4cZ09DGwDkQX/4C7O
+         ZH3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=NVs/g4YweMWUcfoCUpW1Wcu+h/7Ze4Esf7nnYHgDIoo=;
+        fh=ARvqIbfoCR5YyqkUQUvfGXz8KKVMhy/m5tcJ7PzB5/s=;
+        b=ytfMKOIjoOOFYjXfatzhazkXXYBmHKH9ilp1YfMW7H6yhpqcaWOGzEz5MraVckrZZK
+         Uq4J+G8m9yh5ZC2RXqwDqIvMr0+SehgpwF734tM0KLcYWtiZZx5USmbs4OmF+z5knunm
+         Su3l/rLp/epovvtuiMW/7e3A3kc6Ka/KFdA8veWExJu2iqiI5sVcxjP/1+WyCSM7b8px
+         1w/sqyJYYmy7TtjY+NIIr938NwrYIWe2fk7f/a4NcPet98RInBlPTtvr7V8tbijwa/Pv
+         ww9c0+L4ofisZL9lQaC2IzjnlHYwRfr8x2Z/2T6vziF0kXW8qKTgNGKa293gcC1jjEXq
+         yqIw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D0VAT20r;
+       spf=pass (google.com: domain of victor4@gmail.com designates 209.85.208.181 as permitted sender) smtp.mailfrom=victor4@gmail.com
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com. [2620:100:9005:57f::1])
+        by mx.google.com with ESMTPS id 132-20020a25148a000000b00dcdb38dc368si2283701ybu.336.2024.03.26.09.21.39
+        for <abuse@linode.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Mar 2024 09:21:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of victor4@gmail.com designates 209.85.208.181 as permitted sender) client-ip=209.85.208.181;
+Received: from pps.filterd (m0050096.ppops.net [127.0.0.1])
+	by m0050096.ppops.net-00190b01. (8.17.1.24/8.17.1.24) with ESMTP id 42QBjiBd032100
+	for <abuse@linode.com>; Tue, 26 Mar 2024 16:21:39 GMT
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	by m0050096.ppops.net-00190b01. (PPS) with ESMTPS id 3x1rcenx5q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <abuse@linode.com>; Tue, 26 Mar 2024 16:21:39 +0000 (GMT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d23114b19dso84737371fa.3
+        for <abuse@linode.com>; Tue, 26 Mar 2024 09:21:38 -0700 (PDT)
+X-Received: by 2002:a05:651c:4cc:b0:2d2:c83e:d4ce with SMTP id
+ e12-20020a05651c04cc00b002d2c83ed4cemr2686772lji.34.1711470096128; Tue, 26
+ Mar 2024 09:21:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <ACA91F4C4793BCDF03064FF044D24DA7@nordexbordi.it>
+In-Reply-To: <ACA91F4C4793BCDF03064FF044D24DA7@nordexbordi.it>
+From: Victor 4 <victor4@gmail.com>
+Date: Tue, 26 Mar 2024 12:20:59 -0400
+Message-ID: <CAAMkyX5sNDpyO4aEzNVP0vxKsHJvciqm8auiFYve1p+cCOaNAQ@mail.gmail.com>
+Subject: Fwd: Good afternoon I want to know more about you!
+To: abuse@linode.com, arin-noc@forked.net, network-abuse@google.com,
+        network-adm@hinet.net, network-services@aciworldwide.com,
+        NPIC@state.gov, spoof@paypal.com, email-abuse@amazon.com,
+        abuse@mail.ru, abuse@hetzner.com, abuse@google.com, abuse@gmail.com,
+        abuse@elasticemail.net, abuse@cogentco.com, abuse@abuse.responsys.net,
+        abuse-system@servermania.com
+Content-Type: multipart/alternative; boundary="0000000000001fa979061492af61"
+X-Original-Sender: victor4@gmail.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=D0VAT20r;       spf=pass
+ (google.com: domain of victor4@gmail.com designates 209.85.208.181 as
+ permitted sender) smtp.mailfrom=victor4@gmail.com
+Precedence: list
+Mailing-list: list abuse@linode.com; contact abuse+owners@linode.com
+List-ID: <abuse.linode.com>
+X-Spam-Checked-In-Group: abuse@linode.com
+X-Google-Group-Id: 895230844096
+List-Post: <https://groups.google.com/a/linode.com/group/abuse/post>, <mailto:abuse@linode.com>
+List-Help: <https://support.google.com/a/linode.com/bin/topic.py?topic=25838>, <mailto:abuse+help@linode.com>
+List-Archive: <https://groups.google.com/a/linode.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+895230844096+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/linode.com/group/abuse/subscribe>
+
+--0000000000001fa979061492af61
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Original Message
+Message ID <ACA91F4C4793BCDF03064FF044D24DA7@nordexbordi.it>
+Created at: Sat, Mar 16, 2024 at 9:41 PM (Delivered after 788172 seconds)
+From: Tsira <news@nordexbordi.it>
+To:
+Subject: Good afternoon I want to know more about you!
+SPF: FAIL with IP 45.56.74.208 Learn more
+<https://support.google.com/a?p=3Dshow_original&hl=3Den>
+DKIM: 'PASS' with domain gilbertovelasquez.com Learn more
+<https://support.google.com/a?p=3Dshow_original&hl=3Den>
+DMARC: 'FAIL' Learn more
+<https://support.google.com/a?p=3Dshow_original&hl=3Den>
+
+Download Original
+<https://mail.google.com/mail/u/0?view=3Datt&th=3D18e790ceed9be0cd&attid=3D=
+0&disp=3Dcomp&safe=3D1&zw>
+Copy to clipboard
+
+Delivered-To: victor4@gmail.com
+Received: by 2002:a2e:4c19:0:b0:2d6:a974:f12e with SMTP id z25csp1211590lja=
+;
+        Mon, 25 Mar 2024 21:37:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=3D2;
+AJvYcCV5Z6Fliklb1YEDkZq1aIXwf7HogbQfDCpqbaubK8WCd36n9Lq9MHkwR6M9rzfbzVqbnRZ=
+3XINWMticVadXN6IrqQ=3D=3D
+X-Google-Smtp-Source:
+AGHT+IGeSpYy/bh2jvkgJXSS3k3MKuexcmfBE1IGpjCdVkABKVAQRonY5BJ26Zq7w6S5de76oG0=
+S
+X-Received: by 2002:a05:6871:739f:b0:220:8bd2:cd09 with SMTP id
+na31-20020a056871739f00b002208bd2cd09mr2203232oac.32.1711427874647;
+        Mon, 25 Mar 2024 21:37:54 -0700 (PDT)
+ARC-Seal: i=3D1; a=3Drsa-sha256; t=3D1711427874; cv=3Dnone;
+        d=3Dgoogle.com; s=3Darc-20160816;
+        b=3DNQdooeL4GiE5NrBR85o49eOwWewErDlqZKZymUR1Hx8m9r93a3Pc5O+9UmKQI+i=
+rhA
+         Rgltw5d5mE5fuvpUsSnB20xPUK7uASqymiccVKnizMtMtOhZ1DjKsn4MSfGPYXs3a4=
+oZ
+         RsyH4X8mXsrv26j4ccApZ3DpFO0IM7cFlUd2bqaRksb4XO1gPYRcbXQU9NGJ7ejBzd=
+/w
+         Nkq0FV7jz5IkfjWiBKz6MbjdKHl0SAEdZACk90eCI4wjCWR7rZUCYG5rW0qvVTAJEm=
+qd
+         wxm4qpjo4zrLcKEf7Ing8mHJDTNXffgi/ViAXjdcXmmnEgCKkZOHQZoHoyUB05KLwa=
+9l
+         p2CQ=3D=3D
+ARC-Message-Signature: i=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed;
+d=3Dgoogle.com; s=3Darc-20160816;
+        h=3Dmime-version:organization:date:subject:from:reply-to:message-id
+         :dkim-signature;
+        bh=3D7WEp6uglfbisv32UMEAI9uGgbN1bb2owQtUxYHytxCQ=3D;
+        fh=3D47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=3D;
+        b=3DwkV/3O/sZfXm8e0JYUWtpFeoejfP9DasugVhGuuS7ZqNOROerCfoxwCNvaG7G9F=
+JOj
+         WF9zLONyDKBcj62rrdEZ9AhJRRRpR+KopZ5vVWQpuacBCF9Jcwb7t1wpEKSg0kdDIV=
+IF
+         g0TyJWxwtBD2sQqQeCqJ+8s2VwpGJG8L6BTdtQ2nuzm2NrpPgAk/k/NGVk6no8Zg95=
+4P
+         jG/FV7VpQeaZgIZZRmvDYrCsgvtVp7R1xWtKwAWbf5x3zlaT/oZgS/MclJTdli8mxl=
+yR
+         BOZgt0fPpv3uWzzPGDgvKMzfZ7hc8KEGU5AKyNZB+tC2l8zGTZSjv+PFwkTmp6Tb3R=
+nx
+         PyPg=3D=3D;
+        dara=3Dgoogle.com
+ARC-Authentication-Results: i=3D1; mx.google.com;
+       dkim=3Dpass header.i=3D@gilbertovelasquez.com header.s=3Ddefault
+header.b=3D"T8IOhXM/";
+       spf=3Dfail (google.com: domain of news@nordexbordi.it does not
+designate 45.56.74.208 as permitted sender)
+smtp.mailfrom=3Dnews@nordexbordi.it;
+       dmarc=3Dfail (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3Dnordexbor=
+di.it
+Return-Path: <news@nordexbordi.it>
+Received: from li924-208.members.linode.com
+(li924-208.members.linode.com. [45.56.74.208])
+        by mx.google.com with ESMTPS id
+i21-20020a9d68d5000000b006e530a94380si1770157oto.329.2024.03.25.21.37.54
+        (version=3DTLS1_2 cipher=3DECDHE-ECDSA-AES128-GCM-SHA256 bits=3D128=
+/128);
+        Mon, 25 Mar 2024 21:37:54 -0700 (PDT)
+Received-SPF: fail (google.com: domain of news@nordexbordi.it does not
+designate 45.56.74.208 as permitted sender) client-ip=3D45.56.74.208;
+Authentication-Results: mx.google.com;
+       dkim=3Dpass header.i=3D@gilbertovelasquez.com header.s=3Ddefault
+header.b=3D"T8IOhXM/";
+       spf=3Dfail (google.com: domain of news@nordexbordi.it does not
+designate 45.56.74.208 as permitted sender)
+smtp.mailfrom=3Dnews@nordexbordi.it;
+       dmarc=3Dfail (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3Dnordexbor=
+di.it
+DKIM-Signature: v=3D1; a=3Drsa-sha256; q=3Ddns/txt; c=3Drelaxed/relaxed;
+d=3Dgilbertovelasquez.com; s=3Ddefault;
+h=3DContent-Type:MIME-Version:Date:Subject:
+From:Reply-To:Message-ID:Sender:To:Cc:Content-Transfer-Encoding:Content-ID:
+Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-=
+Cc
+:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscrib=
+e:
+List-Subscribe:List-Post:List-Owner:List-Archive;
+bh=3D7WEp6uglfbisv32UMEAI9uGgbN1bb2owQtUxYHytxCQ=3D;
+b=3DT8IOhXM/bCh4a5ltMXJGCrPKPE
+osy51KvlfXcwXwYQNW3TVXEgruzND2RdqqitywDU3IV3d//++udYXS1bbbzpNIw4Yigmwn8E5eo=
+JX
+TX8O3DjtOWX0kKU9UF5fKbUvUO6F+PDoR/GZqjvZFN/n5+IXWVcVkJTFZ6wmz79/PD6bwtbEROI=
+JD
+GQlnbbyKIEFVyOEAiQVaFjmYHm0CgiKenodbmAJQxnLJ8EttPReombCDEw7UnG89aAao/5ju4JO=
+VL
+mViRWCBmBvSCPZaOfN3BW/v/PiVdau3oWGaxHlM+uxQtezxmaNYcrDuYH+QVhP2xJH3Rp5IjoXI=
+8k
+zPUM/ixg=3D=3D;
+Received: from [77.40.9.102] (port=3D49511 helo=3Dchbygh) by
+node201.myfcloud.com with esmtpsa
+  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+(envelope-from <news@nordexbordi.it>) id 1rlfWs-0003E3-1g; Sun, 17 Mar
+2024 01:41:42 +0000
+Message-ID: <ACA91F4C4793BCDF03064FF044D24DA7@nordexbordi.it>
+Reply-To: Tsira <chudolittle@gmail.com>
+From: Tsira <news@nordexbordi.it>
+Subject: Good afternoon I want to know more about you!
+Date: Sun, 17 Mar 2024 04:41:42 +0300
+Organization: chudolittle@gmail.com
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary=3D"f974073a89e67d353678c8264b=
+2f"
+X-AntiAbuse: This header was added to track abuse, please include it
+with any abuse report
+X-AntiAbuse: Primary Hostname - node201.myfcloud.com
+X-AntiAbuse: Original Domain - gmail.com
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - nordexbordi.it
+X-Get-Message-Sender-Via: node201.myfcloud.com: authenticated_id:
+postmaster@gilbertovelasquez.com
+X-Authenticated-Sender: node201.myfcloud.com: postmaster@gilbertovelasquez.=
+com
+X-Source:
+X-Source-Args:
+X-Source-Dir:
+
+--f974073a89e67d353678c8264b2f
+Content-Type: text/plain; charset=3D"utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello!
+How are you?
+I hope that I was not mistaken and wrote correctly.
+Are you a single man and looking for a partner?
+I am a single woman and am looking for love and a serious relationship.
+My name is Tsira, I believe that love transcends age.
+I am looking for a real relationship based on mutual respect.
+I will be honest and sincere with you from the first letter!
+I'm looking for your answer.
+Best regards, Tsira.
+
+--f974073a89e67d353678c8264b2f
+Content-Type: text/html; charset=3D"utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<HTML><HEAD>
+<META http-equiv=3D3D"Content-Type" content=3D3D"text/html; charset=3D3Dutf=
+-8">
+</HEAD>
+<BODY bgColor=3D3D#ffffff>
+<DIV align=3D3Dleft><FONT size=3D3D3 face=3D3D"Times New Roman">Hello!<BR>H=
+ow are=3D
+ you?<BR>I=3D20
+hope that I was not mistaken and wrote correctly.<BR>Are you a single man a=
+=3D
+nd=3D20
+looking for a partner?<BR>I am a single woman and am looking for love and a=
+=3D
+=3D20
+serious relationship.<BR>My name is Tsira, I believe that love transcends=
+=3D
+=3D20
+age.<BR>I am looking for a real relationship based on mutual respect.<BR>I =
+=3D
+will=3D20
+be honest and sincere with you from the first letter!<BR>I'm looking for yo=
+=3D
+ur=3D20
+answer.<BR>Best regards, Tsira.</FONT></DIV>
+<DIV align=3D3Dleft></DIV></BODY></HTML>
+
+--f974073a89e67d353678c8264b2f--
+
+
+---------- Forwarded message ---------
+From: Tsira <news@nordexbordi.it>
+Date: Tue, Mar 26, 2024 at 12:37=E2=80=AFAM
+Subject: Good afternoon I want to know more about you!
+To:
+
+
+Hello!
+How are you?
+I hope that I was not mistaken and wrote correctly.
+Are you a single man and looking for a partner?
+I am a single woman and am looking for love and a serious relationship.
+My name is Tsira, I believe that love transcends age.
+I am looking for a real relationship based on mutual respect.
+I will be honest and sincere with you from the first letter!
+I'm looking for your answer.
+Best regards, Tsira.
+
+--0000000000001fa979061492af61
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail-top-area" style=3D"display:table-row;c=
+olor:rgb(0,0,0);font-size:14px"><h3 class=3D"gmail-page_title" style=3D"fon=
+t-size:20px;font-weight:normal;padding:20px 209.547px 0px">Original Message=
+</h3><div id=3D"gmail-butterbar-container" style=3D"text-align:center;width=
+:1905px"><div id=3D"gmail-butterbar-wrap" style=3D"display:inline-block"><d=
+iv class=3D"gmail-jfk-butterBar gmail-jfk-butterBar-info" style=3D"border-r=
+adius:2px;border-style:solid;border-width:0px;font-size:11px;height:0px;opa=
+city:0;overflow:hidden;padding:0px;background-color:rgb(249,237,190);border=
+-color:rgb(240,195,109);color:rgb(51,51,51)"><div id=3D"gmail-status-messag=
+es"></div></div></div></div><table style=3D"border-collapse:collapse;margin=
+:0px auto;width:1524px"><tbody><tr><th style=3D"border-bottom:thin solid rg=
+b(224,224,224);border-top:thin solid rgb(224,224,224);font-weight:normal;bo=
+rder-left:thin solid rgb(224,224,224);padding:12px 20px;text-align:left">Me=
+ssage ID</th><td class=3D"gmail-message_id" style=3D"border-bottom:thin sol=
+id rgb(224,224,224);border-top:thin solid rgb(224,224,224);border-right:thi=
+n solid rgb(224,224,224);padding:8px;color:rgb(46,125,50)">&lt;<a href=3D"m=
+ailto:ACA91F4C4793BCDF03064FF044D24DA7@nordexbordi.it">ACA91F4C4793BCDF0306=
+4FF044D24DA7@nordexbordi.it</a>&gt;</td></tr><tr><th style=3D"border-bottom=
+:thin solid rgb(224,224,224);border-top:thin solid rgb(224,224,224);font-we=
+ight:normal;border-left:thin solid rgb(224,224,224);padding:12px 20px;text-=
+align:left">Created at:</th><td style=3D"border-bottom:thin solid rgb(224,2=
+24,224);border-top:thin solid rgb(224,224,224);border-right:thin solid rgb(=
+224,224,224);padding:8px">Sat, Mar 16, 2024 at 9:41 PM (Delivered after 788=
+172 seconds)</td></tr><tr><th style=3D"border-bottom:thin solid rgb(224,224=
+,224);border-top:thin solid rgb(224,224,224);font-weight:normal;border-left=
+:thin solid rgb(224,224,224);padding:12px 20px;text-align:left">From:</th><=
+td style=3D"border-bottom:thin solid rgb(224,224,224);border-top:thin solid=
+ rgb(224,224,224);border-right:thin solid rgb(224,224,224);padding:8px">Tsi=
+ra &lt;<a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it</a>&gt;</=
+td></tr><tr><th style=3D"border-bottom:thin solid rgb(224,224,224);border-t=
+op:thin solid rgb(224,224,224);font-weight:normal;border-left:thin solid rg=
+b(224,224,224);padding:12px 20px;text-align:left">To:</th><td class=3D"gmai=
+l-toRecipientsSelector" style=3D"border-bottom:thin solid rgb(224,224,224);=
+border-top:thin solid rgb(224,224,224);border-right:thin solid rgb(224,224,=
+224);padding:8px"></td></tr><tr><th style=3D"border-bottom:thin solid rgb(2=
+24,224,224);border-top:thin solid rgb(224,224,224);font-weight:normal;borde=
+r-left:thin solid rgb(224,224,224);padding:12px 20px;text-align:left">Subje=
+ct:</th><td style=3D"border-bottom:thin solid rgb(224,224,224);border-top:t=
+hin solid rgb(224,224,224);border-right:thin solid rgb(224,224,224);padding=
+:8px">Good afternoon I want to know more about you!</td></tr><tr><th style=
+=3D"border-bottom:thin solid rgb(224,224,224);border-top:thin solid rgb(224=
+,224,224);font-weight:normal;border-left:thin solid rgb(224,224,224);paddin=
+g:12px 20px;text-align:left">SPF:</th><td style=3D"border-bottom:thin solid=
+ rgb(224,224,224);border-top:thin solid rgb(224,224,224);border-right:thin =
+solid rgb(224,224,224);padding:8px"><span class=3D"gmail-authresult" style=
+=3D"text-transform:uppercase">FAIL</span>=C2=A0with IP 45.56.74.208=C2=A0<a=
+ href=3D"https://support.google.com/a?p=3Dshow_original&amp;hl=3Den" target=
+=3D"_blank" class=3D"gmail-learn-more-link" style=3D"padding-left:5px;text-=
+decoration-line:none">Learn more</a></td></tr><tr><th style=3D"border-botto=
+m:thin solid rgb(224,224,224);border-top:thin solid rgb(224,224,224);font-w=
+eight:normal;border-left:thin solid rgb(224,224,224);padding:12px 20px;text=
+-align:left">DKIM:</th><td style=3D"border-bottom:thin solid rgb(224,224,22=
+4);border-top:thin solid rgb(224,224,224);border-right:thin solid rgb(224,2=
+24,224);padding:8px"><span class=3D"gmail-authresult" style=3D"text-transfo=
+rm:uppercase">&#39;PASS&#39;</span>=C2=A0with domain <a href=3D"http://gilb=
+ertovelasquez.com">gilbertovelasquez.com</a>=C2=A0<a href=3D"https://suppor=
+t.google.com/a?p=3Dshow_original&amp;hl=3Den" target=3D"_blank" class=3D"gm=
+ail-learn-more-link" style=3D"padding-left:5px;text-decoration-line:none">L=
+earn more</a></td></tr><tr><th style=3D"border-bottom:thin solid rgb(224,22=
+4,224);border-top:thin solid rgb(224,224,224);font-weight:normal;border-lef=
+t:thin solid rgb(224,224,224);padding:12px 20px;text-align:left">DMARC:</th=
+><td style=3D"border-bottom:thin solid rgb(224,224,224);border-top:thin sol=
+id rgb(224,224,224);border-right:thin solid rgb(224,224,224);padding:8px"><=
+span class=3D"gmail-authresult" style=3D"text-transform:uppercase">&#39;FAI=
+L&#39;</span>=C2=A0<a href=3D"https://support.google.com/a?p=3Dshow_origina=
+l&amp;hl=3Den" target=3D"_blank" class=3D"gmail-learn-more-link" style=3D"p=
+adding-left:5px;text-decoration-line:none">Learn more</a></td></tr></tbody>=
+</table><br><br><div class=3D"gmail-more-actions" style=3D"display:table;pa=
+dding-bottom:25px;width:1905px"><div class=3D"gmail-spacing" style=3D"displ=
+ay:table-cell;width:209.547px"></div><div class=3D"gmail-download-links" st=
+yle=3D"display:table-cell;width:742.938px"><a class=3D"gmail-download-butto=
+ns" href=3D"https://mail.google.com/mail/u/0?view=3Datt&amp;th=3D18e790ceed=
+9be0cd&amp;attid=3D0&amp;disp=3Dcomp&amp;safe=3D1&amp;zw" style=3D"text-dec=
+oration-line:none;display:inline-block;padding:20px">Download Original</a><=
+/div><div class=3D"gmail-header-body-button" style=3D"display:table-cell;te=
+xt-align:right;width:742.938px"><div class=3D"gmail-copy-header-body-button=
+ gmail-jfk-button gmail-jfk-button-action" id=3D"gmail-copy-header-body-but=
+ton" tabindex=3D"0" style=3D"border-radius:2px;font-size:11px;font-weight:b=
+old;text-align:center;margin:10px;height:27px;line-height:27px;min-width:54=
+px;outline:0px;padding:4px 6px;background-color:rgb(77,144,254);border:1px =
+solid rgb(48,121,237);color:rgb(255,255,255);display:inline-block">Copy to =
+clipboard</div></div><div class=3D"gmail-spacing" style=3D"display:table-ce=
+ll;width:209.578px"></div></div></div><div id=3D"gmail-bottom-area" class=
+=3D"gmail-bottom-area" style=3D"background-color:rgb(238,238,238);display:t=
+able-row;height:1845px;color:rgb(0,0,0);font-size:14px"><div class=3D"gmail=
+-raw_message" style=3D"border-top:thin solid rgb(189,189,189);display:table=
+-cell;height:1844px"><pre class=3D"gmail-raw_message_text" id=3D"gmail-raw_=
+message_text" style=3D"background-color:rgb(255,255,255);border:thin solid =
+rgb(224,224,224);border-radius:5px;color:rgb(97,97,97);height:1712px;margin=
+:25px 190.5px;padding:40px 30px;word-break:break-word">Delivered-To: <a hre=
+f=3D"mailto:victor4@gmail.com">victor4@gmail.com</a>
+Received: by 2002:a2e:4c19:0:b0:2d6:a974:f12e with SMTP id z25csp1211590lja=
+;
+        Mon, 25 Mar 2024 21:37:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=3D2; AJvYcCV5Z6Fliklb1YEDkZq1aIXwf7HogbQfDCpqbaubK=
+8WCd36n9Lq9MHkwR6M9rzfbzVqbnRZ3XINWMticVadXN6IrqQ=3D=3D
+X-Google-Smtp-Source: AGHT+IGeSpYy/bh2jvkgJXSS3k3MKuexcmfBE1IGpjCdVkABKVAQR=
+onY5BJ26Zq7w6S5de76oG0S
+X-Received: by 2002:a05:6871:739f:b0:220:8bd2:cd09 with SMTP id na31-20020a=
+056871739f00b002208bd2cd09mr2203232oac.32.1711427874647;
+        Mon, 25 Mar 2024 21:37:54 -0700 (PDT)
+ARC-Seal: i=3D1; a=3Drsa-sha256; t=3D1711427874; cv=3Dnone;
+        d=3D<a href=3D"http://google.com">google.com</a>; s=3Darc-20160816;
+        b=3DNQdooeL4GiE5NrBR85o49eOwWewErDlqZKZymUR1Hx8m9r93a3Pc5O+9UmKQI+i=
+rhA
+         Rgltw5d5mE5fuvpUsSnB20xPUK7uASqymiccVKnizMtMtOhZ1DjKsn4MSfGPYXs3a4=
+oZ
+         RsyH4X8mXsrv26j4ccApZ3DpFO0IM7cFlUd2bqaRksb4XO1gPYRcbXQU9NGJ7ejBzd=
+/w
+         Nkq0FV7jz5IkfjWiBKz6MbjdKHl0SAEdZACk90eCI4wjCWR7rZUCYG5rW0qvVTAJEm=
+qd
+         wxm4qpjo4zrLcKEf7Ing8mHJDTNXffgi/ViAXjdcXmmnEgCKkZOHQZoHoyUB05KLwa=
+9l
+         p2CQ=3D=3D
+ARC-Message-Signature: i=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3D<a h=
+ref=3D"http://google.com">google.com</a>; s=3Darc-20160816;
+        h=3Dmime-version:organization:date:subject:from:reply-to:message-id
+         :dkim-signature;
+        bh=3D7WEp6uglfbisv32UMEAI9uGgbN1bb2owQtUxYHytxCQ=3D;
+        fh=3D47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=3D;
+        b=3DwkV/3O/sZfXm8e0JYUWtpFeoejfP9DasugVhGuuS7ZqNOROerCfoxwCNvaG7G9F=
+JOj
+         WF9zLONyDKBcj62rrdEZ9AhJRRRpR+KopZ5vVWQpuacBCF9Jcwb7t1wpEKSg0kdDIV=
+IF
+         g0TyJWxwtBD2sQqQeCqJ+8s2VwpGJG8L6BTdtQ2nuzm2NrpPgAk/k/NGVk6no8Zg95=
+4P
+         jG/FV7VpQeaZgIZZRmvDYrCsgvtVp7R1xWtKwAWbf5x3zlaT/oZgS/MclJTdli8mxl=
+yR
+         BOZgt0fPpv3uWzzPGDgvKMzfZ7hc8KEGU5AKyNZB+tC2l8zGTZSjv+PFwkTmp6Tb3R=
+nx
+         PyPg=3D=3D;
+        dara=3D<a href=3D"http://google.com">google.com</a>
+ARC-Authentication-Results: i=3D1; <a href=3D"http://mx.google.com">mx.goog=
+le.com</a>;
+       dkim=3Dpass header.i=3D@<a href=3D"http://gilbertovelasquez.com">gil=
+bertovelasquez.com</a> header.s=3Ddefault header.b=3D&quot;T8IOhXM/&quot;;
+       spf=3Dfail (<a href=3D"http://google.com">google.com</a>: domain of =
+<a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it</a> does not des=
+ignate 45.56.74.208 as permitted sender) smtp.mailfrom=3D<a href=3D"mailto:=
+news@nordexbordi.it">news@nordexbordi.it</a>;
+       dmarc=3Dfail (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3D<a href=
+=3D"http://nordexbordi.it">nordexbordi.it</a>
+Return-Path: &lt;<a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it=
+</a>&gt;
+Received: from <a href=3D"http://li924-208.members.linode.com">li924-208.me=
+mbers.linode.com</a> (<a href=3D"http://li924-208.members.linode.com">li924=
+-208.members.linode.com</a>. [45.56.74.208])
+        by <a href=3D"http://mx.google.com">mx.google.com</a> with ESMTPS i=
+d i21-20020a9d68d5000000b006e530a94380si1770157oto.329.2024.03.25.21.37.54
+        (version=3DTLS1_2 cipher=3DECDHE-ECDSA-AES128-GCM-SHA256 bits=3D128=
+/128);
+        Mon, 25 Mar 2024 21:37:54 -0700 (PDT)
+Received-SPF: fail (<a href=3D"http://google.com">google.com</a>: domain of=
+ <a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it</a> does not de=
+signate 45.56.74.208 as permitted sender) client-ip=3D45.56.74.208;
+Authentication-Results: <a href=3D"http://mx.google.com">mx.google.com</a>;
+       dkim=3Dpass header.i=3D@<a href=3D"http://gilbertovelasquez.com">gil=
+bertovelasquez.com</a> header.s=3Ddefault header.b=3D&quot;T8IOhXM/&quot;;
+       spf=3Dfail (<a href=3D"http://google.com">google.com</a>: domain of =
+<a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it</a> does not des=
+ignate 45.56.74.208 as permitted sender) smtp.mailfrom=3D<a href=3D"mailto:=
+news@nordexbordi.it">news@nordexbordi.it</a>;
+       dmarc=3Dfail (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3D<a href=
+=3D"http://nordexbordi.it">nordexbordi.it</a>
+DKIM-Signature: v=3D1; a=3Drsa-sha256; q=3Ddns/txt; c=3Drelaxed/relaxed; d=
+=3D<a href=3D"http://gilbertovelasquez.com">gilbertovelasquez.com</a>; s=3D=
+default; h=3DContent-Type:MIME-Version:Date:Subject: From:Reply-To:Message-=
+ID:Sender:To:Cc:Content-Transfer-Encoding:Content-ID: Content-Description:R=
+esent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc :Resent-Message-ID=
+:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe: List-Subscribe:=
+List-Post:List-Owner:List-Archive; bh=3D7WEp6uglfbisv32UMEAI9uGgbN1bb2owQtU=
+xYHytxCQ=3D; b=3DT8IOhXM/bCh4a5ltMXJGCrPKPE osy51KvlfXcwXwYQNW3TVXEgruzND2R=
+dqqitywDU3IV3d//++udYXS1bbbzpNIw4Yigmwn8E5eoJX TX8O3DjtOWX0kKU9UF5fKbUvUO6F=
++PDoR/GZqjvZFN/n5+IXWVcVkJTFZ6wmz79/PD6bwtbEROIJD GQlnbbyKIEFVyOEAiQVaFjmYH=
+m0CgiKenodbmAJQxnLJ8EttPReombCDEw7UnG89aAao/5ju4JOVL mViRWCBmBvSCPZaOfN3BW/=
+v/PiVdau3oWGaxHlM+uxQtezxmaNYcrDuYH+QVhP2xJH3Rp5IjoXI8k zPUM/ixg=3D=3D;
+Received: from [77.40.9.102] (port=3D49511 helo=3Dchbygh) by <a href=3D"htt=
+p://node201.myfcloud.com">node201.myfcloud.com</a> with esmtpsa
+  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2) (envelop=
+e-from &lt;<a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it</a>&g=
+t;) id 1rlfWs-0003E3-1g; Sun, 17 Mar 2024 01:41:42 +0000
+Message-ID: &lt;<a href=3D"mailto:ACA91F4C4793BCDF03064FF044D24DA7@nordexbo=
+rdi.it">ACA91F4C4793BCDF03064FF044D24DA7@nordexbordi.it</a>&gt;
+Reply-To: Tsira &lt;<a href=3D"mailto:chudolittle@gmail.com">chudolittle@gm=
+ail.com</a>&gt;
+From: Tsira &lt;<a href=3D"mailto:news@nordexbordi.it">news@nordexbordi.it<=
+/a>&gt;
+Subject: Good afternoon I want to know more about you!
+Date: Sun, 17 Mar 2024 04:41:42 +0300
+Organization: <a href=3D"mailto:chudolittle@gmail.com">chudolittle@gmail.co=
+m</a>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary=3D&quot;f974073a89e67d353678c=
+8264b2f&quot;
+X-AntiAbuse: This header was added to track abuse, please include it with a=
+ny abuse report
+X-AntiAbuse: Primary Hostname - <a href=3D"http://node201.myfcloud.com">nod=
+e201.myfcloud.com</a>
+X-AntiAbuse: Original Domain - <a href=3D"http://gmail.com">gmail.com</a>
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - <a href=3D"http://nordexbordi.it">nord=
+exbordi.it</a>
+X-Get-Message-Sender-Via: <a href=3D"http://node201.myfcloud.com">node201.m=
+yfcloud.com</a>: authenticated_id: <a href=3D"mailto:postmaster@gilbertovel=
+asquez.com">postmaster@gilbertovelasquez.com</a>
+X-Authenticated-Sender: <a href=3D"http://node201.myfcloud.com">node201.myf=
+cloud.com</a>: <a href=3D"mailto:postmaster@gilbertovelasquez.com">postmast=
+er@gilbertovelasquez.com</a>
+X-Source:=20
+X-Source-Args:=20
+X-Source-Dir:=20
+
+--f974073a89e67d353678c8264b2f
+Content-Type: text/plain; charset=3D&quot;utf-8&quot;
+Content-Transfer-Encoding: quoted-printable
+
+Hello!
+How are you?
+I hope that I was not mistaken and wrote correctly.
+Are you a single man and looking for a partner?
+I am a single woman and am looking for love and a serious relationship.
+My name is Tsira, I believe that love transcends age.
+I am looking for a real relationship based on mutual respect.
+I will be honest and sincere with you from the first letter!
+I&#39;m looking for your answer.
+Best regards, Tsira.
+
+--f974073a89e67d353678c8264b2f
+Content-Type: text/html; charset=3D&quot;utf-8&quot;
+Content-Transfer-Encoding: quoted-printable
+
+&lt;HTML&gt;&lt;HEAD&gt;
+&lt;META http-equiv=3D3D&quot;Content-Type&quot; content=3D3D&quot;text/htm=
+l; charset=3D3Dutf-8&quot;&gt;
+&lt;/HEAD&gt;
+&lt;BODY bgColor=3D3D#ffffff&gt;
+&lt;DIV align=3D3Dleft&gt;&lt;FONT size=3D3D3 face=3D3D&quot;Times New Roma=
+n&quot;&gt;Hello!&lt;BR&gt;How are=3D
+ you?&lt;BR&gt;I=3D20
+hope that I was not mistaken and wrote correctly.&lt;BR&gt;Are you a single=
+ man a=3D
+nd=3D20
+looking for a partner?&lt;BR&gt;I am a single woman and am looking for love=
+ and a=3D
+=3D20
+serious relationship.&lt;BR&gt;My name is Tsira, I believe that love transc=
+ends=3D
+=3D20
+age.&lt;BR&gt;I am looking for a real relationship based on mutual respect.=
+&lt;BR&gt;I =3D
+will=3D20
+be honest and sincere with you from the first letter!&lt;BR&gt;I&#39;m look=
+ing for yo=3D
+ur=3D20
+answer.&lt;BR&gt;Best regards, Tsira.&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;DIV align=3D3Dleft&gt;&lt;/DIV&gt;&lt;/BODY&gt;&lt;/HTML&gt;
+
+--f974073a89e67d353678c8264b2f--</pre></div></div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message --=
+-------<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Tsira</str=
+ong> <span dir=3D"auto">&lt;<a href=3D"mailto:news@nordexbordi.it">news@nor=
+dexbordi.it</a>&gt;</span><br>Date: Tue, Mar 26, 2024 at 12:37=E2=80=AFAM<b=
+r>Subject: Good afternoon I want to know more about you!<br>To: <br></div><=
+br><br>
+
+
+<div bgcolor=3D"#ffffff">
+<div align=3D"left"><font size=3D"3" face=3D"Times New Roman">Hello!<br>How=
+ are you?<br>I=20
+hope that I was not mistaken and wrote correctly.<br>Are you a single man a=
+nd=20
+looking for a partner?<br>I am a single woman and am looking for love and a=
+=20
+serious relationship.<br>My name is Tsira, I believe that love transcends=
+=20
+age.<br>I am looking for a real relationship based on mutual respect.<br>I =
+will=20
+be honest and sincere with you from the first letter!<br>I&#39;m looking fo=
+r your=20
+answer.<br>Best regards, Tsira.</font></div>
+<div align=3D"left"></div></div>
+</div></div>
+
+--0000000000001fa979061492af61--

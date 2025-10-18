@@ -1,0 +1,230 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id D6AD0BAC-B367-4744-BE33-2B0EB25F21DA.1
+	envelope-from <abuse+bncBDKLRBGPRACBBFVAUSUQMGQEDLBS4KA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 13 Oct 2023 09:38:31 +0000
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-35121032cc3sf11778505ab.0
+        for <abuse@digitalocean.abusehq.net>; Fri, 13 Oct 2023 02:38:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1697189910; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=CUPUt2XE0LCFNxJn7uZAkIsuBLWvqck9zwbQI4dG9dO2sm4PanW2uxqNytTNAX2EKa
+         3HgFVxl6itWWP/dPEOZ+hr8icmN4G/R8Ix2eONj1T6bagzgRZeut5bCQlT5l2xKSlBTn
+         vkK5u/UolhSqt+cgKds03NlZ1ih5g9mm7DMcfMy/JzmRrMx6UMG2GgHqf/BJKDcCrr1i
+         erKmdhD+4+ZQ3i983DPiOBrpkbIg3MrkHH82dmzZpfmqLgnfZplLJMsFlwFvJW9MyWMG
+         K/AaD+ks272eYspJdLF46eEPZQS2jNe7bBmscuWY06JiDQTdYh27sywF9FDxXT8gP4tR
+         iiGA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:date:reply-to:subject:to:from
+         :content-transfer-encoding:mime-version:message-id:sender
+         :dkim-signature;
+        bh=0nWi0iFqOjT4IImM3T/Sfzf4WSZAZUDDAqhKkrcvHy4=;
+        fh=sfrtv527dSW84rsR+rBIRw0mSnlPrXnR3c/5gNxCoGQ=;
+        b=e9pqRUuDb9YVvKWpiFQDDL2RXDecz0OAs6GjWBnFhBgbUv0itajWE3OTiOorW09HnA
+         UUn6G55/KfeH+2FSSfTdhhzodmo4SuLL+PQCGHvnVTDF9PHdGxMigI+6YnMT8/rjPGLw
+         H/KJvhdJvsjLYc6CC35/Qfel0D4AUY8K2vv+jIjvmTXzUQ3zkyTGHw26C/pVSsw5vkCN
+         G7+jebJLD+p3J1V6pWhj6aBKndtIZQmOx7rpfKudP3XXKuSmys++3yYjPeaWk/+DAIIZ
+         wKfkhV7ZcZ9mKtM+LHuBA2d6wxLKXWoWzIXYpAq6SUKB5EOe2wrcxL1JJ2GTS0MS/P1b
+         H7bw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@ncsc.fi header.s=s3 header.b=iN3BMbvV;
+       spf=pass (google.com: domain of cert@ncsc.fi designates 87.239.125.165 as permitted sender) smtp.mailfrom=cert@ncsc.fi;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ncsc.fi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1697189910; x=1697794710; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:reply-to:subject:to:from
+         :content-transfer-encoding:mime-version:message-id:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0nWi0iFqOjT4IImM3T/Sfzf4WSZAZUDDAqhKkrcvHy4=;
+        b=OvZu0niQ2OEU/f/Zc0tmkzJQzdwIp4aSNUKT6tUEZVGxg7jC0yjvpJssUVjPSV6S0Z
+         pzVuKjxVyjOARTUYmHBEm/VJEsnBsMTKKSFXH2q3upjYbP3gYOz5Ttx/CisnI9BwbvNc
+         NuAxO/4s7cw/zqvtwWWJ+wUzJwfqsrborJjYM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697189910; x=1697794710;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:reply-to
+         :subject:to:from:content-transfer-encoding:mime-version:message-id
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0nWi0iFqOjT4IImM3T/Sfzf4WSZAZUDDAqhKkrcvHy4=;
+        b=d1xp4v4nI5RkmRg7y5HYYFXv+eCBJFPPyg+C1GmHGzhGRSkyq5Sq2XBC9HZYyboZtX
+         /Ab5U4n69o0PxmzXfw2BItuJOShCz3/x8SovlyXJqptoJBmiNmUasdvb1D9mpyoZc8Rp
+         aosSHjseJTILyqNjyFhC/4p8opDyRXQltUtfYnNiV6qgxtWHZ+D5UB/W/q4dYcP4+9lx
+         mKyxRdTosurAjNXxg5hm4ahsTwcmq86lkf3YYsIddX0hje/39BbcxlPany69IaJ+poNv
+         Oef7ammI5ZwzOg9jd34e9EFXCB4E5yT6nMp76CP16A8Sw4OppP7veqUcTsh9CqaOFUoj
+         pb8w==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0YwQEQ0QW/SlesZRM7GEF+zGmNMqAG+cqphSqR8+Cgc0AoXdSDSW
+	wW5X5rjWb8A23AMKHAxcn2D2Jg==
+X-Google-Smtp-Source: AGHT+IEPOaHtS+PX58F6oAYqCaWelapYQw/As5qTgE/+ixZFfcCL2Cc8mCXaUNESANUQB+BnyNyshw==
+X-Received: by 2002:a05:6e02:12c2:b0:34f:3262:a8bf with SMTP id i2-20020a056e0212c200b0034f3262a8bfmr36598319ilm.17.1697189910665;
+        Fri, 13 Oct 2023 02:38:30 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a92:750c:0:b0:34d:eb4d:cc83 with SMTP id q12-20020a92750c000000b0034deb4dcc83ls749486ilc.1.-pod-prod-01-us;
+ Fri, 13 Oct 2023 02:38:30 -0700 (PDT)
+X-Received: by 2002:a5d:9910:0:b0:780:c787:637b with SMTP id x16-20020a5d9910000000b00780c787637bmr30125175iol.0.1697189909858;
+        Fri, 13 Oct 2023 02:38:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1697189909; cv=none;
+        d=google.com; s=arc-20160816;
+        b=h+N/r9T+RV4NwZkfBTve76LjRPhnh9X968KwQKVf3RJzUUq3UZGVpXtDduwUz7DW2q
+         qLeJoPsJOxP/xPbsIIF77581kbHyWwRLCeotj18s9LTjzJlZJNSW+vc3I7ZMzuQWfusy
+         FqsT6hbPinfpP34kr7AUWAqlaf0eW1hp4+elvlv+oexzJ1WOG8uyQbht0QzER1QBle8t
+         KpvStmoj0HVkZmwfRe6I7tK++ZKOV3mxVyy7S8iG949qpfX4f5izbIU/yWAIf5IN8L3T
+         X+BmODAnNhulgECKks13zwX3P08CQRFqTnbCqtAMckRXeqOJ3BMxVFQCJiic/wuln0sV
+         T0bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:reply-to:subject:to:from:content-transfer-encoding
+         :mime-version:message-id:dkim-signature;
+        bh=0nWi0iFqOjT4IImM3T/Sfzf4WSZAZUDDAqhKkrcvHy4=;
+        fh=sfrtv527dSW84rsR+rBIRw0mSnlPrXnR3c/5gNxCoGQ=;
+        b=gnjgZOZekfLGiGBzyQIB64R1KOu0mw2SXJ3Y756VTEgDVTSUvcvGoOksCbZq9QgTwq
+         0HSnCL7QJB2wBjna3bNENlLcyslePr2XlFLlrYQs2GC8PBjY4BtkUBHgFxjWBySU/p0z
+         OxHF5VSCcoGjuyUAlf0s3rwEpL2hK/moe6wXx3pzomfPMVWkTDhNVgFKGqz++ap2LE82
+         jgIhJsqfd2cLfNdRsu6bWrgNXZcbsoTR0VX/uSOJae2SNZlaU0qGX3nFlOna6/7A8QLX
+         ReycWyUjokzvozJiw/Dh/bok+XKptWpsZ9fC4ys4HY9N/RN3CEDtEzbnOlMvDyeWY4IE
+         Cr2A==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ncsc.fi header.s=s3 header.b=iN3BMbvV;
+       spf=pass (google.com: domain of cert@ncsc.fi designates 87.239.125.165 as permitted sender) smtp.mailfrom=cert@ncsc.fi;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ncsc.fi
+Received: from mail2.traficom.fi (mail2.traficom.fi. [87.239.125.165])
+        by mx.google.com with ESMTPS id u22-20020a05663825d600b004310f9471aasi6409539jat.79.2023.10.13.02.38.28
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 13 Oct 2023 02:38:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cert@ncsc.fi designates 87.239.125.165 as permitted sender) client-ip=87.239.125.165;
+Message-Id: <0b127f$khtpn@mail2.int.traficom.fi>
+X-IronPort-AV: E=Sophos;i="6.03,221,1694725200"; 
+   d="scan'208";a="21559095"
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+From: cert@ncsc.fi
+To: incidents@ncsc.gov.uk,abuse@digitalocean.com,cert@ncsc.fi
+Subject: [FICORA #1248443] Spam source in your network
+Reply-to: cert@ncsc.fi
+Date: Fri, 13 Oct 2023 09:36:39 -0000
+X-Original-Sender: cert@ncsc.fi
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@ncsc.fi header.s=s3 header.b=iN3BMbvV;       spf=pass (google.com:
+ domain of cert@ncsc.fi designates 87.239.125.165 as permitted sender)
+ smtp.mailfrom=cert@ncsc.fi;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ncsc.fi
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+*******************************************************************
+
+        Incident ID: 1248443
+
+*******************************************************************
+
+Spam source in your network
+
+NCSC-FI has received information about a computer in your network used
+to send spam. Please notify your customer about the issue and take
+appropriate measures to remove the computer from your network as soon
+as possible. If you are not the contact responsible for this domain,
+please forward this message to whom it may concern.
+
+- NCSC-FI case: 1248443
+- Host ip: 188.166.144.159
+- Hostname: santalucia-rp.com
+- Timestamp: 2023-10-13T09:36:39.580114+00:00
+- ASN: 14061
+- Host country: GB
+
+Phishing message headers:
+Return-Path: <OmaVero-Palvelu@santalucia-rp.com>
+Delivered-To: info@ittna.fi
+Received: from cloud6.hostingpalvelu.fi by cloud6.hostingpalvelu.fi with 
+LMTP id sLDTEVbzKGUJCSoA3zE4/Q (envelope-from 
+<OmaVero-Palvelu@santalucia-rp.com>) for <info@ittna.fi>; Fri, 13 Oct 
+2023 10:35:50 +0300
+Return-path: <OmaVero-Palvelu@santalucia-rp.com>
+Envelope-to: info@ittna.fi
+Delivery-date: Fri, 13 Oct 2023 10:35:50 +0300
+Received: from filter4.hostingservice.fi ([31.217.196.100]:41202) by 
+cloud6.hostingpalvelu.fi with esmtps  (TLS1.2) tls 
+TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.1) (envelope-from 
+<OmaVero-Palvelu@santalucia-rp.com>) id 1qrCi4-00BZSq-0W for 
+info@ittna.fi; Fri, 13 Oct 2023 10:35:50 +0300
+X-DKIM-Failure: signature_incorrect
+Received: from santalucia-rp.com ([188.166.144.159]) by 
+filter4.hostingservice.fi with esmtps 
+(TLSv1.3:TLS_AES_256_GCM_SHA384:256) (Exim 4.92) (envelope-from 
+<OmaVero-Palvelu@santalucia-rp.com>) id 1qrChQ-0006i8-Rr for 
+info@ittna.fi; Fri, 13 Oct 2023 10:35:10 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=mail; 
+d=santalucia-rp.com; 
+h=Message-ID:Reply-To:From:To:Subject:Date:MIME-Version:Content-Type; 
+i=OmaVero-Palvelu@santalucia-rp.com; 
+bh=KBXMFeNt/q9W3pLImOrBDFB2pl1V4DhPOHdPhTfC2z4=; 
+b=WKHhOtHC0NE4zuyLxhkoGVLMwdVEmBeqE/3KHaTKJYSGBr0HL50NM2OPp8Ck3MN0lC4EpUlsYOcF 
+ 
+XWlXEHkPANnycrl0GSeMitAN+fRa9tXCrziYGN6Tf3UZoQBN0PVfzijxcM7wtfp0UIAxfarC4Yrk 
+   tzfZZUPM4x/JRmXhpmE=
+Message-ID: <2db800ab5ede0a01275d14bf59bd9649f8ea9f@santalucia-rp.com>
+Reply-To: OmaVero-Alert <OmaVero-Palvelu@santalucia-rp.com>
+From: OmaVero-Alert <OmaVero-Palvelu@santalucia-rp.com>
+To: info@ittna.fi
+Subject: Sinulla on oikeus veronpalautukseen - REF.  JN946615NA
+Date: Fri, 13 Oct 2023 09:33:19 +0100
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+boundary="a10b43aca6624d96b51f44cf3a2ac8d94c"
+Received-SPF: pass (filter4.hostingservice.fi: domain of 
+santalucia-rp.com designates 188.166.144.159 as permitted sender) 
+client-ip=188.166.144.159; 
+envelope-from=OmaVero-Palvelu@santalucia-rp.com; helo=santalucia-rp.com;
+X-SPF-Result: filter4.hostingservice.fi: domain of santalucia-rp.com 
+designates 188.166.144.159 as permitted sender
+X-ADSP: all
+Authentication-Results: filter4.hostingservice.fi; iprev=pass 
+(santalucia-rp.com) smtp.remote-ip=188.166.144.159; spf=pass 
+smtp.mailfrom=santalucia-rp.com; dkim=fail (signature did not verify; 
+headers probably modified in transit)    header.d=santalucia-rp.com 
+header.i=OmaVero-Palvelu@santalucia-rp.com header.s=mail 
+header.a=rsa-sha256; dmarc=pass header.from=santalucia-rp.com
+Authentication-Results: hostingservice.fi; spf=pass 
+smtp.mailfrom=OmaVero-Palvelu@santalucia-rp.com; dkim=fail 
+(signature_incorrect) header.i=santalucia-rp.com; dkim=fail 
+(signature_incorrect) header.i=OmaVero-Palvelu@santalucia-rp.com
+X-SpamExperts-Class: unsure
+X-SpamExperts-Evidence: Combined (0.51)
+X-Recommended-Action: accept
+X-Filter-ID: 
+Mvzo4OR0dZXEDF/gcnlw0b9/iiGCkXek8t11ARRTBKapSDasLI4SayDByyq9LIhVX5ZhlZ2k74KM 
+1xJ9b1tm/0TNWdUk1Ol2OGx3IfrIJKywOmJyM1qr8uRnWBrbSAGDEUOcwT33+uNq3+3qeRpdJ7gN 
+zB/4Jkrw1eDLcif59fvaSgFwzPQAjElalbbrMz2//sevPPdLVvjz7b14RFNIS2MVo44c6stHgQGA 
+4FONDbsYZgosT5dkLqdJClMgmr1n51nu9k1cZaC+sYW9ISd+1aw/zM1e6TBpuNxWWahKbv5bleUx 
+4MDEJPj6jqchKui00a9pFKUghlK8R/anF8mtntin0uov1ETtYyPq77sz97fuGkW4FoZSRpYiHFNa 
+T0oagQbH3zcZFMm/vugVlEOqkLPK16HGKK0dy5Y97lT7Ti/v2oqOlQ4qyQjlQPoWhI/WdvDCn9+Z 
+R0rwulMg4apIQ7wqyT5p50x81ZKcmzCu2U332nmT76kOVp5RrXpZsanNxCpDcxOUjUruAkv6RvQx 
+OMkUGcbJuEOaJswLj+MirRi/w2zCcPHRzIJ85gHnuZljqSsOTYpktHBKz/T5z3S1NIRN8yBtSA6n 
+JgkjWDEqCagj0djJy0/p3XM98cfyXYe8++DuIQUs/5JJj4C/n4CILtjfc+S41UvevQWSVUnEK9pI 
+slNa3xJdddRuiSXdZaweSOcODgqIuMqc17gr92BZ7tFfB9h3/KBq4yWtLMyXKl33Y80OmAux3oN1 
+3+ztUzneh1g8CmGBiRtVLtKNHmvm7T4yCXEzdYPHOvUlFI5AKAPwKdZ1CLioAbdwAMPppTWNet87 
+V6vtMRnt7YMXq8YFaHPEpQwlApgvoWzdbUjG6ZBI0xXN0de8ikMlbOrwrDpkz1caQoi44Wcfj1z/ 
+J5tTt8iSgtXGhilfg9+8IKQCI8jRYmFpJOObhHvhxzMyne+iZM3s3foQAM49faMm/RHAZpxAzjn5 
+xb37DXJE2PWq5lsfJSgk6DosW7BKDQ6jeySc
+X-Report-Abuse-To: spam@quarantine.hostingservice.fi
+
+*******************************************************************
+We kindly ask to preserve the Incident ID in the Subject
+Line of all E-mail replies regarding this issue.
+
+*******************************************************************

@@ -1,0 +1,606 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@xneelo.com header.d=xneelo.com header.s=se;
+	dkim=pass header.i=@dreamworldpartners-com.20221208.gappssmtp.com header.d=dreamworldpartners-com.20221208.gappssmtp.com header.s=20221208
+Received: from outgoing10.cpt4.host-h.net (outgoing10.cpt4.host-h.net [197.189.249.67])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id D898A14F-C30A-47E8-AA6E-A4EEACBF96CE.1
+	envelope-from <hetz@mail1.cpt3.host-h.net>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 19 May 2023 17:55:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xneelo.com;
+	 s=se; h=Content-Type:To:Subject:Message-ID:Date:From:MIME-Version:reply-to:
+	sender:cc:bcc:in-reply-to:references:content-transfer-encoding;
+	bh=SdM97EBrZB3kRWdBjw5EHzfBy8R0CLC7haTG+i5xVQE=; b=I5Pd2BhFMZQ2nsfPQSCbfiZAOH
+	tM4vZQfcvM7GGObrP7i+1zIeJxn6GNXn5GcjaOuu6vVr2B1jVz20YP6a6IPKAP+z/ni3Id142MwUA
+	1+MEGQqpHeeaBRDSzzbGDPFAlQNlsJD4s1n+WA5BZw22vYUCY7Nu+NDz9hZ+fEGISU14T439u3E8y
+	QLiaRabWWQlCw+gzQ98GSJLtoguFkGftVJVNMeZdV4fqjsBrgEok/NtRbSJYxbFc+P8Ed2W7lgtcP
+	SbkyvQg36VPGhZAniuKunnymqUtb1w3r+eOOHWlzVCkN1h6De65WoZTvGHGRaQM+F9X7r8fvmVFc7
+	lf1yaiyg==;
+Received: from mail1.cpt3.host-h.net ([197.221.0.19])
+	by antispam2-cpt4.host-h.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <hetz@mail1.cpt3.host-h.net>)
+	id 1q04Jo-007hq7-EJ
+	for abuse@xneelo.abusehq.net; Fri, 19 May 2023 19:55:09 +0200
+Received: from localhost ([127.0.0.1] helo=mail1.cpt3.host-h.net)
+	by mail1.cpt3.host-h.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <hetz@mail1.cpt3.host-h.net>)
+	id 1q04Jm-0004GU-Q5
+	for abuse@xneelo.abusehq.net; Fri, 19 May 2023 19:55:07 +0200
+Received: from hetz by mail1.cpt3.host-h.net with local (Exim 4.92)
+	(envelope-from <hetz@mail1.cpt3.host-h.net>)
+	id 1q04Jm-0004GO-IE
+	for abuse@xneelo.abusehq.net; Fri, 19 May 2023 19:55:06 +0200
+X-Sieve: Pigeonhole Sieve 0.5.4 ()
+X-Sieve-Redirected-From: abuse-headers@xneelo.com
+Received: from mail1.cpt3.host-h.net
+	by mail1.cpt3.host-h.net with LMTP
+	id EPB7Gvq3Z2RmPwAAbNNNQw
+	(envelope-from <sam@dreamworldpartners.com>)
+	for <abuse-headers@xneelo.com>; Fri, 19 May 2023 19:55:06 +0200
+Received: from antispam2-cpt4.host-h.net ([197.189.244.82])
+	by mail1.cpt3.host-h.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sam@dreamworldpartners.com>)
+	id 1q04Jk-0004Fd-N1
+	for abuse@xneelo.com; Fri, 19 May 2023 19:55:05 +0200
+Received: from mail-yw1-f174.google.com ([209.85.128.174])
+	by antispam2-cpt4.host-h.net with esmtps (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sam@dreamworldpartners.com>)
+	id 1q04Je-007he6-0X
+	for abuse@xneelo.com; Fri, 19 May 2023 19:55:01 +0200
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-561d1c4846cso4897127b3.1
+        for <abuse@xneelo.com>; Fri, 19 May 2023 10:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dreamworldpartners-com.20221208.gappssmtp.com; s=20221208; t=1684518894; x=1687110894;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SdM97EBrZB3kRWdBjw5EHzfBy8R0CLC7haTG+i5xVQE=;
+        b=TLzqFf0WtZ+fMnDu8LSWo3LMTcz7S4URLAm0poxQj10g42TochmXYtkKr6poHEVBBP
+         j/MoOXcaVeGY6IjwRaTEbQnMgg8lWTlJDgMmucWcyyqzqZxyPjq0K9qxbjt7zMGYcQbr
+         bqFyfrZsOKt2FL04+4vITmUr0w15ADnOos7CstunRPzGqp3P3s1xZftJbzAz6sdOCLaP
+         ih7lKZyaK2VPp8ufRejW++JiK5ZjmPkU6qADLU9o5K92hmLVzMIzUYfIw8ICU7j3aj7j
+         p8Us4e5I4kAbQTRoMzRC6uI4Plp9euMPjMz41bcf3eIelfgCrd7uJ3ETVHIaSyvgOEZv
+         sR0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684518894; x=1687110894;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SdM97EBrZB3kRWdBjw5EHzfBy8R0CLC7haTG+i5xVQE=;
+        b=TcNYRQMoXTYGvtnTSuARSiG8X2KzhUUKjkISRnWfB/zFY2G0OBMmqCVLR9i0kXk7jc
+         D3ELfwSRQNpHLCUzKuIm/kCXUB16rEOG12vytB7en0eYfMUMmBBTZTSVdDFnjCYzteQw
+         M6tPhUNRN7KMaAXPSpYFKqAYVfRAroZgqGH2eJtEDdpAbcWbBa1lacWjD9xGi6yu8uyH
+         2oTKZgFuRJT5VPS4NqfcMt1MX4m5Jt5tgRjxc40IroGcRSjLX+kQD8dijwe4FPwZgWUj
+         vQ0kNZqfqRR4Vx0PgVt/PNes7sVgwImnyst0hHvfK0tBgKEEOmEB8LI6mDtuI9ZVRfvQ
+         dUug==
+X-Gm-Message-State: AC+VfDx6gn5LQ7Cq07eqiMc+vxAddJVt82AFrdnbXrhBEdtVapb+Csy9
+	V7UmzSooN4Ia5NNLdGSuBL0/qQA+GzmvC6YVsNRSqkGrJcZhoUxzVQ==
+X-Google-Smtp-Source: ACHHUZ5bEAvnNfhq0SDdTjbp4yjcJ2DeKKmZN2jGRXMqXHb55thBifrjpYpW7Ns414Ypn6uYr06E6KqmR//BEEd2bns=
+X-Received: by 2002:a81:7016:0:b0:561:1c43:c4c2 with SMTP id
+ l22-20020a817016000000b005611c43c4c2mr2909265ywc.5.1684518893799; Fri, 19 May
+ 2023 10:54:53 -0700 (PDT)
+MIME-Version: 1.0
+From: Sam Westbrook <sam@dreamworldpartners.com>
+Date: Fri, 19 May 2023 12:53:57 -0500
+Message-ID: <CAKwyiXQHYyX3eiXQGZtAeRDA2Pv_3aSbDMMr9dZ=H+4y-EhXsw@mail.gmail.com>
+Subject: Trademark Violation Notice - Compromised Website
+To: "xneelo Trust & Safety" <abuse@xneelo.com>
+Content-Type: multipart/alternative; boundary="00000000000048663305fc0f9e8f"
+Received-SPF: pass (antispam2-cpt4.host-h.net: domain of dreamworldpartners.com designates 209.85.128.174 as permitted sender) client-ip=209.85.128.174; envelope-from=sam@dreamworldpartners.com; helo=mail-yw1-f174.google.com;
+X-SPF-Result: antispam2-cpt4.host-h.net: domain of dreamworldpartners.com designates 209.85.128.174 as permitted sender
+X-SpamExperts-Class: not-filtered
+X-SpamExperts-Evidence: recipient
+X-Recommended-Action: accept
+X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0a1TH2PAsCdBCefHR9dLpBupSDasLI4SayDByyq9LIhVz4430uhYEAks
+ X1w7WrWJIbAzHTGDSgSjQibbuaLsHgQfIHNbbhu5Jo+JL+C3bIUp0qRiSaRjfl4miP6LoQ4WjX12
+ IjyQ+OuQlP/JKTNptj7moqZWKUCGUiq61lbZguafMl4MAvcgvFLow/Nc8j7s/tfwYErb4UK8xFf9
+ 7EoF4gz1QeyVxVRA9dztHGwWW2LHvxyCxPq8h2+7l5mekUe83c8R3ZgmCrCOlxidSHTf5T54f6Yv
+ +0J/OK9WD+27mSkdOYXsARZTu5LqHd+Uzd2M/718YSalNx3iIBYmwwXiKLygta8yORT0eUfZpn7+
+ stwzB0kjkCbyqzSYKXVq/zyHb8GRvsOpSBTp9GGaGP0B/2tjQt67ZMgwlkevgE7Kl27XsLQClN/8
+ gpGP0NLUFXZaedXbE3FrTSuf50i1ZVZhq8RY1OvDgelzOrnn2N+xFaOORPhjaHSl7kAv9akJtHOx
+ oLmKeJENT1oiQUtfU17WEZNTdtzTRXRC9x7UFfLBfkEsPCUyF7CgYDa2WCStgLqRR++9jkpROwx8
+ yEkAwr+E5pbJDp89JrMFV2ZKRVXuWYBgkJQMvVC15AYJ4a+q21iI1oP+w4PuRay3zGhKaORbeC8s
+ uVaOsTohfZcZAm3ZkGbkLUmJJgqpTAE3jUrSMEY1lLqYPBqT/cdbRRMaFC+it8594TMLEo+LLnk8
+ hbTKWfe3LUgXM5zwN/QuGN5aqesYtDXySbWXrWQ8UChWVPoyVOKj/AISD/mk851vb7etAM1URKd6
+ dFQpk23eHPNSR3SDdH6XkqMV5q8534n7c2Cl26BbVtLtxtO3A6cSo9hYdGBJ+XfTKZ8tjKpa13DE
+ MjbVfwlKqGcQrNc13UGRDil6eaXDqcigOvSxdRnthmhn8Zn6atTje5SA645N6m8iDaA9Tf6zLKfC
+ tXqYvkdOs7ZcWh3eNHk15VolAGHS5rCXQKDy2sdUcNTAGOrfhY+gArOL/tmth7IYjMFSo2Tl8o6c
+ XtMxL7hrJSk60SF3F6RYOYr2
+X-Report-Abuse-To: spam@antispamquarantine.host-h.net
+X-Virus-Scanned: Clear (ClamAV 0.103.8/26608/Thu Jul 21 09:57:36 2022)
+X-Originating-IP: 197.221.0.19
+X-SpamExperts-Domain: xneelo.com
+X-SpamExperts-Username: 
+X-SpamExperts-Outgoing-Class: whitelisted
+X-SpamExperts-Outgoing-Evidence: rule/header
+X-Recommended-Action: accept
+X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT8Wip+HgyyUxdc26mqIiCX+nzo7nQn5RqIF
+ JeWNLOjbiNUlcoxRZ4l59whM6NMkh25EzVnVJNTpdjhsdyH6yCSssDpicjNaq/LkZ1ga20gBg4fS
+ srZQiKy4gjkr5UJmF5QBsklM42F0tSuIhPhTuDkQgl8qJZhboFlB/cELPD2qzFprjQPFk8m4tSTf
+ ORUp3yn8qwQcwkW9qHuCQjXdrDqXt5IwJf2r0kojqUSMl449qob7spaAP5sM8iSGBpX4Gs1/pTMl
+ uMe7fmDxYYjcerq2xBamBxEDWRHuViaxbJFk4onxvkCtmB2XlDacuGafVEZG1H2oAvnqs7X9OJhp
+ HiFplgPKU8B1dOPu2Fudzkn9ha0iBdGyE5gm0UsfuiSmQ8M8SD49VFOJrE9jnafQ+n/zgfF+W0yJ
+ JnzcYL6x+8K5vrmXL8rNdlxvESmUUBjYdbihmakX1Qr68zHZr2lbh1h0FR3zU6AxZcU1MFAPT1B1
+ EK9EwlGbGhvpiwB+1aAwvEwg/I6L+hYGdAt8yl7zB+1i17NirEYyqwqMBGrw8ELiqFbBpU8Agko0
+ Eetu7CS2ceGyaki2jY7gk7Z/HWAi40eC/pufmnal1bT3YiiQb3IFhK4Dt0gTEK9vOlOvpFXXjOyu
+ cj735mFcFqoc4yysvQM8ASJFC/49WOPBr5nlEUI4xHU+fUJhhYzYEB3xqoZhpRNg4FdczFeCc2Xz
+ dyE31sNUQ54Y9oXxThgBL8ovvm56KgJH+TNQbScPAmx0bZVIe54jilc9iVTyGBEaTlBlYSWxrfOY
+ 3UNVu8TOdjOCr0g4m5HWvxtAu9ADMVBMVDajMWDrc6JrZ3CmMZDvypyiFX/xmqiUja8eCsCj7XVx
+ 6GqkSCX/ho448mRgOX300dXwrMnAP/cRoI+7WicVrR2fe7mKTFHiae5+uyXVi2owmemDhOuO5TcD
+ eKjrEmYPn2IVWRvrZDvn5U3SMuz9SMyGwmoT3GCxbcARNcN9zLg1CgACwdoTbnSHIe+8VgBTiQ1r
+ bHKi8gnN+VQO0b1vxxohqsS9EJwFnd9oAi1CM6C3Z+GvGe0MoufcSul3fBnWYw5Al8A=
+X-Report-Abuse-To: spam@antispamquarantine.host-h.net
+Original-Authentication-Results: host-h.net; spf=pass smtp.mailfrom=sam@dreamworldpartners.com; dkim=pass header.i=dreamworldpartners-com.20221208.gappssmtp.com
+
+--00000000000048663305fc0f9e8f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+*Notice:*
+
+I swear under penalty of perjury that I am the trademark owner or am
+authorized to act on behalf of the owner of an exclusive right that is
+allegedly infringed, and that the information in this notification is
+accurate. I have a good faith belief that use of the materials described
+above as allegedly infringing is not authorized by the intellectual
+property owner, its agent, or the law.
+
+
+
+
+
+*Works Being Infringed:*
+
+
+
+1.     *US Trademark: DREAM SINGLES*
+
+
+
+Word Mark: DREAM SINGLES
+
+Goods and Services: IC 045. US 100 101. G & S: Dating services; Matchmaking
+services; Internet-based dating services. FIRST USE: 20170912. FIRST USE IN
+COMMERCE: 20170912
+
+Registration Number 6220207 USPTO
+
+Owner: (REGISTRANT) Dream Marriage Group, Inc. CORPORATION NEVADA 9701
+Wilshire Boulevard, 10th Floor Beverly Hills CALIFORNIA 90212
+
+Link to trademark record:
+https://branddb.wipo.int/branddb/en/showData.jsp?ID=3DUSTM.88859642
+
+
+
+2.     *International Trademark: DREAM SINGLES*
+
+
+
+Word Mark: DREAM SINGLES
+
+Goods and Services: IC 045 Dating services; Matchmaking services;
+Internet-based dating services.
+
+Registration Number 1694473 WIPO
+
+Name and address of the holder of the registration: Dream Marriage Group,
+Inc. CORPORATION NEVADA 9701 Wilshire Boulevard, 10th Floor Beverly Hills
+CALIFORNIA 90212
+
+Name and address of the representative: Richard A. De Liberty The Internet
+Law Group
+
+9100 Wilshire Boulevard, Suite 725 E
+
+Beverly Hills CA 90212  (US)
+
+Designations under the Madrid Protocol: AU - BY - CA - CN - EG - EM - GB -
+GE - IS - KZ - MD - MX =E2=80=93 NZ
+
+Link to trademark record:
+https://branddb.wipo.int/branddb/en/showData.jsp?ID=3DMAD.1694473
+
+
+
+*Material That is Infringing Above Trademark:*
+
+
+
+https://www.res24.co.za/2023/04/01/dream-singles-com-is-deceiving-lonely-we=
+stern-men-into-purchasing-their-funds/
+
+
+
+Referral traffic from search engines to the above pages are conditionally
+redirected to hookup site, push notification spam (fake captcha), and
+malware landing pages, likely in exchange for affiliate marketing payouts.
+The site owner and whomever added the infringing page to their site are not
+authorized to use the Dream Singles trademark for any purposes, especially
+commercial. The content on the page above is designed to mislead users into
+thinking it is a legitimate Dream Marriage login page when seeing the
+result on a search engine results page.
+
+*Contact Information:*
+
+
+
+Name: Sam Westbrook (Dream Marriage Group, Inc. authorized agent)
+
+
+
+Company: Dream Marriage Group, Inc.
+
+
+
+Address: 9701 Wilshire Boulevard, 10th Floor, Beverly Hills, California
+90212
+
+
+
+Phone: 702-528-3498
+
+
+
+Email: sam@dreamworldpartners.com
+*Digital Signature:* *Sam Westbrook      **5/19/2023*
+
+--00000000000048663305fc0f9e8f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p class=3D"MsoNormal" style=3D"line-height:normal;margin:=
+0in 0in 8pt;font-size:11pt;font-family:Calibri,sans-serif"><b><span style=
+=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">Notice:</=
+span></b></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">I swear under penalty of perjury tha=
+t I am the
+trademark owner or am authorized to act on behalf of the owner of an exclus=
+ive
+right that is allegedly infringed, and that the information in this
+notification is accurate. I have a good faith belief that use of the materi=
+als
+described above as allegedly infringing is not authorized by the intellectu=
+al
+property owner, its agent, or the law.</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><b><i><span style=3D"font-size:12pt;fo=
+nt-family:&quot;Times New Roman&quot;,serif">Works Being Infringed:</span><=
+/i></b></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><i><span style=3D"font-size:12pt;font-=
+family:&quot;Times New Roman&quot;,serif">=C2=A0</span></i></p>
+
+<p class=3D"gmail-MsoListParagraphCxSpFirst" style=3D"margin:0in 0in 0in 0.=
+5in;line-height:normal;background-image:initial;background-position:initial=
+;background-size:initial;background-repeat:initial;background-origin:initia=
+l;background-clip:initial;font-size:11pt;font-family:Calibri,sans-serif"><s=
+pan style=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">=
+1.<span style=3D"font-variant-numeric:normal;font-variant-east-asian:normal=
+;font-variant-alternates:normal;font-kerning:auto;font-feature-settings:nor=
+mal;font-stretch:normal;font-size:7pt;line-height:normal;font-family:&quot;=
+Times New Roman&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 </span></span><b><span styl=
+e=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">US Trade=
+mark: DREAM SINGLES</span></b><span style=3D"font-size:12pt;font-family:&qu=
+ot;Times New Roman&quot;,serif"></span></p>
+
+<p class=3D"gmail-MsoListParagraphCxSpLast" style=3D"margin:0in 0in 0in 0.5=
+in;line-height:normal;background-image:initial;background-position:initial;=
+background-size:initial;background-repeat:initial;background-origin:initial=
+;background-clip:initial;font-size:11pt;font-family:Calibri,sans-serif"><sp=
+an style=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">=
+=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Word Mark: DREAM SINGLES</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Goods and Services: IC 045. US 100 1=
+01. G
+&amp; S: Dating services; Matchmaking services; Internet-based dating servi=
+ces.
+FIRST USE: 20170912. FIRST USE IN COMMERCE: 20170912</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Registration Number </span><span sty=
+le=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;color:bl=
+ack">6220207=C2=A0</span><span style=3D"font-size:12pt;font-family:&quot;Ti=
+mes New Roman&quot;,serif">USPTO</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Owner: (REGISTRANT) Dream Marriage G=
+roup, Inc.
+CORPORATION NEVADA 9701 Wilshire Boulevard, 10th Floor Beverly Hills CALIFO=
+RNIA
+90212</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Link to trademark record: </span><sp=
+an style=3D"color:black"><a href=3D"https://branddb.wipo.int/branddb/en/sho=
+wData.jsp?ID=3DUSTM.88859642" style=3D"color:blue"><span style=3D"font-size=
+:12pt;font-family:&quot;Times New Roman&quot;,serif">https://branddb.wipo.i=
+nt/branddb/en/showData.jsp?ID=3DUSTM.88859642</span></a></span><span style=
+=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"></span></=
+p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"gmail-MsoListParagraph" style=3D"margin:0in 0in 0in 0.5in;line-=
+height:normal;background-image:initial;background-position:initial;backgrou=
+nd-size:initial;background-repeat:initial;background-origin:initial;backgro=
+und-clip:initial;font-size:11pt;font-family:Calibri,sans-serif"><span style=
+=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif">2.<span s=
+tyle=3D"font-variant-numeric:normal;font-variant-east-asian:normal;font-var=
+iant-alternates:normal;font-kerning:auto;font-feature-settings:normal;font-=
+stretch:normal;font-size:7pt;line-height:normal;font-family:&quot;Times New=
+ Roman&quot;">=C2=A0=C2=A0=C2=A0=C2=A0 </span></span><b><span style=3D"font=
+-size:12pt;font-family:&quot;Times New Roman&quot;,serif">International Tra=
+demark: DREAM SINGLES</span></b><span style=3D"font-size:12pt;font-family:&=
+quot;Times New Roman&quot;,serif"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Word Mark: DREAM SINGLES</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Goods and Services: IC 045 Dating se=
+rvices;
+Matchmaking services; Internet-based dating services.</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Registration Number 1694473 WIPO</sp=
+an></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Name and address of the holder of th=
+e
+registration: Dream Marriage Group, Inc. CORPORATION NEVADA 9701 Wilshire B=
+oulevard,
+10th Floor Beverly Hills CALIFORNIA 90212</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Name and address of the representati=
+ve: Richard
+A. De Liberty The Internet Law Group </span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">9100 Wilshire Boulevard, Suite 725 E=
+ </span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Beverly Hills CA 90212=C2=A0 (US)</s=
+pan></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Designations under the Madrid Protoc=
+ol: AU -
+BY - CA - CN - EG - EM - GB - GE - IS - KZ - MD - MX =E2=80=93 NZ</span></p=
+>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">Link to trademark record: </span><sp=
+an style=3D"color:black"><a href=3D"https://branddb.wipo.int/branddb/en/sho=
+wData.jsp?ID=3DMAD.1694473" style=3D"color:blue"><span style=3D"font-size:1=
+2pt;font-family:&quot;Times New Roman&quot;,serif">https://branddb.wipo.int=
+/branddb/en/showData.jsp?ID=3DMAD.1694473</span></a></span><span style=3D"f=
+ont-size:12pt;font-family:&quot;Times New Roman&quot;,serif"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><b><i><span style=3D"font-size:12pt;fo=
+nt-family:&quot;Times New Roman&quot;,serif">Material That is Infringing Ab=
+ove Trademark:</span></i></b></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;font-size:11p=
+t;font-family:Calibri,sans-serif"><a href=3D"https://www.res24.co.za/2023/0=
+4/01/dream-singles-com-is-deceiving-lonely-western-men-into-purchasing-thei=
+r-funds/">https://www.res24.co.za/2023/04/01/dream-singles-com-is-deceiving=
+-lonely-western-men-into-purchasing-their-funds/</a></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;font-size:11p=
+t;font-family:Calibri,sans-serif">=C2=A0</p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;font-size:11p=
+t;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-family=
+:&quot;Times New Roman&quot;,serif;color:black">Referral traffic from searc=
+h engines to the
+above pages are conditionally redirected to hookup site, push notification =
+spam
+(fake captcha), and malware landing pages, likely in exchange for affiliate
+marketing payouts. The site owner and whomever added the infringing page to
+their site are not authorized to use the Dream Singles trademark for any
+purposes, especially commercial. The content on the page above is designed =
+to
+mislead users into thinking it is a legitimate Dream Marriage login page wh=
+en
+seeing the result on a search engine results page.</span><span style=3D"fon=
+t-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><br>
+<br>
+</span><span style=3D"font-size:12pt;font-family:&quot;Times New Roman&quot=
+;,serif;color:black"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><b><i><span style=3D"font-size:12pt;fo=
+nt-family:&quot;Times New Roman&quot;,serif;color:black">Contact Informatio=
+n:</span></i></b></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif;color:black">Name: Sam Westbrook (Dre=
+am Marriage Group, Inc.
+authorized agent)</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif;color:black">Company: Dream Marriage =
+Group, Inc.</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif;color:black">Address: 9701 Wilshire B=
+oulevard, 10th Floor,
+Beverly Hills, California 90212</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif;color:black">Phone: 702-528-3498</spa=
+n></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif;color:black">Email: </span><span styl=
+e=3D"color:black"><a href=3D"mailto:sam@dreamworldpartners.com" target=3D"_=
+blank" style=3D"color:blue"><span style=3D"font-size:12pt;font-family:&quot=
+;Times New Roman&quot;,serif;color:rgb(17,85,204)">sam@dreamworldpartners.c=
+om</span></a></span><span style=3D"font-size:12pt;font-family:&quot;Times N=
+ew Roman&quot;,serif"><br>
+</span><i><span style=3D"font-size:12pt;font-family:&quot;Times New Roman&q=
+uot;,serif;color:black">Digital Signature:</span></i><b><span style=3D"font=
+-size:12pt;font-family:&quot;Times New Roman&quot;,serif;color:black"> </sp=
+an></b><b><span style=3D"font-size:12pt;font-family:&quot;Times New Roman&q=
+uot;,serif;color:rgb(68,68,68);background-image:initial;background-position=
+:initial;background-size:initial;background-repeat:initial;background-origi=
+n:initial;background-clip:initial">Sam Westbrook=C2=A0 =C2=A0 =C2=A0 </span=
+></b><b><span style=3D"font-size:12pt;font-family:&quot;Times New Roman&quo=
+t;,serif;color:rgb(68,68,68);background-image:initial;background-position:i=
+nitial;background-size:initial;background-repeat:initial;background-origin:=
+initial;background-clip:initial">5/19/2023</span></b><span style=3D"font-si=
+ze:12pt;font-family:&quot;Times New Roman&quot;,serif"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin:0in;line-height:normal;background-im=
+age:initial;background-position:initial;background-size:initial;background-=
+repeat:initial;background-origin:initial;background-clip:initial;font-size:=
+11pt;font-family:Calibri,sans-serif"><span style=3D"font-size:12pt;font-fam=
+ily:&quot;Times New Roman&quot;,serif">=C2=A0</span></p></div>
+
+--00000000000048663305fc0f9e8f--

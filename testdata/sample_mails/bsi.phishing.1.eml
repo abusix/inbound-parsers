@@ -1,0 +1,267 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 88D7C063-FDF4-4262-AE36-8984699BD990.1
+	envelope-from <abuse+bncBD26VDH4Z4JRBQPI2KPQMGQERQVXIFA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 21 Feb 2023 12:08:34 +0000
+Received: by mail-wr1-f69.google.com with SMTP id z6-20020a5d4c86000000b002c54ce46094sf918679wrs.17
+        for <abuse@digitalocean.abusehq.net>; Tue, 21 Feb 2023 04:08:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676981314; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=GSqudXHG5j3T1BtseAf3i93vya1otaILNCml9sYtpdH6W7z+4a2ncR+n6Rpos0D491
+         wmJ56zfJ1weLXAMLd6ySm8py9pOrcE+THdqRezggNj9n4GViExE2pMt2vWEwncXIXb7J
+         vd7RQnDP2NxpJTot6B6zGOtI2TXq9SyGBWd0ZjXB8gx0z2kOwCsUzOdbO3pZrWkiVbRh
+         fSNSv5WgqCcx/aa0zJC9LD5Swuin+v2jh6HnE3T6wCDHbeO2mSbGYe1MmuNiYb/PSSt6
+         8Chsi3Lfz558NPpGEe0gINXz+3Ss1dM5ybzyW3ATLIl/OOFutyLoxFmx+McQKKWf9x+S
+         M0Fw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:subject:message-id:organization
+         :from:to:date:mime-version:dkim-signature;
+        bh=xNV75C+6J3nHFep7R1GJu6U/KGrq7ee3/A+9pcaQQHU=;
+        b=X7UF2fYOf5mk8A6br0eUho2JJ3+4Hefy2yLQZq6ZEIUzrBMWsquUigm2y8R5eMA4xa
+         bmdptlKCTWAsYQcszAZAsRU8Vp9ZLDZsHOqKahcoRmX2IlikuNqo1/M8hVSkBQYbR4NK
+         61wC5UV2e5TVgKXFDoIop1SV3Nmq6e3z4+nLcDOwYTUnVslm2CWt1B8/LxD077Krrxlz
+         peVmw9I2lERJn294vck0FSN1mOQW37cCFBgqokmhY8bkrV90jCLtw/76czW7UAD+2FYa
+         4Qp6ncMcelK0qw9FMyLhTs0WpgA7WSzkH38PUSwkzXUXjZfhcobhw10pNQwbICcf1jfR
+         Zf1g==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=neutral (no key) header.i=@bsi.bund.de;
+       dkim=pass header.i=@bsi.bund.de header.s=211014-e768-rsa header.b=CWT0kN29;
+       spf=pass (google.com: domain of certbund@bsi.bund.de designates 77.87.228.74 as permitted sender) smtp.mailfrom=certbund@bsi.bund.de;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bsi.bund.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:subject:message-id:organization:from:to:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xNV75C+6J3nHFep7R1GJu6U/KGrq7ee3/A+9pcaQQHU=;
+        b=Rfw9fTFrFe3lMBLr3v9wov70bpY2lklJW4Nn0zGKjDoB6TINJN5nb0RlQpM8O5d0Gp
+         eTj9eUMG2evCynix0jkBOrKdKUIlVLllJyUP3cZ6fZTGNACr/Kfzer1HsA1PswMkbzof
+         Zfk8cBSz44jPVJ6iLSR1bI3M2Ze+ZLqgutzp0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:subject
+         :message-id:organization:from:to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xNV75C+6J3nHFep7R1GJu6U/KGrq7ee3/A+9pcaQQHU=;
+        b=4Es86Ieq/HTqCWw8GehZvUUEY+dkyVHakC1rp8JdZr+LEaVwPJiqBQB+VTwW74VJ8P
+         0mSzbbEvxhHbQTygBxIk25k1v57pey77cwJ4ELCbNETHdomAgqWcoCjKVbxMz7k8huoF
+         TUsN6N5fqaH1O446kI0yN3rjleVTr6JhdtcTmwgf3YN9li+2sk21I0gwXCP4RJtu2ah8
+         GofOWZMAXom+kn7LKVdRr3XeveKvUmZYrh+zMdYgijepVGD9iyuGPG6Xla3s+qWJf8Wn
+         AGPpQM3Gm58Fa6JmUZznG63FXhFVqHefQdcyMcIuWPP4QmLXYZ1vnkGEYULvO55/H9A4
+         O9eA==
+X-Gm-Message-State: AO0yUKUkyQ4nYfMOJRDsgDOrpsngdxTndmX5uDovM4tahqeuZSfgj68y
+	CI2CLZ7UjFfpK77BP46GU2m8tg==
+X-Google-Smtp-Source: AK7set9HZjdFzB1+Px3M6U6TWwMqiEyXcp4YbOyI05rVTmRaT17midDlDrl9xOktwnl9iYmeh1sNPQ==
+X-Received: by 2002:a5d:4606:0:b0:2c3:cf02:74bf with SMTP id t6-20020a5d4606000000b002c3cf0274bfmr142072wrq.12.1676981314124;
+        Tue, 21 Feb 2023 04:08:34 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6000:1786:b0:2c5:55ca:3a3b with SMTP id
+ e6-20020a056000178600b002c555ca3a3bls1434060wrg.1.-pod-prod-gmail; Tue, 21
+ Feb 2023 04:08:32 -0800 (PST)
+X-Received: by 2002:adf:e98b:0:b0:2c5:eaab:ab3 with SMTP id h11-20020adfe98b000000b002c5eaab0ab3mr3566170wrm.18.1676981311980;
+        Tue, 21 Feb 2023 04:08:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676981311; cv=none;
+        d=google.com; s=arc-20160816;
+        b=OxNEv0Ch9A3YIVhURK1HCgFB9OhcGFUiP/pf/5CgnDhzTRDvaZTY2k+8Jz7BmaC3Le
+         Ft7EDeRSpUZDeyRdiukTJylEUOQ2L/C2o2fqIutazdharHC0aH+2sQ0QiX7foSDXK7x8
+         94KXRr/sCLpNdqfVs9hJYPtLNxNokhEzWqcGPuf48SrNaL1OCIOD0Xc1a5HX8nnU2sXu
+         9hbfXi8jqIY01gl98NbqPL0cXsFWjKIz7Fy2KJFNwKjyuEb+NMNzjcIoo9YmL+ffglrz
+         stl01jmIUxRQoPA9QNMjQu+B03k5OD1N4sCUht3au7D4WFPfizdlElV2RvtDJjWbSd05
+         GK0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:message-id:organization:from:to:date:mime-version
+         :dkim-signature:dkim-signature;
+        bh=xNV75C+6J3nHFep7R1GJu6U/KGrq7ee3/A+9pcaQQHU=;
+        b=cXInTINLo0TF1hWx07qinxBoFO/WhP3DLWknF30BmbjPI7j4KN/tedFogRirDy6GGY
+         ruCB1g2zseZUM0DnQzhA+PDPUV576zBHibniHxnq9y/6WvgqqvTzGgjZd7EPO5iI8OMv
+         8AGUWSrde79IJvTmImFJYwLErAePmZP6rJmq6TfaIQFGY3ckg0sP5YhnAvdKFcZEI1ji
+         WI+QVBB3Xrpeito7rn1vQmVkaNrdjUbY0UYIDh9biRPoSqWXiuBaEdUut6VmQY52VqnH
+         IiD8VpRlVX2RzZaNPMPEItPSt6WQrww2huoKS9Ws+/XFSgjcfnQeGr4i6FMuZxUh/zFr
+         WBSQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=neutral (no key) header.i=@bsi.bund.de;
+       dkim=pass header.i=@bsi.bund.de header.s=211014-e768-rsa header.b=CWT0kN29;
+       spf=pass (google.com: domain of certbund@bsi.bund.de designates 77.87.228.74 as permitted sender) smtp.mailfrom=certbund@bsi.bund.de;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bsi.bund.de
+Received: from m2-bn.bund.de (m2-bn.bund.de. [77.87.228.74])
+        by mx.google.com with ESMTPS id z3-20020a5d4c83000000b002c56c4c540esi15320117wrs.941.2023.02.21.04.08.31
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Feb 2023 04:08:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of certbund@bsi.bund.de designates 77.87.228.74 as permitted sender) client-ip=77.87.228.74;
+Received: from m2-bn.bund.de (localhost [127.0.0.1])
+	by m2-bn.bund.de (Postfix) with ESMTP id 8E1F072989C
+	for <abuse@digitalocean.com>; Tue, 21 Feb 2023 13:08:31 +0100 (CET)
+Received: (from localhost) by m2-bn.bund.de (MSCAN) id 4/m2-bn.bund.de/smtp-gw/mscan;
+     Tue Feb 21 13:08:31 2023
+X-NdB-Source: NdB
+X-P350-Id: 1fa5a1b224547b90
+X-Virus-Scanned: amavisd-new at bsi.bund.de
+MIME-Version: 1.0
+Date: Tue, 21 Feb 2023 13:08:00 +0100
+To: abuse@digitalocean.com
+X-Mailer: OTRS Mail Service (8.0.28)
+From: "'CERT-Bund' via abuse" <abuse@digitalocean.com>
+Organization: Bundesamt =?UTF-8?Q?f=C3=BCr=20?=Sicherheit in der
+ Informationstechnik
+Message-ID: <1676981280.298768.97768278@certbund.bsi.de>
+X-Powered-BY: OTRS (https://otrs.com/)
+Subject: [CERT-Bund#2023022028000793] =?UTF-8?Q?Missbr=C3=A4uchliche=20?=Nutzung
+ Ihrer Infrastruktur
+Content-Type: multipart/signed;
+ boundary="----------=_1676981281-1748-47";
+ micalg="pgp-sha256";
+ protocol="application/pgp-signature"
+X-Rusd: domwl, Pass through domain bsi.bund.de
+X-Rurd: query_ok, Pass through domain digitalocean.com
+X-Original-Sender: certbund@bsi.bund.de
+X-Original-Authentication-Results: mx.google.com;       dkim=neutral (no key)
+ header.i=@bsi.bund.de;       dkim=pass header.i=@bsi.bund.de
+ header.s=211014-e768-rsa header.b=CWT0kN29;       spf=pass (google.com:
+ domain of certbund@bsi.bund.de designates 77.87.228.74 as permitted sender)
+ smtp.mailfrom=certbund@bsi.bund.de;       dmarc=pass (p=REJECT sp=REJECT
+ dis=NONE) header.from=bsi.bund.de
+X-Original-From: CERT-Bund <certbund@bsi.bund.de>
+Reply-To: CERT-Bund <certbund@bsi.bund.de>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multi-part message in MIME format...
+
+------------=_1676981281-1748-47
+Content-Type: multipart/alternative; boundary="----------=_1676981280-1748-46"
+
+This is a multi-part message in MIME format...
+
+------------=_1676981280-1748-46
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Sehr geehrte Damen und Herren,
+
+wir wurden von einem vertrauensw=C3=BCrdigen Partner dar=C3=BCber informier=
+t, dass
+IT-Systeme in Ihrem Zust=C3=A4ndigkeitsbereich wom=C3=B6glich f=C3=BCr den =
+Betrieb von
+Phishing-Seiten genutzt werden.
+
+Konkret geht es um die Domains
+https[:]//www1.micscroecl[.]icu/
+https[:]//www1.micscroesl[.]icu/
+https[:]//www1.micscroocl[.]icu/
+
+die zur IP 139.59.214.125 aufl=C3=B6sen. Hier handelt es sich um eine nicht
+legitime Kopie eines Angebots des Unternehmens Micard.
+
+Wir bitten darum, den Sachverhalt zu pr=C3=BCfen und Gegenma=C3=9Fnahmen ei=
+nzuleiten.
+
+Mit freundlichen Gr=C3=BC=C3=9Fen
+das Team CERT-Bund
+
+--
+Bundesamt f=C3=BCr Sicherheit in der Informationstechnik (BSI)
+CERT-Bund
+Godesberger Allee 185-189
+D-53175 Bonn
+Telefon: +49 (0)228 99 9582 5110
+Telefax: +49 (0)228 99 9582 7025
+Web: [1]https://www.bsi.bund.de/CERT-Bund/
+PGP & S/MIME: [2]https://www.bsi.bund.de/CERT-Bund-Kontakt
+
+#DeutschlandDigitalSicherBSI
+
+Alle Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie
+unter www.bsi.bund.de/datenschutz
+
+
+[1] https://www.bsi.bund.de/CERT-Bund/
+[2] https://www.bsi.bund.de/CERT-Bund-Kontakt
+
+------------=_1676981280-1748-46
+Content-Type: text/html; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3Dutf-8"/></head><body style=3D"font-family:Geneva,Helvetic=
+a,Arial,sans-serif; font-size: 12px;">Sehr geehrte Damen und Herren,<br />
+<br />
+wir wurden von einem vertrauensw=C3=BCrdigen Partner dar=C3=BCber informier=
+t, dass IT-Systeme in Ihrem Zust=C3=A4ndigkeitsbereich wom=C3=B6glich f=C3=
+=BCr den Betrieb von Phishing-Seiten genutzt werden.<br />
+<br />
+Konkret geht es um die Domains<br />
+https[:]//www1.micscroecl[.]icu/<br />
+https[:]//www1.micscroesl[.]icu/<br />
+https[:]//www1.micscroocl[.]icu/<br />
+<br />
+die zur IP 139.59.214.125 aufl=C3=B6sen. Hier handelt es sich um eine nicht=
+ legitime Kopie eines Angebots des Unternehmens Micard.<br />
+<br />
+Wir bitten darum, den Sachverhalt zu pr=C3=BCfen und Gegenma=C3=9Fnahmen ei=
+nzuleiten.<br />
+<br />
+Mit freundlichen Gr=C3=BC=C3=9Fen<br />
+das Team CERT-Bund<br />
+<br />
+--<br />
+Bundesamt f=C3=BCr Sicherheit in der Informationstechnik (BSI)<br />
+CERT-Bund<br />
+Godesberger Allee 185-189<br />
+D-53175 Bonn<br />
+Telefon: +49 (0)228 99 9582 5110<br />
+Telefax: +49 (0)228 99 9582 7025<br />
+Web: <a href=3D"https://www.bsi.bund.de/CERT-Bund/" title=3D"https://www.bs=
+i.bund.de/CERT-Bund/" target=3D"_blank">https://www.bsi.bund.de/CERT-Bund/<=
+/a><br />
+PGP &amp; S/MIME: <a href=3D"https://www.bsi.bund.de/CERT-Bund-Kontakt" tit=
+le=3D"https://www.bsi.bund.de/CERT-Bund-Kontakt" target=3D"_blank">https://=
+www.bsi.bund.de/CERT-Bund-Kontakt</a><br />
+<br />
+#DeutschlandDigitalSicherBSI<br />
+<br />
+Alle Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie =
+unter www.bsi.bund.de/datenschutz</body></html>=
+
+------------=_1676981280-1748-46--
+
+------------=_1676981281-1748-47
+Content-Type: application/pgp-signature; name="pgp_sign.asc"
+Content-Disposition: inline; filename="pgp_sign.asc"
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEErg1Ezgwei4yI1WB39gKLPHjP5cYFAmP0tCEACgkQ9gKLPHjP
+5cZmYg/6A0u9EHWWABCQJJQR6Ot0s1qiRqlmFZLH3+gSoFADKH2lJZUSeMQuj4A2
+W85YU5Xv8T3Rzn5tqxNdouAlBXKkmkcebMYKdiV1a8P0rQAZRnFt1YA8l1mSgU2I
+kcD2WHZISCEX8wxGRW36SYiRV0XPZxDgokF/OOzG+e6SOmirwnfZ2IUUmkjnaKOQ
+/CgXPz3SpFH/vkqvsFUuLvgi7Mq1ujyNHzhF+PLXb7LkFLKAyaOmO6msIp0E72RO
+CnsULWBivPpl7y7Rw4dv9v7Fkr5jFuymaN8eqOrCSBlfPJMp/CJgyz7qG1xgYgF+
+Jd0fGDa4XIyheIyaoRDkD8LMUTykairCU2fiBJkSsH9isC8YNgBmcj1cSGz4GWXS
+HQuDq8L0wmazGLM2nJvDQyHJlQ1iIX2xlCWPagex72vNegwUQztRlU0UNaeDncsx
+51IK5vxJuyjrO23YOOpikQaGV6XX2ekP4UShqwGS3R9eBRM8rrxqGNOrBKSevIEQ
+uLN6IV/8aDJ4DObq31HFztXvmgeEC4gfZkQqTKVTvq44V3VCEyYp1TQBx/S8ou26
+8vLFLVazehd09WjhZXW8pCLlJN8MWW0ZANP9+yRN+gJbUzRfAjfb79+9eCs4apKb
+Vh7DsAFTh44kmmSBRHJx1H5r959B6rfwBRWKmjadwB6jsCArjDw=
+=oS08
+-----END PGP SIGNATURE-----
+
+------------=_1676981281-1748-47--

@@ -1,0 +1,2326 @@
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
+	by 053ea0284110 (Haraka/2.8.28) with ESMTP id 99B1D894-6041-41BC-8A3A-98414F04C29A.1
+	envelope-from <abuse+bncBDANP5WS34EBBJ432KMQMGQET2ADC5Y@digitalocean.com>;
+	Wed, 28 Sep 2022 18:08:40 +0000
+Received: by mail-ej1-f69.google.com with SMTP id qf38-20020a1709077f2600b00783ac0b15f0sf4694817ejc.8
+        for <abuse@digitalocean.abusehq.net>; Wed, 28 Sep 2022 11:08:40 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1664388520; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=a9do9GRD4qO7UviGBriQ6LBCPb5To4qSJN7cmRv/Ahlnn23jrBI3vxh/v2EN+/lGVd
+         /DCuldGCLRQ7FqdP8ppSXmTlSS3QywDlVoOmq9pDG5R3+1Nt+gfsYPyC9TnUO7nUFr+M
+         5s2m7AfVhwmXQ+cm5PxLTvoqs+AgQzzs5v/YtfOHX7sXWwk7+aBK1Q83Mwdlvu8Q2Jyz
+         TVaUE3Ohsp9daZxBx6EbPHjXc7CjhsDIdw+hZ9Nqn7Yp/ldPAwoXlKRxiFuQfpbK2iWP
+         cFBSs4Dj6zakJ6cQWZYkizK2eVXWDX/CQgpkyxeyslQtiMfzwGtFe8ljyG6uDNPYiQyf
+         8XTQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version:msip_labels
+         :content-language:accept-language:message-id:date:content-class
+         :thread-index:thread-topic:subject:to:from:dkim-signature;
+        bh=ou1msFzXcKbKfQ6JXaj+FiIfhsSo5TSPSPA/AaulHlQ=;
+        b=JIeOzjeZ3pYtcyvGfe9V6odwk9f08oniMWnlyN1YzQkIDl+ViuqzAxX5K8ghIHYlhT
+         Y1b7PqaqiGu/pdqmmrJyZ2F5y4S8f4wbeI7dnYD1u0yKa7gUYAI6hP4iBdkGdUKgNiBg
+         U402j7b2/ejXt7Dg/B4Xt5vSFwplfLe9iu5vGrETJdKB1Mil1I3mjRJ0/Zk578Fd0x+X
+         XXnYXRUYrgsW85B1X5xLLECHo5yjUDt4CJAb1ahCIito6CS/IkcECnCCwNZV9bh4l6Au
+         mE0KUCf1+BE9abqWCaI8jXRjtA4z3GjGspUl7h7ZgBMfY5FSeULAXkIRTu5KXCtk+1It
+         Vagg==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@cyber.gc.ca header.s=selector1 header.b=R2nPWGZ0;
+       arc=pass (i=1 spf=pass spfdomain=cyber.gc.ca dkim=pass dkdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of cyberincident@cyber.gc.ca designates 40.107.115.89 as permitted sender) smtp.mailfrom=CyberIncident@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:msip_labels:content-language
+         :accept-language:message-id:date:content-class:thread-index
+         :thread-topic:subject:to:from:from:to:cc:subject:date;
+        bh=ou1msFzXcKbKfQ6JXaj+FiIfhsSo5TSPSPA/AaulHlQ=;
+        b=dY/M+uP4nr9XMvQd7p7U1EGiZ0ijlxoStPzEkz3RG67hrK/WB4BRrZN6jSodrbe7IF
+         lciDC0vR4fAl4uWr69yy3VHHGLWYriaAKpgl0WxWR/5QycqYfrHQnu4ekaQdl1xi3kLJ
+         kUME85p3HESj2SnwGC2xpY6/c0ltWz737zicI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :msip_labels:content-language:accept-language:message-id:date
+         :content-class:thread-index:thread-topic:subject:to:from
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=ou1msFzXcKbKfQ6JXaj+FiIfhsSo5TSPSPA/AaulHlQ=;
+        b=pRr7e8BZbizdKB5VVhJpN5F9NjwjNi7tJNMgO+xGxR5WMaOZ6aknoi+0k/bIYiW/oJ
+         YyUAXIj5Xl0DnV/qkWmGwKzSSPPibfciOOLBcl7Ej1DuCfmNMlbnKIFPkyKGBtyzY7J9
+         7lV8ILR7TUNVU7boSB0EJ5ojDJQ+JrUnqKFBdR91NiF/JEjRQGrsiv15PCNUELyCmCG9
+         TEISwZ8MPnUf2AIKIx9UnUxerNTrxcsbLRtQu5MZtNKDXI0HwL035i8mtYqHuQbsjlvp
+         cxt1rlFDP0XkO22FhBEcLskfFmIZ8ei6IcXpVuvs4Op7fEhjDamoKXyHYGHiZHst5OdN
+         h9Ag==
+X-Gm-Message-State: ACrzQf3E/bF48oa4AKpnSlpDz/ZHqTo227Vuv7u+GVUxE3TZYz/yUBlM
+	+f8Ari9Lv8VcQJNRukWzeuT/AQ==
+X-Google-Smtp-Source: AMsMyM4vHWD8n7Lzus0hnkwdePEbHxGuNjAMUJqNGsAvCQtVqDN1knd2YV5fol6M03p7E9UkcyonaQ==
+X-Received: by 2002:a17:906:8473:b0:77b:efa8:50e4 with SMTP id hx19-20020a170906847300b0077befa850e4mr28237621ejc.250.1664388519910;
+        Wed, 28 Sep 2022 11:08:39 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:906:5487:b0:780:f131:b4d9 with SMTP id
+ r7-20020a170906548700b00780f131b4d9ls1494656ejo.11.-pod-prod-gmail; Wed, 28
+ Sep 2022 11:08:39 -0700 (PDT)
+X-Received: by 2002:a17:907:a06:b0:77b:6eca:c089 with SMTP id bb6-20020a1709070a0600b0077b6ecac089mr27417718ejc.362.1664388518587;
+        Wed, 28 Sep 2022 11:08:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664388518; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ediZBaOhKRyU/8LCbtLkPGGZOTlybJyBtUipgXpjLQZQ890MZzlwrWtRjHkuwPcYkv
+         q9j2Wcbdj9K/TNQVHvmuQg2tcCWw2Lr2W8vginFl+pAtYt3j6yghtQQiveol28Y5ZVOE
+         k6XutD6ZCBFUZaadPp19c1n0zCbF8b+KDIkPAgxI0r5yy3OkxXQ/Xm/bOeKU7UU96WU4
+         Nvogull6E8XKlE93AUO6pO/bs1J+KGwo71AzQUIe7vQxamxkSLWV8rGWcKcmZ97KrRBl
+         JrDVt/+PwK/LMbZLU4PmsKY7DqfWfTxFUBtEinX2P8zqfc6dzZ/Yd/q6ekt3jC1ujz38
+         yBLA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:msip_labels:content-language:accept-language
+         :message-id:date:content-class:thread-index:thread-topic:subject:to
+         :from:dkim-signature;
+        bh=ou1msFzXcKbKfQ6JXaj+FiIfhsSo5TSPSPA/AaulHlQ=;
+        b=cHTThrLFrudzIEjukm4Ak5CfLSSFOlYL/1xBz9f/Xg/aECA3ujrVBDRl0thJlKchrd
+         H7Rfz6guY4Z0LkPvRv1PgvlEu4UFO2pHawLvxzeSFXqdZJ+VdgFltKeYhUUZWxqJo9Z8
+         p/oD2/XExtguhsQsLbfhghFRCpbGvz3+uLnTqWlO8QDyvf0ezxX6pcpc6521HngCZcXu
+         Zw4ZebH8EQFO0uLKQRiBW/fT2SGjbk/JEWZuhplFSTXo2IeGy8Llx+IxiHRgMGmwl+/Q
+         ERhz2WDQx63Squx8jn9d1OUWEkpnKL9x5JitT84gJ7vs17CRkwgl7EkO1d2elKitt+xt
+         xTdQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cyber.gc.ca header.s=selector1 header.b=R2nPWGZ0;
+       arc=pass (i=1 spf=pass spfdomain=cyber.gc.ca dkim=pass dkdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of cyberincident@cyber.gc.ca designates 40.107.115.89 as permitted sender) smtp.mailfrom=CyberIncident@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+Received: from CAN01-YT3-obe.outbound.protection.outlook.com (mail-yt3can01on2089.outbound.protection.outlook.com. [40.107.115.89])
+        by mx.google.com with ESMTPS id kb5-20020a170907924500b00741a17b9d20si4299240ejb.536.2022.09.28.11.08.38
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 28 Sep 2022 11:08:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cyberincident@cyber.gc.ca designates 40.107.115.89 as permitted sender) client-ip=40.107.115.89;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eChk9O2or/fhRdRNZKh8skIP58Z8lmax0T3G27+usVk6YHjU7Bi432KIacJnhRKz8RV4SRPsJwl6GYanXuFlmPWHy2PyK4VyjSej7xjQjLwuVR2h5nQD7OLsg+qdwSU6TeinSnapYhXcUTgwGk2CCBwqbdOHNrOM5pG3UtwYqPmDkIyHfPF8HwHWVvKlsBYj3ndtq5ldfkzef2JnkD+5iVcPGgEt7W+h/dHuwjfT5eZR+ySOIVGQwraANGPN2PIbUzQM5tOMqQ/JEVSShlJNJO9eGSmywbkRYE2Ziio38f1RjT3B8wlYV3Ll6ipGpcxLFM6Vy8p1iqDMfEkbiNhIug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ou1msFzXcKbKfQ6JXaj+FiIfhsSo5TSPSPA/AaulHlQ=;
+ b=BhskFdEWkOZzxxh2m8eygaohY1IpqhtgENwgSiBAxI06YH96eufMAkpEsjc3KMI/qchVBo1uSiqgvy6SomvYZOac1dc20o+DdTxpROzLuVolPT8hZoiH+P0Bi/6sP1R5pqCRdUM1I4jDyYefLlzvRFRAJPxzVmZ7iUC+ql0tZ8uPYIcMjbQ7hM5HwZMFdaJf2QiJpWYRDswv563nLU9csThehsP98MSvMnKfeYdHWGUdbV32T8c2kuYm6wD7ugaI+6w/VEhfYeRsdmU71qe2Uf/8BGtEi1msxTjeMQTc0p0YtvKoo/4nNuggPyuQ34eNdnISrGXER7M0g+AT2PK48Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cyber.gc.ca; dmarc=pass action=none header.from=cyber.gc.ca;
+ dkim=pass header.d=cyber.gc.ca; arc=none
+Received: from YQXPR01MB4828.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:1b::10)
+ by YQBPR0101MB8526.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:55::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Wed, 28 Sep
+ 2022 18:08:35 +0000
+Received: from YQXPR01MB4828.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::b07f:ff70:acfd:176]) by YQXPR01MB4828.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::b07f:ff70:acfd:176%5]) with mapi id 15.20.5676.017; Wed, 28 Sep 2022
+ 18:08:35 +0000
+From: "'Cyber Incident' via abuse" <abuse@digitalocean.com>
+To: "abuse@digitalocean.com" <abuse@digitalocean.com>
+Subject: CE2022-0928-02 - Abuse Report
+Thread-Topic: CE2022-0928-02 - Abuse Report
+Thread-Index: AdjTVaYJ7i6aeo0zRqegZfNi0VC8JQ==
+Content-Class: 
+Date: Wed, 28 Sep 2022 18:08:35 +0000
+Message-ID: <YQXPR01MB482844BEBFB65D8F6E13431EEA549@YQXPR01MB4828.CANPRD01.PROD.OUTLOOK.COM>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_Enabled=true;
+ MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_SetDate=2022-09-28T18:08:18Z;
+ MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_Method=Privileged;
+ MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_Name=TLP-Amber;
+ MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_SiteId=da9cbe40-ec1e-4997-afb3-17d87574571a;
+ MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_ActionId=47901f91-fbaa-41e4-b8bc-d9d3829d023b;
+ MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_ContentBits=1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: YQXPR01MB4828:EE_|YQBPR0101MB8526:EE_
+x-ms-office365-filtering-correlation-id: 3a44929c-7f59-4721-24d3-08daa17c763b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Xe9IwU9JhvquOIW2IhKzErmONyTi/fdRxsvNN0Lx3lLSyLqhJJORq1wYCJK99CnMXdehkYAFDdyajQe0eDUCEyhSo8riyDIfTumOp24AUn2W+MLpArU8i4+hd/GXnc9W7EiAfPk4LBa9npkk1E3SippEjaYTRhMCKV16KcG/Mj2AE00KDmA3RiIAOhwDtYk8TjE8iKuHvP/8cyb5myzyXN1aQv7horD20HvofdXu2V2R77U8T8fJkl6X+h578qwsZatg9DJ3NrwZvZD8bOefjOOLap1ishZQL+2cm+nN6fbIWpSOC6YLAO6OFcRh4iu/9mLXYpEj/OwUCGhhPfgpFxnYni6wLrQFxcLENUHM8uDRkA41tv0mOcngBUj9ekUGI40AQIRRgZ+K9fGFq4ADuVFo0D2TJMcFpzcpgxetBiXriKkX9NQw7ehllDzQ8rnHGNE8/RmOFXI5BMzx4eFq2V9qhbWEhPvF+Thtgh+epHko8keoM+w6GqlghOMMrQs/beS94jOZWt9Bf5UjNxt3wItOFXFmulqVwUBZ7KLrAds8rt0+2thpQ8mCa863ri8BFkhltv0Z5BEHZ+0gR5kRNegV0s4XVxT0HP4uTTJW/BKPedrPQ6Wnd3JTkO6zaOfU61xultYE4r/1v1aOrL3Ko1g7kL1/DPqUDhzbJ4R6SvtZyMPUao1B0Rq2G9zguRORk1ReKDj/ddnwLnjLB/36Ss+d22i/3YNYEoX5LQz9H/+/N7ypPqWdNtVKukcWdcHqNt1SWuUBDSrL4XWBUi6ULw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YQXPR01MB4828.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(451199015)(478600001)(71200400001)(6506007)(7696005)(66899015)(186003)(316002)(33656002)(40140700001)(6916009)(2906002)(38100700002)(122000001)(52536014)(66574015)(8676002)(83380400001)(9686003)(26005)(38070700005)(55016003)(41300700001)(66946007)(66556008)(5660300002)(64756008)(82960400001)(66446008)(66476007)(76116006)(86362001)(8936002)(559001)(579004);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?8LFBfL/e14KcF2BQn7XUQB8CBfTG+lNqW0xLhmk2bRckvu6IniVFvwSu9B?=
+ =?iso-8859-1?Q?rJLiKi08FwhblHZCboYVplCaRRxKf5WHorqZ0cXgBl7OGxA+uhDZ469hjC?=
+ =?iso-8859-1?Q?pv2Z3hs95GRuy5OcBMx2lXnXD0vINu9tx58d1lX8USggm2H+xzHoKYtHCj?=
+ =?iso-8859-1?Q?G5amvSLOpVqvpeM6/++JbFhF8qePfmkQmfbwKC9vIX4CMtS8R4YcgrluBe?=
+ =?iso-8859-1?Q?oZ2Epn0xXJ0+aGQ/pMCW5qwEmH46enEf+nBea79RWJnSLis+aJHrScG8wA?=
+ =?iso-8859-1?Q?5W0+uBLsdFbnPYRk84buQTeeng34F348NVq19iOH5G5lOC64OsoRWL2OrY?=
+ =?iso-8859-1?Q?ZOFLwiDUO/IQzLogean7FXUBkZmS11eLE1Hf2ygj4TnfJRKMM1Cz4SG75N?=
+ =?iso-8859-1?Q?YDv6Sld20dT6siZ1+bm7u8/vXXWXx120fxI+SEzOwpVhJRkSlHhl6oDeI/?=
+ =?iso-8859-1?Q?hnDWw63o9quCjfSnvfQtkk6Lix8Q7nHVVpEqxk7XrQIYjj1tkHwg3Dxd3V?=
+ =?iso-8859-1?Q?nAIqUp6PwvyGu86pso6PJlVmISUWCKHIDazpWkiS5b9M3gOtUblWoeqcjo?=
+ =?iso-8859-1?Q?ul3BWypLAWBFHEEO3QKju7Kl9frrbiUmIvf2woBY2xWvbE2VT8XWM0bmis?=
+ =?iso-8859-1?Q?0wYMhASRhXb3PdkUs4WYoclw7yW1e/EmeJMlXDA3aGhd3CDGagTwfhjNFO?=
+ =?iso-8859-1?Q?87vD+af9XvEM73uVaQvUFcEZq+ALxv/k8Ko+unsGX+NhGFTd/9v6ca50Uu?=
+ =?iso-8859-1?Q?g4vOn9ouVpAqlyHJqNiaKFmo2eVxocjs4OXk8ZPgKsZ4dnUILUTnUot/HO?=
+ =?iso-8859-1?Q?8RdqEO8zShEGrHt3qYzXtcqdbDCOx/3E3V4t8H8tScheFVovmIP2X5mxMu?=
+ =?iso-8859-1?Q?Z6ufMQRBeL4NRs256oToDl915IYurVUS6HFKbbKQa+iyt9OAAcncS4DCS7?=
+ =?iso-8859-1?Q?beYz5p2hsiLcvV2CgpeC2/HQi1w4wSJj9+Z/d5WSHU/2nfHj6o54VX5lBe?=
+ =?iso-8859-1?Q?76DsXkw4iCzCRS27lDkpJkicGFIqk5aj8DR/0rP/JLm8+bbgQ4TnRmvAOC?=
+ =?iso-8859-1?Q?Zo9nWixcHagtlrN8D42jyn0Z8rkZ1tq3fzry8kUYmD6I2lmutz/HPLxiq2?=
+ =?iso-8859-1?Q?QWl9/64zC2/DOLEcVM0DGT+PPRC4qriqjkyDEusDf4Hq4o916k2WWSSzRl?=
+ =?iso-8859-1?Q?cSntjHs8bLuu9LLmTSHpwBf/OX+KDgylecRJU/mAjmwb+VXoTm9f7xFktc?=
+ =?iso-8859-1?Q?CpO3JiPgkPJ/zfF9zOg+B3O8HjBnfaiqV9JoMqBtQFQvTOWe6Gl0rsK0Ig?=
+ =?iso-8859-1?Q?TvgGWQIintizS9K9mYpVbm/CYBd7qg06MDKv1C3CqyNTTgDcFkp2415lke?=
+ =?iso-8859-1?Q?HBQUK4I3QMCdibkmuBUL29ic6khL3GhF26FgtIZQ+hYTo6FAtad18V4mKw?=
+ =?iso-8859-1?Q?/c4YKJfon3j88q4SDcjLYsjzoUp87y07ubHRSZU7sx+GvJk0lxrOh0ppCx?=
+ =?iso-8859-1?Q?AiPEahb1tDhkBrZ67Fkume5Pl9Q9VL8JdcXM+/7Bz3VK/GvF1phWJL/Rzy?=
+ =?iso-8859-1?Q?lVn3H4n7cH9qHfC401phf5V7L6yMRi+UfOVtoEDBXafD0OUuvxhkE5cyk+?=
+ =?iso-8859-1?Q?du21J3YO5Coamg2ldqwOO4s+oguBrp5GeChNarhS0XY3A9DyEKVDxsQw?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_YQXPR01MB482844BEBFB65D8F6E13431EEA549YQXPR01MB4828CANP_"
+MIME-Version: 1.0
+X-OriginatorOrg: cyber.gc.ca
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: YQXPR01MB4828.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a44929c-7f59-4721-24d3-08daa17c763b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2022 18:08:35.7325
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: da9cbe40-ec1e-4997-afb3-17d87574571a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EPMYzQLX9izpkv9rAzOcTjTFbBYtTM11wxwp3FbSPBThsp0GXUkzL5oaQE64V5/5eu6MPtJ4FYeyc2C62400cq6PA5Wuek+Lrv+0Y2BTAek=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQBPR0101MB8526
+X-Original-Sender: cyberincident@cyber.gc.ca
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cyber.gc.ca header.s=selector1 header.b=R2nPWGZ0;       arc=pass
+ (i=1 spf=pass spfdomain=cyber.gc.ca dkim=pass dkdomain=cyber.gc.ca dmarc=pass
+ fromdomain=cyber.gc.ca);       spf=pass (google.com: domain of
+ cyberincident@cyber.gc.ca designates 40.107.115.89 as permitted sender)
+ smtp.mailfrom=CyberIncident@cyber.gc.ca;       dmarc=pass (p=REJECT sp=REJECT
+ dis=NONE) header.from=cyber.gc.ca
+X-Original-From: Cyber Incident <CyberIncident@cyber.gc.ca>
+Reply-To: Cyber Incident <CyberIncident@cyber.gc.ca>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_YQXPR01MB482844BEBFB65D8F6E13431EEA549YQXPR01MB4828CANP_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+UNCLASSIFIED / NON CLASSIFI=C9//TLP:AMBER
+
+Good afternoon,
+
+Please find below the following Abuse Report for your attention. Please ack=
+nowledge receipt of this message.
+
+Thank you,
+
+Deb
+Incident Handler
+Canadian Centre for Cyber Security
+
+***********************************
+ABUSE REPORT
+***********************************
+Executive Summary
+
+The Cyber Centre has received a report of malicious activity from systems o=
+n your infrastructure.
+
+Abuse Summary
+
+You are receiving this notification because you are identified as a technic=
+al contact for the affected system(s).
+
+/// DATA ///
+Timestamp
+Country Name
+Src ASN
+ASN Number
+Source IP
+Destination IP
+Destination Port
+Payload
+Count
+Sep 23, 2022 @ 18:32:29.120
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+1
+Sep 23, 2022 @ 18:32:30.446
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 23, 2022 @ 18:32:31.765
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 23, 2022 @ 18:32:32.845
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 23, 2022 @ 18:32:33.910
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 25, 2022 @ 16:47:49.755
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 25, 2022 @ 16:47:52.322
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+1
+Sep 25, 2022 @ 16:47:54.046
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+1
+Sep 25, 2022 @ 16:47:54.637
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 25, 2022 @ 16:47:56.230
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+1
+Sep 25, 2022 @ 18:10:32.888
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+197.248.29.203
+443
+Scanning
+6
+Sep 25, 2022 @ 18:10:38.908
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+197.248.29.203
+443
+Scanning
+6
+Sep 26, 2022 @ 17:31:54.423
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 26, 2022 @ 17:31:55.507
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 26, 2022 @ 17:31:58.327
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 26, 2022 @ 17:31:59.357
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 26, 2022 @ 17:32:00.997
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+1
+Sep 27, 2022 @ 11:22:19.825
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 11:22:22.433
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 11:22:24.163
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 11:22:26.239
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 11:22:28.240
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 17:22:07.991
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 17:22:09.079
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 17:22:11.802
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+Sep 27, 2022 @ 17:22:13.387
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+1
+Sep 27, 2022 @ 17:22:13.982
+Canada
+Digital Ocean, Inc.
+14061
+138.197.160.225
+172.20.0.2
+443
+Scanning
+6
+
+
+
+
+Requested Actions
+
+The CCCS recommends your security team locate and investigate the above hos=
+ts for suspicious behavior as identified.
+
+
+CRITICAL NOTE
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The information contained in this report may be shared with your internal I=
+T staff, your contracted third-party service provider, or the identified sy=
+stem owner. This information is intended to be distributed and used for net=
+work defence purposes only, such as using the contained IOC's to search for=
+ or prevent malicious activity on your network. CCCS asks that domain names=
+ and IPs not be researched or probed in any manner external to your organiz=
+ation's network. Security appliances should be configured to drop silently =
+as to not provide any indication that malicious traffic has been blocked.
+
+No portion of this report may be used in affidavits, court proceedings or f=
+or any other legal or judicial purposes without prior approval of the origi=
+nator. This notification is the property of the CCCS. It must be securely s=
+tored according to the classification or designation; access must be contro=
+lled accordingly. It may not be used in any way that could expose or jeopar=
+dize CCCS sources or methods.
+
+This notification may contain information from external sources. Links to t=
+hird-party websites are provided solely for the convenience of users. The C=
+yber Centre is not responsible for the accuracy, currency or reliability of=
+ third-party content or information derived from external sources of inform=
+ation.
+
+NOTE TO READERS
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The Canadian Centre for Cyber Security (Cyber Centre) operates as part of t=
+he Communications Security Establishment. We are Canada's national authorit=
+y on cyber security and we lead the government's response to cyber security=
+ events. As Canada's national computer security incident response team, the=
+ Cyber Centre works in close collaboration with government departments, cri=
+tical infrastructure, Canadian businesses and international partners to pre=
+pare for, respond to, mitigate, and recover from cyber events. We do this b=
+y providing authoritative advice and support, and coordinating information =
+sharing and incident response. The Cyber Centre is outward-facing, welcomin=
+g partnerships that help build a stronger, more resilient cyber space in Ca=
+nada.
+
+GENERAL CYBER RELATED QUESTION
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Email: contact@cyber.gc.ca<mailto:contact@cyber.gc.ca>
+Toll Free: 1-833-CYBER-88 (1-833-292-3788)
+Local: 613-716-3567
+
+REPORT A CYBER INCIDENT
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+E-mail: cyberincident@cyber.gc.ca<mailto:cyberincident@cyber.gc.ca>
+Entrust Key: For secure communications, the Cyber Centre's public Entrust K=
+ey is available to Government of Canada organizations.
+PGP Key: Alternatively, the Cyber Centre's Public Pretty Good Privacy (PGP)=
+ key (Text format 3KB) is also available by request.
+
+
+
+--_000_YQXPR01MB482844BEBFB65D8F6E13431EEA549YQXPR01MB4828CANP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
+s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
+40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-CA" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<p class=3D"msipheader3486cee5" align=3D"Right" style=3D"margin:0"><span st=
+yle=3D"font-size:10.0pt;font-family:Calibri;color:#008000">UNCLASSIFIED / N=
+ON CLASSIFI=C9//TLP:AMBER</span></p>
+<br>
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Good afternoon,<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Please find below the following=
+ Abuse Report for your attention. Please acknowledge receipt of this messag=
+e.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Thank you,<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Deb<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Incident Handler<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Canadian Centre for Cyber Secur=
+ity<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">*******************************=
+****<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">ABUSE REPORT<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">*******************************=
+****<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">Executive Summary<o:p></o:p>=
+</span></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">The Cyber Centre has received a=
+ report of malicious activity from systems on your infrastructure.<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">Abuse Summary<o:p></o:p></sp=
+an></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">You are receiving this notifica=
+tion because you are identified as a technical contact for the affected sys=
+tem(s).
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">/// DATA ///<o:p></o:p></span><=
+/p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"902" style=3D"width:676.6pt;border-collapse:collapse">
+<tbody>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;background:#FFD966;padding:0cm 5.4pt 0cm 5.4pt;he=
+ight:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Timestamp<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5=
+.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Country Name<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5=
+.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Src ASN<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5.=
+4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">ASN Number<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5.=
+4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Source IP<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5.=
+4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Destination IP<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5.=
+4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Destination Port<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5.=
+4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Payload<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r:solid windowtext 1.0pt;border-left:none;background:#FFD966;padding:0cm 5.=
+4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Count<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 23, 2022 @ 18:32:29.120<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">1<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 23, 2022 @ 18:32:30.446<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 23, 2022 @ 18:32:31.765<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 23, 2022 @ 18:32:32.845<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 23, 2022 @ 18:32:33.910<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 16:47:49.755<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 16:47:52.322<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">1<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 16:47:54.046<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">1<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 16:47:54.637<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 16:47:56.230<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">1<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 18:10:32.888<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">197.248.29.203<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 25, 2022 @ 18:10:38.908<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">197.248.29.203<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 26, 2022 @ 17:31:54.423<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 26, 2022 @ 17:31:55.507<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 26, 2022 @ 17:31:58.327<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 26, 2022 @ 17:31:59.357<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 26, 2022 @ 17:32:00.997<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">1<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 11:22:19.825<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 11:22:22.433<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 11:22:24.163<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 11:22:26.239<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 11:22:28.240<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 17:22:07.991<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 17:22:09.079<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 17:22:11.802<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 17:22:13.387<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">1<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:14.75pt">
+<td width=3D"208" nowrap=3D"" valign=3D"bottom" style=3D"width:155.7pt;bord=
+er:solid windowtext 1.0pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;heigh=
+t:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Sep 27, 2022 @ 17:22:13.982<o:p></o:p></span></p>
+</td>
+<td width=3D"104" nowrap=3D"" valign=3D"bottom" style=3D"width:77.95pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Canada<o:p></o:p></span></p>
+</td>
+<td width=3D"132" nowrap=3D"" valign=3D"bottom" style=3D"width:99.25pt;bord=
+er-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-ri=
+ght:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Digital Ocean, Inc.<o:p></o:p></span></p>
+</td>
+<td width=3D"35" nowrap=3D"" valign=3D"bottom" style=3D"width:25.95pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">14061<o:p></o:p></span></p>
+</td>
+<td width=3D"115" nowrap=3D"" valign=3D"bottom" style=3D"width:86.2pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">138.197.160.225<o:p></o:p></span></p>
+</td>
+<td width=3D"107" nowrap=3D"" valign=3D"bottom" style=3D"width:80.6pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">172.20.0.2<o:p></o:p></span></p>
+</td>
+<td width=3D"83" nowrap=3D"" valign=3D"bottom" style=3D"width:62.35pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">443<o:p></o:p></span></p>
+</td>
+<td width=3D"68" nowrap=3D"" valign=3D"bottom" style=3D"width:50.85pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal"><span style=3D"color:black;mso-fareast-language:EN-C=
+A">Scanning<o:p></o:p></span></p>
+</td>
+<td width=3D"50" nowrap=3D"" valign=3D"bottom" style=3D"width:37.75pt;borde=
+r-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-rig=
+ht:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:14.75pt">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"color:black;mso-fareast-language:EN-CA">6<o:p></o:p></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">Requested Actions</span></b>=
+<span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">The CCCS recommends your securi=
+ty team locate and investigate the above hosts for suspicious behavior as i=
+dentified.<b><o:p></o:p></b></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">CRITICAL NOTE<o:p></o:p></sp=
+an></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">The information contained in th=
+is report may be shared with your internal IT staff, your contracted third-=
+party service provider, or the identified system owner. This information is=
+ intended to be distributed and used
+ for network defence purposes only, such as using the contained IOC&#8217;s=
+ to search for or prevent malicious activity on your network. CCCS asks tha=
+t domain names and IPs not be researched or probed in any manner external t=
+o your organization&#8217;s network. Security
+ appliances should be configured to drop silently as to not provide any ind=
+ication that malicious traffic has been blocked.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">No portion of this report may b=
+e used in affidavits, court proceedings or for any other legal or judicial =
+purposes without prior approval of the originator. This notification is the=
+ property of the CCCS. It must be securely
+ stored according to the classification or designation; access must be cont=
+rolled accordingly. It may not be used in any way that could expose or jeop=
+ardize CCCS sources or methods.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">This notification may contain i=
+nformation from external sources. Links to third-party websites are provide=
+d solely for the convenience of users. The Cyber Centre is not responsible =
+for the accuracy, currency or reliability
+ of third-party content or information derived from external sources of inf=
+ormation.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">NOTE TO READERS<o:p></o:p></=
+span></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">The Canadian Centre for Cyber S=
+ecurity (Cyber Centre) operates as part of the Communications Security Esta=
+blishment. We are Canada&#8217;s national authority on cyber security and w=
+e lead the government&#8217;s response to cyber
+ security events. As Canada's national computer security incident response =
+team, the Cyber Centre works in close collaboration with government departm=
+ents, critical infrastructure, Canadian businesses and international partne=
+rs to prepare for, respond to, mitigate,
+ and recover from cyber events. We do this by providing authoritative advic=
+e and support, and coordinating information sharing and incident response. =
+The Cyber Centre is outward-facing, welcoming partnerships that help build =
+a stronger, more resilient cyber
+ space in Canada.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">GENERAL CYBER RELATED QUESTI=
+ON<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Email: </span><a href=3D"mailto=
+:contact@cyber.gc.ca"><span lang=3D"EN-US" style=3D"color:#0563C1">contact@=
+cyber.gc.ca</span></a><span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Toll Free: 1-833-CYBER-88 (1-83=
+3-292-3788)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Local: </span><span lang=3D"EN-=
+US">613-716-3567</span><span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">REPORT A CYBER INCIDENT<o:p>=
+</o:p></span></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">E-mail: </span><a href=3D"mailt=
+o:cyberincident@cyber.gc.ca"><span lang=3D"EN-US" style=3D"color:#0563C1">c=
+yberincident@cyber.gc.ca</span></a><span lang=3D"EN-US"><o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Entrust Key: For secure communi=
+cations, the Cyber Centre's public Entrust Key is available to Government o=
+f Canada organizations.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:E=
+N-CA">PGP Key: Alternatively, the Cyber Centre's Public Pretty Good Privacy=
+ (PGP) key (Text format 3KB) is also available by request.</span><span styl=
+e=3D"mso-fareast-language:EN-CA"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_YQXPR01MB482844BEBFB65D8F6E13431EEA549YQXPR01MB4828CANP_--

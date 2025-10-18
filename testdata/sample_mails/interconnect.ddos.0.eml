@@ -1,0 +1,153 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id CEE8FCB0-82CE-43E8-ADEA-139365E08978.1
+	envelope-from <abuse+bncBAABBE55S2WQMGQEWJOSZ5I@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 15 Jan 2024 21:07:33 +0000
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-1d455b34723sf89225795ad.0
+        for <abuse@digitalocean.abusehq.net>; Mon, 15 Jan 2024 13:07:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705352852; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=t/0UWHztwUtUP7VCCm5ApkxSCG7Umdrn3Fm31ZZ9R53J3ouf3V9qWqK5Z5cKdqcaDX
+         rej309NkXk7smqtDDplLqtq/LdySE2AZyYIr0+W0tDzqQUFufMlZU2AeQ70Wh49eXeEp
+         kdugGYgpFr09gkXhOLolVpYGtn+OsIZ08HnA7r6wfXWxnpnu1iwliaV8wGNdZCVmPlWB
+         1u+utZFLoZx5f4qSqWfmBodiuax9QLEDPq5Rj1/YRlml6yHFN6ycyxMMFeC0I60epxFt
+         XWlMiuCKqAqjkmE/747zmd+4FlUt7aM00tRsONUqdfGeba4EKEKeukX87rtGXuXSfoG6
+         kbhw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:feedback-id:date:message-id
+         :content-transfer-encoding:mime-version:subject:cc:to:from
+         :dkim-signature;
+        bh=462NiU6JUJGTiPVUNMZTIiykbTGlOupCS/T0KPM9fPI=;
+        fh=D52W5tYdKHUJbE1dP+rTe1HXBIsc/uhLEmPq2wlU9B0=;
+        b=ND05ja4guXscp1NSHuDEx3uxnSkODybwo+VJ9Ivmz2ZBykwRvO+l40N9FKeGs5osZl
+         ZTZx72a6uOpNxesn/8CpnfTEHToyq83SfomF0STdhqyjx1qVlhGlzHBDcrcvWYxYKZ/8
+         Yyv8k2+YJ9xn7WAga257/yuXHA/UNYWQDzi0KsNgmFnaEqbaZAjDTbMV54gEDEXuqK1Y
+         lG9VdHMLTqHwGgJ/KMbyKlK71FEL3r4VsWEfIBxA2GedbwSmr4RwjbeacKUP76ENDh4M
+         EThLhuiqUjIOcdcKvaAM6Lz21LydX+ov45Mvi6UER3q8iA6e287Lwk2datT4MkQYLHqZ
+         anqQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@interconnect.amazon header.s=em3ejwrvxq3oblawzbcze3773iu42ra6 header.b=AquHQU77;
+       dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GUABMx0k;
+       spf=pass (google.com: domain of 0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon designates 54.240.27.53 as permitted sender) smtp.mailfrom=0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=interconnect.amazon
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1705352852; x=1705957652; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:date:message-id
+         :content-transfer-encoding:mime-version:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=462NiU6JUJGTiPVUNMZTIiykbTGlOupCS/T0KPM9fPI=;
+        b=QTaQYwafRys/jzto8wFtlrMY4SdmbOOoMCawlaHlyhZwMVi5tHAd6P2oZyy6TCnF/j
+         p3KBChbEEHqWBVWBAInfhQFgIJgyaipjXUFZ0xQiZ/HumTzWkb5UHmQnUWIbjsg3ZeHs
+         /qg4ufUWksh1WZvSTjv5thihsEZaq9WjqKajM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705352852; x=1705957652;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :date:message-id:content-transfer-encoding:mime-version:subject:cc
+         :to:from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=462NiU6JUJGTiPVUNMZTIiykbTGlOupCS/T0KPM9fPI=;
+        b=dng3qqpbHDI5yayy15CzoNMUHJidI155axe4Y8KQ/x6G8A4ziDrKMFKX+XSgKALyPd
+         DzfnaSWf/0uDRacWrOg3YnHzLpRD3wNbwSWKa94vC+qPIEvSvdYTMgmGFPk4JEm0D1LM
+         kZ/+KkjavZ939pttWZ+W7SBqcNQrO8+lqS0gl8/MDO35dx2+iqPM2YCJH58xFqlUq9GM
+         rms98ZIdSEMvtiqMYpVkhB377KDKtoL5YG8dwgk4vJnnEDg+nMVsGow2CTmJ7ZNq9dhS
+         lO9t7DFhyLDvIn9Dv1+XfsYfyfCe8AIVtRpqoMe6hF0JVH6jCjdNLbzP2Og2Zu+agKJo
+         YgRw==
+X-Gm-Message-State: AOJu0Yyvb/x+3F1UIXp03Bnm5gZuXh5QcTLjg6csWLD9m6MnWneuHw9G
+	aA6FTHomBmYHZC4IMC6SEaTJ25iqx0mpDQ==
+X-Google-Smtp-Source: AGHT+IGjhZLqaMYpLlZbhXRF8SGLeai6Z3HgXUJA2mKcuHyjwem9PKJvVpXaU8HjE/P7V5Hfn3a0Qg==
+X-Received: by 2002:a17:902:c411:b0:1d5:b865:ba41 with SMTP id k17-20020a170902c41100b001d5b865ba41mr5618064plk.126.1705352851918;
+        Mon, 15 Jan 2024 13:07:31 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:860b:b0:1d4:bee6:f8d5 with SMTP id
+ f11-20020a170902860b00b001d4bee6f8d5ls349878plo.2.-pod-prod-08-us; Mon, 15
+ Jan 2024 13:07:31 -0800 (PST)
+X-Received: by 2002:a17:903:40c1:b0:1d4:b50d:dba9 with SMTP id t1-20020a17090340c100b001d4b50ddba9mr7718568pld.71.1705352851143;
+        Mon, 15 Jan 2024 13:07:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705352851; cv=none;
+        d=google.com; s=arc-20160816;
+        b=qnQTUgEEfOi0cBXv6V2kKFTyevhmqm8znTnewGi/OkShkOxQY7vSx1PlkpdRjbLxrh
+         bod3zlcxzzYhEI3q+FHEbWRkAOCg1vEM8Epz3/z7p9NVZm/a0w6GIy1D7Z2h9eomn62C
+         kjizJcfCQjQfA2RDNjydgtxTHGN4p4uj7TRSAXSD7Dqe7AlR/kHAW/HjEyeNY91AVdcZ
+         3FKYiGoO+FqNItJnunG11upc2voD28ydnADwPzy+sZaj6ffLV/n5r1gVnLbmPAD7/43G
+         m1bdu6WGP+N1yHSfAYuI7ML6wxL/Fr73gJvDuGYpGumVG/kw6HrmYV1uRsh9HMIDvuJ/
+         hNIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:date:message-id:content-transfer-encoding:mime-version
+         :subject:cc:to:from:dkim-signature:dkim-signature;
+        bh=462NiU6JUJGTiPVUNMZTIiykbTGlOupCS/T0KPM9fPI=;
+        fh=D52W5tYdKHUJbE1dP+rTe1HXBIsc/uhLEmPq2wlU9B0=;
+        b=DBaXBD3xYSlFotybuf8+otBNXx8LPEcRD8XR+iDDYaGY3G4xPEjuHHTL5y95R+YlR6
+         y0YuJLwMdNLwpmSsS999HPLxbaHVCC9tWfKqGs3aZgZIWOMYw/XiA5AFcYc+Rsqipj/j
+         jLS/vWn9GTcSTrETirgKNP+MT9NRZnumny+gwf/vWge8Tdokixbr1+KMI3nKFJMWcoeM
+         JXFkS30t0rb7l5VspKn61yZi+SgA5vAVHQhNAKs9Tc1k7slAN4+W2aPCbie5MQVUDO39
+         nl4hQGNx2V2hnj4QiECamBRqcQHVqBLHjsCF8JYEsRvEdg+d49CBHjrLE5oX0mFw+l/h
+         Kyuw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@interconnect.amazon header.s=em3ejwrvxq3oblawzbcze3773iu42ra6 header.b=AquHQU77;
+       dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GUABMx0k;
+       spf=pass (google.com: domain of 0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon designates 54.240.27.53 as permitted sender) smtp.mailfrom=0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=interconnect.amazon
+Received: from a27-53.smtp-out.us-west-2.amazonses.com (a27-53.smtp-out.us-west-2.amazonses.com. [54.240.27.53])
+        by mx.google.com with ESMTPS id o12-20020a17090323cc00b001d40ca98b6esi9360273plh.8.2024.01.15.13.07.30
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Jan 2024 13:07:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of 0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon designates 54.240.27.53 as permitted sender) client-ip=54.240.27.53;
+From: "'AWS Shield' via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Cc: aws-shield-external@amazon.com
+Subject: Abuse Notice - DDoS Attacks
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Message-ID: <0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jan 2024 21:07:28 +0000
+Feedback-ID: 1.us-west-2.Ky7dLjRAyuV9Dt7zbWsSjFkgU9N/7spSY26rm/ksTFA=:AmazonSES
+X-SES-Outgoing: 2024.01.15-54.240.27.53
+X-Original-Sender: aws-shield-noreply@interconnect.amazon
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@interconnect.amazon header.s=em3ejwrvxq3oblawzbcze3773iu42ra6
+ header.b=AquHQU77;       dkim=pass header.i=@amazonses.com
+ header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GUABMx0k;       spf=pass
+ (google.com: domain of 0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon
+ designates 54.240.27.53 as permitted sender) smtp.mailfrom=0101018d0ef3650b-94ece3b3-f671-408a-a544-af21fc81e427-000000@bounces.interconnect.amazon;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=interconnect.amazon
+X-Original-From: AWS Shield <aws-shield-noreply@interconnect.amazon>
+Reply-To: AWS Shield <aws-shield-noreply@interconnect.amazon>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Hello,
+
+We have identified hosts on your network that are hiding behind open proxies to launch DDoS attacks. Please find below the list of IP addresses for these attack driversand corresponding sample attacks launched by them. Please contact us at aws-shield-external@amazon.com, if you need any further information for your investigation to mitigate the root cause.
+
+Thanks,
+AWS Shield - Threat Research
+
+Offending IP addresses:
+134.209.179.64 
+
+Sampled attack details:
+
+attack_timestamp: 2024-01-15 19:20:36.000 UTC
+attack_target: sanfangyx.dhfjdjfbt88888.top:80
+proxy_driver_ip: 134.209.179.64
+proxy_driver_port: 40068
+abused_proxy_ip: 52.xxx.xxx.xxx
+abused_proxy_port: 3128

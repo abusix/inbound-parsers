@@ -1,0 +1,90 @@
+Received: from pacmmta07.windstream.net ([10.135.134.12])
+          by pamxfep06-srv.windstream.net with ESMTP
+          id <20170802100841.ZGQQ26972.pamxfep06-srv.windstream.net@pacmmta07.windstream.net>
+          for <abuse@windstream.net>; Wed, 2 Aug 2017 06:08:41 -0400
+Received: from mail.nuclearfallout.net ([208.146.45.251])
+	by pacmmta07.windstream.net with pacmmta07
+	id sA8c1v01F5R9aRL01A8dl1; Wed, 02 Aug 2017 06:08:40 -0400
+X-WS-COS: WS802
+X-Cloudmark-Category: undefined
+X-Cloudmark-Analysis: v=2.2 cv=JYtTlQCV c=1 sm=1 tr=0
+ a=JJ0UtYPhyVCEOj81cpopKA==:117 a=JJ0UtYPhyVCEOj81cpopKA==:17
+ a=eIhxMilvRf8A:10 a=8nJEP1OIZ-IA:10 a=LQ4BJ5HUPnwA:10 a=KeKAF7QvOSUA:10
+ a=Hffy2ttzAAAA:8 a=SJvMnXOjAAAA:8 a=AzM2gL1B10_4wteLgZkA:9
+ a=9awHPMac4fGCRDvH:21 a=ZCxPl44JEEvZU9kS:21 a=wPNLvfGTeEIA:10
+ a=bW8NlmvHORIA:10 a=WwHJs3vkRUUY8lQ1WAJs:22 a=hDZ3JhHebz7EvlRg8ePK:22
+X-Cloudmark-Score: 0.00
+Received: from www.nfoservers.com (www.nfoservers.com [208.146.44.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.nuclearfallout.net (Postfix) with ESMTPS id 1148E6A85A38A
+	for <abuse@windstream.net>; Wed,  2 Aug 2017 03:09:28 -0700 (PDT)
+Received: from www (localhost [127.0.0.1])
+	by www.nfoservers.com (Postfix) with SMTP id 772BA413A61
+	for <abuse@windstream.net>; Wed,  2 Aug 2017 03:08:36 -0700 (PDT)
+Date: Wed, 2 Aug 2017 03:08:36 -0700
+To: abuse@windstream.net
+Mime-Version: 1.0
+From: NFOservers.com DDoS notifier <ddos-response@nfoservers.com>
+Subject: Exploitable chargen service used for an attack: 69.40.247.199
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Message-Id: <20170802100836.772BA413A61@www.nfoservers.com>
+
+It appears that a public "chargen" service on your network, running on IP a=
+ddress 69.40.247.199, participated in a large-scale attack against a custom=
+er of ours, generating large UDP responses to spoofed probes that claimed t=
+o be from the attack target.
+
+chargen is an old testing service that generates large quantities of traffi=
+c with only a small request required. It is commonly enabled by default on =
+old printers and other connected appliances, but it has no useful purpose o=
+ver the open internet.
+
+Please block UDP port 19 (inbound and outbound) at your network edge, as th=
+is should stop these chargen attacks without blocking legitimate traffic. I=
+f the endpoint device that generated this traffic is configurable, please f=
+urther investigate whether it is running a chargen service (and disable it,=
+ if so) -- commonly exploited devices include Cisco hardware that has "udp =
+small servers" mistakenly enabled, old printers, old UNIX boxes with "charg=
+en" running under inetd, and Windows boxes with the "Simple TCP/IP services=
+" package installed. Also, it is worth checking if it is a machine that has=
+ been compromised, as some malware directly generates port 19 traffic, simu=
+lating chargen, and in this way masks its presence.
+
+If you are an ISP, please also look at your network configuration and make =
+sure that you do not allow spoofed traffic (that pretends to be from extern=
+al IP addresses) to leave the network. Hosts that allow spoofed traffic mak=
+e possible this type of attack.
+
+Example responses from your host during this attack are given below.=20
+Date/timestamps (far left) are UTC.
+
+2017-08-02 10:05:03.492739 IP 69.40.247.199.19 > 208.146.44.x.7491: UDP, le=
+ngth 468
+	0x0000:  4500 01f0 133a 4000 7311 b900 4528 f7c7  E....:@.s...E(..
+	0x0010:  d092 2c40 0013 1d43 01dc 28d0 2021 2223  ..,@...C..(..!"#
+	0x0020:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+	0x0030:  3435 3637 3839 3a3b 3c3d 3e3f 4041 4243  456789:;<=3D>?@ABC
+	0x0040:  4445 4647 4849 4a4b 4c4d 4e4f 5051 5253  DEFGHIJKLMNOPQRS
+	0x0050:  5455                                     TU
+2017-08-02 10:05:03.784348 IP 69.40.247.199.19 > 208.146.44.x.7491: UDP, le=
+ngth 665
+	0x0000:  4500 02b5 138f 4000 7311 b7e6 4528 f7c7  E.....@.s...E(..
+	0x0010:  d092 2c40 0013 1d43 02a1 f6c8 2021 2223  ..,@...C.....!"#
+	0x0020:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&'()*+,-./0123
+	0x0030:  3435 3637 3839 3a3b 3c3d 3e3f 4041 4243  456789:;<=3D>?@ABC
+	0x0040:  4445 4647 4849 4a4b 4c4d 4e4f 5051 5253  DEFGHIJKLMNOPQRS
+	0x0050:  5455                                     TU
+
+(The final octet of our customer's IP address is masked in the above output=
+ because some automatic parsers become confused when multiple IP addresses =
+are included. The value of that octet is "64".)
+
+-John
+President
+NFOservers.com
+
+(We're sending out so many of these notices, and seeing so many auto-respon=
+ses, that we can't go through this email inbox effectively. If you have fol=
+low-up questions, please contact us at noc@nfoe.net.)

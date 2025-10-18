@@ -1,0 +1,329 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=invalid (invalid algorithm) header.i=unknown header.d=bsi.bund.de header.s=211014-e768-ed25519;
+	dkim=fail (body hash did not verify) header.i=@bsi.bund.de header.d=bsi.bund.de header.s=211014-e768-rsa;
+	dkim=pass header.i=@vodafone.onmicrosoft.com header.d=vodafone.onmicrosoft.com header.s=selector1-vodafone-onmicrosoft-com
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03lp2240.outbound.protection.outlook.com [104.47.51.240])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id A59CB353-FE75-416D-919D-031C74A40197.1
+	envelope-from <abuse.de+SRS=2LEKD=3X=bsi.bund.de=certbund@vodafone.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Wed, 23 Nov 2022 09:16:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VwAUKS1dNgkEUo9BxoIu4QW7sZNNDTJu4VB7jojUhFbFvqsbFR65bcXmDRI0fK0LwbTfi/Ag9x5pGQM/TcswwRtXKhVz29Fi3ufLSeJDZ/FCyh303jeNj0H+GjHX7YvXlAB5zJmSnDqPPFTaDzjDMlvgf4y4aGFbUlhd59hLMBaubgUt6Rqo3899tnyv028nhN5gQr2ApHz3wrbWPjPfUgBKugSpXB+S8EkTlrnx1AmFMoChmOJssUgcC1TV+SEjhB+GFB94T2stvU7YWj0yYOnq3DxJmH6WeGiapOM0qQlW/0rfpyrJNESC8wIE5tQ9EHsGTS+CIIbRTaxmO5yraA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nxv9J3cd626k5M8n8Y9VhUDihJvyLfBMGjXrGGKxZwk=;
+ b=lS3yCKgI3NevQK9hVPQt3NsyQqb3kNlg1p7V5vVnOHplBILci+yRJdwv9uLi/j+ytrfULW2i3wqTbbw2q7eym1PY/A4FT/i0d9sXIcSv7XA8JdcG9sArLifQQYxpJul6veMd3v/z2ev8PEAOuginRBAicrijBGu9r7i0t674j2YmO5I0Vg70jW03HjBXV09xmoxIhM7rPXN0an83eUARVt6mHnXI30aKXupu84rd8/Cn73Xvp2um7TorkFU5P8hdHl8fs7PGMsdj7B/8cyAs9kJmEsntGcdoj8WeIbpD0psFIlkzr8rPN+12hEFdT5gZIna1j794V0/FfZFqZCJtmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 81.210.161.20) smtp.rcpttodomain=vodafone.com smtp.mailfrom=bsi.bund.de;
+ dmarc=fail (p=reject sp=reject pct=100) action=oreject
+ header.from=bsi.bund.de; dkim=fail (signature syntax error) header.d=none;
+ dkim=fail (signature did not verify) header.d=bsi.bund.de; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vodafone.onmicrosoft.com; s=selector1-vodafone-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nxv9J3cd626k5M8n8Y9VhUDihJvyLfBMGjXrGGKxZwk=;
+ b=Dhjns2/xKUJ+Aq3AQN4w2Jf8fGVpoydFBCWO7U2ysTMsrcxINnSL1chqJTpWg8qnb2atApzojZhm+4IVdDJ+XR4pHcVsrw1KX6LcO5V+U/PHpE7vUJMktNZ9SrUjvBN8+QvlcBa0zoF3q0EbzjryvGA9sEhJ7FhKURKd+bn/PZaRD3tFqNj+qiNNtotoE+HWJ/aTUPEasbSqERYfT/D6w4WHvVa2gEtqcgDhU6UrZtrO+eKrIrrz0LDJbFRW0TGysBSqDiOoiRrlxtli3tsfM+ltXkQWOJDW89rFcP5gP9E5mai+UfbvhP8IyTH5CnyLngzcbPglT05Sb/ndmsbF/Q==
+Received: from AM6P195CA0017.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:81::30)
+ by PA4PR05MB9043.eurprd05.prod.outlook.com (2603:10a6:102:2aa::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Wed, 23 Nov
+ 2022 09:16:36 +0000
+Received: from AM7EUR03FT050.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:81:cafe::71) by AM6P195CA0017.outlook.office365.com
+ (2603:10a6:209:81::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15 via Frontend
+ Transport; Wed, 23 Nov 2022 09:16:36 +0000
+Received-SPF: Fail (protection.outlook.com: domain of bsi.bund.de does not
+ designate 81.210.161.20 as permitted sender) receiver=protection.outlook.com;
+ client-ip=81.210.161.20; helo=mx.unitymedia.de;
+Received: from mx.unitymedia.de (81.210.161.20) by
+ AM7EUR03FT050.mail.protection.outlook.com (100.127.141.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5857.17 via Frontend Transport; Wed, 23 Nov 2022 09:16:36 +0000
+Received: from kerp-smx004.unitymedia.de (gateway [172.25.1.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx.unitymedia.de (Postfix) with ESMTPS id 4NHFqh04bFz56fsf
+	for <abuse.de@vodafone.com>; Wed, 23 Nov 2022 10:16:32 +0100 (CET)
+Received: from kerp-smx004.unitymedia.de (localhost [127.0.0.1])
+	by kerp-smx004.unitymedia.de (Postfix) with ESMTP id BE7CB9805E
+	for <abuse.de@vodafone.com>; Wed, 23 Nov 2022 10:16:31 +0100 (CET)
+Received: from KERP-CAS001.unity.media.corp (unknown [172.25.43.11])
+	by kerp-smx004.unitymedia.de (Postfix) with ESMTP id C3AE098069
+	for <abuse.de@vodafone.com>; Wed, 23 Nov 2022 10:16:30 +0100 (CET)
+Received: from kerp-smx003.unitymedia.de (172.25.1.123) by
+ KERP-CAS001.unity.media.corp (172.25.43.10) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Wed, 23 Nov 2022 10:16:28 +0100
+Received: from kerp-smx003.unitymedia.de (localhost [127.0.0.1])	by
+ kerp-smx003.unitymedia.de (Postfix) with ESMTP id DDB9017406B	for
+ <abuseish.support@umkbw.de>; Wed, 23 Nov 2022 10:16:28 +0100 (CET)
+Received: from mx.unitymedia.de (unknown [172.25.1.186])	by
+ kerp-smx003.unitymedia.de (Postfix) with ESMTP id A4DD7174069	for
+ <abuseish.support@umkbw.de>; Wed, 23 Nov 2022 10:16:28 +0100 (CET)
+Received: from m4-bn.bund.de (m4-bn.bund.de [77.87.228.76])	(using TLSv1.2
+ with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))	(No client
+ certificate requested)	by mx.unitymedia.de (Postfix) with ESMTPS id
+ 4NHFqX46whz57YMy	for <abuse@unitymedia.de>; Wed, 23 Nov 2022 10:16:24 +0100
+ (CET)
+Received: from m4-bn.bund.de (localhost [127.0.0.1])	by m4-bn.bund.de
+ (Postfix) with ESMTP id 7039E280E7B	for <abuse@unitymedia.de>; Wed, 23 Nov
+ 2022 10:16:18 +0100 (CET)
+Received: (from localhost) by m4-bn.bund.de (MSCAN) id
+ 4/m4-bn.bund.de/smtp-gw/mscan;     Wed Nov 23 10:16:18 2022
+X-NdB-Source: NdB
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/simple; d=bsi.bund.de;
+	s=211014-e768-ed25519; t=1669194966;
+	bh=AFmkZvbMNzhYXtKe9X8wy8O2F5njJVz28fLX194UrN8=;
+	h=To:From:Date:Subject:MIME-Version:Content-Type:Autocrypt:Cc:
+	 Content-Transfer-Encoding:Content-Type:Date:From:In-Reply-To:
+	 Mime-Version:Openpgp:References:Reply-To:Resent-To:Sender:Subject:
+	 To;
+	b=kbLNe3TziUqWGVdmJDgZvt5RJwOLTFRVGl9tkUNWHBB7/Q9E3adkEiKPCRO9GHhKx
+	 d64ocoC8HdryUlghLW5DQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bsi.bund.de;
+	s=211014-e768-rsa; t=1669194966;
+	bh=AFmkZvbMNzhYXtKe9X8wy8O2F5njJVz28fLX194UrN8=;
+	h=To:From:Date:Subject:MIME-Version:Content-Type:Autocrypt:Cc:
+	 Content-Transfer-Encoding:Content-Type:Date:From:In-Reply-To:
+	 Mime-Version:Openpgp:References:Reply-To:Resent-To:Sender:Subject:
+	 To;
+	b=Q58yDaSwh403i/15DlggxRmX60+RfquTpVnCGeFp9QYhF4PryPyK5pOKsBU0alaNc
+	 KIUConeOatas3VmcdbbtU31vx0VcyjjrvWSjYxSe7BiS4SIomXDSVToTwcW+Fftqee
+	 p0tCEIbesqaGOx196ooc6zjvgchB7XBNAeSgvtfa1RiO3HngH2g1mPrYQsqIQSAc1d
+	 7V/XnjnXruyw2kkYohodDAXysAV2wgS7HE8XAns3sVNj6UGKMBxZ+l9oeItk7HGWkZ
+	 Wu69pHZVNuJcx4oGcGU5aa2D7sr/6QdqniWMe8439eTj41DvNA7ytEbz4pSYlWYG1w
+	 FgR0qYXJJtnuw==
+X-P350-Id: 1bef26b2241a8cec
+X-Virus-Scanned: amavisd-new at bsi.bund.de
+Message-ID: <1669194903.526067.8050759@certbund.bsi.de>
+To: <abuse@unitymedia.de>
+X-Mailer: OTRS Mail Service (8.0.25)
+From: CERT-Bund <certbund@bsi.bund.de>
+Date: Wed, 23 Nov 2022 10:15:03 +0100
+Organization: Bundesamt =?UTF-8?Q?f=C3=BCr=20?=Sicherheit in der
+ Informationstechnik
+Subject: [CERT-Bund#2022112228001504]  Informationen zu Credentials
+X-Powered-BY: OTRS (https://otrs.com/)
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
+	micalg=sha-256; boundary="----919C3DE084CBF420059005F42D0902E0"
+X-Rusd: domwl, Pass through domain bsi.bund.de
+X-Rurd: query_ok, Pass through domain unitymedia.de
+X-Rspamd-Server: ker-l-mtasrv01p
+X-Rspamd-Queue-Id: 4NHFqh04bFz56fsf
+X-Spam-Status: No, score=1.50
+X-Spam-Level: *
+Authentication-Results-Original: mx.unitymedia.de;	none
+X-Spamd-Bar: +
+Return-Path: certbund@bsi.bund.de
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 68283f3b-8487-4c86-adb3-a5228f18b893:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7EUR03FT050:EE_|PA4PR05MB9043:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d6b1787-8e06-46d9-5745-08dacd336bd0
+X-LD-Processed: 68283f3b-8487-4c86-adb3-a5228f18b893,ExtAddr,ExtFwd
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 2
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?72OouWzxml4ytIDzDYhffeNQpDE2U5PzxxEZ0A/mvRGC4E2rh+J/j6e2ksz3?=
+ =?us-ascii?Q?TCzDqmnCHecWXjvHviU75FTvVFxHBkMwlWlLT0vx70Ig2c+v2/4jeN4xT46W?=
+ =?us-ascii?Q?RZsHivEWn6dCBKXziAG0/R6sndEQ+eox9YYTKDC9nCqA76eRXY0S5Pi/m1tL?=
+ =?us-ascii?Q?KFXWlPk0IAJbpZ+ZQ4Gz4RV4DsTHIgXX5VbkvJrhknd8M8Ik1yHqlppd4H5c?=
+ =?us-ascii?Q?jXH7fRDLUasGBYMLlljDcnK85XtSNICSDMdv0JpXJMPTzJE9wLNpaEsEXmX8?=
+ =?us-ascii?Q?LwmIlNU3xLndSOX/dt9MUoK2K9hACscXpbRnA8ysnm6T9+OjTZpwJzqI87y5?=
+ =?us-ascii?Q?pRlNRMVeIMiKfE9fuoKYh63CYQb6tyYtFcO7gk8ZWX58OAjd0exqDyp36HGC?=
+ =?us-ascii?Q?bzfeJLcAq5lomf1SjG65j4QToytt6XCYKRMNgiS2ioZl66f7ZRvFSfm+Rb5g?=
+ =?us-ascii?Q?+isYKaKrY5+aaLBiykeB2TLu/fGkAhSjlXKWX26CJ3YQTDYSS0rudnkeUEjU?=
+ =?us-ascii?Q?6sCR8j/5HwN89kw4VoWMnDgu7tTlDt/gg5LAYSXQePlS4ecSOjzugYXA/tr6?=
+ =?us-ascii?Q?Ut6mcXihM9CdL7txDtEEYn6u11mzQc8ZZNGu0xNrsy6uWBJ/ULkHpSnNi9KY?=
+ =?us-ascii?Q?Mbwgbg2SoYwibRD6J/mwfu6aK7e976CQoOzbAANV9ObnPzL7WIfpx+xukxbD?=
+ =?us-ascii?Q?iz5mWXblVIdhZWiC6h+nVPD40bQ9fnmEnWbCUkhfV9IMo+BMsxhpUYFyNVG8?=
+ =?us-ascii?Q?4GxWN8XGl8KDjMJbNBg5eS2yjQrEm/sWegCF8f/CLu5FgT4WEgW/YUTVGbxd?=
+ =?us-ascii?Q?W61F6eRMrcC43yiQHf2drEU2lKpV+4NyUjpoy8AkWEixsDJdsN9RZ/ET6dUW?=
+ =?us-ascii?Q?0XXZDDjIWCBQTL3qZmH9S7ZPx3D2zlbIncVpX4SGbGQzkqiFleb7aw9VtWfT?=
+ =?us-ascii?Q?a+tGiw59w7GqeLfRm1oZqJX0HPD9bM9Rkr89Ki+zhSs+T2xMV5JC+aNmRbv4?=
+ =?us-ascii?Q?hBBNC2MPQyx4SSdY7nWFateBI3JndqcyfXDH2u3Ry1BSpe2P/DTaWh0poEnu?=
+ =?us-ascii?Q?iyygcqYHZ20QK7YwDhYU9SbdAfc0Ls+g8TxUFeU+tSCXSsjIwdJl0Ram5gT6?=
+ =?us-ascii?Q?JRoTemjlwsPV1ftUslR/4zLT1+SUtfPFTbpn+eU5a27dYA23E8VgGCZHHbK9?=
+ =?us-ascii?Q?gzlGpmmG3sjsjMpVCFLkNpCOIoJK0pWZeY0Lew=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:81.210.161.20;CTRY:DE;LANG:de;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:mx.unitymedia.de;PTR:mx.unitymedia.de;CAT:OSPM;SFS:(13230022)(4636009)(396003)(346002)(39860400002)(136003)(376002)(451199015)(83380400001)(86362001)(9686003)(15974865002)(7636003)(7596003)(2906002)(36916002)(82960400001)(166002)(235185007)(5660300002)(6862004)(33964004)(44144004)(498600001)(336012)(70586007)(8676002)(42186006)(68406010)(316002)(26005)(966005)(356005)(36756003)(119056002)(62816006);DIR:OUT;SFP:1501;
+X-MS-Exchange-ForwardingLoop:
+	abuse.de@vodafone.com;68283f3b-8487-4c86-adb3-a5228f18b893
+X-OriginatorOrg: vodafone.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 09:16:36.1876
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d6b1787-8e06-46d9-5745-08dacd336bd0
+X-MS-Exchange-CrossTenant-Id: 68283f3b-8487-4c86-adb3-a5228f18b893
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM7EUR03FT050.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR05MB9043
+Original-Authentication-Results: spf=fail (sender IP is 81.210.161.20)
+ smtp.mailfrom=bsi.bund.de; dkim=fail (signature syntax error)
+ header.d=none;dmarc=fail action=oreject header.from=bsi.bund.de;
+
+------919C3DE084CBF420059005F42D0902E0
+Content-Type: multipart/alternative; boundary="----------=_1669194903-1700-16"
+
+This is a multi-part message in MIME format...
+------------=_1669194903-1700-16
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Sehr geehrte Damen und Herren,
+
+CERT-Bund wurde =C3=BCber malizi=C3=B6se Angriffsversuche auf E-Mailaccount=
+s in ihrem
+Netzwerk informiert.
+
+IP:130.180.53.198
+IP: 78.43.2.183
+IP: 78.94.63.214
+
+Wir bitten um Pr=C3=BCfung und ggf. R=C3=BCcksprache mit der betroffenen Nu=
+tzerin / dem
+betroffenen Nutzer.
+Uns liegen keine weiteren Informationen vor, wann und wie die Angriffsversu=
+che
+stattgefunden haben.
+
+Mit freundlichen Gr=C3=BC=C3=9Fen
+das Team CERT-Bund
+--
+Bundesamt f=C3=BCr Sicherheit in der Informationstechnik (BSI)
+CERT-Bund
+Godesberger Allee 185-189
+D-53175 Bonn
+Telefon: +49 (0)228 99 9582 5110
+Telefax: +49 (0)228 99 9582 7025
+Web: [1]https://www.bsi.bund.de/CERT-Bund/
+PGP & S/MIME: [2]https://www.bsi.bund.de/CERT-Bund-Kontakt
+
+#DeutschlandDigitalSicherBSI
+
+Alle Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie
+unter www.bsi.bund.de/datenschutz
+
+
+[1] https://www.bsi.bund.de/CERT-Bund/
+[2] https://www.bsi.bund.de/CERT-Bund-Kontakt
+
+------------=_1669194903-1700-16
+Content-Type: text/html; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3Dutf-8"/></head><body style=3D"font-family:Geneva,Helvetic=
+a,Arial,sans-serif; font-size: 12px;">Sehr geehrte Damen und Herren,<br />
+<br />
+CERT-Bund wurde =C3=BCber malizi=C3=B6se Angriffsversuche auf E-Mailaccount=
+s in ihrem Netzwerk informiert.<br />
+<br />
+IP:130.180.53.198<br />
+IP: 78.43.2.183<br />
+IP: 78.94.63.214<br />
+<br />
+Wir bitten um Pr=C3=BCfung und ggf. R=C3=BCcksprache mit der betroffenen Nu=
+tzerin / dem betroffenen Nutzer.<br />
+Uns liegen keine weiteren Informationen vor, wann und wie die Angriffsversu=
+che stattgefunden haben.<br />
+<br />
+Mit freundlichen Gr=C3=BC=C3=9Fen<br />
+das Team CERT-Bund<br />
+--<br />
+Bundesamt f=C3=BCr Sicherheit in der Informationstechnik (BSI)<br />
+CERT-Bund<br />
+Godesberger Allee 185-189<br />
+D-53175 Bonn<br />
+Telefon: +49 (0)228 99 9582 5110<br />
+Telefax: +49 (0)228 99 9582 7025<br />
+Web: <a href=3D"https://www.bsi.bund.de/CERT-Bund/" target=3D"_blank" title=
+=3D"https://www.bsi.bund.de/CERT-Bund/">https://www.bsi.bund.de/CERT-Bund/<=
+/a><br />
+PGP &amp; S/MIME: <a href=3D"https://www.bsi.bund.de/CERT-Bund-Kontakt" tar=
+get=3D"_blank" title=3D"https://www.bsi.bund.de/CERT-Bund-Kontakt">https://=
+www.bsi.bund.de/CERT-Bund-Kontakt</a><br />
+<br />
+#DeutschlandDigitalSicherBSI<br />
+<br />
+Alle Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie =
+unter www.bsi.bund.de/datenschutz</body></html>=
+
+------------=_1669194903-1700-16--
+
+------919C3DE084CBF420059005F42D0902E0
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIK4QYJKoZIhvcNAQcCoIIK0jCCCs4CAQExDzANBglghkgBZQMEAgEFADAL
+BgkqhkiG9w0BBwGgggcoMIIHJDCCBQygAwIBAgIHAeDh8GcgljANBgkqhkiG
+9w0BAQ0FADBgMQswCQYDVQQGEwJERTEZMBcGA1UEChMQUEtJLTEtVmVyd2Fs
+dHVuZzENMAsGA1UECxMEQnVuZDEnMCUGA1UEAxMeQ0EgSVZCQiBEZXV0c2No
+ZSBUZWxla29tIEFHIDIwMB4XDTIxMTExOTA5NDIzM1oXDTI0MTExOTIzNTk1
+OVowXjELMAkGA1UEBhMCREUxDTALBgNVBAoTBEJ1bmQxDDAKBgNVBAsTA0JT
+STENMAsGA1UEBxMEQm9ubjEXMBUGA1UEAxMOR1JQOiBDRVJULUJ1bmQxCjAI
+BgNVBAUTATEwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDen3WF
+Jh5VKlVWZLRP0AlNDF2UZh2w0ZhEOPgTmo3DOTWDCfv0PdDOQhWVYYi8BD75
+olzEo96nU2CJSFMn/pKC/v6MseOezUnueEvckAeXjg6cJ81W6SPmjtTplKbX
+XcXmUUDpuTgfRP0FBEJnpwjROK8SejAx93mS99tRtKmYTdPijInj8B4hGez4
+ioS9ixQKOtGM0fEPVh9RSofJe/eox0DfUZ13G5YZVtVjkgx7SdSFRI4keUA7
++6xrOHTY7F1NA/fMNYoBkXyBFeB7Q63EK5WQ0SuUv/5hTrc8ligHQCgHXVsx
+7HxpkeHWHIC8UOstGMPMFxgksIaNnt4Vy73p+cWPXV2pDGGkUZRb+wQT/plu
+0CnVSWG2AYvaw+YUZSxQWnOD1298jZ3vS6ifNtcnTq8RCx6RzAiS0D9feJAz
+QmwRGeg9gpyofcw56uUX+c4yEZqnqvS9sr4T/7qx+xIAaADoxtzvwFSj9C2O
+Z0V8W/1IZi2b9oCCOnfFSOANnFoYQYXt+DjaPkV/HH/1VdUkKHxyvXy/p8c9
+ae3V7v1I9sBIfmOohkTfHLXGmH6gQWTcywQZ6ntg1Rb98KYfB/yvbgd0RdCE
+NBkCycua0DyeDosMMcFJxuuaOY1bw6T3qz1DIDk8qJVZ2yEgZuZFkNbJKJjs
+4tNSOvjevJGuZWPwLwIDAQABo4IB4zCCAd8wcQYDVR0jBGowaIAU520BMXxB
+MiAnybBpGhWHfcG9vkKhSqRIMEYxCzAJBgNVBAYTAkRFMRkwFwYDVQQKExBQ
+S0ktMS1WZXJ3YWx0dW5nMRwwGgYDVQQDExNQQ0EtMS1WZXJ3YWx0dW5nLTIw
+ggQkqy5LMB8GA1UdEQQYMBaBFGNlcnRidW5kQGJzaS5idW5kLmRlMIHhBgNV
+HR8EgdkwgdYwgdOggdCggc2Gb2xkYXA6Ly94NTAwLmJ1bmQuZGUvQ049Q0Eg
+SVZCQiBEZXV0c2NoZSBUZWxla29tIEFHIDIwLE9VPUJ1bmQsTz1QS0ktMS1W
+ZXJ3YWx0dW5nLEM9REU/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdIZaaHR0
+cDovL3g1MDAuYnVuZC5kZS9jZ2ktYmluL3Nob3dfYXR0cj9jbj1DQSUyMElW
+QkIlMjBEZXV0c2NoZSUyMFRlbGVrb20lMjBBRyUyMDIwJmF0dHI9Y3JsMBYG
+A1UdIAQPMA0wCwYJKwYBBAG9dAEBMA4GA1UdDwEB/wQEAwIF4DA9BggrBgEF
+BQcBAQQxMC8wLQYIKwYBBQUHMAGGIWh0dHA6Ly9vY3NwLml2YmIudGVsZXNl
+Yy5kZS9vY3NwcjANBgkqhkiG9w0BAQ0FAAOCAgEAzSetC7e4JbF2AXvnxjYp
+DlrcQI5V6xVdjdIhzkIniRPRcm/cDvCEPAfMQhlPaE0/eM1LDrWqqNawAW1J
+5ZR18lZX73KtnOwnzI1Dw5eSVdoGMevAAvQVlwlmkB1n3R2YeiZufPsZcZcS
+ZIbQYJsuKwre5f6RZbH79VhI9UOlIUptw3d+l57UB6BInoxAanWb6TVB67/o
+sJgd65GV7AXHwikGnIL/cmse6+LlvkhZwt9ZkpOGT9m9+xADz2I8RirKD3JD
+2GMKnher8lQuZpZlpxWbySTQfpwNfqOCaGSdzN7elV/kYLN7FZtCIF8JkmMo
+8Aklk6agED6jt+UrLhNHo+2FQqmPHxOvkSzVZAYE+oF83IVudv0WIwMiOKDI
+5JSTsifx7KUt3q7htDhGOHKof3vi2Cr+oFUNj0LAInmRiVyCogMa2ZbXZlz8
+HHU1xJdYtuIy7EIl98vr7c1ZvsW/4ovpL4MuVZXWTl+ph2oOsHUTt6Z+F7Vu
+udptC8mpgDrPoaQPi8yWLr4YF9Olv3JTIF0IcFnSuJddH+VVxw3fshl8u2xp
+ZwOuSZm7HYfJIJe65WpZ6v35Gk6vMmLQOJEo2o9/CJYRPhPuF85YJOAI4XEI
+6dIsw0Mdm+hJqrQa+mqrkTBmoyuyT/76v/EYFzmRO9VnNpYT2HOytvamoa/G
+3TcxggN9MIIDeQIBATBrMGAxCzAJBgNVBAYTAkRFMRkwFwYDVQQKExBQS0kt
+MS1WZXJ3YWx0dW5nMQ0wCwYDVQQLEwRCdW5kMScwJQYDVQQDEx5DQSBJVkJC
+IERldXRzY2hlIFRlbGVrb20gQUcgMjACBwHg4fBnIJYwDQYJYIZIAWUDBAIB
+BQCggeQwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUx
+DxcNMjIxMTIzMDkxNTAzWjAvBgkqhkiG9w0BCQQxIgQgVHQXuoTGVrupu4H+
+1ew/008FPAJNpkdbhLrKqaHE6kQweQYJKoZIhvcNAQkPMWwwajALBglghkgB
+ZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAO
+BggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZI
+hvcNAwICASgwDQYJKoZIhvcNAQEBBQAEggIABQEF451mv11nTlrpYVDqnWYj
+fQV+wvLIieRWnKnqg/+cfrWAVAswKvuGfCVqXYPVZsF9JB0fcsutpI7vQtEx
+sBbWXzprV0M9PM9avAjLed5nt7nOS36UURgIWnNmKm2EgYw5G8Gfz2TGhEop
+mjnhhrO6K3rWAu9c6qXoHipDPIUoiZQaXsyT9ZCgFPx9UG/YSIhVSxjOL8Of
+RqH1KTOrmbudsTf9xCwQAntZevKFHs326NhDMthfflr1Tp+1P4obC5RxSOkt
+tql1JQSt3suLAX0STuADZUFwH3ki1Gm3BGZILV5kL4gMyfmIrRAwvQWPlIS+
+YPF7HKuWUn4cOKTfvRJ6LhtYZl/T64VPASNlcubHwBkm4TkSVLFsP2+55pm6
+xwyKR1d3Wc/NZJ7aIZHdc/MKB9Wx04yZpVKvrVMAJSzlsUCPZcKa5pn78H0Z
+HzWF/4uXaUyZvf8ulpecqb/NDQal3vti0b4UnJ4L/1XJVnM3A8mxnDr8pm1e
+MdX0u/lZeuS8dAYj21SbdEiFjKZAPXP1WOJ+Jys4EJJSRb3iLrIZKM7InOdh
+ImPu03fAawzWjSdSInqlrkgNr+ERfekEEvP2Wo5jv6O11V5qzboE5onhEfre
+Ns6MCxzWRbrmLmMO51JA0alJplTFdmuY5A+/4oxNGMUSh3EcprpaEVs0IO8=
+
+------919C3DE084CBF420059005F42D0902E0--

@@ -1,0 +1,167 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 692698CB-7E99-41A9-8F4F-43265144AFB0.1
+	envelope-from <abuse+bncBAABB6FHXG5QMGQEMEVWD7A@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 27 Dec 2024 07:15:05 +0000
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-385e2579507sf3027547f8f.1
+        for <abuse@digitalocean.abusehq.net>; Thu, 26 Dec 2024 23:15:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1735283705; x=1735888505; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:date:message-id
+         :content-transfer-encoding:subject:to:from:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hAvTk1DkEbqdUct3VxDy18cm9S6SMvLRWTrTPAxvyxg=;
+        b=RKg6nta6b+qaAxOXIaYfiBau8+YC9QU7XxcplzbDrCbkSaZ2dr2m4WQZtjmzHse3Vq
+         EtMWdUMGd9QmSdHtnzdUjm5Lrnxo8xi+DSXnjDs9gWQ6vo2u2TJArlDnsFY4VwqHjnrV
+         yGBeetGYWwFB9shuJ8j0QiEzWeI9oESkvlLTk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735283705; x=1735888505;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :date:message-id:content-transfer-encoding:subject:to:from
+         :x-beenthere:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hAvTk1DkEbqdUct3VxDy18cm9S6SMvLRWTrTPAxvyxg=;
+        b=fZqum/dS5Vx9u7LntzSC4fr8FDjMJNwpoLKkLNV12Wsu9plMj+Zechy01Oy9sM2Fiy
+         92+H1auiBaHevIYf0jvVOJKkME06u89bsyW5hYC49dQAuJ8xT+wI6inWNYVwrVLbmIau
+         98FDWcnlRpJAOuYUX0BccaiWuFOWdC+nP8bXwUy8v+Bstpv1BoCZejfVjj3f1leMJFO5
+         YWlqrifZ+hHmGSoyqTeSCpnahLVd2ikVMlLFueb5HZNeH44q6T1o3dSetRrGINFsvwoD
+         KzYmkjwmxs+JNY5PCoSZ10v1r6FfxSIyb7NB0lqPvFuxnolsEkZ4tT60CLH/oGQHMA5q
+         wK8A==
+X-Forwarded-Encrypted: i=2; AJvYcCXcoYrDN38B0w4tZLtn4hYOEjFYDjP0Od70MYvKX6kcbgglsBxrBffNnT6arMeUYomdv6+jHg==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0YyhS4dp+HCI9Rvd+mJYuHJCvitLHTvTjCUKG0Gd4FYT2itLMgc1
+	QsckLkYijHz8H1qW8O9j9UtDTmOliJJ0xZCavqMcM3PzN5Fn6ecsynkBdkJAQPY=
+X-Google-Smtp-Source: AGHT+IHKzGquRwxkFasEdr9HD1q9yw/kjsXnANDKNrWxkDYgSYq6jkjcp+yDMZbWpFdycJFUC1q+sw==
+X-Received: by 2002:a05:6000:1acb:b0:386:3b93:6cc6 with SMTP id ffacd0b85a97d-38a221eaa77mr23977577f8f.15.1735283704717;
+        Thu, 26 Dec 2024 23:15:04 -0800 (PST)
+MIME-Version: 1.0
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a5d:618d:0:b0:385:ddb5:8cb7 with SMTP id ffacd0b85a97d-38a19fa5d8als2238085f8f.2.-pod-prod-01-eu;
+ Thu, 26 Dec 2024 23:15:03 -0800 (PST)
+X-Received: by 2002:a05:6000:1ac8:b0:385:f071:a1c9 with SMTP id ffacd0b85a97d-38a224049f1mr20193773f8f.50.1735283703093;
+        Thu, 26 Dec 2024 23:15:03 -0800 (PST)
+Received: from d218-17.smtp-out.eu-west-2.amazonses.com (d218-17.smtp-out.eu-west-2.amazonses.com. [23.249.218.17])
+        by mx.google.com with ESMTPS id 5b1f17b1804b1-4366127c774si117796525e9.104.2024.12.26.23.15.02
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Dec 2024 23:15:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of 010b019406f7fb73-d5053fcb-764a-4874-9d10-4ca568c9ebfa-000000@ses.tmclo.dev designates 23.249.218.17 as permitted sender) client-ip=23.249.218.17;
+From: "'Abuse Prevention' via abuse" <abuse@digitalocean.com>
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=tmclo.dev;
+	s=dkim; t=1735283701; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	 references; bh=hAvTk1DkEbqdUct3VxDy18cm9S6SMvLRWTrTPAxvyxg=;
+	b=XaH0XLNyAyjN6xm3zpTq5nMR134hUNW69DK/U9xUAMnNlkXmzKT4dOVlr3hPWlJBF9EERk
+	EiBycYYBx+TBSYWQzD9jKV5rerdGQjYJ5cmRdRUXozeZanTMl8x5HSJO5F2trgG61NgbpW
+	bUWZTBC37kDrsu45gkPzG16krsAZK4EMQcLwujJ4iTOAhgKOA0T1lqScTqWpWpR0z/rY/6
+	V1sVDr1y5ALlZ86o52HgKjiQEJo9uhz4JOGTEImOREymv6lEHDb8jGqtUy7JXMirX92LSD
+	P/x0xV1Zm/8bGyU7SpLKMaa8j9xfRIpBXwYxLKc7ZK1hOWx48kNOr+Bq6XfURQ==
+ARC-Authentication-Results: i=1;
+	mail.pinguin.uk;
+	none
+ARC-Seal: i=1; s=dkim; d=tmclo.dev; t=1735283701; a=rsa-sha256; cv=none;
+	b=T9qNakK1wGUVahjcZg3ZdSujh0A9NVhn1klNEjqFhoSSi3BjWz6aU37FoV9hJ3UIc4pikD
+	oz3uS8jcbVieGW9hrVMnDPWdLsSbraEhjkX3NsyPYKVT3pARRTbquP0TrlHY6DjxuGFlQe
+	Za0P8iTcR+TJiHQxjAvGSi98dIeorWLCGNHzOIYKMaoet+bHLRKCeeZrPwb6RPnHqO2tz1
+	P/V9BmkgmIGw9auzP2u/6YaYuMJyhZ8FzKpsCke8n9VUxN/VEt8vNdvBPeSio2KoF1U9uT
+	fY7XUCiyE+PiAVtazmZqNnAyNt+Rh6XypoDZWiOPlImeV0w2CF7ztDItqrzbMA==
+To: abuse@digitalocean.com, abuse@tmclo.dev
+Subject: Abuse report for 64.226.95.190 on your network.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Message-ID: <010b019406f7fb73-d5053fcb-764a-4874-9d10-4ca568c9ebfa-000000@eu-west-2.amazonses.com>
+Date: Fri, 27 Dec 2024 07:15:02 +0000
+Feedback-ID: ::1.eu-west-2.DVCjfdyLa/a8/J7cB9ER+2JMN7uKVkF2pJaTCUhtIXk=:AmazonSES
+X-SES-Outgoing: 2024.12.27-23.249.218.17
+X-Original-Sender: abuse@tmclo.dev
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@tmclo.dev header.s=6wwsac33dd7pptnnmyv6jwn4njoypwii
+ header.b="eLHUE3D/";       dkim=pass header.i=@amazonses.com
+ header.s=pgxy5mtxzx6eoyytua4nvvg26jbuf6lj header.b="fuvO8G/Y";
+       dkim=fail header.i=@tmclo.dev header.s=dkim header.b=nHo9ojMB;
+       arc=fail (signature failed);       spf=pass (google.com: domain of
+ 010b019406f7fb73-d5053fcb-764a-4874-9d10-4ca568c9ebfa-000000@ses.tmclo.dev
+ designates 23.249.218.17 as permitted sender) smtp.mailfrom=010b019406f7fb73-d5053fcb-764a-4874-9d10-4ca568c9ebfa-000000@ses.tmclo.dev;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=tmclo.dev
+X-Original-From: Abuse Prevention <abuse@tmclo.dev>
+Reply-To: Abuse Prevention <abuse@tmclo.dev>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Hello,
+
+We have detected abuse from the IP address 64.226.95.190, which according to a abusix.com is on your network. We would appreciate if you would investigate and take action as appropriate.
+
+Log lines are given below, but please ask if you require any further information.
+
+(If you are not the correct person to contact about this please accept our apologies - your e-mail address was extracted from the whois record by an automated process.)
+
+ This mail was automatically generated.
+
+This inbox is monitored, we would appreciate if an update could be provided in line with GDPR policy
+
+The recipient address of this report was provided by the Abuse Contact DB by abusix.com. abusix.com does not maintain the content of the database. All information which we pass out, derives from the RIR databases and is processed for ease of use. If you want to change or report non working abuse contacts please contact the appropriate RIR. If you have any further questions, contact abusix.com directly via email (info@abusix.com). Information about the Abuse Contact Database can be found here: https://abusix.com/global-reporting/abuse-contact-db
+abusix.com is neither responsible nor liable for the content or accuracy of this message.
+
+Note: Local timezone is +0000 (GMT)
+
+Lines containing failures of 64.226.95.190 (max 1000)
+Dec 27 07:14:57 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:57 mail postfix/submission/smtpd[104701]: Anonymous TLS connection established from unknown[64.226.95.190]: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits) key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256
+Dec 27 07:14:57 mail postfix/submission/smtpd[104701]: lost connection after STARTTLS from unknown[64.226.95.190]
+Dec 27 07:14:57 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] ehlo=1 starttls=1 commands=2
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\003\001\247\001\000\001\243\003\003\266U\215)\021\303\364\374\275.:\341\211!\025z\241\3264\203\200[\301E\342\276\216\207\213\020\332| G|\032}v\205}\201=\374\235\3307\000-\273\337\236\v\207\262\240\370P@\373\364\325\236L\315\217\000\212\000\026\0003\000g\300\236\300\242\000\236\0009\000k\300\237\300\243\000\237
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\003\001\247\001\000\001\243\003\003\266U\215)\021\303\364\374\275.:\341\211!\025z\241\3264\
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\003\001\247\001\000\001\243\003\003D\001\327\242\021\b\f\362B3D<rn\344ns\225\277\2547C\341O\345FC d\345\201\271 a\241\232\251\2541\220\200\177\006m\240Gm(\210\3133\202a\267\237\325\275E\030\215\363\241(\233\277\000\212\000\005\000\004\000\a\000\300\000\204\000\272\000A\000\235\300\241\300\235\000=
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\003\001\247\001\000\001\243\003\003D\001\327\242\021\b\f\362B3D<rn\344ns\225\277\2547C\341O
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\003\001X\001\000\001T\003\003t7\324e]Zv\242|Pz\360@9\234j\v\236\237q|=\310\334\353p\232LQ\274\251\354 \303/O\037>\364\310$\fv\340\315\261\027U\224\241r\242\006\f\005~b\205\361T)\261<\245\233\000F\300\022\300\a\314\024\023\001\023\002\314\251\300s\300r\300,\300\257\300\255
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\003\001X\001\000\001T\003\003t7\324e]Zv\242|Pz\360@9\234j\v\236\237q|=\310\334\353p\232LQ\2
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\003\001J\001\000\001F\003\003w:\224\031}\275'\333\332\354\tu\201\276\252\236U\330a \241\210k\\\317\364\004O\017\366\363\033 |\262\271\325\030F\335\264\230\240\017\177\272j\327h\016\302\255\360\257\371\230\026/\336_\367^\346c\025\000D\300\023\300'\300/\300\024\300(\3000\300`\300a\300v\300w\314\250
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\003\001J\001\000\001F\003\003w:\224\031}\275'\333\332\354\tu\201\276\252\236U\330a \241\210
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\003\001\233\001\000\001\227\003\003\261\265.\240\023\004\3372\004yOdBW?%\251\372\262\335i8(\223\arBf\364\364\322p \363\202\372\026\275\241\215\200\260i\373\306C+/\362\260\371G\264,\247k\035\205\225\226\334\257h\034=\000\214JJ\300\022\300\023\300\a\300'\314\024\300/\023\001\300\024\023\002\300(
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\003\001\233\001\000\001\227\003\003\261\265.\240\023\004\3372\004yOdBW?%\251\372\262\335i8(
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\002\001\234\001\000\001\230\003\002\022\351\2164\336\027\352$\361\361z\3621mE\224~\234\331\244\307\343\032\301\205'\000\346\256\037f\322 \320vf|W\356%-\356\206}<\020\234F{f\352\373\254I\342DJ\317\217D_ZLh:\000\212\000\026\0003\000g\300\236\300\242\000\236\0009\000k\300\237\300\243\000\237
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\002\001\234\001\000\001\230\003\002\022\351\2164\336\027\352$\361\361z\3621mE\224~\234\331\
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\001\001\251\001\000\001\245\003\003\222\377A4V@.\212\233~\002\206\363\346\fT\035XU1*"Z\023)fh\310\251\\\272\a *\201\206\373\242\002\222\036\300<AL\327\305\276\033\006#\310\bK>\341\236\v\364\214x\371A'\276\000\212\000\026\0003\000g\300\236\300\242\000\236\0009\000k\300\237\300\243\000\237
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\001\001\251\001\000\001\245\003\003\222\377A4V@.\212\233~\002\206\363\346\fT\035XU1*"Z\023)
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\001\001\251\001\000\001\245\003\003;\177\367|\222\266\357\022W\244\366\\\306Ub9C\360\303\274 \253e\221\357\366\221\301\000\337|| \274\271Q\255d|\243\354\003\232\006\277\314H\305\303w\242`{+\212r\321DLK\354\354\177\202\373\000\212\000\005\000\004\000\a\000\300\000\204\000\272\000A\000\235\300\241\300\235\000=
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\001\001\251\001\000\001\245\003\003;\177\367|\222\266\357\022W\244\366\\\306Ub9C\360\303\27
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\001\001\237\001\000\001\233\003\003\242Y\211\345\245]d\322\016\304\3214\227\274\202]V\263H\354\351!\034\375.-\337a\n=Zg v\317\313\254x\b\365\326t\264\346X\375vly\354\t\t\031\347\343\205O\203\330w\2509\321\3667\000\200\000\026\0003\000g\300\236\300\242\000\236\0009\000k\300\237\300\243\000\237
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\001\001\237\001\000\001\233\003\003\242Y\211\345\245]d\322\016\304\3214\227\274\202]V\263H\
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: connect from unknown[64.226.95.190]
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: improper command pipelining after CONNECT from unknown[64.226.95.190]: \026\003\001\001\266\001\000\001\262\003\003\023\214\277\236\222\342\237\315\b\215|b\373\212\251~\v\362kDT\277\354H\2426\3629\325\360\370\344 s\370C\320\310\242\342\t\326/l\370\236\313\2356\036L\372\a\037#\207\322b\326a9\020\356g,\000\214\272\272\300\022\300\023\300\a\300'\314\024\300/\023\001\300\024\023\002\300(
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: warning: non-SMTP command from unknown[64.226.95.190]: \026\003\001\001\266\001\000\001\262\003\003\023\214\277\236\222\342\237\315\b\215|b\373\212\251~\v\
+Dec 27 07:14:59 mail postfix/submission/smtpd[104701]: disconnect from unknown[64.226.95.190] unknown=0/1 commands=0/1

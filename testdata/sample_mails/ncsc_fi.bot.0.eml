@@ -1,0 +1,157 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@ncsc.fi header.d=ncsc.fi header.s=s2
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01on2113.outbound.protection.outlook.com [40.107.121.113])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id E488C464-C5F4-45C4-81F3-585028A7C3DE.1
+	envelope-from <bounces+SRS=PjT6c=O5@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Mon, 29 Jul 2024 12:15:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SDDh6EZ47Rp6LrCfzG0XflVlTzCb9Z+RF2hQluXFCNaOWO9dstUqpWeR5wqfkcgJWUjpGdwHxcArXTkGF9/huk4RDcb+dwBLjyqFcQatVygtTvh8LKsyFnI08YNvSm7fHphPCN9NEIZpjUq6a7P1WH/e36cKbsQD6Ev+4psYAtfns+EGhQfHl0Xlf/8ppdYanDzZy+ildmEYhIsdxrEdn8N4pIfQXPsjt172ADxkc9XQINNI7mWaAfRuV3TYwHim3kK3bfZujOZG6DkbIWMGAfx7qeW8+/pEGMLnvvCSr3QSRywQM+aeA9cqpg7Su/iuKXRnWMKeQslu+RJ9u+8zrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QVkU1pDWh4pbtZ4AnQjVWJFpnfwWk0nPyd/XS/zK44g=;
+ b=DMkAcnWzA9Sdd/pe3qP5FgQAvgF92uj3PkW8durQus81msME4D83TlySymAZHunX1LHL5pYRGXtWslD9Wf3fo367x/eojdU5cIftPnqMEl2DryNxzwtwfqqy6CwLto3bNT0wwXhgvzHNwg99oxE8gkDTb+XFHlIA/NMNeFYkEEOwVgJ5UdESe5UAjXz5W++Q5oAdxhe+qGAoaQFJedQBbI5rZYf/Ppsw0FmhSkRCqRag5undlbTrJVpkBSxJPyzRZU5B4jh9MTuZ2PLWvYbAqokCdGKgwBw8OcEHMRiiicY+nqa5t2Ay5idVdxbfmgT+4ohocYUu59exnKd1sAycVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 87.239.125.165) smtp.rcpttodomain=ipxo.com smtp.mailfrom=ncsc.fi; dmarc=pass
+ (p=reject sp=none pct=100) action=none header.from=ncsc.fi; dkim=pass
+ (signature was verified) header.d=ncsc.fi; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QVkU1pDWh4pbtZ4AnQjVWJFpnfwWk0nPyd/XS/zK44g=;
+ b=b3+Wxasj/bzCLZppWRP/k/JML5nNDIIdtP2W8QsmhF4l8ECYkdItM6qEl5Yby2Slsrsnkba4X/79MIzCSL5gzAukxZt95uIXdManEEobjTBKJVzlsOjOwHwi4/XjQV5WbzjaPPITblwixuhkZcXBX1Sw4IDl6VQD/xt29J+2CuVC44mLIla6OS3fpYTpRT0TNsMRXuKQt83qrKvEBZ21nHKj0W3QM8Xee6UFAGE5VkWm6OAk4VELxJEdP3xT2AWgbcZfia6iDqyR/Hs9WNsj4AhXa9I1GpNtwg2DOwFJG98a6nOcSKHO5AlqrPAxxNNctZdqFt9qhFqYv+NjOYVSyQ==
+Received: from LO4P265CA0148.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2c7::12)
+ by LO2P302MB0108.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:373::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Mon, 29 Jul
+ 2024 12:15:32 +0000
+Received: from LN2PEPF000100CD.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c7:cafe::a1) by LO4P265CA0148.outlook.office365.com
+ (2603:10a6:600:2c7::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.34 via Frontend
+ Transport; Mon, 29 Jul 2024 12:15:32 +0000
+Received-SPF: Pass (protection.outlook.com: domain of ncsc.fi designates
+ 87.239.125.165 as permitted sender) receiver=protection.outlook.com;
+ client-ip=87.239.125.165; helo=mail2.traficom.fi; pr=C
+Received: from mail2.traficom.fi (87.239.125.165) by
+ LN2PEPF000100CD.mail.protection.outlook.com (10.167.240.7) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7828.19
+ via Frontend Transport; Mon, 29 Jul 2024 12:15:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=ncsc.fi; q=dns/txt; s=s2; t=1722255332;
+  h=mime-version:content-transfer-encoding:from:to:subject:
+   reply-to:date:message-id;
+  bh=QVkU1pDWh4pbtZ4AnQjVWJFpnfwWk0nPyd/XS/zK44g=;
+  b=Z5myhCUlmWGkRfGqrr7eq90coofTMMB+NVUR5JABqmEy/xD325iBZg4o
+   eugWnZWxHB7MnhblN1SSsVtMSzlNR/fveRJDpihmEh7CjQIxPPEvzgFyC
+   57wwG8EnNcJycnh/w9yYqpqP/f9eLCRMXqIWK2s2NoAmL54HbYaevmVRd
+   +fbxpxLaLqUIoXJ4iXEvuYUfRTVpWq/ziH4PWhmdRWLLzxycia9hPo7FY
+   UG7hG2pQQL+rlIqMIPlVarHbG076l6VCcNQXBVUCCi3X+TVHVk1AVccEW
+   +9f1ZciOLJGR+PEgE2LP4wIm5gxOpaDmWJ3oie3g3ey7zrkBx0ZjOuR/C
+   w==;
+X-CSE-ConnectionGUID: 2cMu84dFQ9Wa6kLexDeaPw==
+X-CSE-MsgGUID: nTOHPRzIRQ+RSch/JMvtYw==
+Message-Id: <63e36e$qomig@mail2.int.traficom.fi>
+X-IronPort-AV: E=Sophos;i="6.09,246,1716238800"; 
+   d="scan'208";a="28072528"
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+From: cert@ncsc.fi
+To: CISAServiceDesk@cisa.dhs.gov,abuse@ipxo.com,incidents@ncsc.gov.uk,abuse@hivelocity.net,certbund@bsi.bund.de,cert@ncsc.fi
+Subject: [NCSC-FI #32068] Botnet drone in your network
+Reply-to: cert@ncsc.fi
+Date: Mon, 29 Jul 2024 12:02:04 -0000
+Return-Path: cert@ncsc.fi
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LN2PEPF000100CD:EE_|LO2P302MB0108:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bfa19a3-2f69-4f40-f191-08dcafc824a2
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|61400799027|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TC9tU29DaWNXUE45N3ZEU2xYQVo0NlQwMzlkeWg3V1dybm9NTllpSFhEb2lm?=
+ =?utf-8?B?OG1DOUl2TDhXNEQ2VjRiMTQwd1l6STlWM3ltaHFaa1AzREZkSnFDUHZ2ZVFp?=
+ =?utf-8?B?UWtzN1NYcmVRMnF4a1BDLzMrYWVrYWFqSXBaQkFiYlY3cm9JOUk3bFBDNTlq?=
+ =?utf-8?B?azQ0SEluUTYyVUtjaFV0OEpsS2JobitSb2ZFTUgvMklWdW0wUjNsc2ZHSzNv?=
+ =?utf-8?B?VE51SStNY2M1cWJ0L1RxU0ZtOHAwU3h5RzgraTl2Wk5oZ04vYjY3WkZram5o?=
+ =?utf-8?B?M2E0RmR5Ky9NdS83aFVJTzlEZ3JOMEJtdG9IeThMVFUrQm44d24wZEMzcWFm?=
+ =?utf-8?B?dkFNbFl1WE93WnJuNzZndmJpeW04dktHekkxaWI3M3p1R25KVTdrckNVNnQx?=
+ =?utf-8?B?M2xQcFJNeDg2aDNoMkZCUzFESEFMSkMyMXh3YnBETVBwUndWTnl0eFUrbDZp?=
+ =?utf-8?B?bnFoK0dNamd3eEQxZmFZL2hGVVRUUk51bFRHcXNUY3hWWDlFUXVYaGpwUmJZ?=
+ =?utf-8?B?NXZrdVFNNDZsdldQYStIUVRQY2VhVXV1dFQ1dlQ2dEJ6U0FRM3ZsZlIrYzQ1?=
+ =?utf-8?B?VUc1dEZ0Sy9mTERFekV6THJoNXpRUkJ2NEkzZTdvenZEMDkvbzhtNkxFOWZm?=
+ =?utf-8?B?ODMvQ0xBaDd5WnhlaVhYVm8zdnpUZnNXUm02YWtobWFuRDZHbHVNOXNIUm5z?=
+ =?utf-8?B?dk9KY3F5OE9JZm95Q29xVDNxeGJidWE0RDMxSmZkZHgvRlpaZ3h2Ui9Ka3BI?=
+ =?utf-8?B?aEtDWm5qNUVaUUU0cjdLcXcvS3dvaU94MzViUm9kcnRMaUo0SEJFWGZFOXV6?=
+ =?utf-8?B?T0pKUGNYWStRRTN0eHVpWlBwNTJ5SDNaaTFGSXNyVGM4NThIZkhqQjBIa2NX?=
+ =?utf-8?B?V20zUVpXRjJLcjhLWGRnRW93NzBqMEgrUHhLVEhNZjhxNzFmb25DcG1JZFR4?=
+ =?utf-8?B?UVZLYzJnckVMUFlYQXBJNWpCWnltczRaQmVEdmV1bVA4RzB5QVZKS1BwOGY3?=
+ =?utf-8?B?ZWlLdUxsSHRwTUJneGRQVlB5ajNweG9nM1VKVXFDMHFmZmdCZ3VWTjNlODl2?=
+ =?utf-8?B?SnJkU1Y5bFFGajFvYkkyQjA2MWx5SFR1Z3FMR0xBL2dscXNIWS9MT2Q5eFY2?=
+ =?utf-8?B?eHFodGc2eFBCQUpSeTFJendtN0prem41bFdScmxMRjczMjc0T2lQc2RTdmd5?=
+ =?utf-8?B?N2t0MGVmMFJDdEtuRjU1a0pYUm9jc043Zkh3aXFNdWV3TGFlOE9XOGdhb1Nv?=
+ =?utf-8?B?Tmdra3dqQmxiV3Jhc1NNVVVaMkNXY0ZDOXVjYlhEUmhoS1EzbFZTYW4zWTRK?=
+ =?utf-8?B?RUhrWkN3RzJvRk5iWTFNVTJ0UW5XRWZ3Q09wcityNUxsQktFOG9QcVJScEwx?=
+ =?utf-8?B?bWswMjRWdE9UeVpycHBNTEpUelVta1VrVWdoMHJ3QWcwSi9EUkVqeVVTUHNv?=
+ =?utf-8?B?ZlRDanFFU1pMdU0zTUtGVkpZd21qYXp1Z2lFVjM4VEZXNmM3aUtjQ3RSMFow?=
+ =?utf-8?B?VkNPdHhzNm9aTkdyanZqVmMwZEd4UDgxK0ZkN2tlOUZhMmx4bllzdkNpQ1BW?=
+ =?utf-8?B?VzEzMEIzbExaM3g3VHd3cHhkWWl3a0dISFRDeENoTm9peGM4aHY4bTRKaHN0?=
+ =?utf-8?B?SGxOREZvQ3d1OWlKRk5EWGdoamtjdXVZTDh6UHBhaTV0ZkhoSlJEY2ZaOVk1?=
+ =?utf-8?B?aFc0eWFqYTZoaVpZQnNhd3JjeDVOemsrcm1nN2tpbWpZWTVucHhiNmltMTZS?=
+ =?utf-8?B?WHJuMWNQenlEMGJoWEhpYlgxQTRHWXQzaUZQbXVjaW5DT05OUUVMYlJPeWc0?=
+ =?utf-8?B?YThqU21RbjJ0VmRwRnhVeVZ2dEtteTcwaG4rdG5NR1piV0d0TkMwRHNnTmNP?=
+ =?utf-8?B?bm1VVzN2aWgzVTY5TWRPZnBYTnNCQ3hVdnkwYTVpMmlqVGZ3b1JzWTl5K01v?=
+ =?utf-8?B?SzQzL2lLRkFOQlh6VjN3b1daV2dkUXVseGsveTJ0OFZFcE8zYUVzSGJHNm02?=
+ =?utf-8?B?SXBsMnovVGF5a3Zjd2wwckREUlp4UlErOFQ3R1NnQWJLMFVMdjk0YVEvNnZ1?=
+ =?utf-8?B?eThyLzBTK2NwVnhUaUtrQXN5L1dpR2JBU0h3cmxJdU5mYU5nNGI2bGlqZ08v?=
+ =?utf-8?Q?pHMM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:87.239.125.165;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail2.traficom.fi;PTR:mail2.traficom.fi;CAT:NONE;SFS:(13230040)(61400799027)(376014);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 12:15:32.1183
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bfa19a3-2f69-4f40-f191-08dcafc824a2
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: LN2PEPF000100CD.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P302MB0108
+Original-Authentication-Results: spf=pass (sender IP is 87.239.125.165)
+ smtp.mailfrom=ncsc.fi; dkim=pass (signature was verified)
+ header.d=ncsc.fi;dmarc=pass action=none header.from=ncsc.fi;
+
+*******************************************************************
+
+        Incident ID: 32068
+
+*******************************************************************
+
+Botnet drone in your network
+
+NCSC-FI has received information about a computer in your network that
+is taking part in a botnet. Please notify your customer about the
+incident. The computer of your client may be used in spamming,
+spreading malware, and performing denial of service attacks and other
+criminal activitied without his knowledge.  If you are not the contact
+responsible for this domain, please forward this message to whom it
+may concern.
+
+- NCSC-FI case: 32068
+- Host ip: 89.19.48.215
+- Timestamp: 2024-07-29T12:02:04.257119+00:00
+- ASN: 61317
+- Host country: DE
+
+*******************************************************************
+We kindly ask to preserve the Incident ID in the Subject
+Line of all E-mail replies regarding this issue.
+
+*******************************************************************

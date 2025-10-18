@@ -1,0 +1,158 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 3D145FB3-C719-49D8-AD85-EE09B18E19D1.1
+	envelope-from <abuse+bncBDKLRBGPRACBBQEAROQQMGQED4YDVQY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 28 Mar 2023 10:24:01 +0000
+Received: by mail-io1-f70.google.com with SMTP id w4-20020a5d9604000000b0074d326b26bcsf7274219iol.9
+        for <abuse@digitalocean.abusehq.net>; Tue, 28 Mar 2023 03:24:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1679999040; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=TJ0MUPLt8gddenMaeYZO0ptkqiHlcWG4T1PwsKO3xFq09D8v/oSKYhBW4n2x4Le5e6
+         /Tg41nXMyqg/b/AqIotT6bjk+VdPmxxdn/WS7Ygk1rrJcWm24aaAteX+mf3mzynQqjnw
+         ykEISKsAoDV5PFXvog6iFgKAmyxufc62+YUZZS1edblsVnygo1Ak3fo5NmKel4ng9tRY
+         tcbZRZo3wA5UUIPCkCwtksHy7Wqj3T+zjrMIHhVZEvunEqnvYEZF21q3Q+DsvJHG5z6e
+         Jo2gTVSjBxQe0JJYwKojTZsXOoXfWlRAA8gMi6lNVYR/vEsbet4+2eiOS/SQZoHaa2GQ
+         8beQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:content-transfer-encoding:date:message-id
+         :subject:cc:to:reply-to:from:mime-version:sender:dkim-signature;
+        bh=A0gfR8TO4Zjy80l+DvArtLVftTWTnhv/i37WvOJ3O+8=;
+        b=bKMCarkt529of2MXkQ96QoD2xMZ0ErC30DC+ELmhjRf4rWuyn8z6JSvbV0nfRjbrtg
+         kKnyjG+dTckxK0PxrVQsAraWGXukaCPzyYwUMWCEeqoPv1N0ZuWOmZNwvhY/DqWdMV1z
+         U3+kLqEAjeg3N3WCnw4clxUz2u8n3uu7E9n1NwpamYusabdvX7G3D8EQK4HZaVxLYEeD
+         +HxWvPOyr6N2RFLpSGB1jH6LfSwWGyz0cWNzUyue3ZgbiYgZHHrA6cQ/6w/si9XUGQIF
+         KxEawqfNkj03Lymi/5CctVa44doiP16o5hmf3lqJmSrhWSpu4TS+wQbBf8C2m/suy2y8
+         TzpA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@ncsc.fi header.s=s1 header.b=qW+B7MeO;
+       spf=pass (google.com: domain of cert@ncsc.fi designates 87.239.125.65 as permitted sender) smtp.mailfrom=cert@ncsc.fi;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ncsc.fi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1679999040;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:date:message-id:subject
+         :cc:to:reply-to:from:mime-version:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A0gfR8TO4Zjy80l+DvArtLVftTWTnhv/i37WvOJ3O+8=;
+        b=E7JMCp+Fn2jWk0bw3SVZF4wYI2p6FQKVbCiaaiJvo+M7eo0WBBZO3uuW2018PrgyOS
+         M4vSstQ9mbiZgWuda4Q3Mqkhq9uIqacMhBH0s12zoeNz0H0cG1/hKfRDHhqlE93bC/JF
+         OBHRCTXqKiVD8unY5+DWfiPIZH8sROVyj9Avs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679999040;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:date:message-id:subject:cc:to:reply-to
+         :from:mime-version:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A0gfR8TO4Zjy80l+DvArtLVftTWTnhv/i37WvOJ3O+8=;
+        b=o2TNW66Lu1lEtpwEdEhRQkZ5DOcQ0zMeNHYDXsE4bs5MWFNPFpMMFL+rvgd3LICTHT
+         7PZbX2qrcecZj710btGQKc3idQTpwsEW/naTMK2dZ0qD/wW8l3NZQFi0/RrHBefr0F8a
+         XPEUPVSscPB+c+RfMAOXG5BrG5Dcwc7CUEyy9Thq+WpAOH/l98CyaDTOC/Zb7ZV2r6KG
+         CE5PgGQ/O4sc8Am8cHwlEQ8j/cO8wmUmtZrI9SdPULDYr/mhuAxU9Bd+hY76n88ib3ZH
+         7ijEPnjtZ+3HhLIdbbmaPvqJJ/sZbosp/3W47TBEIc9fF5yUO6WvXYHo8gmzB1+x7M1W
+         SOsQ==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AAQBX9fYZylONIW2J9go+b1Far5I6ccnwu5ZZcGS0uA33aWYlTstkOyN
+	/FZOfgBSnyKl+JGPEyg0IAw6KA==
+X-Google-Smtp-Source: AKy350bnsEqHippxav98JHpglmXuVLL0c6OGYnLiIPZ6QWDgfGSPWGGFCOgYrJj3nBIODlqb9efT5A==
+X-Received: by 2002:a05:6602:394b:b0:75c:9538:fdcb with SMTP id bt11-20020a056602394b00b0075c9538fdcbmr1022806iob.2.1679999040280;
+        Tue, 28 Mar 2023 03:24:00 -0700 (PDT)
+MIME-Version: 1.0
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6e02:34a1:b0:325:cefc:db5b with SMTP id
+ bp33-20020a056e0234a100b00325cefcdb5bls3310627ilb.7.-pod-prod-gmail; Tue, 28
+ Mar 2023 03:24:00 -0700 (PDT)
+X-Received: by 2002:a92:c905:0:b0:325:cc32:4fd1 with SMTP id t5-20020a92c905000000b00325cc324fd1mr12134501ilp.25.1679999039688;
+        Tue, 28 Mar 2023 03:23:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1679999039; cv=none;
+        d=google.com; s=arc-20160816;
+        b=odEJnz1wq8pUiwSKKKWDKuQXDNWWPeKtau4NkQ1ky5YvNOg6jVWKBPLWiCxUpeskLq
+         eqwPz8KE8FTP61+SgQmJkyxT404btAGawZulL2NUDJS+qfNbMyKK/YFXBE8T0sp4TiRv
+         pUZyevlDOpNKc9Fu4DsyNg7sxdHJNt/IA6vHrGuZTsOx9Yz6kK1GhKIW7VG2T+hszN/q
+         +Lq1lrkBAxmTs+5aAbk9033EzmXFibpVFq47EMW/+EsBrpz/6WXZ75v7PhpA5Av0/RMf
+         Z39mPvN1m4vpJGcNVEzSuyeoenNwMsk+/vzeeLf5kB59LsyAUiMdbMwS4oG4guPnq3ao
+         cr+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:date:message-id:subject:cc:to:reply-to
+         :from:dkim-signature;
+        bh=A0gfR8TO4Zjy80l+DvArtLVftTWTnhv/i37WvOJ3O+8=;
+        b=h94QGEtwUkVtnbl3HNT2cHXgXzBCgzvvGXHtagEOt0iXOVsEku8rw5aB6YMevA2N2h
+         m0F2joWk6pWEo/olxHcGa0USqE04g8Ptj4mBWkGHOmfLXSVicK99961X+4yyHt3dSuwf
+         DjYQok0BLqj20vn42b5FVgJwd6QgRKdiSO6Sjk3IxKCZdVz88X2PcXBKy40VGw94mKmK
+         ST7fpMd+TrE1uV6oTN4v5I4S8gXj++czcxydIjFB1boabFrftSpk2Z57ECwx+LdpT2v5
+         ZnzfhgR+eHIocYx1gJNft8EgGkMJyYsbM8g7pF3rlSbXLhLopKzafpVIe7JybSaX8xNH
+         kiSw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ncsc.fi header.s=s1 header.b=qW+B7MeO;
+       spf=pass (google.com: domain of cert@ncsc.fi designates 87.239.125.65 as permitted sender) smtp.mailfrom=cert@ncsc.fi;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ncsc.fi
+Received: from mail1.traficom.fi (mail1.traficom.fi. [87.239.125.65])
+        by mx.google.com with ESMTPS id s6-20020a056e0218c600b003230d2b8fedsi33332839ilu.145.2023.03.28.03.23.58
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Mar 2023 03:23:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cert@ncsc.fi designates 87.239.125.65 as permitted sender) client-ip=87.239.125.65;
+X-IronPort-AV: E=Sophos;i="5.98,297,1673906400"; 
+   d="scan'208";a="12836403"
+From: cert@ncsc.fi
+Reply-To: cert@ncsc.fi
+To: abuse@digitalocean.com, singcert@csa.gov.sg, cert@ncsc.fi
+Cc: 
+Subject: [FICORA #1224647] Malicious redirection in your services
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <167999906465.20376.216455339859093385.cert-fi-autoreporter@traficom.fi>
+Date: Tue, 28 Mar 2023 13:24:24 +0300
+Content-Transfer-Encoding: 8bit
+X-Original-Sender: cert@ncsc.fi
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@ncsc.fi header.s=s1 header.b=qW+B7MeO;       spf=pass (google.com:
+ domain of cert@ncsc.fi designates 87.239.125.65 as permitted sender)
+ smtp.mailfrom=cert@ncsc.fi;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ncsc.fi
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+*******************************************************************
+
+        Incident ID: 1224647
+
+*******************************************************************
+
+Malicious redirection in your services
+
+NCSC-FI has received information about a redirection leading to
+malicious content. Please disable the following URL and investigate
+how it came to be and how to prevent similar activity in the future.
+
+If you are not the contact responsible for this domain, please forward
+this message to whom it may concern.
+
+You can send the sample by replying to this email (preserve
+[FICORA #xxxxxx] in the subject line).
+
+- NCSC-FI case: 1224647
+- Host ip: 159.65.4.160
+- Hostname: rmp.gov.bd
+- Site: https://rmp.gov.bd/assets/news/css/spankii/
+- Timestamp: 2023-03-28T10:24:06.425687+00:00
+- ASN: 14061
+- Host country: SG
+
+*******************************************************************
+We kindly ask to preserve the Incident ID in the Subject
+Line of all E-mail replies regarding this issue.
+
+*******************************************************************

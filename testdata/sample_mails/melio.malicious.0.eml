@@ -1,0 +1,148 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@melio.com header.d=melio.com header.s=google
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01on2080.outbound.protection.outlook.com [40.107.121.80])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id ABC64788-0B24-4442-976D-8ED6C2D93DDE.1
+	envelope-from <bounces+SRS=OSanU=IY@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Sun, 14 Jan 2024 09:26:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I7a9RpLZT1cM754sXj/MlCSgIzQOb2VHgTBXGc4p/mNKuDvuB6+Wym7n6xBb+dUTyXdw4Tv4vfqzwYw8yXwSKEBoF8IO7GEqCz3YHb0LGhA/dOarVviQfjiEduUfZRKylQKUN5oNv1jtMum87i+VjQRIKuykyov+qEYoNfh8s27l/FfwKx54OFuHvNMNVyE2Ui5qjkx5SzYU15bguZBC2OCjDQ+ytlaDMcHV+Ug3+Ir3fYQ4JndqKevVQ6/CI3v9/x+eZqvHRj2bYLA5qSrleebENhpupNN2y60QiX3nCV8uMihuOsBJHpVS7uVe85sBqFQIC4+cjKoioRSTiZ2oZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CBJQLNkaFb4aUPHbPLTjIA4C9UGVGjZkQLWofbmZwZU=;
+ b=Fj/6bmWtlyWC4R7hpgjEKW6jsxsbLcFl7qZb2Fgm/MLuGr7QtsgS+/YvagQ4ZZfNWyU2Ge/TQQ3JY15V+0m4FrlPYcG9PD94nRfQPE22Zc6F3x/wLEiJaqFnJi6fDjtNCZN2b2ghzjcd6OLnJvCtMb9el4HzDOmD9zGMVeRmBVj+ghkSx/THjEaF7XAbLyr0vTr15PN/SRgltYSg9a+vP8mWdkgFyi4/kP0rFB0Hlq7Zw1jGAP2xmAkEF0M7iRRBpB9iB7stqhl58zlw+TPdMEPBAvWaa4JYsi/89BrhZMMdqTCWBJVI4pMwxSslTXxWAA2zHq4RWcDfvgUhBw7GfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 209.85.167.47) smtp.rcpttodomain=ipxo.com smtp.mailfrom=melio.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=melio.com; dkim=pass
+ (signature was verified) header.d=melio.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CBJQLNkaFb4aUPHbPLTjIA4C9UGVGjZkQLWofbmZwZU=;
+ b=xo8h4bUQ3PLpGyg5g0NUxYqIPZg8KvUtyaZ8L9x3k3ImWSOgfoxzP8M4lX6wDcIjUzSry3fe7Oh3zZ+1mL3S30ASJlF4i9iOHm+fAW5P0eUf/8kOpYV/vmNtINbr2cvEcZOEHrpjMDN8t/4BFn00MunEByJ+BGh9MPAgUmh5Ri0E6WOf6ZmGDATCpjs0hUOn750MIuE8dce/1DBZAME/OmoIFJwszlEcEseZze9IyPtF4pbacLirf3ZziPh2uNf/sTZ0jwGIJU9Es6VIzLtAgtGyp0m+4ATf5EZPLTK42leP8OH6ucpsIQQNrrEboy9eG9/8DbGuh6BNw6hJp2Y/tw==
+Received: from LO4P123CA0018.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:150::23)
+ by LO0P302MB0005.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:363::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23; Sun, 14 Jan
+ 2024 09:26:17 +0000
+Received: from LO1PEPF000022FF.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:150:cafe::6e) by LO4P123CA0018.outlook.office365.com
+ (2603:10a6:600:150::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23 via Frontend
+ Transport; Sun, 14 Jan 2024 09:26:17 +0000
+Received-SPF: Pass (protection.outlook.com: domain of melio.com designates
+ 209.85.167.47 as permitted sender) receiver=protection.outlook.com;
+ client-ip=209.85.167.47; helo=mail-lf1-f47.google.com; pr=C
+Received: from mail-lf1-f47.google.com (209.85.167.47) by
+ LO1PEPF000022FF.mail.protection.outlook.com (10.167.240.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7202.16 via Frontend Transport; Sun, 14 Jan 2024 09:26:16 +0000
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50e741123acso9304207e87.0
+        for <abuse@ipxo.com>; Sun, 14 Jan 2024 01:26:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=melio.com; s=google; t=1705224375; x=1705829175; darn=ipxo.com;
+        h=to:subject:message-id:date:mime-version:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CBJQLNkaFb4aUPHbPLTjIA4C9UGVGjZkQLWofbmZwZU=;
+        b=ksxsSclDMeB1SGk0x5qUW0bDYIiprJ6KpUT3dxrNdx5omWAQb86CLGKw1ljc5Io7I9
+         vQta2ZBwXphAuG+bn0CIZDtFc1Pit/Gb0Ns4W3OpS7MJkJsVaVN9ZRneWSVAe9cFLZW4
+         uwF2rexYVxt7E/IOeBDwtDTXtsE8pJc+nQwns=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705224375; x=1705829175;
+        h=to:subject:message-id:date:mime-version:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CBJQLNkaFb4aUPHbPLTjIA4C9UGVGjZkQLWofbmZwZU=;
+        b=sIjc7nA12jXUUiEMChCGwKzqa3vSGR592rscPlHmxIHc7eyNdSoLgnjkiwPPo8hCrn
+         TpZiJFnze0QC2AwlhXPwovwmQGbG/ewEhw/gttiNbPCKlIQfLwSUMDedz+iwexrjd1NA
+         Uw58s/IsiOq3I+eo1A+psmXIdlwBQpFmtkBGf2bvBePRGOx9+IOjXy1Kwei34yxiT6iq
+         HTjrea5TEt8QDhztJoHLWR1HLsdBXO/7FX68rKw0Jw5TJXXeCFYePnlfJaDD0nbjNDZ7
+         U0EWi1CKCD2XEDN3HoimGa3ZZtsmEjB2CCwKCq61EyZjSfVEPX3WJ9xjXR6o0+hfXujX
+         wE+g==
+X-Gm-Message-State: AOJu0YwGw6b8L5txkCUik4Il5QFKD1VmYA9k7w+0xaliYUgGDBGmsbX7
+	iPZewQ0eP/I1IH5J4Ihvw6gM7zVtNJo5QAvDvM26fRF/+qTp0Jk6cPuYsxKi
+X-Google-Smtp-Source: AGHT+IE9WAU2HT8FLXNzbu6Ik/2Qi2kHxS/358kfz/DrniaQcOYS28j6XVsxl/OnmoJazkoz89eewrCm+ElYS/KYChs=
+X-Received: by 2002:ac2:59cd:0:b0:50e:74f0:810d with SMTP id
+ x13-20020ac259cd000000b0050e74f0810dmr1398689lfn.101.1705224375523; Sun, 14
+ Jan 2024 01:26:15 -0800 (PST)
+Received: from 480084738014 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 14 Jan 2024 01:26:15 -0800
+From: securityalerts@melio.com
+MIME-Version: 1.0
+Date: Sun, 14 Jan 2024 01:26:15 -0800
+Message-ID: <CAP3WqELC+1NBz6-GNnLtPwSZA4wWMpiqtbUDh96gaTotEy+K=Q@mail.gmail.com>
+Subject: Report to abuse@ipxo.com - 179.61.240.28
+To: abuse@ipxo.com
+Content-Type: multipart/alternative; boundary="0000000000002a7099060ee47de8"
+Return-Path: securityalerts@melio.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO1PEPF000022FF:EE_|LO0P302MB0005:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba9eb649-5e2b-48be-e620-08dc14e2dbb4
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	HAa8ZwDrFuWrxF8UCPK96psywNMANnm9PwfnlVuj+zGUi3bBVDTkGqTjyHw3w+vJ1IpKpTfV7GGWYzLqBh68GHf3ro+veYVNGdwle7vGSW/gxPRLlpT1nkMcNOEfeqVfeIc86fCi5AvnwjK1LRgMtX+v1rtYKNyJnfe2wKLj/dHCRmG6H0z1tq2yI66D/3OzO24g7+wY+P3xzFfxjhihdXhmJhJ9zkokEz8NrvV3z+J3JwTzbB036UFZOv6FxdMfdsNlQJBtRbZsQ/KEwsuFyxmF3EsF0tJr9szJE9TVsWh3eRq6WH084rSMl6XDcZ9X0TEDInSS9Z6z11TVAyn79mQ7e5+Xn52LW+ipzb9pEfKeecWt41LNG2+86wjjch2g+Z5JUUA5nFhlUmCyFy/4GXsxGcqng2GybPOppXkmr9MV8mFcgOFuhteMqv3wavreCNjnaF+Tz4KY5f5U8AUDxLSj+Vo5ms5ggALO83Q+gc87cIJsO+RD6uQuKbYIjukXEdDF+8WXS317TcbI6QeyspznnbTr7fbUJJlI2zRRiID/Ko4W9h9cJfYXHNXGDsVY+5md35Y35SyYWAINPUYsCoYq2dC88NK/TJVCCxKJ5PfH/Q2rveqI6CCpQX8uJ/aBpxmKEmJNVenfaNJ+lZDk/J6f9XqsNWbR7pqlFGE5eWYEbML6OE80Of7YX85hS3JJ3DPYNaUs6pht2XkCCUvqPQyopzp6vzFAzgsaU3VM/V0IcKdDyE5dr1htJTIjdMk+pMUjWeLrpR5r1khjq6MgUT48pvDarK3FwOswQIHc8ThWZ5oK1HW7lm4rJHG1eQ67
+X-Forefront-Antispam-Report:
+	CIP:209.85.167.47;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail-lf1-f47.google.com;PTR:mail-lf1-f47.google.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(39850400004)(396003)(64100799003)(61400799012)(451199024)(33964004)(498600001)(316002)(8676002)(83380400001)(9686003)(336012)(26005)(68406010)(70586007)(2906002)(34206002)(5660300002)(356005)(7636003)(7596003)(86362001)(55446002)(43950500002)(44020500001);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2024 09:26:16.0841
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba9eb649-5e2b-48be-e620-08dc14e2dbb4
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: LO1PEPF000022FF.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P302MB0005
+Original-Authentication-Results: spf=pass (sender IP is 209.85.167.47)
+ smtp.mailfrom=melio.com; dkim=pass (signature was verified)
+ header.d=melio.com;dmarc=pass action=none header.from=melio.com;
+
+--0000000000002a7099060ee47de8
+Content-Type: text/plain; charset="UTF-8"
+
+ Abuse Notification
+
+Attention Abuse Team,
+
+We have detected that the IP address: * 179.61.240.28 * has been flagged as
+malicious by our Abuse Prevention Systems. We kindly request your prompt
+investigation and necessary action to resolve this issue. Please ensure
+that all harmful activities originating from this IP are ceased, to prevent
+any further disruption to our systems.
+
+Thank you for your cooperation.
+
+--0000000000002a7099060ee47de8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+<html lang=3D"en">
+<head>
+    <meta charset=3D"UTF-8">
+    <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0">
+    <title>Abuse Notification</title>
+</head>
+<body>
+    <div>
+        <p>Attention Abuse Team,</p>
+        <p>We have detected that the IP address: <strong> 179.61.240.28 </s=
+trong> has been flagged as malicious by our Abuse Prevention Systems. We ki=
+ndly request your prompt investigation and necessary action to resolve this=
+ issue. Please ensure that all harmful activities originating from this IP =
+are ceased, to prevent any further disruption to our systems.</p>
+        <p>Thank you for your cooperation.</p>
+    </div>
+</body>
+</html>
+
+--0000000000002a7099060ee47de8--

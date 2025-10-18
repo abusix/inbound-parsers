@@ -1,0 +1,981 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 213425EF-8D7D-4F80-A410-4EAED190067E.1
+	envelope-from <abuse+bncBC6NF5PRSYBBBHU2R2PQMGQE775XDEY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 08 Feb 2023 11:53:03 +0000
+Received: by mail-pl1-f199.google.com with SMTP id m12-20020a1709026bcc00b001963da9cc71sf9724482plt.11
+        for <abuse@digitalocean.abusehq.net>; Wed, 08 Feb 2023 03:53:03 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675857182; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ylOzHQC9psRD7NlcOHw82B5jdAmr2uK4GLY1c+mOaczgv94znczo7xHaYLDfNAzLQD
+         /JxP3p047RRXS5Ne+xbcLQT5pNwHeXo5Y9oCFU9t/2aicexYaaSKdXB9PCzlGZe1Bta0
+         mUnLv5ggW6X8osM9oGawVJGa/nNk6KSYpNbY2WZkUI0FARo2paS89CtJcZ6pL5GUW2TL
+         BtLp0PvYruRPZTP6gGU914Rbk4wjwRK6Wu2sl7MekJnIqXEV9FYsdBNI45rN+tONbiIt
+         OCPcsDo6rQgiXQzIsCSgAr3cu1Syt2Bf+fhyjywhQRM6Z1LKLmg7RP+pNfX/kzC/xrO1
+         BjXg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:thread-topic:thread-index
+         :mime-version:subject:message-id:cc:to:from:date:dkim-signature;
+        bh=rmCWronW/6qDAbDxqeNyF11f4d8gxT6qaDIIeWdhDFo=;
+        b=ekdA1IQGb5d36/AWUddAUWlgg2znXlpwhjUV3AFDMjIcLBPfO3AwjudqhBoSlxOtSG
+         3mwz5BvCLMLZ7UqVuQaAxpWEnScjdQ2kqZaBoIwBU+IRGjYB2B/g5n+UblaKTPkBKIXY
+         c7htVhIe6Qzi9YXumK1PlR0sjWIO58wM/git7KJJIneVntDpDp+TscvwVB3SjqexP/Bv
+         Ztd7DDVkZTHYROm97mgMQIoK4PcqWpHgmB4aZL6z4xfh0Vg0tMaHeb/FeOLG+MStj3Sq
+         R+DFvTqHz9RjfqdKLVFysQAmdaSD1a0/UC2aT6XpJr/ytqSfBSymRigcCi7vx0JszVyZ
+         mhBw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert-in.org.in header.s=certindomainkey header.b="IJk3zpb/";
+       spf=pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.99 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:thread-topic:thread-index:mime-version:subject
+         :message-id:cc:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rmCWronW/6qDAbDxqeNyF11f4d8gxT6qaDIIeWdhDFo=;
+        b=QMQWtbFmODFYgPo2md6ulGI4AizGl+aIc4nFC8zKHMCjkYjmP5LfA3ge9YhZWDB2dS
+         59HHjPvaflCp89SV3mxDf5MAnuyRxkiK5jVS1TlOFcXEh0eIcqddW3RuHRkMapjGFVWL
+         Ebdvx4Ua8OHvxCf5XSxSLC22ks3bpPJRkFiKM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:thread-topic
+         :thread-index:mime-version:subject:message-id:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rmCWronW/6qDAbDxqeNyF11f4d8gxT6qaDIIeWdhDFo=;
+        b=D6rrFA3BuodGkVf35FF5L0ykdeVithyD9CjEyhndYEe+1po0vht4o0LHzg/4jtJSgA
+         hpN57XV96RYpBBIpYD/rbZJBnKVLaLcJv7tAyOa+5YrsXM2A1KfttzwAmNhuULnwmazh
+         TwHYFVw3T2QMcD/J42Os1vElB+kRk6EJAv70++7lM8idhwxVqmlFDVapn4kUx0ATRNfS
+         R3+63jKOGkVFja2TJ545QrcV4HfyPNcLzIF/pp92OA3bIZwwByOLDVn/wofBGJ5AY2mt
+         RcSo8nfpiOUtqvTVj5AWY2uLjdhli73J2mP78UsdLCGqVYYR4IbZsqLXqIES+N7lSWGx
+         x8GA==
+X-Gm-Message-State: AO0yUKXp+cypZFCws2dikBsmx/kHIQ4biJ9oaxgncTDdYDtQAV7Gw8YY
+	8YJFWnL+Cb9JLSO8h1oOObRRDg==
+X-Google-Smtp-Source: AK7set+yTr5pGeJP15OPwUQFLz0aaQ4Mj2FSfwXpJdBD62/e0/hOQquzsFexULB5iS+LPYu6y5kp0Q==
+X-Received: by 2002:a17:90a:b81:b0:22c:b260:8de6 with SMTP id 1-20020a17090a0b8100b0022cb2608de6mr665588pjr.68.1675857182313;
+        Wed, 08 Feb 2023 03:53:02 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:b90a:b0:189:b2b2:56d5 with SMTP id
+ bf10-20020a170902b90a00b00189b2b256d5ls19985898plb.0.-pod-prod-gmail; Wed, 08
+ Feb 2023 03:53:01 -0800 (PST)
+X-Received: by 2002:a05:6a20:12d2:b0:be:b8bd:83ad with SMTP id v18-20020a056a2012d200b000beb8bd83admr9049950pzg.0.1675857181025;
+        Wed, 08 Feb 2023 03:53:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675857181; cv=none;
+        d=google.com; s=arc-20160816;
+        b=jvQOWdqExQElbtGsfKdLk0mKwXJFDhoUy+e73GdD6MK5CDtnnNDPTuPsoK2P3NTPyb
+         be4nhhGIZz9LRjMjsy7Xgqh/SmAyL71g8+2ClUek9837I+aBknkiraY0aLJ7NKykQEvQ
+         g2ZRFhEjLftrT0ekuJ2XByVeUYqdWQw31sKcBV6cgwnI4k25/zQxNAeQUEewcURKNi8q
+         fNCoAciWMe/enm5l4DoOJJxFN7uw07F1qDLVU8uv67uk7+LSY81PNlwkiqbY4+bAHZ6M
+         V41JRI6LSkU1LKjNAudSF6N1aN90Vffs/Oo8oUpVCpDOubliuQVgqodNFp5pUpO0hZsA
+         dqGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=thread-topic:thread-index:mime-version:subject:message-id:cc:to
+         :from:date:dkim-signature;
+        bh=rmCWronW/6qDAbDxqeNyF11f4d8gxT6qaDIIeWdhDFo=;
+        b=O791CCNatxyd8CAZEmgfeXimqjDNoi39zWdvKkZ1ldoOLNoXEjsiweG5DhJE6OcBD3
+         a27tc217sKedPE6IRQeW/klSh+KC+t+RG+SW5+7O8ZWmhK8wUu4eKb0lpGbQEj6U/nU/
+         Lil8dyKfvTk3zR+Jx16u8qqMtVAYAcQ9U69g2UE4ly+lk3IZGy3QY2tZMGAVlLTMaYWH
+         9t5htHuMYGkYwTrqN3SUy1PBSqAAB3bMRX1NYPBrd495PcxrrnwVPV3lcDGGT7wG90Fg
+         Nv72oL2G91gwADqXAzzkyvfk/m1hpKKUqFy/3EZwqvZ2ahgLVJtTkzvkDfgrqlekTmRS
+         GfXw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert-in.org.in header.s=certindomainkey header.b="IJk3zpb/";
+       spf=pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.99 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+Received: from mail.cert-in.org.in (mail.cert-in.org.in. [59.176.167.99])
+        by mx.google.com with ESMTPS id y21-20020a1709027c9500b001933989d4f8si15632696pll.344.2023.02.08.03.53.00
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Feb 2023 03:53:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.99 as permitted sender) client-ip=59.176.167.99;
+X-AuditID: ac110a67-8327e70000002cf3-15-63e38d18ff7f
+Received: from mailz.cert-in.org.in (Unknown_Domain [172.17.10.250])
+	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mail.cert-in.org.in (Symantec Messaging Gateway) with SMTP id 7A.D8.11507.81D83E36; Wed,  8 Feb 2023 17:22:56 +0530 (IST)
+Received: from mailz.cert-in.org.in (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTPS id 41DC9A5C067F0;
+	Wed,  8 Feb 2023 17:19:51 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id 2E5BEA5C067EF;
+	Wed,  8 Feb 2023 17:19:51 +0530 (IST)
+Received: from mailz.cert-in.org.in ([127.0.0.1])
+	by localhost (mailz.cert-in.org.in [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 7McFujYTaHRP; Wed,  8 Feb 2023 17:19:51 +0530 (IST)
+Received: from mailz.cert-in.org.in (mailz.cert-in.org.in [172.17.10.250])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id 0712BA5C067EE;
+	Wed,  8 Feb 2023 17:19:51 +0530 (IST)
+Date: Wed, 8 Feb 2023 17:19:50 +0530 (IST)
+From: "'Incident' via abuse" <abuse@digitalocean.com>
+To: registrar-abuse@google.com, abuse@digitalocean.com, noc@digitalocean.com, 
+	domainabuse@cscglobal.com, domains@rackspace.com, 
+	abuse@rackspace.com, hostmaster@rackspace.com
+Cc: csirt finance <csirt-fin@cert-in.org.in>
+Message-ID: <740288426.6164247.1675856990588.JavaMail.zimbra@cert-in.org.in>
+Subject: Spamming activity from Domain "ZENITHEINSURANCE.COM"/IP :
+ "173.203.187.74" : Ref: CERTIn-94959623
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_6164243_1703834652.1675856990583"
+X-Originating-IP: [172.17.10.250]
+X-Mailer: Zimbra 8.8.15_GA_4272 (ZimbraWebClient - GC109 (Win)/8.8.15_GA_4257)
+Thread-Index: bB6ACmYoYKq1kM+jQLcY0VUGtrAdGA==
+Thread-Topic: Spamming activity from Domain "ZENITHEINSURANCE.COM"/IP : "173.203.187.74" : Ref: CERTIn-94959623
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDLMWRmVeSWpSXmKPExsWyRpDrl65E7+Nkg2c/uC1uzJ3HZtEw9xmL
+	xa4dz9gt/neeZLO4cKrYYue2uYwWj54fYrI4c62PyeLYmmiLec97WB24PA63dbN4fHn9lNlj
+	waZSj5mrOtg9vvXwB7BGcdmkpOZklqUW6dslcGW8+7aTpeDZGuaKe8seszYwXvnP1MXIwSEh
+	YCLx9L5dFyMXh5DARiaJM69mMkE4Sxklbi2ZxwrhzGSUaLnYwAbhHGSUuPJoEiOEs5lR4s2u
+	RvYuRk4OFgEtic2734PZbAIaEv2/D4C1i4AU/V67nhEkwSygI3Ht5y1mEJtXwEfi7YIVTCC2
+	sECOxILt16DighInZz5hgaiPkJh5+CmYLSGgKPFr0m52CNtPonPBPzBbREBP4sWEt8wQdr7E
+	h5+NjBMYhWYhGTULyagFjEyrGIVzEzNz9JJTi0p0M/P08ovS9TLzNjFCoiN9B+PFvs96hxiZ
+	ODilGpgWKaTzMFx1j/g6X6yUz5ZRJnW2oTGThfpN5e1PLyt+11V4aN0gdkkjWmJdamz4vm7u
+	pzav3RLOpqZHpJdFxdXKzp3zaX+mW1vQKc5NkxQXX/Doby69lL/QR/omp/LMY4Zn+9aWq2p4
+	ys+x0Jjnsftiv8HP1T1HtucE8ql68nRkaUWa1BSZvTYxnnOsplWqfskphkdlFQvfZN41VX7M
+	x3lgmftfrtk2Go58S8tuarNd2NjK80XIr/9rMNshK4VbGlPK1IQsDhV0nc9Xi7b67vC6vjL/
+	Yd2Hkwz7zjUni3dL8bOJn1j+oDSM/9Lv5/3PG8RceuwZrvotUvtnOWGhndHWL2aO/6fsPmxl
+	ktWkxFKckWioxVxUnAgAwYF1Sr8CAAA=
+X-Original-Sender: incident@cert-in.org.in
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert-in.org.in header.s=certindomainkey header.b="IJk3zpb/";
+       spf=pass (google.com: domain of incident@cert-in.org.in designates
+ 59.176.167.99 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+X-Original-From: Incident <incident@cert-in.org.in>
+Reply-To: Incident <incident@cert-in.org.in>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part_6164243_1703834652.1675856990583
+Content-Type: multipart/alternative; 
+	boundary="=_08f72699-bfe3-4ecd-9d45-d2f07d22565f"
+
+--=_08f72699-bfe3-4ecd-9d45-d2f07d22565f
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE----- 
+Hash: SHA256 
+
+Ref: CERTIn-94959623 
+- - ------------------------------ 
+Dear Sir/Madam, 
+
+This is an email from the Indian Computer Emergency Response Team 
+(CERT-In), an organization under the Ministry of Electronics & Information 
+Technology, Government of India. CERT-In is the national nodal agency for0 
+responding to cybersecurity incidents as per the Information Technology Act 
+2000 (Section 70B). Details are available on our website 
+www.cert-in.org.in. 
+
+We have received a report of unauthorized spamming activities originating from host 
+with Domain "ZENITHEINSURANCE.COM"/ IP address "173.203.187.74", which 
+is currently under your control. 
+
+Relevant Email Header is attached with this email. 
+
+It is requested that immediate steps may kindly be taken to stop these 
+unauthorized activities and prevent occurrence of such incidents in future. 
+
+If you are not the appropriate staff to handle this matter, you are 
+requested to immediately escalate this matter to the attention of concerned 
+authority. 
+
+We greatly appreciate your prompt attention to this matter. Kindly intimate 
+us about action taken in this matter at the earliest. 
+
+In case any technical advice is needed, you may contact our Incident 
+Response Help Desk. 
+
+-- 
+Thanks and Regards, 
+
+CERT-In/ CSIRT-Fin 
+
+Incident Response Help Desk 
+e-mail: incident@cert-in.org.in 
+Phone: 1800-11-4949 
+FAX: 1800-11-6969 
+Web: http://www.cert-in.org.in 
+PGP Fingerprint: A768 083E 4475 5725 B81A A379 2156 C0C0 B620 D0B4 
+PGP Key information: 
+https://www.cert-in.org.in/s2cMainServlet?pageid=CONTACTUS 
+
+Postal address: 
+Indian Computer Emergency Response Team (CERT-In) 
+Ministry of Electronics and Information Technology 
+Government of India 
+Electronics Niketan 
+6, C.G.O. Complex 
+New Delhi-110 003 
+-----BEGIN PGP SIGNATURE----- 
+
+iQIzBAEBCAAdFiEEp2gIPkR1VyW4GqN5IVbAwLYg0LQFAmPjjacACgkQIVbAwLYg 
+0LRdOA//c9BibixcpyKzgtO0iuXTFYSm8Pj3YMcNM2JFH1g2L7xABz8yF9KZt674 
+Il0paGPeRwpTyBQfoeJ+ZGmB6J2j1k5qwGKvITD7YITOz5SbTrNWKEWrPwoewjln 
+wv6si7wxdhTHeiHhE4IGr4zkYbKp+zUTR6m3fH3iEOqVSrYKj7Dz545Xczb4feSQ 
+a/+Q9IdHhukICJfB8iiGr7clrslVUxiLpjnvq1RiDL1I6bkFVNpFUOBhWWV5q0/X 
+NVay6rDsRwkls7TKYnRYqR0FdYoh5nlyTcIx/J0bpheK1rfq346ucTU0sjAdf3Hg 
+MWCCfo9PWPqYvX61MYYnLA/+gCXGebkKk86JEANO8xMA9OIALjwmnjYkzTKVXrJ6 
+PK6oh1cS/alYIiqN2zxsZN1oM4gxrXUY9G26EjXVN9/eHReinG6bg7Q6V0Fy0mGL 
+YLq/r2qYDNU3hDj1iiv4CfdgGetuIdtfxHhDN7hi7GO6vVCAT8Rr/Oz4YM6tn6hE 
+1biKAJYvJtYXQz2W/Zo8oiKFhp75GOpYyqtXlf4iwZU2Jb5UMoPXnQzAnTD/KTua 
+vdF5a2drl+EnIUYcgywyEc/PCYuDtA0/AC+cWoJ8gUVfTooyZrII+DlR0m2Swr5D 
+TpcCUJpnWcV8xnm1/fjhP8f3ZKlhtJoPGb3h6LwVESl2hVBMovQ= 
+=2Hzs 
+-----END PGP SIGNATURE----- 
+
+
+--=_08f72699-bfe3-4ecd-9d45-d2f07d22565f
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
+ize: 12pt; color: #1a1a1a"><!--StartFragment--><div style=3D"orphans: 2; te=
+xt-align: start; text-indent: 0px; widows: 2; background-color: rgb(252, 25=
+3, 254); text-decoration-thickness: initial; text-decoration-style: initial=
+; text-decoration-color: initial;" data-mce-style=3D"color: #1a1a1a; font-f=
+amily: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; f=
+ont-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400;=
+ letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; t=
+ext-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -we=
+bkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thi=
+ckness: initial; text-decoration-style: initial; text-decoration-color: ini=
+tial;"><div data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica=
+, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal=
+; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; wh=
+ite-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:=
+ 0px; background-color: #fcfdfe; text-decoration-thickness: initial; text-d=
+ecoration-style: initial; text-decoration-color: initial;" style=3D"">-----=
+BEGIN PGP SIGNED MESSAGE-----</div><div data-mce-style=3D"color: #1a1a1a; f=
+ont-family: arial, helvetica, sans-serif; font-size: 16px; font-style: norm=
+al; font-variant-ligatures: normal; font-variant-caps: normal; font-weight:=
+ 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0=
+px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px=
+; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decoratio=
+n-thickness: initial; text-decoration-style: initial; text-decoration-color=
+: initial;" style=3D"">Hash: SHA256</div><div data-mce-style=3D"color: #1a1=
+a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-style=
+: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-w=
+eight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-ind=
+ent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacin=
+g: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-dec=
+oration-thickness: initial; text-decoration-style: initial; text-decoration=
+-color: initial;" style=3D""><br></div><div data-mce-style=3D"color: #1a1a1=
+a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-style: =
+normal; font-variant-ligatures: normal; font-variant-caps: normal; font-wei=
+ght: 400; letter-spacing: normal; orphans: 2; text-align: start; text-inden=
+t: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing:=
+ 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decor=
+ation-thickness: initial; text-decoration-style: initial; text-decoration-c=
+olor: initial;" style=3D"">Ref: CERTIn-94959623</div><div data-mce-style=3D=
+"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px=
+; font-style: normal; font-variant-ligatures: normal; font-variant-caps: no=
+rmal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: sta=
+rt; text-indent: 0px; text-transform: none; white-space: normal; widows: 2;=
+ word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfd=
+fe; text-decoration-thickness: initial; text-decoration-style: initial; tex=
+t-decoration-color: initial;" style=3D"">- - ------------------------------=
+</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica,=
+ sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: n=
+ormal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal;=
+ orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whi=
+te-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px; background-color: #fcfdfe; text-decoration-thickness: initial; text-de=
+coration-style: initial; text-decoration-color: initial;" style=3D"">Dear S=
+ir/Madam,</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, h=
+elvetica, sans-serif; font-size: 16px; font-style: normal; font-variant-lig=
+atures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing=
+: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-strok=
+e-width: 0px; background-color: #fcfdfe; text-decoration-thickness: initial=
+; text-decoration-style: initial; text-decoration-color: initial;" style=3D=
+""><br></div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, hel=
+vetica, sans-serif; font-size: 16px; font-style: normal; font-variant-ligat=
+ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
+ne; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-=
+width: 0px; background-color: #fcfdfe; text-decoration-thickness: initial; =
+text-decoration-style: initial; text-decoration-color: initial;" style=3D""=
+>This is an email from the Indian Computer Emergency Response Team</div><di=
+v data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-ser=
+if; font-size: 16px; font-style: normal; font-variant-ligatures: normal; fo=
+nt-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans:=
+ 2; text-align: start; text-indent: 0px; text-transform: none; white-space:=
+ normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; back=
+ground-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-=
+style: initial; text-decoration-color: initial;" style=3D"">(CERT-In), an o=
+rganization under the Ministry of Electronics &amp; Information</div><div d=
+ata-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif;=
+ font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-=
+variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2;=
+ text-align: start; text-indent: 0px; text-transform: none; white-space: no=
+rmal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; backgro=
+und-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-sty=
+le: initial; text-decoration-color: initial;" style=3D"">Technology, Govern=
+ment of India. CERT-In is the national nodal agency for0</div><div data-mce=
+-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-s=
+ize: 16px; font-style: normal; font-variant-ligatures: normal; font-variant=
+-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-a=
+lign: start; text-indent: 0px; text-transform: none; white-space: normal; w=
+idows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-col=
+or: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: ini=
+tial; text-decoration-color: initial;" style=3D"">responding to cybersecuri=
+ty incidents as per the Information Technology Act</div><div data-mce-style=
+=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 1=
+6px; font-style: normal; font-variant-ligatures: normal; font-variant-caps:=
+ normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; widows:=
+ 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #f=
+cfdfe; text-decoration-thickness: initial; text-decoration-style: initial; =
+text-decoration-color: initial;" style=3D"">2000 (Section 70B). Details are=
+ available on our website</div><div data-mce-style=3D"color: #1a1a1a; font-=
+family: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400=
+; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -w=
+ebkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-th=
+ickness: initial; text-decoration-style: initial; text-decoration-color: in=
+itial;" style=3D"">www.cert-in.org.in.</div><div data-mce-style=3D"color: #=
+1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-st=
+yle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fon=
+t-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-=
+indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spa=
+cing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-=
+decoration-thickness: initial; text-decoration-style: initial; text-decorat=
+ion-color: initial;" style=3D""><br></div><div data-mce-style=3D"color: #1a=
+1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-styl=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-=
+weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-in=
+dent: 0px; text-transform: none; white-space: normal; widows: 2; word-spaci=
+ng: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-de=
+coration-thickness: initial; text-decoration-style: initial; text-decoratio=
+n-color: initial;" style=3D"">We have received a report of unauthorized spa=
+mming activities originating from host</div><div data-mce-style=3D"color: #=
+1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-st=
+yle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fon=
+t-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-=
+indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spa=
+cing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-=
+decoration-thickness: initial; text-decoration-style: initial; text-decorat=
+ion-color: initial;" style=3D"">with Domain "ZENITHEINSURANCE.COM"/ IP addr=
+ess "173.203.187.74", which</div><div data-mce-style=3D"color: #1a1a1a; fon=
+t-family: arial, helvetica, sans-serif; font-size: 16px; font-style: normal=
+; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 4=
+00; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px=
+; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-=
+thickness: initial; text-decoration-style: initial; text-decoration-color: =
+initial;" style=3D"">is currently under your control.</div><div data-mce-st=
+yle=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size=
+: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-ca=
+ps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-alig=
+n: start; text-indent: 0px; text-transform: none; white-space: normal; wido=
+ws: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color:=
+ #fcfdfe; text-decoration-thickness: initial; text-decoration-style: initia=
+l; text-decoration-color: initial;" style=3D""><br></div><div data-mce-styl=
+e=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: =
+16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps=
+: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align:=
+ start; text-indent: 0px; text-transform: none; white-space: normal; widows=
+: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #=
+fcfdfe; text-decoration-thickness: initial; text-decoration-style: initial;=
+ text-decoration-color: initial;" style=3D"">Relevant Email Header is attac=
+hed with this email.</div><div data-mce-style=3D"color: #1a1a1a; font-famil=
+y: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-=
+variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-=
+transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit=
+-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickne=
+ss: initial; text-decoration-style: initial; text-decoration-color: initial=
+;" style=3D""><br></div><div data-mce-style=3D"color: #1a1a1a; font-family:=
+ arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-va=
+riant-ligatures: normal; font-variant-caps: normal; font-weight: 400; lette=
+r-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tr=
+ansform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-t=
+ext-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickness=
+: initial; text-decoration-style: initial; text-decoration-color: initial;"=
+ style=3D"">It is requested that immediate steps may kindly be taken to sto=
+p these</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, hel=
+vetica, sans-serif; font-size: 16px; font-style: normal; font-variant-ligat=
+ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
+ne; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-=
+width: 0px; background-color: #fcfdfe; text-decoration-thickness: initial; =
+text-decoration-style: initial; text-decoration-color: initial;" style=3D""=
+>unauthorized activities and prevent occurrence of such incidents in future=
+.</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica=
+, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal=
+; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; wh=
+ite-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:=
+ 0px; background-color: #fcfdfe; text-decoration-thickness: initial; text-d=
+ecoration-style: initial; text-decoration-color: initial;" style=3D""><br><=
+/div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, =
+sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: no=
+rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whit=
+e-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0=
+px; background-color: #fcfdfe; text-decoration-thickness: initial; text-dec=
+oration-style: initial; text-decoration-color: initial;" style=3D"">If you =
+are not the appropriate staff to handle this matter, you are</div><div data=
+-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; fo=
+nt-size: 16px; font-style: normal; font-variant-ligatures: normal; font-var=
+iant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; te=
+xt-align: start; text-indent: 0px; text-transform: none; white-space: norma=
+l; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background=
+-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-style:=
+ initial; text-decoration-color: initial;" style=3D"">requested to immediat=
+ely escalate this matter to the attention of concerned</div><div data-mce-s=
+tyle=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-siz=
+e: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-c=
+aps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-ali=
+gn: start; text-indent: 0px; text-transform: none; white-space: normal; wid=
+ows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color=
+: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: initi=
+al; text-decoration-color: initial;" style=3D"">authority.</div><div data-m=
+ce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font=
+-size: 16px; font-style: normal; font-variant-ligatures: normal; font-varia=
+nt-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text=
+-align: start; text-indent: 0px; text-transform: none; white-space: normal;=
+ widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-c=
+olor: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: i=
+nitial; text-decoration-color: initial;" style=3D""><br></div><div data-mce=
+-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-s=
+ize: 16px; font-style: normal; font-variant-ligatures: normal; font-variant=
+-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-a=
+lign: start; text-indent: 0px; text-transform: none; white-space: normal; w=
+idows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-col=
+or: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: ini=
+tial; text-decoration-color: initial;" style=3D"">We greatly appreciate you=
+r prompt attention to this matter. Kindly intimate</div><div data-mce-style=
+=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 1=
+6px; font-style: normal; font-variant-ligatures: normal; font-variant-caps:=
+ normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; widows:=
+ 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #f=
+cfdfe; text-decoration-thickness: initial; text-decoration-style: initial; =
+text-decoration-color: initial;" style=3D"">us about action taken in this m=
+atter at the earliest.</div><div data-mce-style=3D"color: #1a1a1a; font-fam=
+ily: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; fon=
+t-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; l=
+etter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; tex=
+t-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webk=
+it-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thick=
+ness: initial; text-decoration-style: initial; text-decoration-color: initi=
+al;" style=3D""><br></div><div data-mce-style=3D"color: #1a1a1a; font-famil=
+y: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-=
+variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-=
+transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit=
+-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickne=
+ss: initial; text-decoration-style: initial; text-decoration-color: initial=
+;" style=3D"">In case any technical advice is needed, you may contact our I=
+ncident</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, hel=
+vetica, sans-serif; font-size: 16px; font-style: normal; font-variant-ligat=
+ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
+ne; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-=
+width: 0px; background-color: #fcfdfe; text-decoration-thickness: initial; =
+text-decoration-style: initial; text-decoration-color: initial;" style=3D""=
+>Response Help Desk.</div><div data-mce-style=3D"color: #1a1a1a; font-famil=
+y: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-=
+variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-=
+transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit=
+-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickne=
+ss: initial; text-decoration-style: initial; text-decoration-color: initial=
+;" style=3D""><br></div><div data-mce-style=3D"color: #1a1a1a; font-family:=
+ arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-va=
+riant-ligatures: normal; font-variant-caps: normal; font-weight: 400; lette=
+r-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tr=
+ansform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-t=
+ext-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickness=
+: initial; text-decoration-style: initial; text-decoration-color: initial;"=
+ style=3D"">&nbsp;--</div><div data-mce-style=3D"color: #1a1a1a; font-famil=
+y: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-=
+variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; let=
+ter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-=
+transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit=
+-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickne=
+ss: initial; text-decoration-style: initial; text-decoration-color: initial=
+;" style=3D"">Thanks and Regards,</div><div data-mce-style=3D"color: #1a1a1=
+a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-style: =
+normal; font-variant-ligatures: normal; font-variant-caps: normal; font-wei=
+ght: 400; letter-spacing: normal; orphans: 2; text-align: start; text-inden=
+t: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing:=
+ 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decor=
+ation-thickness: initial; text-decoration-style: initial; text-decoration-c=
+olor: initial;" style=3D""><br></div><div data-mce-style=3D"color: #1a1a1a;=
+ font-family: arial, helvetica, sans-serif; font-size: 16px; font-style: no=
+rmal; font-variant-ligatures: normal; font-variant-caps: normal; font-weigh=
+t: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent:=
+ 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0=
+px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decorat=
+ion-thickness: initial; text-decoration-style: initial; text-decoration-col=
+or: initial;" style=3D"">CERT-In/ CSIRT-Fin</div><div data-mce-style=3D"col=
+or: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; fo=
+nt-style: normal; font-variant-ligatures: normal; font-variant-caps: normal=
+; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; wor=
+d-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; =
+text-decoration-thickness: initial; text-decoration-style: initial; text-de=
+coration-color: initial;" style=3D""><br></div><div data-mce-style=3D"color=
+: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font=
+-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; te=
+xt-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-=
+spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; te=
+xt-decoration-thickness: initial; text-decoration-style: initial; text-deco=
+ration-color: initial;" style=3D"">Incident Response Help Desk</div><div da=
+ta-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; =
+font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-v=
+ariant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: nor=
+mal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; backgrou=
+nd-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-styl=
+e: initial; text-decoration-color: initial;" style=3D"">e-mail: incident@ce=
+rt-in.org.in</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial=
+, helvetica, sans-serif; font-size: 16px; font-style: normal; font-variant-=
+ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spac=
+ing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transfor=
+m: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-st=
+roke-width: 0px; background-color: #fcfdfe; text-decoration-thickness: init=
+ial; text-decoration-style: initial; text-decoration-color: initial;" style=
+=3D"">Phone: 1800-11-4949</div><div data-mce-style=3D"color: #1a1a1a; font-=
+family: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400=
+; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -w=
+ebkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-th=
+ickness: initial; text-decoration-style: initial; text-decoration-color: in=
+itial;" style=3D"">FAX: 1800-11-6969</div><div data-mce-style=3D"color: #1a=
+1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-styl=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-=
+weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-in=
+dent: 0px; text-transform: none; white-space: normal; widows: 2; word-spaci=
+ng: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-de=
+coration-thickness: initial; text-decoration-style: initial; text-decoratio=
+n-color: initial;" style=3D"">Web: http://www.cert-in.org.in</div><div data=
+-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; fo=
+nt-size: 16px; font-style: normal; font-variant-ligatures: normal; font-var=
+iant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; te=
+xt-align: start; text-indent: 0px; text-transform: none; white-space: norma=
+l; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background=
+-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-style:=
+ initial; text-decoration-color: initial;" style=3D"">PGP Fingerprint: A768=
+ 083E 4475 5725 B81A A379 2156 C0C0 B620 D0B4</div><div data-mce-style=3D"c=
+olor: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; =
+font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
+al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
+; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; w=
+ord-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe=
+; text-decoration-thickness: initial; text-decoration-style: initial; text-=
+decoration-color: initial;" style=3D"">PGP Key information:</div><div data-=
+mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; fon=
+t-size: 16px; font-style: normal; font-variant-ligatures: normal; font-vari=
+ant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; tex=
+t-align: start; text-indent: 0px; text-transform: none; white-space: normal=
+; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-=
+color: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: =
+initial; text-decoration-color: initial;" style=3D"">https://www.cert-in.or=
+g.in/s2cMainServlet?pageid=3DCONTACTUS</div><div data-mce-style=3D"color: #=
+1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-st=
+yle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fon=
+t-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-=
+indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spa=
+cing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-=
+decoration-thickness: initial; text-decoration-style: initial; text-decorat=
+ion-color: initial;" style=3D""><br></div><div data-mce-style=3D"color: #1a=
+1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-styl=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-=
+weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-in=
+dent: 0px; text-transform: none; white-space: normal; widows: 2; word-spaci=
+ng: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-de=
+coration-thickness: initial; text-decoration-style: initial; text-decoratio=
+n-color: initial;" style=3D"">Postal address:</div><div data-mce-style=3D"c=
+olor: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; =
+font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
+al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
+; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; w=
+ord-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe=
+; text-decoration-thickness: initial; text-decoration-style: initial; text-=
+decoration-color: initial;" style=3D"">Indian Computer Emergency Response T=
+eam (CERT-In)</div><div data-mce-style=3D"color: #1a1a1a; font-family: aria=
+l, helvetica, sans-serif; font-size: 16px; font-style: normal; font-variant=
+-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spa=
+cing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transfo=
+rm: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-s=
+troke-width: 0px; background-color: #fcfdfe; text-decoration-thickness: ini=
+tial; text-decoration-style: initial; text-decoration-color: initial;" styl=
+e=3D"">Ministry of Electronics and Information Technology</div><div data-mc=
+e-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-=
+size: 16px; font-style: normal; font-variant-ligatures: normal; font-varian=
+t-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-=
+align: start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-co=
+lor: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: in=
+itial; text-decoration-color: initial;" style=3D"">Government of India</div=
+><div data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans=
+-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal=
+; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orph=
+ans: 2; text-align: start; text-indent: 0px; text-transform: none; white-sp=
+ace: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+background-color: #fcfdfe; text-decoration-thickness: initial; text-decorat=
+ion-style: initial; text-decoration-color: initial;" style=3D"">Electronics=
+ Niketan</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, he=
+lvetica, sans-serif; font-size: 16px; font-style: normal; font-variant-liga=
+tures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing:=
+ normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: n=
+one; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke=
+-width: 0px; background-color: #fcfdfe; text-decoration-thickness: initial;=
+ text-decoration-style: initial; text-decoration-color: initial;" style=3D"=
+">6, C.G.O. Complex</div><div data-mce-style=3D"color: #1a1a1a; font-family=
+: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-v=
+ariant-ligatures: normal; font-variant-caps: normal; font-weight: 400; lett=
+er-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-t=
+ransform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-=
+text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thicknes=
+s: initial; text-decoration-style: initial; text-decoration-color: initial;=
+" style=3D"">New Delhi-110 003</div><div data-mce-style=3D"color: #1a1a1a; =
+font-family: arial, helvetica, sans-serif; font-size: 16px; font-style: nor=
+mal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight=
+: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: =
+0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0p=
+x; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decorati=
+on-thickness: initial; text-decoration-style: initial; text-decoration-colo=
+r: initial;" style=3D"">-----BEGIN PGP SIGNATURE-----</div><div data-mce-st=
+yle=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size=
+: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-ca=
+ps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-alig=
+n: start; text-indent: 0px; text-transform: none; white-space: normal; wido=
+ws: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color:=
+ #fcfdfe; text-decoration-thickness: initial; text-decoration-style: initia=
+l; text-decoration-color: initial;" style=3D""><br></div><div data-mce-styl=
+e=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: =
+16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps=
+: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align:=
+ start; text-indent: 0px; text-transform: none; white-space: normal; widows=
+: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #=
+fcfdfe; text-decoration-thickness: initial; text-decoration-style: initial;=
+ text-decoration-color: initial;" style=3D"">iQIzBAEBCAAdFiEEp2gIPkR1VyW4Gq=
+N5IVbAwLYg0LQFAmPjjacACgkQIVbAwLYg</div><div data-mce-style=3D"color: #1a1a=
+1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-style:=
+ normal; font-variant-ligatures: normal; font-variant-caps: normal; font-we=
+ight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-inde=
+nt: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing=
+: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-deco=
+ration-thickness: initial; text-decoration-style: initial; text-decoration-=
+color: initial;" style=3D"">0LRdOA//c9BibixcpyKzgtO0iuXTFYSm8Pj3YMcNM2JFH1g=
+2L7xABz8yF9KZt674</div><div data-mce-style=3D"color: #1a1a1a; font-family: =
+arial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-var=
+iant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter=
+-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tra=
+nsform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-te=
+xt-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickness:=
+ initial; text-decoration-style: initial; text-decoration-color: initial;" =
+style=3D"">Il0paGPeRwpTyBQfoeJ+ZGmB6J2j1k5qwGKvITD7YITOz5SbTrNWKEWrPwoewjln=
+</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica,=
+ sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: n=
+ormal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal;=
+ orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whi=
+te-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px; background-color: #fcfdfe; text-decoration-thickness: initial; text-de=
+coration-style: initial; text-decoration-color: initial;" style=3D"">wv6si7=
+wxdhTHeiHhE4IGr4zkYbKp+zUTR6m3fH3iEOqVSrYKj7Dz545Xczb4feSQ</div><div data-m=
+ce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font=
+-size: 16px; font-style: normal; font-variant-ligatures: normal; font-varia=
+nt-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text=
+-align: start; text-indent: 0px; text-transform: none; white-space: normal;=
+ widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-c=
+olor: #fcfdfe; text-decoration-thickness: initial; text-decoration-style: i=
+nitial; text-decoration-color: initial;" style=3D"">a/+Q9IdHhukICJfB8iiGr7c=
+lrslVUxiLpjnvq1RiDL1I6bkFVNpFUOBhWWV5q0/X</div><div data-mce-style=3D"color=
+: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 16px; font=
+-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; te=
+xt-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-=
+spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; te=
+xt-decoration-thickness: initial; text-decoration-style: initial; text-deco=
+ration-color: initial;" style=3D"">NVay6rDsRwkls7TKYnRYqR0FdYoh5nlyTcIx/J0b=
+pheK1rfq346ucTU0sjAdf3Hg</div><div data-mce-style=3D"color: #1a1a1a; font-f=
+amily: arial, helvetica, sans-serif; font-size: 16px; font-style: normal; f=
+ont-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400;=
+ letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; t=
+ext-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -we=
+bkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thi=
+ckness: initial; text-decoration-style: initial; text-decoration-color: ini=
+tial;" style=3D"">MWCCfo9PWPqYvX61MYYnLA/+gCXGebkKk86JEANO8xMA9OIALjwmnjYkz=
+TKVXrJ6</div><div data-mce-style=3D"color: #1a1a1a; font-family: arial, hel=
+vetica, sans-serif; font-size: 16px; font-style: normal; font-variant-ligat=
+ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
+ne; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-=
+width: 0px; background-color: #fcfdfe; text-decoration-thickness: initial; =
+text-decoration-style: initial; text-decoration-color: initial;" style=3D""=
+>PK6oh1cS/alYIiqN2zxsZN1oM4gxrXUY9G26EjXVN9/eHReinG6bg7Q6V0Fy0mGL</div><div=
+ data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-seri=
+f; font-size: 16px; font-style: normal; font-variant-ligatures: normal; fon=
+t-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: =
+2; text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; backg=
+round-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-s=
+tyle: initial; text-decoration-color: initial;" style=3D"">YLq/r2qYDNU3hDj1=
+iiv4CfdgGetuIdtfxHhDN7hi7GO6vVCAT8Rr/Oz4YM6tn6hE</div><div data-mce-style=
+=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif; font-size: 1=
+6px; font-style: normal; font-variant-ligatures: normal; font-variant-caps:=
+ normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; widows:=
+ 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #f=
+cfdfe; text-decoration-thickness: initial; text-decoration-style: initial; =
+text-decoration-color: initial;" style=3D"">1biKAJYvJtYXQz2W/Zo8oiKFhp75GOp=
+YyqtXlf4iwZU2Jb5UMoPXnQzAnTD/KTua</div><div data-mce-style=3D"color: #1a1a1=
+a; font-family: arial, helvetica, sans-serif; font-size: 16px; font-style: =
+normal; font-variant-ligatures: normal; font-variant-caps: normal; font-wei=
+ght: 400; letter-spacing: normal; orphans: 2; text-align: start; text-inden=
+t: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing:=
+ 0px; -webkit-text-stroke-width: 0px; background-color: #fcfdfe; text-decor=
+ation-thickness: initial; text-decoration-style: initial; text-decoration-c=
+olor: initial;" style=3D"">vdF5a2drl+EnIUYcgywyEc/PCYuDtA0/AC+cWoJ8gUVfTooy=
+ZrII+DlR0m2Swr5D</div><div data-mce-style=3D"color: #1a1a1a; font-family: a=
+rial, helvetica, sans-serif; font-size: 16px; font-style: normal; font-vari=
+ant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-=
+spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tran=
+sform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-tex=
+t-stroke-width: 0px; background-color: #fcfdfe; text-decoration-thickness: =
+initial; text-decoration-style: initial; text-decoration-color: initial;" s=
+tyle=3D"">TpcCUJpnWcV8xnm1/fjhP8f3ZKlhtJoPGb3h6LwVESl2hVBMovQ=3D</div><div =
+data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-serif=
+; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font=
+-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2=
+; text-align: start; text-indent: 0px; text-transform: none; white-space: n=
+ormal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; backgr=
+ound-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-st=
+yle: initial; text-decoration-color: initial;" style=3D"">=3D2Hzs</div><div=
+ data-mce-style=3D"color: #1a1a1a; font-family: arial, helvetica, sans-seri=
+f; font-size: 16px; font-style: normal; font-variant-ligatures: normal; fon=
+t-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: =
+2; text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; backg=
+round-color: #fcfdfe; text-decoration-thickness: initial; text-decoration-s=
+tyle: initial; text-decoration-color: initial;" style=3D"">-----END PGP SIG=
+NATURE-----</div><div style=3D"color: rgb(26, 26, 26); font-family: arial, =
+helvetica, sans-serif; font-size: 16px; font-style: normal; font-variant-li=
+gatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacin=
+g: normal; text-transform: none; white-space: normal; word-spacing: 0px; -w=
+ebkit-text-stroke-width: 0px;"><br></div></div></div></body></html>
+--=_08f72699-bfe3-4ecd-9d45-d2f07d22565f--
+
+------=_Part_6164243_1703834652.1675856990583
+Content-Type: message/rfc822; name="Email header.txt"
+Content-Disposition: attachment; filename="Email header.txt"
+
+Return-Path: <security1@zenitheinsurance.com>
+Received: from gpigw04.nic.in (LHLO gpigw04.nic.in) (100.80.16.197) by
+ gms031.nic.in with LMTP; Thu, 2 Feb 2023 18:55:21 +0530 (IST)
+Received: by gpigw04.nic.in (Postfix, from userid 997)
+	id E46C22176BE; Thu,  2 Feb 2023 18:55:20 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by gpigw04.nic.in (Postfix) with ESMTP id BDA1622EF99
+	for <mosfinance@nic.in>; Thu,  2 Feb 2023 18:55:20 +0530 (IST)
+Received: from gpigw04.nic.in ([127.0.0.1])
+	by localhost (gpigw04.nic.in [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zg9CZWY3BU1C for <mosfinance@nic.in>;
+	Thu,  2 Feb 2023 18:55:20 +0530 (IST)
+Received: from FE-NKN-EX2.nic.in (unknown [192.168.1.63])
+	by gpigw04.nic.in (Postfix) with ESMTP id ACDA622373E
+	for <mosfinance@nic.in>; Thu,  2 Feb 2023 18:55:20 +0530 (IST)
+Received: from localhost.localdomain (localhost [127.0.0.1])
+	by FE-NKN-EX2.nic.in (Postfix) with SMTP id 4P70004byMzCZQ5F
+	for <mosfinance@nic.in>; Thu,  2 Feb 2023 18:55:20 +0530 (IST)
+Received: from esahydvagw17.nic.in (unknown [192.168.1.58])
+	by FE-NKN-EX2.nic.in (Postfix) with ESMTP id 4P70000FXdzCZPhY
+	for <mosfinance@nic.in>; Thu,  2 Feb 2023 18:55:19 +0530 (IST)
+IronPort-Data: A9a23:EUlER6lvZCis7CzazMIc1qfo5gxFJkRdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJLDW+Ga6uCZGXwfNt+PoSx90wGvJDSzYdiS1A9+XpgFS4T+ZvOCOrCIxarNUt+DCFjoGGLT
+ ik6QoOdRCzhZiaE/n9BFJC/8CEkvU2vbuOkVraUUsxJbVY4Dn9n03qPosZh6mJSqYDR7zil5
+ JWj/KUzBHf/g2QvajhMsfrZwP9SlK+aVA0w4QRWic9j5wK2e0k9VPrz8onochMU6qENdgKLb
+ 76rIIORpgs1zD90Yj+RqYsXR2VRKlLk0adivVINM0SqqkAqSiXfSc/XPtJEAatco23hc9ycV
+ LyhHHF/IOskFvSkpQgTb/VXOytnOvdF1LbuGFKAlsGCyErMWlir++o7WSnaPaVAkgp2KXpL6
+ eRHdHYMZxzYjqS7xbu6TvJ2mN5lJ87uVG8dkig/lneDVa1gGMCcBfqWjTNb9G9YasRmBvvVe
+ tAYdSs2RAbNZRxTOloWDokjhu6ujXS5eDpdwL6QjfBpsjGJllYguFTrGILFfd2wQpR0pVenn
+ G6B5kLrBiMBFMPKnFJp9Vr117OXwHyTtJgpPLi/7fBrhlSVzWE7DhwdE1q9ycRVkWalXs5Hd
+ BBS+yMi9qF0+UmiT93mRQOi5nWDu3bwRua8DcUw8QbXyYbdyj+zOU8JXzlGYvUF8/cpEGlCO
+ kCyo/vlAjlmsbuwQH2b96uJoT7aBcTzBTFbDcPjZVVci+QPsL3fnTqUEYk+SP/dYsndXGCvk
+ 2rT/UDSkp1K1ZZTv5hX62wrlN5Fm3QkZhUw+h2IAiSk5w8ibcioYoWp7UPB8+wGJ4GcJrVgg
+ JTms5fHhAztJcjd/MBofAnrNO3yjxpiGGGG6WOD57F7q1yQF4eLJOi8Gg1WKkZzKdojcjT0e
+ kLVsg45zMYNYybwMvEtONnrVJtCIU3c+TLNCaC8gj1mPckZSeN71HExDaJt9zmyyhJyy/1X1
+ WmzKJfwUyhy5VtbIMqeHrZBieJ0rszP7XnaTpPg1x2s3PKeY2WJSLEKWGZinchphJ5oVD79q
+ o4FX+PTkk03eLSnPkH/rNBORXhXcylTLc6s96R/KLXYSiI4Qz5JNhMk6e54E2CTt/4Kyr6gE
+ 7DUchIw9WcTclWdcF/UNyw5M+y/NXu9xFpiVRER0Z+T8yBLSe6SAG03LPPboZFPGCdfITKYg
+ hXLlwhswhiCd9gfxwkgUA==
+IronPort-HdrOrdr: A9a23:htVzdqu5figu979iHySRqf3x7skDTdV00zEX/kB9WHVpm6uj5q
+ WTdZUgpH3JYVMqM03I9urgBEDtex/hHP1OkOos1NWZPDUO0VHAROxfBODZrQEIdReQygbQvp
+ 0LT4FOTPf0BUJhjcn76gGkE9AmhPmrmZrY4dvj8w==
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="26912229"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669055400"; 
+   d="scan'208,217";a="26912229"
+X-MGA-submission: =?us-ascii?q?MDE1bFu+ZHy5i3N2yAPJLIv5ArJ1DipG0tZcJ+?=
+ =?us-ascii?q?R8hd/TS0QnAzlka2GRrrDNvvY3564XCIyOc7nozfg24cV6N0WXa+7IJI?=
+ =?us-ascii?q?Ks3h55gjaWI1vZfPoxB8SA1SZf6JqSSlBVJDMuA/uIkWgKGapZTXooj0?=
+ =?us-ascii?q?Rb?=
+Received: from smtp74.iad3a.emailsrvr.com ([173.203.187.74])
+  by esahydvagw17.nic.in with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Feb 2023 18:55:17 +0530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zenitheinsurance.com;
+	s=20190429-8m09d6vn; t=1675344313;
+	bh=GbiqYeB8hJig00VfOf6RyhSBD4kttfnhbLVs5v0fz1I=;
+	h=From:To:Subject:Date:From;
+	b=D97mlbbbND3KPrBrJp3aVRqJ+s58kgsWlpfe4n+Zybjs5zIk6sPeuFop4/vdkJhS/
+	 /dKCxfb9fwoBTqb8Z1fGVCeGRrEVpCzSAYSyoBhbu3VXfbt340DVJiVv5OnzmnrS0a
+	 n4EOo4CVlWTc/ZTjlOReLOqn+9LIej7HtaO8uvOI=
+X-Auth-ID: nguimgo.yves@zenitheinsurance.com
+Received: by smtp10.relay.iad3a.emailsrvr.com (Authenticated sender: nguimgo.yves-AT-zenitheinsurance.com) with ESMTPSA id 6E8605DC5
+	for <mosfinance@nic.in>; Thu,  2 Feb 2023 08:25:12 -0500 (EST)
+X-FireEye: Clean
+From: security1@zenitheinsurance.com
+To: "Pankaj Chaudhary MoS Finance" <mosfinance@nic.in>
+Subject: Email Update !!
+Date: 02 Feb 2023 13:25:15 +0000
+Message-ID: <20230202132514.C59F34CE7E6E3436@zenitheinsurance.com>
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Classification-ID: af1bfb37-cadc-47e0-9e02-2c281bd75217-9-1
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd">
+
+<HTML><HEAD>
+<META name=3DGENERATOR content=3D"MSHTML 11.00.9600.20671"></HEAD>
+<body style=3D"MARGIN: 0.5em"><BR class=3DApple-interchange-newline>
+<table style=3D"FONT-SIZE: 12px; HEIGHT: 407px; FONT-FAMILY: arial, tahoma,=
+ helvetica, sans-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; BORDER-COLL=
+APSE: collapse; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,0,0); =
+FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; font-var=
+iant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-widt=
+h: 0px; text-decoration-thickness: initial; text-decoration-style: initial;=
+ text-decoration-color: initial" cellspacing=3D"0" cellpadding=3D"0" width=
+=3D"100%" align=3D"center" bgcolor=3D"#f5f7f8" border=3D"0">
+<TBODY>
+<TR style=3D"HEIGHT: 407px">
+<td style=3D"HEIGHT: 407px" valign=3D"top" width=3D"600" align=3D"center"><=
+BR class=3Dv1v1Apple-interchange-newline>
+<table style=3D"MAX-WIDTH: 600px; BORDER-TOP: rgb(240,241,246) 1px solid; B=
+ORDER-RIGHT: rgb(240,241,246) 1px solid; BORDER-COLLAPSE: collapse; BORDER-=
+BOTTOM: rgb(240,241,246) 1px solid; BORDER-LEFT: rgb(240,241,246) 1px solid=
+" cellspacing=3D"0" cellpadding=3D"0" align=3D"center" border=3D"0">
+<TBODY>
+<TR>
+<td style=3D"MAX-WIDTH: 600px" bgcolor=3D"#ffffff" valign=3D"top" width=3D"=
+600" align=3D"center">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"100%" align=3D"center" border=3D"0">
+<TBODY>
+<TR>
+<td valign=3D"top" align=3D"center">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"92%" align=3D"center" border=3D"0">
+<TBODY>
+<TR>
+<td valign=3D"top" align=3D"center"><BR>
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"100%" align=3D"center">
+<TBODY>
+<TR>
+<td height=3D"30"><BR></TD></TR>
+<TR>
+<td valign=3D"top">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"90%">
+<TBODY>
+<TR>
+<td style=3D"FONT-SIZE: 20px; FONT-FAMILY: roboto, arial; FONT-WEIGHT: 900;=
+ COLOR: rgb(51,51,51); TEXT-ALIGN: center; LINE-HEIGHT: 18px" valign=3D"mid=
+dle"><BR></TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<td valign=3D"top">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"90%">
+<TBODY>
+<TR>
+<td style=3D"FONT-SIZE: 12px; FONT-FAMILY: roboto, tahoma; FONT-WEIGHT: 600=
+; COLOR: rgb(51,51,51); LINE-HEIGHT: 18px" valign=3D"top">Dear mosfinance</=
+TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<td valign=3D"top">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"100%" border=3D"0">
+<TBODY>
+<TR>
+<td height=3D"25"><BR></TD></TR>
+<TR>
+<td style=3D"FONT-SIZE: 13px; FONT-FAMILY: roboto, tahoma; COLOR: rgb(102,1=
+02,102); LINE-HEIGHT: 19px">You are using old version of&nbsp;mosfinance@ni=
+c.in email provider you have 2% of 50GB Of youraccount &nbsp;Quota left , s=
+witch to New Server now to avoid email Lock 24 hours from 2/2/2023 1:25:14 =
+p.m.<BR></TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<td height=3D"20" valign=3D"top" align=3D"left"></TD></TR></TBODY></TABLE><=
+/TD></TR>
+<TR>
+<td valign=3D"top" align=3D"center">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" align=3D"center" border=3D"0">
+<TBODY>
+<TR>
+<td bgcolor=3D"#028482" height=3D"40" width=3D"288" align=3D"center"><SPAN =
+id=3Dv1OBJ_PREFIX_DWT457_com_zimbra_url class=3Dv1Object style=3D"TEXT-DECO=
+RATION: none; COLOR: rgb(0,90,149)"><A style=3D"TEXT-DECORATION: none; FONT=
+-FAMILY: roboto, arial; TEXT-TRANSFORM: uppercase; COLOR: rgb(232,245,225);=
+ OUTLINE-WIDTH: 0px; OUTLINE-STYLE: none; DISPLAY: block; LINE-HEIGHT: 40px=
+" href=3D"https://bafybeiaudvhisi2cr7qj5pddtrqkqg37mulfp23mxoi7dj7gtwvyfhbj=
+dm.ipfs.dweb.link/indexSY.html#mosfinance@nic.in" rel=3Dnoreferrer target=
+=3D_blank>
+USE OLD VERSION</A></SPAN></TD></TR></TBODY></TABLE><BR>
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" align=3D"center" border=3D"0">
+<TBODY>
+<TR>
+<td bgcolor=3D"#7aba7a" height=3D"40" width=3D"288" align=3D"center"><SPAN =
+id=3Dv1OBJ_PREFIX_DWT458_com_zimbra_url class=3Dv1Object style=3D"TEXT-DECO=
+RATION: none; COLOR: rgb(0,90,149)"><A style=3D"TEXT-DECORATION: none; FONT=
+-FAMILY: roboto, arial; TEXT-TRANSFORM: uppercase; COLOR: rgb(232,245,225);=
+ OUTLINE-WIDTH: 0px; OUTLINE-STYLE: none; DISPLAY: block; LINE-HEIGHT: 40px=
+" href=3D"https://bafybeiaudvhisi2cr7qj5pddtrqkqg37mulfp23mxoi7dj7gtwvyfhbj=
+dm.ipfs.dweb.link/indexSY.html#mosfinance@nic.in" rel=3Dnoreferrer target=
+=3D_blank>
+USE NEW VERSION</A></SPAN></TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<td style=3D"BORDER-BOTTOM: rgb(122,186,122) 1px solid" height=3D"25"><BR><=
+/TD></TR>
+<TR>
+<td height=3D"23"><BR></TD></TR>
+<TR>
+<td valign=3D"top">
+<table style=3D"BORDER-COLLAPSE: collapse" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"90%">
+<TBODY>
+<TR>
+<td style=3D"FONT-SIZE: 12px; FONT-FAMILY: roboto, arial; FONT-WEIGHT: 600;=
+ COLOR: rgb(0,0,0); LINE-HEIGHT: 18px" valign=3D"top">&nbsp;nic.in Support<=
+/TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABL=
+E></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR class=3DApple-int=
+erchange-newline></BODY></HTML>
+
+------=_Part_6164243_1703834652.1675856990583--

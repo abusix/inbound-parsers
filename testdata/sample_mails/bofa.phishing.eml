@@ -1,0 +1,1685 @@
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	by fe2dba61eb49 (Haraka/2.8.26) with ESMTP id BA51CDFA-A286-49B0-BC4E-51603062F74B.1
+	envelope-from <abuse+bncBAABBBPT26BQMGQEMGFJUZI@digitalocean.com>;
+	Tue, 13 Apr 2021 20:05:25 +0000
+Received: by mail-ed1-f72.google.com with SMTP id bm19-20020a0564020b13b02903789d6e74b5sf1853224edb.21
+        for <abuse@digitalocean.abusehq.net>; Tue, 13 Apr 2021 13:05:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1618344325; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=WiltyJVP/jhbbkHCNzcIcUGM43/74iEy94iPXkPZL32a5zsAAo1ZJUMgChbrYs6AAn
+         JXczcyvGrtn+IejCUGy38GYjT7JVP5GX3pRKrWW7Z1IsA7ss5wEVCmb6pl5r9rm3r/80
+         aEseUOfOcvUfTXj6Epc3WLfZ02RTA/iy6mx1fmUFz6UXIklfl2JCO345cIvfAQ8Y7Hnb
+         rzozvYHZCTbj1f11XhBxS7iMf2v0ycR6GrEWx9DHjbbADdc3JlG6GH99y/xSdmiiLKOn
+         EkI6GB0cdNv9N9NLfJSeCYgqePj+K2r+y0/ZIALLPuGSko7bgvp8xI6ujeeZHyRxj0i0
+         7FMw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:thread-index:thread-topic:accept-language
+         :content-language:mime-version:message-id:reply-to:to:subject:from
+         :date:dkim-signature;
+        bh=GZUvcMQd7LFAXhRTTcJQOjWmNv91+jI/+LnEVyXO4II=;
+        b=sIKrMavzjOBTzbe33jUpOJnUlMpweuCJk4R6vINV0EscrXbbYCKvfzKMBGKjZ0y3Ce
+         eSXdkNOGmHLvV1CDLuW9xpkt0fs8ifgx7kfzBQVJ1ym++RrlrmSkmoCNNYTnf26Uel7g
+         2F/n7JaT1GX6saaxBbzbmHLQVjf1YHlh3V4qxKe0W+6crdoGc9M9/1WB+dFS6cQDAJQk
+         Ki/WLgxJDrYTKqsjU8qO7YYndl6DrRrjvJu5U3xw+pWm1IUp39Dz3fodrCYyY2Tu4wnB
+         rQj9y4+wehsIXz5gIquzxv550iW0FNyYDkGaZ3pSp8CsY/IA3fQlpyqlHuR2qATfEBhq
+         IKdQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@bofa.com header.s=corp1903 header.b=Q9i6cb0O;
+       spf=pass (google.com: domain of erc-05@bofa.com designates 171.161.41.178 as permitted sender) smtp.mailfrom=erc-05@bofa.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bofa.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=date:from:subject:to:reply-to:message-id:mime-version
+         :content-language:accept-language:thread-topic:thread-index
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-unsubscribe;
+        bh=GZUvcMQd7LFAXhRTTcJQOjWmNv91+jI/+LnEVyXO4II=;
+        b=fEGOTMIGXtVuD8S9MOPwSvh5NhB41MyE2wQERbDuVi5S7QE76wkhrRdM36R49IAfhk
+         5nVj7gRClIrIx2V9QwoX5uMHjVIUmzK2ZRXFpsLI27Kfh5iOWSI84H4OnCglRSkRY75J
+         zpayS+/Ca5ExouPATHTLOUGOnqU48EHI8HuwI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:subject:to:reply-to:message-id
+         :mime-version:content-language:accept-language:thread-topic
+         :thread-index:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-unsubscribe;
+        bh=GZUvcMQd7LFAXhRTTcJQOjWmNv91+jI/+LnEVyXO4II=;
+        b=HQIp3wDYu2IN2q3Hzsti9l4syvAptu0OPzh3YeWEtBSuOoLJ19WWemPJr7a4SBboi0
+         WjMkIu7GgGG+JAbN4NGMQ1BrIfZ3MF0n4GSAByFda6NP1Ux0z1I5Q2Ljgfp78N23tA5h
+         SCsWBFEWZykm9FAtF30jmsWxMl01razBQJ4dUQ8xEq3ENbCDfV0tFtdax0QtyPI7QxqE
+         /VBlp0WeWo/mqRREyaPHRqQ4P71QCpGFVp3Htxg5ECoXtbxs2LxdtpUSyD6elmGvsvHF
+         5A+XA44eUbLG2pA/BqBQ52VFIe4dhsosvtP55dA7S8Tn0x76zHAMwX0bqsTge6gI7iuR
+         3ljQ==
+X-Gm-Message-State: AOAM530rPDPeyJsQbwCD5rs52mANDS6R5zmlUnxO66osjFG+qdlbOgLd
+	hq+JKPnZC2lTpY5fT7s1CIzrWw==
+X-Google-Smtp-Source: ABdhPJzT1OPBsG52LzBZC1IyZVeE33/0+lxlmG1qSWcx5Y2A2VRHDWW/0jbsLcLhDAlbkjZaggjPiQ==
+X-Received: by 2002:a05:6402:1764:: with SMTP id da4mr35670505edb.154.1618344325362;
+        Tue, 13 Apr 2021 13:05:25 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:3592:: with SMTP id y18ls4816872edc.0.gmail; Tue,
+ 13 Apr 2021 13:05:24 -0700 (PDT)
+X-Received: by 2002:a05:6402:3486:: with SMTP id v6mr36585356edc.109.1618344324250;
+        Tue, 13 Apr 2021 13:05:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1618344324; cv=none;
+        d=google.com; s=arc-20160816;
+        b=yeQhoeH5RpfrGIbcd/oTRdBWfJ1o+tZ7uMn2LehTLQTE5FEuEJWuGhG+GvlGNl+tY8
+         cWpkZv+w+xLzYUPn05+YEw8iSyehE3yLqw0z3rh9/WbfK+uAVsSJP+FiQTKBbwEKVvE4
+         SfFvpk0+5nlE4TTDB2AaRJ7b0z6KUXgBDu59wiNsE3aZI1yklK4Pbxkq3mPPmXotxBBY
+         av2EFNZkNSQC18Mnq704Rkk5OwOlpZqIfQtm2nbqvKc2Iudj7YdYRMRHHi03tXKqjjG5
+         aM1/WMwtkPin7IvhxZYlfh3qYTuReajMtR5IpQEplxsxckvSUGGWcDG06Iq07ABwGF/R
+         Wxrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=thread-index:thread-topic:accept-language:content-language
+         :mime-version:message-id:reply-to:to:subject:from:date
+         :dkim-signature;
+        bh=GZUvcMQd7LFAXhRTTcJQOjWmNv91+jI/+LnEVyXO4II=;
+        b=nXeupZWJgyWqzIgsVzQVEMj93NdszEtV9inCM5S5JSY/LF6bFkrzPJZhhf+ynosWI2
+         kGGLs1oODjYrwGG7sRzk7+s+fF+eTeuL/6FDAGcx6Tjydz9BiLA3Iq4I8gJiBip6y077
+         n0j44iKXVyZg3icCRoXKC/sFZaAQzDaeCbM0HP7stMBWjNgPwuCpJVfX7ghZ0i4snsaw
+         gcG4ns2GyrAh5Drd3ZFsQ365GyWdSnBwTTmG7ajIrJ1fVs1M/TJL5oTbsa4BWccgX9ds
+         WjkfwrPgWVUDkxefDUeaMtVbKiinXkPXhA6LLB4aaPFiSCBTqgu2oo0Y9gYrdyC8XVjI
+         wC/w==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@bofa.com header.s=corp1903 header.b=Q9i6cb0O;
+       spf=pass (google.com: domain of erc-05@bofa.com designates 171.161.41.178 as permitted sender) smtp.mailfrom=erc-05@bofa.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bofa.com
+Received: from bankofamerica.com (ltwemail.bankofamerica.com. [171.161.41.178])
+        by mx.google.com with ESMTPS id c97si12240711edf.404.2021.04.13.13.05.23
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Apr 2021 13:05:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of erc-05@bofa.com designates 171.161.41.178 as permitted sender) client-ip=171.161.41.178;
+Received: from lltwa05mxepmx03.bankofamerica.com ([171.180.36.246])
+	by lltwa05hxepmx02.bankofamerica.com (8.15.2/8.15.2) with ESMTPS id 13DK5M0T012622
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <abuse@digitalocean.com>; Tue, 13 Apr 2021 20:05:23 GMT
+Received: from ah-1031360-007.sdi.corp.bankofamerica.com (ah-1031360-007.sdi.corp.bankofamerica.com [171.197.64.96])
+	by lltwa05mxepmx03.bankofamerica.com (8.15.2/8.15.2) with ESMTP id 13DK5EHt032897
+	for <abuse@digitalocean.com>; Tue, 13 Apr 2021 20:05:22 GMT
+Date: Tue, 13 Apr 2021 20:05:18 +0000
+From: "'External Remediation Coordination -05' via abuse" <abuse@digitalocean.com>
+Subject: Please investigate email: homeworking@mail.corporate-surveys.co.uk for falsely associating with Bank
+ of America
+X-Originating-IP: [30.132.18.158]
+To: "abuse@digitalocean.com" <abuse@digitalocean.com>
+Reply-to: External Remediation Coordination -05 <erc-05@bofa.com>
+Message-id: <e111f48d02934067adeaa573c6205e41@bofa.com>
+MIME-version: 1.0
+Content-type: multipart/related; boundary="Boundary_(ID_pkNkL862lilmHnUGOtOCZA)"; type="multipart/alternative"
+Content-language: en-US
+X-MS-Has-Attach: yes
+Accept-Language: en-US
+Thread-topic: Please investigate email: homeworking@mail.corporate-surveys.co.uk for falsely associating with
+ Bank of America
+Thread-index: Adcwn9AU5HnRvqYtTeiUOjUO+zK7kQ==
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tm-as-product-ver: SMEX-14.0.0.1158-8.6.1012-26090.001
+x-tm-as-result: No-10--18.688000-8.000000
+x-tmase-matchedrid: jWUjNgV3nn8metidJ/cGiF/XlQxkO11zX560G/HCMO7RCRaP4vHCqjba
+	6gSbbjl+iONMOkcrBiaHO/kG/PtN6Qi0LLplf+UvghZKmuN2x5tL/3rQmWrTBoeJYOXLUjePodi
+	osDnV/N9xZp4o+c4yD/AbXF8LOBT4ZBiPr4EU8TAZ8RJ4fqmXhkekR3VSvOYV2jgVmhKlDxgjhH
+	xKManBDGpSYPxhGlMNODOihkHIAYgmEURBmKrZlJkShYcLpGH9x0L3RJeAjH+uK5kCA6Aekg4DX
+	FbertpNBblJLLswFhqNMMTu6DvBY5GA/MAGSrEg2rWnqd4fvlTmTInKzpSFSXLMRSx26gTiA1Oj
+	Dm4UFoJgrVxsOgQvheHXFR+8B1YXGXGu0jdPFGQweLVh3LZYSIAjsy+r+wvn3xfzp7pithHqVbk
+	BfZtspfpBTL0DhstIr+l6zr/Tkx9fVy+bsykAHy4Cbf6eTe8pbOl5ensg2ntzUrSY3Zz9aAcUs8
+	Op1sTYe7hXO/QycI0NDlxVzfJoZwNN0R+idwGjqtzP/HseN8HPiJXd9YClhTDpZjB0hX0OD8qvB
+	bnz6h+qoYavcamf/C4KgdCqFeYhdXu122+iJtrzZKDA1/pIrna6BaVcucPpD5BwFV7iVnkIhQdd
+	OKGLq/oKBnHRnoAistD0ON8fWEgEcHxAI7g/VQd6R+JpfyZHUYvAleUDiYjesi7Se1e9AIPnsLL
+	WGT2+J0FjEOYxFyeEk6yIb8Ha75cSOzDC4nqrJFnpClbCtURZUipC+zHNinG4TNzGxNL45uCGKs
+	PZHdkEB655BcWt4GwxXIAB2+stARprIm1hk23G0EHapv1eJxhRI9vbLvTu4dProZEJyCAVmoV8o
+	lUgZ40MZQ28vZFZP9xmfnR7MepfRbqzKaF02afD+f8j2Fm5VkfP+Wbc6pSEbaqKQSlAZf80c/Wm
+	/6E6NP1dxBPdHStD26ehOpoXAQng8jTbCACvGRwqK97s70w=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--18.688000-8.000000
+x-tmase-version: SMEX-14.0.0.1158-8.6.1012-26090.001
+x-tm-snts-smtp: E798EA9696C3E99B7D6191E04019B8D65CB85F8B5F33A1F0293071AA1F29D8642000:8
+X-Original-Sender: erc-05@bofa.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@bofa.com header.s=corp1903 header.b=Q9i6cb0O;       spf=pass
+ (google.com: domain of erc-05@bofa.com designates 171.161.41.178 as permitted
+ sender) smtp.mailfrom=erc-05@bofa.com;       dmarc=pass (p=REJECT sp=REJECT
+ dis=NONE) header.from=bofa.com
+X-Original-From: External Remediation Coordination -05 <erc-05@bofa.com>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+
+--Boundary_(ID_pkNkL862lilmHnUGOtOCZA)
+Content-type: multipart/alternative;
+ boundary="Boundary_(ID_HxkmMoSuqdtnAYvTFot/oA)"
+
+
+--Boundary_(ID_HxkmMoSuqdtnAYvTFot/oA)
+Content-transfer-encoding: quoted-printable
+Content-Type: text/plain; charset="windows-1256"
+
+Abuse Team,
+
+
+
+Bank of America received a forwarded copy of the below phishing email.  We =
+request that you investigate the below email account for compromise or TOS =
+violations and then remediate the below if appropriate.
+
+
+
+Email account: homeworking@mail.corporate-surveys.co.uk
+
+
+
+Message Header Data:
+
+Received: from wwgci603xgbr12.corp.bankofamerica.com (165.32.85.14) by
+
+wwgci606xgbr12.corp.bankofamerica.com (165.32.85.17) with Microsoft SMTP
+
+Server (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P2=
+56) id
+
+15.1.2176.2 via Mailbox Transport; Mon, 12 Apr 2021 14:52:06 +0100
+
+Received: from wrcha602xusa06.corp.bankofamerica.com (171.176.98.48) by
+
+wwgci603xgbr12.corp.bankofamerica.com (165.32.85.14) with Microsoft SMTP
+
+Server (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P2=
+56) id
+
+15.1.2176.2; Mon, 12 Apr 2021 14:52:06 +0100
+
+Received: from ah-1031360-005.sdi.corp.bankofamerica.com (171.197.64.95) by
+
+wrcha602xusa06.corp.bankofamerica.com (171.176.98.48) with Microsoft SMTP
+
+Server id 15.1.2176.2 via Frontend Transport; Mon, 12 Apr 2021 09:52:05 -04=
+00
+
+Received: from conversion-daemon.ah-1031360-005.sdi.corp.bankofamerica.com =
+by
+
+smtppa005.bankofamerica.com
+
+(Oracle Communications Messaging Server 8.0.1.1.0 64bit (built Jun 15 2016))
+
+id <0QRG00700EFN8900@smtppa005.bankofamerica.com> for REDACTED;
+
+Mon, 12 Apr 2021 13:52:05 +0000 (GMT)
+
+Received: from lltwa05lxepmx01.bankofamerica.com ([171.180.36.243])
+
+by smtppa005.bankofamerica.com
+
+(Oracle Communications Messaging Server 8.0.1.1.0 64bit (built Jun 15 2016))
+
+with ESMTPS id <0QRG00515EITCSA0@smtppa005.bankofamerica.com> for
+
+REDACTED; Mon, 12 Apr 2021 13:52:05 +0000 (GMT)
+
+Received: from lltwa05hxepmx02.bankofamerica.com
+
+(lltwa05hxepmx02.bankofamerica.com [171.148.36.234])
+
+                by lltwa05lxepmx01.bankofamerica.com (8.15.2/8.15.2)
+
+with ESMTPS id 13CDq4rm028410
+
+                (version=3DTLSv1.2 cipher=3DDHE-RSA-AES256-GCM-SHA384 bits=
+=3D256 verify=3DFAIL)
+
+                for <REDACTED>; Mon, 12 Apr 2021 13:52:05 GMT
+
+Received: from mx0a-0000ec05.pphosted.com
+
+(mx0a-0000ec05.pphosted.com [208.84.65.230])
+
+                by lltwa05hxepmx02.bankofamerica.com (8.15.2/8.15.2)
+
+with ESMTPS id 13CDq3Zx044357
+
+                (version=3DTLSv1.2 cipher=3DAES256-GCM-SHA384 bits=3D256 ve=
+rify=3DFAIL)
+
+                for <REDACTED>; Mon, 12 Apr 2021 13:52:04 GMT
+
+Received: from pps.filterd (m0048769.ppops.net [127.0.0.1])
+
+                by mx0b-0000ec01.pphosted.com (8.16.0.43/8.16.0.43)
+
+with SMTP id 13CDiTJn031786    for <REDACTED>; Mon,
+
+12 Apr 2021 13:52:03 GMT
+
+Received: from m32-11.eu.mailgun.net (m32-11.eu.mailgun.net [141.193.32.11])
+
+                by mx0b-0000ec01.pphosted.com with ESMTP id 37untnekvr-2
+
+                (version=3DTLSv1.2 cipher=3DECDHE-RSA-AES128-GCM-SHA256 bit=
+s=3D128 verify=3DNOT)
+
+                for <REDACTED>; Mon, 12 Apr 2021 13:52:02 +0000
+
+Received: from survey (survey.mailer.eu1 [165.227.224.152])
+
+by smtp-out-n03.prod.eu-central-1.postgun.com with SMTP id
+
+6074506f94398adbfcd6f85e
+
+(version=3DTLS1.2, cipher=3DTLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon,
+
+12 Apr 2021 13:51:43 GMT
+
+DKIM-Signature: a=3Drsa-sha256; v=3D1; c=3Drelaxed/relaxed;
+
+d=3Dmail.corporate-surveys.co.uk; q=3Ddns/txt; s=3Ds1; t=3D1618235522; h=3D=
+Content-Type:
+
+To: Subject: From: Date: Mime-Version: Message-Id: Sender;
+
+bh=3DFd6scOSiL4wj1DPs+nysg+tDLSrsWlzx2HUVOoB83CM=3D;
+
+b=3DGZdiTyIKLhUhowtt207Mj+htJypW/ZOn94dUToCJCeQaxcHXmysM1YzrCq60RSty1KlgVoDz
+
+WFc2qvjLDNpbORUw0i4PyI4SqM0epsap9S7Xk3PuwPX9eQ4Mu0ZA6fbPmCUriHux98ogisbQ
+
+QlTZrVXWeK9No1iE0jnQpcJ8fM8=3D
+
+Date: Mon, 12 Apr 2021 13:51:43 +0000
+
+From: homeworking@mail.corporate-surveys.co.uk
+
+Subject: Have your say - working from home survey
+
+Sender: homeworking@mail.corporate-surveys.co.uk
+
+To: REDACTED <REDACTED>
+
+Message-id: <20210412135143.33ab14e1e5afb172@mail.corporate-surveys.co.uk>
+
+X-Mailer: Microsoft Office Outlook, Build 12527
+
+Content-type: multipart/mixed; boundary=3D"Boundary_(ID_t6msyj+Cat3JL/TqcG6=
+8EA)"
+
+X-bacmail-route: inet_int
+
+X-Mailgun-Sending-Ip: 141.193.32.11
+
+X-Mailgun-Sid: WyIyYmE1ZiIsICJidWFuYS5iaW1hbHJhakBib2ZhLmNvbSIsICI3MmI4YyJd
+
+X-Gophish-Contact:
+
+X-CLX-Shades: MLX
+
+X-Proofpoint-ORIG-GUID: 06dxeCU-8Wk-H_kZ2AqjOQ6EvAmq01dm
+
+X-CLX-Response: 1TFkXHxwbEQpMehcaEQpZRBdjQR0cWW5aQW0FbxEKWFgXYWxoZWZvel9CSxI
+
+RCnhOF2MYG2ttb0xsGmVIEQp5TBdoQGJlWX1JemtNbxEKQ0gXBxsaHREKQ1kXBxsZHBEKQ0kXGg
+
+QaGhoRCllNF2dmchEKWUkXGBoacRkZBhsaGncGHBoGHhJCEwYaBhsaGgYbHxlxGRkQGncGGgYaB
+
+hoGGgYaBhpxGhAadwYaEQpZXhdsbHkRCklGF0hLREFFTEtHT1hDSUt1WlhFTnVCRVleT04RCkNO
+
+FxocTlJPaX8HEn1BB2J1QXAYa1tAZXscb1xrR1saG05HEQpYXBcfBBoEGBgdBRsaBBsaGgQeEgQ
+
+YGBAbHhofGhEKXlkXcltMf08RCk1cFxgTGBEKTFoXaWtta0FNEQpMRhdva2tra2sRCkJPF2gTcm
+
+hsTF1EXQVwEQpDWhcbHhsEGxMZBBkYBBsbEQpCXhcbEQpCXBcbEQpCSxdgTlBkGnJeU2N8HREKQ
+
+kkXYxgba21vTGwaZUgRCkJFF2FsaGVmb3pfQksSEQpCThdjGBtrbW9MbBplSBEKQkwXYWxoZWZv
+
+el9CSxIRCkJsF2FsaGVmb3pfQksSEQpCQBduTlN7QR5tfH1nXhEKQlgXZR9sGXlNXXBhcEARCk1
+
+eFxsRClpYFxgRCnlDF2kYcG9zWm0ecmNIEQpZSxcbGREKcGgXb01gXmFdGG9jWhwQGRoRCnBoF2
+
+RcElJSXhhCHB1LEBkaEQpwaBdpYFteXEFvT0sceRAZGhEKcGgXemwTS2NARlhIfWkQGRoRCnBoF
+
+2NaGl9ORUxZeXlwEB4SEQpwfRd6fURweBgdTk9MYxAeEhEKcH0Xa2F7ZEFDWBtwbmIQGRoRCnBj
+
+F2ZnHUxFT0safGtsEBkaEQpwfxdoXFN5bEUdE0F7eRAbGBgRCnBfF2d8TXMYemhQYEBZEB4SEQp
+
+wfxd6T01NUlxZQVgbSxAZGhEKcF8XellGXV1/ZV0BW04QGRoRCnBMF3p5UmBrTB8efXxMEBoRCn
+
+BDF2BATR4cfU9neFprEBkaEQptfhcbEQpYTRdLESA=3D
+
+X-Proofpoint-GUID: 06dxeCU-8Wk-H_kZ2AqjOQ6EvAmq01dm
+
+X-bacoriginatingip: 141.193.32.11
+
+X-BAC-Originating-IP: 141.193.32.11
+
+X-Proofpoint-SPF-Result: pass
+
+X-Proofpoint-SPF-Record: v=3Dspf1 include:mailgun.org ~all
+
+X-Virus-Status: Clean
+
+Authentication-results: bankofamerica.com;       spf=3Dpass
+
+smtp.mailfrom=3Dbounce+9a89fb.72b8c-REDACTED@mail.corporate-surveys.co.uk; =
+          dkim=3Dpass
+
+header.d=3Dmail.corporate-surveys.co.uk header.s=3Ds1;     dmarc=3Dnone
+
+X-Virus-Scanned: clamav-milter 0.98.7 at lltwa05lxepmx01.bankofamerica.com
+
+X-Proofpoint-Virus-Version: vendor=3Dfsecure engine=3D2.50.10434:6.0.391,18=
+.0.761
+
+definitions=3D2021-04-12_10:2021-04-12,2021-04-12 signatures=3D0
+
+X-Proofpoint-Spam-Details: rule=3Dnotspam policy=3Ddefault score=3D0
+
+recipient_to_sender_domain_totalscore=3D0
+
+recipient_domain_to_sender_domain_totalscore=3D0 phishscore=3D0 prioritysco=
+re=3D0
+
+impostorscore=3D0 malwarescore=3D0 suspectscore=3D0 adultscore=3D0
+
+rbsscore=3D0.995938749646118 circleOfTrustscore=3D0
+
+recipient_domain_to_sender_totalscore=3D0 compositescore=3D0.995938749646118
+
+recipient_to_sender_totalscore=3D0 mlxscore=3D0 spamscore=3D0 lowprioritysc=
+ore=3D0
+
+mlxlogscore=3D902 bulkscore=3D0 clxscore=3D561 classifier=3Dspam adjust=3D0=
+ reason=3Dmlx
+
+scancount=3D1 engine=3D8.12.0-2104060000 definitions=3Dmain-2104120093
+
+domainage_hfrom=3D13
+
+Return-Path: bounce+9a89fb.72b8c-REDACTED@mail.corporate-surveys.co.uk
+
+X-MS-Exchange-Organization-Network-Message-Id: 3aa9f649-1531-4f10-43df-08d8=
+fdba289d
+
+X-MS-Exchange-Organization-AuthSource: wrcha602xusa06.corp.bankofamerica.com
+
+X-MS-Exchange-Organization-AuthAs: Internal
+
+X-MS-Exchange-Organization-AuthMechanism: 10
+
+X-TM-SNTS-SMTP: BA153E8E6B84B6316A73E87076D9B9C2E8F6F15C85ECB46606918A1A020=
+ABB212000:8
+
+X-MS-Exchange-Organization-AVStamp-Mailbox: SMEXIe@f;1665100;0;This mail has
+
+been scanned by Trend Micro ScanMail for Microsoft Exchange;
+
+X-MS-Exchange-Organization-SCL: 0
+
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:00.8256436
+
+X-MS-Exchange-Processed-By-BccFoldering: 15.01.2176.009
+
+MIME-Version: 1.0
+
+
+
+
+
+Thank you for your immediate attention and action.  Please reply with the s=
+tatus for this issue.
+
+
+
+Regards,
+
+Abuse Team
+
+Bank of America
+
+
+
+
+From: homeworking@mail.corporate-surveys.co.uk <homeworking@mail.corporate-=
+surveys.co.uk>
+Sent: Monday, April 12, 2021 8:52 AM
+To: REDACTED
+Subject: Have your say - working from home survey
+
+Have your say about working from home. =9D =9D =9D =9D =9D =9D =9D =9D =9D =
+=9D =9D
+
+
+
+
+
+
+[BofA]<https://www.bankofamerica.com/information/associates/>
+
+
+
+
+START SURVEY<https://urldefense.com/v3/__https:/fedsso.corporate-surveys.co=
+.uk/__;!!I2XIyG2ANlwasLbx!F2BG7deoH35CETdpU9T1dmPfvoK3On9-5TpvPbklZyoljwkg4=
+EDF4P4vckECYSgD5bE$>
+
+
+
+
+
+
+[Working from home]
+
+
+
+
+
+
+
+
+
+
+
+
+We have become aware that some colleagues did not receive our invitation to=
+ take part in our working arrangements survey, so we have resent the link t=
+o ensure everyone has the opportunity to give their views.
+
+Please note that the survey closing date is 9 April 2021.
+
+Original invitation text follows.
+
+
+
+
+
+
+
+
+
+
+Dear colleagues,
+The challenges of this past year have affected us all in different ways. Lo=
+oking to the future and the anticipated return to the office, it is likely =
+that colleagues will have a range of feelings, both positive and negative, =
+that they wish to share.
+Bank of America has asked Corporate Surveys to gather perspectives from sta=
+ff to help us understand your views on issues such as flexible working arra=
+ngements, digital collaboration, and workplace technology. The survey is lo=
+cated here: Bank of America return to work survey<https://urldefense.com/v3=
+/__https:/fedsso.corporate-surveys.co.uk/__;!!I2XIyG2ANlwasLbx!F2BG7deoH35C=
+ETdpU9T1dmPfvoK3On9-5TpvPbklZyoljwkg4EDF4P4vckECYSgD5bE$>
+The survey answers will be anonymous and only aggregated results will be re=
+ported to our management team. However, you will be asked to log into the s=
+ite with your company login details to confirm your identity and allow us t=
+o identify departmental trends and themes in the responses.
+To thank you for participating, everyone who completes the survey will rece=
+ive an e-voucher for one free drink, redeemable at any Starbucks location a=
+cross the UK. The e-voucher will be valid until 31 December 2021.
+The closing date for responses is April 9 and the survey should take less t=
+han ten minutes of your time.
+Corporate Surveys
+On behalf of Bank of America Global HR Service Center
+=A92021 Corporate Surveys | 5 Merchant Square London W2 1AY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------
+This message, and any attachments, is for the intended recipient(s) only, m=
+ay contain information that is privileged, confidential and/or proprietary =
+and subject to important terms and conditions available at http://www.banko=
+famerica.com/emaildisclaimer.   If you are not the intended recipient, plea=
+se delete this message.
+
+--Boundary_(ID_HxkmMoSuqdtnAYvTFot/oA)
+Content-transfer-encoding: quoted-printable
+Content-Type: text/html; charset="windows-1256"
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dwindows-1=
+256">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle21
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">Abuse Team,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bank of America received a forwarded copy of the =
+below phishing email.&nbsp; We request that you investigate the below email=
+ account for compromise or TOS violations and then remediate the below if a=
+ppropriate.
+<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Email account: <b>homeworking@mail.corporate-surv=
+eys.co.uk</b><o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><b>Message Header Data:<o:p></o:p></b></p>
+<p class=3D"MsoPlainText">Received: from wwgci603xgbr12.corp.bankofamerica.=
+com (165.32.85.14) by<o:p></o:p></p>
+<p class=3D"MsoPlainText">wwgci606xgbr12.corp.bankofamerica.com (165.32.85.=
+17) with Microsoft SMTP<o:p></o:p></p>
+<p class=3D"MsoPlainText">Server (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_=
+WITH_AES_128_CBC_SHA256_P256) id<o:p></o:p></p>
+<p class=3D"MsoPlainText">15.1.2176.2 via Mailbox Transport; Mon, 12 Apr 20=
+21 14:52:06 &#43;0100<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from wrcha602xusa06.corp.bankofamerica.=
+com (171.176.98.48) by<o:p></o:p></p>
+<p class=3D"MsoPlainText">wwgci603xgbr12.corp.bankofamerica.com (165.32.85.=
+14) with Microsoft SMTP<o:p></o:p></p>
+<p class=3D"MsoPlainText">Server (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_=
+WITH_AES_128_CBC_SHA256_P256) id<o:p></o:p></p>
+<p class=3D"MsoPlainText">15.1.2176.2; Mon, 12 Apr 2021 14:52:06 &#43;0100<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from ah-1031360-005.sdi.corp.bankofamer=
+ica.com (171.197.64.95) by<o:p></o:p></p>
+<p class=3D"MsoPlainText">wrcha602xusa06.corp.bankofamerica.com (171.176.98=
+.48) with Microsoft SMTP<o:p></o:p></p>
+<p class=3D"MsoPlainText">Server id 15.1.2176.2 via Frontend Transport; Mon=
+, 12 Apr 2021 09:52:05 -0400<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from conversion-daemon.ah-1031360-005.s=
+di.corp.bankofamerica.com by<o:p></o:p></p>
+<p class=3D"MsoPlainText">smtppa005.bankofamerica.com<o:p></o:p></p>
+<p class=3D"MsoPlainText">(Oracle Communications Messaging Server 8.0.1.1.0=
+ 64bit (built Jun 15 2016))<o:p></o:p></p>
+<p class=3D"MsoPlainText">id &lt;0QRG00700EFN8900@smtppa005.bankofamerica.c=
+om&gt; for REDACTED;<o:p></o:p></p>
+<p class=3D"MsoPlainText">Mon, 12 Apr 2021 13:52:05 &#43;0000 (GMT)<o:p></o=
+:p></p>
+<p class=3D"MsoPlainText">Received: from lltwa05lxepmx01.bankofamerica.com =
+([171.180.36.243])<o:p></o:p></p>
+<p class=3D"MsoPlainText">by smtppa005.bankofamerica.com<o:p></o:p></p>
+<p class=3D"MsoPlainText">(Oracle Communications Messaging Server 8.0.1.1.0=
+ 64bit (built Jun 15 2016))<o:p></o:p></p>
+<p class=3D"MsoPlainText">with ESMTPS id &lt;0QRG00515EITCSA0@smtppa005.ban=
+kofamerica.com&gt; for<o:p></o:p></p>
+<p class=3D"MsoPlainText">REDACTED; Mon, 12 Apr 2021 13:52:05 &#43;0000 (GM=
+T)<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from lltwa05hxepmx02.bankofamerica.com<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">(lltwa05hxepmx02.bankofamerica.com [171.148.36.23=
+4])<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by lltwa05lxepmx01.bankofamerica.=
+com (8.15.2/8.15.2)<o:p></o:p></p>
+<p class=3D"MsoPlainText">with ESMTPS id 13CDq4rm028410<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (version=3DTLSv1.2 cipher=3DDHE-R=
+SA-AES256-GCM-SHA384 bits=3D256 verify=3DFAIL)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for &lt;REDACTED&gt;; Mon, 12 Apr=
+ 2021 13:52:05 GMT<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from mx0a-0000ec05.pphosted.com<o:p></o=
+:p></p>
+<p class=3D"MsoPlainText">(mx0a-0000ec05.pphosted.com [208.84.65.230])<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by lltwa05hxepmx02.bankofamerica.=
+com (8.15.2/8.15.2)<o:p></o:p></p>
+<p class=3D"MsoPlainText">with ESMTPS id 13CDq3Zx044357<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (version=3DTLSv1.2 cipher=3DAES25=
+6-GCM-SHA384 bits=3D256 verify=3DFAIL)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for &lt;REDACTED&gt;; Mon, 12 Apr=
+ 2021 13:52:04 GMT<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from pps.filterd (m0048769.ppops.net [1=
+27.0.0.1])<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by mx0b-0000ec01.pphosted.com (8.=
+16.0.43/8.16.0.43)<o:p></o:p></p>
+<p class=3D"MsoPlainText">with SMTP id 13CDiTJn031786&nbsp;&nbsp;&nbsp; for=
+ &lt;REDACTED&gt;; Mon,<o:p></o:p></p>
+<p class=3D"MsoPlainText">12 Apr 2021 13:52:03 GMT<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from m32-11.eu.mailgun.net (m32-11.eu.m=
+ailgun.net [141.193.32.11])<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by mx0b-0000ec01.pphosted.com wit=
+h ESMTP id 37untnekvr-2<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (version=3DTLSv1.2 cipher=3DECDHE=
+-RSA-AES128-GCM-SHA256 bits=3D128 verify=3DNOT)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for &lt;REDACTED&gt;; Mon, 12 Apr=
+ 2021 13:52:02 &#43;0000<o:p></o:p></p>
+<p class=3D"MsoPlainText">Received: from survey (survey.mailer.eu1 [165.227=
+.224.152])<o:p></o:p></p>
+<p class=3D"MsoPlainText">by smtp-out-n03.prod.eu-central-1.postgun.com wit=
+h SMTP id<o:p></o:p></p>
+<p class=3D"MsoPlainText">6074506f94398adbfcd6f85e<o:p></o:p></p>
+<p class=3D"MsoPlainText">(version=3DTLS1.2, cipher=3DTLS_ECDHE_RSA_WITH_AE=
+S_128_GCM_SHA256); Mon,<o:p></o:p></p>
+<p class=3D"MsoPlainText">12 Apr 2021 13:51:43 GMT<o:p></o:p></p>
+<p class=3D"MsoPlainText">DKIM-Signature: a=3Drsa-sha256; v=3D1; c=3Drelaxe=
+d/relaxed;<o:p></o:p></p>
+<p class=3D"MsoPlainText">d=3Dmail.corporate-surveys.co.uk; q=3Ddns/txt; s=
+=3Ds1; t=3D1618235522; h=3DContent-Type:<o:p></o:p></p>
+<p class=3D"MsoPlainText">To: Subject: From: Date: Mime-Version: Message-Id=
+: Sender;<o:p></o:p></p>
+<p class=3D"MsoPlainText">bh=3DFd6scOSiL4wj1DPs&#43;nysg&#43;tDLSrsWlzx2HUV=
+OoB83CM=3D;<o:p></o:p></p>
+<p class=3D"MsoPlainText">b=3DGZdiTyIKLhUhowtt207Mj&#43;htJypW/ZOn94dUToCJC=
+eQaxcHXmysM1YzrCq60RSty1KlgVoDz<o:p></o:p></p>
+<p class=3D"MsoPlainText">WFc2qvjLDNpbORUw0i4PyI4SqM0epsap9S7Xk3PuwPX9eQ4Mu=
+0ZA6fbPmCUriHux98ogisbQ<o:p></o:p></p>
+<p class=3D"MsoPlainText">QlTZrVXWeK9No1iE0jnQpcJ8fM8=3D<o:p></o:p></p>
+<p class=3D"MsoPlainText">Date: Mon, 12 Apr 2021 13:51:43 &#43;0000<o:p></o=
+:p></p>
+<p class=3D"MsoPlainText">From: homeworking@mail.corporate-surveys.co.uk<o:=
+p></o:p></p>
+<p class=3D"MsoPlainText">Subject: Have your say - working from home survey=
+<o:p></o:p></p>
+<p class=3D"MsoPlainText">Sender: homeworking@mail.corporate-surveys.co.uk<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">To: REDACTED &lt;REDACTED&gt;<o:p></o:p></p>
+<p class=3D"MsoPlainText">Message-id: &lt;20210412135143.33ab14e1e5afb172@m=
+ail.corporate-surveys.co.uk&gt;<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Mailer: Microsoft Office Outlook, Build 12527<o=
+:p></o:p></p>
+<p class=3D"MsoPlainText">Content-type: multipart/mixed; boundary=3D&quot;B=
+oundary_(ID_t6msyj&#43;Cat3JL/TqcG68EA)&quot;<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-bacmail-route: inet_int<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Mailgun-Sending-Ip: 141.193.32.11<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Mailgun-Sid: WyIyYmE1ZiIsICJidWFuYS5iaW1hbHJhak=
+Bib2ZhLmNvbSIsICI3MmI4YyJd<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Gophish-Contact:<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-CLX-Shades: MLX<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Proofpoint-ORIG-GUID: 06dxeCU-8Wk-H_kZ2AqjOQ6Ev=
+Amq01dm<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-CLX-Response: 1TFkXHxwbEQpMehcaEQpZRBdjQR0cWW5a=
+QW0FbxEKWFgXYWxoZWZvel9CSxI<o:p></o:p></p>
+<p class=3D"MsoPlainText">RCnhOF2MYG2ttb0xsGmVIEQp5TBdoQGJlWX1JemtNbxEKQ0gX=
+BxsaHREKQ1kXBxsZHBEKQ0kXGg<o:p></o:p></p>
+<p class=3D"MsoPlainText">QaGhoRCllNF2dmchEKWUkXGBoacRkZBhsaGncGHBoGHhJCEwY=
+aBhsaGgYbHxlxGRkQGncGGgYaB<o:p></o:p></p>
+<p class=3D"MsoPlainText">hoGGgYaBhpxGhAadwYaEQpZXhdsbHkRCklGF0hLREFFTEtHT1=
+hDSUt1WlhFTnVCRVleT04RCkNO<o:p></o:p></p>
+<p class=3D"MsoPlainText">FxocTlJPaX8HEn1BB2J1QXAYa1tAZXscb1xrR1saG05HEQpYX=
+BcfBBoEGBgdBRsaBBsaGgQeEgQ<o:p></o:p></p>
+<p class=3D"MsoPlainText">YGBAbHhofGhEKXlkXcltMf08RCk1cFxgTGBEKTFoXaWtta0FN=
+EQpMRhdva2tra2sRCkJPF2gTcm<o:p></o:p></p>
+<p class=3D"MsoPlainText">hsTF1EXQVwEQpDWhcbHhsEGxMZBBkYBBsbEQpCXhcbEQpCXBc=
+bEQpCSxdgTlBkGnJeU2N8HREKQ<o:p></o:p></p>
+<p class=3D"MsoPlainText">kkXYxgba21vTGwaZUgRCkJFF2FsaGVmb3pfQksSEQpCThdjGB=
+trbW9MbBplSBEKQkwXYWxoZWZv<o:p></o:p></p>
+<p class=3D"MsoPlainText">el9CSxIRCkJsF2FsaGVmb3pfQksSEQpCQBduTlN7QR5tfH1nX=
+hEKQlgXZR9sGXlNXXBhcEARCk1<o:p></o:p></p>
+<p class=3D"MsoPlainText">eFxsRClpYFxgRCnlDF2kYcG9zWm0ecmNIEQpZSxcbGREKcGgX=
+b01gXmFdGG9jWhwQGRoRCnBoF2<o:p></o:p></p>
+<p class=3D"MsoPlainText">RcElJSXhhCHB1LEBkaEQpwaBdpYFteXEFvT0sceRAZGhEKcGg=
+XemwTS2NARlhIfWkQGRoRCnBoF<o:p></o:p></p>
+<p class=3D"MsoPlainText">2NaGl9ORUxZeXlwEB4SEQpwfRd6fURweBgdTk9MYxAeEhEKcH=
+0Xa2F7ZEFDWBtwbmIQGRoRCnBj<o:p></o:p></p>
+<p class=3D"MsoPlainText">F2ZnHUxFT0safGtsEBkaEQpwfxdoXFN5bEUdE0F7eRAbGBgRC=
+nBfF2d8TXMYemhQYEBZEB4SEQp<o:p></o:p></p>
+<p class=3D"MsoPlainText">wfxd6T01NUlxZQVgbSxAZGhEKcF8XellGXV1/ZV0BW04QGRoR=
+CnBMF3p5UmBrTB8efXxMEBoRCn<o:p></o:p></p>
+<p class=3D"MsoPlainText">BDF2BATR4cfU9neFprEBkaEQptfhcbEQpYTRdLESA=3D<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText">X-Proofpoint-GUID: 06dxeCU-8Wk-H_kZ2AqjOQ6EvAmq01=
+dm<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-bacoriginatingip: 141.193.32.11<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-BAC-Originating-IP: 141.193.32.11<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Proofpoint-SPF-Result: pass<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Proofpoint-SPF-Record: v=3Dspf1 include:mailgun=
+.org ~all<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Virus-Status: Clean<o:p></o:p></p>
+<p class=3D"MsoPlainText">Authentication-results: bankofamerica.com;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spf=3Dpass<o:p></o:p></p>
+<p class=3D"MsoPlainText">smtp.mailfrom=3Dbounce&#43;9a89fb.72b8c-REDACTED@=
+mail.corporate-surveys.co.uk;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; dkim=3Dpass<o:p></o:p></p>
+<p class=3D"MsoPlainText">header.d=3Dmail.corporate-surveys.co.uk header.s=
+=3Ds1;&nbsp;&nbsp;&nbsp;&nbsp; dmarc=3Dnone<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Virus-Scanned: clamav-milter 0.98.7 at lltwa05l=
+xepmx01.bankofamerica.com<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Proofpoint-Virus-Version: vendor=3Dfsecure engi=
+ne=3D2.50.10434:6.0.391,18.0.761<o:p></o:p></p>
+<p class=3D"MsoPlainText">definitions=3D2021-04-12_10:2021-04-12,2021-04-12=
+ signatures=3D0<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-Proofpoint-Spam-Details: rule=3Dnotspam policy=
+=3Ddefault score=3D0<o:p></o:p></p>
+<p class=3D"MsoPlainText">recipient_to_sender_domain_totalscore=3D0<o:p></o=
+:p></p>
+<p class=3D"MsoPlainText">recipient_domain_to_sender_domain_totalscore=3D0 =
+phishscore=3D0 priorityscore=3D0<o:p></o:p></p>
+<p class=3D"MsoPlainText">impostorscore=3D0 malwarescore=3D0 suspectscore=
+=3D0 adultscore=3D0<o:p></o:p></p>
+<p class=3D"MsoPlainText">rbsscore=3D0.995938749646118 circleOfTrustscore=
+=3D0<o:p></o:p></p>
+<p class=3D"MsoPlainText">recipient_domain_to_sender_totalscore=3D0 composi=
+tescore=3D0.995938749646118<o:p></o:p></p>
+<p class=3D"MsoPlainText">recipient_to_sender_totalscore=3D0 mlxscore=3D0 s=
+pamscore=3D0 lowpriorityscore=3D0<o:p></o:p></p>
+<p class=3D"MsoPlainText">mlxlogscore=3D902 bulkscore=3D0 clxscore=3D561 cl=
+assifier=3Dspam adjust=3D0 reason=3Dmlx<o:p></o:p></p>
+<p class=3D"MsoPlainText">scancount=3D1 engine=3D8.12.0-2104060000 definiti=
+ons=3Dmain-2104120093<o:p></o:p></p>
+<p class=3D"MsoPlainText">domainage_hfrom=3D13<o:p></o:p></p>
+<p class=3D"MsoPlainText">Return-Path: bounce&#43;9a89fb.72b8c-REDACTED@mai=
+l.corporate-surveys.co.uk<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Organization-Network-Message-Id: 3a=
+a9f649-1531-4f10-43df-08d8fdba289d<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Organization-AuthSource: wrcha602xu=
+sa06.corp.bankofamerica.com<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Organization-AuthAs: Internal<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Organization-AuthMechanism: 10<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText">X-TM-SNTS-SMTP: BA153E8E6B84B6316A73E87076D9B9C2E=
+8F6F15C85ECB46606918A1A020ABB212000:8<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Organization-AVStamp-Mailbox: SMEXI=
+e@f;1665100;0;This mail has<o:p></o:p></p>
+<p class=3D"MsoPlainText">been scanned by Trend Micro ScanMail for Microsof=
+t Exchange;<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Organization-SCL: 0<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Transport-EndToEndLatency: 00:00:00=
+.8256436<o:p></o:p></p>
+<p class=3D"MsoPlainText">X-MS-Exchange-Processed-By-BccFoldering: 15.01.21=
+76.009<o:p></o:p></p>
+<p class=3D"MsoPlainText">MIME-Version: 1.0<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Thank you for your immediate attention and action=
+.&nbsp; Please reply with the status for this issue.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Regards,<o:p></o:p></p>
+<p class=3D"MsoPlainText">Abuse Team<o:p></o:p></p>
+<p class=3D"MsoPlainText">Bank of America<o:p></o:p></p>
+<div style=3D"mso-element:para-border-div;border:none;border-bottom:double =
+windowtext 2.25pt;padding:0in 0in 1.0pt 0in">
+<p class=3D"MsoPlainText" style=3D"border:none;padding:0in"><o:p>&nbsp;</o:=
+p></p>
+</div>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><b>From:</b> homeworking@mail.corporate-surveys.co.u=
+k &lt;homeworking@mail.corporate-surveys.co.uk&gt;
+<br>
+<b>Sent:</b> Monday, April 12, 2021 8:52 AM<br>
+<b>To:</b> REDACTED<br>
+<b>Subject:</b> Have your say - working from home survey<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt;mso-line-height-alt:.7=
+5pt"><span style=3D"font-size:1.0pt;color:#333333">Have your say about work=
+ing from home.&nbsp;=9D&nbsp;=9D&nbsp;=9D&nbsp;=9D&nbsp;=9D&nbsp;=9D&nbsp;=
+=9D&nbsp;=9D&nbsp;=9D&nbsp;=9D&nbsp;=9D<o:p></o:p></span></p>
+<div align=3D"center">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;min-width: 600px;table-la=
+yout:scale">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;min-width: 600px">
+<tbody>
+<tr>
+<td width=3D"600" style=3D"width:6.25in;padding:0in 0in 0in 0in">
+<div align=3D"center">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"100%" style=3D"width:100.0%">
+<tbody>
+<tr>
+<td valign=3D"top" style=3D"padding:0in 0in 0in 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"100%" style=3D"width:100.0%">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;min-width: 600px">
+<tbody>
+<tr>
+<td width=3D"600" style=3D"width:6.25in;padding:15.0pt 0in 15.0pt 0in">
+<div align=3D"center">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"600" style=3D"width:6.25in">
+<tbody>
+<tr>
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal" align=3D"center" style=3D"text-align:center;mso-line=
+-height-alt:.75pt">
+<b><span style=3D"font-size:1.0pt">&nbsp;</span></b><b><span style=3D"font-=
+size:1.0pt"><o:p></o:p></span></b></p>
+</td>
+<td width=3D"215" valign=3D"top" style=3D"width:161.25pt;padding:0in 0in 0i=
+n 0in">
+<div align=3D"center">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"100%" style=3D"width:100.0%">
+<tbody>
+<tr style=3D"height:11.25pt">
+<td style=3D"padding:0in 0in 0in 0in;height:11.25pt">
+<p class=3D"MsoNormal"><a href=3D"https://www.bankofamerica.com/information=
+/associates/" title=3D"&quot;HeadBofALogo&quot; t "><span style=3D"color:bl=
+ue;text-decoration:none"><img border=3D"0" width=3D"250" height=3D"27" styl=
+e=3D"width:2.6041in;height:.2812in" id=3D"Picture_x0020_1" src=3D"cid:image=
+005.jpg@01D73076.692D7560" alt=3D"BofA"></span></a><o:p></o:p></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td width=3D"165" style=3D"width:123.75pt;padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal" align=3D"center" style=3D"text-align:center"><b><spa=
+n style=3D"font-size:1.0pt">&nbsp;</span></b><b><span style=3D"font-size:1.=
+0pt"><o:p></o:p></span></b></p>
+</td>
+<td width=3D"180" valign=3D"bottom" style=3D"width:135.0pt;padding:0in 0in =
+0in 0in">
+<div align=3D"right">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0">
+<tbody>
+<tr>
+<td width=3D"100%" style=3D"width:100.0%;padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal" align=3D"right" style=3D"text-align:right"><span sty=
+le=3D"font-family:&quot;Arial&quot;,sans-serif"><a href=3D"https://urldefen=
+se.com/v3/__https:/fedsso.corporate-surveys.co.uk/__;!!I2XIyG2ANlwasLbx!F2B=
+G7deoH35CETdpU9T1dmPfvoK3On9-5TpvPbklZyoljwkg4EDF4P4vckECYSgD5bE$" target=
+=3D"_blank" title=3D" "><b><span style=3D"font-size:10.5pt;color:white;bord=
+er:solid #00ADC6 6.0pt;padding:0in;background:#00ADC6;text-decoration:none"=
+>START
+ SURVEY</span></b></a><o:p></o:p></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal" align=3D"center" style=3D"text-align:center;mso-line=
+-height-alt:.75pt">
+<b><span style=3D"font-size:1.0pt">&nbsp;</span></b><b><span style=3D"font-=
+size:1.0pt"><o:p></o:p></span></b></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display:none"><o:p>&nbsp;</o:p></span=
+></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;min-width: 600px">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal"><span style=3D"color:black"><img border=3D"0" width=
+=3D"600" height=3D"300" style=3D"width:6.25in;height:3.125in" id=3D"Picture=
+_x0020_2" src=3D"cid:image006.jpg@01D73076.692D7560" alt=3D"Working from ho=
+me"></span><o:p></o:p></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in;font-style:1px">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;table-layout:scale">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;table-layout:scale">
+<tbody>
+<tr style=3D"height:.75pt">
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in;height:.75pt=
+">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt">&nbsp;<o:p></o:p=
+></p>
+</td>
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in;height:.75pt=
+;font-style:1px">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt">&nbsp;<o:p></o:p=
+></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;min-width: 600px">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white">
+<tbody>
+<tr style=3D"height:11.25pt">
+<td colspan=3D"3" style=3D"padding:0in 0in 0in 0in;height:11.25pt">
+<p class=3D"MsoNormal" style=3D"line-height:13.5pt"><span style=3D"font-siz=
+e:9.0pt;color:black">&nbsp;</span><span style=3D"font-size:9.0pt"><o:p></o:=
+p></span></p>
+</td>
+</tr>
+<tr style=3D"height:.75pt">
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in;height:.75pt=
+;font-style:1px">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"c=
+olor:black">&nbsp;</span><o:p></o:p></p>
+</td>
+<td width=3D"560" style=3D"width:420.0pt;padding:0in 0in 0in 0in;height:.75=
+pt">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:10.15pt"><strong><span =
+style=3D"font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#3=
+33333">We have become aware that some colleagues did not receive our invita=
+tion to take part in our working arrangements survey,
+ so we have resent the link to ensure everyone has the opportunity to give =
+their views.</span></strong><b><span style=3D"font-size:10.5pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:#333333"><br>
+<br>
+</span></b><strong><span style=3D"font-size:10.5pt;font-family:&quot;Arial&=
+quot;,sans-serif;color:#333333">Please note that the survey closing date is=
+ 9 April 2021.&nbsp;</span></strong><b><span style=3D"font-size:10.5pt;font=
+-family:&quot;Arial&quot;,sans-serif;color:#333333"><br>
+<br>
+</span></b><strong><span style=3D"font-size:10.5pt;font-family:&quot;Arial&=
+quot;,sans-serif;color:#333333">Original invitation text follows.</span></s=
+trong><span style=3D"font-size:10.5pt;font-family:&quot;Arial&quot;,sans-se=
+rif;color:#333333"><o:p></o:p></span></p>
+</td>
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in;height:.75pt=
+;font-style:1px">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"c=
+olor:black">&nbsp;</span><o:p></o:p></p>
+</td>
+</tr>
+<tr style=3D"height:.75pt">
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in;height:.75pt=
+;font-style:1px">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"c=
+olor:black">&nbsp;</span><o:p></o:p></p>
+</td>
+<td style=3D"padding:0in 0in 0in 0in;height:.75pt"></td>
+<td style=3D"padding:0in 0in 0in 0in;height:.75pt"></td>
+</tr>
+<tr style=3D"height:7.5pt">
+<td colspan=3D"3" style=3D"padding:0in 0in 0in 0in;height:7.5pt">
+<p class=3D"MsoNormal" style=3D"line-height:13.5pt"><span style=3D"font-siz=
+e:9.0pt;color:black">&nbsp;</span><span style=3D"font-size:9.0pt"><o:p></o:=
+p></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display:none"><o:p>&nbsp;</o:p></span=
+></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;background:white;min-width: 600px">
+<tbody>
+<tr style=3D"height:15.0pt">
+<td width=3D"1%" style=3D"width:1.66%;padding:0in 0in 0in 0in;height:15.0pt=
+">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt;color:black">&nbsp;</span><span style=3D"color:black">
+</span><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">Dear colleagues,</span><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">The challenges of this past year have affected=
+ us all in different ways. Looking to the future and the anticipated return=
+ to the office, it is likely that colleagues
+ will have a range of feelings, both positive and negative, that they wish =
+to share.</span><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">Bank of America has asked Corporate Surveys to=
+ gather perspectives from staff to help us understand your views on issues =
+such as flexible working arrangements,
+ digital collaboration, and workplace technology. The survey is located her=
+e: <a href=3D"https://urldefense.com/v3/__https:/fedsso.corporate-surveys.c=
+o.uk/__;!!I2XIyG2ANlwasLbx!F2BG7deoH35CETdpU9T1dmPfvoK3On9-5TpvPbklZyoljwkg=
+4EDF4P4vckECYSgD5bE$">
+Bank of America return to work survey</a></span><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">The survey answers will be anonymous and only =
+aggregated results will be reported to our management team. However, you wi=
+ll be asked to log into the site with
+ your company login details to confirm your identity and allow us to identi=
+fy departmental trends and themes in the responses.</span><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">To thank you for participating, everyone who c=
+ompletes the survey will receive an e-voucher for one free drink, redeemabl=
+e at any Starbucks location across the
+ UK. The e-voucher will be valid until 31 December 2021.&nbsp;</span><o:p><=
+/o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">The closing date for responses is April 9 and =
+the survey should take less than ten minutes of your time.&nbsp;</span><o:p=
+></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><strong><span style=3D"font-family:&quot;Calibri&quot;,sans-serif;color:bl=
+ack">Corporate Surveys</span></strong><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">On behalf of Bank of America Global HR Service=
+ Center</span><o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;line-height:13.5pt"=
+><span style=3D"color:black">=A92021 Corporate Surveys | 5 Merchant Square =
+London W2 1AY
+<o:p></o:p></span></p>
+</td>
+</tr>
+<tr style=3D"height:15.0pt">
+<td width=3D"1%" style=3D"width:1.66%;padding:0in 0in 0in 0in;height:15.0pt=
+">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt;color:black">&nbsp;</span><span style=3D"font-size:1.0pt"><o=
+:p></o:p></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display:none"><o:p>&nbsp;</o:p></span=
+></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in;min-width: 600px">
+<tbody>
+<tr style=3D"height:15.0pt">
+<td style=3D"padding:0in 0in 0in 0in;height:15.0pt">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt">&nbsp;<o:p></o:p></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:6.25in">
+<tbody>
+<tr>
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt">&nbsp;<o:p></o:p></span></p>
+</td>
+<td style=3D"padding:0in 0in 0in 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"max-width:420.0pt">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in"></td>
+</tr>
+<tr style=3D"height:15.0pt">
+<td style=3D"padding:0in 0in 0in 0in;height:15.0pt">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt">&nbsp;</span><span style=3D"font-size:1.0pt"><o:p></o:p></s=
+pan></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in"></td>
+</tr>
+</tbody>
+</table>
+</td>
+<td width=3D"20" style=3D"width:15.0pt;padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt">&nbsp;</span><span style=3D"font-size:1.0pt"><o:p></o:p></s=
+pan></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr style=3D"height:15.0pt">
+<td style=3D"padding:0in 0in 0in 0in;height:15.0pt">
+<p class=3D"MsoNormal" style=3D"mso-line-height-alt:.75pt"><span style=3D"f=
+ont-size:1.0pt">&nbsp;</span><span style=3D"font-size:1.0pt"><o:p></o:p></s=
+pan></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+</div>
+
+<HR>This message, and any attachments, is for the intended recipient(s) onl=
+y, may contain information that is privileged, confidential and/or propriet=
+ary and subject to important terms and conditions available at http://www.b=
+ankofamerica.com/emaildisclaimer.   If you are not the intended recipient, =
+please delete this message.<BR>
+</body>
+</html>
+
+--Boundary_(ID_HxkmMoSuqdtnAYvTFot/oA)--
+
+--Boundary_(ID_pkNkL862lilmHnUGOtOCZA)
+Content-id: <image005.jpg@01D73076.692D7560>
+Content-type: image/jpeg; name=image005.jpg
+Content-transfer-encoding: base64
+Content-disposition: inline; filename=image005.jpg; size=2496;
+ creation-date="Tue, 13 Apr 2021 20:05:18 GMT";
+ modification-date="Tue, 13 Apr 2021 20:05:18 GMT"
+Content-description: image005.jpg
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMg
+IyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCAAbAPoDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2aiiv
+P/FninUNO8Yf2dDqi2FqLEXAb7Cbks+4jGByBgdfarhBzdkJux6BRXM+ANev/EXhlL3U1txMZGQG
+EjDKMYJGTtPXj/GuX1L4ialDr9xe2nkt4csbtLSf5QXcnO51PoD/AE9apUZOTj2FzK1z06isbxRq
+kuneEdQ1KwkTzYrcyxORuX2PvXGaV8Q9Rbw1ex6ssdvrC2LXllLtAS5TBIIHTI7j/wCvSjSlJXQO
+SR6ZRXNaRrV5efDpNXmdDetYvMWC4G4KSOPwrj9I8f63r9no+lWMsC6zeF5Li5liAjjjDH7q/wAR
+wO3/AOpqjJ38gckj1WimRKyRIsjmRwoDOQBuPrgVwtt4g17xb4l1Sx0S6ttMsdMk8p5pIPNkkbJH
+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
+
+--Boundary_(ID_pkNkL862lilmHnUGOtOCZA)
+Content-id: <image006.jpg@01D73076.692D7560>
+Content-type: image/jpeg; name=image006.jpg
+Content-transfer-encoding: base64
+Content-disposition: inline; filename=image006.jpg; size=20396;
+ creation-date="Tue, 13 Apr 2021 20:05:18 GMT";
+ modification-date="Tue, 13 Apr 2021 20:05:18 GMT"
+Content-description: image006.jpg
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMg
+IyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCAEsAlgDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2SkoJ
+x1ppOaZNhSc0lAooGFFFFABRRRQAUlFFAAaSiigAooooASiiigBKKWkoAKKKKACkpaSgAooooAKS
+lpKACiiigAoopKACiiigQUUtHSmAYppIFIz4FVZrgICSaAJJZgozXOa74kh06Jizgt2UGs7xJ4sj
+sUZImDSex6V5091ca1qAEjEhjz9KASuaV1eX3iK5O0sIs8VPH4OcpluvvXV6HpMdtbr8ozitRocd
+BSUb7lc3LscVonh+Sw1lJP4QK9JtB+6ArLhtwJgSOa2IBgCnaxN7llBVyMcVXUVbjHFAHPeLbE3d
+qgyQpyprg08Iszk7evIyO1et3EKTRFZBkdaoGzRFOO/es5xubU5WVjhIPD6WGCVGafIu3jFdLewg
+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
+
+--Boundary_(ID_pkNkL862lilmHnUGOtOCZA)--

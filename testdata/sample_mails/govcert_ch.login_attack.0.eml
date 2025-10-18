@@ -1,0 +1,158 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@exoscale.ch header.d=exoscale.ch header.s=google
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 73AF3F1E-502A-46F6-8307-9118795A80B5.1
+	envelope-from <abuse+bncBAABBFUX5CRAMGQEVNUT2FY@exoscale.ch>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 09 May 2023 09:00:07 +0000
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94f7a2b21fdsf692859066b.2
+        for <6c080e0c-68b9-45d5-ad2f-16e07d90164f@smtp-forward.abusix.com>; Tue, 09 May 2023 02:00:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683622807; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Xf0DoAY6j9vp+vZjUsKOO0/Jt0BSqDbzpO8hNkeBkUQXdylZJI6r5URpu8sCgKop/4
+         DCYQZE5tyB7AZOSJ1MxABEdLNI4kLNYGRRsD9dMSxgcVZfw/09XtuGUIi2sEHlgUXM/H
+         Xk0ktcGKo08ZwHbcY+xsfUsLwU1xXfTjmBXFYj11E16GY73fDT8tt808FZI+gPg03ycO
+         ++Yk41703X6oexFzO4rAQY7URZitSn81Sh4wjAlCrRurqdLJ1SLa5EpxyMf/tbWwnAAK
+         J1mWgSTrwFhthkCAPPbXf1t5XT0vDpsJv8Gj66orM4SVavxQkJPzm6VGbh0I25vxIBAP
+         fL1A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:message-id:subject:cc:from:to:date
+         :mime-version:content-transfer-encoding:sender:dkim-signature;
+        bh=HPPuYOxGv2wSmv4ns9dty0N/E3vA062pwSALpIRTbkM=;
+        b=lM7/IaVHyYagY7wKyYtgGQ9VhDsG8c8rgHehVNFH0Ffu3Y5ruubC0lL9yZtxL9gXlm
+         b8AsGvL2X+l3OJzne1EOuNmQsqTrwFhuU7HnFhUzSRIMIkeDd0DUARuxVmv4DPdS5t3h
+         Tnj2vA+sDToZhnUPIw4RqPiABC1tuU3WqUUbF/V+F4Amz1kQhE7rB3xFwpeJTqbN5n4r
+         lElAIKk7ZCP1taNcR/QM9hSpW6j2hpaH0v06el0bsYao+BkrMVXxX+YbGGaiEYHf87N5
+         EY+gfx5jwkTIdKItNkw+3xkRLlP64orfK8dhzBnbyjpsoOrr/jvgzcQozCQKEGNpifsz
+         0K+Q==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass (test mode) header.i=@govcert.ch header.s=2013 header.b=bBE+w3An;
+       dkim=pass (test mode) header.i=@govcert.ch header.s=2013 header.b=bBE+w3An;
+       spf=pass (google.com: domain of drone-feed@govcert.ch designates 212.25.19.246 as permitted sender) smtp.mailfrom=drone-feed@govcert.ch;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=govcert.ch
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=exoscale.ch; s=google; t=1683622807; x=1686214807;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:message-id:subject:cc:from:to:date:mime-version
+         :content-transfer-encoding:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HPPuYOxGv2wSmv4ns9dty0N/E3vA062pwSALpIRTbkM=;
+        b=ELNwYjjQE0wGtoEp16YoVJ2UNSyoAb3eY/xSinUhMhWMAeS1GCoGGSkXBeZWJ1RAl3
+         tluDExKH8+4YKLPTUgeGmhImxAlyQnoR0DfbP2zbarmaJZURUTSweJm4GtQFq0n9Il57
+         gwGSO5QrdElQiSBPHjTpe2JGqm5e+Jzl0Xaddj9wEZMJnXoYSL54eIFYN+gDzXr8cl1o
+         C9DgyVRDhIxye0wHqteOXEfwV73gtwcIA7yvUMrXtLwg1QcsFi7GUTLhO99ssojwXAeY
+         nto1f22NS4MTHrI1LJcJdnM/mm+8PDwVxJ6fuGjC+ETvmQF+euzYlcMCP44MhBqzOmQJ
+         OlKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683622807; x=1686214807;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:message-id
+         :subject:cc:from:to:date:mime-version:content-transfer-encoding
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HPPuYOxGv2wSmv4ns9dty0N/E3vA062pwSALpIRTbkM=;
+        b=CiGoOurjX5gHeWdE+1mxcFF3b2CW6XJp/qzzCAIywNPi5SN4odWCmgdxF12waX6J2b
+         lUCi4RoL6kCQHUJO0UgfG/fpjsuwe9dvr8hUgfo1aj5zubIPf7pqpsUmZv0oE+H68PS9
+         cEE9KMheUjrw9M4lAMcmHatfZbl0XcDNpcDnvErwdIDz1lJxGVObkzCzVkXlPaT4luam
+         3en/SRVDGGSJsSGeujNRHhlXIuyuiSVID/K/SHTu17EpnrJmR4cRd54+TShRLyNUwnHQ
+         rELIcaFLt1rPFUpyAdyidCe9rSs6pEFa4uCLKaK03edqOYe2BNnde6HNwGGIHzSV2O//
+         tO3g==
+Sender: abuse@exoscale.ch
+X-Gm-Message-State: AC+VfDwgBBZoQ369KUGicLx66VX+DLUazRQYQzhYkcB3LaODU0lxC1N2
+	HylHA7cRmomj2pJe6yFRXst9RQ==
+X-Google-Smtp-Source: ACHHUZ6WKQGdW8OkK7sxiLP6g4F/Og9bln/UJjm/QIvfdmn7GvTqYh2jHaUllKC/pybofC65noW6iw==
+X-Received: by 2002:a17:907:75d1:b0:965:a52d:5e36 with SMTP id jl17-20020a17090775d100b00965a52d5e36mr5006533ejc.0.1683622806816;
+        Tue, 09 May 2023 02:00:06 -0700 (PDT)
+X-BeenThere: abuse@exoscale.ch
+Received: by 2002:a05:6402:4d7:b0:50d:9cf2:645e with SMTP id
+ n23-20020a05640204d700b0050d9cf2645els1329970edw.1.-pod-prod-05-eu; Tue, 09
+ May 2023 02:00:06 -0700 (PDT)
+X-Received: by 2002:a17:907:96a1:b0:966:a691:678d with SMTP id hd33-20020a17090796a100b00966a691678dmr5229475ejc.51.1683622805312;
+        Tue, 09 May 2023 02:00:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683622805; cv=none;
+        d=google.com; s=arc-20160816;
+        b=i5Ho4aI9+/OkAuYkgndrbJ0duhfPt0E1ycn4dxf1ntyLHrpqevbFnLUAbSFbkdpq+P
+         PJDIc8ji06sMjc96Y5OBWuLVopYbJ5edqIFs6K+u6ki52PWTKdjb54vBR11aG+SlEDxT
+         0jCiYAoecNgIsthoSKP7lsTyoRVZnDpsOzLl8CeDAoOdu9+WXCAGo/AsnEXIXJNRXSjg
+         A3b7rJ6QRzSgrOT+JFhOHmm4N4fbeHVxifJrQDkEk1/SBUfodc6cfd9tC7twyTiE6x4E
+         K032f32gPAGQUwuMgPivVn5qO52WXw2EVOQkhe6SlNgbJtr6+xgOjotLHbl2lwI+K0Ue
+         JQuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:subject:cc:from:to:date:mime-version
+         :content-transfer-encoding:dkim-signature:dkim-signature;
+        bh=HPPuYOxGv2wSmv4ns9dty0N/E3vA062pwSALpIRTbkM=;
+        b=VRCIEyWybESykZdRVQPjWQfIZAMOYQqglqwmEML7kCwsPqhDCyMPj3ssdKLdFEPIuJ
+         wQ9/q4fMYXUDEsSBxUTOvZ+Z4XgbznuOu63mPCfhjGasESMX6Qbkc3hKqLBzEz/dYQFm
+         ZyX81r2UD39ATtYgSXsmmHe/6w5Nq6YgURJiXVvhEIyJl5/LNKoRmMfrglK6RUFML4SE
+         hnEX4l7La+TWbyhHincqWAqEs5zTKHnso+FZBILkwyk9RFY2MSp+utjTXFtkSjLC3IpU
+         8LwUfuxkovBFRbRSgw6L/6MdhJVsRLsk5JJgJyEYMWh/eRkjQAqCRKWcXC6qhqhKIsFn
+         OWEA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass (test mode) header.i=@govcert.ch header.s=2013 header.b=bBE+w3An;
+       dkim=pass (test mode) header.i=@govcert.ch header.s=2013 header.b=bBE+w3An;
+       spf=pass (google.com: domain of drone-feed@govcert.ch designates 212.25.19.246 as permitted sender) smtp.mailfrom=drone-feed@govcert.ch;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=govcert.ch
+Received: from mail.govcert.ch (mail.govcert.ch. [212.25.19.246])
+        by mx.google.com with ESMTPS id bx2-20020a170906a1c200b00965e4245c45si1493706ejb.256.2023.05.09.02.00.05
+        for <abuse@exoscale.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 May 2023 02:00:05 -0700 (PDT)
+Received-SPF: pass (google.com: domain of drone-feed@govcert.ch designates 212.25.19.246 as permitted sender) client-ip=212.25.19.246;
+Received: from localhost (localhost [127.0.0.1])
+	by mail.govcert.ch (Postfix) with ESMTP id E2AFBA0216;
+	Tue,  9 May 2023 09:00:04 +0000 (UTC)
+Received: from mail.govcert.ch ([127.0.0.1])
+	by localhost (mail.govcert.ch [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id d9sn19fIetzt; Tue,  9 May 2023 09:00:04 +0000 (UTC)
+Received: by thyra.govcert.ch (Postfix, from userid 1000)
+	id 26A637F4B3; Tue,  9 May 2023 09:00:04 +0000 (UTC)
+Content-Transfer-Encoding: binary
+Content-Type: multipart/mixed; boundary="_----------=_16836228043022993"
+MIME-Version: 1.0
+Date: Tue, 9 May 2023 09:00:04 +0000
+To: abuse@exoscale.com
+From: MELANI Drone Feed <drone-feed@govcert.ch>
+Cc: incidents@govcert.ch
+Subject: [Delayed DroneDB Feed] Infected IPs (AS61098)
+Message-Id: <20230509090004.26A637F4B3@thyra.govcert.ch>
+X-Original-Sender: drone-feed@govcert.ch
+X-Original-Authentication-Results: mx.google.com;       dkim=pass (test mode)
+ header.i=@govcert.ch header.s=2013 header.b=bBE+w3An;       dkim=pass (test
+ mode) header.i=@govcert.ch header.s=2013 header.b=bBE+w3An;       spf=pass
+ (google.com: domain of drone-feed@govcert.ch designates 212.25.19.246 as
+ permitted sender) smtp.mailfrom=drone-feed@govcert.ch;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=govcert.ch
+Precedence: list
+Mailing-list: list abuse@exoscale.ch; contact abuse+owners@exoscale.ch
+List-ID: <abuse.exoscale.ch>
+X-Spam-Checked-In-Group: abuse@exoscale.ch
+X-Google-Group-Id: 771569162625
+List-Post: <https://groups.google.com/a/exoscale.ch/group/abuse/post>, <mailto:abuse@exoscale.ch>
+List-Help: <https://support.google.com/a/exoscale.ch/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@exoscale.ch>
+List-Archive: <https://groups.google.com/a/exoscale.ch/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+771569162625+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/exoscale.ch/group/abuse/subscribe>
+
+This is a multi-part message in MIME format.
+
+--_----------=_16836228043022993
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+
+Please find a list of infected IP addresses for AS61098 attached to this email.
+--_----------=_16836228043022993
+Content-Disposition: inline; filename="AS61098.txt"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; name="AS61098.txt"
+
+IyBUaW1lc3RhbXAsQ2xpZW50SVAsQm90bmFtZSxTZXJ2ZXJJUCxEb21haW5u
+YW1lLENsaWVudFBvcnQsU2VydmVyUG9ydA0KMDguMDUuMjAyMyAwOTozMTow
+MCArMDAwMCwxOTQuMTgyLjE2NC4yMTUsc3NoLWJydXRlLWZvcmNlLDIwMC4x
+MzAuNDMuNCwsNTMwMTAsMjINCg==
+
+--_----------=_16836228043022993--

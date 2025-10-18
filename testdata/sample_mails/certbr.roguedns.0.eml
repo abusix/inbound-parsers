@@ -1,0 +1,619 @@
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by 27ae0e316043 (Haraka/2.8.24) with ESMTP id 624DCE64-0623-4329-97FE-B5ADC50E9FF1.1
+	envelope-from <abuse+bncBCJNPUXK5QJRBHHU4TTQKGQEU4ONXDI@digitalocean.com>;
+	Thu, 06 Jun 2019 16:06:52 +0000
+Received: by mail-qk1-f198.google.com with SMTP id o4sf2351665qko.8
+        for <abuse@digitalocean.abusehq.net>; Thu, 06 Jun 2019 09:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=sender:mime-version:from:reply-to:to:cc:subject:message-id:date
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-unsubscribe;
+        bh=fNHWR1dVJz1Y+wBNELvHJYrIMEvAAgFj8t3bVHvL4LE=;
+        b=P9UwQO2rPd9C9EPy4BOZGGJbikFDr5DSxvgYeLO4oiwVKpu0RRziy5XJE8qnzIO3hR
+         C1rb4lkhua58k2KdmJd0maThZq6NkhlpSHThVq7DnjWylDCdpuKC8vMJIb5KBTmTs7/e
+         xsR2OuzLXoY+BVZARCgRBtjCeuPLTv/mjoEKs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=sender:x-gm-message-state:mime-version:from:reply-to:to:cc:subject
+         :message-id:date:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-unsubscribe;
+        bh=fNHWR1dVJz1Y+wBNELvHJYrIMEvAAgFj8t3bVHvL4LE=;
+        b=E+IrG8njfWd+JxLC+FZJUyf80rJNAjoLqe1uA6f3mqw26U/qKh+gl6FFhDTKxGleCV
+         fHr4kdhgEdvjYd6fNoaGMUoGCyzZKs3k6nsVnECjyClMcssVVGv7L0Z0JCpESJMA2691
+         KYbATds6QgL3tESmNw7hlYhTxTPJrvUphA/xPvbczfjopBueupZhC6PIjoGCY3kmVCGJ
+         vFRdTdm5jDGBL3QfvkTYvSCD05FOOyDEjthHXIyGNhP4zBpMfmzjXSjdt1CLZfxy3ZF9
+         oXFlv4OvPBxnmxsUaCt1/Rm44XcxyG7ooWlMwHZmo1eK9dej2rtM3ATyPciiSzpHJwhp
+         0P2w==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: APjAAAUINbiUpvJP/laXo5Z/xBlFY4M5P1qGRIfDgarq2aM0qk5YPhg4
+	U7FlBtzgETycXKILCOB7W8CvUw==
+X-Google-Smtp-Source: APXvYqyNf4NfvUd4fbMaLT3H5BeMNXMw3itaKD05lr4hr0U95deGWStYFKjFCRvQ1g1mps6SUAac4A==
+X-Received: by 2002:a0c:d4f4:: with SMTP id y49mr12196821qvh.238.1559837212282;
+        Thu, 06 Jun 2019 09:06:52 -0700 (PDT)
+MIME-Version: 1.0
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a37:4fd2:: with SMTP id d201ls1734792qkb.4.gmail; Thu, 06
+ Jun 2019 09:06:52 -0700 (PDT)
+X-Received: by 2002:ae9:f20c:: with SMTP id m12mr39480432qkg.58.1559837211810;
+        Thu, 06 Jun 2019 09:06:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1559837211; cv=none;
+        d=google.com; s=arc-20160816;
+        b=KskX9RsDILLO/tWZra8nAz24vgWhBuoJ69QcKPDXJIKtVSXpwATOuk70HhHXINqg4K
+         r6TmbgfJXntdZLOZl1zgxlbB47LTLzJ/QaByKIN7k24aB7hf5dKzXTAxrqTFJ7f0FOHn
+         zWTvwbKotbhVOZphnnwCa01eh4pzwgoPwKaKRZxcRNsrvGDN1/Ct/RdtYd3b/LLMNlXO
+         ptB6HO+1CBiesZ1UXk2mrhClr6CBbpcrgPxMun1oPwdOXlnRdUyEeYZl2pnr0kwtY8dq
+         +n13iPfvibdq6frWCvAvMA09jKK4+QKXmxJxqHcia8oEPZZYSGYsFNOY3zdSmWzATMPP
+         t5yA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:subject:cc:to:reply-to:from;
+        bh=fNHWR1dVJz1Y+wBNELvHJYrIMEvAAgFj8t3bVHvL4LE=;
+        b=Bwdj7tk6+4nBFVINvC2czhauVomoqHn7RmkxxLfQtWhJTDG/mVrr9sbgqcBglw50l8
+         wki/t3/7FVsrLi439FGLxY6tnlsPKbdpBCnwB0dOaXS5PQl33ZsQz741xdhZMswtklEo
+         e3L5+4yUd29Qnsb5C6AUL5jYAvxacF7DuGMWylyMc9TeW8BfPOxyIrZ39hUPZZptiWXb
+         jKWQNBU3ASg+zCBQd/gKF4Q3ZBq2F2dA7XCZ8ueUxum5dXA7fRQBGmp/wRvKzXSWbZOp
+         nbaHMJ72vrF5Q6oaQnj6DXrCgiWOmIC6jVVVz0BivHjJzm9kMluZ9e/921ncIEfP3E/i
+         LEpA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of cert@cert.br designates 2001:12ff:0:7000::2 as permitted sender) smtp.mailfrom=cert@cert.br
+Received: from woq.cert.br (woq.cert.br. [2001:12ff:0:7000::2])
+        by mx.google.com with ESMTPS id m28si2170470qtm.326.2019.06.06.09.06.51
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 06 Jun 2019 09:06:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cert@cert.br designates 2001:12ff:0:7000::2 as permitted sender) client-ip=2001:12ff:0:7000::2;
+Received: from sentinel.cert.br (sentinel.cert.br [IPv6:2001:12ff:0:7000::9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by woq.cert.br (Postfix) with ESMTPS id 0D4C88B0079;
+	Thu,  6 Jun 2019 16:06:49 +0000 (GMT)
+Received: by sentinel.cert.br (Postfix, from userid 1000)
+	id C301EE9F780; Thu,  6 Jun 2019 16:06:48 +0000 (GMT)
+From: CERT.br <cert@cert.br>
+Reply-To: cert@cert.br
+To: abuse@digitalocean.com,noc@digitalocean.com
+Cc: cert@cert.br
+Subject: 45.55.60.46: Rogue DNS server used in DNS Hijacking Attacks
+X-CERTBR: DNSCHECK notification
+Message-Id: <20190606160648.C301EE9F780@sentinel.cert.br>
+Date: Thu,  6 Jun 2019 16:06:48 +0000 (GMT)
+X-Original-Sender: cert@cert.br
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of cert@cert.br designates 2001:12ff:0:7000::2 as permitted sender) smtp.mailfrom=cert@cert.br
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+You are receiving this message because you are listed as the contact
+for this IP acting as a rogue DNS server used in DNS hijacking
+attacks.
+
+This DNS server is both:
+
+  - a malicious DNS server used in DNS hijacking attacks, that is, it
+      is providing malicious authoritative replies;
+
+  - an open recursive server, and so can be exploited for traffic
+      amplification in order to launch DDoS attacks;
+
+This DNS hijacking attack is redirecting end users to phishing sites.
+The affected domains belong to organizations like banks, payment
+services, e-commerce, etc.
+
+Either:
+
+- this is a DNS server configured by the attacker (e.g. buying hosting
+  or cloud services for this purpose);
+
+- this is a legitimate DNS server that has been compromised.
+
+In either case, please investigate this matter.
+
+At the bottom of this message we have attached parts of our DNS query
+logs in order to help you track down this activity (All times are
+UTC).
+
+You can find a description of DNS hijacking and Rogue DNS servers at:
+
+  https://en.wikipedia.org/wiki/DNS_hijacking
+
+We would appreciate a reply that this report has been received.
+
+Thank you,
+CERT.br
+<cert@cert.br>
+https://www.cert.br/
+
+########################################################################
+
+# Log format:
+# Rogue DNS IP | status | timestamp (UTC) | hijacked domain | phishing IP
+
+# begin logs
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:53Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:53Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:53Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:53Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:54Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:55Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:55Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:56Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:57Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:58Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:40:59Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:00Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:00Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:00Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:01Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:04Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:04Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:09Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:10Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:13Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:14Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:17Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:17Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:29Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T00:41:30Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:50Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:50Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:50Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:50Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:51Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:52Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:52Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:53Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:55Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:55Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:56Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:57Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:57Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:57Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:40:58Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:00Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:00Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:04Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:04Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:08Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:09Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:11Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:12Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:25Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T02:41:25Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:53Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:53Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:53Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:54Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:54Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:55Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:55Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:56Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:58Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:40:59Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:00Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:00Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:00Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:00Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:01Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:03Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:03Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:07Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:07Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:11Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:12Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:15Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:15Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:28Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T04:41:29Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:40:59Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:40:59Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:40:59Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:00Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:00Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:01Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:01Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:02Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:03Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:04Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:05Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:05Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:05Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:05Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:06Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:09Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:09Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:12Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:13Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:17Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:18Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:20Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:21Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:33Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T06:41:33Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:55Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:55Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:55Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:55Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:56Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:57Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:57Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:40:58Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:00Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:00Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:02Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:02Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:02Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:02Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:03Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:06Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:06Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:09Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:10Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:14Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:15Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:18Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:18Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:31Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T08:41:32Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:52Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:52Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:52Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:52Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:53Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:54Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:54Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:55Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:57Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:57Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:58Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:59Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:59Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:40:59Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:00Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:02Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:02Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:06Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:07Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:10Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:11Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:14Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:14Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:28Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T10:41:28Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:54Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:55Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:55Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:55Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:55Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:57Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:57Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:58Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:40:59Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:00Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:01Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:01Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:01Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:01Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:02Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:04Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:05Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:08Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:09Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:12Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:13Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:15Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:16Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:29Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T12:41:29Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:53Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:53Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:54Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:54Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:54Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:55Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:55Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:56Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:58Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:58Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:59Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:59Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:40:59Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:00Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:00Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:03Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:03Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:06Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:07Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:10Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:11Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:14Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:14Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:28Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T14:41:28Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:50Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:50Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:51Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:51Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:51Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:52Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:53Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:53Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:56Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:56Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:57Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:57Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:58Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:58Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:40:58Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:01Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:01Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:05Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:06Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:10Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:11Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:14Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:14Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:27Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T16:41:27Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:29Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:29Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:29Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:29Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:30Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:31Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:31Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:32Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:35Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:35Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:37Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:37Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:37Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:37Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:38Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:40Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:41Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:44Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:45Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:49Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:50Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:53Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:07:53Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:08:06Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T19:08:07Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:50Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:50Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:50Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:50Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:51Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:52Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:52Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:53Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:56Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:56Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:58Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:58Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:58Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:58Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:40:59Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:01Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:02Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:05Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:06Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:10Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:11Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:13Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:14Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:26Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T20:41:27Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:56Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:56Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:56Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:56Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:57Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:58Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:58Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:40:58Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:00Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:00Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:02Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:02Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:02Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:02Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:03Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:05Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:06Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:09Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:10Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:14Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:14Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:18Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:18Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:31Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-05T22:41:31Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:02Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:03Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:03Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:03Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:03Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:05Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:05Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:06Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:08Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:08Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:10Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:10Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:10Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:10Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:11Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:13Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:14Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:17Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:18Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:21Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:22Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:25Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:26Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:39Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T00:41:39Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:53Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:54Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:54Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:54Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:54Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:56Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:56Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:56Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:59Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:40:59Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:00Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:01Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:01Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:01Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:02Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:04Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:04Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:10Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:10Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:16Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:17Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:19Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:20Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:32Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T02:41:32Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:52Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:52Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:52Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:53Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:53Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:54Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:54Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:55Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:56Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:57Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:58Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:58Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:58Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:59Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:40:59Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:02Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:03Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:06Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:06Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:10Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:11Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:14Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:14Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:26Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T04:41:27Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:48Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:49Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:49Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:49Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:50Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:51Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:51Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:52Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:53Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:53Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:55Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:55Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:55Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:55Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:56Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:58Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:40:59Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:04Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:04Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:08Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:08Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:12Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:12Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:25Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T06:41:25Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:41Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:42Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:42Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:42Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:42Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:44Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:44Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:44Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:47Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:47Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:48Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:49Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:49Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:49Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:50Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:52Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:52Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:56Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:41:56Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:42:00Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:42:01Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:42:03Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:42:03Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:42:16Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T08:42:16Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:25Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:25Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:25Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:26Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:26Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:27Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:27Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:28Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:30Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:31Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:32Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:32Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:32Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:32Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:33Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:35Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:36Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:39Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:40Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:43Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:44Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:47Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:41:47Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:42:00Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T10:42:00Z | www14.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:32Z | www.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:33Z | www.bancobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:33Z | www.bancodobrasil.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:33Z | www.bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:34Z | bradesco.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:35Z | www.bradescopessoajuridica.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:35Z | www.bradescopj.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:35Z | banco.bradesco | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:38Z | www.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:38Z | www.caixa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:39Z | www.cef.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:40Z | www.cef.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:40Z | internetbankingpf.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:40Z | internetbanking.caixa.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:41Z | www.citibank.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:43Z | www.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:43Z | bankline.itau.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:48Z | www.santander.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:48Z | www.santandernet.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:52Z | www.cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:53Z | cartaobndes.gov.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:55Z | www.serasa.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:41:56Z | www.serasaexperian.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:42:08Z | www57.bb.com.br | 94.242.57.217
+45.55.60.46 | ROGUE DNS | 2019-06-06T12:42:09Z | www14.bb.com.br | 94.242.57.217
+# end logs
+
+########################################################################

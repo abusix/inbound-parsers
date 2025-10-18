@@ -1,0 +1,256 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id C3E9FF71-614A-4855-876B-C0A909A10FB6.1
+	envelope-from <abuse+bncBAABBC467OWAMGQESSEVVQA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 10 Jan 2024 17:08:29 +0000
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-6de02906654sf1181966a34.1
+        for <abuse@digitalocean.abusehq.net>; Wed, 10 Jan 2024 09:08:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1704906508; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ZZM0YA2vw8mQ+OlJQpy3hWabDpxrSoJUyVJdQgwz3eiW5BhBsN8CJvdAEV5rkzzdKY
+         IYLGLOCdp79Kq332WtmUfwjRtVWsk/TTxyIq6Z3xnGPDvNxNwuFF7sNZLM5J535m+WJ3
+         3KRlQnTvuT2WNw8ImWZAgLjPDp4S5c1qaWG/dPT6P5+vcfvA7uHTwWOkAi3b3DxyyHwn
+         HYCWrXjsthD7m//V+0IrIGMFGVTWRbFZtTU0L2D0pFPL8zwZ2jewxmcvmrHQBfWpuNRH
+         wm8O6bSuHrpox+AUG3b/Ed8psd9SrKz4Km90OjyCOqV8j4bAmbq6lmJZ600ck27CZTYW
+         kpaw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:mime-version:date:precedence:content-transfer-encoding
+         :to:message-id:references:in-reply-to:reply-to:from:subject
+         :dkim-filter:dkim-signature;
+        bh=PuLFVTVvGAFuRJGoPd8Gka/n+mGcGjmTfeAEje/bJ8I=;
+        fh=gMCi9PBqLnoEp3oTBR+sqLRO2tROB0Qckh2Nu0fAahw=;
+        b=ojUNOdBg6UhevRRbsVXnu7huWOwqZNccHqDe6kW3RYKVXx2w2CXJ1HebRS/ybqDj8J
+         X+ga2tTAbtZyASNgnKl0HIdXkYfwoT4vnwSY6pZl2A71MavZNK2J3gOASIt7ySJhz2ty
+         8W15BpKeqF9dgXatDekZmO/U2viO5B6clgLbkw2AxCyqt9URyR83X8/Wi/53Q9grtPpe
+         HQ2MS6iuzoTvVhNbcuL+KWgDgD7TptgK45b7yj7sBZ3H9rgtnBNYRZK2/1nuI6IXxxxk
+         cMQukFcRGnFZpQCPiuU2FqrFuHeVeWXxxLH49XhqCURnU2YvelRD6Wi9GdCX2WieGZRQ
+         0qfw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert.gov.py header.s=8f4933b6-9667-11ed-9fdd-ce051360f04a header.b=PoZbzICG;
+       dkim=temperror (no key for signature) header.i=@cert.gov.py header.s=638A84FE-360E-11EE-A7E9-F0E19128C8E1 header.b=mS4AMJ+v;
+       spf=pass (google.com: domain of abuse@cert.gov.py designates 168.90.177.159 as permitted sender) smtp.mailfrom=abuse@cert.gov.py;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cert.gov.py
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1704906508; x=1705511308; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:x-original-authentication-results:x-original-sender
+         :mime-version:date:precedence:content-transfer-encoding:to
+         :message-id:references:in-reply-to:reply-to:from:subject:dkim-filter
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PuLFVTVvGAFuRJGoPd8Gka/n+mGcGjmTfeAEje/bJ8I=;
+        b=gWeaV+7GlqBZVJnUlFsKO69J5KcHjvPKfjMBit8NFcdF1RQ+8mTz4Czd43dWAgku1l
+         iUrhrg/qAgqmnAKpdw/0ieaFDWcj+D9imFeFD4rWZw7EXXafnQBimmJFFxq4hOueJkri
+         jrmZrZepqk2FktUpiqCCRlGCOi9fK/p1OFRaw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704906508; x=1705511308;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list
+         :x-original-authentication-results:x-original-sender:mime-version
+         :date:precedence:content-transfer-encoding:to:message-id:references
+         :in-reply-to:reply-to:from:subject:dkim-filter:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PuLFVTVvGAFuRJGoPd8Gka/n+mGcGjmTfeAEje/bJ8I=;
+        b=CJJFCG04dgErzWRPLSxNV5SNHLLzwWcEIOFpkUCm+HHDacnukxN4iEmRQDuCfUrY5r
+         1ExKwxLaDIFL922zXT71J3U0gwfBZyj0XG69drWaoXrvHgF4oGmFXsYjVpmcDSRehKyS
+         NRhoys54ICvIc3t4QTZwXY16E4F9fP5AIh7Hb04ourMXjpOKzYT7zxEgq72Ct2nX4I+5
+         ljQjQi03Z5GD7EMDgPgYZ2fYe1puBHwXS1QrVtK65vkIT999tJK6mGfuq4LR3xVd5mwo
+         YBeXsbXX5kYdfjEyS49Hi20u7XzzW+UB8zhACQisGkYdd9wErjKchD9Z/tWk/wEiQRGc
+         FZ9A==
+X-Gm-Message-State: AOJu0YxGHxYw3FzFl5w3lW3vLW74eF9ni0JcImnhMGGR48vNQbSPnNCf
+	QaiVS/KG7jS+aHMt5a+jp6uhKFmHfyHRzQ==
+X-Google-Smtp-Source: AGHT+IHO1dz57ynnHTARie9UrALTAiLLDlXJBsjJlrm8dUwBlo6Dn1M64jaGSxPoDyKg5PCjH6kouQ==
+X-Received: by 2002:a05:6820:513:b0:598:1f6f:8670 with SMTP id m19-20020a056820051300b005981f6f8670mr1716080ooj.9.1704906507873;
+        Wed, 10 Jan 2024 09:08:27 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6820:611:b0:598:93c0:2536 with SMTP id
+ e17-20020a056820061100b0059893c02536ls1120939oow.2.-pod-prod-04-us; Wed, 10
+ Jan 2024 09:08:26 -0800 (PST)
+X-Received: by 2002:a05:6808:1390:b0:3bd:4836:f24 with SMTP id c16-20020a056808139000b003bd48360f24mr1579681oiw.83.1704906505673;
+        Wed, 10 Jan 2024 09:08:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704906505; cv=none;
+        d=google.com; s=arc-20160816;
+        b=jQ8eFxO1F0ciKPyCBiymewYwIjZH9gNO+RDEn0P8QaeDbf9mlhYSnR/biCW9QrsFOu
+         vGs3Uj4zU6lA7cg+dEtSQQYonMk+fUmWJ2bWIwTX5dB28kGJf8uBnKa9WIXYFIJfqH6r
+         OTHgt+xUzOb4l2tdAIISdm9yKxxbuzGOuyg517rh6HqfVPFjq+/TkTxV7hRSIxLe5gyZ
+         1UnnXfk/2CqLb3N0n0QqkG92+jBfCtdQLwOOl4itMwDPR2D9HvDUTG98r/bDTBGwSor0
+         zcqdnzUeKUop00VeezU8J7qYHSWPS4HHO6nc2K6W8ya5zdryHW8hZ7es1viz+fde+X+j
+         VJiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:date:precedence:content-transfer-encoding:to
+         :message-id:references:in-reply-to:reply-to:from:subject
+         :dkim-signature:dkim-filter:dkim-signature;
+        bh=PuLFVTVvGAFuRJGoPd8Gka/n+mGcGjmTfeAEje/bJ8I=;
+        fh=gMCi9PBqLnoEp3oTBR+sqLRO2tROB0Qckh2Nu0fAahw=;
+        b=Yggr/ouEEzJH0nmoVd4x9FAorZosVMXl5A4/K/H78LLROMgmvWPEvw95PbAyQLUSt/
+         8mQa1QgN5ilcGDGFaxqQvr+JZwUifwIGqlqEXZhXgRTfC2iqM1I/633HAptXx4ccKP3c
+         fKI233p5GlZMlzDm5/lpQCEpuAv5GIhVh725E3Xg6Jzs8vvyuyhf1lLxBMa5aNZyZj1q
+         kqWcnubQC7/dbnAQxBUVq6nytA/XiIYCbzLPcIkclgXt03LMe67EVx9+pCuCSaGoviRD
+         GQIGlA6CsEAJbhYeaUxHt6oo/becn+jqpuUoHViR8HAWxVckTrCO3ztGFqsxxBMpvpkV
+         TNvg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert.gov.py header.s=8f4933b6-9667-11ed-9fdd-ce051360f04a header.b=PoZbzICG;
+       dkim=temperror (no key for signature) header.i=@cert.gov.py header.s=638A84FE-360E-11EE-A7E9-F0E19128C8E1 header.b=mS4AMJ+v;
+       spf=pass (google.com: domain of abuse@cert.gov.py designates 168.90.177.159 as permitted sender) smtp.mailfrom=abuse@cert.gov.py;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cert.gov.py
+Received: from esg.cert.gov.py (esg.cert.gov.py. [168.90.177.159])
+        by mx.google.com with ESMTPS id m14-20020a0568080f0e00b003bd4def3a0esi265406oiw.148.2024.01.10.09.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 09:08:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of abuse@cert.gov.py designates 168.90.177.159 as permitted sender) client-ip=168.90.177.159;
+Received: from esg.cert.gov.py (localhost.localdomain [127.0.0.1])
+	by esg.cert.gov.py (Proxmox) with ESMTP id 100D0280B5D;
+	Wed, 10 Jan 2024 14:08:21 -0300 (-03)
+Received: from correo.cert.gov.py (correo.cert.gov.py [10.30.201.20])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by esg.cert.gov.py (Proxmox) with ESMTPS id C4B5D280233;
+	Wed, 10 Jan 2024 14:08:20 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+	by correo.cert.gov.py (Postfix) with ESMTP id A651A102BDC8C;
+	Wed, 10 Jan 2024 14:08:20 -0300 (-03)
+Received: from correo.cert.gov.py ([127.0.0.1])
+	by localhost (correo.cert.gov.py [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id lT8T_JwxVJ7H; Wed, 10 Jan 2024 14:08:18 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+	by correo.cert.gov.py (Postfix) with ESMTP id 99045102BDCBD;
+	Wed, 10 Jan 2024 14:08:18 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.11.0 correo.cert.gov.py 99045102BDCBD
+X-Virus-Scanned: amavisd-new at cert.gov.py
+Received: from correo.cert.gov.py ([127.0.0.1])
+	by localhost (correo.cert.gov.py [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id b8OwdGYp2xlw; Wed, 10 Jan 2024 14:08:18 -0300 (-03)
+Received: from rtir.cert.gov.py (rtir.cert.gov.py [10.30.201.145])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by correo.cert.gov.py (Postfix) with ESMTPSA id 7CA32102BDC8C;
+	Wed, 10 Jan 2024 14:08:18 -0300 (-03)
+Received: from rtir.cert.gov.py (localhost [127.0.0.1])
+	by rtir.cert.gov.py (8.15.2/8.15.2/Debian-18) with ESMTP id 40AH8IjM100887;
+	Wed, 10 Jan 2024 14:08:18 -0300
+Received: (from www-data@localhost)
+	by rtir.cert.gov.py (8.15.2/8.15.2/Submit) id 40AH8IcF100886;
+	Wed, 10 Jan 2024 14:08:18 -0300
+X-Authentication-Warning: rtir.cert.gov.py: www-data set sender to abuse@cert.gov.py using -f
+Subject: =?UTF-8?B?W1JUSVIgLSBDRVJULVBZICM1NDA4M10gSW52ZXN0aWdhY2nDs246ICJFc2Nh?= =?UTF-8?B?bmVvIC0gbWljLmdvdi5weSI=?=
+From: "'Marcos via RT' via abuse" <abuse@digitalocean.com>
+Reply-To: abuse@cert.gov.py
+In-Reply-To: 
+References: <RT-Ticket-54083@www.cert.gov.py>
+Message-ID: <rt-5.0.2-92012-1704906498-1576.54083-61-0@www.cert.gov.py>
+X-RT-Loop-Prevention: RTIR - CERT-PY
+X-RT-Ticket: RTIR - CERT-PY #54083
+X-Managed-BY: RT 5.0.2 (http://www.bestpractical.com/rt/)
+X-RT-Originator: mcenturion@cert.gov.py
+To: abuse@digitalocean.com, noc@digitalocean.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-RT-Original-Encoding: utf-8
+Precedence: list
+Date: Wed, 10 Jan 2024 14:08:18 -0300
+MIME-Version: 1.0
+X-Original-Sender: abuse@cert.gov.py
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert.gov.py header.s=8f4933b6-9667-11ed-9fdd-ce051360f04a
+ header.b=PoZbzICG;       dkim=temperror (no key for signature)
+ header.i=@cert.gov.py header.s=638A84FE-360E-11EE-A7E9-F0E19128C8E1
+ header.b=mS4AMJ+v;       spf=pass (google.com: domain of abuse@cert.gov.py
+ designates 168.90.177.159 as permitted sender) smtp.mailfrom=abuse@cert.gov.py;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cert.gov.py
+X-Original-From: "Marcos via RT" <abuse@cert.gov.py>
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+
+Hello:
+We have detected unauthorized scanning / brute force attempts from an IP un=
+der
+your authority.
+162.243.137.27
+2024-01-10:09:47:51=C2=A0+ GMT - 3
+It is attached the log for further investigation.
+ ___________________________________________________________________________
+|date=3D2024-01-10 time=3D09:47:51 devname=3DFW_SECUNDARIO devid=3DFG201ETK=
+19902979 |
+|eventtime=3D1704890871443905681 tz=3D"-0300" logid=3D"0419016384" type=3D"=
+utm"     |
+|subtype=3D"ips" eventtype=3D"signature" level=3D"alert" vd=3D"root" severi=
+ty=3D"low" |
+|srcip=3D162.243.137.27 srccountry=3D"United States" dstip=3D192.168.10.2  =
+       |
+|dstcountry=3D"Reserved" srcintf=3D"wan1" srcintfrole=3D"wan" dstintf=3D"DM=
+Z"       |
+|dstintfrole=3D"dmz" sessionid=3D164190 action=3D"dropped" proto=3D6 servic=
+e=3D"HTTP" |
+|policyid=3D1 poluuid=3D"47939198-d63e-51e9-6e01-2877b9cc7336"             =
+     |
+|policytype=3D"policy" attack=3D"ZGrab.Scanner" srcport=3D53736 dstport=3D8=
+0        |
+|hostname=3D"190.52.128.101" url=3D"/druid/index.html" agent=3D"Mozilla/5.0=
+ zgrab/|
+|0.x" httpmethod=3D"GET" direction=3D"outgoing" attackid=3D48805           =
+       |
+|profile=3D"protect_http_server" ref=3D"http://www.fortinet.com/ids/VID4880=
+5"   |
+|incidentserialno=3D110117672 msg=3D"applications3: ZGrab.Scanner" crscore=
+=3D5    |
+|craction=3D32768_crlevel=3D"low"__________________________________________=
+_____|
+
+We would appreciate your collaboration to address this issue or forward to
+someone who can.
+Regards.
+
+--
+Marcos Centuri=C3=B3n Giles
+CERT-PY
+--
+Equipo de Respuesta ante Emergencias Cibern=C3=A9ticas (CERT-PY)
+Ministerio de Tecnolog=C3=ADas de la Informaci=C3=B3n y Comunicaci=C3=B3n (=
+MITIC)
+Complejo Santos E2 - Gral. Santos 1170 c/ Concordia
+cert.gov.py | +595 21 2179000
+Asunci=C3=B3n - Paraguay
+
+
+
+---------------------------------------------------------------------------=
+-----
+
+Por favor incluya la cadena:   [RTIR - CERT-PY #54083]
+en la l=C3=ADnea de asunto de toda la correspondencia futura sobre este inc=
+idente. Para ello, puede responder a este mensaje.
+
+Gracias,
+
+
+-------------------------------------------------------------------------
+
+Please include the string:   [RTIR - CERT-PY #54083]
+in the subject line of all future correspondence about this issue. To do so=
+,=20
+you may reply to this message.
+
+Thank you,
+
+
+CERT-PY
+--=20
+Equipo de Respuesta ante Emergencias Cibern=C3=A9ticas (CERT-PY)
+Ministerio de Tecnolog=C3=ADas de la Informaci=C3=B3n y Comunicaci=C3=B3n (=
+MITIC)Complejo Santos E2 - Gral. Santos 1170 c/ Concordia
+cert@cert.gov.py | +595 21 2179700 | +595 962 271071
+Asunci=C3=B3n - Paraguay | www.cert.gov.py=
+

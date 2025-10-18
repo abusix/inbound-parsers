@@ -1,0 +1,231 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@vodafone.onmicrosoft.com header.d=vodafone.onmicrosoft.com header.s=selector1-vodafone-onmicrosoft-com;
+	dkim=fail header.i=@mandrillapp.com header.d=mandrillapp.com header.s=mandrill;
+	dkim=fail header.i=notification@notify.spamhaus.org header.d=notify.spamhaus.org header.s=mandrill
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04lp2054.outbound.protection.outlook.com [104.47.14.54])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 2DB3082F-251A-4A73-A146-E24EF7D45F2E.1
+	envelope-from <bounces+SRS=b3i+V=5V@vodafone.onmicrosoft.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Tue, 24 Jan 2023 12:06:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h43lBL3tv1yuXtR/lylf62wjBSwwJLHp3YvB495kpvVF+xdxZGCAIgJFc+nKolqMtNUlguZswmoOetvpYqjgZWZYbrQRhHVdJfJCOUwMtFAO3hLfrtybIo14Z57uD8DHNmjMttB0C7Vb4GLhyxKRXNGL1ZJax+65i1w7eS4tVSJLttMfxe6sG/qpw8J9BxYJPPMwPlbWAtvXiCvr6gHyKNgDvoQb486ZHxBVgqN842HetmuaKyHiJYKPKy+lbOjMWFTbVsk23xG2qRxTs4B6DqKbEBmTsIwi15GEOi+xVB4nonIkeYfYQFSTbtC3lr2g0QSfqQEKrsZO78gljxHBwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FRdGkr9VsM/XsjWg0SyQrP3TdOFfL2lWXRIBbOTn/CY=;
+ b=cUT+4gULeUfMZ/JW/1tbu235qpx0T+t3RNGkZQLBMBwRbM3+W1k6tQGvX98z30d0IW4QQFZRfCdn2ziTYQIh5dhCx7URgR24Jx3XcCKTUCnduIPnlf7cJHBWQu/EtpEgpkDYF1D+so+9UjEte55aPYBiJR80O4MvvU3JCXdtzUOyUcDfU9a5WhyHePNufgMZoXW+Ps5LzfyAKPV1T9T1hAwJT825ASRsHpAFQsCE9y6D1yqxDESTwFZ9jJ0yihSmTHShGhXSEsMfHiys/Jks1/lPnJlSm6vK5v2IUcGTBR6fBTAodSEIyvyoUaAapjhhCcxoTxxTo4Q+L630G/2yHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 81.210.161.20) smtp.rcpttodomain=vodafone.com
+ smtp.mailfrom=mandrillapp.com; dmarc=fail (p=none sp=none pct=100)
+ action=none header.from=notify.spamhaus.org; dkim=fail (signature did not
+ verify) header.d=notify.spamhaus.org; dkim=fail (signature did not verify)
+ header.d=mandrillapp.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vodafone.onmicrosoft.com; s=selector1-vodafone-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FRdGkr9VsM/XsjWg0SyQrP3TdOFfL2lWXRIBbOTn/CY=;
+ b=MxEpuExbWfGpIjvxAwSEdS5NpQRQlbV8xW704sGDBW6cVS5iJciIRGS9Vtqa9ii3Wb9p3pH2O76OG8Xm1RHEETRrHuMFLs6dur0jtx3oG2k56NwoPjICAlnkihVbCOGjlQE1cqAR5m1JsmBou8fP8hFH+U5tMfHHjHh0c9eUNf5ulIo1PDhCwc0zFRTVjX51uJqYVxDfDEeRx4YfxBNFGC7rtgoOHDp/KnchMYvqFv+J0GD4ckDbcvzmvFaxeHAIyn+fY8XJqIao5pHyxuBr3uEqkQyefITR42zyAwyhIe+8jfl1nJW6ffnbNXzGX6aimGTurPGO1NZZYzU0PNDryQ==
+Received: from AS8PR07CA0035.eurprd07.prod.outlook.com (2603:10a6:20b:459::27)
+ by DB9PR05MB7868.eurprd05.prod.outlook.com (2603:10a6:10:216::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
+ 2023 12:06:01 +0000
+Received: from AM7EUR03FT060.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:459:cafe::42) by AS8PR07CA0035.outlook.office365.com
+ (2603:10a6:20b:459::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.16 via Frontend
+ Transport; Tue, 24 Jan 2023 12:06:01 +0000
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ mandrillapp.com discourages use of 81.210.161.20 as permitted sender)
+Received: from mx.unitymedia.de (81.210.161.20) by
+ AM7EUR03FT060.mail.protection.outlook.com (100.127.140.216) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6023.16 via Frontend Transport; Tue, 24 Jan 2023 12:06:00 +0000
+Received: from kerp-smx004.unitymedia.de (gateway [172.25.1.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx.unitymedia.de (Postfix) with ESMTPS id 4P1QfX4vBJz55XTp
+	for <abuse.de@vodafone.com>; Tue, 24 Jan 2023 13:05:56 +0100 (CET)
+Received: from kerp-smx004.unitymedia.de (localhost [127.0.0.1])
+	by kerp-smx004.unitymedia.de (Postfix) with ESMTP id 98A6198076
+	for <abuse.de@vodafone.com>; Tue, 24 Jan 2023 13:05:56 +0100 (CET)
+Received: from KERP-CAS002.unity.media.corp (unknown [172.25.43.12])
+	by kerp-smx004.unitymedia.de (Postfix) with ESMTP id 5E9B798062
+	for <abuse.de@vodafone.com>; Tue, 24 Jan 2023 13:05:56 +0100 (CET)
+Received: from mx.unitymedia.de (172.25.1.186) by KERP-CAS002.unity.media.corp
+ (172.25.43.10) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 24 Jan
+ 2023 13:05:53 +0100
+Received: from mail187-4.suw11.mandrillapp.com
+ (mail187-4.suw11.mandrillapp.com [198.2.187.4])	(using TLSv1.2 with cipher
+ ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))	(No client certificate requested)
+	by mx.unitymedia.de (Postfix) with ESMTPS id 4P1QfN5GRyz55XTp	for
+ <abuse@unitymedia.de>; Tue, 24 Jan 2023 13:05:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=notify.spamhaus.org;
+	s=mandrill; t=1674561942; x=1674619542;
+	i=notification@notify.spamhaus.org;
+	bh=FRdGkr9VsM/XsjWg0SyQrP3TdOFfL2lWXRIBbOTn/CY=;
+	h=From:Subject:Message-Id:List-Unsubscribe:To:Feedback-ID:Date:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:CC:Date:
+	 Subject:From;
+	b=b1AD5qDXbqtjjBBnZDOpdxKHTgZ65LuyxlBRHs1G11OOuSSHEm0FRCqQdlmJaDygQ
+	 3z3UA6PeonEkG9n/rzO7ysBMnQXvGGqbTdnEAfvF3JyEmSZHx/EOhiS0wDT6/oMv9D
+	 ONlTN0Js8qf+9QP00hbI5wpa6+9GGANRXzkndRVE=
+Received: from pmta09.mandrill.prod.suw01.rsglab.com (localhost [127.0.0.1])
+	by mail187-4.suw11.mandrillapp.com (Mailchimp) with ESMTP id 4P1QfG2CV4zlgg6V
+	for <abuse@unitymedia.de>; Tue, 24 Jan 2023 12:05:42 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandrillapp.com; 
+ i=@mandrillapp.com; q=dns/txt; s=mandrill; t=1674561942; h=From : 
+ Subject : Message-Id : List-Unsubscribe : To : Date : MIME-Version : 
+ Content-Type : Content-Transfer-Encoding : From : Subject : Date : 
+ X-Mandrill-User : List-Unsubscribe; 
+ bh=FRdGkr9VsM/XsjWg0SyQrP3TdOFfL2lWXRIBbOTn/CY=; 
+ b=NmmRvHfb3LEQREJ3v3Hce5uI77ckw1PYVow86ugcFvAKzlleEK4hGOC10NjEtKpd+rnlLJ
+ ZXmWPEI9Vo5dUDqm1KOpPhbGtZ6TtqDPl8DIsGYM1gg+rqXL3TtVbXXQP+v2VIS22ZBncHtm
+ 2X5CHh6CN373v/8GhWGlaAWUtJmN0=
+From: Spamhaus Notify <notification@notify.spamhaus.org>
+Subject: Spamhaus Notification | 88.152.182.39 - Botnet C&C Activity
+Received: from [35.169.43.56] by mandrillapp.com id
+ f65098ac35304ab1816a811b7a4abd22; Tue, 24 Jan 2023 12:05:42 +0000
+Message-ID: <4eb419e2-284c-4e52-b0c5-18e217b5c211@spamhaus.org>
+List-Unsubscribe: <mailto:unsubscribe-md_31032185.63cfc996.v1-f65098ac35304ab1816a811b7a4abd22@mailin1.us2.mcsv.net?subject=unsub>
+To: Unitymedia NRW GmbH <abuse@unitymedia.de>
+X-Report-Abuse: Please forward a copy of this message, including all headers, to abuse@mandrill.com
+X-Report-Abuse: You can also report abuse here: http://mandrillapp.com/contact/abuse?id=31032185.f65098ac35304ab1816a811b7a4abd22
+X-Mandrill-User: md_31032185
+Feedback-ID: 31032185:31032185.20230124:md
+Date: Tue, 24 Jan 2023 12:05:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Bar: +++
+Authentication-Results-Original: mx.unitymedia.de;	none
+X-Spam-Level: ***
+X-Rspamd-Queue-Id: 4P1QfX4vBJz55XTp
+X-Spam-Status: No, score=3.69
+X-Rspamd-Server: ker-l-mtasrv01p
+Return-Path:
+	bounce-md_31032185.63cfc996.v1-f65098ac35304ab1816a811b7a4abd22@mandrillapp.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 68283f3b-8487-4c86-adb3-a5228f18b893:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7EUR03FT060:EE_|DB9PR05MB7868:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61db7c44-0364-450d-da59-08dafe035c0c
+X-LD-Processed: 68283f3b-8487-4c86-adb3-a5228f18b893,ExtAddr,ExtFwd
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 2
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	m5X3YUpWdJsZ4aoYffDSRqu46M/vZzvOWTjRkEEZfYo8mqMiJBGXa1m/U6aZ5strOm+5ZcDPvBYOxN5SBl56sub+mdk0moP8rNMTW1flHNvVKlyZoiwTcL3aoVF6ZfJWBnHNPTA+qFm/WgR0sA9pSx2kmr3O9/ulGbrCqxqalqhFWQqHUy1KOZbfYmyRNyN93es8sq38fdVPt4Tmuz7t+3Ch1WLkXmxf36pz+sPmaByy2B+SG7IjJgiXFp90JZ7zK3pPxlcEuUXIRhN+Yj/UK1tZ6NXMNobm2dqgw79takfMrXhcQK0ojUCp8Kp9ZtWBRpCWXa2VIYEAF2JZUFgzWFcPwtUHOXXFyHWvaUr0ddvwahxfAMZGwG2wEXvtwaKzNE1JmefnwbEwk2/gyWfmHklDd/1/TM0Ln9QSIweS6yPoHzmZNsYqZf1prbP7Vm/AjnmTRNTkzTz2MeH1jk6hiTp7a2YMf1oK2L9O+X2ISPpKNQ8CcnEXHmAREmvDM8SQ3dt7n0mCiNVR4fb1sbZhTIra/IyXnV25uKFErsOwDQ8Hva1ARy4e+lJZME3ynzat4gQdqwdM57C/tZyAsHnzGlGcwTotgIPnj/37y3y467vSJaHgyki/P92ZnH30jk0wPrIeqC1Fm5qMELfJ+9x9b79vSJS1Lvf4GLINhzkcp9Y=
+X-Forefront-Antispam-Report:
+	CIP:81.210.161.20;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mx.unitymedia.de;PTR:mx.unitymedia.de;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(346002)(136003)(376002)(451199015)(83380400001)(83170400001)(82960400001)(7636003)(7596003)(15188155005)(356005)(2906002)(15650500001)(5660300002)(6862004)(316002)(26005)(9686003)(8676002)(42882007)(66574015)(336012)(70586007)(68406010)(956004)(498600001)(966005)(31686004)(66899015)(31696002)(36756003)(16799955002);DIR:OUT;SFP:1101;
+X-MS-Exchange-ForwardingLoop:
+	abuse.de@vodafone.com;68283f3b-8487-4c86-adb3-a5228f18b893
+X-OriginatorOrg: vodafone.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 12:06:00.8737
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61db7c44-0364-450d-da59-08dafe035c0c
+X-MS-Exchange-CrossTenant-Id: 68283f3b-8487-4c86-adb3-a5228f18b893
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM7EUR03FT060.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR05MB7868
+Original-Authentication-Results: spf=softfail (sender IP is 81.210.161.20)
+ smtp.mailfrom=mandrillapp.com; dkim=fail (signature did not verify)
+ header.d=notify.spamhaus.org;dmarc=fail action=none
+ header.from=notify.spamhaus.org;
+
+Hello,
+
+IP address: 88.152.182.39
+Issue: Botnet command and controller detection
+Malware: win.qakbot
+
+What is the problem with this IP address?
+
+The Spamhaus Project's research team has intelligence indicating that the a=
+bove IP address is hosting an active botnet command and controller (C&C) us=
+ed by bad actors to control infected devices using win.qakbot malware.
+
+What will happen due to this problem?
+
+As a result of this detection, this IP address is now listed on the Spamhau=
+s Botnet Controller List (BCL).
+
+We advise all internet users worldwide NOT to accept network traffic to or =
+from this IP address due to the threat it poses.
+
+What action do you need to take?
+
+1) Read further information regarding this listing at: https://check.spamha=
+us.org/listed/?searchterm=3D88.152.182.39
+
+2) Please take the appropriate mitigation steps relating to this IP address=
+ to prevent further abuse.
+
+3) Once you have resolved the abuse, please request the IPs=E2=80=99 remova=
+l from the Spamhaus BCL via the Reputation Portal, https://manage.spamhaus.=
+com. If you don't have a Portal account, use the IP and Domain Checker to r=
+equest removal, https://check.spamhaus.org
+
+No matter what tool you use to request removal, please provide the listing =
+team with the corrective actions you have taken. The team will remove the l=
+isting where appropriate, increasing your IPs' reputation.
+
+If you have questions relating to the listing, you can communicate with the=
+ Spamhaus team via the removal request form in the Reptation Portal and Che=
+cker.
+
+What is the Spamhaus Reputation Portal?
+
+For ASN owners, the Spamhaus Reputation Portal provides free access to IP r=
+eputation data relating to your network, allows you to get regular updates =
+on listings via email or API, and offers a quick removal process with the a=
+bility to track submissions via a Ticket Center.
+Register for a free account at https://manage.spamhaus.com/register/
+(Approval of your network to have access to the reputation portal is subjec=
+t to verification and review of your network) 
+
+How can you contact us?
+
+All communications regarding this listing should be made via the Reputation=
+ Portal (if you have an account) or the IP and Domain Reputation Checker. T=
+ype in the IP address, request removal, and a ticket will be raised.
+
+Please do not reply to this email.
+
+Thank you.
+
+The Spamhaus Project
+https://www.spamhaus.org/
+
+---------------------------------------------------------------------------=
+---
+Opt out of email or change notification email address
+
+You are receiving this notification because you are the designated abuse co=
+ntact for your network.
+
+If you do not want to be alerted when your networks'IPs are listed in our d=
+atasets, please unsubscribe using this link:
+
+http://mandrillapp.com/track/unsub.php?u=3D31032185&id=3Df65098ac35304ab181=
+6a811b7a4abd22.gBJDtqFKsXxvVvxvqgIJMGwySAk%3D&r=3Dhttps%3A%2F%2Fcheck.spamh=
+aus.org%2Funsubscribed-from-abuse-notifications%2F%3Fmd_email%3Da%252A%252A=
+%252A%252A%2540u%252A%252A%252A%252A.%252A%252A%252A
+
+If you want to add or change the abuse contact address for your network, pl=
+ease send a mail to contact_change(at)spamhaus.org
+
+---------------------------------------------------------------------------=
+---
+About the Spamhaus Project
+
+The Spamhaus Project is a non-profit organization dedicated to making the i=
+nternet a safer place for everyone. Working together with the broader indus=
+try, we define unacceptable and inappropriate internet behavior. Our dedica=
+ted team of researchers and threat hunters highlights malicious internet re=
+sources, producing IP and domain reputation datasets. This data currently p=
+rotects over 3 billion mailboxes globally.
+

@@ -1,0 +1,332 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@linode.com header.d=linode.com header.s=g1
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 8DF7A5D5-963A-4AC6-8C8F-943CE18E24AB.1
+	envelope-from <abuse+bncBDCK7AUKQANBBUUGSWUAMGQEELQVHKI@linode.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Sat, 16 Sep 2023 05:55:32 +0000
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6bb31a92b44sf4062164a34.0
+        for <abuse@linode.abusehq.net>; Fri, 15 Sep 2023 22:55:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694843731; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=zb0VNGQv5nb7wtQbLqH5bogLu0LMeVI0FO9f9Q62l8z96dK2o1+uegVTw0tHrk4UYz
+         9fu34JYTQiLELAGQzkN1DKzswQGCKLHPE8ObrWEaLr5rAHSqR2UhK6emGaACenky+lCG
+         y+dmUNyr4bg/fHDxufVR1AFaF9H8pZSvjlazMf73U9BGT6Ki04lbnhUImMFT0l7w45In
+         /ddAnjeooJeBARHhFovF/f741x1HywYFGk6bGcrrMEZX/v0Y/ENRNi+urkYALbnUYLVV
+         8l0xtws28VFlEBTRvcOxx1/P7cfhQZs0RByAy9xEyhthFrSesrKzBRKYylQkQP6PqMY5
+         SvbA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=5LWrJOWsSkjsmCcVMlkPxaGtkZp06FwQV6UeG8pcgOg=;
+        fh=VyO4TYmoq71q/lTNASfsbDNhzifjSXrpIsxBoqJr3ME=;
+        b=np/qokwxwnkKyZNbFN5g6VxRCdPgGAPYDSmmoaEqmZuBzVU3Qz7B+2GRmg9b7Pk6DE
+         Si2If2uy54fJFKFj+y/e2Tt/OH8OfOzn+CbjrpqtYGEd2W2btUzpdLDBJFo1HCrd3SRi
+         ZDog+OewBwreATyIuyWYj0zb55X7GsX/gbNRoqj8bVNH8sp7vjCKAxqKE9COTu6uRT1W
+         dBlzR0U3tvL/N3aKDviB8BQo6pJ5R3ftFZwC9vYVlywY6mV6nK+4mCy/PBTANN4XwcLb
+         D6KQDgZkibCLcCzbqc541A6ivfQ+sU8lNrMYi0RYKrBlVcTKUuJUfp/pQzgRcta14Z3J
+         qv5A==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@markscan.in header.s=google header.b=IUuzmOga;
+       spf=softfail (google.com: domain of transitioning internet_enforcement@markscan.in does not designate 2a00:1450:4864:20::52b as permitted sender) smtp.mailfrom=internet_enforcement@markscan.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linode.com; s=g1; t=1694843731; x=1695448531; darn=linode.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5LWrJOWsSkjsmCcVMlkPxaGtkZp06FwQV6UeG8pcgOg=;
+        b=c7a2h+ImG47KYpEc2D+b+tipoG8rt5zkVlZpgLEC3c88UysQF0W4IVWNVZALV+IDMQ
+         6vXJLyQvf7/uqGns+KwIKRC72y4Rv8SwWrETzZdwz+SQ9v7FdvCHZwbI6prRA3PlKLGm
+         Bnf3kz6p60OBL/kAF4gK89oWuPySXH2d8jaxnNlbyn2T8Zwpo46ZuuDklfDkDCQCg4+Q
+         0hy7mJj8W1wiIW0Zf92wIf6zUHZI1In98XJOWqK20lq9b4algeypOk1Hmg7+DDsrkLmZ
+         jtVgx0RsjsTLOkfYCmhMf+UrpNYVOirNR/jPm+FspcdE+E+E6j4UgmTS4CquJnt7Nh3U
+         SWAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694843731; x=1695448531;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5LWrJOWsSkjsmCcVMlkPxaGtkZp06FwQV6UeG8pcgOg=;
+        b=gdt63UPh9ki4+iDgtmxXr4e4x8GDkM6HQxlj1xb6Rzvn5cv7KIu6rEkz9VsXnC4AkM
+         cTF708DZGIoGLvzuwJ8E/1OErWJ0YV6onA+PwxJYkOZ2bo0ug5sUoZtsFg3GDQcQgy68
+         n5a2lHDG4uzOmv27sdqzIbrNxSPx83KGyoVEdfpBSOsOlWaUY3srMXiqiw2F2JYTsctT
+         VEjqcf+MMtrytgP6XFLghp0XKZntE6khq10Y3ctQiPNBcLaixpRUWBvhnbPdf8OIwvSX
+         lvpTrxorxSd0pjhgz/JCC4vO22qSrmHkbbIwgFcso5cAIaLC+hXqaVqn97+tpAvH44on
+         wDKw==
+X-Gm-Message-State: AOJu0Yw7Ja9RyI8Fngz1YXMxVqqIaQh7Vov0mtK+sMh5v4Z+suBV2/Ut
+	Pwukw71a7XhK9E5doiHxynSC7Q==
+X-Google-Smtp-Source: AGHT+IHz3JYSLUBtZCrZwaj/6PBo+DOQA48EWyAs86hFnW3C8GAsuXyUbSNUjOmKDRf0vOqBvPqsRQ==
+X-Received: by 2002:a9d:75d2:0:b0:6bf:f75:1ad6 with SMTP id c18-20020a9d75d2000000b006bf0f751ad6mr3963629otl.26.1694843731188;
+        Fri, 15 Sep 2023 22:55:31 -0700 (PDT)
+X-BeenThere: abuse@linode.com
+Received: by 2002:a17:90b:194f:b0:262:e619:f96c with SMTP id
+ nk15-20020a17090b194f00b00262e619f96cls1310634pjb.2.-pod-prod-09-us; Fri, 15
+ Sep 2023 22:55:30 -0700 (PDT)
+X-Received: by 2002:a17:90a:69c1:b0:273:ffc0:7a80 with SMTP id s59-20020a17090a69c100b00273ffc07a80mr2989579pjj.46.1694843729567;
+        Fri, 15 Sep 2023 22:55:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694843729; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Nj2X17kuxcS+qXDw+8r0G2kW/inVBgG9e9WbWgMgwd19ZkxME6T00AW/rkS0TrThPx
+         5RjX/+pzjk/GBIGg1H0nfVVL/4qIuX1CldEjEjOf8+FYuDE2rtcf90l9gf1bAwZ4fb8v
+         MGaayZaN6FmCnTC5wJoPh+H2PSgHgfKxslb5doY/IVurLdH54i8v62b0/wEuMbH0buKd
+         wdFXfyLrEvovucYbpbvVor/7rzbTcz02QzwE13u2yxxoFKoiBX7Esrw1ED4/YLXIjT3/
+         unMdeVgMo8U3AMWdr4gHw18Du4FOMWavPGqTz3gmAn2I8xHPYuwL9nLMR8zUSNxqyF6P
+         bFmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=5LWrJOWsSkjsmCcVMlkPxaGtkZp06FwQV6UeG8pcgOg=;
+        fh=VyO4TYmoq71q/lTNASfsbDNhzifjSXrpIsxBoqJr3ME=;
+        b=EX7kW/zykEJuXL2+8mj1GP18hTa4yFFWk+K4Sj4bnIRuJywMVsxZ/d/VLSB4tVWmkB
+         2HngzqoylukMjTv+FylRRzVL5YU/C/bjm/eTEzbCrVau07x2lTaoNWYhIc6IKLgkSWDL
+         tAoyUIhyCbTf3Zk3IW/NmGrXfkeW/Zk05ZMXOyNUd2kU137Sps3SG9Vr9uPApSchr9sN
+         bhQqRx7YMe6aat5hFXYpPLOfnePjLaAHV5yVerLPdEp1dqmJInSAzpvbAQW0cEW31LQn
+         Nyy72U/OfHwiT5DjLYpDizfDWbmPBoxUYH3NhbGiWUvFXom6sdRbLtm6eOInOBBmlFQl
+         c6SQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@markscan.in header.s=google header.b=IUuzmOga;
+       spf=softfail (google.com: domain of transitioning internet_enforcement@markscan.in does not designate 2a00:1450:4864:20::52b as permitted sender) smtp.mailfrom=internet_enforcement@markscan.in
+Received: from inbound-mail3.linode.com (inbound-mail3.linode.com. [2600:3c01::f03c:91ff:feb6:a6cf])
+        by mx.google.com with ESMTPS id nv2-20020a17090b1b4200b0025359a570fesi4830545pjb.19.2023.09.15.22.55.29
+        for <abuse@linode.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 15 Sep 2023 22:55:29 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning internet_enforcement@markscan.in does not designate 2a00:1450:4864:20::52b as permitted sender) client-ip=2a00:1450:4864:20::52b;
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+	by inbound-mail3.linode.com (Postfix) with ESMTPS id 608B9A008
+	for <abuse@linode.com>; Sat, 16 Sep 2023 01:55:28 -0400 (EDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-52889bc61b6so3355811a12.0
+        for <abuse@linode.com>; Fri, 15 Sep 2023 22:55:28 -0700 (PDT)
+X-Received: by 2002:a50:fb14:0:b0:525:6ab3:dd22 with SMTP id
+ d20-20020a50fb14000000b005256ab3dd22mr2867935edq.38.1694843724983; Fri, 15
+ Sep 2023 22:55:24 -0700 (PDT)
+MIME-Version: 1.0
+From: "'Markscan_DMCA' via Abuse" <abuse@linode.com>
+Date: Sat, 16 Sep 2023 11:24:47 +0530
+Message-ID: <CA+j2or_yfi17+uGOz0XzmAF3C=TaD1GQKQh3Ve7=N_baC9xitw@mail.gmail.com>
+Subject: [Notice ID:71708148970] Copyright Infringement Notice under DMCA Act
+ [Torrent tracker: torrent-tracker.uw0.xyz]
+To: Linode Abuse <abuse@linode.com>
+Content-Type: multipart/alternative; boundary="0000000000002d850b0605738eb6"
+X-Original-Sender: internet_enforcement@markscan.in
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@markscan.in header.s=google header.b=IUuzmOga;       spf=softfail
+ (google.com: domain of transitioning internet_enforcement@markscan.in does
+ not designate 2a00:1450:4864:20::52b as permitted sender) smtp.mailfrom=internet_enforcement@markscan.in
+X-Original-From: Markscan_DMCA <internet_enforcement@markscan.in>
+Reply-To: Markscan_DMCA <internet_enforcement@markscan.in>
+Precedence: list
+Mailing-list: list abuse@linode.com; contact abuse+owners@linode.com
+List-ID: <abuse.linode.com>
+X-Spam-Checked-In-Group: abuse@linode.com
+X-Google-Group-Id: 895230844096
+List-Post: <https://groups.google.com/a/linode.com/group/abuse/post>, <mailto:abuse@linode.com>
+List-Help: <https://support.google.com/a/linode.com/bin/topic.py?topic=25838>, <mailto:abuse+help@linode.com>
+List-Archive: <https://groups.google.com/a/linode.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+895230844096+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/linode.com/group/abuse/subscribe>
+
+--0000000000002d850b0605738eb6
+Content-Type: text/plain; charset="UTF-8"
+
+Dear Madam/Sir,
+
+This is a notice in accordance with the Online Copyright Infringement
+Liability Limitation Act (OCILLA), a part of the Digital Millennium
+Copyright Act 1998 (DMCA), requesting the service providers to be held
+strictly liable for the acts of their users & immediately cease the access
+to copyrighted material. We have found infringing material in your website
+(which acts to be a torrent tracker) which indeed is
+* "Properties of Audible Inc".* The material that is claimed to be
+infringing is to be removed or access to which is to be disabled
+immediately and avoid the growth of piracy. Below is/are the URL(s) for
+your reference:
+
+Further on our investigation, we have found that the tracker *"tracker.uw0.xyz
+<http://tracker.uw0.xyz>" *is hosted on your server. Below is the IP
+of *"tracker.uw0.xyz
+<http://tracker.uw0.xyz>"* for your reference:
+*IP: 45.79.133.252*
+
+
+*Below is/are the URL(s)/Torrent Info_Hash ID(s) for your reference, which
+are infringing the copyright content by mentioned torrent tracker:*
+
+Property Name Tracker URL Info Hash
+The Dip udp://tracker.uw0.xyz:6969/announce
+3EE2998A8D8195231BF6C85270451B793A9C6439
+
+*Below are the Torrent web-page URL(s) for your reference which provide
+the tracker info_hash id to infringe the content on their platform:*
+
+https://limetorrents.unblockit.esq/Seth-Godin--2007--The-Dip-[audiobook--epub-%20-mobi]-(Business)-torrent-16181497.html
+
+We have good faith & belief that the use of the described material in the
+manner complained of is not authorized by the copyright owner, its agent,
+or the law. The information in the notification is accurate, and under
+penalty of perjury, that the complaining party is authorized to act on
+behalf of the owner of an exclusive right that is allegedly infringed. We
+hereby declare that the information in the notification is accurate to the
+best of our knowledge & belief.
+
+
+*AUTHORIZATION LETTER OF THE COPYRIGHT OWNER (OR
+PERSON/COMPANY REPRESENTING)*https://markscan.co.in/loa/Audible.pdf
+
+
+*A DOCUMENT PROVING THAT THE MATERIALS ARE COPYRIGHTED AND BELONG TO OWNER
+(OR PERSON/COMPANY REPRESENTING)*https://www.audible.in/
+
+
+*DIGITAL SIGNATURE FOR COPYRIGHT CLAIM*Ishita Singh
+MarkScan
+Email: internet_enforcement@markscan.in
+E-14C, 1st Floor, Sector-8,NOIDA, U.P. -201301, INDIA.
+Ph: 91-120-4297246/47/48, Website: www.markscan.co.in.
+
+
+*COPYRIGHT OWNERS:*Audible Inc 1 Washington Pl, Newark, NJ 07102, United
+States
+
+Regards,
+MarkScan Internet Enforcement Team
+
+*Disclaimer: This e-mail and any documents, files, or previous email
+messages appended or attached to it may contain confidential and/or
+privileged information. If you are not the intended recipient (or have
+received this e-mail in error) please notify sender immediately and delete
+this e-mail. Any unauthorized copying, disclosure or distribution of the
+material in this e-mail is strictly forbidden*
+
+--0000000000002d850b0605738eb6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div id=3D"gmail-:4ja" class=3D"gmail-Ar gmail-Au gmail-Ao=
+"><div id=3D"gmail-:1vc" class=3D"gmail-Am gmail-Al editable gmail-LW-avf g=
+mail-tS-tW gmail-tS-tY" aria-label=3D"Message Body" role=3D"textbox" aria-m=
+ultiline=3D"true" tabindex=3D"1" style=3D"direction:ltr;min-height:622px" a=
+ria-controls=3D":4pz"><div id=3D"gmail-:1vj" class=3D"gmail-Ar gmail-Au gma=
+il-Ao"><div id=3D"gmail-:4as" class=3D"gmail-Am gmail-Al editable gmail-LW-=
+avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Message Body" role=3D"textbox" a=
+ria-multiline=3D"true" tabindex=3D"1" style=3D"direction:ltr;min-height:622=
+px" aria-controls=3D":4mu"><div id=3D"gmail-:4ai" class=3D"gmail-Ar gmail-A=
+u gmail-Ao"><div id=3D"gmail-:48p" class=3D"gmail-Am gmail-Al editable gmai=
+l-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Message Body" role=3D"textb=
+ox" aria-multiline=3D"true" tabindex=3D"1" style=3D"direction:ltr;min-heigh=
+t:622px" aria-controls=3D":4jj"><div id=3D"gmail-:47g" class=3D"gmail-Ar gm=
+ail-Au gmail-Ao"><div id=3D"gmail-:468" class=3D"gmail-Am gmail-Al editable=
+ gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Message Body" role=3D"=
+textbox" aria-multiline=3D"true" tabindex=3D"1" style=3D"direction:ltr;min-=
+height:582px" aria-controls=3D":4fg"><div id=3D"gmail-:1gq" class=3D"gmail-=
+Ar gmail-Au gmail-Ao"><div id=3D"gmail-:1ge" class=3D"gmail-Am gmail-Al edi=
+table gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Message Body" rol=
+e=3D"textbox" aria-multiline=3D"true" tabindex=3D"1" style=3D"direction:ltr=
+;min-height:622px" aria-controls=3D":4ar"><div id=3D"gmail-:461" class=3D"g=
+mail-Ar gmail-Au gmail-Ao"><div id=3D"gmail-:45x" class=3D"gmail-Am gmail-A=
+l editable gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Message Body=
+" role=3D"textbox" aria-multiline=3D"true" tabindex=3D"1" style=3D"directio=
+n:ltr;min-height:622px" aria-controls=3D":48o"><div id=3D"m_758639574506148=
+3835gmail-:1ek"><div id=3D"m_7586395745061483835gmail-:1eg" aria-label=3D"M=
+essage Body" role=3D"textbox" aria-multiline=3D"true" style=3D"direction:lt=
+r;min-height:582px" aria-controls=3D":3hz"><div id=3D"m_7586395745061483835=
+gmail-:1af"><div id=3D"m_7586395745061483835gmail-:1aj" aria-label=3D"Messa=
+ge Body" role=3D"textbox" aria-multiline=3D"true" style=3D"direction:ltr;mi=
+n-height:622px" aria-controls=3D":2lc">Dear Madam/Sir,<br><br>This is a not=
+ice in accordance with the Online Copyright Infringement Liability Limitati=
+on Act (OCILLA), a part of the Digital Millennium Copyright Act 1998 (DMCA)=
+, requesting the service providers to be held strictly liable for the acts =
+of their users &amp; immediately cease the access to copyrighted material. =
+We have found infringing material in your website (which acts to be a=C2=A0=
+torrent=C2=A0tracker) which indeed is<b>=C2=A0&quot;Properties=C2=A0of=C2=
+=A0Audible=C2=A0Inc&quot;.</b>=C2=A0The material that is claimed to be infr=
+inging is to be removed or access to which is to be disabled immediately an=
+d avoid the growth of piracy. Below is/are the URL(s) for your reference:<b=
+r><br>Further on our investigation, we have found that the=C2=A0tracker=C2=
+=A0<b>&quot;<a href=3D"http://tracker.uw0.xyz" target=3D"_blank">tracker.uw=
+0.xyz</a>&quot;=C2=A0</b>is hosted on your server. Below is the IP of=C2=A0=
+<b>&quot;<a href=3D"http://tracker.uw0.xyz" target=3D"_blank">tracker.uw0.x=
+yz</a>&quot;</b>=C2=A0for your reference: =C2=A0<br><b>IP:=C2=A045.79.133.2=
+52</b><br><b><br></b><div><b>Below is/are the URL(s)/Torrent=C2=A0Info_Hash=
+ ID(s) for your reference, which are infringing the copyright content by me=
+ntioned=C2=A0torrent=C2=A0tracker:<br></b><div><br></div><div></div><div><t=
+able border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"864" height=
+=3D"40" style=3D"border-collapse:collapse;width:648.02pt">
+ <colgroup><col width=3D"244" style=3D"width:183pt">
+ <col width=3D"286" style=3D"width:214.5pt">
+ <col width=3D"334" style=3D"width:250.5pt">
+ </colgroup><tbody><tr height=3D"20" style=3D"height:15pt">
+  <td class=3D"et2" height=3D"20" width=3D"244" style=3D"height:15pt;width:=
+183pt;color:rgb(255,255,255);font-weight:700;font-family:Arial;border:0.5pt=
+ solid rgb(0,0,0);background:rgb(0,112,192);text-align:center;vertical-alig=
+n:bottom;padding-top:1px;padding-left:1px;padding-right:1px;font-size:11pt"=
+><span class=3D"gmail-font1" style=3D"font-size:11pt">Property Name</span><=
+/td>
+  <td class=3D"et2" width=3D"286" style=3D"width:214.5pt;color:rgb(255,255,=
+255);font-weight:700;font-family:Arial;border:0.5pt solid rgb(0,0,0);backgr=
+ound:rgb(0,112,192);text-align:center;vertical-align:bottom;padding-top:1px=
+;padding-left:1px;padding-right:1px;font-size:11pt">Tracker=C2=A0URL</td>
+  <td class=3D"et2" width=3D"334" style=3D"width:250.5pt;color:rgb(255,255,=
+255);font-weight:700;font-family:Arial;border:0.5pt solid rgb(0,0,0);backgr=
+ound:rgb(0,112,192);text-align:center;vertical-align:bottom;padding-top:1px=
+;padding-left:1px;padding-right:1px;font-size:11pt"><span class=3D"gmail-fo=
+nt1" style=3D"font-size:11pt">Info Hash</span></td>
+ </tr>
+ <tr height=3D"20" style=3D"height:15pt">
+  <td class=3D"et3" height=3D"20" style=3D"height:15pt;border:0.5pt solid r=
+gb(0,0,0);text-align:center;padding-top:1px;padding-left:1px;padding-right:=
+1px;color:rgb(0,0,0);font-size:11pt;font-family:Calibri;vertical-align:midd=
+le">The Dip</td>
+  <td class=3D"et3" style=3D"border:0.5pt solid rgb(0,0,0);text-align:cente=
+r;padding-top:1px;padding-left:1px;padding-right:1px;color:rgb(0,0,0);font-=
+size:11pt;font-family:Calibri;vertical-align:middle">udp://<a href=3D"http:=
+//tracker.uw0.xyz:6969/announce">tracker.uw0.xyz:6969/announce</a></td>
+  <td class=3D"et3" style=3D"border:0.5pt solid rgb(0,0,0);text-align:cente=
+r;padding-top:1px;padding-left:1px;padding-right:1px;color:rgb(0,0,0);font-=
+size:11pt;font-family:Calibri;vertical-align:middle">3EE2998A8D8195231BF6C8=
+5270451B793A9C6439</td>
+ </tr>
+</tbody></table><br></div><div><b style=3D"color:rgb(0,0,0);font-family:ari=
+al,sans-serif">Below are the=C2=A0Torrent=C2=A0web-page URL(s) for your ref=
+erence which provide the=C2=A0tracker=C2=A0info_hash id to infringe the con=
+tent on their platform:<br></b></div><div><b style=3D"color:rgb(0,0,0);font=
+-family:arial,sans-serif"><br></b></div><div><a href=3D"https://limetorrent=
+s.unblockit.esq/Seth-Godin--2007--The-Dip-[audiobook--epub-%20-mobi]-(Busin=
+ess)-torrent-16181497.html">https://limetorrents.unblockit.esq/Seth-Godin--=
+2007--The-Dip-[audiobook--epub-%20-mobi]-(Business)-torrent-16181497.html</=
+a><br></div><div><br></div><div><div dir=3D"ltr" style=3D"font-family:arial=
+,sans-serif;color:rgb(0,0,0)">We have good faith &amp; belief that the use =
+of the described material in the manner complained of is not authorized by =
+the copyright owner, its agent, or the law. The information in the notifica=
+tion is accurate, and under penalty of perjury, that the complaining party =
+is authorized to act on behalf of the owner of an exclusive right that is a=
+llegedly infringed. We hereby declare that the information in the notificat=
+ion is accurate to the best of our knowledge &amp; belief.<br><br><b>AUTHOR=
+IZATION LETTER OF THE COPYRIGHT OWNER (OR PERSON/COMPANY=C2=A0REPRESENTING)=
+<br></b><a href=3D"https://markscan.co.in/loa/Audible.pdf" style=3D"text-de=
+coration-line:none" target=3D"_blank">https://markscan.co.in/loa/Audible.pd=
+f</a><br><br><b>A DOCUMENT PROVING THAT THE MATERIALS ARE COPYRIGHTED AND B=
+ELONG TO OWNER (OR PERSON/COMPANY=C2=A0REPRESENTING)<br></b><a href=3D"http=
+s://www.audible.in/" style=3D"text-decoration-line:none" target=3D"_blank">=
+https://www.audible.in/</a><br><br><b>DIGITAL SIGNATURE FOR COPYRIGHT CLAIM=
+<br></b>Ishita Singh<br>MarkScan<br>Email:=C2=A0<a href=3D"mailto:internet_=
+enforcement@markscan.in" style=3D"text-decoration-line:none" target=3D"_bla=
+nk">internet_enforcement@markscan.in</a><br>E-14C, 1st Floor, Sector-8,NOID=
+A, U.P. -201301, INDIA.<br>Ph: 91-120-4297246/47/48, Website:=C2=A0<a href=
+=3D"http://www.markscan.co.in/" style=3D"text-decoration-line:none" target=
+=3D"_blank">www.markscan.co.in</a>.<br><br><b>COPYRIGHT OWNERS:<br></b>Audi=
+ble=C2=A0Inc=C2=A01 Washington Pl, Newark, NJ 07102, United States<br><br>R=
+egards,<br>MarkScan Internet Enforcement Team<br><div><br></div><div><i><b>=
+Disclaimer:</b>=C2=A0This e-mail and any documents, files, or previous emai=
+l messages appended or attached to it may contain confidential and/or privi=
+leged information. If you are not the intended recipient (or have received =
+this e-mail in error) please notify sender immediately and delete this e-ma=
+il. Any unauthorized copying, disclosure or distribution of the material in=
+ this e-mail is strictly forbidden</i></div></div></div></div></div></div><=
+/div></div></div></div></div></div></div></div></div></div></div></div></di=
+v></div></div>
+
+--0000000000002d850b0605738eb6--

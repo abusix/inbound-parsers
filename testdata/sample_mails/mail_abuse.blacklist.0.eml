@@ -1,0 +1,404 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 330BD7B8-D12A-49FA-BE39-C40F1D2063E5.1
+	envelope-from <abuse+bncBAABBIXOQWOQMGQEQ2VSGNQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 20 Dec 2022 08:49:40 +0000
+Received: by mail-pl1-f200.google.com with SMTP id b6-20020a170902d50600b0019139834d47sf573537plg.8
+        for <abuse@digitalocean.abusehq.net>; Tue, 20 Dec 2022 00:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:user-agent:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cdGyNvT5bGhbn/qWrbyeXTjxmykTi3U0w/p1HXS6sTE=;
+        b=UiJ05Jn2a4mcbcxBA9m2jzxZBftFrqRu+voYVjXHwL9+M2xrR9dCxQc0UdLHHpy+4k
+         dzUZH9KUg0RMmzFDXb43NcyU5mA1UQeR4boZjyjxqJtC+uQzNss4usmQiMhxVWCoW2CP
+         1DQAGkmn7gV6GO+ZC6cW0CUD6mHm5Cg9L198s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:user-agent
+         :content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cdGyNvT5bGhbn/qWrbyeXTjxmykTi3U0w/p1HXS6sTE=;
+        b=XeOZu0txPOmF5iZJGFoZatNXlALppq5I8AOIKCeuCfWMbwRmDVS4ASv0gY3Iec6wYS
+         fFY8tcBJ70eE4mUAmE95QYy0W9DMKZOi/hZsC/K1KZvwpwJ2vEefAfxUtHaC1TwdfzgF
+         2jEn2JkSVeywmwhlbDHqN8pnfHuhU62HneHyrYHMg1Z2h0IoBLGcQQFSA3DSrcibA91G
+         +Y0UTEcc2tBBGpikc5e73K2MEh3h5gx5EXr2N8O5TCm9t7u3+0vfUpvLMaAv/slwoiCq
+         i96D88kisafyIqpfoKfcerkxSgoU1oVdl1adW9BKc0uli0P3uzmAdADDSGLSW7WGFwlQ
+         J8Hg==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: ANoB5pk/p0dKvFVeScEdqiDwu8a5jPjVlS7AO5ZEfgIhpnBrx8td2lY9
+	32nW1D+/I7xoNxOXzqFpkyiZRA==
+X-Google-Smtp-Source: AA0mqf68tjEvNHalG2bzxTQrMzYyFwO1doicswwifU9wQTg3rajZ6JXm7kBg31PFZdZAXbxWc7bTDw==
+X-Received: by 2002:a63:4d2:0:b0:478:95ed:5d6d with SMTP id 201-20020a6304d2000000b0047895ed5d6dmr25600801pge.162.1671526178890;
+        Tue, 20 Dec 2022 00:49:38 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:90a:420b:b0:219:9186:46b4 with SMTP id
+ o11-20020a17090a420b00b00219918646b4ls633389pjg.0.-pod-preprod-gmail; Tue, 20
+ Dec 2022 00:49:38 -0800 (PST)
+X-Received: by 2002:a17:902:f54f:b0:189:d068:270 with SMTP id h15-20020a170902f54f00b00189d0680270mr68759082plf.30.1671526177639;
+        Tue, 20 Dec 2022 00:49:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671526177; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ebaK0/66mvp+kKYUM8B9G4iu2q/2sTlzdLQ2zE4VR/fLMFEsgCQ8eEhxgcioI/pE/9
+         7PpPCeP9iJJLeKPkG4EQzIOxOqNkXZvWxg39dMd+81qcswzSuASXkRUPDsWZdtpSHJyH
+         y9ipXscwOAkI7JQfl46hmGqNGh0eyAccKNadn1pMF0gokuLd2oEmlpL6+FPirYykeNQ/
+         DZOnM+URFeS4PwVQBGZSzAXQ0u23ZOt4LzLJS3yECJJyIii+8/YwOLverBC94NM16fQY
+         MJtetQ8LXDTPWOJZ+S22Cic7Lva4TaRLvLCDGzmlrtgDtkSEeGhXXpn+9kCKJPyS2QxL
+         aeQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date;
+        bh=cdGyNvT5bGhbn/qWrbyeXTjxmykTi3U0w/p1HXS6sTE=;
+        b=ZQXOJftBNQx4NLYYXqDEiBgKKYBmI5YLEimu4yFvCyGGrCHXYSUasvfly6XjibDRn6
+         NQ51kLrZHHrZU3wnMEehXQq34yv72G92gS7S7Duxbhy+Cq3nlI07tm1IrM8zcOZ1jusU
+         ZNpkHSLeN/867JYR8urknea84ODruYi3toeAOD03tR6vn6fa8LQdqlMG3vSGZsOBF6Lb
+         ICA6RMidL3l3ComBgfDUyHp3H/8f+ILcThcuNdUqUnp/LCdaeciu/b69ZZ2wwyWCOiJo
+         TGarEIvS3ZeLsp+Qd+dsjrmQuJ3NwrgidDtbbyQXvpDMufzdrPzxw+6ZawJEtQsVR1g+
+         lzgQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=neutral (google.com: 150.70.188.140 is neither permitted nor denied by best guess record for domain of jamespauloj@mail-abuse.com) smtp.mailfrom=jamespauloj@mail-abuse.com
+Received: from mailserv.mail-abuse.org ([150.70.188.140])
+        by mx.google.com with ESMTPS id jw12-20020a170903278c00b0018731d9aabbsi10258571plb.497.2022.12.20.00.49.37
+        for <abuse@digitalocean.com>
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 20 Dec 2022 00:49:37 -0800 (PST)
+Received-SPF: neutral (google.com: 150.70.188.140 is neither permitted nor denied by best guess record for domain of jamespauloj@mail-abuse.com) client-ip=150.70.188.140;
+Received: from ers-tools.mail-abuse.com (ers-tools.sjc1 [150.70.188.139])
+	by mailserv.mail-abuse.org (Postfix) with ESMTP id 1B1BD174005F;
+	Tue, 20 Dec 2022 08:49:37 +0000 (UTC)
+Received: by ers-tools.mail-abuse.com (Postfix, from userid 27063)
+	id 1597F33D80E9; Tue, 20 Dec 2022 08:49:37 +0000 (UTC)
+Date: Tue, 20 Dec 2022 08:49:37 +0000
+From: James Paulo Jabinal <jamespauloj@mail-abuse.com>
+To: abuse@digitalocean.com
+Cc: jamespauloj@mail-abuse.org
+Subject: RBL Listing Notification - DIGITALOCEAN
+Message-ID: <20221220084937.GA13356@ers-tools.sjc1>
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary="0F1p//8PRICkK4MW"
+Content-Disposition: inline
+User-Agent: Mutt/1.4.2.2i
+X-Original-Sender: jamespauloj@mail-abuse.com
+X-Original-Authentication-Results: mx.google.com;       spf=neutral
+ (google.com: 150.70.188.140 is neither permitted nor denied by best guess
+ record for domain of jamespauloj@mail-abuse.com) smtp.mailfrom=jamespauloj@mail-abuse.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+
+--0F1p//8PRICkK4MW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Abuse Team,
+
+This is an RBL nomination for the following lists of IP addresses that
+are in the process of being listed to the RBL as a spam source
+and/or is an originating spam source in progress.
+
+-- IPs listed to the RBL --
+64.227.97.232
+104.248.21.41
+137.184.2.180
+137.184.7.167
+137.184.124.9
+143.198.63.174
+143.198.153.126
+143.198.232.231
+143.244.184.161
+146.190.46.117
+146.190.46.232
+146.190.46.233
+146.190.46.237
+146.190.114.6
+146.190.114.15
+146.190.114.16
+146.190.114.20
+146.190.114.37
+146.190.114.39
+146.190.120.200
+146.190.120.230
+147.182.231.133
+147.182.238.193
+147.182.250.139
+157.245.12.195
+159.65.194.234
+159.203.30.119
+159.223.200.187
+159.223.204.140
+161.35.98.38
+161.35.125.180
+165.227.90.226
+165.232.151.140
+198.211.122.238
+-- End of IPs listed to the RBL --
+
+Please refer to below information for representative spam samples.
+Additional samples are available upon request from an authoritative
+requestor.
+
+Filename: DIGITALOCEAN.zip
+Password: novirus
+
+-- Example of spam mail --
+Spam Sample #1 - [64.227.97.232]
+X-TM-CATCHER-MAIL-ID: 13023616766959867359
+X-TM-CATCHER-RECV-TIME: 1670955339
+X-TM-CATCHER-SENDER-IPV4: 64.227.97.232
+X-TM-CATCHER-SENDER-PORT: 35842
+X-TM-CATCHER-SMTP-COMMAND: HELO vps1.palocalexperts.com
+X-TM-CATCHER-SMTP-COMMAND: MAIL FROM:<info@palocalexperts.com>
+X-TM-CATCHER-SMTP-COMMAND: RCPT TO:<<removed>>
+X-TM-CATCHER-SMTP-COMMAND: DATA
+DKIM-Signature: <removed>
+DomainKey-Signature: <removed>
+Message-ID: <removed>
+Reply-To: =?iso-8859-1?B?UmVnYWxvcyBOYXZpZGXxb3M=?= <royal@visonarty.com>
+From: =?iso-8859-1?B?UmVnYWxvcyBOYXZpZGXxb3M=?= <info@palocalexperts.com>
+To: <removed>
+Subject: Nuevo Smartwatch con Audifonos
+Date: Tue, 13 Dec 2022 18:15:29 +0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+        type="multipart/alternative";
+        boundary="----=_NextPart_000_0A94_01D90F1E.E1D18320"
+X-Priority: 3
+X-TM-CATCHER-ENVELOP-FROM-HEADER-FROM-EQUAL: True
+
+Spam Sample #2 - [104.248.21.41]
+X-TM-CATCHER-MAIL-ID: 12889665047500508271
+X-TM-CATCHER-RECV-TIME: 1671292349
+X-TM-CATCHER-SENDER-IPV4: 104.248.21.41
+X-TM-CATCHER-SENDER-PORT: 55415
+X-TM-CATCHER-SMTP-COMMAND: HELO 44.228.25.153
+X-TM-CATCHER-SMTP-COMMAND: MAIL FROM:<vgcnuqc@bxcgualwpmsktfpzr.jp>
+X-TM-CATCHER-SMTP-COMMAND: RCPT TO:<<removed>>
+X-TM-CATCHER-SMTP-COMMAND: DATA
+Received: from 152.10.141.169 by 104.248.21.41; Sat, 17 Dec 2022 12:46:29 -0300
+From: "" <vgcnuqc@bxcgualwpmsktfpzr.jp>
+Reply-To: "" <vgcnuqc@bxcgualwpmsktfpzr.jp>
+To: <removed>
+Subject: =?ISO-2022-JP?B?GyRCTiI1O0JnOHgzKxsoQg==?=
+Date: Sat, 17 Dec 2022 17:45:29 +0200
+X-Mailer: The Bat! (v1.52f) Business
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="ISO-2022-JP"
+        boundary="--1887265866543734396"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-TM-CATCHER-ENVELOP-FROM-HEADER-FROM-EQUAL: True
+
+Spam Sample #3 - [137.184.2.180]
+X-TM-CATCHER-MAIL-ID: 15233814101415723416
+X-TM-CATCHER-RECV-TIME: 1671127559
+X-TM-CATCHER-SENDER-IPV4: 137.184.2.180
+X-TM-CATCHER-SENDER-PORT: 60512
+X-TM-CATCHER-SMTP-COMMAND: HELO vps.deybuy.com
+X-TM-CATCHER-SMTP-COMMAND: MAIL FROM:<deybuy@deybuy.com> ; SIZE=138804
+X-TM-CATCHER-SMTP-COMMAND: RCPT TO:<<removed>> ; ORCPT=rfc822;<removed>
+X-TM-CATCHER-SMTP-COMMAND: DATA
+Received: from 134.195.208.89 (unknown [134.195.208.89])
+        by vps.deybuy.com (Postfix) with ESMTPA id 45ABB24209
+        for <<removed>>; Thu, 15 Dec 2022 18:05:57 +0000 (UTC)
+DKIM-Signature: <removed>
+Message-ID: <removed>
+Reply-To: "Elvira Cano" <company1@company-nyr.com>
+From: "Elvira Cano" <deybuy@deybuy.com>
+To: <removed>
+Subject: Stretch Film y Cintas de Embalaje
+Date: Thu, 15 Dec 2022 18:05:38 +0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+        Type="multipart/alternative";
+        boundary="----=_NextPart_000_1B68_01D910AF.D60B3440"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.5512
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5512
+X-TM-CATCHER-ENVELOP-FROM-HEADER-FROM-EQUAL: True
+
+Spam Sample #4 - [137.184.7.167]
+X-TM-CATCHER-MAIL-ID: 11332086752740007367
+X-TM-CATCHER-RECV-TIME: 1671137095
+X-TM-CATCHER-SENDER-IPV4: 137.184.7.167
+X-TM-CATCHER-SENDER-PORT: 41696
+X-TM-CATCHER-SMTP-COMMAND: HELO vps.cvimagery.com
+X-TM-CATCHER-SMTP-COMMAND: MAIL FROM:<cvimagery@cvimagery.com> ; SIZE=91809
+X-TM-CATCHER-SMTP-COMMAND: RCPT TO:<<removed>> ; ORCPT=rfc822;<removed>
+X-TM-CATCHER-SMTP-COMMAND: DATA
+Received: from 134.195.208.127 (unknown [134.195.208.127])
+        by vps.cvimagery.com (Postfix) with ESMTPA id 742762633B
+        for <<removed>>; Thu, 15 Dec 2022 20:41:04 +0000 (UTC)
+DKIM-Signature: <removed>
+Message-ID: <removed>
+Reply-To: "Silvia Alvarado" <mark@company-nyr.com>
+From: "Silvia Alvarado" <cvimagery@cvimagery.com>
+To: <removed>
+Subject: Envio de Emails Publicitarios para Empresas
+Date: Thu, 15 Dec 2022 20:40:46 +0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+        Type="multipart/alternative";
+        boundary="----=_NextPart_000_2704_01D910C5.8261F5C0"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.5512
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5512
+X-TM-CATCHER-ENVELOP-FROM-HEADER-FROM-EQUAL: True
+
+Spam Sample #5 - [137.184.124.9]
+X-TM-CATCHER-MAIL-ID: 14447276630665546693
+X-TM-CATCHER-RECV-TIME: 1670745321
+X-TM-CATCHER-SENDER-IPV4: 137.184.124.9
+X-TM-CATCHER-SENDER-PORT: 33720
+X-TM-CATCHER-SMTP-COMMAND: HELO a3.marmorariaanjos1.dns.army
+X-TM-CATCHER-SMTP-COMMAND: MAIL FROM:<root@a3.marmorariaanjos1.dns.army> ; SIZE=4314
+X-TM-CATCHER-SMTP-COMMAND: RCPT TO:<<removed>> ; ORCPT=rfc822;<removed>
+X-TM-CATCHER-SMTP-COMMAND: DATA
+Received: by a3.marmorariaanjos1.dns.army (Postfix, from userid 0)
+        id 97AEC1C5E2F; Sun, 11 Dec 2022 07:53:00 +0000 (UTC)
+Date: Sun, 11 Dec 2022 07:53:00 +0000
+To: <removed>
+From: Banco do Brasil <048766@bb.com.br>
+Subject: =?UTF-8?Q?ENC:_Voc=C3=AA_possui_um_saldo_de_197,378_Pontos_Livelo,_valido?=
+ =?UTF-8?Q?_at=C3=A9_o_dia_18/12/2022._-_ID_GAO5QCN5W4?=
+Message-ID: <removed>
+X-Priority: 3
+X-Mailer: PHPMailer [version 1.73]
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+        boundary="b1_4074d4473cd39325c660f60daebe1a07"
+X-TM-CATCHER-ENVELOP-FROM-HEADER-FROM-EQUAL: False
+
+Spam Sample #6 - [143.198.63.174]
+X-TM-CATCHER-MAIL-ID: 14787239425814117958
+X-TM-CATCHER-RECV-TIME: 1671127640
+X-TM-CATCHER-SENDER-IPV4: 143.198.63.174
+X-TM-CATCHER-SENDER-PORT: 38976
+X-TM-CATCHER-SMTP-COMMAND: HELO vps.radioholiand.com
+X-TM-CATCHER-SMTP-COMMAND: MAIL FROM:<radioholiand@radioholiand.com> ; SIZE=120106
+X-TM-CATCHER-SMTP-COMMAND: RCPT TO:<<removed>> ; ORCPT=rfc822;<removed>
+X-TM-CATCHER-SMTP-COMMAND: DATA
+Received: from 134.195.208.24 (unknown [134.195.208.24])
+        by vps.radioholiand.com (Postfix) with ESMTPA id B9F4E3CFEC
+        for <<removed>>; Thu, 15 Dec 2022 18:05:47 +0000 (UTC)
+DKIM-Signature: <removed>
+Message-ID: <removed>
+Reply-To: "Augusto Luna" <mark@company-nyr.com>
+From: "Augusto Luna" <radioholiand@radioholiand.com>
+To: <removed>
+Subject: =?iso-8859-1?B?Q29ycmVvcyBQdWJsaWNpdGFyaW9zIFBlcvo=?=
+Date: Thu, 15 Dec 2022 18:05:20 +0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+        Type="multipart/alternative";
+        boundary="----=_NextPart_000_0FE5_01D910AF.CB50ED60"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.5512
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5579
+X-TM-CATCHER-ENVELOP-FROM-HEADER-FROM-EQUAL: True
+
+-- End of Example of spam mail --
+
+-- Network Information --
+
+inetnum:        188.166.224.0 - 188.166.239.255
+netname:        DIGITALOCEAN
+country:        SG
+admin-c:        PT7353-RIPE
+tech-c:         PT7353-RIPE
+status:         ASSIGNED PA
+mnt-by:         digitalocean
+created:        2019-04-17T14:08:07Z
+last-modified:  2019-04-17T14:08:07Z
+source:         RIPE
+
+person:         DigitalOcean Network Operations
+address:        101 Ave of the Americas, FL2
+address:        New York, NY, 10013
+address:        United States of America
+phone:          +13478756044
+nic-hdl:        PT7353-RIPE
+mnt-by:         digitalocean
+created:        2015-03-11T16:37:07Z
+last-modified:  2022-08-23T13:31:16Z
+source:         RIPE # Filtered
+org:            ORG-DOI2-RIPE
+
+-- Network Information --
+For more information on the RBL, please see:
+http://www.mail-abuse.com/wp_introrbl.html
+http://www.mail-abuse.com/support/an_listmgntgdlines.html
+
+I certify that I have followed the procedures and criteria required for
+listing these IP addresses in the Trend Micro/ MAPS RBL.
+
+Best Regards,
+James Paulo Jabinal
+Trend Micro Inc.
+
+--0F1p//8PRICkK4MW
+Content-Type: application/zip
+Content-Disposition: attachment; filename="DIGITALOCEAN.zip"
+Content-Transfer-Encoding: base64
+
+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
+
+--0F1p//8PRICkK4MW--

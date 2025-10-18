@@ -1,0 +1,136 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@centurylink.com header.d=centurylink.com header.s=default
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2047.outbound.protection.outlook.com [40.107.11.47])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 7524AEFE-51AD-4610-BD15-F09E472F19B4.1
+	envelope-from <bounces+SRS=dltG+=7R@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Sat, 25 Mar 2023 13:16:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TduM/w1Ywi4DaFLiBzk3xbC74DSY8prGuC/JP1fbZbowRgDguHe4hRD4JGPbCzQUJGkIr2ju9cHAZXjsix4r4Qe9YI/70GOgAhFm0VV4xEmHyza74ziGI449P1tKe0sB/E9MkAanh14NLTJFOWrTjS2Gl8FAtVtDsJVunYA0pgncbw66QjBjmnZSatJo09KNmf0c3cGkW9ZAF/BaxnN1B6A2bnOw4f3QFjYXzoROo8qNGRiWrGf+ctEUgfgYCzJLUS8LwP7tjR4UcKPE39YJj3oBJ/WwFhINqcm0lEN9aQHjVBJe9+RaMW2yH/MEpQwl1hWGpflACPZqm5S7XORp5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FFZB5s5H9x0RHyTRvZBp8q7ArTmPzAGQN4lm1yI3e+8=;
+ b=FPzrr2LLDE9Qc+YOO2KQUpgE5wfsrkAZs3cMyaTgT0LXmmz62YtBmsPi/N3sGVUhkAjAHF2F8eqUstiqcK31Z0h3NumtZkT43WXASk3eI7q47egpS5ncs2rtDu/WLjUOK60478tmrdraeYGcuaV/pdWpEYJbK8FXbyMQeYJuJeU8+m6pO1Gnm5oqUWnDWNMtG34nYp5dYFrGZVfOF1qjMQUWSDbmnn8XsDyCTrhgzn1ukcwgImIPF82TR1EwHdMNzRBPMuToZv44iuyT8yR3jahMQVeg9j+D/dXlWpBRUb5aINf4F+NYN2xeehZQE+Z0sQQJSwWWx8ord0IEbr3i1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 155.70.32.52) smtp.rcpttodomain=ipxo.com smtp.mailfrom=centurylink.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=centurylink.com; dkim=pass (signature was verified)
+ header.d=centurylink.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FFZB5s5H9x0RHyTRvZBp8q7ArTmPzAGQN4lm1yI3e+8=;
+ b=CoEp2n5AwnPzgx6LP4r/9xAJgXLDR85IGTfC3i9hUJMRW59wHt6dKBRCKKopOCA986ILMacbEx+6KSQVf+W1FSl6sIdsIbOcAcD8cGaV9J554XSXlG/HJCeLtPQe6Ld+3uy/CcGbg/ZaYAN1AustD7rm/Q2/07kygGj9oQnmCeCbt/dQMnNXptEIvk4nuZAW8nn1H4EUIrtXfpOGZ45Ye6YJCU7aMcbEC04Jy1Z8l5nt5jv1vIKrKTb477A9RUoVKltYDCyAY3JXXMBRIC5EzfhpmdHYOe9joe1hbwnCc4xFc+7PTg4AebnWHsq/BidDDo266GpHhA5ByMS8mheA2g==
+Received: from CWLP265CA0506.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:18b::19)
+ by LO2P302MB0121.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:372::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Sat, 25 Mar
+ 2023 13:16:43 +0000
+Received: from CWLGBR01FT030.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:400:18b:cafe::5f) by CWLP265CA0506.outlook.office365.com
+ (2603:10a6:400:18b::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41 via Frontend
+ Transport; Sat, 25 Mar 2023 13:16:43 +0000
+Received-SPF: Pass (protection.outlook.com: domain of centurylink.com
+ designates 155.70.32.52 as permitted sender) receiver=protection.outlook.com;
+ client-ip=155.70.32.52; helo=lxdnp29m.centurylink.com; pr=C
+Received: from lxdnp29m.centurylink.com (155.70.32.52) by
+ CWLGBR01FT030.mail.protection.outlook.com (10.152.40.158) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6222.22 via Frontend Transport; Sat, 25 Mar 2023 13:16:41 +0000
+Received: from lxomp90v.corp.intranet (lxomp90v.corp.intranet [151.117.203.59])
+	by lxdnp29m.centurylink.com (8.14.8/8.14.8) with ESMTP id 32PDGNtp021055
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sat, 25 Mar 2023 07:16:25 -0600
+DKIM-Filter: OpenDKIM Filter v2.11.0 lxdnp29m.centurylink.com 32PDGNtp021055
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=centurylink.com;
+	s=default; t=1679750186;
+	bh=WpS3ktFwZF5yPNh23BOD7lXTJ01Vu/6wkWdJhBuaQSw=;
+	h=From:Subject:To:Date:From;
+	b=JKW51ttRJE/n3GhX5V9IaJP8iDOtQMgYCN7Afq4muIX4l0TmBm0LOYDcO4LmhpZDJ
+	 IsAvu14zPy43DBTmUy29IoUJup45n3JHXhPBOVnj5luSlLTZ/enIymCUoWkHT8ikRO
+	 th2rjWsBVYvCWymakFdfBKUfDgBOshDZgOP9aBWQ=
+Received: from lxomp90v.corp.intranet (localhost [127.0.0.1])
+	by lxomp90v.corp.intranet (8.14.8/8.14.8) with ESMTP id 32PDFxgs018716;
+	Sat, 25 Mar 2023 08:15:59 -0500
+Received: from lxdnp32k.corp.intranet (lxdnp32k.corp.intranet [151.119.98.71])
+	by lxomp90v.corp.intranet (8.14.8/8.14.8) with ESMTP id 32PDFw3Z018697
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 25 Mar 2023 08:15:58 -0500
+Received: from lxdnp32k.corp.intranet (localhost [127.0.0.1])
+	by lxdnp32k.corp.intranet (8.14.8/8.14.8) with ESMTP id 32PDFwCi025123;
+	Sat, 25 Mar 2023 07:15:58 -0600
+Received: from messagelabs1.level3.com (dnvrcodp04prod-snip.corp.intranet [151.116.137.11])
+	by lxdnp32k.corp.intranet (8.14.8/8.14.8) with ESMTP id 32PDFwl8025109
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 25 Mar 2023 07:15:58 -0600
+Received: from bastion01.tr.net.intranet (unknown [192.168.79.246])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(Client did not present a certificate)
+	by messagelabs1.level3.com (Postfix) with ESMTPS id 5851328365;
+	Sat, 25 Mar 2023 13:15:12 +0000 (GMT)
+Received: by bastion01.tr.net.intranet (Postfix, from userid 501)
+	id 29628340075; Sat, 25 Mar 2023 13:15:12 +0000 (UTC)
+From: No Reply <no-reply@centurylink.com>
+Subject: Malicious Botnet Command and Controller on your network confirmed by Lumen
+To: <abuse@ipxo.com>, <abuse@heficed.com>, <ipabuse@acedatacenter.com>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20230325131512.29628340075@bastion01.tr.net.intranet>
+Date: Sat, 25 Mar 2023 13:15:12 +0000 (UTC)
+X-TM-AS-GCONF: 00
+Return-Path: no-reply@centurylink.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLGBR01FT030:EE_|LO2P302MB0121:EE_
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: b449fdf0-6513-4268-9ede-08db2d332c81
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	nfO5+uTn1YUKt0Ml06OmiRrSLqIaJpYFr36v8IRxkKEKOBklljnRD07n51ora25yFqh+0bk1+233r5AqHfugkL0PKndrwDjNTALe1fJnINwTBRgL24fM8Y9ijBw+2MjgiPTI0P+omtcWX6hmab97ce+jyglUcA3qum9jJuDtNLAHGB1HmTET6Phag5B/whXYiaCARBn3oeVokIvrpk4Q9e8tWPHI74/BrprxuZ9fQ0hGAgwjALr0i0al/b4++tV52imzUCLWJfUZPO0V0orLLnpja3mbFnulwo1JgK0+/QK1GFHYAYBVHu23hhOWMm0Uhblfa7+SQZJYKSmZUdIWBS0Q1Now+RBPTZG6p9z5XD0xRiQZqutiS71T2CCLKKF6bj3DUFT2t9ADgmG+zRKl7rRZohYo2domLswczh8JAsCk8S4Fw4+sUpc30uRmWsbFBTzl8I5Abnqi1AIxpVSnGO9EKr6b2DWdXchXlb11gecEhICf/dZKUqbUBkqJ/8zzGz9i4KylKHUlT15MT9riJKT7pespIGo0KF/vPKXDD0fnkN7F+iZNCANjkBGopm2/Og9UfXqKi6TrTNYoMeq2+z1coTvsAiRYFJMx6wDrL6E0J4emixgK3wvWdkgsuBKMTLLbDw8dCa8p+MqYYVm8kyUc9i5YQwy/Q5skv7L72P3my6IPw6VoMKqh7VNuzNC3qPtSanb9ke8HyTVj1QKxxbUD4bZY0COYWa8CybC50p6wJ88QKUwM9Cw5e7sDToeljhUnLrK0UTkXoE4aFiN+25bi5y44o/9lvrAAM3kLqj8=
+X-Forefront-Antispam-Report:
+	CIP:155.70.32.52;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lxdnp29m.centurylink.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(39860400002)(136003)(451199021)(8676002)(86362001)(83380400001)(81166007)(26005)(316002)(66574015)(1076003)(9686003)(6266002)(2906002)(498600001)(336012)(68406010)(5660300002)(356005)(70586007)(110136005)(42186006)(2101003);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2023 13:16:41.2112
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b449fdf0-6513-4268-9ede-08db2d332c81
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	CWLGBR01FT030.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P302MB0121
+Original-Authentication-Results: spf=pass (sender IP is 155.70.32.52)
+ smtp.mailfrom=centurylink.com; dkim=pass (signature was verified)
+ header.d=centurylink.com;dmarc=pass action=none header.from=centurylink.com;
+
+Date: 2023-03-25
+
+Lumen's Black Lotus Labs has been continuously tracking malicious botnets as they wreak havoc on victims across the internet.
+
+Using various machine learning techniques to analyze attacks from known susceptible devices, as well as intel generated or obtained, Black Lotus Labs has been able to identify a number of C2s [command and control units] associated with cobaltstrike.
+
+C2/Attacker IP: 108[.]165.178.42
+
+Notice: FINAL
+C2 Port(s):  | 
+C2 Active on Our System: 3 Days
+Malware Family: Cobaltstrike
+Active in last 24 hours: YES
+
+The above IP has been confirmed as an active CobaltStrike C2 (command-and-control) server. CobaltStrike is used by penetration testers, but also by malicious actors for reconnaissance, data exfiltration and other nefarious activities.  Due to the potential risk to victims, we are requesting you take action to remove this C2 server.
+
+
+Please investigate, and unless found otherwise, disable access until the device can be secured. Contact SOC@centurylink.com with any questions.
+
+Notice: This information is Confidential and provided in good faith to raise awareness. Lumen disclaims any liability for inaccurate or incomplete information. You, and not Lumen, are responsible for any action or inaction undertaken as a result of this information and identifying any particular consequences or obligations that may be applicable based on this information.
+
+Notification sent to abuse@ipxo.com,abuse@heficed.com,ipabuse@acedatacenter.com

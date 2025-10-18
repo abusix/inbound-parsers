@@ -1,0 +1,984 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01on2086.outbound.protection.outlook.com [40.107.122.86])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id DD66454B-316C-4D6D-9A0B-306433BBB99B.1
+	envelope-from <bounces+SRS=JN/wP=E5@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Wed, 13 Sep 2023 05:06:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bSnmPFWzLoEufhvM/TXYzPsu814pKvOUOq7YX0W/z9h/kXwOnLI5BfRVKpKSn9EH6YD6g/cD4F/X5wmyF1dGyRSIw/Xox4kr49raw+37a1W7b3zg2H+WmcEbaP15EM+75FlQP4bU4j7p8p58D52fbQhPHM9Bb+26/pruAizP0Crqx9wIhGp91h/rKtjDq/YSlK2NinsPd6WFbYwO1+RN7+0Mlz0JlgdrjkGt9xcZEov42c/FT9wk6lyZQlXx+48cbDmujNgbXUeLQl4grb4Mi1rvqfvcWunPR0bh8kg993IduFaE+JMw96V7d/qFcHcyCnHSV9vvd0Oyaht4fLF40A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8zd6+4yshOwBsLrlzVKtCVj20JOSDIX60k8tAC4QZYU=;
+ b=Wt3TMbuxlc2HueKndB2y8rMkM0Z3yyGtFZaq3iYVph5c7BABiqhGymAWJSW1LDRgC1IqpGIA+tIQGoyMkm8o7qLdYwwzaLOdPC+dfQ0WzI0zB9L2+q+mceWXvG+HbCBTdFDSsTr+om7ZuhIf1q/mWhenxqkUcgkcSxFyOYhnH/ZcYHWgT/vHft8KXqrsyBEhMbgGV+QamIG/2hNnNAooLWjftF5Nb8aHVUCs1cje5YYvfezQsgAtsr6+7Vd/H01TDY79AD1NFU3mDcFQgyNJrbK1aVIq9SJ5UggvHrmGWgY/cPwgp+JRL8IDWpezRfj/qvUZgOrlQhGB1BIm+grycQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 88.216.76.125) smtp.rcpttodomain=ipxo.com smtp.mailfrom=ntt.lt;
+ dmarc=bestguesspass action=none header.from=ntt.lt; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8zd6+4yshOwBsLrlzVKtCVj20JOSDIX60k8tAC4QZYU=;
+ b=2ard5/fPuU6AtjJy0h/lkFDvDerU0Gh5PIB/MZRebseP0Nt3ccHggTykpoukoWpTtsuXCBvDpGDzz3N5qWfeV52enzNsXNNYcJLIH/EW9Ty3PJKNl5aFMkKX7AKP5X0earRZ/DYc2ktitwSmpmx5vpAGJ9Ce2XjgvZkRfMkVZx5DdNr4DS0x5f+pdYsxPF2NxmrokGUAiooTSjpKyXVgKdqzOAUY82RBE3AS3pKBOTYlplC18TkOM7D3YCwWascCaD7gg2wRle35AjVSwtGLyA1H/+uHKBx4A5VR3pmGFh2MOh1v9clmRgzjSXkoBiuzJW5i2IgGYRyG7C4WOBqgaA==
+Received: from LO6P265CA0016.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2ff::7)
+ by LO0P302MB0155.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:368::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.19; Wed, 13 Sep
+ 2023 05:06:30 +0000
+Received: from LO2GBR01FT009.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:600:2ff:cafe::49) by LO6P265CA0016.outlook.office365.com
+ (2603:10a6:600:2ff::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.19 via Frontend
+ Transport; Wed, 13 Sep 2023 05:06:30 +0000
+Received-SPF: Pass (protection.outlook.com: domain of ntt.lt designates
+ 88.216.76.125 as permitted sender) receiver=protection.outlook.com;
+ client-ip=88.216.76.125; helo=mail2.ntt.lt; pr=C
+Received: from mail2.ntt.lt (88.216.76.125) by
+ LO2GBR01FT009.mail.protection.outlook.com (10.152.42.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6792.19 via Frontend Transport; Wed, 13 Sep 2023 05:06:30 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by mail2.ntt.lt (Postfix) with ESMTP id D7C9E5E030B;
+	Wed, 13 Sep 2023 08:06:29 +0300 (EEST)
+X-Virus-Scanned: Debian amavisd-new at 
+Received: from mail2.ntt.lt ([127.0.0.1])
+	by localhost (mxntt.ntt.lt [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rXY4ntLOLbAw; Wed, 13 Sep 2023 08:06:29 +0300 (EEST)
+Received: from [10.9.0.14] (unknown [84.32.134.3])
+	(Authenticated sender: aurimas.janulionis@ntt.lt)
+	by mail2.ntt.lt (Postfix) with ESMTPSA id 347385E0036;
+	Wed, 13 Sep 2023 08:06:29 +0300 (EEST)
+Content-Type: multipart/alternative;
+ boundary="------------oH90bOUHR45f8gJ2VqbS0MhZ"
+Message-ID: <bd3f385e-7d42-42a0-a89b-d57534a913f5@ntt.lt>
+Date: Wed, 13 Sep 2023 08:06:29 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Fwd: [spam?] Your server 84.32.71.37 has been registered as an attack
+ source
+References: <6500ba1a973c70274ceba6b3@mailersend.net>
+From: Aurimas Janulionis <aurimas.janulionis@ntt.lt>
+Content-Language: en-US
+To: Abuse Complaint <abuse@ipxo.com>, Abuse Prevention <abuse-report@ipxo.com>
+In-Reply-To: <6500ba1a973c70274ceba6b3@mailersend.net>
+X-Forwarded-Message-Id: <6500ba1a973c70274ceba6b3@mailersend.net>
+Return-Path: aurimas.janulionis@ntt.lt
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2GBR01FT009:EE_|LO0P302MB0155:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5dd10f4c-492b-4bd2-e876-08dbb417312e
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	eNpGQRi23V2Oh1p1Y8BXucSCO+S57V76Sv+GEC3yR9Fiq4SLDAU88kUMpWvMWvUBQ4paujR8UxGPfw8KwZrbwqO1u/Asg+xYzuVf4nBSukd3sejWMSQh7sP9GLgJXRD3F4liutEYGgby48AcqQdLDo2Cjt0guDRPewKyL15juID5B+OD7OhgmAmTaVhl04wkcEhBx5qarjBPexYaLko2epBKk/i0Q/+Me06eP1ymljp4qTNtiO0Od3VBODhOAofuscMwzCyceke/Fixr/X1WaFPaG22Djh7uVIv0aSrNfIlYI/qlTi4VAQdg+p79UsWnglTbW+bEwJ4WaqtjOgD5XWqXg007bFHtUJhAbOhxP0yTtyApBZ9CA3WgWbWavl1H7PzyoFO5eEqa5q5002lbrD32f1Ji4bgmtKf/Cv+61fqE2FFQ2e8z+UvtESqhPeCH7GYPTX/1q4ZkT6Vcn+RQUVUHoxBvP50P9GxXoK/pkcIdNFcZBZ3xVn8eXOSImWcJbP75qZXp7u9yWsDUTb2SzAweX+J5Ccms2SFaJ77DIPs0wP9HYp6EneWHq/1QgO/mg3dgyd0OWBAt4kS8IwD4GdZLD9P0qqKzz5C6QKaPStyEifWGzaBcqvY9GLRw/tgLQBBFwlLqobEOMlEM9sBKtb3MX/BQF2KUc12IuqeMkEiyODno7GC5jwKiXQQHfx5A6jtNa/mrmam4pQRoe3cYKt10n456Iq9A8tDbu8jU49RoInGiokhtEv4TmfIPXlaOw5/Z4Xxw6EM/3yCj8ymOujuwaidVrXB/B3NTgDhgXSxJ6DPE9j7ARd5TeTa/3zWJ2Y3xYyVRGqVblHT2QxRb2h4QAUHNAYOT9Xhb/hvZlG0=
+X-Forefront-Antispam-Report:
+	CIP:88.216.76.125;CTRY:LT;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail2.ntt.lt;PTR:mail2.ntt.lt;CAT:NONE;SFS:(13230031)(4636009)(39850400004)(396003)(376002)(136003)(346002)(1690799017)(61400799006)(451199024)(33964004)(966005)(45080400002)(498600001)(66574015)(26005)(2616005)(6266002)(336012)(426003)(2906002)(956004)(83380400001)(44832011)(76236004)(70586007)(68406010)(110136005)(5660300002)(6966003)(316002)(8676002)(31696002)(86362001)(36756003)(166002)(356005)(7636003)(7596003)(31686004)(66899024)(1406899027)(43740500002)(579004)(559001);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2023 05:06:30.4056
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5dd10f4c-492b-4bd2-e876-08dbb417312e
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	LO2GBR01FT009.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P302MB0155
+Original-Authentication-Results: spf=pass (sender IP is 88.216.76.125)
+ smtp.mailfrom=ntt.lt; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=ntt.lt;
+
+This is a multi-part message in MIME format.
+--------------oH90bOUHR45f8gJ2VqbS0MhZ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+
+
+-------- Forwarded Message --------
+Subject: 	[spam?] Your server 84.32.71.37 has been registered as an 
+attack source
+Date: 	Tue, 12 Sep 2023 19:20:58 +0000
+From: 	BitNinja Security <info@bitninja.com>
+Reply-To: 	info@bitninja.com
+To: 	abuse@ntt.lt
+
+
+
+
+
+Image
+
+
+
+Server Abuse Report
+
+Dear provider,
+
+I am Mark Bacsko, Incident Analyst at BitNinja Server Security.
+I’m writing to inform you that *we have detected malicious 
+requests* targeting our clients’ servers *from the IP 84.32.71.37* you 
+own based on a public database.
+We’ve been able to stop these requests and prevent future attacks by 
+*adding your IP to our greylist 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IjdMamoxS0l1NjZKdTIyVWE4T29VMnc9PSIsInZhbHVlIjoiU1Z2T2JmQUF2UCtETVBWMllZUE50R0dISFdDamF1OWNpM2pFeGpsTmVaM3FtalJvc2Z0NUhuMWdXTzRzeGZobmNkKzdQcXFIaTE1WkluZmlaUG9hSXo3NXpINWJzMXFoamx0VHRxb1p3UEhxN2dzcXVCUGtMMlVyZHplOStYNmQyTnN1dXZEdFRLN2NvTklSS2pUeXlYWkczSXNvc1pUd0owWDQ4ZHIzMjBzPSIsIm1hYyI6ImI5Mjg1YWZiMzhlOWE4ZjA0OTE4ZjA1NmFhNGFmNDI4NGI1YTE3ZmUxNGQzNDE2MjZjOThmZThiZmZjZjQxYzkiLCJ0YWciOiIifQ,,>*, 
+but we wanted to reach out and inform you, as you might not be aware.
+
+*/Timestamp (UTC): 2023-09-12 19:20:58/*
+
+Sometimes it’s not easy to notice that your servers are used as a “bot” 
+sending malicious attacks over the Internet.
+If this is the case with you, you can *take steps to protect your and 
+others’ **servers*.
+
+*ABUSE DETAILS*
+
+
+To help you to fix this problem, you can find the freshest 100 logs that 
+may help you disinfect your server under the link 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6ImpEWUhUTlNtMTFPb1FvMC8vUnZhWVE9PSIsInZhbHVlIjoiMHgxZnVpdktxK21zdzBpQW81N2VqdUNTTDRKRno0MkdYQVJndm0rL1NQUkswenVISHE0LzBJUVYxVUdBSXJUcTNSZ2crVDNGYUtaK0FLMTgzUGN3UG1Fa0RUSjZIYVRhRFVYa25IVWcrSXhNUzF4Wkx0ZWQ1WUZraWU4c2RsZEhFemJHUjlZamhmWGFvanNFS0krQ3JSSmVnUHVkZVJjOXp2QjJ1R3djcFR6eHNacTJpMW56RGNzdlB5LzYvQ2xsIiwibWFjIjoiNDZkMDFlMWI3NjZhZTg0MjdmZDE3NzdiYTdkZDNlMTA0NzEzYWU0MGQ5M2VkMDVkYWE1NDEwOTU4ZTE1NjE1NSIsInRhZyI6IiJ9>.
+
+Check Details 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IjM5NTJTQWVQZlg3emg1ZGNWM2traVE9PSIsInZhbHVlIjoiMGdLa3hvUEk1UlR5VjBhTm1CMHZsaFBCUDRFeVpua3R2MG14Q2J6Zm8rcC9Ra3IzL2NNQW9wWlRDQ2tIdG92RHRSVVlVZ1U0TWJEcEhGRGZpV1BDUWNpcnBJN1FhR0NoTXhWRk85TTl5TVFXRHJ5clhSN2hqQWhpUGZiaUhBek5ld3pUeHNzTUtXNkFPd3hZMks2R1ZnR0NnYXh2d2VUWitVbU5pVFFWTkdWUEVsclJZUHNIRWxLLzNKTUlkQTZFOVJBbklBZ2NydnliYTNHRjBWcDVpZz09IiwibWFjIjoiMDIxZjc2OGIyZDJjNDFhM2I0ZGExODVjMTBiYWQ0NWI4NGE5YmE3NjljNDdhY2YzZGNjNzFjNjRkYjhmMWVmMyIsInRhZyI6IiJ9> 
+
+
+Please keep in mind that after the first intrusion we log all traffic 
+between your server and the BitNinja-protected servers until the IP is 
+removed from the greylist. This means you may see valid logs beside the 
+malicious actions in the link above.
+
+
+If you need help finding the malicious logs, please don’t hesitate to 
+contact our incident experts by replying to this e-mail.
+
+
+Have an amazing week,
+
+
+*The BitNinja Team
+
+
+*
+
+Facebook 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InV3QjRpMTBSZHBJOHFxRWZkMmFKM0E9PSIsInZhbHVlIjoiVWVxUVZNVWFYR3hFd1lUWWRpUUltMmUrb1hnTGxBL0E2MmFHcElqSmUzMEQ0TUxwbjYyWUVNeFFlZTFWTnQvTExEM1ZQNk84c0N3R0JFQ3A5aEhFcUlROUszV3I5Mi8zN2lqWnNoUGhEUFY2VFNOYWlWb3FTa05EL1lMaTFaZytMbUJ6ZUVhT2ttNnFxekdWVUtDMnZnPT0iLCJtYWMiOiJkZmQ0ZGNkMThjOTJhMzU3YWNmMzQ0NWVkOTY0NGU1NmNjZWUzZGE4NzJjYjc5ZjgzMjIyYzU2YjBkMzZjNWE5IiwidGFnIjoiIn0,> 
+
+
+Twitter 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InNSQXZwQnFpbXBHVTlrZ2Z1RVVSZHc9PSIsInZhbHVlIjoiRU9DL3dRb0NEaVhlTHZtZ0RuMUMyUk00alhmTmlGMGR3QnZFeWJ0QllWajVXUmtLZzVIMEk3U083dFBPQmZwVWQ2aTFYM3ltV0RtdGxSQ0JFWm5wczdhaWRPZkpqZzRpNzNNb0R5ekdVQjhoZGlTK3cxbk05c3lWNXdnMzFQcUQiLCJtYWMiOiJhYWQ5MzJhNWIxYzU0MzlkYzI4MTczZDBkZGJhNjI2NzY2ZjBkMzJmMzczZDY0ZWVkYmUxMzY2NGE0YjBhYTVlIiwidGFnIjoiIn0,> 
+
+
+Instagram 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6Imk4N2dMWWRwb3AwNjNpYnpUcXNLVEE9PSIsInZhbHVlIjoiSDVhWllqMjlZbDNaRWliWnc2RXd1ZHZMaEVGeld1TW9sRTBTRlU2eTNqa1I0YWdxVVBaZkdDTXlwZWNncllLcERKaTkwUDYydmVPSVdaOTJkZWdjOUNhWTFvdUNYSkREa2dRV3ZSeVRHaGJCUFJmdDZOeVA3S1FWRHZvSVhVckZRQ3lzWjltaXg0WjR4aHpZTXJhOFRnPT0iLCJtYWMiOiJmMzU1ODZlODc5NTcxZmRmNjM5NzQxMWU4MjI1ODViODQzNjQ1NjNkZWRmODhhOTg0ZDUxOTA2NDRlYTUwZDc2IiwidGFnIjoiIn0,> 
+
+
+Linkedin 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InVSa2R2bmg2Q0R6OVdXM2FQWjhvZmc9PSIsInZhbHVlIjoibG8wcjIxNGRnV3ptZGhUcVRhVXdnOU52K3lFaG54T3VHamhwQ3hobUkrU1FMd2t5dXVXa01xTHVMREp6S1NlSjVXSmhSY3dvMSthcGRUb0xEYUgvbW9pSDUxNjlvSDN0c2UyNm5iRXk1V1BsVFBNdW5aQXlzOUZZRDZIU2JkMHJpZlo0bjhRYVdQYW4vTzFNT2FBUGVRPT0iLCJtYWMiOiIxY2JhZTRiMDdlMWM5NWNkMDBmN2IxNWUzODhmYWZlNDBhN2Q0ODAzZjg4NDczNzM2YjlmOGIzZDE5YWEyZDBjIiwidGFnIjoiIn0,> 
+
+
+Email <mailto:csm@bitninja.com>
+
+YouTube 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InlzSW92T09SMldlT1pKY3pKeUgxeHc9PSIsInZhbHVlIjoiZTZIck5kRC9lWW9MWVMxWGdxQW9ndG5NWGpDTDJmeU5XakRIZ291TzFHQmU0VW1MbDhVNlVDcEd3R0hsUm91Z1lzRWk4K0lXNHljd2ZPNHdmZm5TMWxIQXIzRS9NUS9EOVN5MTRhYVd5TUlqUXRocWtKZXN6WFBIRHZDWHhYQ1laVE91NVY5OEphYzRrRTV4TDkxYkZnPT0iLCJtYWMiOiI4OTg2ZmZkYTI0YzIxZWEwMDhkNzIyNjlhODY5ZjUzM2EwOTkxNmFjODIzYzkzMThlNzkwMTNjZWY2MTgzODY2IiwidGFnIjoiIn0,> 
+
+
+Check out the incidents at:
+
+https://report.bitninja.com/incident-report/452e57c4375d405416?utm_source=incident&utm_medium=email&utm_content=publicpage 
+<https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IkJDQ255MW9BQWZPdTYrc2JISjFvT3c9PSIsInZhbHVlIjoiMTdBUURUZWwya3FGQWtYc0dUZnIwSFdkRTYrZFRKeHphYXRwR3dLblM5VHpJNy9pRkJOQ0YwYVc4Y0xXSHRzc3pxc3dCeEFBZDNFendYamY2cnREMFBxOEUxOSswSlhJVUdueDJZR01FU3ZGRkdxcnQ3aVpNeEp1TzNod3E2WXRaWGk4Y3FNc1piQ0pvTjkxR2VtVEFRTTJXZFNDMUVLM29tZ0wrQkFtZXFJcTE4VXk1WnF6WHpKYkErUmpGOHJhIiwibWFjIjoiMTI2YjM1NTBjNTUxMWU0ZWYzOTNhOGQ4ZGRmZjU0MzRmZDkyNTBkODI2NDdmMWVkNTU2NzFkMDg1NDQzNzYzMCIsInRhZyI6IiJ9>
+
+
+
+
+
+Click here to unsubscribe 
+<https://pxkjn417k504z781.click.mailersend.net/uws/6456c62bff771ee8620eb149?parameters=eyJpdiI6Ikg0eWphcUc3aHlhODBZR1VrRGw0cHc9PSIsInZhbHVlIjoiODV2L2sySlRzd1hqdWViWDB4UzJ1ZmhiY2hqa1hZNjVMNG91SDdhQnpLT0FDMU1sSy9YUFhSM0FrWjNMNnp0MDYrZVdORUZ0dGRQUUUzaDRTc3p4RjV5Nm9LQ0ZtRFJ5ejdZOUJTZC91bDA9IiwibWFjIjoiZjVmNjUzOWJmMmYzOWQ2NGM4Y2JjMDE0YmIyMmRiNmEwMDM2YTcyMmFhYTA4NzY2Nzg4ZGRkOTY0Yjg3Y2QyZCIsInRhZyI6IiJ9>
+
+--------------oH90bOUHR45f8gJ2VqbS0MhZ
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body data-new-gr-c-s-loaded="14.1117.0" data-gr-ext-installed=""
+    data-new-gr-c-s-check-loaded="14.1118.0"
+    style="padding:0; margin: 0;">
+    <p><br>
+    </p>
+    <div class="moz-forward-container"><br>
+      <br>
+      -------- Forwarded Message --------
+      <table class="moz-email-headers-table" cellspacing="0"
+        cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <th valign="BASELINE" nowrap="nowrap" align="RIGHT">Subject:
+            </th>
+            <td>[spam?] Your server 84.32.71.37 has been registered as
+              an attack source</td>
+          </tr>
+          <tr>
+            <th valign="BASELINE" nowrap="nowrap" align="RIGHT">Date: </th>
+            <td>Tue, 12 Sep 2023 19:20:58 +0000</td>
+          </tr>
+          <tr>
+            <th valign="BASELINE" nowrap="nowrap" align="RIGHT">From: </th>
+            <td>BitNinja Security <a class="moz-txt-link-rfc2396E" href="mailto:info@bitninja.com">&lt;info@bitninja.com&gt;</a></td>
+          </tr>
+          <tr>
+            <th valign="BASELINE" nowrap="nowrap" align="RIGHT">Reply-To:
+            </th>
+            <td><a class="moz-txt-link-abbreviated" href="mailto:info@bitninja.com">info@bitninja.com</a></td>
+          </tr>
+          <tr>
+            <th valign="BASELINE" nowrap="nowrap" align="RIGHT">To: </th>
+            <td><a class="moz-txt-link-abbreviated" href="mailto:abuse@ntt.lt">abuse@ntt.lt</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      <title> </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width">
+      <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
+      <style type="text/css">body, html {
+      margin: 0px;
+      padding: 0px;
+      -webkit-font-smoothing: antialiased;
+      text-size-adjust: none;
+      width: 100% !important;
+    }table td, table {
+      }#outlook a {
+        padding: 0px;
+      }.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+        line-height: 100%;
+      }.ExternalClass {
+        width: 100%;
+      }</style>
+      <link
+href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i%20&amp;subset=cyrillic,latin-ext"
+        data-name="open_sans" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" type="text/css"
+href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+      <img
+src="https://pxkjn417k504z781.click.mailersend.net/te/ows/eyJpdiI6IjR5NU1BZlduT3M4MWd4eUVrMm90NGc9PSIsInZhbHVlIjoicTF5Kzl5Zkh1ZEg5NGM1YXFoVGl3Vk9hbzJydldjUjlsakN2RUJObkRlY2dTaXJUa1hTMldZeFB0N2tTT1dxSGRYckpQWnJGSXhGME1Ha3pwZHBZK0JpNmI3ZjV4Y3BPaWkwUTdWUWlNRWM9IiwibWFjIjoiYmE5NzVjYmM1MzhjYTkwYjYyNWFmZTgyMGFlMzg3ZTNhMTAyZGExMTBjNTIxOTQwNDAyOWMxNDg1NTRhMjVhNSIsInRhZyI6IiJ9"
+        alt=""
+style="display:block; height:0px; width:0px; max-width:0px; max-height:0px; overflow:hidden;"
+        moz-do-not-send="true" width="1" height="1" border="0">
+      <table style="height: 100%; width: 100%;" align="center">
+        <tbody>
+          <tr>
+            <td id="dbody" data-version="2.31"
+style="width: 100%; height: 100%; padding-top: 50px; padding-bottom: 50px;"
+              valign="top">
+              <!--[if (gte mso 9)|(IE)]><table align="center" style="max-width:600px" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+              <table class="layer_1"
+style="max-width: 600px; box-sizing: border-box; width: 100%; margin: 0px auto;"
+                cellspacing="0" cellpadding="0" border="0"
+                align="center">
+                <tbody>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center">
+                      <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="emptycell"
+                                style="padding: 10px;" valign="top"> <br>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                      <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center">
+                      <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edimg"
+style="padding: 0px; box-sizing: border-box; text-align: center;"
+                                valign="top"> <img
+style="border-width: 0px; font-size: 12px; border-style: none; max-width: 596px; width: 100%;"
+                                  alt="Image"
+src="https://api.smtprelay.co/userfile/63afb392-af16-47d6-beae-77fab2874ed4/trail_(14).png"
+                                  moz-do-not-send="true" width="596"> </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center">
+                      <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="emptycell"
+                                style="padding: 10px;" valign="top"> <br>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                      <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center">
+                      <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <p class="style1 text-center"
+style="text-align: center; margin: 0px; padding: 0px; color: #000000; font-size: 32px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">Server
+                                  Abuse Report</p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center">
+                      <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <p style="margin: 0px; padding: 0px;"><span
+                                    style="font-size: 14px;">Dear
+                                    provider,
+                                    <br>
+                                    <br>
+                                    I am Mark Bacsko, Incident Analyst
+                                    at BitNinja Server Security. <br>
+                                    I’m writing to inform you that <strong>we
+                                      have detected malicious requests</strong> targeting
+                                    our clients’ servers <strong>from
+                                      the IP 84.32.71.37</strong> you
+                                    own based on a public database. <br>
+                                    We’ve been able to stop these
+                                    requests and prevent future
+                                    attacks by <strong>adding your IP
+                                      to our <a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IjdMamoxS0l1NjZKdTIyVWE4T29VMnc9PSIsInZhbHVlIjoiU1Z2T2JmQUF2UCtETVBWMllZUE50R0dISFdDamF1OWNpM2pFeGpsTmVaM3FtalJvc2Z0NUhuMWdXTzRzeGZobmNkKzdQcXFIaTE1WkluZmlaUG9hSXo3NXpINWJzMXFoamx0VHRxb1p3UEhxN2dzcXVCUGtMMlVyZHplOStYNmQyTnN1dXZEdFRLN2NvTklSS2pUeXlYWkczSXNvc1pUd0owWDQ4ZHIzMjBzPSIsIm1hYyI6ImI5Mjg1YWZiMzhlOWE4ZjA0OTE4ZjA1NmFhNGFmNDI4NGI1YTE3ZmUxNGQzNDE2MjZjOThmZThiZmZjZjQxYzkiLCJ0YWciOiIifQ,,"
+                                        target="_blank"
+style="color: #5457ff; text-decoration: none;" moz-do-not-send="true">greylist</a></strong>,
+                                    but we wanted to reach out and
+                                    inform you, as you might not be
+                                    aware.</span></p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="breakline"
+                                style="padding: 0px;" valign="top">
+                                <p
+style="border-style: solid none none; border-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;"> </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #c8c3c3; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 11px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <p class="text-center"
+style="text-align: center; margin: 0px; padding: 0px;"><strong><span
+                                      style="font-size: 14px;"><em>Timestamp
+                                        (UTC): 2023-09-12 19:20:58</em></span></strong></p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="breakline"
+                                style="padding: 0px;" valign="top">
+                                <p
+style="border-style: solid none none; border-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;"> </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <p style="margin: 0px; padding: 0px;"><span
+                                    style="font-size: 14px;">Sometimes
+                                    it’s not easy to notice that your
+                                    servers are used as a “bot” sending
+                                    malicious attacks over the
+                                    Internet. <br>
+                                    If this is the case with you, you
+                                    can <strong>take steps to protect
+                                      your and others’ </strong><strong>servers</strong>.</span></p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="breakline"
+                                style="padding: 0px;" valign="top">
+                                <p
+style="border-style: solid none none; border-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;"> </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #c8c3c3; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 32px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <p style="margin: 0px; padding: 0px;"><span
+                                    style="font-size: 18px;"><strong>ABUSE
+                                      DETAILS</strong></span></p>
+                                <p style="margin: 0px; padding: 0px;"><br>
+                                </p>
+                                <p style="margin: 0px; padding: 0px;"><span
+                                    style="font-size: 14px;">To help you
+                                    to fix this problem, you can find
+                                    the freshest 100 logs that may help
+                                    you disinfect your server <a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6ImpEWUhUTlNtMTFPb1FvMC8vUnZhWVE9PSIsInZhbHVlIjoiMHgxZnVpdktxK21zdzBpQW81N2VqdUNTTDRKRno0MkdYQVJndm0rL1NQUkswenVISHE0LzBJUVYxVUdBSXJUcTNSZ2crVDNGYUtaK0FLMTgzUGN3UG1Fa0RUSjZIYVRhRFVYa25IVWcrSXhNUzF4Wkx0ZWQ1WUZraWU4c2RsZEhFemJHUjlZamhmWGFvanNFS0krQ3JSSmVnUHVkZVJjOXp2QjJ1R3djcFR6eHNacTJpMW56RGNzdlB5LzYvQ2xsIiwibWFjIjoiNDZkMDFlMWI3NjZhZTg0MjdmZDE3NzdiYTdkZDNlMTA0NzEzYWU0MGQ5M2VkMDVkYWE1NDEwOTU4ZTE1NjE1NSIsInRhZyI6IiJ9"
+style="color: #5457ff; text-decoration: none;" moz-do-not-send="true">under
+                                      the link</a>.</span></p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #c8c3c3; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edbutton"
+                                style="padding: 14px;" valign="top">
+                                <table
+style="text-align: center; margin: 0px auto;" cellspacing="0"
+                                  cellpadding="0" align="center">
+                                  <tbody>
+                                    <tr>
+                                      <td
+style="border-radius: 4px; padding: 12px; background: #4b62a3;"
+                                        align="center"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IjM5NTJTQWVQZlg3emg1ZGNWM2traVE9PSIsInZhbHVlIjoiMGdLa3hvUEk1UlR5VjBhTm1CMHZsaFBCUDRFeVpua3R2MG14Q2J6Zm8rcC9Ra3IzL2NNQW9wWlRDQ2tIdG92RHRSVVlVZ1U0TWJEcEhGRGZpV1BDUWNpcnBJN1FhR0NoTXhWRk85TTl5TVFXRHJ5clhSN2hqQWhpUGZiaUhBek5ld3pUeHNzTUtXNkFPd3hZMks2R1ZnR0NnYXh2d2VUWitVbU5pVFFWTkdWUEVsclJZUHNIRWxLLzNKTUlkQTZFOVJBbklBZ2NydnliYTNHRjBWcDVpZz09IiwibWFjIjoiMDIxZjc2OGIyZDJjNDFhM2I0ZGExODVjMTBiYWQ0NWI4NGE5YmE3NjljNDdhY2YzZGNjNzFjNjRkYjhmMWVmMyIsInRhZyI6IiJ9"
+                                          target="_blank"
+style="word-break: break-word; color: #ffffff; font-size: 16px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-weight: normal; text-decoration: none; display: inline-block;"
+                                          moz-do-not-send="true"><span
+                                            style="color: #ffffff;">Check
+                                            Details</span></a></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="breakline"
+                                style="padding: 0px;" valign="top">
+                                <p
+style="border-style: solid none none; border-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;"> </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <p
+style="margin: 0px; padding: 0px;"><span style="font-size: 14px;">Please
+                                            keep in mind that after the
+                                            first intrusion we log all
+                                            traffic between your server
+                                            and the BitNinja-protected
+                                            servers until the IP is
+                                            removed from the greylist.
+                                            This means you may see valid
+                                            logs beside the malicious
+                                            actions in the link above.</span></p>
+                                        <p
+style="margin: 0px; padding: 0px;"><span style="font-size: 14px;"><br>
+                                          </span></p>
+                                        <p
+style="margin: 0px; padding: 0px;"><span style="font-size: 14px;">If you
+                                            need help finding the
+                                            malicious logs, please don’t
+                                            hesitate to contact our
+                                            incident experts by replying
+                                            to this e-mail.</span></p>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <p
+style="margin: 0px; padding: 0px;"><br>
+                                        </p>
+                                        <p
+style="margin: 0px; padding: 0px;"><span style="font-size: 14px;">Have
+                                            an amazing week,</span></p>
+                                        <p
+style="margin: 0px; padding: 0px;"><br>
+                                        </p>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <p
+style="margin: 0px; padding: 0px;"><strong><span
+                                              style="font-size: 14px;">The
+                                              BitNinja Team</span><br>
+                                            <br>
+                                            <br>
+                                          </strong></p>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edsocialfollow"
+                                style="padding: 20px;" valign="top">
+                                <table style="margin:0 auto"
+                                  class="edsocialfollowcontainer"
+                                  cellspacing="0" cellpadding="0"
+                                  border="0" align="center">
+                                  <tbody>
+                                    <tr>
+                                      <td><!--[if mso]><table align="center" border="0" cellspacing="0" cellpadding="0"><tr><td align="center" valign="top"><![endif]-->
+                                        <table data-service="facebook"
+                                          cellspacing="0"
+                                          cellpadding="0" border="0"
+                                          align="left">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:10px;"
+                                                valign="middle"
+                                                align="center"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InV3QjRpMTBSZHBJOHFxRWZkMmFKM0E9PSIsInZhbHVlIjoiVWVxUVZNVWFYR3hFd1lUWWRpUUltMmUrb1hnTGxBL0E2MmFHcElqSmUzMEQ0TUxwbjYyWUVNeFFlZTFWTnQvTExEM1ZQNk84c0N3R0JFQ3A5aEhFcUlROUszV3I5Mi8zN2lqWnNoUGhEUFY2VFNOYWlWb3FTa05EL1lMaTFaZytMbUJ6ZUVhT2ttNnFxekdWVUtDMnZnPT0iLCJtYWMiOiJkZmQ0ZGNkMThjOTJhMzU3YWNmMzQ0NWVkOTY0NGU1NmNjZWUzZGE4NzJjYjc5ZjgzMjIyYzU2YjBkMzZjNWE5IiwidGFnIjoiIn0,"
+                                                  target="_blank"
+style="color:#5457ff;font-size:12px;font-family:" moz-do-not-send="true"><img
+src="https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_facebook.png"
+style="display:block;width:32px;max-width:32px;border:none"
+                                                    alt="Facebook"
+moz-do-not-send="true"></a></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]></td><td align="center" valign="top"><![endif]-->
+                                        <table data-service="twitter"
+                                          cellspacing="0"
+                                          cellpadding="0" border="0"
+                                          align="left">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:10px;"
+                                                valign="middle"
+                                                align="center"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InNSQXZwQnFpbXBHVTlrZ2Z1RVVSZHc9PSIsInZhbHVlIjoiRU9DL3dRb0NEaVhlTHZtZ0RuMUMyUk00alhmTmlGMGR3QnZFeWJ0QllWajVXUmtLZzVIMEk3U083dFBPQmZwVWQ2aTFYM3ltV0RtdGxSQ0JFWm5wczdhaWRPZkpqZzRpNzNNb0R5ekdVQjhoZGlTK3cxbk05c3lWNXdnMzFQcUQiLCJtYWMiOiJhYWQ5MzJhNWIxYzU0MzlkYzI4MTczZDBkZGJhNjI2NzY2ZjBkMzJmMzczZDY0ZWVkYmUxMzY2NGE0YjBhYTVlIiwidGFnIjoiIn0,"
+                                                  target="_blank"
+style="color:#5457ff;font-size:12px;font-family:" moz-do-not-send="true"><img
+src="https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_twitter.png"
+style="display:block;width:32px;max-width:32px;border:none"
+                                                    alt="Twitter"
+moz-do-not-send="true"></a></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]></td><td align="center" valign="top"><![endif]-->
+                                        <table data-service="instagram"
+                                          cellspacing="0"
+                                          cellpadding="0" border="0"
+                                          align="left">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:10px;"
+                                                valign="middle"
+                                                align="center"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6Imk4N2dMWWRwb3AwNjNpYnpUcXNLVEE9PSIsInZhbHVlIjoiSDVhWllqMjlZbDNaRWliWnc2RXd1ZHZMaEVGeld1TW9sRTBTRlU2eTNqa1I0YWdxVVBaZkdDTXlwZWNncllLcERKaTkwUDYydmVPSVdaOTJkZWdjOUNhWTFvdUNYSkREa2dRV3ZSeVRHaGJCUFJmdDZOeVA3S1FWRHZvSVhVckZRQ3lzWjltaXg0WjR4aHpZTXJhOFRnPT0iLCJtYWMiOiJmMzU1ODZlODc5NTcxZmRmNjM5NzQxMWU4MjI1ODViODQzNjQ1NjNkZWRmODhhOTg0ZDUxOTA2NDRlYTUwZDc2IiwidGFnIjoiIn0,"
+                                                  target="_blank"
+style="color:#5457ff;font-size:12px;font-family:" moz-do-not-send="true"><img
+src="https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_instagram.png"
+style="display:block;width:32px;max-width:32px;border:none"
+                                                    alt="Instagram"
+moz-do-not-send="true"></a></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]></td><td align="center" valign="top"><![endif]-->
+                                        <table data-service="linkedin"
+                                          cellspacing="0"
+                                          cellpadding="0" border="0"
+                                          align="left">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:10px;"
+                                                valign="middle"
+                                                align="center"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InVSa2R2bmg2Q0R6OVdXM2FQWjhvZmc9PSIsInZhbHVlIjoibG8wcjIxNGRnV3ptZGhUcVRhVXdnOU52K3lFaG54T3VHamhwQ3hobUkrU1FMd2t5dXVXa01xTHVMREp6S1NlSjVXSmhSY3dvMSthcGRUb0xEYUgvbW9pSDUxNjlvSDN0c2UyNm5iRXk1V1BsVFBNdW5aQXlzOUZZRDZIU2JkMHJpZlo0bjhRYVdQYW4vTzFNT2FBUGVRPT0iLCJtYWMiOiIxY2JhZTRiMDdlMWM5NWNkMDBmN2IxNWUzODhmYWZlNDBhN2Q0ODAzZjg4NDczNzM2YjlmOGIzZDE5YWEyZDBjIiwidGFnIjoiIn0,"
+                                                  target="_blank"
+style="color:#5457ff;font-size:12px;font-family:" moz-do-not-send="true"><img
+src="https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_linkedin.png"
+style="display:block;width:32px;max-width:32px;border:none"
+                                                    alt="Linkedin"
+moz-do-not-send="true"></a></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]></td><td align="center" valign="top"><![endif]-->
+                                        <table data-service="mail"
+                                          cellspacing="0"
+                                          cellpadding="0" border="0"
+                                          align="left">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:10px;"
+                                                valign="middle"
+                                                align="center"><a
+href="mailto:csm@bitninja.com" target="_blank"
+style="color:#5457ff;font-size:12px;font-family:" moz-do-not-send="true"><img
+src="https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_mail.png"
+style="display:block;width:32px;max-width:32px;border:none" alt="Email"
+moz-do-not-send="true"></a></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]></td><td align="center" valign="top"><![endif]-->
+                                        <table data-service="youtube"
+                                          cellspacing="0"
+                                          cellpadding="0" border="0"
+                                          align="left">
+                                          <tbody>
+                                            <tr>
+                                              <td style="padding:10px;"
+                                                valign="middle"
+                                                align="center"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InlzSW92T09SMldlT1pKY3pKeUgxeHc9PSIsInZhbHVlIjoiZTZIck5kRC9lWW9MWVMxWGdxQW9ndG5NWGpDTDJmeU5XakRIZ291TzFHQmU0VW1MbDhVNlVDcEd3R0hsUm91Z1lzRWk4K0lXNHljd2ZPNHdmZm5TMWxIQXIzRS9NUS9EOVN5MTRhYVd5TUlqUXRocWtKZXN6WFBIRHZDWHhYQ1laVE91NVY5OEphYzRrRTV4TDkxYkZnPT0iLCJtYWMiOiI4OTg2ZmZkYTI0YzIxZWEwMDhkNzIyNjlhODY5ZjUzM2EwOTkxNmFjODIzYzkzMThlNzkwMTNjZWY2MTgzODY2IiwidGFnIjoiIn0,"
+                                                  target="_blank"
+style="color:#5457ff;font-size:12px;font-family:" moz-do-not-send="true"><img
+src="https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_youtube.png"
+style="display:block;width:32px;max-width:32px;border:none"
+                                                    alt="YouTube"
+moz-do-not-send="true"></a></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]></td></tr></table><![endif]--></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="breakline"
+                                style="padding: 0px;" valign="top">
+                                <p
+style="border-style: solid none none; border-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;"> </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="edtext"
+style="padding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;"
+                                valign="top">
+                                <p class="text-center"
+style="text-align: center; margin: 0px; padding: 0px;">Check out the
+                                  incidents at:</p>
+                                <p class="text-center"
+style="text-align: center; margin: 0px; padding: 0px;"><a
+href="https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IkJDQ255MW9BQWZPdTYrc2JISjFvT3c9PSIsInZhbHVlIjoiMTdBUURUZWwya3FGQWtYc0dUZnIwSFdkRTYrZFRKeHphYXRwR3dLblM5VHpJNy9pRkJOQ0YwYVc4Y0xXSHRzc3pxc3dCeEFBZDNFendYamY2cnREMFBxOEUxOSswSlhJVUdueDJZR01FU3ZGRkdxcnQ3aVpNeEp1TzNod3E2WXRaWGk4Y3FNc1piQ0pvTjkxR2VtVEFRTTJXZFNDMUVLM29tZ0wrQkFtZXFJcTE4VXk1WnF6WHpKYkErUmpGOHJhIiwibWFjIjoiMTI2YjM1NTBjNTUxMWU0ZWYzOTNhOGQ4ZGRmZjU0MzRmZDkyNTBkODI2NDdmMWVkNTU2NzFkMDg1NDQzNzYzMCIsInRhZyI6IiJ9"
+                                    target="_blank"
+style="color: #5457ff; text-decoration: none;" moz-do-not-send="true">https://report.bitninja.com/incident-report/452e57c4375d405416?utm_source=incident&amp;utm_medium=email&amp;utm_content=publicpage</a><br>
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center">
+                      <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="emptycell"
+                                style="padding: 10px;" valign="top"> <br>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                      <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="drow"
+style="background-color: #e4e6ec; box-sizing: border-box; font-size: 0px; text-align: center;"
+                      valign="top" align="center"><!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                      <div class="layer_2"
+style="max-width: 600px; display: inline-block; vertical-align: top; width: 100%;">
+                        <table class="edcontent"
+                          style="border-collapse: collapse;width:100%"
+                          cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td class="emptycell"
+                                style="padding: 20px;" valign="top"><br>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--><br>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--> </td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="text-align:center;">Click here to <a
+href="https://pxkjn417k504z781.click.mailersend.net/uws/6456c62bff771ee8620eb149?parameters=eyJpdiI6Ikg0eWphcUc3aHlhODBZR1VrRGw0cHc9PSIsInZhbHVlIjoiODV2L2sySlRzd1hqdWViWDB4UzJ1ZmhiY2hqa1hZNjVMNG91SDdhQnpLT0FDMU1sSy9YUFhSM0FrWjNMNnp0MDYrZVdORUZ0dGRQUUUzaDRTc3p4RjV5Nm9LQ0ZtRFJ5ejdZOUJTZC91bDA9IiwibWFjIjoiZjVmNjUzOWJmMmYzOWQ2NGM4Y2JjMDE0YmIyMmRiNmEwMDM2YTcyMmFhYTA4NzY2Nzg4ZGRkOTY0Yjg3Y2QyZCIsInRhZyI6IiJ9"
+          style="color:#666666; text-decoration:none;"
+          moz-do-not-send="true">unsubscribe</a></p>
+      <grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+    </div>
+  </body>
+</html>
+
+--------------oH90bOUHR45f8gJ2VqbS0MhZ--

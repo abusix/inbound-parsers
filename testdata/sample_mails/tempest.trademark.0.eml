@@ -1,0 +1,179 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=fail (body hash did not verify) header.i=@tempest.com.br header.d=tempest.com.br header.s=20210825
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020089.outbound.protection.outlook.com [52.101.196.89])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id DF544710-46A9-4332-9850-152CB172DE54.1
+	envelope-from <csirt@tempest.com.br>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 30 Jan 2025 21:38:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BjYndw1wQrE5N0J6QPBSBU7ak0dPm153D65DYmMocrdMvl+ZqhzD2wkqoRAAsE2CTT2rg1AxXx9BQL2DzF2NuAHbvVvN9PBq2d5R0ozTs62aIMmBN1oeY6xr7wrjRjD4rjwiWtbNWAVUS+dyYtcD1TySnCaz4Adkxg+W7jY/RKzNM0g+ruCT/IRNSbe/cxIvTNZCFfdAwLJmnMSo1XMxiHw88rZwb19+Yqlm3LNU5HQGiEUvvLzO7jbEvsPSC5sswokQL5sogw4pBZ9J1x0ceOi3rBkaLzBrXUiCiu7w1cfWr2EVg4cCIPKwK9/Zr7JoXETAGEcPe+gTSFFt9nfjBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NLnDnJDnq5eWcge9k2phSnkwy2TctXHPQdfgf8yPpU0=;
+ b=r6O7Dvzl/YGHCR5BUUu121GrK4QUyECghn+fF6p6LLaC4TQm8Y3fMRZGxGHLb8qDDlb8zhjHN9blVtpQjXFDuoMo006JPyyb0dZ/cqxdCXgBAyZRauvn+flEF4LLQ0hIU9AXtkwFqzWEzDHKTyHwYX+N4Foxl28IJTavT3+G9WbUYjNKBiE6K/NrT1CjLUiAH/EZeA/pqX3ks8J+EQJZ1AftRpFvZrzx7G8JfnqK98f5htY19gTuiG65VsL/G4RI1p4KAinBpKNnm5UVax8ie1ISFIhXse94gSBCRq+lTvsHD2qce9jWl+lpOgVFcO0dp+beffc4ND1u/X9ZUwZ7Fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 18.221.86.12) smtp.rcpttodomain=abuseradar.com smtp.mailfrom=tempest.com.br;
+ dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=tempest.com.br; dkim=pass (signature was verified)
+ header.d=tempest.com.br; arc=none (0)
+Received: from LO4P123CA0032.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:151::19)
+ by LO3P265MB1979.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:106::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.21; Thu, 30 Jan
+ 2025 21:38:22 +0000
+Received: from LO1PEPF000028CC.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:151:cafe::ec) by LO4P123CA0032.outlook.office365.com
+ (2603:10a6:600:151::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.20 via Frontend Transport; Thu,
+ 30 Jan 2025 21:38:22 +0000
+Received-SPF: Pass (protection.outlook.com: domain of tempest.com.br
+ designates 18.221.86.12 as permitted sender) receiver=protection.outlook.com;
+ client-ip=18.221.86.12; helo=maidanak.tempest.com.br; pr=C
+Received: from maidanak.tempest.com.br (18.221.86.12) by
+ LO1PEPF000028CC.mail.protection.outlook.com (10.167.240.36) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.14
+ via Frontend Transport; Thu, 30 Jan 2025 21:38:21 +0000
+Received: from imai.intranet.tempest.com.br (imai.intranet.tempest.com.br [172.26.36.125])
+	by maidanak.tempest.com.br (Postfix) with UTF8SMTP id 57CB825F9EBD5;
+	Thu, 30 Jan 2025 18:38:20 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tempest.com.br;
+	s=20210825; t=1738273100;
+	bh=C4pBqTaMFJGJu5cfZ+JuDslQlaA4s72VihkEJC3vSQw=;
+	h=Date:Cc:Subject:To:From:From;
+	b=XAcD9Q3cbwJLmHaYdfhONqp8BML8e0M62vZ+XgGDMRE76/ExJOvyD1vlpTmcRV9yi
+	 4C1JQbk7Nm4ebhgQI8lkT3vUsJkzSzDzTgnM0O8Py9ncytqrFL5W2QFF8msm0F0Aas
+	 kfzexDUp6Pn8E+GGUuV9YPG9Edq7/xHNlfFJcmz8sTXcW275bFl+UqtNtkuZkPJpUX
+	 PQ9fSOLzbvmfikMj6/6eyi04KYM5riiNgg+7L/Bk2g8WGR+qXZc/pVioupgASQW+zo
+	 ulUwRZMbHAT53cjbjDa1asbCXv83WwBjedIo74mHCsdhW6Vx2eokokSUF9P9aHCYkB
+	 CIPBAGsu39tuQ==
+Received: from localhost (ip-172-25-175-74.ec2.internal [172.25.175.74])
+	by imai.intranet.tempest.com.br (Postfix) with UTF8SMTP id 3F043280142;
+	Thu, 30 Jan 2025 18:38:20 -0300 (-03)
+Mime-Version: 1.0
+Date: Thu, 30 Jan 2025 21:38:20 +0000
+Cc: csirt@tempest.com.br
+Subject: Unauthorized use of Bradesco trademark on your website
+To: report@abuseradar.com
+From: CSIRT - Tempest Security Intelligence<csirt@tempest.com.br>
+Content-Type: multipart/mixed;
+ boundary=8fedf63a43ff24749f595de21e9e4533747eb1b68d1ea184f0cbbd5ca610
+Message-ID:
+ <f8bf465f-f68f-4192-900d-6dc3c4b038db@LO1PEPF000028CC.GBRP265.PROD.OUTLOOK.COM>
+Return-Path: csirt@tempest.com.br
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 4b06f27d-d0bc-45cd-b169-d61de1bca836:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO1PEPF000028CC:EE_|LO3P265MB1979:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6102d67-7a7d-421a-793d-08dd41766b26
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|9140799003|376014|61400799027|8096899003;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UjFJNXlkVGs0SnVueVZhb2RGZDk2RVIrR0Y1NmhrMUlWU2RUZDIrYVRyb0kx?=
+ =?utf-8?B?TlRlVHJVOUVRWEJiV3ZSc3NVZ0lUWTZxZm1JMVNnQ2ZSUnh0MDFZQ3hvckZu?=
+ =?utf-8?B?SzF3NlRMTlhweFNkYTF0eXU2TDE3QTZCVFJUS0hkaDlFRmprRUp1QW1tampq?=
+ =?utf-8?B?UlpWa1J3WHRyNkNHN0lEVGNTeERVWjJsKzNIdTM1d0draXluKzNRMGlYWmVt?=
+ =?utf-8?B?elB4UThNVzhjN1NKcklQUTB3RFBwazdqeXlya05kTXRlaXZZa3NrVHljSHMr?=
+ =?utf-8?B?ampyb09yNGtEdmpJc01XOFFBdXM5YS95eENnM3pHRHluUE9RUERlVGJxOEZa?=
+ =?utf-8?B?MUNSRDVWblpYTWRGTldQNXNXa01XbW5mSWtFVDcvMG1zNHB3ME54dlorQ2Uy?=
+ =?utf-8?B?WXhFYTVCUHVBc1c3RFpmSjQ5ZXdpdEFyL21yUnd6M0xNd2xQUnMzcDhZVWpK?=
+ =?utf-8?B?akJDZzRLZUFEWU04TnJSbjczek50N3gyQjhtMW43d21IcWhybyt0RlhkS2k2?=
+ =?utf-8?B?NXNHN0dNSEJ3bVliZmpIMEh5bzhTUHJ1QmlBc0JLM3dkb2JXNW4vWkowNm9j?=
+ =?utf-8?B?cldLalU3ZkNtZlN5UjUvdHJaemlQM3ZOTCtXdzg2ZEE1V3JweC85eitxdFM3?=
+ =?utf-8?B?YjdnZTRDRVpzNm9SNzZsK2FSaDFCOFdOeUhTRmNPRjJUdmF6dmRGc0NtRFM4?=
+ =?utf-8?B?cHAyRzY2QkFyQlJpQVl0RzBxbERwUk5oVGF5cUI3UFRtRnNZQXUxZnRIZkhD?=
+ =?utf-8?B?ZG0xN25HZE9SdGkzTTgvcUJVc0pVdEovU0gzeFZjNUN1U2pDR1o4UytyWElR?=
+ =?utf-8?B?dUVUVWNFSUJoV3BERWZ1bzUxMCtCREt5b2pjUXR6ZkFpUVpQRWxySGlCS2Rv?=
+ =?utf-8?B?eHZPRllSM2R0TU1mbkpoYVlvcW9GbDFGN3BrT0RMRDRzdzJqeFNIamJGT3JQ?=
+ =?utf-8?B?dzJEQ05tazhRWlZHTy96RkNsQk1yejhmdXFyY2g2aFg4dmNUNENwYXFBM09F?=
+ =?utf-8?B?SXM0RkN6eCtUU3BLSjlDQTMwUUU3bUlzZWNOM2JuN2VLS2N3MWZ4R3ZaUUlj?=
+ =?utf-8?B?Yjc5T0ZCNUwra3pHalE1U1VaM3h5TnV6T1RTTi9tazVIT213TXc1SlJaUTBO?=
+ =?utf-8?B?OXkrUlVPcmltajJGVVVsWXViaTZ3a2hSOFNCcXlJVUdJeHRLRW55Y0ZxNjFj?=
+ =?utf-8?B?bWg5Ym12WTRSK0w3OVJMRTI4UVRMMEZpSFZlekZJVUNWNmNpT0tJOEpYdTJ0?=
+ =?utf-8?B?cHNsRWhjR0tnc25Qai9mcDQ4VFUzdDFibWdWQmVZRXpGRG9ZOFhRT2dUL3Ja?=
+ =?utf-8?B?Y0JaeFVJS2RVWGJScDIxQ1dVSnFoWW9ZUHFmc0FKejVaN3NjMy9sNUthZThx?=
+ =?utf-8?B?V0w2R2k2bmg1Zk9lbFdTRGh4MTFDQzhvK3J2cWhvUXlhdmNSWWlZelovdTlZ?=
+ =?utf-8?B?UGZHaWpCak5xTXJGaCs3RDVXcEl6NkJydWFHWW12QUtGSEZzcU4vMjBublFF?=
+ =?utf-8?B?b2VPOUdEYXYzMEpvNlgyNXcyMWtia1NiWjlHdkp2cG8ySmxlRXdVb3MyVEpk?=
+ =?utf-8?B?Q2wxZW5zRnVDMjNCS1JVNWgrYU9zTWZyd3gxUnNYSnJhM09TR1U4VFJuekt3?=
+ =?utf-8?B?MGZFTXd4NmhrdkFQRWZ4UkxGbkhYTHVpazVTOGJYZ1pmckIzZkJydnJXVU5l?=
+ =?utf-8?B?VmJ4K05HSnYwdjE2emhKc3FYbUs5SXBzbEtmU3UwZkhiT2dnSGRnUU5CUjZV?=
+ =?utf-8?B?b1g4WTl3NnZQTjBKRkZwS1VRNUcxanp3T2h2WStDanRuZHJjNlZYMCtxVzIw?=
+ =?utf-8?B?VVZBaFVQNXF5TkpFQytxZHpQcXVQU2gra1hHc3B3RXJnZ3hRV2FsaDQ4anYr?=
+ =?utf-8?B?WVdQQkNMQ0FUazhJYkNWemR6ODBSQlhEWFZuZnBIeWJvMWFVNk00UDgvbVVa?=
+ =?utf-8?B?aFg1SmZlblV0M2ZsNjB4dnNKVGo4NDMxWFU1QkFDNGdydm9xaks3UGVOQW1I?=
+ =?utf-8?B?cnJnQ29iK0FGdnJUNnJ0VXdDaGsyejc3NWNZN3R4eU41emxhWHBmL1RhN2Zh?=
+ =?utf-8?B?VjNyeHBXRjdmWVpWNUJhcWhPK2d5dk5pSFpsWFJFV2loUkcva1hJMVVWTkpH?=
+ =?utf-8?Q?3dHA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:18.221.86.12;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:maidanak.tempest.com.br;PTR:maidanak.tempest.com.br;CAT:NONE;SFS:(13230040)(9140799003)(376014)(61400799027)(8096899003);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-OriginatorOrg: netutils.io
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 21:38:21.3608
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6102d67-7a7d-421a-793d-08dd41766b26
+X-MS-Exchange-CrossTenant-Id: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-MS-Exchange-CrossTenant-AuthSource: LO1PEPF000028CC.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB1979
+Original-Authentication-Results: spf=pass (sender IP is 18.221.86.12)
+ smtp.mailfrom=tempest.com.br; dkim=pass (signature was verified)
+ header.d=tempest.com.br;dmarc=pass action=none header.from=tempest.com.br;
+
+--8fedf63a43ff24749f595de21e9e4533747eb1b68d1ea184f0cbbd5ca610
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+Dear Sir/Madam,
+
+I am writing on behalf of Bradesco to formally request the immediate takedo=
+wn of the website https://clinicasrecuperacaoconveniobradesco.com/, which w=
+e have identified as infringing on our client's registered trademark rights=
+.
+
+Details of the Infringement:
+
+1)Trademarked Content: Our clients' brand name, logo, and other proprietary=
+ content related to Bradesco are being used without their permission on the=
+ aforementioned website.
+
+2) Misrepresentation: This unauthorized use is misleading visitors into bel=
+ieving that they are interacting with, or receiving information from, Brade=
+sco directly. This misrepresentation damages Their brand's integrity and re=
+putation.
+
+Bradesco is a registered trademark (Registration No: 916323668).pdf
+) and the official presence appears on the website: https://banco.bradesco/=
+, they hold all rights to its usage, representation, and any associated con=
+tent. The unauthorized and inappropriate use of their brand by the mentione=
+d website violates trademark laws and associated rights.
+
+Given the clear violation and potential harm to they brand's reputation, we=
+ respectfully request the immediate takedown of the infringing content or, =
+if necessary, the entire website. We believe that acting swiftly will mitig=
+ate further potential damage and legal complications.
+
+Please acknowledge the receipt of this notice and inform us of the actions =
+you intend to take. Should you require any further documentation or clarifi=
+cation, do not hesitate to contact us.
+
+Thank you for your prompt attention to this critical matter.
+
+Best regards,
+--
+Computer Security Incident Response Team
+Tempest Security Intelligence
+csirt@tempest.com.br
+tempest.com.br - tempestsi.com
+@tempest_sec
+
+--8fedf63a43ff24749f595de21e9e4533747eb1b68d1ea184f0cbbd5ca610
+Content-Disposition: attachment; filename="31dbd213-c9a1-4f70-9e28-049ce6c0c1dc/1738164300180855677_image"
+Content-Transfer-Encoding: base64
+Content-Type: application/octet-stream; name="31dbd213-c9a1-4f70-9e28-049ce6c0c1dc/1738164300180855677_image"
+
+
+--8fedf63a43ff24749f595de21e9e4533747eb1b68d1ea184f0cbbd5ca610--

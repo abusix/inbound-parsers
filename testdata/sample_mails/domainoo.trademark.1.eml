@@ -1,0 +1,637 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=fail header.i=@domainoo.com header.d=domainoo.com header.s=domainoo
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021086.outbound.protection.outlook.com [52.101.100.86])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id FB5C2546-B018-429F-82D2-36275B0FA235.1
+	envelope-from <saoussen@domainoo.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 16 Dec 2024 15:00:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VtUz8c3pUQBGlIjEgO/NO9w6r/7u3kbXpo9SHBjAC95g/Qqb6u5QvkuMMiehmtNYUp1UbyS5P5p7IMmf/P4Pvfn0BpvLBG1rxqmE87BAo6zotwW8cTyPfhm4/xGGR989InlBy3xiKoAj0xp8YJoof7oDoX1D4taVGxl+idB+0nTS1bV10XHb+sgJh3KeF6IIcDbA3ODGmNONYbzdf30VUsZUk3uG9ux6i6vlbsmkLwlcWlVC+MdHhthOy5jyW/mEGGKGAhdrgAqZPawlJD/vY7Q33Podc4O1QwRCMdkD+FnmClhrrM0CPjf+Ii3MYVvbkP3FfWkFh+uZQPZhzq4rVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4MArj8WCmOQ8bYdFSS28tWvCDZo2VSQPZiajrJuaIS8=;
+ b=A38+7VvA+Gt0CGAE8c7ZETOSQMLVWQFa4iF3McSKMbMp56oOKAlzUXwy1yecd7qF6j/Qt7Yx6f5hiMSPVVLC53tFyE0dM+or4IOxxFxF7HWpHZ4CH9erbsdkIaGVlWXHI4VMRFUxFvo9+/FlYz4ZHaHmo+9YxxsuntI3rshR0oSkxPpAUWQFK0L/14KmBry67iFet0wNRu/MQmvYBgpQN2gj3LOWyk3N7xVoMDGX3UCALKBhcn1GNbhjsZSqlNA440NsEX9PdRIkglTVurCTc/1LJXYkmRu8qQiaW/h3mOFneOwj4Z8Ko8hluOBTqq1XXUbqNoSumk5tzqcpXZaKHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 185.16.44.227) smtp.rcpttodomain=abuseradar.com smtp.mailfrom=domainoo.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=domainoo.com;
+ dkim=fail (signature did not verify) header.d=domainoo.com; arc=none (0)
+Received: from CWLP265CA0482.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:18a::7)
+ by LO4P265MB6430.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2e0::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.22; Mon, 16 Dec
+ 2024 15:00:04 +0000
+Received: from CW2PEPF000056BE.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:400:18a:cafe::19) by CWLP265CA0482.outlook.office365.com
+ (2603:10a6:400:18a::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.20 via Frontend Transport; Mon,
+ 16 Dec 2024 15:00:04 +0000
+Received-SPF: Pass (protection.outlook.com: domain of domainoo.com designates
+ 185.16.44.227 as permitted sender) receiver=protection.outlook.com;
+ client-ip=185.16.44.227; helo=send.domainoo.fr; pr=C
+Received: from send.domainoo.fr (185.16.44.227) by
+ CW2PEPF000056BE.mail.protection.outlook.com (10.167.240.22) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.15
+ via Frontend Transport; Mon, 16 Dec 2024 15:00:03 +0000
+Received: from smtp.domainoo.fr (mxdomainoo2017-lan [10.99.0.47])
+	by send.domainoo.fr (Postfix) with ESMTPS id 8A5441403B6
+	for <report@abuseradar.com>; Mon, 16 Dec 2024 16:00:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=domainoo.com;
+	s=domainoo; t=1734361203;
+	bh=uNFUWkbbFg6PMbAqLiIzkgT2+dhEXWU0tge6I7blqIw=;
+	h=From:To:Subject:Date:From;
+	b=oEwvySeG41zg1FXe60mkcp+dxQr6mPd50wHGVMgKPDNnmPcxHXCZdvTEAsFykD/II
+	 D/gqTlltSnvEW/P5QiV4Td+2TGiLdxQpTV55lZ9hEIzYadjpS4GDASAdPncYn5ybN3
+	 6uVO2RdJTL8C7NrGo5VtZ2VN943+ZMwgOZITdoSayvWj8hGyuad1ISXBNrul89MKJM
+	 hPZksweBUPXluiRLI3GPhiSHlG7qY3N0Git5noS0WgwMjafXijdqLbK31M47ipg65i
+	 Z2uVQEPhVrAeqDLklpXi4QfXxConeE3g/zRtgRsPFEvvrs+hxbhA1Oo1R85DBnlEId
+	 5Pe27J9hRIJVA==
+Received: (qmail 24749 invoked by alias); 16 Dec 2024 16:00:03 +0100
+Received: from unknown (HELO AM4PR02MB3041.eurprd02.prod.outlook.com) (saoussen@domainoo.com@40.101.121.157)
+  by 0 with ESMTPS (ECDHE-RSA-AES256-GCM-SHA384 encrypted); 16 Dec 2024 16:00:03 +0100
+From: "saoussen@domainoo.com" <saoussen@domainoo.com>
+To: Abuse <abuse@hostinger.com>, "report@abuseradar.com"
+	<report@abuseradar.com>
+Subject: Infringement of ACCOR SA Trademarks (NOVOTEL)
+Thread-Topic: Infringement of ACCOR SA Trademarks (NOVOTEL)
+Thread-Index: AQHbT8suGSlzkqSfT02SKPQMKzpq+w==
+X-MS-Exchange-MessageSentRepresentingType: 1
+Date: Mon, 16 Dec 2024 15:00:02 +0000
+Message-ID:
+ <AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2@AM4PR02MB3041.eurprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+msip_labels:
+Content-Type: multipart/related;
+	boundary="_004_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_";
+	type="multipart/alternative"
+MIME-Version: 1.0
+Return-Path: saoussen@domainoo.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 4b06f27d-d0bc-45cd-b169-d61de1bca836:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CW2PEPF000056BE:EE_|LO4P265MB6430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93e1945b-4f0b-4185-3dc4-08dd1de25259
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|4073199012|5063199012|61400799027|5073199012|22003199012|376014|9140799003|8096899003|4076899003;
+X-Microsoft-Antispam-Message-Info:
+	=?Windows-1252?Q?3F0h3MfopG+atrMk2dOPCyLcDLazTjGqkX71sNthbyHescf0YRzlyTZN?=
+ =?Windows-1252?Q?v+AdoVtKGSJTzzWzkZB6XdtNEIM15pz2NYuJOfkVPoiv63dWASekV/5P?=
+ =?Windows-1252?Q?bgXTDpc+xwrziyJp2J0/A0QJmxwDwVNHko5fACcaxw4tYukwF+AF7EX5?=
+ =?Windows-1252?Q?kqFhShjdoj+j7Ozxdk2Rnlx9WoHSRSsJK+mub5JsRLV7xARJRyhWcziR?=
+ =?Windows-1252?Q?88VnEJfMZdhBNlEGAuLnnUvYZVMrAFNgobWL0Z19DSGsg6dma552WD3H?=
+ =?Windows-1252?Q?vfvWSH1EPKT3l7IIt/s0v8ZvggSuIKFzymwsLjZdosRpB0E17D4u++ef?=
+ =?Windows-1252?Q?vghdvcbcocSnQNQF4sW1D1nvLKM/FC9NBUEA2bQLQb8LYqZkqf5K7Cit?=
+ =?Windows-1252?Q?UayL/2tJThMKFqNqmmxn0IngeoOoXNEQA9V/cqrrdGSdtVMPwttQratn?=
+ =?Windows-1252?Q?dtyKhGVmVO5NvZF9/tGB/jE323G4sU4tO26Lz4Skq2n0PcJC6kAlaVQM?=
+ =?Windows-1252?Q?tSHOg5QWFrb4B/5nzzH3ZWqbijx92OvQ8unXOwUPBP3HmrWuamGEpvrm?=
+ =?Windows-1252?Q?jbYkDFPERSqIhAm8BdwrIfJvJZa7m0l6Vj/54Xp2kTUWm5meASKt5L9G?=
+ =?Windows-1252?Q?OL78ApR8if4EHKYt+Q+8mn7P9njSmZQo4tOz7G18y2ur7If0XdpSl3bI?=
+ =?Windows-1252?Q?jLq3CBkJwFuy3yWTyGMVxz4s7/YPHaZczne+fGayU6MrDHJyKqNz7ytW?=
+ =?Windows-1252?Q?Z8jg6DmktF8uEN4J+kwcnDp71GK/UChECsWNEsY3xQK9dYfD7C/jr/Bc?=
+ =?Windows-1252?Q?8XB0lrTxikBS0dCjytQiCC3EfCvK2xWvjhFxUecw4TewwvOmvTYHuinL?=
+ =?Windows-1252?Q?lyIMPAJhD3Veev0154/cKVd5DwKDKl1q8hp8rgtmgqHQUROy2ykIoqXj?=
+ =?Windows-1252?Q?sUAca5WNMve+zUeYXQfPW5o9ekDVhVm76qyYw8AN/7Xp9oDoXmIN3xnU?=
+ =?Windows-1252?Q?dY8P3kBOV/w0AAm23yNZcz6l9y+wldTrWLaNTLDV+Gog2roLJkBjwHqM?=
+ =?Windows-1252?Q?B38hALXweK3Tlq/2w/RXdhqBIi7Cx2p+T4gkp6e4b5GJsVEwwwqtc730?=
+ =?Windows-1252?Q?lBdwv7iHsREKDtQLSxMuoOS66AqGaaBZ1OvKLN2nLO/r1H6k+gjhdflL?=
+ =?Windows-1252?Q?ez/Bfo4lztP0z3APW+0pdZsbHfO46mS453hzyqZz7/pRlcvt9UCES1qH?=
+ =?Windows-1252?Q?pzHwcxtvSX76PQDxmhZHO5WbnzGhsmaKWai60uMw+9OpzDLGKIQAZOFQ?=
+ =?Windows-1252?Q?YJYL3Ct9Fns2YUG/1NFx8tkgPPHxLgi9Fpcp3N1Gw010lkxzgCvqOXP+?=
+ =?Windows-1252?Q?po5thm0ssjjYJa73nXOSxLilPSw9/mROvF1RzFA455ub+C3Oq4aue1rE?=
+ =?Windows-1252?Q?G8It+YVYGEwDDFdgcCB2A4WCRD6j47zCeGiD8Y4+OC8aIjhWODdmAmnT?=
+ =?Windows-1252?Q?N71HqL0AdmgOl980uC35GSJcTDzPefxTZyVPJjqfpoHoB+TAXwI7fdEO?=
+ =?Windows-1252?Q?x4RoEUj0iFZ7ThPftdYbWe6Rx5fmkNvKh6u292LVrmgGGZeUfixBmVS3?=
+ =?Windows-1252?Q?AKui06vGNNWSz6+PDzmjOCdXJTZPLnu4jtsUu6LUb7+miNbVaXgS1RNV?=
+ =?Windows-1252?Q?Dujy/+Um2cM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:185.16.44.227;CTRY:FR;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:send.domainoo.fr;PTR:send.domainoo.fr;CAT:NONE;SFS:(13230040)(4073199012)(5063199012)(61400799027)(5073199012)(22003199012)(376014)(9140799003)(8096899003)(4076899003);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-OriginatorOrg: netutils.io
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2024 15:00:03.7248
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93e1945b-4f0b-4185-3dc4-08dd1de25259
+X-MS-Exchange-CrossTenant-Id: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-MS-Exchange-CrossTenant-AuthSource: CW2PEPF000056BE.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6430
+Original-Authentication-Results: spf=pass (sender IP is 185.16.44.227)
+ smtp.mailfrom=domainoo.com; dkim=fail (signature did not verify)
+ header.d=domainoo.com;dmarc=pass action=none header.from=domainoo.com;
+
+--_004_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_
+Content-Type: multipart/alternative;
+	boundary="_000_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_"
+
+--_000_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+
+Via E-mail only: abuse@hostinger.com<mailto:abuse@hostinger.com>; report@ab=
+useradar.com<https://apps.db.ripe.net/db-web-ui/lookup?source=3Dripe&key=3D=
+HIL21-RIPE&type=3Drole>
+
+Re: Infringement of ACCOR SA Trademarks (NOVOTEL)
+Domain name: novotelgoa.online
+Our reference No: SF16122024/16
+
+
+
+Dear Sir or Madam,
+
+Domainoo acts for the company ACCOR SA to administer its domain names.
+
+Founded in 1967, ACCOR SA is today a leading international hotel group. As =
+world leader in economic and mid-scale hotels, and a major player in upscal=
+e and luxury hospitality services.
+ACCOR SA operates more than 5,400 hotels in over 100 countries with over 80=
+5,000 rooms, under more than 40 different names including ACCOR, NOVOTEL,=
+=85
+
+ACCOR SA holds in particular the following trademarks:
+
+
+  *   =93ACCOR=94 under registration number 1471895 (International Trademar=
+k).
+  *   =93ACCOR=94 under registration number 1237864 (France)
+
+  *
+=93NOVOTEL=94 under registration number 1407393 (International Trademark).
+  *
+=93NOVOTEL=94 under registration number 1596591 (France)
+
+
+
+We have detected that the domain name novotelgoa.online has been registered=
+ by your client and reproduces without authorization the ACCOR SA trademark=
+s and domain names.
+
+The domain name is active and being used in bad faith:
+
+
+  *   Your client is using the domain name improperly to divert ACCOR SA's =
+clientele.
+  *   The domain name reproduces identically and, in their entirety =93NOVO=
+TEL=94 trademark and name.
+  *   The content of the website is fraudulent because your client is using=
+ our client's official photos to deceive customers, misleading them into be=
+lieving that it is an official site.
+
+
+
+In view of the above, as the Hoster/Registrar of the litigious sub domain n=
+ames, we ask you to delete the technical records (DNS, etc) you manage, fre=
+eze or cut the global service for that domain name.
+
+
+We would be grateful if you could advise us immediately, and no later than =
+December 18, 2024, of the steps that you are willing to take to deal with t=
+his situation.
+
+We look forward to your prompt response to this letter.
+
+Sincerely,
+
+
+Emilie Dessens
+President
+
+
+
+
+
+
+Saoussen FARHAT
+
+
+
+DOMAINOO
+
+49 rue de Richelieu
+
+75001 Paris
+
+Tel : 01.47.05.87.27
+
+Ligne directe : 01.47.05.78.59
+
+Fax : 01.56.72.90.48
+
+[EBB3C5EC]<https://www.linkedin.com/company/DOMAINOO>
+
+Le pr=E9sent message (y compris tous les =E9l=E9ments attach=E9s) est confi=
+dentiel et est destin=E9 =E0 ses seuls destinataires.
+
+Si vous l'avez re=E7u par erreur, merci de l'indiquer =E0 son exp=E9diteur =
+par retour et de proc=E9der =E0 sa destruction dans vos syst=E8mes. Toute u=
+tilisation ou diffusion non autoris=E9e de son contenu, en totalit=E9 ou en=
+ partie, est strictement interdite.
+
+
+
+This message (including any attachments) is confidential and may be privile=
+ged.
+
+If you have received it by mistake please notify the sender by return email=
+ and delete this message from your system.
+
+
+--_000_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"text-align: justify; margin: 0cm; fo=
+nt-family: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);"=
+>
+&nbsp;</div>
+<div class=3D"elementToProof" style=3D"text-align: justify; margin: 0cm; fo=
+nt-family: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);"=
+>
+Via E-mail only: <u><a href=3D"mailto:abuse@hostinger.com" id=3D"OWA1315080=
+2-fe76-a739-97da-b2f5e8b3c1b7" class=3D"OWAAutoLink" style=3D"color: rgb(0,=
+ 0, 0);">abuse@hostinger.com</a></u>;
+<u><a href=3D"https://apps.db.ripe.net/db-web-ui/lookup?source=3Dripe&amp;k=
+ey=3DHIL21-RIPE&amp;type=3Drole" target=3D"_blank" id=3D"OWAe610f6f5-3f00-c=
+238-c458-1ca8caef8210" class=3D"OWAAutoLink" style=3D"color: rgb(0, 0, 0);"=
+>report@abuseradar.com</a></u></div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div class=3D"elementToProof" style=3D"text-align: justify; margin: 0cm; fo=
+nt-family: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);"=
+>
+Re: Infringement of ACCOR SA Trademarks (NOVOTEL)</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Domain name: <b>novotelgoa.online</b></div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Our reference No: SF16122024/16</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Dear Sir or Madam,</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Domainoo acts for the company ACCOR SA to administer its domain names.</div=
+>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Founded in 1967, ACCOR SA is today a leading international hotel group. As =
+world leader in economic and mid-scale hotels, and a major player in upscal=
+e and luxury hospitality services.</div>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+ACCOR SA operates more than 5,400 hotels in over 100 countries with over 80=
+5,000 rooms, under more than 40 different names including ACCOR, NOVOTEL,=
+=85</div>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+ACCOR SA holds in particular the following trademarks:</div>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<ul style=3D"text-align: justify; margin-top: 0cm; margin-right: 0cm; paddi=
+ng-left: 0px;">
+<li style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; color:=
+ rgb(0, 0, 0); line-height: 115%; margin: 0cm 0cm 0cm 36pt;">
+=93ACCOR=94 under registration number 1471895 (International Trademark).</l=
+i><li style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; colo=
+r: rgb(0, 0, 0); line-height: 115%; margin: 0cm 0cm 0cm 36pt;">
+=93ACCOR=94 under registration number 1237864 (France)</li></ul>
+<ul data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:true}" style=
+=3D"text-align: justify; list-style-type: disc;">
+<li style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; color:=
+ rgb(0, 0, 0); margin-right: 0cm; margin-left: 0cm;">
+<div style=3D"text-align: justify;">=93NOVOTEL=94 under registration number=
+ 1407393 (International Trademark).</div>
+</li><li style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0); margin-right: 0cm; margin-left: 0cm;">
+<div style=3D"text-align: justify;">=93NOVOTEL=94 under registration number=
+ 1596591&nbsp;(France)</div>
+</li></ul>
+<div style=3D"text-align: justify; line-height: 1.38; margin: 0cm; font-fam=
+ily: Garamond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+We have detected that the domain name <b>novotelgoa.online</b>&nbsp;has bee=
+n registered by your client and reproduces without authorization the ACCOR =
+SA trademarks and domain names.</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+The domain name is active and being used in bad faith:</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<ul style=3D"text-align: justify; margin-top: 0cm; margin-right: 0cm; paddi=
+ng-left: 0px;">
+<li style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; color:=
+ rgb(0, 0, 0); margin: 0cm 0cm 0cm 36pt;">
+Your client is using the domain name improperly to divert ACCOR SA's client=
+ele.</li><li style=3D"font-family: Garamond, Georgia, serif; font-size: 12p=
+t; color: rgb(0, 0, 0); margin: 0cm 0cm 0cm 36pt;">
+The domain name reproduces identically and, in their entirety =93NOVOTEL=94=
+ trademark and name.
+</li><li style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0); margin: 0cm 0cm 0cm 36pt;">
+The content of the website is fraudulent because your client is using our c=
+lient's official photos to deceive customers, misleading them into believin=
+g that it is an official site.</li></ul>
+<div style=3D"text-align: justify; margin: 0cm 0cm 0cm 36pt; font-family: G=
+aramond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm 0cm 0cm 36pt; font-family: G=
+aramond, Georgia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+In view of the above, as the Hoster/Registrar of the litigious sub domain n=
+ames, we ask you to delete the technical records (DNS, etc) you manage, fre=
+eze or cut the global service for that domain name.</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+We would be grateful if you could advise us immediately, and no later than =
+<b>December 18, 2024,</b>&nbsp;of the steps that you are willing to take to=
+ deal with this situation.</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+We look forward to your prompt response to this letter.</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Sincerely,</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: right; margin: 0cm; font-family: Garamond, Georgi=
+a, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"text-align: right; margin: 0cm; font-family: Garamond, Georgi=
+a, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Emilie Dessens</div>
+<div style=3D"text-align: right; margin: 0cm; font-family: Garamond, Georgi=
+a, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+President</div>
+<div style=3D"text-align: justify; margin: 0cm; font-family: Garamond, Geor=
+gia, serif; font-size: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"margin: 0cm; font-family: Garamond, Georgia, serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"margin: 0cm; font-family: Garamond, Georgia, serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div style=3D"margin: 0cm; font-family: Garamond, Georgia, serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+&nbsp;</div>
+<div class=3D"elementToProof" style=3D"font-family: Garamond, Georgia, seri=
+f; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div id=3D"Signature" class=3D"elementToProof">
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">Saoussen FARHAT</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">&nbsp;</span></p>
+<p style=3D"text-align: left; text-indent: 0px; line-height: 16.8667px; bac=
+kground-color: rgb(255, 255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36); line-height: 18.4px;"><b>DOMAINOO</b></span></=
+p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">49 rue de Richelieu</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">75001 Paris</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">Tel&nbsp;: 01.47.05.87.27</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">Ligne directe&nbsp;: 01.47.05.78.59</span></p=
+>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(36, 36, 36);">Fax&nbsp;: 01.56.72.90.48</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 1=
+2pt; color: rgb(0, 0, 0);"><u><a href=3D"https://www.linkedin.com/company/D=
+OMAINOO" data-auth=3D"NotApplicable" data-linkindex=3D"0" style=3D"color: r=
+gb(0, 0, 0); margin: 0px;"><img alt=3D"EBB3C5EC" id=3D"x_Image_x0020_735127=
+316" width=3D"30" height=3D"30" style=3D"width: 0.3125in; height: 0.3125in;=
+ max-width: 722px; min-width: auto; min-height: auto; margin: 0px;" data-ou=
+tlook-trace=3D"F:1|T:1" src=3D"cid:42b3b842-3b93-47bf-be6f-2bf0e1cd2aef"></=
+a></u></span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 8=
+pt; color: rgb(36, 36, 36);">Le pr=E9sent message (y compris tous les =E9l=
+=E9ments attach=E9s) est confidentiel et est destin=E9 =E0 ses seuls destin=
+ataires.</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 8=
+pt; color: rgb(36, 36, 36);">Si vous l'avez re=E7u par erreur, merci de l'i=
+ndiquer =E0 son exp=E9diteur par retour et de proc=E9der =E0 sa destruction=
+ dans vos syst=E8mes. Toute utilisation ou diffusion
+ non autoris=E9e de son contenu, en totalit=E9 ou en partie, est strictemen=
+t interdite.</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 8=
+pt; color: rgb(36, 36, 36);">&nbsp;</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 8=
+pt; color: rgb(36, 36, 36);">This message (including&nbsp;any attachments) =
+is confidential and may be privileged.</span></p>
+<p style=3D"text-align: left; text-indent: 0px; background-color: rgb(255, =
+255, 255); margin: 0cm;">
+<span style=3D"font-family: Garamond, serif, serif, EmojiFont; font-size: 8=
+pt; color: rgb(36, 36, 36);">If you have received it by mistake please noti=
+fy the sender by return email and delete this message from your system.</sp=
+an></p>
+<div style=3D"font-family: Garamond, Georgia, serif; font-size: 12pt; color=
+: rgb(0, 0, 0);">
+<br>
+</div>
+</div>
+</body>
+</html>
+
+--_000_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_--
+
+--_004_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_
+Content-Type: image/png; name="Outlook-EBB3C5EC.png"
+Content-Description: Outlook-EBB3C5EC.png
+Content-Disposition: inline; filename="Outlook-EBB3C5EC.png"; size=5720;
+	creation-date="Mon, 16 Dec 2024 15:00:02 GMT";
+	modification-date="Mon, 16 Dec 2024 15:00:02 GMT"
+Content-ID: <42b3b842-3b93-47bf-be6f-2bf0e1cd2aef>
+Content-Transfer-Encoding: base64
+
+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
+AAAAAElFTkSuQmCC
+
+--_004_AM4PR02MB3041FA0F381566E0E1A73B7EAD3B2AM4PR02MB3041eurp_--

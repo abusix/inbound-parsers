@@ -1,0 +1,139 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id D0A2BD02-180D-4574-B2D2-61D911612700.1
+	envelope-from <abuse+bncBAABBP7U2OOQMGQEJRRW5KY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 04 Jan 2023 04:02:08 +0000
+Received: by mail-wm1-f71.google.com with SMTP id n18-20020a05600c4f9200b003d993e08485sf10167545wmq.2
+        for <abuse@digitalocean.abusehq.net>; Tue, 03 Jan 2023 20:02:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672804928; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=B/eLd5p25fRxui0MUGMRppP9CruyB0HOr8G9Tn6+r2ijQsJF7iPi9h9+/pYdUW3PW6
+         QtfKNEq38tsU2YFbzW58L0YnZbibBl/wU33AYNhrzCoX4j0tn3FDrNEGO6oV0HYjtUcT
+         lq1o9FXDY5pr7KCdRmOhPKHf7RmozUJtIlaHg9LyTX/C6NurlGrTsdhM+oTmk8OJpiUz
+         lPk6totMJYm+fj41bLwm3Q8lMgbTZ+3icgv6zcWgLKylBjH0cqVfggLWINgdRo0TUJuP
+         wVeiSeYsaKW1UtvnpeM9dCzdebXdlzfA5aTxWn1jXdXUeEbe1LxAqwAwxDR2BzkPebs1
+         KykQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version
+         :content-transfer-encoding:subject:to:from:message-id:date
+         :dkim-signature;
+        bh=B3UKnx4hrhVfoSdNkVEZE/GjXuN7qfNPK9WovQDxXSs=;
+        b=w80qwHnxbc3+iA24RuIAT+MoeLs0ZUoMRletW0AvPuFKVSN3GKKDAtgBoKcAFrE2p4
+         fwgnm8qfDJti/ulGVKnyhTiSvrWGXH4mYF04LEyXEn0Z5jy9bs6wWAw3CS3RS4FyRvlC
+         U/PO/IShaaOJzAN7Z4JFYWg+7AA42fan4kARYuWz7IccFyjGSU5s9ODnikcWX1xYk5Uo
+         yUYR6XHoZrMxHzRjT8ZMrNP4EE2MorN86h8HlInjQhbJ/SjiMpEvyOzvabOdYT5QPMjJ
+         43Qmv2gZyNiiOly3qY6j+J+8i83aB0XqXHa3UWxZOwG4iRjm8etxKzcSJ+Dh0Al+QlFY
+         nMWQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       spf=pass (google.com: domain of noc@fbs.com designates 45.147.161.92 as permitted sender) smtp.mailfrom=noc@fbs.com;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=fbs.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:content-transfer-encoding:subject:to
+         :from:message-id:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3UKnx4hrhVfoSdNkVEZE/GjXuN7qfNPK9WovQDxXSs=;
+        b=GaZ/B/P1r1n7l1+sF+wVkS0y/YAwFEGpqrObDRj9Pr8ppbFLOin1Ff1pYW1NpTsdli
+         /gsxA9FpyMtG/8XqV+qhSN0H/get0C97pVJdUy2A0f87RlkAuZ7xzthX8SSXOOs++NkO
+         Jc49e1cqmIJWwlI5X9DE7czO2ytBmrT99iW/g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:subject:to:from:message-id:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3UKnx4hrhVfoSdNkVEZE/GjXuN7qfNPK9WovQDxXSs=;
+        b=KkgVKPrKzYzEDtv1sC9c2JWX7rBZ6wGFhSRhQ+b5gR1UYRMwlcjnALjUP8/94hdyux
+         1lxP8C25/GnEdpL4JnwM2ycdj8yOcgDIAhDplesKG2aVAUoa6zJJhMB1Ot2qwlvon3Y6
+         AoVodo8oNgg77cIqJSUAKR9zX4aI3cdaBD/dksbUI661li4nPS8NrGk6Zb+9I+p8U84C
+         ArNZLPeyJxN8+0knIYBk01XytnUcTXGUKM5ZvMeESNfdu9vLsOPt3JNKrK0exJaV3kfA
+         cQQdZLs8YXB2xilNb4j1KADtfvpgffoZ18WBDAJOYYWcOHKIJgdGdvzxaNdXhse4UyZA
+         NFzg==
+X-Gm-Message-State: AFqh2koFGA6MW/All31WrjKUlu5WhM0QBUOkaDk6PcX/67n2L+zqCH+l
+	wA+8q6uZRDYFhhaIxgrDnPQXUw==
+X-Google-Smtp-Source: AMrXdXtTlHlzUxrQQmPhYDbi+5wDMsa7yTv38hfsSRfdeBT5Xuf4UmdYQB/NuLt6SBtiY9lqT8v0lg==
+X-Received: by 2002:a05:600c:1613:b0:3c6:c2ae:278b with SMTP id m19-20020a05600c161300b003c6c2ae278bmr2623237wmn.127.1672804928051;
+        Tue, 03 Jan 2023 20:02:08 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:adf:e182:0:b0:298:bd4a:4dd9 with SMTP id az2-20020adfe182000000b00298bd4a4dd9ls2816040wrb.1.-pod-prod-gmail;
+ Tue, 03 Jan 2023 20:02:07 -0800 (PST)
+X-Received: by 2002:adf:e681:0:b0:28c:eec1:cd7e with SMTP id r1-20020adfe681000000b0028ceec1cd7emr11405830wrm.12.1672804927183;
+        Tue, 03 Jan 2023 20:02:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672804927; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TCjHwgrsCvQnXst533wTrJBctFbRMa9asg3pj8AzsbNiklhWkoQ8vKvHN7lHoxA7Qz
+         DBzAFR3VnsvT/PTqJAQs72MDuWnI+JjIQt+RWlSmb+0Th1nCih5qISybdWqxm860P1o3
+         ums2Mu8eGP6OaONeHpS8m6A4hL/1OMwPBj5puPrEcNAimge6EQLtbQFZN9LReih6wcpO
+         xLYasRt/HUj7mbgKT8gl8WknAgNq1O1hyoxIXAWjOvsOZEftciKGHAR9Do80FuJe/sM1
+         1h3VQ/CBsd5jUqB9vnRYS+KAtlFNouex4+PDKldRh8x9dmuSdF33exd4eSSypefOOeCx
+         ofLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:subject:to:from:message-id
+         :date;
+        bh=B3UKnx4hrhVfoSdNkVEZE/GjXuN7qfNPK9WovQDxXSs=;
+        b=cOm3DLZdM3tb/GY81uqoByHpJeOlMKfuMrMI9tz7ZcbfpRQ9Fnsxsftp53AIBaB4re
+         8sOZn/kyXzt6u9P5LxM+meCT6Wpkkz/O+FLnoTVr5LlYKmoGm8yZ3LhAVrkiU+uxuBzb
+         qsNykhrNJCyTSLFktfgwaSMPEmsDiHb/IMJJgSLc4A60y2qN8fGI8nP9mfe/z51y1oqv
+         WpogCSouoX3jKMOovIaoPH8TZGStIy/5KMBNPbpCWHfVXCvDSXc7H6mR3OWmKe+/TUFW
+         4tY2lDFqqgPE/rfYEV53E+ZQut8+1QPb2tG/KA0GEmgPGwjEs0g3Subwy1z4R5DQdWUo
+         zQWg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of noc@fbs.com designates 45.147.161.92 as permitted sender) smtp.mailfrom=noc@fbs.com;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=fbs.com
+Received: from mail1.fbs.com ([45.147.161.92])
+        by mx.google.com with ESMTPS id bj24-20020a0560001e1800b0028844b62827si11539451wrb.242.2023.01.03.20.02.07
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 20:02:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of noc@fbs.com designates 45.147.161.92 as permitted sender) client-ip=45.147.161.92;
+Date: Wed, 4 Jan 2023 07:02:07 +0300
+Message-ID: <2903794735-599872@mail1.fbs.com>
+X-Footer: ZmJzLmNvbQ==
+Received: from prod-gl-infra-ddosmon01.xor.mx ([23.109.89.131])
+	(authenticated user noc@fbs.com)
+	by mail1.fbs.com (Kerio Connect 9.3.1 patch 2) with ESMTPA;
+	Wed, 4 Jan 2023 07:02:05 +0300
+From: noc via abuse <abuse@digitalocean.com>
+To: abuse@digitalocean.com, itsupport@fbs.com
+Subject: Malicious activity
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Original-Sender: noc@fbs.com
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of noc@fbs.com designates 45.147.161.92 as permitted sender)
+ smtp.mailfrom=noc@fbs.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=fbs.com
+X-Original-From: noc@fbs.com
+Reply-To: noc@fbs.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+
+    Hello! We have received a large number of almost identical requests from =
+the following list of IPs:
+    206.189.140.176
+   =20
+    These requests were classified by our network engineers as malicious atta=
+cks and all of these IPs belong to your provider.
+    Please take action immediately and block illegal activity!
+   =20
+    We are sending abuse notices to most popular spam-list services until we =
+receive feedback from you.
+    For details, please reply to this email and we will provide information t=
+o investigate this information security event.
+   =20
+

@@ -1,0 +1,348 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@cyble.com header.d=cyble.com header.s=mimecast20230206
+Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [67.231.149.131])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id E9F71A1A-CF13-42D8-AED4-3335A31363C1.1
+	envelope-from <response@cyble.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Tue, 04 Mar 2025 04:35:14 +0000
+Received: from pps.filterd (m0050093.ppops.net [127.0.0.1])
+	by m0050093.ppops.net-00190b01. (8.18.1.2/8.18.1.2) with ESMTP id 5243bYZX026938
+	for <abuse@linode.abusehq.net>; Tue, 4 Mar 2025 04:35:13 GMT
+Received: from prod-mail-ppoint2 (prod-mail-ppoint2.akamai.com [184.51.33.19] (may be forged))
+	by m0050093.ppops.net-00190b01. (PPS) with ESMTPS id 453td0sxr9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.abusehq.net>; Tue, 04 Mar 2025 04:35:12 +0000 (GMT)
+Received: from pps.filterd (prod-mail-ppoint2.akamai.com [127.0.0.1])
+	by prod-mail-ppoint2.akamai.com (8.18.1.2/8.18.1.2) with ESMTP id 523NeNL7031680
+	for <abuse@linode.abusehq.net>; Mon, 3 Mar 2025 23:35:11 -0500
+Received: from email.msg.corp.akamai.com ([172.27.50.200])
+	by prod-mail-ppoint2.akamai.com (PPS) with ESMTPS id 453xf1fxjn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.abusehq.net>; Mon, 03 Mar 2025 23:35:11 -0500
+Received: from ustx2ex-dag4mb5.msg.corp.akamai.com (172.27.50.204) by
+ ustx2ex-dag4mb1.msg.corp.akamai.com (172.27.50.200) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 3 Mar 2025 22:35:10 -0600
+Received: from prod-mail-ppoint7 (72.247.45.33) by
+ ustx2ex-dag4mb5.msg.corp.akamai.com (172.27.50.204) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 3 Mar 2025 20:35:10 -0800
+Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
+	by prod-mail-ppoint7.akamai.com (8.18.1.2/8.18.1.2) with ESMTP id 5242ubIt006904
+	for <abuse@linode.com>; Mon, 3 Mar 2025 23:35:10 -0500
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [67.231.157.127])
+	by prod-mail-ppoint7.akamai.com (PPS) with ESMTPS id 453xf1cmhp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.com>; Mon, 03 Mar 2025 23:35:10 -0500
+Received: from pps.filterd (m0409410.ppops.net [127.0.0.1])
+	by m0409410.ppops.net-00190b01. (8.18.1.2/8.18.1.2) with ESMTP id 5242DXCt005261
+	for <abuse@linode.com>; Tue, 4 Mar 2025 04:35:09 GMT
+Received: from usb-smtp-delivery-111.mimecast.com (usb-smtp-delivery-111.mimecast.com [170.10.151.111])
+	by m0409410.ppops.net-00190b01. (PPS) with ESMTPS id 454e1b9wxj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.com>; Tue, 04 Mar 2025 04:35:09 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyble.com;
+	s=mimecast20230206; t=1741062908;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ab3Vm7F8cOWqr7FvB4HBie9ywtuE3f5kgB+Os739XTE=;
+	b=NGc+vnFlANuHqsL1Ff1ub/IgqFKcsV/hLmn6nTtiVxfUqlm/WW4OctUAjjZtW9bOo/Z7aH
+	d9nN4GJVxTdcSYt1zUN7KhBR/vfD8GmXIACqrr+8hHFjsjeFtFaglLNHVglyfrntBL9Kmx
+	9Tq6BLlO5ea1NCIuKcHyStxTxUNd2E8=
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2046.outbound.protection.outlook.com [104.47.55.46]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-21-UFBldzlGP5iu3xIzU9l3_w-2; Mon,
+ 03 Mar 2025 20:35:05 -0800
+X-MC-Unique: UFBldzlGP5iu3xIzU9l3_w-2
+X-Mimecast-MFC-AGG-ID: UFBldzlGP5iu3xIzU9l3_w_1741062903
+Received: from DM6PR17MB2921.namprd17.prod.outlook.com (2603:10b6:5:127::21)
+ by SJ0PR17MB4662.namprd17.prod.outlook.com (2603:10b6:a03:373::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Tue, 4 Mar
+ 2025 04:35:00 +0000
+Received: from DM6PR17MB2921.namprd17.prod.outlook.com
+ ([fe80::774e:7596:3c:eb14]) by DM6PR17MB2921.namprd17.prod.outlook.com
+ ([fe80::774e:7596:3c:eb14%5]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
+ 04:35:00 +0000
+From: Cyble Response <response@cyble.com>
+To: Namecheap Legal & Abuse Team <abuse@namecheap.com>,
+        Namecheap Legal &
+ Abuse Team <abuse@namecheaphosting.com>,
+        Namecheap Legal & Abuse Team
+	<dmca@namecheap.com>,
+        Linode Abuse <abuse@linode.com>, Linode Support
+	<support@linode.com>
+Subject: Notice of Copyright Infringement
+Thread-Topic: Notice of Copyright Infringement
+Thread-Index: AQHbT8BeZG7lRLJAwESE/32ZBi1xLLMLh0lwgAKpA/CAACK1wIAAA6QAgAABQRCAAAEJ0IAAAKzggAAA6rCAAABxQIAABy6QgAACL8CAVHkQbw==
+Date: Tue, 4 Mar 2025 04:35:00 +0000
+Message-ID: <DM6PR17MB2921745D94278EBE2C819DC9C7C82@DM6PR17MB2921.namprd17.prod.outlook.com>
+References: <DM6PR17MB292199DC8270A62BEDCE51ECC7C82@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921AF4BBB67791DA963DBA5C7702@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB292120F4D33D2D858F6DC508C77B2@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB292112FE5C6E46A977F613E8C7522@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB29212B5A4695DADCED2F345BC73B2@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921FB9C125B833D8250CEE8C7112@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921E9295FD45C6B32F41A2AC7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921226B3D24FE725551601AC7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921334A74D27F0CDFEF0DCCC7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB292130105F68B100766C624AC7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921D3104100DF9AE0E8D137C7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB292110F64F4762E02AD26528C7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB292184739133908C1F7D6410C7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB292131484F46B309B1C95E5AC7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921EB29A2371BD14B46FF54C7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+ <DM6PR17MB2921D28A2048698D5272EDB0C7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+In-Reply-To: <DM6PR17MB2921D28A2048698D5272EDB0C7132@DM6PR17MB2921.namprd17.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR17MB2921:EE_|SJ0PR17MB4662:EE_
+x-ms-office365-filtering-correlation-id: c212f542-a79b-4fa1-0098-08dd5ad5eccb
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018|13003099007|8096899003
+x-microsoft-antispam-message-info: =?Windows-1252?Q?Z3EC7uXnmn5h6ZN+jtDaZgBJMgqVstobv64oNwEuAMNKQ5bRY9eKkk2A?=
+ =?Windows-1252?Q?YxG/QmnAAkHiKzFOrynagXdGKKEh/c22s4zYceTGDD73Mefz35Bo9Ha3?=
+ =?Windows-1252?Q?7FuHRUTwfkfWFAb2P7c3RGhj9aqj2+MXVUygJtHXCW/tifigBKCRF/RK?=
+ =?Windows-1252?Q?Glpdy/bKZUHYk9+AbHLCVQFY4ogznwqxWage+vYiCKaCaNZKRve6lnkc?=
+ =?Windows-1252?Q?OefacHrVCcmE/DBFSf8dr/BQJveu3NB4OO6MwJeu1gqhBzWggWd5O9EU?=
+ =?Windows-1252?Q?1YDGXK2Zn3b5woGnX0v84E9oX3UwSRWxwQpNYdDTBvJwlPgrxE8EmU5b?=
+ =?Windows-1252?Q?D4QTBIeowpbwyhn/4cBHsubGUOZLAaexdSMUAqRe+pQwAKI4+IlzoQjM?=
+ =?Windows-1252?Q?fvaQM6G7OM1MFV07H+5HItms4AjE6psCzf3Z+Ou5szBViCrilpTWxFud?=
+ =?Windows-1252?Q?CDMwsXsHUJbdauGvrc/DeJgAfRPrIB/z9266TE7NmwVM6DwtKTiZWsJp?=
+ =?Windows-1252?Q?mZTOL3iZXYx/347LFCh2EzieKTHE0nJkXVpEKZmZhFlaFe42+muPYDg1?=
+ =?Windows-1252?Q?EZmY1rG5QHk0NN/9u9jvoqMD7/TLaToaUQ8zmLIyKOucg4q6JxLp3ms8?=
+ =?Windows-1252?Q?o2Vy1sn6+sYiQaUsFTXBlLwoRnDQ7cqn59Z7zML+wgE/J0YoZMtvUE7e?=
+ =?Windows-1252?Q?j38z5qOwQuTV5HNRCOEWIshiri1oHE2Plr2YmEI0/m+UPbRSzVV8DARu?=
+ =?Windows-1252?Q?j/kZn7HWx4HaMGWUoCKv0Ule9/GCo46c/iyJcMQTaapPGl/qx5kJSbYZ?=
+ =?Windows-1252?Q?1/hOEEtmTsS8bpP/fgD1YJcfmptnS+f0uNLsgiLo3OMTHKz9Vwho8TTA?=
+ =?Windows-1252?Q?qm5JxIDiLhe5d6gHUXb3v1hgU34Wo/DzouEllYdyEHQaDyF9Hf4ZHXqt?=
+ =?Windows-1252?Q?QbrpA2TcpnnSgvExAcr1xPRolrRfiJqpdEwEzpZNvvMMJlUtvQN7YAkf?=
+ =?Windows-1252?Q?0O63rzZ6i/DNl27M4DMLHGxlZVf8ZxNs44FZt6/Tkcrbzml91aO8sYMw?=
+ =?Windows-1252?Q?9vycXbpMPwjkCP8xblZthRSNIAJeRh/x8uyYGGqHAxpI8vF4mZuYiINL?=
+ =?Windows-1252?Q?KTrJ2WtMTmARVrWenk7g3oZFj/A8il0z5gmOh8ZJjKorhICefzOS67xL?=
+ =?Windows-1252?Q?xdu0KCebECM+idxApKRMYIX0OcgSx7NfM3fivaUFzSZFq/KEvbHVAO3K?=
+ =?Windows-1252?Q?Gabj5iaaiBywQhJ4a90v4zOKtMs2d4+81hTti8kXSkF2MeqX6YUdohO0?=
+ =?Windows-1252?Q?Y8UbDQ+ha+Tavuf2Qsupnox02H38R8+xSM1Or+ETzwFtun0sUCYpcKCD?=
+ =?Windows-1252?Q?JQtqxm/5VqEwDzF5GpfuQxBQJDLJRYrk6icIe75bqDK8FpD9vmMQXAoU?=
+ =?Windows-1252?Q?sI/e9RirO/pqMHFcl7m8qnjajWFlTXs9+mPcNOFmIl9ACzxKvAF9sXfE?=
+ =?Windows-1252?Q?e+kveDc4meZHnYuy3vD0kHL3ZAvtGg=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR17MB2921.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(13003099007)(8096899003);DIR:OUT;SFP:1102
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?L8bjRhjKvHO7N58MZigQ3HaZMfZ/tgLptlDdiLJULJvv5o/kjRLDDtJ0?=
+ =?Windows-1252?Q?FAbnVEsMuk/p/edCxTndKJ030UJVqfq/lIuMBypRl4F8lXjL/b7NF/d7?=
+ =?Windows-1252?Q?ewFVVAOIkNIbsZgVhwuZaKcI31pNz93iS7191pYfSFjOLFRKRcHq52F9?=
+ =?Windows-1252?Q?idkB5tH5D8rXJY1IgGHWQKA42JGW2Gey8hB+buS/wmFcW93Nw/Gz7ffw?=
+ =?Windows-1252?Q?kIEywPX3H1d8M4/rXWtSMXJll1A2l+kgkVl/k/Q4aX36TOrr26w4IGhJ?=
+ =?Windows-1252?Q?NK7s0N32A+MHOwupjpuPd1zZmMzf8gTo9R3xBQh2p6QPb/wpjIOKO8JG?=
+ =?Windows-1252?Q?9BmjeiFarS9jpA76cey8iJftm7HsXjOHuxwvfqaoNcW2YkcFPa7xwENG?=
+ =?Windows-1252?Q?y1Os/5l1Bx7cIR3+mHG5ZfVZW2usqrHfRtkdeJlMW306sTQ/PbDeB3Xx?=
+ =?Windows-1252?Q?rcw+KyiNEZAcLT/WzHifIDGXM5jo3HAUm+7CHeDRSJU2QbAuLNzBgFMs?=
+ =?Windows-1252?Q?tNvfi/y+IGYQtxcHOhgLZw0BDGw9xkAFvWz/k1t9RruZYeMPG+cw/V5G?=
+ =?Windows-1252?Q?2acLKBh+7lnBUzwFL2CK9dkK5roe/Xs6ZorFR/EkpuddXUjUs1SJcpQW?=
+ =?Windows-1252?Q?Kc7Ya+RbfMa1KTW9n6rdk9ZhvSaSws5CTH/Vo/Dy7QaYAROTatZvSCEG?=
+ =?Windows-1252?Q?sz9nuqHhywEbFpOp6DGDbDdZ+jBH4aREyIZHAQixRmQ+UowqUCoM0NaO?=
+ =?Windows-1252?Q?HmPV69ZKZ/5TGdnUbiG7a/M4fu6l+BkAHmvJqHkIyP1CxGXfXz4fNmu9?=
+ =?Windows-1252?Q?tB4ccU7O3qIHmGjIRN3UeM0b/I9MXPNXoqhv9X8lHjH0Fj/fd/EHB5yO?=
+ =?Windows-1252?Q?7OHN4mzq01RB3xEdE8OhoKgr1bz6bmK4x+9JpVyH+XG/70DZ5H3XjiY+?=
+ =?Windows-1252?Q?+8v/eQhV5T8OoeVYB/yvrWsUBOIUjGPJ1MFgVguKcqiXuKmL4BSeRk5Y?=
+ =?Windows-1252?Q?C73nnbweo5w/py46jERzysVR/OhBOcvHkGMI5D2M+3sxalBAO8VRgnx7?=
+ =?Windows-1252?Q?4reXbD376YS+fHhkMCMfb22FWMH/lQjiUI+Qfdvq3nXhBbaRY3k0pOdE?=
+ =?Windows-1252?Q?4yYdXkx5rWqi1Cq53bmAQoQpp35BegIW32npuPUbSe3Qaq57yc5sVCus?=
+ =?Windows-1252?Q?O1h0ZVvUaWBUlGcBCWuaNqmGKXHZ/O+8v67ZiSaEkfZT0Zul/mRrqIpk?=
+ =?Windows-1252?Q?bMaX8BTTmWlElxFdZ01Dtylcpqrrnms3yPqvE00RxaHun8Avx8nVYRDK?=
+ =?Windows-1252?Q?hqBHkl66QqNavLnpos284H650uLHUgv3+p5u/VWP6mSqDo0bYmzHx4eP?=
+ =?Windows-1252?Q?o5FmIhLNcYjvSJnwx5Axe3VLE1j1KGyKMCL6Nk92Zkrr1GH+NR6Sz2Sq?=
+ =?Windows-1252?Q?pViHRi+we7YsWPiv2CNdXeffy+Fczr28f8b93GW5H6k+V0jcaZFW7Bmr?=
+ =?Windows-1252?Q?Z2SEquN0m7op61e+PkGQpmC02f8hKpXefasOHnswf3D8o1ivTv08DLhI?=
+ =?Windows-1252?Q?OPM22sTiCjk9zKk2pQBeTVXu7BghSfZtPL62p4oWq4fNOThXOpGq0WEd?=
+ =?Windows-1252?Q?nb/+lDoSVVv+z7cRcCavnkbJCdCaq1FsjhrWb2UfTJ6pUSvknkLcUI9i?=
+ =?Windows-1252?Q?9KTaWAjCMXg=3D?=
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR17MB2921.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c212f542-a79b-4fa1-0098-08dd5ad5eccb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2025 04:35:00.3510
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 699e969e-1844-46b9-88eb-04d0b900a030
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lp4kMlXVpICB04LyoIyCIuDFolZkgRqgc3uyakAJpKbnEToPQVTVjqfTykEJ1wbGzZ0Rh61BDwzNXxUWBOIsjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB4662
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: nEGxnAEIpR-onJNfbR8rKR7FZTF8mEVRDpqKrXQvaWg_1741062903
+X-Mimecast-Originator: cyble.com
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_DM6PR17MB2921745D94278EBE2C819DC9C7C82DM6PR17MB2921namp_"
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_02,2025-03-03_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2502100000 definitions=main-2503040036
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_02,2025-03-03_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2502100000 definitions=main-2503040036
+X-Proofpoint-GUID: RO64IYiWdiA1m6n7cE8XquH5bcJaYFai
+X-Authority-Analysis: v=2.4 cv=F/KtdrhN c=1 sm=1 tr=0 ts=67c68300 cx=c_pps a=BpD+HMUBsFIkYY1OQe22Yw==:117 a=BpD+HMUBsFIkYY1OQe22Yw==:17 a=n6mT4uD4WwX2YNp3WH9t+sjgJIk=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10 a=mRtPKoEnQwYA:10 a=rd2ZcqSiAAAA:8 a=ifhqjSsHAR1_I93t1gkA:9 a=pILNOxqGKmIA:10 a=k7YD77_Qiu8A:10 a=sVJaaobsR_2SBjIk:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10 a=4JGrtykI0k4CgPocQhhV:22
+X-Proofpoint-ORIG-GUID: RO64IYiWdiA1m6n7cE8XquH5bcJaYFai
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_02,2025-03-03_04,2024-11-22_01
+X-Proofpoint-Spam-Reason: orgsafe
+
+--_000_DM6PR17MB2921745D94278EBE2C819DC9C7C82DM6PR17MB2921namp_
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Notice of Copyright Infringement
+
+
+
+Dear Team,
+
+
+
+We Cyble are acting on the behalf of Lembaga Tabung Haji (Client) in the on=
+line monitoring and enforcement of their brand presence.
+
+
+
+We recently became aware of the mentioned below URL=92s (hereinafter =91the=
+ reported webpages=92), in respect of which you are the named administrativ=
+e contact. This webpage bears our Client=92s copyrighted content/mobile app=
+lication (APK file) which is available on the Client=92s authorized platfor=
+m at Google Play Store.
+
+Infringing URL=92s:
+
+https://appagg.com/android/business/dashboard-haji-38286798.html?hl=3Den
+
+
+have a good faith belief that hosting of the copyrighted materials as descr=
+ibed above is not authorized by our Client (copyright owner), its agent, or=
+ the law.
+
+
+
+The information in this notification is accurate, and under penalty of perj=
+ury, we are authorized to act on behalf of the owner of an exclusive right =
+that is allegedly infringed
+
+
+
+In light of the above, we request that you remove the above-mentioned infri=
+nging material immediately, and refrain from posting any further infringing=
+ material to your server in the future.
+
+
+
+Regards,
+
+CYBLE TEAM
+
+
+
+--_000_DM6PR17MB2921745D94278EBE2C819DC9C7C82DM6PR17MB2921namp_
+Content-Type: text/html; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+&nbsp;</div>
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"></div>
+<p style=3D"text-align: center; margin: 0cm; font-family: Aptos, sans-serif=
+; font-size: 11pt;">
+<b>Notice of Copyright Infringement</b></p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+Dear Team,</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+We Cyble are acting on the behalf of
+<span style=3D"font-family: Calibri, sans-serif; color: black;"><b>Lembaga =
+Tabung Haji</b></span><b>
+</b>(Client) in the online monitoring and enforcement of their brand presen=
+ce.</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;</p>
+<p style=3D"margin: 0cm 0cm 12pt; font-family: Aptos, sans-serif; font-size=
+: 11pt;">
+We recently became aware of the mentioned below URL=92s (hereinafter =91the=
+ reported webpages=92), in respect of which you are the named administrativ=
+e contact. This webpage bears our Client=92s copyrighted content/mobile app=
+lication (APK file) which is available on
+ the Client=92s authorized platform at Google Play Store.<br>
+<br>
+Infringing URL=92s:</p>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<a href=3D"https://appagg.com/android/business/dashboard-haji-38286798.html=
+?hl=3Den" id=3D"LPlnk">https://appagg.com/android/business/dashboard-haji-3=
+8286798.html?hl=3Den</a></div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+<br>
+have a good faith belief that hosting of the copyrighted materials as descr=
+ibed above is not authorized by our Client (copyright owner), its agent, or=
+ the law.</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+The information in this notification is accurate, and under penalty of perj=
+ury, we are authorized to act on behalf of the owner of an exclusive right =
+that is allegedly infringed</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+In light of the above, we request that you remove the above-mentioned infri=
+nging material immediately, and refrain from posting any further infringing=
+ material to your server in the future.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+Regards,</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+CYBLE TEAM</p>
+<p style=3D"margin: 0cm; font-family: Aptos, sans-serif; font-size: 11pt;">=
+&nbsp;</p>
+</body>
+</html>
+
+--_000_DM6PR17MB2921745D94278EBE2C819DC9C7C82DM6PR17MB2921namp_--

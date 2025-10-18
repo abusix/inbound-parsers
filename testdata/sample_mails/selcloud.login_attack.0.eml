@@ -1,0 +1,156 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com [209.85.208.199])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 185F39B9-080E-4780-89F7-86A28AE64A7A.1
+	envelope-from <abuse+bncBDVPNRWWUQGRBNMLR66QMGQEGIZOZ3A@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 05 Feb 2025 20:10:30 +0000
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-302325e576bsf641841fa.2
+        for <abuse@digitalocean.abusehq.net>; Wed, 05 Feb 2025 12:10:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1738786230; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=gfJycJ8iq9CE9xBaDDTtQQIB72yXCaOpuu9cIx6QV9B6rFhTJqmiV5mtCxjkZA3EiS
+         334RtsQozPEvC52IahGpGU8bIo6oUcqZJN6wZyTNAbin5DgZOwXu6eH8ftR/Ht9RBv+R
+         r6i9u/tu6PWvLWFMBlvs7QaFU02jSfy0vJY3kFGsME0yljK72y8Q4+OEbyV6HYMhl4qY
+         LikC//VtNY1qLx1KT72gHtIeYgQsfqzQkSA/6HZQmd1mffbmhqnDhNAI1h9otCyrjsdz
+         vd77oGr6zYomlzfyuAu+ot0ojJOJmiR7JckDSS3J92J1WlXo49tMAGxa9wj7Dnx3ztYf
+         r+fw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-archive:list-help:list-post:mailing-list:reply-to
+         :content-transfer-encoding:mime-version:subject:message-id:to:from
+         :date:list-id:list-unsubscribe:list-unsubscribe-post:feedback-id
+         :precedence:dkim-signature;
+        bh=mtD4+AGzkGHGdlnlKXi2lHF0LOG+G9ruIv+hSLE+zNo=;
+        fh=w/60x5cP7YcH7jaPBywCn80z3mEv8yFV+9EYQWPRJy0=;
+        b=V3ltbw4LeQh+akJy1MSIry5n1sccNmxkZwxlCUti6l04QP0ja8qAaB1WtJwhnXEmOK
+         +88CAJ0gI/hnWTCqCRV+OLqD4fHRcVpCGixTXdlWpIQh7bcVKyM8+JxPf6TWmQrwP/5Q
+         Fnk9cVgDyLBV2joJT0DsZ+DlzLZDTnQnKFoifwyd8E4mSkQP2jfOspC/l9wJJjhpqnBi
+         YkbrHDKjNnXgK9if+sljweBRcImAb4X4qW2KUH0HA3m1H1INXqZe1fGSZPi6dL4tYp/a
+         Ahgk2Km6deD+qEccOAwFkxI9e3Cnu/xC6elRHTjqDF4f7ALyzddHxtacaCsKLJtiyNCT
+         cjzA==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@mail.selcloud.ru header.s=selcloud header.b=smMpP64d;
+       dkim=pass header.i=@security.edwardcode.net header.s=selcloud header.b=YPJOl2LA;
+       spf=pass (google.com: domain of sender@mail.selcloud.ru designates 5.8.75.170 as permitted sender) smtp.mailfrom=sender@mail.selcloud.ru;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=security.edwardcode.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1738786230; x=1739391030; darn=digitalocean.abusehq.net;
+        h=list-archive:list-help:list-post:mailing-list:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:subject:message-id:to:from
+         :date:list-id:list-unsubscribe:list-unsubscribe-post:feedback-id
+         :precedence:from:to:cc:subject:date:message-id:reply-to;
+        bh=mtD4+AGzkGHGdlnlKXi2lHF0LOG+G9ruIv+hSLE+zNo=;
+        b=FpRLQDOjfj5/QVuNkgBLyqXElr+SHy/6dJB81IzTy1Z3IyvHzRFaOfIeWjORou8kFN
+         zhraH3uHmSg7z8wBF96u+zUrsoKnVpoh1W5qxEVN4MKEkE9GMbb5hYn5cgjaWE1MIHuM
+         2oSjXhRioebTAJAD5q7azDtUaaCSWBudWfDSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738786230; x=1739391030;
+        h=list-archive:list-help:list-post:x-spam-checked-in-group
+         :mailing-list:reply-to:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:mime-version:subject
+         :message-id:to:from:date:list-id:list-unsubscribe
+         :list-unsubscribe-post:feedback-id:precedence:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mtD4+AGzkGHGdlnlKXi2lHF0LOG+G9ruIv+hSLE+zNo=;
+        b=kFUilqSoSb5IcUs9yMc9wUQ2fkdsLaXUZTVo9NRX6ARceCtKhOx91CtxaZF+aaITBy
+         o+ncVskLoE7CmaPgJei2v53Axvyv1JeTyvlWGLhs+jhyts6LuyxwOMotxzlcVi0S6es1
+         qF/9GHhxO5WHptxbbhl0rbmGTtI6FpmO2rNHwZXB8Q3O5rK5ULu0ZlrpwbDjGMztbX3O
+         WP4NFRPNTg9fmjAS4USISPHDdxe1NqjZ+gcqJdXc5wIuxbQ2cUulgmIKih4RJoxxLaeg
+         BYVkenQIEDhtBFtUUThvlykj8bkgrZFp28hOjsSXythJw1jxa8j0o+HVVxycvskNgDoB
+         rrlw==
+X-Forwarded-Encrypted: i=2; AJvYcCUE47G1CIxwh5bi+Wscvtx+GlOSDS9UlQG6gY8IMhb+LI1N1RIYEYSnF7+naaKqefnruzeRBg==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0YwV4TGFzllwjOWUlKmLV9XKGL2IWwXNBmd42xBJcHRHwFpD9ufu
+	mzm3ERek9qH6AlMcdRPiwlThbl8d3XlPbldmDub9jkcbZYFa8/HTK7GwCRusKlY=
+X-Google-Smtp-Source: AGHT+IG20KM1qTRXYJ0jVEp8cuAItOHWGu/TFNSG40gQTMajHjyDxxBfn9H8BrX1ej9iu721YpHa/A==
+X-Received: by 2002:a05:651c:1544:b0:302:4115:18b with SMTP id 38308e7fff4ca-307cf2e7aa7mr13272711fa.1.1738786230261;
+        Wed, 05 Feb 2025 12:10:30 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a2e:a99b:0:b0:300:dd1:c533 with SMTP id 38308e7fff4ca-307da3d7c07ls422721fa.1.-pod-prod-09-eu;
+ Wed, 05 Feb 2025 12:10:28 -0800 (PST)
+X-Received: by 2002:a2e:bea5:0:b0:306:124c:69d5 with SMTP id 38308e7fff4ca-307cf3853fbmr17685291fa.34.1738786227949;
+        Wed, 05 Feb 2025 12:10:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1738786227; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AeLrLS1MwGGKOxr12Vh2haZ2N7ngvH/t1hnRPfiQHAl58R6P7cvoX/P+N5VU/qSJrj
+         zGl1NkGVSSqk39fEc68dVezFzO44JPwkOPuLQnhfsp8+rIJ2KD/n9hyGEImyQW2S5TaI
+         z1xSzTvKiGBVFVQt4E7kxlpmhUAnNvgRnRY0lpaExwJ/MpDxoiHm0pD8ZEooAesoHkW3
+         8+h7AsXX6CFH5x/eQc82UVPoOZua7qdcei6FsszX5i6G7LGAj5ESSTXJkulro4aKxRgU
+         wOkAerwPvaXEUznkvCcsEfF5S7j9hvhO2vMW24yL7irFDGuZ2YUf/6UPM0uQlzdo4hAj
+         IFNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:mime-version:subject:message-id:to:from
+         :date:list-id:list-unsubscribe:list-unsubscribe-post:feedback-id
+         :precedence:dkim-signature:dkim-signature;
+        bh=mtD4+AGzkGHGdlnlKXi2lHF0LOG+G9ruIv+hSLE+zNo=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=bjuPOlU1mYQ7/DAlZYhQ9kUuoysPSbPYkRCwzHfLziIUH5MBu47rPoYEUSanw0Fq2J
+         O1q3lN9lrexoqc1q2/hzZWNoEZHbrc4d+dXZBhGT8qbnRgSW1ern+1oQHUR1Bh6xgAIh
+         99RU7tAh7QR2laA1oc3fa9195LacCBByZsVvp7pvd1N6+NDdDULvznM8KXeUFe/PQLp7
+         VnkmMmWE4ZqOA8t3JzAd01ZHjKoLGPA0inu1E5jZxKYG9/C8+nwZF1TlA+1LC2fKfr1a
+         BLHIi1SwXCpTyEXGqEjgx8c4/kTjLsgZECch5x6FOcpsPNsROEazi9HUnIbx/lddulnS
+         PHzQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@mail.selcloud.ru header.s=selcloud header.b=smMpP64d;
+       dkim=pass header.i=@security.edwardcode.net header.s=selcloud header.b=YPJOl2LA;
+       spf=pass (google.com: domain of sender@mail.selcloud.ru designates 5.8.75.170 as permitted sender) smtp.mailfrom=sender@mail.selcloud.ru;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=security.edwardcode.net
+Received: from sender7.mail.selcloud.ru (sender7.mail.selcloud.ru. [5.8.75.170])
+        by mx.google.com with ESMTPS id 38308e7fff4ca-307a340c0fbsi54123311fa.331.2025.02.05.12.10.27
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 12:10:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of sender@mail.selcloud.ru designates 5.8.75.170 as permitted sender) client-ip=5.8.75.170;
+Precedence: list
+X-Issuen: 911173
+X-User: 302496467
+X-Postmaster-Msgtype: 3507
+Feedback-ID: 911173:13481:3507:samotpravil
+X-From: security.edwardcode.net
+X-from-id: 13481
+X-MSG-TYPE: bulk
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+List-id: <abuse.digitalocean.com>
+X-Gungo: 20250205.051756
+X-SMTPUID: mlgnr61
+Date: Wed, 5 Feb 2025 23:10:27 +0300 (MSK)
+From: "'network-abuse' via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Message-ID: <337695736.1445.1738786227551@localhost>
+Subject: [ABUSE NOTE] Abuse report for 167.71.76.217
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Original-Sender: sender@mail.selcloud.ru
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@mail.selcloud.ru header.s=selcloud header.b=smMpP64d;
+       dkim=pass header.i=@security.edwardcode.net header.s=selcloud
+ header.b=YPJOl2LA;       spf=pass (google.com: domain of sender@mail.selcloud.ru
+ designates 5.8.75.170 as permitted sender) smtp.mailfrom=sender@mail.selcloud.ru;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=security.edwardcode.net
+X-Original-From: network-abuse <network-abuse@security.edwardcode.net>
+Reply-To: network-abuse <network-abuse@security.edwardcode.net>
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+
+VGhpcyBtZXNzYWdlIHdhcyBnZW5lcmF0ZWQgYXV0b21hdGljYWxseS4gWW91IGRvbid0IG5lZWQg
+dG8gYW5zd2VyIGl0Lg0KDQpEZWFyIENvbGxlYWd1ZXMhISENCg0KT3VyIHN5c3RlbSBoYXMgZGV0
+ZWN0ZWQgYSBCUlVURS1GT1JDRSBhdHRhY2ggb24gb3VyIGVxdWlwbWVudCwgaW1wbGVtZW50ZWQg
+ZnJvbSBhbiBJUCBhZGRyZXNzIDE2Ny43MS43Ni4yMTcgYmVsb25naW5nIHRvIHlvdXIgbmV0d29y
+ay4NCg0KV2UgYXR0YWNoZWQgc29tZSBsb2dzOg0KMjAyNS0wMi0wNSAyMzowNjo1NyAxNjcuNzEu
+NzYuMjE3IG1hZGhhdmkgbWFkaGF2aUAxMjMKMjAyNS0wMi0wNSAyMzowOToxOCAxNjcuNzEuNzYu
+MjE3IHJvb3QgQWFAMTIzNDU2Nzg5CjIwMjUtMDItMDUgMjM6MTA6MjYgMTY3LjcxLjc2LjIxNyBz
+aW5hIHNpbmExMjMKDQoNCldlIGFzayB5b3UgdG8gaW1tZWRpYXRlbHkgdGFrZSBtZWFzdXJlcyB0
+byBlbGltaW5hdGUgdGhlIHRocmVhdC4gSWYgdGhlIGF0dGFjayBpcyByZXBlYXRlZCwgd2Ugd2ls
+bCBiZSBmb3JjZWQgdG8gdGFrZSBtb3JlIHN0cmluZ2VudCBtZWFzdXJlcyB0byByZXN0cmljdCBh
+Y2Nlc3MuDQpXZSB3b24ndCBub3RpZnkgeW91IGFnYWluIGFib3V0IHRoaXMgSVAgZm9yIHRoZSBu
+ZXh0IDI0IGhvdXJzLg0KDQpSZWdhcmRzLA0KRWR1YXJkIElsaW4NClNjdWxrIEx0ZC4=

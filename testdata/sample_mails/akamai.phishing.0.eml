@@ -1,0 +1,202 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@linode.com header.d=linode.com header.s=g1
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id CAD52508-45B0-40E0-8433-B7BC84B11598.1
+	envelope-from <abuse+bncBAABBVOI46TQMGQEA66YNLI@linode.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 07 Sep 2023 14:55:18 +0000
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-64cb143d3b5sf11729276d6.1
+        for <abuse@linode.abusehq.net>; Thu, 07 Sep 2023 07:55:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694098517; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Op0DjlJdsTiCMz6PInpGjeMBY33HQqyA+HN0aQwK2gl0C3wlOzTuPud7VggR63wlPI
+         3KQIE0tEfxJVhp4bybsnihiZmbmOKhhHjBtF0SbRFEfE6VsGc3lCO7UO8R0MDXooGvBj
+         nmOwwh9KjCZlN/GgBS5wuemRWcLRi3poU9JSxdgQK2nGm42Qi5y6KE945T4vu7N7OJgB
+         qqJ/wCs2EsW6dKC+xdiEUN8+/Dwb5+/Y5bWlCwWInc2FFusSL+3yuN8qCfTTZXwGre6/
+         nTkvrGSVQDrQUvRLQCT2YIOyFhPKkZDNw7eakqRgHjc8gPStm0KjZXEGOdIQKycirjqT
+         Zi7g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version
+         :content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:to:from:dkim-signature;
+        bh=EuOg6LmrOxXeGLz9sbcHnVWK8w2rgLmMZa8/jCH4O6Q=;
+        fh=VyO4TYmoq71q/lTNASfsbDNhzifjSXrpIsxBoqJr3ME=;
+        b=yoyItXG1pMeuD3Dg8Dg4uPk7TYwRlaABz1CdJPf87FvDwlPvx/JJtDFwgbRNW9yXN5
+         93dsTScqVlWPemLulWWV+AWI+zzkVE70LvQfdvrZQV/1POHC0lNsYwip43DbXPlGf9AS
+         ew2wWwvEc2gexl3aHTvS0CplRWKvzJKEG9LUGIU9l4S+ORH7EvPLWpKgV5Arcglu53ac
+         ub0NpwTXPkpovJO3d4q5M/xQK15dJkO7RUc9T5N059/EwnLlcfWEkQcUiXQPricDKV26
+         bxRriF6ZLkSswIHte1RNI82ocZae+tfliGLcQ7O2JCmbJENgd8xtM9Fqgk2lMsxuNrpr
+         8eOw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@akamai.com header.s=jan2016.eng header.b=Cpe2Pg7b;
+       spf=pass (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1 as permitted sender) smtp.mailfrom=Infosec-ops@akamai.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linode.com; s=g1; t=1694098517; x=1694703317; darn=linode.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:content-transfer-encoding:content-id
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=EuOg6LmrOxXeGLz9sbcHnVWK8w2rgLmMZa8/jCH4O6Q=;
+        b=WIGbe+V9ClY+NQCN5HtLbYdw3YvY8pjnScOr6wpMb5Lnoj1jmqFvWO7P453yY846dj
+         GcEH5G1Ar9aBSmJnVpO44Um8baUiH3PLymCozfBs3RHEem//4wmFHw0WS0bhD7SG4IA2
+         yejJ8w0/l4clnRPSXiPILrxKPq2IOCLYxD6l7l9KO3sKbpea3/FLpESbS70XWuIX0Lga
+         bq09jLCdFfk6H+C0xKa2xeXT98arksqCvIr0JDoB1a9fnXdgiXZirsbru0LU6QkWv+QF
+         fY82TSmf1V19uiuzzBs6YSRNceOf9+Fc+002JwEsa9mwLGHbffaFDCyX440d/aLqTh2A
+         dgVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694098517; x=1694703317;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:to:from:x-beenthere:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=EuOg6LmrOxXeGLz9sbcHnVWK8w2rgLmMZa8/jCH4O6Q=;
+        b=GOshAI/pBvJgqS4UDBAFmnv4upGjJcV3xmXZ5AsotlqB6yn91pmqwtXqI2e5rG3XNH
+         0y2Pm3OrfgCoE2BjZRuEdxPdNrhKtAtIfs7EHHc30YkVghMjOiwztRjwa766J3OizAhV
+         BQEEXH7Qg/Fs5A4w8PiF4T+/ng5GZpKdp+aN2mmCUQPHaF29Ov0kpHOW4bcWg5671Odm
+         lSrB2FyPjkV9JbhLbpXi+8Slzn0xRXijUKRAXpPFaIm901jn+05qDwk8f46oXa0wwKfK
+         gxtE/sDVl3V4WeQKbnDi1lsFdvS6zgJmGJTrj+HYaO9bB4xzt6PRQwx9CoQwtynEfvqw
+         sSNg==
+X-Gm-Message-State: AOJu0YwecYIn4YJQ+683ErKK0ZE1Dkpx/MecrLrNLhyVfqrf3TMdgK1P
+	/kvHcPCstTBQ1K0VOYz6MoFhYw==
+X-Google-Smtp-Source: AGHT+IEuqPJIe0cPqfF14R1jUvDXlDMi10YQuY05DIdoGXYbkOpUKbrt2nwnu3Y3jHZL1j+LVH0gdA==
+X-Received: by 2002:a05:6214:509c:b0:628:ed0e:a165 with SMTP id kk28-20020a056214509c00b00628ed0ea165mr24147996qvb.58.1694098517702;
+        Thu, 07 Sep 2023 07:55:17 -0700 (PDT)
+X-BeenThere: abuse@linode.com
+Received: by 2002:a0c:b301:0:b0:64f:4077:3cb0 with SMTP id s1-20020a0cb301000000b0064f40773cb0ls7771581qve.0.-pod-prod-09-us;
+ Thu, 07 Sep 2023 07:55:17 -0700 (PDT)
+X-Received: by 2002:a05:6102:522:b0:44e:c24b:3358 with SMTP id m2-20020a056102052200b0044ec24b3358mr5923118vsa.21.1694098516757;
+        Thu, 07 Sep 2023 07:55:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694098516; cv=none;
+        d=google.com; s=arc-20160816;
+        b=pyd5vD0QuS2FkMQ2RdcQSut+zkqJ0FUVlRdPi0YJGR89dnlE8m/PYbVne0UQErQWKu
+         1mQMsMHwNTv0qrhs9k+RH5Jt/7y8+2rPDnwFYKMBcqrWSRQkBBoP7vyRLBHUyjwgUV8q
+         V5HKKnpwS3aB6WzEh6zDSGs7VSTVE/OaeWAtT610uVv+e2O0oJYq/xXG7LxzcQBtZ3ru
+         O8V9VYIMFDPj2baEJ/vyIFFNzxWfKpdCXfKngbLrvRaUmkBbZo4wW4aSmNNmxU7iS+h+
+         M1egbL+iCT+LBxI/9LMZX64GDzxjgviRtkPuBimBdhYn/ZWM9w2853tBjc0v+gK1YnNg
+         4GMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:to:from:dkim-signature;
+        bh=EuOg6LmrOxXeGLz9sbcHnVWK8w2rgLmMZa8/jCH4O6Q=;
+        fh=VyO4TYmoq71q/lTNASfsbDNhzifjSXrpIsxBoqJr3ME=;
+        b=TRkPWsm0YJ3xJs7fbASJt8NhvIL7l/uMeUy8VBe7ErAasouS5iuak+q0+LLCBYesBw
+         PvF1IxL74PgxUiEu3M+D1WRzZofVLVetwNJFhRkEXdByiUWp4hql+XBKy2btXmfPJDxW
+         0v3PKRSA4CoQOPHN1f8TYafHkcsSSKQ4xHERQaMjQnIiRo4EhZP4FN+Lrsh8ezPn+227
+         TKUgnPTZKz5x+MNYVXkmYoucWkfpMU1dI1Lh0MrkhPwU/V7idjeh7B6GgD2NxRcdJohY
+         YFwnviitZuZVDavgtn7BzdXMnWefj7wlhr2FF2Qz62B438fTMt+tzpIJv+LF8THcDD0O
+         CgHg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@akamai.com header.s=jan2016.eng header.b=Cpe2Pg7b;
+       spf=pass (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1 as permitted sender) smtp.mailfrom=Infosec-ops@akamai.com
+Received: from inbound-mail1.linode.com (inbound-mail1.linode.com. [2600:3c03::f03c:91ff:fedf:5790])
+        by mx.google.com with ESMTPS id i14-20020ac85e4e000000b004034d531656si11200569qtx.437.2023.09.07.07.55.16
+        for <abuse@linode.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 07 Sep 2023 07:55:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1 as permitted sender) client-ip=2620:100:9005:57f::1;
+Received-SPF: pass (akamai.com: 2620:100:9005:57f::1 is authorized to use 'Infosec-ops@akamai.com' in 'mfrom' identity (mechanism 'mx' matched)) receiver=linode.com; identity=mailfrom; envelope-from="Infosec-ops@akamai.com"; helo=mx0b-00190b01.pphosted.com; client-ip="2620:100:9005:57f::1"
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
+	by inbound-mail1.linode.com (Postfix) with ESMTPS id 63E212670E
+	for <abuse@linode.com>; Thu,  7 Sep 2023 10:55:16 -0400 (EDT)
+Received: from pps.filterd (m0050096.ppops.net [127.0.0.1])
+	by m0050096.ppops.net-00190b01. (8.17.1.22/8.17.1.22) with ESMTP id 387AHJGL002221
+	for <abuse@linode.com>; Thu, 7 Sep 2023 15:55:16 +0100
+Received: from prod-mail-ppoint7 (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be forged))
+	by m0050096.ppops.net-00190b01. (PPS) with ESMTPS id 3suwfb58eq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.com>; Thu, 07 Sep 2023 15:55:15 +0100 (BST)
+Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
+	by prod-mail-ppoint7.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 387DA4hZ030850
+	for <abuse@linode.com>; Thu, 7 Sep 2023 10:54:54 -0400
+Received: from email.msg.corp.akamai.com ([172.27.50.203])
+	by prod-mail-ppoint7.akamai.com (PPS) with ESMTPS id 3sv0cwqaae-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.com>; Thu, 07 Sep 2023 10:54:54 -0400
+Received: from ustx2ex-dag4mb4.msg.corp.akamai.com (172.27.50.203) by
+ ustx2ex-dag4mb4.msg.corp.akamai.com (172.27.50.203) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.16; Thu, 7 Sep 2023 07:54:53 -0700
+Received: from ustx2ex-dag4mb4.msg.corp.akamai.com ([172.27.50.203]) by
+ ustx2ex-dag4mb4.msg.corp.akamai.com ([172.27.50.203]) with mapi id
+ 15.02.1258.016; Thu, 7 Sep 2023 07:54:53 -0700
+From: "'Infosec-ops' via Abuse" <abuse@linode.com>
+To: Linode Abuse <abuse@linode.com>
+Subject: FW: [PL-3779513] Phishing redirect(s) hosted on
+ vit-immunenutrients.ie
+Thread-Topic: [PL-3779513] Phishing redirect(s) hosted on
+ vit-immunenutrients.ie
+Thread-Index: AQHZ4ZtCCwGOk8L2/kymDQ7XSeRjSw==
+Date: Thu, 7 Sep 2023 14:54:53 +0000
+Message-ID: <0267D5F1-180B-4934-BEDE-65A4605C56D6@akamai.com>
+References: <20230906214012.2F88943AAA@mtsapi1.phishlabs.com>
+In-Reply-To: <20230906214012.2F88943AAA@mtsapi1.phishlabs.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [172.27.118.139]
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <70CD98AA45C7FD47AA75C1DF13BB66AE@akamai.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-07_07,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=819 suspectscore=0 phishscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309070132
+X-Proofpoint-GUID: DErNygzj85WneKSSTM85bHKCPpupymvO
+X-Proofpoint-ORIG-GUID: DErNygzj85WneKSSTM85bHKCPpupymvO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-07_07,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=838 clxscore=1015
+ mlxscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2308100000
+ definitions=main-2309070133
+X-Original-Sender: infosec-ops@akamai.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@akamai.com header.s=jan2016.eng header.b=Cpe2Pg7b;       spf=pass
+ (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1
+ as permitted sender) smtp.mailfrom=Infosec-ops@akamai.com
+X-Original-From: Infosec-ops <Infosec-ops@akamai.com>
+Reply-To: Infosec-ops <Infosec-ops@akamai.com>
+Precedence: list
+Mailing-list: list abuse@linode.com; contact abuse+owners@linode.com
+List-ID: <abuse.linode.com>
+X-Spam-Checked-In-Group: abuse@linode.com
+X-Google-Group-Id: 895230844096
+List-Post: <https://groups.google.com/a/linode.com/group/abuse/post>, <mailto:abuse@linode.com>
+List-Help: <https://support.google.com/a/linode.com/bin/topic.py?topic=25838>, <mailto:abuse+help@linode.com>
+List-Archive: <https://groups.google.com/a/linode.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+895230844096+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/linode.com/group/abuse/subscribe>
+
+DQoNCu+7v09uIDkvNy8yMywgMzoxMCBBTSwgIlBoaXNoTGFicyBTZWN1cml0eSBPcGVyYXRpb25z
+IiA8c29jQHBoaXNobGFicy5jb20gPG1haWx0bzpzb2NAcGhpc2hsYWJzLmNvbT4+IHdyb3RlOg0K
+DQoNCkR1cmluZyBhbiBpbnZlc3RpZ2F0aW9uIG9mIGZyYXVkLCB3ZSBoYXZlIGlkZW50aWZpZWQg
+YSBwaGlzaGluZyByZWRpcmVjdCB3aGljaCBpcyBob3N0ZWQgb24geW91ciBuZXR3b3JrIGFuZCBh
+dHRlbXB0aW5nIHRvIGRlZnJhdWQgb3VyIGNsaWVudCdzIGN1c3RvbWVycy4NCg0KDQpNYWxpY2lv
+dXMgcmVkaXJlY3Q6DQpoWFhwczovL3ZpdC1pbW11bmVudXRyaWVudHMuaWUvcmJmY3UNCg0KDQpG
+aXJzdCBkZXRlY3Rpb24gb2YgbWFsaWNpb3VzIGFjdGl2aXR5OiAwOS0wNi0yMDIzIDIwOjU2OjM1
+IFVUQw0KQXNzb2NpYXRlZCBJUCBBZGRyZXNzZXM6DQoxNzMuMjU1LjI0Ny45MQ0KSG9zdG5hbWUg
+b2YgU2VydmVyOiB2aXQtaW1tdW5lbnV0cmllbnRzLmllDQoNCg0KUGxlYXNlIHRha2UgbmVjZXNz
+YXJ5IHN0ZXBzIHRvIGhhdmUgdGhlIGNvbnRlbnQgcmVtb3ZlZCBhcyBzb29uIGFzIHBvc3NpYmxl
+Lg0KDQoNCkl0IGlzIHBvc3NpYmxlIHRoYXQgdGhlIGludHJ1ZGVyIHdobyBzZXQgdXAgdGhpcyBw
+aGlzaGluZyBzaXRlIGhhcyBhbHNvIGxlZnQgYWRkaXRpb25hbCBmcmF1ZHVsZW50IG1hdGVyaWFs
+IG9uIHRoaXMgc2VydmVyIHRvIG1haW50YWluIHBlcnNpc3RlbmNlLg0KDQoNCg0KDQpUaGFuayB5
+b3UgaW4gYWR2YW5jZSBmb3IgeW91ciBhc3Npc3RhbmNlLiANCg0KDQpTT0MgVGVhbSANClBoaXNo
+TGFicyBTZWN1cml0eSBPcGVyYXRpb25zDQoxMjAyMzg2NjAwMQ0KQXZhaWxhYmxlIDI0LzcNCg0K
+DQoNCg0KDQoNCltQTC0zNzc5NTEzXSANCg0KDQoNCg==

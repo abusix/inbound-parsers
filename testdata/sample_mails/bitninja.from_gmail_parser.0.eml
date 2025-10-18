@@ -1,0 +1,673 @@
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2088.outbound.protection.outlook.com [40.107.11.88])
+	by 053ea0284110 (Haraka/2.8.28) with ESMTP id 74514DB0-AD8C-4811-8E49-4CF376384864.1
+	envelope-from <bounces+SRS=vSzY/=4D@ipxo.com>;
+	Mon, 05 Dec 2022 20:00:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qelr/AYpMVsFGLB3PiffbcuDWThyi50svsAZmYKvPbbYGoBynKNDldGCqtFWyRivgkhoIGuOSTjBEZPDe78QG90tkge4vq6MX19nbQ45Z3kEaQKn5GBxSVTsxaZp2AH5ZwWGoFV/Qn3ybscVvIuWpPAwQnDTJPgwBWi5vGvVYV17XnBNB8EVMXVjjA780MYoSqm1t70UR4/Dkqrd4D3AoPTo6a3ieegIeOPdQveFpV105OsCPm91pyl1jTKb35pVC3WAGwdtcm8qRFfERJyeoth+pJ5R9PSQNrS8CGI73F+XT67M+sqbauttqNVXdMATrQz3fqnEP4oq4IvK0DrW0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lK7U6UGjAkoaVzA3XB3ubcKEj1bofX8FgL17tqxjGs8=;
+ b=PXsa1GZglSKbPUnTOhF1uUbH2ZAPMxFBLl2AUVh7ljHDyJuw9/j45dbwrKSZDB2lYXORq/LeMC57FZkfhtK23FA1cp+Ce5VXrnNF+5mmHQji7GuMl1Xm3Ct90+R9NzsFLPLbh/kum3fv+eDBTUrxT5uUYdcoTsWqZftMUi6uXF2M3Cs02T01WQYzSV6fM/0Z8KKB0OQxCLUssFsoRiuNUC/goB2ZiQNNHpzS1gqsF02l5L3daF4iaGoMlLLv4ps+tZDdnaLkwWVroOAilr4WjlTf7NchMWS2lBAyxsJm1+Q3W5kHv6D0NCJal7aqkr8l7P+k3fxElrrzBE/ik8jVbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 209.85.215.177) smtp.rcpttodomain=ipxo.com smtp.mailfrom=gmail.com;
+ dmarc=pass (p=none sp=quarantine pct=100) action=none header.from=gmail.com;
+ dkim=pass (signature was verified) header.d=gmail.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lK7U6UGjAkoaVzA3XB3ubcKEj1bofX8FgL17tqxjGs8=;
+ b=Isvl/5ifJa/8pTvweGtiX+WS/0k+ZnaBYFaQxPY82UA8MylvNh+YZqe0RILIhI+bdJgCU43lzSBW9Qlxpecvlft/ZPU6EXAvtfan2blu6VxwJsST6B9Jy62eSYjTPOGUgHziVm0qdlSHFaiAmDf27Za+02E+MNFQRu5h9z0Da+EUppPCu0TLWF55u2CQ1u8lZ0yZmXYa+YphzzG+Jnt7Ls0RCJSgQTMVIxKiDQrEr7jxLcHdZqf7W7W1V2JoihkvWW5CH1F59PHz21DTDUbkHFrtIdccdqA202J7sVpBDc63hvvHk+rtWjssFFJwRzeUoEGxe5i4tf4ru3byTRf6ng==
+Received: from LO4P302CA0004.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:2c2::9)
+ by CWXP265MB2470.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:9f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Mon, 5 Dec
+ 2022 20:00:17 +0000
+Received: from LO2GBR01FT008.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:600:2c2:cafe::e7) by LO4P302CA0004.outlook.office365.com
+ (2603:10a6:600:2c2::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10 via Frontend
+ Transport; Mon, 5 Dec 2022 20:00:17 +0000
+Received-SPF: Pass (protection.outlook.com: domain of gmail.com designates
+ 209.85.215.177 as permitted sender) receiver=protection.outlook.com;
+ client-ip=209.85.215.177; helo=mail-pg1-f177.google.com; pr=C
+Received: from mail-pg1-f177.google.com (209.85.215.177) by
+ LO2GBR01FT008.mail.protection.outlook.com (10.152.42.94) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5880.13 via Frontend Transport; Mon, 5 Dec 2022 20:00:17 +0000
+Received: by mail-pg1-f177.google.com with SMTP id s196so11454210pgs.3
+        for <abuse@ipxo.com>; Mon, 05 Dec 2022 12:00:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lK7U6UGjAkoaVzA3XB3ubcKEj1bofX8FgL17tqxjGs8=;
+        b=MNot5CjWrlEfS80XkVCT6vjf6r+yppSZvL+qhq47G2PCKGcvh78q0t7tsEBJybVfaB
+         1i2y7mlMplm2Im9HMHNTaEiCtFjm2jUzzCMnEIobwvKzrBDuAv/B+Q8hwYpGVvJZwn4/
+         2wnKEnAR1tdgbtIYiCaLYurrfaJYPIRqUSIcRdhQVP57VQKcbwTwApizBWTEdd63IsdS
+         Cd3+WlZpvtVtXDgsGfhjxjQWQNtYJfOoM2wnjijRUd2I9My8WJMrvPJn9xVMnLyyfr/J
+         +aOs5BFHrObf6BxEj7q8EAFOSwyIz3BV4vOFr4TCBF29RToUaaedIJBkPnlY2BbrXLxo
+         U6IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lK7U6UGjAkoaVzA3XB3ubcKEj1bofX8FgL17tqxjGs8=;
+        b=iUOtDHRhfqxWxast7PHHjjT928uZVCoDIKomTPpGCUOrYke/GdwWQOHw92O/3i1YKd
+         SWLV9Ueqr4rChdto+HBh4JMdBaN7QSVlt3mdzYBo6vCO1bDi2VPdf3jZDeqYSK//4jOl
+         A+X0yI/0olvJPY3q5/OGZ/rrXjsSrW8bT+B9VQvyh2LBbr7VVaApc/fgfgDVavQ1cFJ/
+         BzRKSKjmWz4U/cHP+UtvQBs/Se8vcjhugYpkPZviGEk569z1pH03lLLBt7gX7YMr4t+Y
+         P5aVPQyEqCROT+ddS1y/t9jzNann2JK/qKAajkgAF2D3lvnDwoIORbCH61kyR0Xj1s5a
+         4wXQ==
+X-Gm-Message-State: ANoB5pkGAyr1Qq395WEMuR3Ic98Xv3dkDxfpiPBD5nhzLdN7Jg5vbepH
+	PewN8ZRwYj/8/JiyvcnRi6n1ADyF43LUP79T6xZbWNZh
+X-Google-Smtp-Source: AA0mqf7zQtGNqyS2t7JGu4gf9juu3rSPsc3xp6/6ZZypsm5wuBNp03pzDlGTWq/xUvw0UeSycr6Rftoyey8RM+v51oo=
+X-Received: by 2002:a05:6a00:98e:b0:574:6929:e50e with SMTP id
+ u14-20020a056a00098e00b005746929e50emr58510717pfg.67.1670270415296; Mon, 05
+ Dec 2022 12:00:15 -0800 (PST)
+MIME-Version: 1.0
+References: <E1p1vxT-0002fT-Mj@maildroid.hu>
+In-Reply-To: <E1p1vxT-0002fT-Mj@maildroid.hu>
+From: Mohamad Boroumand <mohamad.boroumand@gmail.com>
+Date: Mon, 5 Dec 2022 13:00:04 -0700
+Message-ID: <CAMN3rZLpEo=zc7CujGwELe1Vv7PQYT5-_FwQnRXT2jw+uTj=Vg@mail.gmail.com>
+Subject: Fwd: Your server 45.150.173.210 has been registered as an attack source
+To: Abuse Complaint <abuse@ipxo.com>
+Content-Type: multipart/alternative; boundary="000000000000c85d3d05ef1a222b"
+Return-Path: mohamad.boroumand@gmail.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2GBR01FT008:EE_|CWXP265MB2470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87908b71-cacd-4ac4-c0fb-08dad6fb54c4
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	EvNCa9HOdRujSYz0xG3bDa8NA8KaS+Vg8c/THxPxnnBI2FraPpYatXxhKGu+KFw7h2gVBoGz9eufydy0QclUqHQEbgbvoVHAfbSupmRbB3jJ28X2phFz+EFs+7UuqoOyTnnnqKpJTkNmktQITdw4aYVadwoIblhS8C+T5BG5y/c0GINFT9OX7B9A0TvtB5z/hj7u9Uqk4Za1nitjFZNR7HMcj+/A8i+FqAqwlbL4ybmFlVO5Q2uGljoromZQQ6CVT0ht+6Jidx0dHFagstz1c3n1oG4yZxnggMCE92ORCZ0RKhBbxpo4znytDJ5eHiSDzN1RKZ6iGeUofv1g/yOyIHNEVDnr2KyJeY0TLi6gjOKEHYSeerWznk158IPHn+B8x7lVs34Z0CrOpoSMHnKmbAqL4iBW+c2lPEYDlBjkUy84ZIuKJ1kblsxJ+blTihXRE5X8hBSOvmSBeGVVEMGacK7c4b2hdzW8OsEJvQmsBz80mMtQjJ7wViCFj9alFmK20garOcLNIuTTadxBDE2uPB2aIAKV2GvNvDRz7yBpvUhv++dLsaLoUst71edvh/uxaz12AjT6vp+hyGWyg9aC/o8QHgqWYR43yw2nUzehWqvloroq+l1jk6CoGJCPqyV1Cy15AP6FztrCeTsY4xPXTpvk4JDoZ7ezdUMFwpgCG+oHHeU7Tb5wQaIz6MRQ06QLZSre7Pin3KNBodNcyZQWsHITx5U6nb2xecCsaM41kRrdRWeX6OE0UTu8ahtmxPNAPPkwfDl2Ruu2/+cpde3mwSbQOo4VYgFOPgKnNMMAhwDXVShhglMycuCZGVE7AVBpPVVOiBprGDcWQycr+/waCw==
+X-Forefront-Antispam-Report:
+	CIP:209.85.215.177;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail-pg1-f177.google.com;PTR:mail-pg1-f177.google.com;CAT:NONE;SFS:(13230022)(6019001)(4636009)(376002)(346002)(39860400002)(136003)(396003)(279900001)(451199015)(1690799008)(19627405001)(86362001)(356005)(7596003)(55446002)(7636003)(166002)(2906002)(6862004)(66574015)(44832011)(5660300002)(83380400001)(498600001)(966005)(70586007)(68406010)(316002)(45080400002)(42186006)(76482006)(8676002)(336012)(73392003)(6666004)(82202003)(26005)(53546011)(33964004)(1549645003);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2022 20:00:17.3597
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87908b71-cacd-4ac4-c0fb-08dad6fb54c4
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	LO2GBR01FT008.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2470
+Original-Authentication-Results: spf=pass (sender IP is 209.85.215.177)
+ smtp.mailfrom=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com;dmarc=pass action=none header.from=gmail.com;
+
+--000000000000c85d3d05ef1a222b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: BitNinja <info@bitninja.io>
+Date: Sun, Dec 4, 2022 at 1:51 PM
+Subject: Your server 45.150.173.210 has been registered as an attack source
+To: <mohamad.boroumand@gmail.com>
+
+
+Incident report
+
+Dear provider,
+
+I am Mark Bacsko, Incident Analyst at BitNinja Server Security. I=E2=80=99m=
+ writing
+to inform you that *we have detected malicious requests *targeting our
+clients=E2=80=99 servers *from the IP 45.150.173.210 * you own based on a p=
+ublic
+database. We=E2=80=99ve been able to stop these requests and prevent future=
+ attacks *by
+adding your IP to our greylist
+<https://doc.bitninja.io/docs/ip%20filter/ip_reputation/#global-greylist> *=
+,
+but we wanted to reach out and inform you, as you might not be aware.
+Timestamp (UTC): *2022-12-04 20:51:31*
+
+Sometimes it=E2=80=99s not easy to notice that your servers are used as a =
+=E2=80=9Cbot=E2=80=9D
+sending malicious attacks over the Internet.
+AGENT LOGS
+
+If this is the case with you, you can *take steps to protect your and
+others=E2=80=99 servers*. To help you to fix this problem, I've collected t=
+he 3
+earliest logs below, which have led to your IP being blocked. Under the
+link, you can find the freshest 100 logs that may help you disinfect your
+server.
+
+{
+    "PORT HIT": "45.150.173.210:64077->89.107.59.168:445"
+}
+
+{
+    "PORT HIT": "45.150.173.210:64094->89.107.59.168:445",
+    "MESSAGES": "Array
+		(
+		    [13:04:22] =3D>
+u0000u0000u00006=C3=BFSMBru0000u0000u0000u0000u0018u0001Hu0000u0000u0000u00=
+00u0000u0000u0000u0000u0000u0000u0000u0000u0000u0000=C3=B8su0000u0000u0000u=
+0000u0000u0013u0000u0002Sambau0000u0002NT
+LM 0.12u0000
+		)
+		"
+}
+
+{
+    "PORT HIT": "45.150.173.210:56834->46.4.41.134:445"
+}
+
+GO TO INCIDENTS
+<https://report.bitninja.com/incident-report/fe24d5c604020d19c1>
+
+Please keep in mind that after the first intrusion we log all traffic
+between your server and the BitNinja-protected servers until the IP is
+removed from the greylist. This means you may see valid logs beside the
+malicious actions in the link above. If you need help finding the malicious
+logs, please don=E2=80=99t hesitate to contact our incident experts by repl=
+ying to
+this e-mail.
+
+Have an amazing week:
+
+*The BitNinja Team*
+[image: Fb] <https://www.facebook.com/bitninja.io> [image: Inst]
+<https://www.linkedin.com/company/bitninja-io> [image: Inst]
+<https://www.instagram.com/bitninja_official/>
+
+Check out the incidents at:
+https://report.bitninja.com/incident-report/fe24d5c604020d19c1
+
+--000000000000c85d3d05ef1a222b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">BitNinja</strong> <span dir=3D"auto">&=
+lt;<a href=3D"mailto:info@bitninja.io">info@bitninja.io</a>&gt;</span><br>D=
+ate: Sun, Dec 4, 2022 at 1:51 PM<br>Subject: Your server 45.150.173.210 has=
+ been registered as an attack source<br>To:  &lt;<a href=3D"mailto:mohamad.=
+boroumand@gmail.com">mohamad.boroumand@gmail.com</a>&gt;<br></div><br><br><=
+div><div id=3D"m_1585616512719184265cons_content_leveltorzs" aria-hidden=3D=
+"true">
+
+
+<p> </p>
+<div style=3D"background-color:#f6f6f6">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"font-family:Mulish,robo=
+to,&#39;helvetica neue&#39;,helvetica,arial,sans-serif;border-collapse:coll=
+apse;border-spacing:0px;padding:0;margin:0;width:100%;height:100%;backgroun=
+d-repeat:repeat;background-position:center top">
+<tbody>
+<tr>
+<td style=3D"padding:0;margin:0" valign=3D"top">
+<table align=3D"center" cellpadding=3D"0" cellspacing=3D"0" style=3D"border=
+-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:10=
+0%;background-color:transparent;background-repeat:repeat;background-positio=
+n:center top">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0">
+<table align=3D"center" bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=
+=3D"0" style=3D"border-collapse:collapse;border-spacing:0px;background-colo=
+r:#ffffff;width:600px">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table align=3D"left" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-c=
+ollapse:collapse;border-spacing:0px;float:left">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;width:180px" valign=3D"top=
+">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;font-size:0px"><img alt=3D=
+"" height=3D"52" src=3D"https://static.bitninja.io/themes/sbadmin/img/logo-=
+light.png" style=3D"display:block;border:0;outline:none;text-decoration:non=
+e" width=3D"200"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+
+<table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-=
+collapse:collapse;border-spacing:0px">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;width:360px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;display:none"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table align=3D"center" cellpadding=3D"0" cellspacing=3D"0" style=3D"border=
+-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:10=
+0%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0">
+<table align=3D"center" bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=
+=3D"0" style=3D"border-collapse:collapse;border-spacing:0px;background-colo=
+r:#ffffff;width:600px">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;width:560px" valign=3D"top=
+">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0">
+<p style=3D"margin:0;line-height:35px;color:#3e3d4b;font-size:28px;font-wei=
+ght:bold;letter-spacing:0.02em">Incident report</p>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:16px">
+<p style=3D"font-weight:400;font-size:14px;line-height:21px;color:#333333;m=
+argin:0">Dear provider,</p>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:8px">
+<p style=3D"font-weight:400;font-size:14px;line-height:21px;color:#333333;m=
+argin:0">I am Mark Bacsko, Incident Analyst at BitNinja Server Security. I=
+=E2=80=99m writing to inform you that <strong>we have detected malicious re=
+quests </strong>targeting our clients=E2=80=99 servers <strong>from the IP =
+45.150.173.210=C2=A0</strong> you own based on a public database. We=E2=80=
+=99ve been able to stop these requests and prevent future attacks <strong>b=
+y adding your IP to our <a href=3D"https://doc.bitninja.io/docs/ip%20filter=
+/ip_reputation/#global-greylist" style=3D"text-decoration:none;color:#002ab=
+e;font-size:14px" target=3D"_blank">greylist</a> </strong>, but we wanted t=
+o reach out and inform you, as you might not be aware.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;width:560px">
+<table bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=3D"0" style=3D"bac=
+kground:#ffffff;border:1px solid #e5e5e5;border-radius:4px;border-collapse:=
+separate;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:8px;padding-left=
+:15px;padding-right:12px;width:32px"><img height=3D"32" src=3D"https://stat=
+ic.bitninja.io/themes/sbadmin/img/icon-clock.png" style=3D"display:inline-b=
+lock;border:0;outline:none;text-decoration:none" width=3D"32"></td>
+<td style=3D"font-weight:400;font-size:14px;line-height:18px;color:#3e3d4b;=
+padding:0;margin:0;padding-top:8px;padding-bottom:8px;padding-right:15px">T=
+imestamp (UTC): <strong>2022-12-04 20:51:31</strong></td>
+</tr>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;font-size:0">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-col=
+lapse:collapse;border-spacing:0px;width:100%;height:100%">
+<tbody>
+<tr>
+<td style=3D"padding:0;margin:0px;border-bottom:0px solid #cccccc;backgroun=
+d:unset;height:1px;width:100%"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;width:560px" valign=3D"top=
+">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"font-weight:400;font-size:14px;line-height:18px=
+;color:#3e3d4b;padding:0;margin:0">
+<p style=3D"font-weight:400;font-size:14px;line-height:21px;color:#333333;m=
+argin:0">Sometimes it=E2=80=99s not easy to notice that your servers are us=
+ed as a =E2=80=9Cbot=E2=80=9D sending malicious attacks over the Internet.<=
+/p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;width:560px">
+<table bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=3D"0" style=3D"bac=
+kground:#ffffff;border:1px solid #e5e5e5;border-radius:4px;border-collapse:=
+separate;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-left:15px;padding-ri=
+ght:15px;padding-top:16px">
+<h3 style=3D"margin:0;line-height:23px;font-size:18px;font-style:normal;fon=
+t-weight:900;color:#333333;letter-spacing:0.04em">AGENT LOGS</h3>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:16px;font-size:0=
+">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-col=
+lapse:collapse;border-spacing:0px;width:100%;height:100%">
+<tbody>
+<tr>
+<td style=3D"padding:0;margin:0px;border-bottom:1px solid #cccccc;backgroun=
+d:unset;height:1px;width:100%"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0;margin:0">
+<table style=3D"border-collapse:collapse;border-spacing:0px">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:24px;margin:0;padding-top:20px;padding-=
+right:24px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;padding-top:20px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;width:560px" valign=3D"top=
+">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0">
+<p style=3D"font-weight:400;font-size:14px;line-height:21px;color:#333333;m=
+argin:0">If this is the case with you, you can <strong>take steps to protec=
+t your and others=E2=80=99 servers</strong>. To help you to fix this proble=
+m, I&#39;ve collected the 3 earliest logs below, which have led to your IP =
+being blocked. Under the link, you can find the freshest 100 logs that may =
+help you disinfect your server.</p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0;margin:0;padding-top:16px;padding-bottom:30px"><pre =
+style=3D"padding:10px 20px;background:#e6e6e6;margin-bottom:10px">{
+    &quot;PORT HIT&quot;: &quot;45.150.173.210:64077-&gt;<a href=3D"http://=
+89.107.59.168:445" target=3D"_blank">89.107.59.168:445</a>&quot;
+}</pre><pre style=3D"padding:10px 20px;background:#e6e6e6;margin-bottom:10p=
+x">{
+    &quot;PORT HIT&quot;: &quot;45.150.173.210:64094-&gt;<a href=3D"http://=
+89.107.59.168:445" target=3D"_blank">89.107.59.168:445</a>&quot;,
+    &quot;MESSAGES&quot;: &quot;Array
+		(
+		    [13:04:22] =3D&gt; u0000u0000u00006=C3=BFSMBru0000u0000u0000u0000u001=
+8u0001Hu0000u0000u0000u0000u0000u0000u0000u0000u0000u0000u0000u0000u0000u00=
+00=C3=B8su0000u0000u0000u0000u0000u0013u0000u0002Sambau0000u0002NT LM 0.12u=
+0000
+		)
+		&quot;
+}</pre><pre style=3D"padding:10px 20px;background:#e6e6e6;margin-bottom:10p=
+x">{
+    &quot;PORT HIT&quot;: &quot;45.150.173.210:56834-&gt;<a href=3D"http://=
+46.4.41.134:445" target=3D"_blank">46.4.41.134:445</a>&quot;
+}</pre></td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0"><span style=3D"border-style=
+:solid;border-color:#2cb543;background:#005ff3;border-width:0px 0px 2px 0px=
+;display:inline-block;border-radius:4px;width:auto;border-bottom-width:0px"=
+><a href=3D"https://report.bitninja.com/incident-report/fe24d5c604020d19c1"=
+ style=3D"text-decoration:none;color:#ffffff;font-size:14px;border-style:so=
+lid;border-color:#005ff3;border-width:6px 24px 6px 24px;display:inline-bloc=
+k;background:#005ff3;border-radius:4px;font-weight:bold;font-style:normal;l=
+ine-height:17px;width:auto;text-align:center" target=3D"_blank">GO TO INCID=
+ENTS</a></span></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;font-size:0">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-col=
+lapse:collapse;border-spacing:0px;width:100%;height:100%">
+<tbody>
+<tr>
+<td style=3D"padding:0;margin:0px;border-bottom:0px solid #cccccc;backgroun=
+d:unset;height:1px;width:100%"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;width:560px" valign=3D"top=
+">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:10px">
+<p style=3D"margin:0;line-height:21px;color:#333333;font-size:14px">Please =
+keep in mind that after the first intrusion we log all traffic between your=
+ server and the BitNinja-protected servers until the IP is removed from the=
+ greylist. This means you may see valid logs beside the malicious actions i=
+n the link above. If you need help finding the malicious logs, please don=
+=E2=80=99t hesitate to contact our incident experts by replying to this e-m=
+ail.</p>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:10px">
+<p style=3D"font-weight:400;font-size:14px;line-height:21px;color:#333333;m=
+argin:0">Have an amazing week:</p>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:10px">
+<p style=3D"margin:0;line-height:21px;color:#333333;font-size:14px"><strong=
+>The BitNinja Team</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table align=3D"center" cellpadding=3D"0" cellspacing=3D"0" style=3D"border=
+-collapse:collapse;border-spacing:0px;table-layout:fixed!important;width:10=
+0%;background-color:transparent;background-repeat:repeat;background-positio=
+n:center top">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0">
+<table align=3D"center" bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=
+=3D"0" style=3D"border-collapse:collapse;border-spacing:0px;background-colo=
+r:#ffffff;width:600px">
+<tbody>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;padding-top:20px;padding-lef=
+t:20px;padding-right:20px">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;width:560px" valign=3D"top=
+">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px;width:100%">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;padding-top:8px;padding-bo=
+ttom:20px;font-size:0">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-col=
+lapse:collapse;border-spacing:0px;width:100%;height:100%">
+<tbody>
+<tr>
+<td style=3D"padding:0;margin:0px;border-bottom:1px solid #cccccc;backgroun=
+d:unset;height:1px;width:100%"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"left" style=3D"padding:0;margin:0;font-size:0">
+<table cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collaps=
+e;border-spacing:0px">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;padding-right:5px" valign=
+=3D"top"><a href=3D"https://www.facebook.com/bitninja.io" style=3D"text-dec=
+oration:underline;color:#ffffff;font-size:14px" target=3D"_blank"><img alt=
+=3D"Fb" height=3D"32" src=3D"https://static.bitninja.io/themes/sbadmin/img/=
+icon-facebook.png" style=3D"display:block;border:0;outline:none;text-decora=
+tion:none" title=3D"Facebook" width=3D"32"></a></td>
+<td align=3D"center" style=3D"padding:0;margin:0;padding-right:8px" valign=
+=3D"top"><a href=3D"https://www.linkedin.com/company/bitninja-io" style=3D"=
+text-decoration:underline;color:#ffffff;font-size:14px" target=3D"_blank"><=
+img alt=3D"Inst" height=3D"32" src=3D"https://static.bitninja.io/themes/sba=
+dmin/img/icon-linkedin.png" style=3D"display:block;border:0;outline:none;te=
+xt-decoration:none" title=3D"LinkedIn" width=3D"32"></a></td>
+<td align=3D"center" style=3D"padding:0;margin:0" valign=3D"top"><a href=3D=
+"https://www.instagram.com/bitninja_official/" style=3D"text-decoration:und=
+erline;color:#ffffff;font-size:14px" target=3D"_blank"><img alt=3D"Inst" he=
+ight=3D"32" src=3D"https://static.bitninja.io/themes/sbadmin/img/icon-insta=
+gram.png" style=3D"display:block;border:0;outline:none;text-decoration:none=
+" title=3D"Instagram" width=3D"32"></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td align=3D"center" style=3D"padding:0;margin:0;padding-top:10px;padding-b=
+ottom:20px">
+<p style=3D"font-weight:400;font-size:14px;line-height:21px;color:#333333;m=
+argin:0">Check out the incidents at:</p>
+<a href=3D"https://report.bitninja.com/incident-report/fe24d5c604020d19c1" =
+style=3D"text-decoration:underline;color:#002abe;font-size:14px" target=3D"=
+_blank">https://report.bitninja.com/incident-report/fe24d5c604020d19c1</a><=
+/td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div></div></div>
+</div></div>
+
+--000000000000c85d3d05ef1a222b--

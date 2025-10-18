@@ -1,0 +1,932 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id B4E69228-FAC8-4E0B-AB8F-E1DF8FF2C7AA.1
+	envelope-from <abuse+bncBCDJNHGAWIIRBMGFYWWAMGQE7MLXXPI@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Sun, 31 Dec 2023 12:46:41 +0000
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-20401c912b1sf12878197fac.2
+        for <abuse@digitalocean.abusehq.net>; Sun, 31 Dec 2023 04:46:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1704026800; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=PL6Dz+Vsdl/jow/l2dapFWUdeQgTKm566wxkvzKHcAAE1b/uxjtFkIk/wnMMRopyiU
+         xus4KmAkO7Xqr3/6fZSkfU2j4NNv2slfdByaB7Kv8AnCQcx5oU4wfMZGhLYhQXZcLpJJ
+         W1D73i1LiGYROMP0yzDsknUR6nQipIfJG46WzeonLr2414b8k1WvolqXWGpYQGFOuXeA
+         /Q9LlCnacMYMe8JTga8jl4I8xLHGPPpkAlX4tlWHo9RRzgo7yhU7ezQWVZE9HbLFOa3A
+         xkzup9BfUwiEM/8vOnrMyWG7O3eA+GtxjUD/CGSch0eX8nRFxcf2uxqFX5X3gS0haVdr
+         H0HQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:subject:message-id:date:from
+         :mime-version:sender:dkim-signature;
+        bh=Mo1uwe42npGRmRAeqoPVCsh3uXSlTmRanv/umPnzaOA=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=f2GTfHDtgqBWQN68DcRQ+YoN4zMUrknTTwJ0or6toANnPcYSd4gIdjQgHDvZrNFa4e
+         XbTTh6VGklVyq6Z+DAIVJiHK7qpjXSSiN3J63tRIkl90Xl5LjbXAK6WKaQ0nG67a/y6o
+         nTwH6xfXkwBmIkDluynPJjNpCVygi1xd4wEliE/wNVHEPpk2GY8h5lU6WFMvyp2o85Fi
+         eduI0hlZdxM4r5RE9peKWiO6ccdabvLykf4koI2joX6ueh/Uxm9kdgrmlhsh7/22CbGn
+         7//4u6ZmDHbMVa5Yf4yPmTZ4N8I/3zM3CZqhU+k1kOrur3WMJ1SnjmWwuq0609+qcZbe
+         EngQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="HslfRaZ/";
+       spf=pass (google.com: domain of your.trustworthy.friend@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=your.trustworthy.friend@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1704026800; x=1704631600; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mo1uwe42npGRmRAeqoPVCsh3uXSlTmRanv/umPnzaOA=;
+        b=Asr9MxHxn/I15HmvtVrM6Ik5QPqFUBCtvn/Jk0tyzW1ZMuLTDsUqC39u8OzjamglwL
+         5flnEgwbvjBySL78b32JkDLRPi7ic3/JVheofPYgdA+T+ocJA+RmxGNt/2J/Cnixknt7
+         ZUUFW6PCnuSgTQDSJ5tuSxmkjIlLNb1W8nClQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704026800; x=1704631600;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mo1uwe42npGRmRAeqoPVCsh3uXSlTmRanv/umPnzaOA=;
+        b=PdzAKkkzwnzQqXYl9CUbMvan/fYU8A/AJldZr6aOjIpQD00jvUXfXel414PJqzrN93
+         dtYUcBIR+jKLJ31DvLQT/GpcysCadpiFVlgLr3bYADoqtWGlmcLOacwrl1tPoM0vc0p0
+         vGPkNnT7PKX93bwqM7RnR5OU8syxOdYgu9ZGWu8/N/whKoYSJEAyQPTqcJqFpHOwd/YD
+         29FHV/7c7xgm8RlLb0B6NY+Q85Y2zwAI/C2i7t7BtYqqzKIzf/BT2V2dOUGlhGKcho8+
+         Oj9inKSBZQBZvlN0bvWhFQEHTYCM9u52WW9oMBqcOOl1F/lIq4qYp3gqhaZHCKX4TZp6
+         09dw==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0Yyg5BEDEXQ5Su3xTUfYY7GClf5kb9SDxLYAbQTm76DY9pkOtDFy
+	DxR2ZRfSekwoo/aqbFAmhdJycdFOqgGyZQ==
+X-Google-Smtp-Source: AGHT+IHaeEt2IYx4fqtiHQsrVrfe83ErBRrvJkbN/e9kIecdDMkK6+ZMNdz25+gmPL2qtytYwlAcAA==
+X-Received: by 2002:a05:6871:606:b0:202:ffd3:d2ce with SMTP id w6-20020a056871060600b00202ffd3d2cemr17793200oan.85.1704026800577;
+        Sun, 31 Dec 2023 04:46:40 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6870:b252:b0:204:3535:6390 with SMTP id
+ b18-20020a056870b25200b0020435356390ls2297632oam.1.-pod-prod-07-us; Sun, 31
+ Dec 2023 04:46:40 -0800 (PST)
+X-Received: by 2002:a05:6871:b0f:b0:203:cdeb:f71d with SMTP id fq15-20020a0568710b0f00b00203cdebf71dmr18519111oab.26.1704026799754;
+        Sun, 31 Dec 2023 04:46:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704026799; cv=none;
+        d=google.com; s=arc-20160816;
+        b=fZN4vSlBxtRS+0hfE419sLivfXkb7KAa+sXRzmsUdk6PhURxO4jcxmPoiO4sFirYL7
+         TyHqQWu+r+u5e/EhjXKStswzRSeFvKR98QLoM8LzGrLwYTFsSG8339AHUar5RVDM5HuL
+         R3Ihimblrq8B+SONjC6PcdtDN+ITamCEpMevptlyXA4oXmSc1O7xHarvu+phYUtvxQiY
+         64FfJwswsNVukrNGgumlwqGfar6GdCUkf4/mwTAhYzVrsiQW2DgbdcKkaM4QF9nPXoez
+         RnUwuKavP1qyEDbem7rIacmB4kFEqqppN/hyPm7CdWykm42/7hkuszC/sb3FWEFpSX7s
+         I64Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=Mo1uwe42npGRmRAeqoPVCsh3uXSlTmRanv/umPnzaOA=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=dBJG7qksNqQa0PSlerPV67rGD37448ViGL5wZB3M18uJ+GRS7ajiidKtEPKVl8coL1
+         0++ab7shj43s4mfO7i3+uvTJy29Vje+gTediBrZZTLLSyydMcOUU1wiyuIFRE6kpM7Wr
+         zKult4cr0cuv+EHYnSBuhOpfTW0rf/bOOdYIxBL7x+UIbTk0uOv5wOjGjDRz3RcRkiLV
+         GXMI+9YTIilFBZEOUrj9rBpBGUqD1iaMAFWOPLOKdiM5VEFsJ5mXLjgSQ59E1i2AgaNH
+         CDbyGyN3BcMbJaBoNrUh/4/jtJrLAs7aVjBSuxVcZVmIDWmg774v4dHFDOqnM8rnRnMY
+         NfMw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="HslfRaZ/";
+       spf=pass (google.com: domain of your.trustworthy.friend@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=your.trustworthy.friend@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id an22-20020a056871b19600b00203c2202560sor7907017oac.1.2023.12.31.04.46.39
+        for <abuse@digitalocean.com>
+        (Google Transport Security);
+        Sun, 31 Dec 2023 04:46:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of your.trustworthy.friend@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+X-Received: by 2002:a05:6359:4592:b0:175:372f:e10d with SMTP id
+ no18-20020a056359459200b00175372fe10dmr269240rwb.58.1704026798742; Sun, 31
+ Dec 2023 04:46:38 -0800 (PST)
+MIME-Version: 1.0
+From: "F. Besto" <your.trustworthy.friend@gmail.com>
+Date: Sun, 31 Dec 2023 14:46:27 +0200
+Message-ID: <CALWie4Hg0_eFzXsWzdSdn1K+LbFxX48UQ_nDvtO7m7O773gugw@mail.gmail.com>
+Subject: Abuse report for: promptfolder.com
+To: abuse@digitalocean.com
+Content-Type: multipart/alternative; boundary="00000000000006de90060dcda8ce"
+X-Original-Sender: your.trustworthy.friend@gmail.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b="HslfRaZ/";       spf=pass
+ (google.com: domain of your.trustworthy.friend@gmail.com designates
+ 209.85.220.41 as permitted sender) smtp.mailfrom=your.trustworthy.friend@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--00000000000006de90060dcda8ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+This is an abuse report for a resource you managing
+- Resource: promptfolder.com
+- Abuse timestamp: sun, 31 dec 2023 00:37:43 -0800 (pst)
+- Abuse type: SPAM
+
+URLs:
+-
+https://promptfolder.com/accounts/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwScl2=
+9snnfCcIMvsghaulHmovuVi7YhWpl_w/
+
+IPs:
+- 159.89.242.1
+
+Please investigate and resolve this situation as soon as possible.
+All communication pertaining to this case is being logged and will be made
+available to the competent authorities.
+
+Alongside this report, you are being provided with all necessary logs.
+
+Delivered-To: [REDACTED]@gmail.com
+Received: by 2002:a2e:9a87:0:b0:2c9:bb43:cc37 with SMTP id p7csp4003811lji;
+Sun, 31 Dec 2023 00:37:44 -0800 (PST)
+X-Received: by 2002:ad4:5bc2:0:b0:67f:6f3b:6328 with SMTP id
+t2-20020ad45bc2000000b0067f6f3b6328mr21956435qvt.58.1704011863758; Sun, 31
+Dec 2023 00:37:43 -0800 (PST)
+ARC-Seal: i=3D3; a=3Drsa-sha256; t=3D1704011863; cv=3Dpass; d=3Dgoogle.com;
+s=3Darc-20160816;
+b=3DefYzI1pnraIgnZl327i3iGbZI9QQJA3x6Yca/tflW9SsbA17FXZz12b1SetTjg+4X/
+6gMrhP+sOVpFYMLD/lWrJ3/6AnkAb0C7CKHXPJhB4XY1fOkWzU+oyfr6joS7RrxTaCaB
+ebPqGkmNXZN3+R6e+zqZPmd+O1s3x5QOsLIAbf2ON/DGS0acuvBcvbxE+yH9WdLJ1j7+
+V9KwX8pAYeZS7i8SE1BWEIGipaR3qb6UbRcAb6Mr0ag8i/rMO6Dw69oD+UfsIXXONCJ5
+w0L8gSDJ8+yDeRHiM8Qm+i8YA17xNUJOwvF8xiG054OXqeoz2dcX/q2xjbfuB0RrcBVc t+eQ=
+=3D=3D
+ARC-Message-Signature: i=3D3; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dgoog=
+le.com;
+s=3Darc-20160816;
+h=3Dmime-version:feedback-id:cc:to:reply-to:subject:date:delivered-to
+:from:message-id:dkim-signature:delivered-to;
+bh=3DFOp1GfdLqy1GtZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D;
+fh=3DjStIhnbzolvZXCV9U3lcDXAq7RZiwL6hgFC7ivoYY/4=3D;
+b=3DrI61uQqmxQb7gfAZc99b4+xVsDJgCvxTAjvN+/K3FsRr6bdi2V6Q2O1ZAnbXejqhtQ
+YMor9Tn7k3ty316R6Uh3sGWuTl0NvpqpO/CHa+tqp8dNvI3F4ljKtD/gZ6s8rxUQbnt3
+lamjOKtPb4mAaUGRO7lku4QLDNmaI1/4h1X3aGhJ/UE1mEH+Tn9haEsRmXL4vIyUE4jP
+ANWwmLTv0Soii5FmQznyDaXYdea/K6S49XaaCV8BYZbZMM0p9HbmTe/EMGr6MXART0f3
+8FOqoCscHStr7RewO7dUE9rTesoEOF4qrAtuCHyd7Re2swiYMl0en/3KuuQ//QO3aQci M8CA=
+=3D=3D
+ARC-Authentication-Results: i=3D3; mx.google.com; dkim=3Dpass header.i=3D@
+gmail.com header.s=3D20230601 header.b=3D"fXqI/4ox"; arc=3Dpass (i=3D2 spf=
+=3Dpass
+spfdomain=3Dpm-bounces.promptfolder.com dkim=3Dpass dkdomain=3Dpm.mtasv.net
+dkim=3Dpass dkdomain=3Dpromptfolder.com dmarc=3Dpass fromdomain=3Dpromptfol=
+der.com);
+spf=3Dpass (google.com: domain of [REDACTED]+caf_=3D[REDACTED]=3D
+gmail.com@gmail.com designates 209.85.220.41 as permitted sender)
+smtp.mailfrom=3D"[REDACTED]+caf_=3D[REDACTED]=3Dgmail.com@gmail.com"; dmarc=
+=3Dpass
+(p=3DNONE sp=3DQUARANTINE dis=3DNONE) header.from=3Dgmail.com
+Return-Path: <[REDACTED]+caf_=3D[REDACTED]=3Dgmail.com@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com.
+[209.85.220.41]) by mx.google.com with SMTPS id
+g17-20020a05620a219100b007815f72a0d0sor5384224qka.12.2023.12.31.00.37.43
+for <[REDACTED]@gmail.com> (Google Transport Security); Sun, 31 Dec 2023
+00:37:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of [REDACTED]+caf_=3D[REDACTED]=3D
+gmail.com@gmail.com designates 209.85.220.41 as permitted sender)
+client-ip=3D209.85.220.41;
+Authentication-Results: mx.google.com; dkim=3Dpass header.i=3D@gmail.com
+header.s=3D20230601 header.b=3D"fXqI/4ox"; arc=3Dpass (i=3D2 spf=3Dpass spf=
+domain=3D
+pm-bounces.promptfolder.com dkim=3Dpass dkdomain=3Dpm.mtasv.net dkim=3Dpass
+dkdomain=3Dpromptfolder.com dmarc=3Dpass fromdomain=3Dpromptfolder.com); sp=
+f=3Dpass
+(google.com: domain of [REDACTED]+caf_=3D[REDACTED]=3Dgmail.com@gmail.com
+designates 209.85.220.41 as permitted sender)
+smtp.mailfrom=3D"[REDACTED]+caf_=3D[REDACTED]=3Dgmail.com@gmail.com"; dmarc=
+=3Dpass
+(p=3DNONE sp=3DQUARANTINE dis=3DNONE) header.from=3Dgmail.com
+ARC-Seal: i=3D2; a=3Drsa-sha256; t=3D1704011863; cv=3Dpass; d=3Dgoogle.com;
+s=3Darc-20160816;
+b=3DqHa7+4GNZ7XkaybeBqJNgTYyfoO8vNAAHyL/xXDvcLTj503t868euuqk5aKGsFGp5y
++4tsUb51hzkCvib+0lFtdf8oHa0L0HqDFQDfih4ld97PKMuslmeE04RIsg9V70O2LKYv
+xYVXeSlRnjL2S9gh8b3FUGG4L7Y+ujOWWD+vT7Z0A8Yq1hHAZmEJ/Kc9QRpygHt+hbk1
+H+rIYBSLuZl0iVSEssByjpSLKYjo60kqhM71EMchC4jYZBWo2+J3y7u+Pvmfc1WPVNeN
+HcC/bWdVV9EgG9ot0cUqUABq5m/VoPZq8y0+ybNiW93xRR0RtsQgmlWtZ105654kd4E9 j8Hw=
+=3D=3D
+ARC-Message-Signature: i=3D2; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dgoog=
+le.com;
+s=3Darc-20160816;
+h=3Dmime-version:feedback-id:cc:to:reply-to:subject:date:delivered-to
+:from:message-id:dkim-signature:delivered-to;
+bh=3DFOp1GfdLqy1GtZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D;
+fh=3DjStIhnbzolvZXCV9U3lcDXAq7RZiwL6hgFC7ivoYY/4=3D;
+b=3DP5DLYN64XA0XkHvfE+5QXV+lGSWCIJqYgnKrBbL75nck1Y3IlLYzLtNrBLtpKW34W7
+HzO9WrmvHwHshAgOH+0tZXGC1G1xQYd4pylDKTcSn59f2GOaKswNNjfKNCtzK0/pRFZk
+ODlRctJn0MwnuLE3vkJ52z9HkcjT1vghg4PQ4eDHZH4taJQEK7rDBgNbwSxM7AGwkuzD
+UU6LsgNHxGBHIsXXQ7ux542JljiRNa8EyY4hu9ChGHjkQQFCY5AUXxB6UTlhnZx26+7L
+ULN7EsaTOUUVA7GqBeDAj6ePJ0XFB7Rdt6bGsZ7HFYzXO5S0GZWdCoBupi+ClTTryRMi RjeA=
+=3D=3D
+ARC-Authentication-Results: i=3D2; mx.google.com; dkim=3Dpass header.i=3D@
+pm.mtasv.net header.s=3Dpm20231108 header.b=3DplLmQojq; dkim=3Dpass header.=
+i=3D@
+promptfolder.com header.s=3D20230823215521pm header.b=3DMGhPRF9+; spf=3Dpas=
+s (
+google.com: domain of pm_bounces@pm-bounces.promptfolder.com designates
+50.31.156.115 as permitted sender) smtp.mailfrom=3D
+pm_bounces@pm-bounces.promptfolder.com; dmarc=3Dpass (p=3DNONE sp=3DNONE
+dis=3DNONE) header.from=3Dpromptfolder.com
+X-Google-DKIM-Signature: v=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3D1e=
+100.net;
+s=3D20230601; t=3D1704011863; x=3D1704616663;
+h=3Dmime-version:feedback-id:cc:to:reply-to:subject:date:delivered-to
+:from:message-id:dkim-signature:delivered-to:x-forwarded-for
+:x-forwarded-to:x-gm-message-state:from:to:cc:subject:date
+:message-id:reply-to; bh=3DFOp1GfdLqy1GtZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D;
+b=3DfqW/IpMlqf/1AXZXzhRsuiQU8OgkmxhnFqGe8J+hYvQqGjIdlChTZSSitAET0zq5gD
+n5UFnJqd2DciP3rcuhb8BwcQLLcGgzQGYP7DGF40L0AI1pAsuAPX3KxEhbaHfwU/ctom
+WXwctd5j+PZ49HiezsFnbK3cHDMcYNTba1Hrn2bnHrb0/k/EczvUSRONFZxbOQKOehiE
+6AhaEzZRiMP2DIbphj0T4Puk2Uu7p08DMcJz4/sdKvWlIAisU6fq77mUI/CiHOZjnK7o
+YNvXtQ5SJHxuj+AppHSLLCNuJ0YD2qCAMhoXHieFWRQelot8F0kkpC23+5ET1GBuVNo6 qADA=
+=3D=3D
+X-Gm-Message-State:
+AOJu0Yyh4IuaTIGAD5FwJakPfJjMoK+Fl/w6uJhjbIiObkiXaRFys9NN
+bOtLvuIwezZKDy0p6xXswio3EjQ4fGCL2A6/hSyD4P74FJSsed/P6w=3D=3D
+X-Received: by 2002:a05:620a:470a:b0:781:b6a7:2cee with SMTP id
+bs10-20020a05620a470a00b00781b6a72ceemr1265249qkb.44.1704011863384; Sun, 31
+Dec 2023 00:37:43 -0800 (PST)
+X-Forwarded-To: [REDACTED]@gmail.com
+X-Forwarded-For: [REDACTED]@gmail.com [REDACTED]@gmail.com
+Delivered-To: [REDACTED]@gmail.com
+Received: by 2002:ac9:4648:0:b0:512:831:820b with SMTP id e8csp780412och;
+Sun, 31 Dec 2023 00:37:42 -0800 (PST)
+X-Received: by 2002:a05:6402:31f7:b0:553:451c:c047 with SMTP id
+dy23-20020a05640231f700b00553451cc047mr12538975edb.1.1704011861795; Sun, 31
+Dec 2023 00:37:41 -0800 (PST)
+Return-Path: <mendozameridaramiro@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com.
+[209.85.220.41]) by mx.google.com with SMTPS id
+g16-20020a0564021ed000b005561e7287a4sor317856edg.3.2023.12.31.00.37.41 for
+<[REDACTED]@gmail.com> (Google Transport Security); Sun, 31 Dec 2023
+00:37:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of mendozameridaramiro@gmail.com
+designates 209.85.220.41 as permitted sender) client-ip=3D209.85.220.41;
+DKIM-Signature: v=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dgmail.com;
+s=3D20230601; t=3D1704011861; x=3D1704616661; dara=3Dgoogle.com;
+h=3Dmime-version:feedback-id:cc:to:reply-to:subject:date:delivered-to
+:from:message-id:from:to:cc:subject:date:message-id:reply-to;
+bh=3DFOp1GfdLqy1GtZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D;
+b=3DfXqI/4oxvTQG5Q0eQEAOhwMYo/Y0OQGP8GNN0vPzvpgPjblM/ZZB0XXe71YGr5b+4V
+IRjTfQDB0nM2x1R6N2wD7ZCh31wNco+d970b9qqb050tWB975N49kSfdZ2P3JOga/Vq6
+Q6AYv6zJefLgQJZkATgJXBWlv4dY/FChnrvL9u04gNdm/JuMQYKrDgLQcEh+I9+wOZem
+i1NiNLgU7xOwabzPV8Hn8gxkfUdNLUo55exfi7CpCW8LyYONTDrPR44CcXdI4sGoQEom
+v8n8HULXzDiIPSEt4DwtBGzF58IZ1X2p5ZqbTH58LFy7KpjyMxV2Wl8b4NDsr/ya22A7 mROQ=
+=3D=3D
+X-Google-Smtp-Source:
+AGHT+IHobYpwYt0+M810dBqs+CSmmoAPB/ttZtc2X/s0S3iiTAofcaAfBk3nL/yNjnKdYdMDYUN=
+VvQ=3D=3D
+X-Received: by 2002:a50:9f68:0:b0:555:936f:f36 with SMTP id
+b95-20020a509f68000000b00555936f0f36mr4548586edf.4.1704011861093; Sun, 31
+Dec 2023 00:37:41 -0800 (PST)
+Return-Path: <mendozameridaramiro@gmail.com>
+Received: from AFRETHORED3.net ([40.68.220.35]) by smtp.gmail.com with
+ESMTPSA id
+fg9-20020a056402548900b00552691fc7f9sm13055349edb.66.2023.12.31.00.37.40
+for <[REDACTED]@gmail.com> (version=3DTLS1 cipher=3DECDHE-ECDSA-AES128-SHA
+bits=3D128/128); Sun, 31 Dec 2023 00:37:40 -0800 (PST)
+Message-ID: <65912854.050a0220.82ec8.b7f8@mx.google.com>
+X-Google-Original-Message-ID: <aa87ed0e-r1Io-r1Io=F0=9F=93=A9=F0=9F=8E=83=
+=F0=9F=91=BB
+=E2=9D=84=EF=B8=8F=E2=9C=A8=F0=9F=93=A9=F0=9F=8E=8A=F0=9F=8E=89=F0=9F=8E=81=
+=F0=9F=A5=82=E2=9B=84=EF=B8=8F=E2=98=83=EF=B8=8F=E2=9D=84=EF=B8=8F=E2=9C=A8=
+=F0=9F=8C=9F=F0=9F=8E=84=F0=9F=A5=82=F0=9F=8E=85=F0=9F=8F=BB=F0=9F=8E=89=F0=
+=9F=8E=81=F0=9F=8E=84=F0=9F=93=A9-a636-3151ab17bd96@mtasv.net>
+From: Bol - Winnaar <mendozameridaramiro@gmail.com>
+X-Google-Original-From: Bol - Winnaar <support@promptfolder.com>
+Delivered-To: wyassine545@gmail.com
+Received: by 2002:a05:612c:1c52:b0:43e:cb6e:ac88 with SMTP id
+im18csp5296520vqb; Sat, 30 Dec 2023 22:41:38 -0800 (PST)
+X-Received: by 2002:ad4:42c4:0:b0:67f:d169:c69 with SMTP id
+f4-20020ad442c4000000b0067fd1690c69mr12456493qvr.112.1704004898314; Sat, 30
+Dec 2023 22:41:38 -0800 (PST)
+ARC-Seal: i=3D1; a=3Drsa-sha256; t=3D1704004898; cv=3Dnone; d=3Dgoogle.com;
+s=3Darc-20160816;
+b=3DhiscQGTX9wfspxLf17tnHOEZSD+OCquxrq2xziK7dokIWV3rpA5elmHM9pacaUfWG4
+yCZ/rZxfczsOJxu2KoRndjq4v5F9BlP14Wa5uXKhaQ9TcBnKOE0NnK/raV/5BCQ7aA/J
+hkbxQzg2Zmwf+zGku8XhHO+xn54xX/Qd0xNn1MWwSZrgVyGpRKE2vVZTyDFbxOmpydA7
+LVSCr9MbSleWISlz7bj9k/IYzjTshrz0UiLQqaz1P0XRIkYSqY5Djlieb88LYSTz/rfA
+270+zMauOq1ZOBakeuV4++/nP32AhGLMXg6sX7ZFMVtvYBL+r0okZNo71Q+EYWRZT4cD o4eQ=
+=3D=3D
+ARC-Message-Signature: i=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dgoog=
+le.com;
+s=3Darc-20160816;
+h=3Dmime-version:feedback-id:to:reply-to:message-id:subject:date:from
+:dkim-signature:dkim-signature;
+bh=3DVh7zrzVcznVkKH74OCJBB2EPSuTaIN2V9W/VcV0hpuE=3D;
+fh=3D9qy826c3IgaYfCdkE2q9rDdJKA+sL/6Y3YOcqs3llCs=3D;
+b=3DnGsi7GwjLy/o5iD69LMUZlpT9tAXdhUiOk0owDh+l/SWUAujXrXFPK1qBhoeyNZdxG
+OIJcRqZ71kEUu1c6zJFdZT6zXd8KZSXNbcRAY/vSlxujlvDGGq0bFGd4EpW0DxFAHB2z
+YLreaDBBk2uDd38IvkdfEzwrSJg9vqHkglCIQHxsBA+7Bm00UPCE52MMewUbblixYZWK
+IibyBweh0vVghCXUxuVUzQXJrbkHE9zyws5Ifk5yDt0xOaOAw9IhR4eK48mGQ13viM+e
+I4p3+clyROwOCR37KEu7AyQdlANEktA2n+dVoauKaew9NrAlhxOPON3jV58YKZkXyHFd UOVw=
+=3D=3D
+ARC-Authentication-Results: i=3D1; mx.google.com; dkim=3Dpass header.i=3D@
+pm.mtasv.net header.s=3Dpm20231108 header.b=3DplLmQojq; dkim=3Dpass header.=
+i=3D@
+promptfolder.com header.s=3D20230823215521pm header.b=3DMGhPRF9+; spf=3Dpas=
+s (
+google.com: domain of pm_bounces@pm-bounces.promptfolder.com designates
+50.31.156.115 as permitted sender) smtp.mailfrom=3D
+pm_bounces@pm-bounces.promptfolder.com; dmarc=3Dpass (p=3DNONE sp=3DNONE
+dis=3DNONE) header.from=3Dpromptfolder.com
+Return-Path: <pm_bounces@pm-bounces.promptfolder.com>
+Received: from sc-ord-mta115.mtasv.net (sc-ord-mta115.mtasv.net.
+[50.31.156.115]) by mx.google.com with ESMTPS id
+o10-20020a056214108a00b0067ef6aade03si22108924qvr.164.2023.12.30.22.41.38
+for <wyassine545@gmail.com> (version=3DTLS1_3 cipher=3DTLS_AES_256_GCM_SHA3=
+84
+bits=3D256/256); Sat, 30 Dec 2023 22:41:38 -0800 (PST)
+Received-SPF: pass (google.com: domain of
+pm_bounces@pm-bounces.promptfolder.com designates 50.31.156.115 as
+permitted sender) client-ip=3D50.31.156.115;
+Received: by sc-ord-mta115.mtasv.net id hi46i434o8gg for <
+wyassine545@gmail.com>; Sun, 31 Dec 2023 01:41:37 -0500 (envelope-from <
+pm_bounces@pm-bounces.promptfolder.com>)
+Date: Sun, 31 Dec 2023 06:41:37 +0000
+Subject: [Openen ] kost je niets (N=C2=B02644)
+Reply-To: support@promptfolder.com
+To: [REDACTED]@gmail.com
+Cc: [REDACTED]@gmail.com
+Feedback-ID: s11430124-_:s11430124:a288918:postmark
+X-Complaints-To: abuse@postmarkapp.com
+X-PM-Message-Id: aa87ed0e-0c38-4ac3-a636-3151ab17bd96
+X-PM-RCPT: |bTB8Mjg4OTE4fDExNDMwMTI0fHd5YXNzaW5lNTQ1QGdtYWlsLmNvbQ=3D=3D|
+X-PM-Message-Options:
+v1;1.5RC_jLR-38SonRf-GR71UQ.QdI1KWjwkzh3W-P97l2KJaj2VAr7MWPUWuE8pugFmwLDFMK=
+IkQlLLyAXnajfq8b34jpZA1KfUG44KlW3B444CipdKIB1z-eJr_lBn_0gpt7gZ8jEul4vaX8S1s=
+t_6ZtXk9utNfQNBVjr5SwOTSZMGLiNvD4zy1OjsiJCMDnvxd1dPMDcuGc9X1djkoY9rBDz
+MIME-Version: 1.0
+X-PM-MTA-Pool: transactional-1
+Content-Type: multipart/encrypted;
+boundary=3Dmk3-b98d21fcd42b4c1eac54a396f42e77a4; charset=3DUTF-8
+
+
+
+
+--_----------=3D_PFWRXIH_--=3D=3Dmimepart_v0pA2NtKQXe6BsuqHi_uajLd96gwjhH9L=
+YkGWJRUtTKPFZR9BUXESeKFHSM
+Content-Type: text/html; charset=3Dutf-8
+
+
+
+<CENTER>
+<a HREF=3D"
+https://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com/red.html#cl/578716_=
+smd/130/401482/3128/1329/289450
+"><H2></H2></A>
+<img SRC=3D"https://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com/Bol.png=
+"
+alt=3D"" usemap=3D"#image-map">
+<map name=3D"image-map">
+<area target=3D"" alt=3D"" title=3D"" HREF=3D"
+https://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com/red.html#cl/578716_=
+smd/130/401482/3128/1329/289450"
+coords=3D"3,4,552,1300" shape=3D"rect">
+<area target=3D"" alt=3D"" title=3D"" HREF=3D"
+https://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com/red.html#un/578716_=
+smd/130/401482/3128/1329/289450"
+coords=3D"4,1300,554,1360" shape=3D"rect">
+<ObJECT>
+
+
+
+
+
+
+
+
+
+<table width=3D3D"100%">
+<tr>
+<td>Hey! Thanks for creating a PromptFolder account.<br><br>
+Please confirm your e-mail address by clicking the button below.
+</td>
+</tr>
+<tr>
+<td>
+<br><br>
+
+<div><!--[if mso]>
+<v:roundrect xmlns:v=3D3D"urn:schemas-microsoft-com:vml"
+xmlns:w=3D3D"urn:schemas-microsoft-com:office:word"
+href=3D3D"
+https://promptfolder.com/accounts/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwScl2=
+9snnfCcIMvsghaulHmovuVi7YhWpl_w/
+"
+style=3D3D"height:53px;v-text-anchor:middle;width:120px;" arcsize=3D3D"8%"
+stroke=3D3D"f" fillcolor=3D3D"#0046b1">
+<w:anchorlock/>
+<center>
+<![endif]-->
+<a href=3D3D"
+https://promptfolder.com/accounts/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwScl2=
+9snnfCcIMvsghaulHmovuVi7YhWpl_w/
+"
+style=3D3D"background-color:#0046b1;border-radius:4px;color:#ffffff;display=
+:inline-block;
+font-family:sans-serif;font-size:13px;font-weight:bold;line-height:53px;tex=
+t-align:center;
+text-decoration:none;width:120px;-webkit-text-size-adjust:none;">Confirm</a=
+>
+<!--[if mso]>
+</center>
+</v:roundrect>
+<![endif]--></div>
+</td>
+</tr>
+<tr>
+<td>
+<br><br>
+Hope you find our app useful. Don't hesitate to hit reply with any feedback
+or suggestions.
+</td>
+</tr>
+</table>
+American Express logoMastercard logoVisa logoInterac online logo
+Paypal logo
+Webcash logoOnline bill payment logo
+Need help?
+Live Chat
+1-877-706-6789
+
+FAQs
+Contact us
+Share your feedback
+About PlayNow
+Winners
+Our Security Commitments
+Privacy
+Legal
+GameSense
+Facebook TwitterYouTube
+Proudly owned
+and operated by
+
+BCLC homepage
+Gamesense Image
+Know the game before you play
+
+BCLC.com
+If you gamble, use your
+
+Know your limit, play within it. GameSense
+19+GameSense More Information
+
+GameSense Home
+How the Games Work
+Manage Your Play Online
+Kids & Gambling
+Support and Resources
+Game Break
+
+Gambling Support BC Line
+1-888-795-6111
+Need to Speak to a GameSense Advisor? Call the Customer Support Center at
+1-866-815-0222.Close GameSense information panel
+WHAT IS GAMESENSE?
+GameSense reinforces our focus on keeping it fun. GameSense involves
+learning how the games work and the odds of winning and losing. Using your
+GameSense means balancing the fun part of gambling with the need to stay in
+control and within your boundaries.
+
+Set a budget
+Setting up a weekly deposit will help you choose a limit and stay within
+it. Review your current settings here.
+
+Game Break
+If you're experiencing difficulties associated with gambling, our
+self-exclusion program, Game Break, may be a great way to help you take a
+break and regain control. Learn more.
+East Bay Times
+NEWS ALERTS
+Email Newsletters
+Today=E2=80=99s e-Edition
+Mobile Apps
+SUBSCRIBE
+Member Services
+Manage Subscriptions
+Archive Search
+Reprints
+Sitemap
+CONTACT US
+Digital Access FAQ
+Join our Team
+Sponsor a Group
+Get Sponsored Access
+Privacy Policy
+Accessibility
+ADVERTISE WITH US
+Special Sections
+Best Bay Area Employers
+Network Advertising
+Daily Ads
+Public Notices
+Place a Legal Notice
+MARKETPLACE
+Place an Obituary
+Place a Real Estate Ad
+Lottery
+SUBSCRIBE NOW
+Terms of Use
+Cookie Policy
+California Notice at Collection
+Notice of Financial Incentive
+Do Not Sell/Share My Personal Information
+Arbitration
+Powered by WordPress.com VIP
+Copyright =C2=A9 2023 MediaNews Group
+
+Bay Area News Group
+VV logo
+Currency:
+
+$ USD
+Get our app:
+iOS Android
+=C2=A92023 Virgin Cruises Intermediate Limited
+VIRGIN VOYAGES
+Help & Support
+Contact Us
+Accessibility
+Careers
+Press
+Sustainability
+Virgin Voyages App
+Ahoy! Blog
+Charters & Incentives
+Cruise Deals
+Shore Excursions
+Travel Professionals
+Travel Advisories
+POLICIES
+Accessibility Statement
+Cookie Policy
+Modern Slavery Act Statement
+Passenger Bill of Rights
+Privacy Notice
+Promotional Terms & Conditions
+Safety & Security
+Sailor Conduct Policy
+Shore Things Terms & Conditions
+Website Terms & Conditions
+STAY CONNECTED
+Enter your email address
+
+
+SIGN UP
+
+
+Facebook Icon Twitter Tik Tok Youtube icon
+QUI SOMMES-NOUS ?
+MENTIONS L=C3=89GALES
+CONDITIONS DE VENTE
+ASSISTANCE / FAQ
+OFFRE ENTREPRISE
+ROUTE DES VINS
+Explorez les plus beaux itin=C3=A9raires sur les routes des vins de France
+ACTUALIT=C3=89S
+Retrouvez toutes les actualit=C3=A9s autour de l=E2=80=99oenotourisme et du=
+ vin
+Avis V=C3=A9rifi=C3=A9s; 4.7 sur 5;
+701 avis client
+
+Paiement s=C3=A9curis=C3=A9
+Paiement s=C3=A9curis=C3=A9
+Nous suivre
+
+2023 =C2=A9 VINOTRIP
+
+--00000000000006de90060dcda8ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">This is an abuse report for a resource you managing<br>- R=
+esource: <a href=3D"http://promptfolder.com">promptfolder.com</a><br>- Abus=
+e timestamp: sun, 31 dec 2023 00:37:43 -0800 (pst)<br>- Abuse type: SPAM <b=
+r><br>URLs:<br>- <a href=3D"https://promptfolder.com/accounts/confirm-email=
+/MTkyOTE:1rJpVw:-7fY2ELwScl29snnfCcIMvsghaulHmovuVi7YhWpl_w/">https://promp=
+tfolder.com/accounts/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwScl29snnfCcIMvsgh=
+aulHmovuVi7YhWpl_w/</a><br><br>IPs:<br>- 159.89.242.1<br><br>Please investi=
+gate and resolve this situation as soon as possible.<br>All communication p=
+ertaining to this case is being logged and will be made available to the co=
+mpetent authorities.<br><br>Alongside this report, you are being provided w=
+ith all necessary logs.<br><br>Delivered-To: [REDACTED]@<a href=3D"http://g=
+mail.com">gmail.com</a><br>Received: by 2002:a2e:9a87:0:b0:2c9:bb43:cc37 wi=
+th SMTP id p7csp4003811lji; Sun, 31 Dec 2023 00:37:44 -0800 (PST)<br>X-Rece=
+ived: by 2002:ad4:5bc2:0:b0:67f:6f3b:6328 with SMTP id t2-20020ad45bc200000=
+0b0067f6f3b6328mr21956435qvt.58.1704011863758; Sun, 31 Dec 2023 00:37:43 -0=
+800 (PST)<br>ARC-Seal: i=3D3; a=3Drsa-sha256; t=3D1704011863; cv=3Dpass; d=
+=3D<a href=3D"http://google.com">google.com</a>; s=3Darc-20160816; b=3DefYz=
+I1pnraIgnZl327i3iGbZI9QQJA3x6Yca/tflW9SsbA17FXZz12b1SetTjg+4X/ 6gMrhP+sOVpF=
+YMLD/lWrJ3/6AnkAb0C7CKHXPJhB4XY1fOkWzU+oyfr6joS7RrxTaCaB ebPqGkmNXZN3+R6e+z=
+qZPmd+O1s3x5QOsLIAbf2ON/DGS0acuvBcvbxE+yH9WdLJ1j7+ V9KwX8pAYeZS7i8SE1BWEIGi=
+paR3qb6UbRcAb6Mr0ag8i/rMO6Dw69oD+UfsIXXONCJ5 w0L8gSDJ8+yDeRHiM8Qm+i8YA17xNU=
+JOwvF8xiG054OXqeoz2dcX/q2xjbfuB0RrcBVc t+eQ=3D=3D<br>ARC-Message-Signature:=
+ i=3D3; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3D<a href=3D"http://google.c=
+om">google.com</a>; s=3Darc-20160816; h=3Dmime-version:feedback-id:cc:to:re=
+ply-to:subject:date:delivered-to :from:message-id:dkim-signature:delivered-=
+to; bh=3DFOp1GfdLqy1GtZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D; fh=3DjStIhnbzolvZX=
+CV9U3lcDXAq7RZiwL6hgFC7ivoYY/4=3D; b=3DrI61uQqmxQb7gfAZc99b4+xVsDJgCvxTAjvN=
++/K3FsRr6bdi2V6Q2O1ZAnbXejqhtQ YMor9Tn7k3ty316R6Uh3sGWuTl0NvpqpO/CHa+tqp8dN=
+vI3F4ljKtD/gZ6s8rxUQbnt3 lamjOKtPb4mAaUGRO7lku4QLDNmaI1/4h1X3aGhJ/UE1mEH+Tn=
+9haEsRmXL4vIyUE4jP ANWwmLTv0Soii5FmQznyDaXYdea/K6S49XaaCV8BYZbZMM0p9HbmTe/E=
+MGr6MXART0f3 8FOqoCscHStr7RewO7dUE9rTesoEOF4qrAtuCHyd7Re2swiYMl0en/3KuuQ//Q=
+O3aQci M8CA=3D=3D<br>ARC-Authentication-Results: i=3D3; <a href=3D"http://m=
+x.google.com">mx.google.com</a>; dkim=3Dpass header.i=3D@<a href=3D"http://=
+gmail.com">gmail.com</a> header.s=3D20230601 header.b=3D&quot;fXqI/4ox&quot=
+;; arc=3Dpass (i=3D2 spf=3Dpass spfdomain=3D<a href=3D"http://pm-bounces.pr=
+omptfolder.com">pm-bounces.promptfolder.com</a> dkim=3Dpass dkdomain=3D<a h=
+ref=3D"http://pm.mtasv.net">pm.mtasv.net</a> dkim=3Dpass dkdomain=3D<a href=
+=3D"http://promptfolder.com">promptfolder.com</a> dmarc=3Dpass fromdomain=
+=3D<a href=3D"http://promptfolder.com">promptfolder.com</a>); spf=3Dpass (<=
+a href=3D"http://google.com">google.com</a>: domain of [REDACTED]+caf_=3D[R=
+EDACTED]=3D<a href=3D"mailto:gmail.com@gmail.com">gmail.com@gmail.com</a> d=
+esignates 209.85.220.41 as permitted sender) smtp.mailfrom=3D&quot;[REDACTE=
+D]+caf_=3D[REDACTED]=3D<a href=3D"mailto:gmail.com@gmail.com">gmail.com@gma=
+il.com</a>&quot;; dmarc=3Dpass (p=3DNONE sp=3DQUARANTINE dis=3DNONE) header=
+.from=3D<a href=3D"http://gmail.com">gmail.com</a><br>Return-Path: &lt;[RED=
+ACTED]+caf_=3D[REDACTED]=3D<a href=3D"mailto:gmail.com@gmail.com">gmail.com=
+@gmail.com</a>&gt;<br>Received: from <a href=3D"http://mail-sor-f41.google.=
+com">mail-sor-f41.google.com</a> (<a href=3D"http://mail-sor-f41.google.com=
+">mail-sor-f41.google.com</a>. [209.85.220.41]) by <a href=3D"http://mx.goo=
+gle.com">mx.google.com</a> with SMTPS id g17-20020a05620a219100b007815f72a0=
+d0sor5384224qka.12.2023.12.31.00.37.43 for &lt;[REDACTED]@<a href=3D"http:/=
+/gmail.com">gmail.com</a>&gt; (Google Transport Security); Sun, 31 Dec 2023=
+ 00:37:43 -0800 (PST)<br>Received-SPF: pass (<a href=3D"http://google.com">=
+google.com</a>: domain of [REDACTED]+caf_=3D[REDACTED]=3D<a href=3D"mailto:=
+gmail.com@gmail.com">gmail.com@gmail.com</a> designates 209.85.220.41 as pe=
+rmitted sender) client-ip=3D209.85.220.41;<br>Authentication-Results: <a hr=
+ef=3D"http://mx.google.com">mx.google.com</a>; dkim=3Dpass header.i=3D@<a h=
+ref=3D"http://gmail.com">gmail.com</a> header.s=3D20230601 header.b=3D&quot=
+;fXqI/4ox&quot;; arc=3Dpass (i=3D2 spf=3Dpass spfdomain=3D<a href=3D"http:/=
+/pm-bounces.promptfolder.com">pm-bounces.promptfolder.com</a> dkim=3Dpass d=
+kdomain=3D<a href=3D"http://pm.mtasv.net">pm.mtasv.net</a> dkim=3Dpass dkdo=
+main=3D<a href=3D"http://promptfolder.com">promptfolder.com</a> dmarc=3Dpas=
+s fromdomain=3D<a href=3D"http://promptfolder.com">promptfolder.com</a>); s=
+pf=3Dpass (<a href=3D"http://google.com">google.com</a>: domain of [REDACTE=
+D]+caf_=3D[REDACTED]=3D<a href=3D"mailto:gmail.com@gmail.com">gmail.com@gma=
+il.com</a> designates 209.85.220.41 as permitted sender) smtp.mailfrom=3D&q=
+uot;[REDACTED]+caf_=3D[REDACTED]=3D<a href=3D"mailto:gmail.com@gmail.com">g=
+mail.com@gmail.com</a>&quot;; dmarc=3Dpass (p=3DNONE sp=3DQUARANTINE dis=3D=
+NONE) header.from=3D<a href=3D"http://gmail.com">gmail.com</a><br>ARC-Seal:=
+ i=3D2; a=3Drsa-sha256; t=3D1704011863; cv=3Dpass; d=3D<a href=3D"http://go=
+ogle.com">google.com</a>; s=3Darc-20160816; b=3DqHa7+4GNZ7XkaybeBqJNgTYyfoO=
+8vNAAHyL/xXDvcLTj503t868euuqk5aKGsFGp5y +4tsUb51hzkCvib+0lFtdf8oHa0L0HqDFQD=
+fih4ld97PKMuslmeE04RIsg9V70O2LKYv xYVXeSlRnjL2S9gh8b3FUGG4L7Y+ujOWWD+vT7Z0A=
+8Yq1hHAZmEJ/Kc9QRpygHt+hbk1 H+rIYBSLuZl0iVSEssByjpSLKYjo60kqhM71EMchC4jYZBW=
+o2+J3y7u+Pvmfc1WPVNeN HcC/bWdVV9EgG9ot0cUqUABq5m/VoPZq8y0+ybNiW93xRR0RtsQgm=
+lWtZ105654kd4E9 j8Hw=3D=3D<br>ARC-Message-Signature: i=3D2; a=3Drsa-sha256;=
+ c=3Drelaxed/relaxed; d=3D<a href=3D"http://google.com">google.com</a>; s=
+=3Darc-20160816; h=3Dmime-version:feedback-id:cc:to:reply-to:subject:date:d=
+elivered-to :from:message-id:dkim-signature:delivered-to; bh=3DFOp1GfdLqy1G=
+tZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D; fh=3DjStIhnbzolvZXCV9U3lcDXAq7RZiwL6hgF=
+C7ivoYY/4=3D; b=3DP5DLYN64XA0XkHvfE+5QXV+lGSWCIJqYgnKrBbL75nck1Y3IlLYzLtNrB=
+LtpKW34W7 HzO9WrmvHwHshAgOH+0tZXGC1G1xQYd4pylDKTcSn59f2GOaKswNNjfKNCtzK0/pR=
+FZk ODlRctJn0MwnuLE3vkJ52z9HkcjT1vghg4PQ4eDHZH4taJQEK7rDBgNbwSxM7AGwkuzD UU=
+6LsgNHxGBHIsXXQ7ux542JljiRNa8EyY4hu9ChGHjkQQFCY5AUXxB6UTlhnZx26+7L ULN7EsaT=
+OUUVA7GqBeDAj6ePJ0XFB7Rdt6bGsZ7HFYzXO5S0GZWdCoBupi+ClTTryRMi RjeA=3D=3D<br>=
+ARC-Authentication-Results: i=3D2; <a href=3D"http://mx.google.com">mx.goog=
+le.com</a>; dkim=3Dpass header.i=3D@<a href=3D"http://pm.mtasv.net">pm.mtas=
+v.net</a> header.s=3Dpm20231108 header.b=3DplLmQojq; dkim=3Dpass header.i=
+=3D@<a href=3D"http://promptfolder.com">promptfolder.com</a> header.s=3D202=
+30823215521pm header.b=3DMGhPRF9+; spf=3Dpass (<a href=3D"http://google.com=
+">google.com</a>: domain of <a href=3D"mailto:pm_bounces@pm-bounces.promptf=
+older.com">pm_bounces@pm-bounces.promptfolder.com</a> designates 50.31.156.=
+115 as permitted sender) smtp.mailfrom=3D<a href=3D"mailto:pm_bounces@pm-bo=
+unces.promptfolder.com">pm_bounces@pm-bounces.promptfolder.com</a>; dmarc=
+=3Dpass (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3D<a href=3D"http://pro=
+mptfolder.com">promptfolder.com</a><br>X-Google-DKIM-Signature: v=3D1; a=3D=
+rsa-sha256; c=3Drelaxed/relaxed; d=3D<a href=3D"http://1e100.net">1e100.net=
+</a>; s=3D20230601; t=3D1704011863; x=3D1704616663; h=3Dmime-version:feedba=
+ck-id:cc:to:reply-to:subject:date:delivered-to :from:message-id:dkim-signat=
+ure:delivered-to:x-forwarded-for :x-forwarded-to:x-gm-message-state:from:to=
+:cc:subject:date :message-id:reply-to; bh=3DFOp1GfdLqy1GtZv0u2n7mMFaoRCNjzp=
+SKY9vhva8Yyw=3D; b=3DfqW/IpMlqf/1AXZXzhRsuiQU8OgkmxhnFqGe8J+hYvQqGjIdlChTZS=
+SitAET0zq5gD n5UFnJqd2DciP3rcuhb8BwcQLLcGgzQGYP7DGF40L0AI1pAsuAPX3KxEhbaHfw=
+U/ctom WXwctd5j+PZ49HiezsFnbK3cHDMcYNTba1Hrn2bnHrb0/k/EczvUSRONFZxbOQKOehiE=
+ 6AhaEzZRiMP2DIbphj0T4Puk2Uu7p08DMcJz4/sdKvWlIAisU6fq77mUI/CiHOZjnK7o YNvXt=
+Q5SJHxuj+AppHSLLCNuJ0YD2qCAMhoXHieFWRQelot8F0kkpC23+5ET1GBuVNo6 qADA=3D=3D<=
+br>X-Gm-Message-State: AOJu0Yyh4IuaTIGAD5FwJakPfJjMoK+Fl/w6uJhjbIiObkiXaRFy=
+s9NN bOtLvuIwezZKDy0p6xXswio3EjQ4fGCL2A6/hSyD4P74FJSsed/P6w=3D=3D<br>X-Rece=
+ived: by 2002:a05:620a:470a:b0:781:b6a7:2cee with SMTP id bs10-20020a05620a=
+470a00b00781b6a72ceemr1265249qkb.44.1704011863384; Sun, 31 Dec 2023 00:37:4=
+3 -0800 (PST)<br>X-Forwarded-To: [REDACTED]@<a href=3D"http://gmail.com">gm=
+ail.com</a><br>X-Forwarded-For: [REDACTED]@<a href=3D"http://gmail.com">gma=
+il.com</a> [REDACTED]@<a href=3D"http://gmail.com">gmail.com</a><br>Deliver=
+ed-To: [REDACTED]@<a href=3D"http://gmail.com">gmail.com</a><br>Received: b=
+y 2002:ac9:4648:0:b0:512:831:820b with SMTP id e8csp780412och; Sun, 31 Dec =
+2023 00:37:42 -0800 (PST)<br>X-Received: by 2002:a05:6402:31f7:b0:553:451c:=
+c047 with SMTP id dy23-20020a05640231f700b00553451cc047mr12538975edb.1.1704=
+011861795; Sun, 31 Dec 2023 00:37:41 -0800 (PST)<br>Return-Path: &lt;<a hre=
+f=3D"mailto:mendozameridaramiro@gmail.com">mendozameridaramiro@gmail.com</a=
+>&gt;<br>Received: from <a href=3D"http://mail-sor-f41.google.com">mail-sor=
+-f41.google.com</a> (<a href=3D"http://mail-sor-f41.google.com">mail-sor-f4=
+1.google.com</a>. [209.85.220.41]) by <a href=3D"http://mx.google.com">mx.g=
+oogle.com</a> with SMTPS id g16-20020a0564021ed000b005561e7287a4sor317856ed=
+g.3.2023.12.31.00.37.41 for &lt;[REDACTED]@<a href=3D"http://gmail.com">gma=
+il.com</a>&gt; (Google Transport Security); Sun, 31 Dec 2023 00:37:41 -0800=
+ (PST)<br>Received-SPF: pass (<a href=3D"http://google.com">google.com</a>:=
+ domain of <a href=3D"mailto:mendozameridaramiro@gmail.com">mendozameridara=
+miro@gmail.com</a> designates 209.85.220.41 as permitted sender) client-ip=
+=3D209.85.220.41;<br>DKIM-Signature: v=3D1; a=3Drsa-sha256; c=3Drelaxed/rel=
+axed; d=3D<a href=3D"http://gmail.com">gmail.com</a>; s=3D20230601; t=3D170=
+4011861; x=3D1704616661; dara=3D<a href=3D"http://google.com">google.com</a=
+>; h=3Dmime-version:feedback-id:cc:to:reply-to:subject:date:delivered-to :f=
+rom:message-id:from:to:cc:subject:date:message-id:reply-to; bh=3DFOp1GfdLqy=
+1GtZv0u2n7mMFaoRCNjzpSKY9vhva8Yyw=3D; b=3DfXqI/4oxvTQG5Q0eQEAOhwMYo/Y0OQGP8=
+GNN0vPzvpgPjblM/ZZB0XXe71YGr5b+4V IRjTfQDB0nM2x1R6N2wD7ZCh31wNco+d970b9qqb0=
+50tWB975N49kSfdZ2P3JOga/Vq6 Q6AYv6zJefLgQJZkATgJXBWlv4dY/FChnrvL9u04gNdm/Ju=
+MQYKrDgLQcEh+I9+wOZem i1NiNLgU7xOwabzPV8Hn8gxkfUdNLUo55exfi7CpCW8LyYONTDrPR=
+44CcXdI4sGoQEom v8n8HULXzDiIPSEt4DwtBGzF58IZ1X2p5ZqbTH58LFy7KpjyMxV2Wl8b4ND=
+sr/ya22A7 mROQ=3D=3D<br>X-Google-Smtp-Source: AGHT+IHobYpwYt0+M810dBqs+CSmm=
+oAPB/ttZtc2X/s0S3iiTAofcaAfBk3nL/yNjnKdYdMDYUNVvQ=3D=3D<br>X-Received: by 2=
+002:a50:9f68:0:b0:555:936f:f36 with SMTP id b95-20020a509f68000000b00555936=
+f0f36mr4548586edf.4.1704011861093; Sun, 31 Dec 2023 00:37:41 -0800 (PST)<br=
+>Return-Path: &lt;<a href=3D"mailto:mendozameridaramiro@gmail.com">mendozam=
+eridaramiro@gmail.com</a>&gt;<br>Received: from AFRETHORED3.net ([40.68.220=
+.35]) by <a href=3D"http://smtp.gmail.com">smtp.gmail.com</a> with ESMTPSA =
+id fg9-20020a056402548900b00552691fc7f9sm13055349edb.66.2023.12.31.00.37.40=
+ for &lt;[REDACTED]@<a href=3D"http://gmail.com">gmail.com</a>&gt; (version=
+=3DTLS1 cipher=3DECDHE-ECDSA-AES128-SHA bits=3D128/128); Sun, 31 Dec 2023 0=
+0:37:40 -0800 (PST)<br>Message-ID: &lt;<a href=3D"mailto:65912854.050a0220.=
+82ec8.b7f8@mx.google.com">65912854.050a0220.82ec8.b7f8@mx.google.com</a>&gt=
+;<br>X-Google-Original-Message-ID: &lt;aa87ed0e-r1Io-r1Io=F0=9F=93=A9=F0=9F=
+=8E=83=F0=9F=91=BB =E2=9D=84=EF=B8=8F=E2=9C=A8=F0=9F=93=A9=F0=9F=8E=8A=F0=
+=9F=8E=89=F0=9F=8E=81=F0=9F=A5=82=E2=9B=84=EF=B8=8F=E2=98=83=EF=B8=8F=E2=9D=
+=84=EF=B8=8F=E2=9C=A8=F0=9F=8C=9F=F0=9F=8E=84=F0=9F=A5=82=F0=9F=8E=85=F0=9F=
+=8F=BB=F0=9F=8E=89=F0=9F=8E=81=F0=9F=8E=84=F0=9F=93=A9-<a href=3D"mailto:a6=
+36-3151ab17bd96@mtasv.net">a636-3151ab17bd96@mtasv.net</a>&gt;<br>From: Bol=
+ - Winnaar &lt;<a href=3D"mailto:mendozameridaramiro@gmail.com">mendozameri=
+daramiro@gmail.com</a>&gt;<br>X-Google-Original-From: Bol - Winnaar &lt;<a =
+href=3D"mailto:support@promptfolder.com">support@promptfolder.com</a>&gt;<b=
+r>Delivered-To: <a href=3D"mailto:wyassine545@gmail.com">wyassine545@gmail.=
+com</a><br>Received: by 2002:a05:612c:1c52:b0:43e:cb6e:ac88 with SMTP id im=
+18csp5296520vqb; Sat, 30 Dec 2023 22:41:38 -0800 (PST)<br>X-Received: by 20=
+02:ad4:42c4:0:b0:67f:d169:c69 with SMTP id f4-20020ad442c4000000b0067fd1690=
+c69mr12456493qvr.112.1704004898314; Sat, 30 Dec 2023 22:41:38 -0800 (PST)<b=
+r>ARC-Seal: i=3D1; a=3Drsa-sha256; t=3D1704004898; cv=3Dnone; d=3D<a href=
+=3D"http://google.com">google.com</a>; s=3Darc-20160816; b=3DhiscQGTX9wfspx=
+Lf17tnHOEZSD+OCquxrq2xziK7dokIWV3rpA5elmHM9pacaUfWG4 yCZ/rZxfczsOJxu2KoRndj=
+q4v5F9BlP14Wa5uXKhaQ9TcBnKOE0NnK/raV/5BCQ7aA/J hkbxQzg2Zmwf+zGku8XhHO+xn54x=
+X/Qd0xNn1MWwSZrgVyGpRKE2vVZTyDFbxOmpydA7 LVSCr9MbSleWISlz7bj9k/IYzjTshrz0Ui=
+LQqaz1P0XRIkYSqY5Djlieb88LYSTz/rfA 270+zMauOq1ZOBakeuV4++/nP32AhGLMXg6sX7ZF=
+MVtvYBL+r0okZNo71Q+EYWRZT4cD o4eQ=3D=3D<br>ARC-Message-Signature: i=3D1; a=
+=3Drsa-sha256; c=3Drelaxed/relaxed; d=3D<a href=3D"http://google.com">googl=
+e.com</a>; s=3Darc-20160816; h=3Dmime-version:feedback-id:to:reply-to:messa=
+ge-id:subject:date:from :dkim-signature:dkim-signature; bh=3DVh7zrzVcznVkKH=
+74OCJBB2EPSuTaIN2V9W/VcV0hpuE=3D; fh=3D9qy826c3IgaYfCdkE2q9rDdJKA+sL/6Y3YOc=
+qs3llCs=3D; b=3DnGsi7GwjLy/o5iD69LMUZlpT9tAXdhUiOk0owDh+l/SWUAujXrXFPK1qBho=
+eyNZdxG OIJcRqZ71kEUu1c6zJFdZT6zXd8KZSXNbcRAY/vSlxujlvDGGq0bFGd4EpW0DxFAHB2=
+z YLreaDBBk2uDd38IvkdfEzwrSJg9vqHkglCIQHxsBA+7Bm00UPCE52MMewUbblixYZWK Iiby=
+Bweh0vVghCXUxuVUzQXJrbkHE9zyws5Ifk5yDt0xOaOAw9IhR4eK48mGQ13viM+e I4p3+clyRO=
+wOCR37KEu7AyQdlANEktA2n+dVoauKaew9NrAlhxOPON3jV58YKZkXyHFd UOVw=3D=3D<br>AR=
+C-Authentication-Results: i=3D1; <a href=3D"http://mx.google.com">mx.google=
+.com</a>; dkim=3Dpass header.i=3D@<a href=3D"http://pm.mtasv.net">pm.mtasv.=
+net</a> header.s=3Dpm20231108 header.b=3DplLmQojq; dkim=3Dpass header.i=3D@=
+<a href=3D"http://promptfolder.com">promptfolder.com</a> header.s=3D2023082=
+3215521pm header.b=3DMGhPRF9+; spf=3Dpass (<a href=3D"http://google.com">go=
+ogle.com</a>: domain of <a href=3D"mailto:pm_bounces@pm-bounces.promptfolde=
+r.com">pm_bounces@pm-bounces.promptfolder.com</a> designates 50.31.156.115 =
+as permitted sender) smtp.mailfrom=3D<a href=3D"mailto:pm_bounces@pm-bounce=
+s.promptfolder.com">pm_bounces@pm-bounces.promptfolder.com</a>; dmarc=3Dpas=
+s (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3D<a href=3D"http://promptfol=
+der.com">promptfolder.com</a><br>Return-Path: &lt;<a href=3D"mailto:pm_boun=
+ces@pm-bounces.promptfolder.com">pm_bounces@pm-bounces.promptfolder.com</a>=
+&gt;<br>Received: from <a href=3D"http://sc-ord-mta115.mtasv.net">sc-ord-mt=
+a115.mtasv.net</a> (<a href=3D"http://sc-ord-mta115.mtasv.net">sc-ord-mta11=
+5.mtasv.net</a>. [50.31.156.115]) by <a href=3D"http://mx.google.com">mx.go=
+ogle.com</a> with ESMTPS id o10-20020a056214108a00b0067ef6aade03si22108924q=
+vr.164.2023.12.30.22.41.38 for &lt;<a href=3D"mailto:wyassine545@gmail.com"=
+>wyassine545@gmail.com</a>&gt; (version=3DTLS1_3 cipher=3DTLS_AES_256_GCM_S=
+HA384 bits=3D256/256); Sat, 30 Dec 2023 22:41:38 -0800 (PST)<br>Received-SP=
+F: pass (<a href=3D"http://google.com">google.com</a>: domain of <a href=3D=
+"mailto:pm_bounces@pm-bounces.promptfolder.com">pm_bounces@pm-bounces.promp=
+tfolder.com</a> designates 50.31.156.115 as permitted sender) client-ip=3D5=
+0.31.156.115;<br>Received: by <a href=3D"http://sc-ord-mta115.mtasv.net">sc=
+-ord-mta115.mtasv.net</a> id hi46i434o8gg for &lt;<a href=3D"mailto:wyassin=
+e545@gmail.com">wyassine545@gmail.com</a>&gt;; Sun, 31 Dec 2023 01:41:37 -0=
+500 (envelope-from &lt;<a href=3D"mailto:pm_bounces@pm-bounces.promptfolder=
+.com">pm_bounces@pm-bounces.promptfolder.com</a>&gt;)<br>Date: Sun, 31 Dec =
+2023 06:41:37 +0000<br>Subject: [Openen ] kost je niets (N=C2=B02644) <br>R=
+eply-To: <a href=3D"mailto:support@promptfolder.com">support@promptfolder.c=
+om</a><br>To: [REDACTED]@<a href=3D"http://gmail.com">gmail.com</a><br>Cc: =
+[REDACTED]@<a href=3D"http://gmail.com">gmail.com</a><br>Feedback-ID: s1143=
+0124-_:s11430124:a288918:postmark<br>X-Complaints-To: <a href=3D"mailto:abu=
+se@postmarkapp.com">abuse@postmarkapp.com</a><br>X-PM-Message-Id: aa87ed0e-=
+0c38-4ac3-a636-3151ab17bd96<br>X-PM-RCPT: |bTB8Mjg4OTE4fDExNDMwMTI0fHd5YXNz=
+aW5lNTQ1QGdtYWlsLmNvbQ=3D=3D|<br>X-PM-Message-Options: v1;1.5RC_jLR-38SonRf=
+-GR71UQ.QdI1KWjwkzh3W-P97l2KJaj2VAr7MWPUWuE8pugFmwLDFMKIkQlLLyAXnajfq8b34jp=
+ZA1KfUG44KlW3B444CipdKIB1z-eJr_lBn_0gpt7gZ8jEul4vaX8S1st_6ZtXk9utNfQNBVjr5S=
+wOTSZMGLiNvD4zy1OjsiJCMDnvxd1dPMDcuGc9X1djkoY9rBDz<br>MIME-Version: 1.0<br>=
+X-PM-MTA-Pool: transactional-1<br>Content-Type: multipart/encrypted; bounda=
+ry=3Dmk3-b98d21fcd42b4c1eac54a396f42e77a4; charset=3DUTF-8<br><br><br><br><=
+br>--_----------=3D_PFWRXIH_--=3D=3Dmimepart_v0pA2NtKQXe6BsuqHi_uajLd96gwjh=
+H9LYkGWJRUtTKPFZR9BUXESeKFHSM<br>Content-Type: text/html; charset=3Dutf-8<b=
+r><br><br><br>&lt;CENTER&gt;<br>&lt;a HREF=3D&quot;<a href=3D"https://62c06=
+d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com/red.html#cl/578716_smd/130/40148=
+2/3128/1329/289450">https://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com=
+/red.html#cl/578716_smd/130/401482/3128/1329/289450</a>&quot;&gt;&lt;H2&gt;=
+&lt;/H2&gt;&lt;/A&gt;<br>&lt;img SRC=3D&quot;<a href=3D"https://62c06d3cf95=
+a1f62bb8b.s3.us-west-2.amazonaws.com/Bol.png">https://62c06d3cf95a1f62bb8b.=
+s3.us-west-2.amazonaws.com/Bol.png</a>&quot; alt=3D&quot;&quot;  usemap=3D&=
+quot;#image-map&quot;&gt;<br>&lt;map name=3D&quot;image-map&quot;&gt;<br>  =
+  &lt;area target=3D&quot;&quot; alt=3D&quot;&quot; title=3D&quot;&quot; HR=
+EF=3D&quot;<a href=3D"https://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.c=
+om/red.html#cl/578716_smd/130/401482/3128/1329/289450">https://62c06d3cf95a=
+1f62bb8b.s3.us-west-2.amazonaws.com/red.html#cl/578716_smd/130/401482/3128/=
+1329/289450</a>&quot; coords=3D&quot;3,4,552,1300&quot; shape=3D&quot;rect&=
+quot;&gt;<br>    &lt;area target=3D&quot;&quot; alt=3D&quot;&quot; title=3D=
+&quot;&quot; HREF=3D&quot;<a href=3D"https://62c06d3cf95a1f62bb8b.s3.us-wes=
+t-2.amazonaws.com/red.html#un/578716_smd/130/401482/3128/1329/289450">https=
+://62c06d3cf95a1f62bb8b.s3.us-west-2.amazonaws.com/red.html#un/578716_smd/1=
+30/401482/3128/1329/289450</a>&quot; coords=3D&quot;4,1300,554,1360&quot; s=
+hape=3D&quot;rect&quot;&gt;<br>&lt;ObJECT&gt;<br><br><br><br><br><br><br><b=
+r><br><br>&lt;table width=3D3D&quot;100%&quot;&gt;<br>        &lt;tr&gt;<br=
+>            &lt;td&gt;Hey! Thanks for creating a PromptFolder account.&lt;=
+br&gt;&lt;br&gt;<br>                Please confirm your e-mail address by c=
+licking the button below.<br>            &lt;/td&gt;<br>        &lt;/tr&gt;=
+<br>        &lt;tr&gt;<br>            &lt;td&gt;<br>                &lt;br&=
+gt;&lt;br&gt;<br><br>                &lt;div&gt;&lt;!--[if mso]&gt;<br>    =
+            &lt;v:roundrect xmlns:v=3D3D&quot;urn:schemas-microsoft-com:vml=
+&quot; xmlns:w=3D3D&quot;urn:schemas-microsoft-com:office:word&quot;<br>   =
+                 href=3D3D&quot;<a href=3D"https://promptfolder.com/account=
+s/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwScl29snnfCcIMvsghaulHmovuVi7YhWpl_w/=
+">https://promptfolder.com/accounts/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwSc=
+l29snnfCcIMvsghaulHmovuVi7YhWpl_w/</a>&quot;<br>                    style=
+=3D3D&quot;height:53px;v-text-anchor:middle;width:120px;&quot; arcsize=3D3D=
+&quot;8%&quot; stroke=3D3D&quot;f&quot; fillcolor=3D3D&quot;#0046b1&quot;&g=
+t;<br>                    &lt;w:anchorlock/&gt;<br>                    &lt;=
+center&gt;<br>                &lt;![endif]--&gt;<br>                    &lt=
+;a href=3D3D&quot;<a href=3D"https://promptfolder.com/accounts/confirm-emai=
+l/MTkyOTE:1rJpVw:-7fY2ELwScl29snnfCcIMvsghaulHmovuVi7YhWpl_w/">https://prom=
+ptfolder.com/accounts/confirm-email/MTkyOTE:1rJpVw:-7fY2ELwScl29snnfCcIMvsg=
+haulHmovuVi7YhWpl_w/</a>&quot;<br>                       style=3D3D&quot;ba=
+ckground-color:#0046b1;border-radius:4px;color:#ffffff;display:inline-block=
+;<br>                   font-family:sans-serif;font-size:13px;font-weight:b=
+old;line-height:53px;text-align:center;<br>                   text-decorati=
+on:none;width:120px;-webkit-text-size-adjust:none;&quot;&gt;Confirm&lt;/a&g=
+t;<br>                    &lt;!--[if mso]&gt;<br>                    &lt;/c=
+enter&gt;<br>                    &lt;/v:roundrect&gt;<br>                  =
+  &lt;![endif]--&gt;&lt;/div&gt;<br>            &lt;/td&gt;<br>        &lt;=
+/tr&gt;<br>        &lt;tr&gt;<br>            &lt;td&gt;<br>                =
+&lt;br&gt;&lt;br&gt;<br>                Hope you find our app useful. Don&#=
+39;t hesitate to hit reply with any feedback or suggestions.<br>           =
+ &lt;/td&gt;<br>        &lt;/tr&gt;<br>    &lt;/table&gt;<br>American Expre=
+ss logoMastercard logoVisa logoInterac online logo<br>Paypal logo<br>Webcas=
+h logoOnline bill payment logo<br>Need help?<br> Live Chat<br>1-877-706-678=
+9<br><br>FAQs<br>Contact us<br>Share your feedback<br>About PlayNow<br>Winn=
+ers<br>Our Security Commitments<br>Privacy<br>Legal<br>GameSense<br> Facebo=
+ok TwitterYouTube<br>Proudly owned<br>and operated by<br><br>BCLC homepage<=
+br>Gamesense Image<br>Know the game before you play<br><br>BCLC.com<br>If y=
+ou gamble, use your<br><br>Know your limit, play within it. GameSense<br>19=
++GameSense More Information <br><br>GameSense Home<br>How the Games Work<br=
+>Manage Your Play Online<br>Kids &amp; Gambling<br>Support and Resources<br=
+>Game Break<br><br>Gambling Support BC Line<br>1-888-795-6111<br>Need to Sp=
+eak to a GameSense Advisor? Call the Customer Support Center at 1-866-815-0=
+222.Close GameSense information panel<br>WHAT IS GAMESENSE?<br>GameSense re=
+inforces our focus on keeping it fun. GameSense involves learning how the g=
+ames work and the odds of winning and losing. Using your GameSense means ba=
+lancing the fun part of gambling with the need to stay in control and withi=
+n your boundaries.<br><br>Set a budget<br>Setting up a weekly deposit will =
+help you choose a limit and stay within it. Review your current settings he=
+re.<br><br>Game Break<br>If you&#39;re experiencing difficulties associated=
+ with gambling, our self-exclusion program, Game Break, may be a great way =
+to help you take a break and regain control. Learn more.<br>East Bay Times<=
+br>NEWS ALERTS<br>Email Newsletters<br>Today=E2=80=99s e-Edition<br>Mobile =
+Apps<br>SUBSCRIBE<br>Member Services<br>Manage Subscriptions<br>Archive Sea=
+rch<br>Reprints<br>Sitemap<br>CONTACT US<br>Digital Access FAQ<br>Join our =
+Team<br>Sponsor a Group<br>Get Sponsored Access<br>Privacy Policy<br>Access=
+ibility<br>ADVERTISE WITH US<br>Special Sections<br>Best Bay Area Employers=
+<br>Network Advertising<br>Daily Ads<br>Public Notices<br>Place a Legal Not=
+ice<br>MARKETPLACE<br>Place an Obituary<br>Place a Real Estate Ad<br>Lotter=
+y<br>SUBSCRIBE NOW<br>Terms of Use<br>Cookie Policy<br>California Notice at=
+ Collection<br>Notice of Financial Incentive<br>Do Not Sell/Share My Person=
+al Information<br>Arbitration<br>Powered by WordPress.com VIP<br>Copyright =
+=C2=A9 2023 MediaNews Group<br><br>Bay Area News Group<br>VV logo<br>Curren=
+cy:<br><br>$ USD<br>Get our app:<br>iOS Android<br>=C2=A92023 Virgin Cruise=
+s Intermediate Limited<br>VIRGIN VOYAGES<br>Help &amp; Support <br>Contact =
+Us <br>Accessibility<br>Careers<br>Press<br>Sustainability<br>Virgin Voyage=
+s App<br>Ahoy! Blog<br>Charters &amp; Incentives<br>Cruise Deals<br>Shore E=
+xcursions<br>Travel Professionals <br>Travel Advisories<br>POLICIES<br>Acce=
+ssibility Statement <br>Cookie Policy<br>Modern Slavery Act Statement<br>Pa=
+ssenger Bill of Rights<br>Privacy Notice<br>Promotional Terms &amp; Conditi=
+ons<br>Safety &amp; Security<br>Sailor Conduct Policy<br>Shore Things Terms=
+ &amp; Conditions<br>Website Terms &amp; Conditions<br>STAY CONNECTED<br>En=
+ter your email address<br><br><br>SIGN UP<br><br><br> Facebook Icon Twitter=
+ Tik Tok Youtube icon<br>QUI SOMMES-NOUS ?<br>MENTIONS L=C3=89GALES<br>COND=
+ITIONS DE VENTE<br>ASSISTANCE / FAQ<br>OFFRE ENTREPRISE<br>ROUTE DES VINS<b=
+r>Explorez les plus beaux itin=C3=A9raires sur les routes des vins de Franc=
+e<br>ACTUALIT=C3=89S<br>Retrouvez toutes les actualit=C3=A9s autour de l=E2=
+=80=99oenotourisme et du vin<br>Avis V=C3=A9rifi=C3=A9s; 4.7 sur 5;<br>701 =
+avis client<br><br>Paiement s=C3=A9curis=C3=A9<br>Paiement s=C3=A9curis=C3=
+=A9<br>Nous suivre<br><br>2023 =C2=A9 VINOTRIP</div>
+
+--00000000000006de90060dcda8ce--

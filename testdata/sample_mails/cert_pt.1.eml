@@ -1,0 +1,207 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 616F35C3-5347-4BBC-B7EE-D213E5B9918D.1
+	envelope-from <abuse+bncBAABBX4Q2GUAMGQEG52O3YA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 27 Sep 2023 15:21:04 +0000
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3fef3606d8csf109751775e9.1
+        for <abuse@digitalocean.abusehq.net>; Wed, 27 Sep 2023 08:21:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1695828063; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=nphnWBJRb1LUlqVA0rKrVcwRV8aI1IzzZbb59RdM7+jlFycsXQehgnXW9yqHCxSnOk
+         r+KUnqwGX2iC54xyD8f7sACypCJDsLkNq6Llhmw1xsCch1mLr/u9BhcZPoPSGCiolrO2
+         Y+GcJsnDbGXeAshWUnX1QEL3YjMWmWp3PKJGSEtuL6QyYvqmMa88L97SwtJiNg2YEdix
+         3uSDh2fglKe9CG7vGRLyQMn/ZMJI/O0NttyZQKBlcgPEJLj7Nagww9IsyAg+O+GtedsG
+         TayYkw16W5BsyKvetZEDPIWAQUZGSEdjGNuat12jVA03lQkE+gkjLuS8M3doVtDWQ15Z
+         tNhQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:content-transfer-encoding:mime-version:date:precedence
+         :to:message-id:references:in-reply-to:reply-to:from:subject
+         :dkim-signature;
+        bh=QYFc+rw2Fx1gHuoF02gRnfuNdY+BGtvczviSCJVZh2A=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=ZQmkYcTO/m9UzqFQTlzjnKUWvuKyIu1ym6JvQukIhselJ57e7+4c+AUVdATunAlF+O
+         EhbgBNN7SnBObhUrEbYeGW/Z8PG6lRhDAgzhjYf/G0iukJhjr7DKGCaZQspUXvvq2Xhp
+         OdI2+On6cDpe7xZN+a0EmqncbXi4CkyJIZLu3AKA8kKxIwh3jGwHgoNn6Ian5PIfTOxF
+         ijHmqE9KdM/iV+qzN5XxoFqx1fdm3wtKmKLkwScQzeA+s0ReHAufEGTWLbpvD4mPVs8l
+         pEcsnwEvJgJtLUaYUhBE7g608vINHIm0XMILsRhQduUtqOX/tFNKh7d5G7j7rasc3bTm
+         H6RA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert.pt header.s=default header.b="Lk/kVdc7";
+       spf=pass (google.com: domain of cert@cert.pt designates 83.240.202.173 as permitted sender) smtp.mailfrom=cert@cert.pt;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cert.pt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1695828063; x=1696432863; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:date:precedence:to
+         :message-id:references:in-reply-to:reply-to:from:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QYFc+rw2Fx1gHuoF02gRnfuNdY+BGtvczviSCJVZh2A=;
+        b=MmOPhstYi+6iDAuGleZflS72Qk0nvho3SZGhfTY9shDdcdjRNM/a/bx3jp4lXeLCQc
+         FWZPSxr6X8wVyjUNyZK/7D8qTgZKPmHvTfK6H46w8I7OLviELHr9WE7/JGlPtNvkatvb
+         tEs7wqilV8UCLdxAuWBmqXnocYu3Y2+GJRPxs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695828063; x=1696432863;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:date:precedence:to
+         :message-id:references:in-reply-to:reply-to:from:subject:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QYFc+rw2Fx1gHuoF02gRnfuNdY+BGtvczviSCJVZh2A=;
+        b=sXmuNZGIASz5gYjvPTt6vUo5ATwId7Ovg9YuqQfxEmjsK4b2h/VyDjM2we7r2koC+E
+         7CchbGBQLdfBTN3BiImw9GlKowFBESh4L0lnvi7Wyd5CFduxbhJnJ/bI2KCvc3vEbB0N
+         h/x0i2wAUJzt1lMes45Jql9nEkD0qQdPnEBcZFrGRw06qAT4fUHWn2AtYdMTuCXPjZje
+         0SgIvgw1vMp8CTg9+lEyihAWhAccynrdmSC9VbovFNWe3YTvU7DHGVLslevlsOdQ6OQT
+         tFoH1msNLCj8c5+NSXCXFQPmKzJJLJKNFXu8oGVMXEKPkFt/Vtz2CmTz91mQAkpxDfSE
+         hyFw==
+X-Gm-Message-State: AOJu0YxBV10xSEZAmNnWHwrwCkITlNErFAv1gMBZA52uqCoqdnuvi2+c
+	92AmNxmP2JclKqIlff5MMVN1kA==
+X-Google-Smtp-Source: AGHT+IGw0pyua5vxXyPY3YUKOkorXKcHgEm92eOcV6pBV+fRJJ8v6rSsQ+OOBw16oBZfpmh3EmrIXg==
+X-Received: by 2002:a5d:67c7:0:b0:317:3d6c:5b27 with SMTP id n7-20020a5d67c7000000b003173d6c5b27mr2002785wrw.46.1695828063465;
+        Wed, 27 Sep 2023 08:21:03 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:600c:4512:b0:404:7b5d:9d4d with SMTP id
+ t18-20020a05600c451200b004047b5d9d4dls342758wmo.2.-pod-prod-02-eu; Wed, 27
+ Sep 2023 08:21:02 -0700 (PDT)
+X-Received: by 2002:a5d:5582:0:b0:317:ef6:89a7 with SMTP id i2-20020a5d5582000000b003170ef689a7mr2087873wrv.27.1695828062401;
+        Wed, 27 Sep 2023 08:21:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1695828062; cv=none;
+        d=google.com; s=arc-20160816;
+        b=XgmzsgSaK0B60NOHTNZFWhBT2DlGe1uliGEXoETOVOSfsgOX5eDnUB3tjiMoH5DBPV
+         rdDQXjqtnlAbbM502Zd3kEPGQv9LujWk8lSdh86u1Pu8OzOEOfCY4iWH4WsuTCcUHvqk
+         qxpXPsMoHsQyHu01022tiGwEfsu2RsEDk4RS8RqJ37zSRtPm1li9/0Qrn5/L6fjBo0q3
+         wElWCGKDGTc1RZr8xH4wLCV1Dw0v40aY2isNth5VndLkxK3xPkmvyYv4Jx5xpz+E/PnQ
+         OS60SgokHDgQTr/5FPaiop/E6JtN7tcHYA/ymsDSZdhh/HXavNtMV6Ww0fnaw2JvErGC
+         sJlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=dkim-signature:content-transfer-encoding:mime-version:date
+         :precedence:to:message-id:references:in-reply-to:reply-to:from
+         :subject;
+        bh=QYFc+rw2Fx1gHuoF02gRnfuNdY+BGtvczviSCJVZh2A=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=V0ppb0k0BXTNxwWsulpq+MkJVdZW+2fJAp8LzVXCR/zwrqfEszmNSsYjWZeITQ5zQ1
+         y2ikrn3outKIYy+pSwiDpqHev3h5OrME/Z94Cj7a5UJ3miQo7IftQXi/kTUSml4WlnTH
+         XgnKhV9/ccaxXh5ptx3Va8PvgXWmzljMIBD+s+O8dev132FbwYRz3hhufp9ucijF2Bgk
+         /SatePp4gyONf2FYIXzkSfx4QCZu25AB9B0XraTXZqsRcaua2EGY4arszU1A8KW6MWm8
+         vIUYCpG44Cyc9wJCCKLaN1p3SWp3BX+WLGw1VmuNemZyMniKiExbbYgGPAf5t5W7Ed46
+         jzzw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert.pt header.s=default header.b="Lk/kVdc7";
+       spf=pass (google.com: domain of cert@cert.pt designates 83.240.202.173 as permitted sender) smtp.mailfrom=cert@cert.pt;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cert.pt
+Received: from mx02.cncs.gov.pt (mx02.cncs.gov.pt. [83.240.202.173])
+        by mx.google.com with ESMTPS id r14-20020a5d494e000000b0031fc623c0easi402531wrs.138.2023.09.27.08.21.02
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 27 Sep 2023 08:21:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cert@cert.pt designates 83.240.202.173 as permitted sender) client-ip=83.240.202.173;
+Received: from ccdcvmm1app03.oper.local ([192.168.62.5])
+	by mx02.cncs.gov.pt  with ESMTP id 38RFL1P7026636-38RFL1P8026636
+	for <abuse@digitalocean.com>; Wed, 27 Sep 2023 16:21:01 +0100
+Received: by ccdcvmm1app03.oper.local (Postfix, from userid 48)
+	id 4131F40AF0F7; Wed, 27 Sep 2023 16:21:01 +0100 (WEST)
+Subject: [CNCS|CERT.PT #148862] [TLP:AMBER] Malicious Code - Malware Distribution [DIGITALOCEAN]
+From: =?UTF-8?Q?=27Andreia_Jer=C3=B3nimo_=28CNCS_=2D_CERT=2EPT=29=27_via_abuse?= <abuse@digitalocean.com>
+Reply-To: cert@cert.pt
+In-Reply-To: <rt-4.4.4-12867-1695828010-581.148862-5-0@CNCS>
+References: <RT-Ticket-148862@CNCS>
+ <rt-4.4.4-12867-1695828010-581.148862-5-0@CNCS>
+Message-ID: <rt-4.4.4-10508-1695828061-1241.148862-5-0@CNCS>
+X-RT-Loop-Prevention: CNCS|CERT.PT
+X-RT-Ticket: CNCS|CERT.PT #148862
+X-Managed-BY: RT 4.4.4 (http://www.bestpractical.com/rt/)
+X-RT-Originator: andreia.jeronimo@cncs.gov.pt
+To: abuse@digitalocean.com
+Content-Type: text/plain; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+Precedence: list
+Date: Wed, 27 Sep 2023 16:21:01 +0100
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-FEAS-Client-IP: 192.168.62.5
+X-FE-Policy-ID: 6:1:36:SYSTEM
+X-Original-Sender: cert@cert.pt
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert.pt header.s=default header.b="Lk/kVdc7";       spf=pass
+ (google.com: domain of cert@cert.pt designates 83.240.202.173 as permitted
+ sender) smtp.mailfrom=cert@cert.pt;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=cert.pt
+X-Original-From: "=?UTF-8?B?QW5kcmVpYSBKZXLDs25pbW8=?= (CNCS - CERT.PT)" <cert@cert.pt>
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+
+[TLP:AMBER]
+
+Dear Sir or Madam,
+
+We have been informed that a system from your constituency has been involved in an incident:
+
+Incident Classification: Malware Distribution
+
+IPs: 167.172.46.227
+2a03:b0c0:2:f0::19e:7001
+
+URL: https://masarpro.net/assets/olx/?cid=paraisofiscal@sapo.pt
+
+Description: CERT.PT has been notified that the aforementioned URL is distributing malware.
+
+If you cannot access the fraudulent content, there is a possibility that it is only accessible via Portuguese IP and a User Agent suitable for the campaign.
+
+The logs of such incident are attached to this message.
+
+We are asking you to:
+a) Verify provided evidence;
+b) Ensure access to malicious content is removed or forbidden;
+c) Take appropriate actions to prevent further incidents;
+d) Provide feedback on this incident with actions taken.
+
+We thank you in advance for your cooperation and request that you maintain the IDENTIFIER [CNCS|CERT.PT #ID] present in the subject of this message in the next related communications.
+
+Please get back to us if you need assistance or information,
+Best regards,
+
+CERT.PT
+Portuguese National Cybersecurity Centre
+
+Website: https://www.cncs.gov.pt/pt/certpt
+E-mail: cert@cert.pt
+T: +351 210 497 399
+F: +351 210 497 398
+
+- --
+CERT.PT is the security incident response service of the Portuguese National Cybersecurity Centre.
+CERT.PT uses Traffic Light Protocol (TLP): https://www.cncs.gov.pt/pt/certpt/tlp/
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJlFEhdAAoJEDrJ3s6g96z7P74QAKmh1RvzwmGzNa0QbBj6W5cs
+2gS/vJY8DwxfkRj5aMEyHzWLej54WpC+f5cSzkYhT15T5siBh9icR0dctuvY1nYC
+K84yhWt7RMffddK175wt0xFZGGGXMVqePjfw3sKeN1EwMetfhrQYf+QDxRWSAr5W
+E4pIpv0Wx+bhAzrwW1tjsqL67UUd4EeN/1dT0qYu0cYnNZbHMTE5ZoFKkHqYxVRE
+5Q2uX9B/ZX2MGj4RJLfrspoXlZlfvnLm/oRiF1KEoEjM0IdfEb0Gu2s2686ySCg8
+O5bN0ZFoCgbdBqZbqFDPcZDrSoMX73gvbTJva91SJigV2cR0+aaeYcSwrQ7e0eXs
+E7MvVym4dHRTOteJXQmY0IERN3aq7zXdybWXjVPkkDSEskPflWykLBzjhKl3FDHV
+hSWSp1wr5+lJMea4Q3I+lFQYnOzV48vpF6+Ju+xW4CjSonAM1SsDfMCsgPLlhPQU
+6P4gdQsANMfIXktyz5SXyMNj/aLqKCKyqSUXAqdZuX6qxvnny6q8P6NoQHBn+DtM
+aA2sx5GBhbXQe0MPrkfAMBIrbYu3J2O2eY1HJwnqA8Hi8gzv1fKP18shSEzF5yiA
+fUjRH75QOmzNhNe9+fFUK1YDfgswnX/TcVpN6t18eLOi1uHpDkZCRj24Syrp4BVe
+pfZOBLjKNo9ruXv54qVp
+=WMDl
+-----END PGP SIGNATURE-----

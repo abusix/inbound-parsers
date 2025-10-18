@@ -1,0 +1,411 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id DB2CE1A3-4C2B-40AA-BADC-4B59089965ED.1
+	envelope-from <abuse+bncBDE6J7GYTACRBAU3ROZQMGQEVTBAKGQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 07 Jun 2024 09:06:12 +0000
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-25443e5e1basf1746001fac.3
+        for <abuse@digitalocean.abusehq.net>; Fri, 07 Jun 2024 02:06:12 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1717751171; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=euvA2xZArYsrwfTqy6siKs2IyB97IX4M36FspI2wkrUBOjkHpv2ejWWdZnp7pS3Rko
+         Zw95J/lX+VfriveIi/R4GAo8NQsGVHyJthRTN1tvkmn2Qx403ZVu55zSSArOiurXDNzC
+         3ZACDDhiwElZJGfjbbot0dSFXAK9eZpXmI8EbxKS9g92t4NnA4IN1Vbh7xuUtiI2YIjB
+         wkbRqZeDo+I/2+sWogisiCL1WE2DPVpjhaaMdynXFbE/BypCEysANL9+cE4TUi2K/9DN
+         0AGwWiFmHkuPV4g6BFpkRdkIJpGCR0PCUsRbDhNBrpTSd+Td9fR2L6W6wchyDgAnK8E+
+         j0HQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :to:from:sender:dkim-signature;
+        bh=Iwezm8/MJAtcpMbJuuJphZfXna0quSXdm08TGYkvgtw=;
+        fh=Z5EWq9Y1caL847BQsqFbROYX0HCmr5RUeOZ4dHlS0BE=;
+        b=XifVaGnrBA6XhuKYMBnb5Oig3YmeFsXd2/F9aV9+sjLLM8rykynQLnPOOo0Apq3xXk
+         6M9Nhkfao7E/qVKldYvAf6oo/Klgg/bfqBIwqPnPYOLL4UeDF3BmPLeleWNdtEIGzUbV
+         wKKYjHBqS5GMAn4AiNV+so1Y8H83JXELF0VdkMnqvuhFZM7bteRz8ZR2YkqlKvVThWOM
+         n+Cys5tpLCAEBO682D0n+6N3QHIbfGi0oml+rCZlidTiqg/HysmoaUuFeFybd2BYIeMU
+         GmsT4ZNxYabqhY24uJR5r8DYAz4kWPJAJiuCd0djrKxnFb0cd75XaSutE9hKsL4yO1Up
+         CfDA==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@tvbco.onmicrosoft.com header.s=selector2-tvbco-onmicrosoft-com header.b=Q4LI2vLJ;
+       arc=pass (i=1 spf=pass spfdomain=tvb.com.hk dkim=pass dkdomain=tvb.com.hk dmarc=pass fromdomain=tvb.com.hk);
+       spf=pass (google.com: domain of mbroker@tvb.com.hk designates 2a01:111:f403:2019::701 as permitted sender) smtp.mailfrom=mbroker@tvb.com.hk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1717751171; x=1718355971; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-language:accept-language
+         :message-id:date:thread-index:thread-topic:subject:to:from:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Iwezm8/MJAtcpMbJuuJphZfXna0quSXdm08TGYkvgtw=;
+        b=TZFWmHx97Mc8VayGLWwMEfHKOoArEUadYptYB9sCUGY/Kv+6+QswDq3scHKU9jXhxT
+         B/7CQtEV0GyVkO6vL7ycdYpXUQo9xSRlFf/ZKtaU8MaJPWO83DAxX1ImzjbGkUBfdjb1
+         f8vS+4oFQvwFwAS1mDxwBqh/8b12ThpeZzXXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717751171; x=1718355971;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:message-id:date:thread-index
+         :thread-topic:subject:to:from:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Iwezm8/MJAtcpMbJuuJphZfXna0quSXdm08TGYkvgtw=;
+        b=TxiIckEbQT41HQc1M+rrpU7S3Ru5oFQh/MaPT1sJH4kanyLRiosD0HGB/IBVSdz7U5
+         +NB2DhvJ1yS3b2ak7wWuDpoaHeJ/LB77mWxg5o+Oftmna9diDfcWo4nMpjxPIwi6wqLP
+         Aw8v1NjEFQoIyLUhCAHnJ7gqo1iqtLF6VqKIXH4bGYv4KrdVaLb8/aWt1VpuT+i3/P/0
+         FcTxp5bygOoJb1kPHCtxYj/OhjgISq5Tld0Wn2O9OKXnLHYXNITn1X/ACUxJgkNd+W+1
+         uIXGRoiERYzhCwuMNi92Xx9xH2Tph7Fwlcl5yWNBMKKLrqZ/InL711KKIyxga5VL6RlA
+         bJag==
+Sender: abuse@digitalocean.com
+X-Forwarded-Encrypted: i=3; AJvYcCWt4/931YV5b9zv0MHyM8Ai/uIsDkSpktlWO+H9nrt9pfQc5+UTOO/v9Lf06BSKHgvY0JDk+kSZC32t5qKSMyx1yq6lVBBGdncKDASjlmw=
+X-Gm-Message-State: AOJu0Yz6nGK7ljkkRttUXI7UpVCe57F0oJ9/a11EvHZKhTCxHanL7K8a
+	nGZx8l5BrYM7vZLHRceUNQRoEl+lnFH0rq2XYTevkjEEaoEmeJQ9uSzdlNikjm0=
+X-Google-Smtp-Source: AGHT+IFTVgjhdGfjmjGueNb25Lzn9t66sCnfjI1oaV8o5pbMUl7hIug4PdWUI86fR7C0W9eWFauJGw==
+X-Received: by 2002:a05:6870:b290:b0:24c:afd5:1133 with SMTP id 586e51a60fabf-254648c7ad9mr2265086fac.58.1717751171316;
+        Fri, 07 Jun 2024 02:06:11 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6a00:22d4:b0:702:69ef:202b with SMTP id
+ d2e1a72fcca58-70408967f24ls735117b3a.2.-pod-prod-08-us; Fri, 07 Jun 2024
+ 02:06:10 -0700 (PDT)
+X-Received: by 2002:a05:6a21:3289:b0:1b2:1bf1:2b03 with SMTP id adf61e73a8af0-1b2f9a29959mr2335802637.26.1717751169790;
+        Fri, 07 Jun 2024 02:06:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1717751169; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=gnDCtW4ojBYsCv+d1hyQv+Bptths2t/qQdhfUAu4f9H9BozkpJnATPyHFnaDsUaaDa
+         G3rTJUa8lHMavqAOCq7wcjRMhUlmXghe3YaH/v4spM8xqqHAEISn6RbCfoYVN7mYkIOa
+         SeUdeIpzOvUHeQhEn2zXjdFt3X1M+l66pwzlmTZFc/f2xA8TI0hZUBcqInJ14LJOe1F6
+         +P9jd1G2JXLeGgu82EnfJqjyrt7JNev52nTAHEKxrPqZbG78/wijJBfm67B7HiGR93+Z
+         fztQRP1O3V7uEpwvWrT8IS6j9vNWAaquhdeTHUMsn+zoQ6ukdOeLFrgYs/CynE+ZXyTi
+         OnDw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:to:from:dkim-signature;
+        bh=Iwezm8/MJAtcpMbJuuJphZfXna0quSXdm08TGYkvgtw=;
+        fh=pwYJ27qj0tVuSO4Ew+vad5yBV3vjXIKl/FaDEyr6xL8=;
+        b=V6y49UckU4kNd2QmyQYmirY+yJE5A6bTLKLozPupwAxXC9y/pU73t+NBR/xk2XjjKG
+         seHhxiqnQfDCJkcFez7NTNUnsRiyuU7zIdjBCaSNuuvZknMQx6PmT+FbYEs/ZvdrPGxG
+         HWXaWfX99VzUFQ9qlU6bHmLCRuFiLKlbRbUXTV+uUh7HLZPzmj/gnvGj//MjhgbLsELd
+         DnyqB2XG5PMZ21R8U7wjU3BvtVizeZUN3V0OlckBN6g1yvHaKTvyFV/n206CvBqdNJsd
+         PPDHFcnUBZFJlP6Vk96kIhD3vRA+3DkEByKB3ZCH06HdQKjL4eCHUru4semM7VGbwwG4
+         FimQ==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@tvbco.onmicrosoft.com header.s=selector2-tvbco-onmicrosoft-com header.b=Q4LI2vLJ;
+       arc=pass (i=1 spf=pass spfdomain=tvb.com.hk dkim=pass dkdomain=tvb.com.hk dmarc=pass fromdomain=tvb.com.hk);
+       spf=pass (google.com: domain of mbroker@tvb.com.hk designates 2a01:111:f403:2019::701 as permitted sender) smtp.mailfrom=mbroker@tvb.com.hk
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on20701.outbound.protection.outlook.com. [2a01:111:f403:2019::701])
+        by mx.google.com with ESMTPS id d9443c01a7336-1f6d65fd0e0si7925215ad.141.2024.06.07.02.06.09
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Jun 2024 02:06:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mbroker@tvb.com.hk designates 2a01:111:f403:2019::701 as permitted sender) client-ip=2a01:111:f403:2019::701;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R6axtVnzSlvBn6guFV98GiEtAmI4GxbbIW2RAqaMqSE4/ZMlR/Bo6KkWzvptS9AN1CSuevQ6knOTXWXkWVNcaWGA1xzKMIcb4sEmEKR2kkAo6CzdhZqKEhStWbWhn8+X30Tf/aXtH9zg3H7rlFUwu07u7f0fza6i4oeXxqt3abZ/ondqd4KSIOCNdDP+brz1h5XtaDw4+DoHWkJoJ8SQ70NXA2ZJpGgLoQLpDWdZz1lWlIDWipgEc4xVVvOl3zKMuqHEgmAIMEAGjJpaPs+JgCjTEV9fqbvOVGvVd7D9yklIyVC5j8XgiVloVgSSm8WdZKzugv0fwK6JtobCdaRHWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Iwezm8/MJAtcpMbJuuJphZfXna0quSXdm08TGYkvgtw=;
+ b=ffC+h3sMF6jJxA14BelS8XLcTBGSjvJ+Fk+Rhb3EMWHRVSEk2A/hs5Ql/PHX66glGNrZzPiX34xDxZS5Ort3/tijuIyQ4q8gRjYaxziov4+wqwFRCghvwgBcuk9pEVz2ETENMc4Ab1RLLJExd3hS8KqzDD4CKJoMesHdyBdb1OL/0BorrdyQI2EAvedPWLbfK/ECKqcVU89sVsIMRBCtTzoB1hn2MUadqkUdSWvgAAO55EFMBAoXYYMNjtdydPBd/4NZO8F2dY3tIgj3f003bFOT/TqOM724FMAqVYKqj7RXt+4qPXQYGMPCdHo6u23OOPP4j6e2j6JRXjqXcgZWbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=tvb.com.hk; dmarc=pass action=none header.from=tvb.com.hk;
+ dkim=pass header.d=tvb.com.hk; arc=none
+Received: from TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:166::7)
+ by OSZP286MB1533.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1b1::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Fri, 7 Jun
+ 2024 09:06:06 +0000
+Received: from TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::1bfe:3a2d:ca5d:f708]) by TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::1bfe:3a2d:ca5d:f708%5]) with mapi id 15.20.7633.021; Fri, 7 Jun 2024
+ 09:06:06 +0000
+From: "9301 - Anti-Piracy (mbroker)" <mbroker@tvb.com.hk>
+To: "abuse@digitalocean.com" <abuse@digitalocean.com>
+Subject: [8968e0f738548a1c]Copyright Infringement
+ Notification(dramawall.net/DIGITALOCEAN-ASN)
+Thread-Topic: [8968e0f738548a1c]Copyright Infringement
+ Notification(dramawall.net/DIGITALOCEAN-ASN)
+Thread-Index: AQHauLnuXzMkzR8zH0Ot4eva3Cr8ZQ==
+Date: Fri, 7 Jun 2024 09:06:06 +0000
+Message-ID: <TYWP286MB2005D28C1E4BE564F553412A96FB2@TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-mail-application: Microsoft Power Automate; User-Agent:
+ azure-logic-apps/1.0 (workflow 2a1d010f21ae47028e72b7d5ab46a5b2; version
+ 08584868979774572759) microsoft-flow/1.0
+x-ms-mail-operation-type: Send
+x-ms-mail-environment-id: a012181f-2e1b-ea98-a9a0-177fabd92f95
+x-ms-mail-workflow: x-ms-workflow-name: 70914bdd-427e-14af-f808-8e99a7dedc29;
+ x-ms-workflow-run-id: 08584838557235387473309026518CU63;
+ x-ms-client-request-id: b621bc73-1984-4266-a50b-c7095a2ef2b0;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYWP286MB2005:EE_|OSZP286MB1533:EE_
+x-ms-office365-filtering-correlation-id: 3d7d7a56-2a50-41de-4002-08dc86d110c3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|376005|366007|38070700009;
+x-microsoft-antispam-message-info: =?Windows-1252?Q?U97avPMXkQHB5kAuLPYb+7dbf2DRZUsZ3n6CSSwAcJGRvrGxtVTeRIys?=
+ =?Windows-1252?Q?IUaxELmVgPNL1HFxStDxcjP/awJipBCLtpeUpB6GwkaI1iqT6WknFTJb?=
+ =?Windows-1252?Q?HDLmGBFgVndQJABzweRvOiPkQYqWVFGW2EW0WWQqPGS4PCRl5imS/en4?=
+ =?Windows-1252?Q?SRC/2KO04hX4KbfN+HfpqGEYznJ/6/rk2pgaJYuf2AP4tKwF1BytqNFh?=
+ =?Windows-1252?Q?cyaf9KQs4GYeVA7MegD56di6pjtN/ls3y53kR7X7Q+JzvW+VqFu9fEtp?=
+ =?Windows-1252?Q?3Ifh7orV5cbgSpXfqO6KEx3uUwmRW0sU1Z2xFML/oDJVRDhaJhYOieLg?=
+ =?Windows-1252?Q?y2O5JShIx53817qi41zpC+4P2SBUG6vSewzvx1KJEXxPiAA03x92MTAw?=
+ =?Windows-1252?Q?VFxopGLwhakphFCgt66uMMbaZaSzsuaCdVpd2o5SypWJQi/jlA9tCghS?=
+ =?Windows-1252?Q?Dn2ygfzy2TChWd9SEGEUwSMKhY5vfoXDHIk3AOdl32ZkuMGVeRvC/n/w?=
+ =?Windows-1252?Q?abB9I/1WqEPgXeUAr0W+zmI4gOATaZJzUf9B6Agu6PiHEW66JleLLcoQ?=
+ =?Windows-1252?Q?U67oM3/vNmHF4WuYfQF2ItWHxMEC4uzHjjRErYanpkp8t26FzWrdnKZj?=
+ =?Windows-1252?Q?yHrIfzOHNQEELdTBJDBgx1jfzyYmSYrs1190dV61+MWwERhBpKyzSQG5?=
+ =?Windows-1252?Q?STCD1fKbjPOcEwJsyz8f9ntZ8VisskfnBmqzxjG11hNLE9pfYWZqTxFI?=
+ =?Windows-1252?Q?kUnl/i3BRMAiLLtHyMuKHQllwS/MPVke+VF7sdolXzgi9QJeMlLvbpH/?=
+ =?Windows-1252?Q?eLcAE15YEDUd9ECAC8O5icCbckUnX735iu5p8CA/SHnqRZ30nRtrC3ip?=
+ =?Windows-1252?Q?k/4AA2CpOsF6Zi7FmoIvD4D+ykZxM+Cr4i3SUVuQAZR7ChfNUhciKeA3?=
+ =?Windows-1252?Q?oi7N93CtOTNDA/JXKq992Bu3633v2aMyRwWEUuWK5xKtiUO93gDBZ6AU?=
+ =?Windows-1252?Q?huphPojpuy2adq9/swLb+r5CWhAOK5KSo8u88OKWoa0kQLM05uE5GN5T?=
+ =?Windows-1252?Q?V8TzlFTPMf4+pIMyuLjI1R8+r97+CMbAYN5RODplUBO0wZVx6t1LCBqh?=
+ =?Windows-1252?Q?/FdSF0q/M+2SuP14yee4kaBT92kUsjjuDoBYW/UMsdxcZFkgIfnJhqxN?=
+ =?Windows-1252?Q?o8ZTBvtrpZYtzzCnaYWp6uOWl/fAFkOKnGrUwfVVHTT+M9xKL1GMhY8F?=
+ =?Windows-1252?Q?s8GFCzB/k5zpacd82qU8CKpZOiHQoOn/zUabuak8gBKFRG4oGlbWH61X?=
+ =?Windows-1252?Q?VX8f9Dfl5hl+yeXiCPRkn0N7ZQ+/PMRZBa5TI/rAhdXcbR/6/rqAJuZB?=
+ =?Windows-1252?Q?hDv789OJU8Yzauh7oIXD3o5FGeOQnnb+OIE5K7C9e42lqf5eqgjtob/3?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?68jgqVj2fH8b2SUJxAwldnb+6M+bx2ro98vAKv/5ZG07eOGd14cPNlmg?=
+ =?Windows-1252?Q?USWtjfgVMm5PD8TzrSeDanZCMjFyoKXTMcDqdKSdw1cuTKZa52Jh+jlj?=
+ =?Windows-1252?Q?vynZ1XloyY2U/Nj1bxwtrBYQz3iKTm555rpRj6am838Lc5l24LtkTRX4?=
+ =?Windows-1252?Q?LkIz6iGEflrIxUznV7hXu9aTOFyiWYsAfLZAARMsdos8XSR8aT7NAcf9?=
+ =?Windows-1252?Q?EHICsbnyl/hf9xoX3Ey9UleVDMvzNGgsAmc22rrIhDArJvqG+1nS+ixV?=
+ =?Windows-1252?Q?wQqROyGlQXNgqn+W/O8AmbP2Jt0bzsG5m4AuMaMS0wAG77nq06hk4C/4?=
+ =?Windows-1252?Q?BrnCPyxVrpNtvyKsQvJShQ3mn94FmJ19sbBRjMAfWN7cBpJnL8hQ0CDt?=
+ =?Windows-1252?Q?PiEveeCQh7hn0AgWYdcJJhXgSfUefXRJyK0V9An8yLCL4HyXiHcSGoJM?=
+ =?Windows-1252?Q?JWmb6rHwzfwroDPLPWsG8THxCwBYSeQvNns89YiIach5Y4bJp/6fT0EI?=
+ =?Windows-1252?Q?Tl8+iu2dy3dxlEd+Y3bVgHj554H0lizOG5432ZEMOGyxSEX4kMwvzsNP?=
+ =?Windows-1252?Q?lMKwj6cw3+DnLUErIb6z+25MXLa964UBXq4KLDdyH4e2nYnb/7+fLU3l?=
+ =?Windows-1252?Q?jWnje6hE6L0Ps7rcxXCodbDTmvg+ahSSeCYBjbWuYRaNVMNlOhi4Kz6S?=
+ =?Windows-1252?Q?alvrrxj4spOBvsdOHIDfXXpTdDMdMu64WNU6g2kojodFbY0l5Zl6m7Dg?=
+ =?Windows-1252?Q?BBptveO8vfvcNuGuDweiK9tGBicx9IM/TiAuJexWINhMaiypxMghz2qz?=
+ =?Windows-1252?Q?p5IlLdiXEAx+Pk/pNQGG1R9F7ULhaq0DY9thNdylgj862klHgz8KytV4?=
+ =?Windows-1252?Q?9vFqs7FGz0YABaynXB+AzP4OC6qqOJfEyKvnOUvrzsddC6RU5ZHW+9qT?=
+ =?Windows-1252?Q?UvwbM5vT4l61YiOcSKKX1T7ARXyzs7gKaecCNo0ysyAl+SAjEy6fBI1/?=
+ =?Windows-1252?Q?lbRSgSh5AMLOMF+nUosSxL38uhQRBbR/TbnsJFSXp76CZHiE/h8zxhSi?=
+ =?Windows-1252?Q?rvp8JAJr+rSty0qFagwueEu9T0t1zHxh3Fy7tXVprHYf1Z65AvP/0ed7?=
+ =?Windows-1252?Q?ed9kbf2bbpzSGisCiS9RhswJDYDx0Q3zP4S430USrxLfXYD3AmhYn7X9?=
+ =?Windows-1252?Q?4CK8xWuwZwlaBFSb1aEGie/BNaVDWKOGTZXHv+yt/W+NPmPJvJautnzT?=
+ =?Windows-1252?Q?4AZivd9Fd+v4mWgAVUmu2qrjAjKznsBcvUHMgEuxqDuSDZA88nd5YeWR?=
+ =?Windows-1252?Q?XVOf/dJL4tUYufOMzEYHdGQ6ZL3bm90fvjkj/ZuiDcXcYFJiTvwhPfHD?=
+ =?Windows-1252?Q?08blLnMmRd8lq6vXEexAMW5osLU7y1UIi3m6y+d6GYAOHOuhnh/3ydpN?=
+ =?Windows-1252?Q?4rx7yx4iXktrxt3HyKjzDxDSZafPPGSi2vDWgjPCBIu8CHMImbM13iDK?=
+ =?Windows-1252?Q?/Nl38Aw5pitBB9gSpdwx2w59HdTwrcxZIwbw76YJ4zQ/ZoOoEXWXsscd?=
+ =?Windows-1252?Q?ozevXAo4VPr+VwyDfa1R/4myRmz/86aKd3LNMk4g/yZxWG/hTygP1vb3?=
+ =?Windows-1252?Q?HgM+Z3veDnWe0oNBpCBQ61BLf04iShBg5KNnum9POcWWTsMArqWUfRtf?=
+ =?Windows-1252?Q?NadWhopWqT4sweze4hr+jCPCSH58GcJb?=
+Content-Type: multipart/alternative;
+	boundary="_000_TYWP286MB2005D28C1E4BE564F553412A96FB2TYWP286MB2005JPNP_"
+MIME-Version: 1.0
+X-OriginatorOrg: tvb.com.hk
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYWP286MB2005.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d7d7a56-2a50-41de-4002-08dc86d110c3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2024 09:06:06.6902
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ca1293ac-d322-43f4-ae3b-e18e5fa51fb9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kGk+pVb+eMKebZo3N5FjbLFYDbxeS5D5hDuWo+8DtQ50Ps/uWRnVDIOgmgeUJIjK5Kf6DGNiYZ64JyWuvGggtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1533
+X-Original-Sender: mbroker@tvb.com.hk
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@tvbco.onmicrosoft.com header.s=selector2-tvbco-onmicrosoft-com
+ header.b=Q4LI2vLJ;       arc=pass (i=1 spf=pass spfdomain=tvb.com.hk
+ dkim=pass dkdomain=tvb.com.hk dmarc=pass fromdomain=tvb.com.hk);
+       spf=pass (google.com: domain of mbroker@tvb.com.hk designates
+ 2a01:111:f403:2019::701 as permitted sender) smtp.mailfrom=mbroker@tvb.com.hk
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_TYWP286MB2005D28C1E4BE564F553412A96FB2TYWP286MB2005JPNP_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+
+07 June 2024
+
+DIGITALOCEAN-ASN
+
+
+Dear Sir,
+
+Re: Copyright Infringement Notification
+
+We, Television Broadcasts Limited, are well known television broadcast comp=
+any in Hong Kong. Television Broadcasts Limited and our group companies (co=
+llectively =93TVB=94) are the copyright owner of various television program=
+mes produced by TVB.
+
+We have noticed that a website named =93dramawall.net=94 has been violating=
+ TVB=92s copyright by providing TVB=92s copyrighted works for streaming and=
+ public viewing without TVB=92s authorization. We were told by Cloudflare, =
+the website ISP, that DIGITALOCEAN-ASN is the hosting provider of the Websi=
+te.  If you need the actual IP address of the Website, please contact Cloud=
+flare directly at abusereply@cloudflare.com.
+
+Details of such copyright infringed materials are identified as follows.
+
+The site name is www.dramawall.net with the ip 104.21.17.215
+#Sinister Beings 2 - https://www.dramawall.net/tag/sinister-beings-2-canton=
+ese/page/2/
+#A Fallen Xian - https://www.dramawall.net/tag/a-fallen-xian-cantonese/
+#In Bed With A Stranger - https://www.dramawall.net/tag/in-bed-with-a-stran=
+ger/
+
+
+We have good faith belief that the use of the copyrighted materials describ=
+ed above as allegedly infringing is not authorized by TVB, its agents, or t=
+he law for which TVB is entitled to take legal action against the infringer=
+s.
+
+We understand that you have power under your Copyright and Trademark Polici=
+es to deal with infringement of third party=92s copyrights by your users. P=
+lease stop the infringement by:
+1.       removing or disabling access to the aforesaid copyright infringed =
+materials immediately; and
+2.       terminating the account of the aforesaid user.
+
+My contact details are as follows:
+By mail: TVB City, 77 Chun Choi Street, Tseung Kwan O Industrial Estate, Ko=
+wloon, Hong Kong
+By fax : (852) 3184 0769 By tel. : (852) 2335 2288
+By email : legal.copyright@tvb.com.hk
+Name: K Y Leung
+
+I swear, under penalty of perjury, that the information in the notification=
+ is accurate and that I am authorized to act on behalf of the owner of an e=
+xclusive right that is allegedly infringed.
+
+Yours faithfully,
+
+
+K Y Leung
+Senior Legal Counsel
+Television Broadcasts Limited for and on behalf of TVB
+
+________________________________
+DISCLAIMER:
+This email (including attachments) is addressed to the intended recipient o=
+nly and may contain information that is privileged and confidential. If you=
+ are not the intended recipient, you must not use, retain, disclose, copy, =
+print, disseminate or distribute any part of this email. If you have receiv=
+ed this email in error, please delete this email (including attachments) fr=
+om your system and notify the sender immediately by replying to this email.=
+ Email transmission cannot be guaranteed to be timely, secure, error or vir=
+us-free. The sender accepts no liability for any loss, error, omissions or =
+damage arising as a result of email transmission.
+
+--_000_TYWP286MB2005D28C1E4BE564F553412A96FB2TYWP286MB2005JPNP_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+</head>
+<body>
+<p><br>
+07 June 2024<br>
+<br>
+DIGITALOCEAN-ASN<br>
+<br>
+<br>
+Dear Sir,<br>
+<br>
+Re: Copyright Infringement Notification<br>
+<br>
+We, Television Broadcasts Limited, are well known television broadcast comp=
+any in Hong Kong. Television Broadcasts Limited and our group companies (co=
+llectively =93TVB=94) are the copyright owner of various television program=
+mes produced by TVB.<br>
+<br>
+We have noticed that a website named =93dramawall.net=94 has been violating=
+ TVB=92s copyright by providing TVB=92s copyrighted works for streaming and=
+ public viewing without TVB=92s authorization. We were told by Cloudflare, =
+the website ISP, that DIGITALOCEAN-ASN is
+ the hosting provider of the Website. &nbsp;If you need the actual IP addre=
+ss of the Website, please contact Cloudflare directly at abusereply@cloudfl=
+are.com.<br>
+<br>
+Details of such copyright infringed materials are identified as follows.<br=
+>
+<br>
+The site name is www.dramawall.net with the ip 104.21.17.215 <br>
+#Sinister Beings 2 - https://www.dramawall.net/tag/sinister-beings-2-canton=
+ese/page/2/
+<br>
+#A Fallen Xian - https://www.dramawall.net/tag/a-fallen-xian-cantonese/ <br=
+>
+#In Bed With A Stranger - https://www.dramawall.net/tag/in-bed-with-a-stran=
+ger/ <br>
+<br>
+<br>
+We have good faith belief that the use of the copyrighted materials describ=
+ed above as allegedly infringing is not authorized by TVB, its agents, or t=
+he law for which TVB is entitled to take legal action against the infringer=
+s.<br>
+<br>
+We understand that you have power under your Copyright and Trademark Polici=
+es to deal with infringement of third party=92s copyrights by your users. P=
+lease stop the infringement by:<br>
+1. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;removing or disabling access to the =
+aforesaid copyright infringed materials immediately; and<br>
+2. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;terminating the account of the afore=
+said user.<br>
+<br>
+My contact details are as follows:<br>
+By mail: TVB City, 77 Chun Choi Street, Tseung Kwan O Industrial Estate, Ko=
+wloon, Hong Kong<br>
+By fax : (852) 3184 0769 By tel. : (852) 2335 2288<br>
+By email : legal.copyright@tvb.com.hk<br>
+Name: K Y Leung<br>
+<br>
+I swear, under penalty of perjury, that the information in the notification=
+ is accurate and that I am authorized to act on behalf of the owner of an e=
+xclusive right that is allegedly infringed.<br>
+<br>
+Yours faithfully,<br>
+<br>
+<br>
+K Y Leung<br>
+Senior Legal Counsel<br>
+Television Broadcasts Limited for and on behalf of TVB<br>
+</p>
+<hr>
+<font size=3D"2">DISCLAIMER:</font><br>
+<font size=3D"2" color=3D"DimGray">This email (including attachments) is ad=
+dressed to the intended recipient only and may contain information that is =
+privileged and confidential. If you are not the intended recipient, you mus=
+t not use, retain, disclose, copy, print,
+ disseminate or distribute any part of this email. If you have received thi=
+s email in error, please delete this email (including attachments) from you=
+r system and notify the sender immediately by replying to this email. Email=
+ transmission cannot be guaranteed
+ to be timely, secure, error or virus-free. The sender accepts no liability=
+ for any loss, error, omissions or damage arising as a result of email tran=
+smission.<br>
+</font>
+</body>
+</html>
+
+--_000_TYWP286MB2005D28C1E4BE564F553412A96FB2TYWP286MB2005JPNP_--

@@ -1,0 +1,245 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 15702E74-B8A8-4A86-B622-AB10D762936E.1
+	envelope-from <abuse+bncBAABB573WOZAMGQE7B4K7IY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 21 May 2024 20:03:04 +0000
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-34dc66313b3sf7948073f8f.2
+        for <abuse@digitalocean.abusehq.net>; Tue, 21 May 2024 13:03:04 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1716321784; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=XWq2yTci8w5DAMADYcoSFUUZiG7fPTCG1daUs3A0VpkcoycSTSLptRZJ5Z+yi0XbF1
+         4nwDI9GvUN6vdlMHuwjqMysOVLKdA8eL0VYbmERzLkc9D2MvUvGmuSzJ6YBotLnEex5w
+         lsyEQBG9JVgUUs2NNkFZFbDCFRvcAsNDW0sM3lhV/VEunmQB25xKJV+Z7EeRQmjxhv0t
+         8vD3agYZRGZTPfPSh45e8AIdKgPnAqRfdKSKMdGTNKiK9oV4HK6SqyYgPIb6xv0Iu6eG
+         WM8z3Rj+p9Tms08JoJyMzDLGFMRbcmR3s5djFGVizJWd7eOW+ltBpfIuq7g/BhSqzE2b
+         H0OA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version:date:message-id
+         :subject:to:from:dkim-signature;
+        bh=p0yk104vk/d4n2JieZAW7wTzJhy38j5DtSUW2AoSvCY=;
+        fh=XguMUZG2Oy/HKNjLQGeHFKftolM7zdKf7tVNMXmDiO8=;
+        b=NbZHEII7VWm6ujmkd8ztEI+qp/HBMF3h+2XgTU1Pzy65KMfYyFcCFi7C+CGb1mHQn6
+         YJDa6ysQBjtVWTOjx1b2q9uglIVjGPxu3p3sQ3xzd06lhKkRW3kEb6rpa1Gsd6DQ/QDe
+         w/HOnj4O0m3CUWj2uQGzCfnhdElXpDb2ocdp7yiVvxJvjDSyiCnb7yLZDbp1zjZJPe63
+         GYS8dM3fW7nacmFxdtptJnYYtdsppoWQ5wtx3nK04RSJ0+UcFc/lguMhlD1VLHRiGz4s
+         UXZ4IqDcbExX+zCAfowvz1x777yw7dOCtKzZisXNpXOBIIz7uHjJ9LOxAIv7jUk1ewQx
+         gpRw==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@marche-be.com header.s=mail header.b=QZY1hvIL;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of support@marche-be.com designates 167.86.67.183 as permitted sender) smtp.mailfrom=support@marche-be.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=marche-be.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1716321784; x=1716926584; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:date:message-id:subject:to:from:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=p0yk104vk/d4n2JieZAW7wTzJhy38j5DtSUW2AoSvCY=;
+        b=gsA3gc4H/zNMLEZF1bWjca6SEx5UK/bK0VYLeXvMHcY/07aVTvIFKaVpu1h+qgCpSK
+         nEFMzMaTCqY+EFK348vgBEA+KIM1j/Na34lmsStA3fbF8ZKCQQ1YGXq7KkKtMtvYV5yO
+         DFU69P5jybkJXErPcHmy7XpGjfxY5hQpoarPI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716321784; x=1716926584;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :date:message-id:subject:to:from:x-beenthere:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=p0yk104vk/d4n2JieZAW7wTzJhy38j5DtSUW2AoSvCY=;
+        b=b/6XXADlIvQm3EuOiEYuDe3qqRuyBbIzrQIiKkBnASVKjxqys9a8Z7W5+wGKuDetli
+         wXLvc01qvlXL13J4XD1vviwgYnH8vO3CmlQKuSG2l1LtVmjBTyOLLmQ1HGLBsyYezkFq
+         yK2sbmANTnV+eYaY4VLYqVwk1TCeq4L+jR7wxvbSP4czU3xL4R+K639fzW3kRPF7ZBy5
+         /+wl+Q5uRrOk3b1d/F4SGhaTN6eE+TX7DmSqSFixqxVCa4faDxrIolHLS3JqXhBpnGl/
+         Lh9C5SaB2JdKaU2hmUkXrpPlUBp6uZDG5RPX9eQRLYkX3C4LdGBCZohp1BXAteNZtlF8
+         wPkA==
+X-Forwarded-Encrypted: i=3; AJvYcCUCWATDhIpXWl/9IVhqTEVFL33bFT5XrEpjrMFSgO/K/0hsGh3kQ/6XvpLJkWGFGbl48GC6R903JX3r/UB0OtyPPqAK2TTlONlzjDA+g9U=
+X-Gm-Message-State: AOJu0Ywn4nEbJ5Qqb7Cz34sjt9xW4JuviroBhzIEBjk7tJAafmDY9kKI
+	yW4FF7kD4CfZaojzFdlgr82RMO7+Q7RqMCtbl0PtCih1MpHJRgImMenI5RUNCZg=
+X-Google-Smtp-Source: AGHT+IFuestPrn0feMJiKZ/CUfQxVdE/LlD5Q3ogd7Xy5MgmuB3mM1GCjRoVJVPrSqaqWyf08S4xMg==
+X-Received: by 2002:adf:f590:0:b0:34c:b86a:794c with SMTP id ffacd0b85a97d-3504a96b845mr31073841f8f.70.1716321783988;
+        Tue, 21 May 2024 13:03:03 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6000:120d:b0:354:d404:9082 with SMTP id
+ ffacd0b85a97d-354d4049129ls155701f8f.2.-pod-prod-07-eu; Tue, 21 May 2024
+ 13:03:03 -0700 (PDT)
+X-Received: by 2002:a05:6000:b42:b0:352:b453:2487 with SMTP id ffacd0b85a97d-352b4532562mr9676325f8f.45.1716321782520;
+        Tue, 21 May 2024 13:03:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1716321782; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Mn3SnAi3/CBOY9zXs3kAYdVfoM/iWZrPMvyPJ6bP+4NXKBxH6GjBkOXebgR+Xxk4dU
+         0nOtdwuw5T8Uph/FD/Khb8PZ1EaqyPOXFo1MXDpIDmW+4xDATtoPNAvTRopzCzwXH9QS
+         O/BpEo75W2/vJLNiAwyRaUFJIXjYluBQx1yb36PY9iUYtPtr+68RAXn46rNOB/W3Bbw9
+         eozQAhB4PgA5kDnP2Wa4ABrE0jsQCndo+tqalX3zQOqRIRfmTSu9hFVGyyeu3DcbQ4e9
+         06XzIsNS007j93ASaEsQj15L8g3jsfE0XjBpHkOzu7ermHoqtkQEPbhyycIgUFnXDQeB
+         3Ymg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:date:message-id:subject:to:from:dkim-signature;
+        bh=p0yk104vk/d4n2JieZAW7wTzJhy38j5DtSUW2AoSvCY=;
+        fh=uoTYnRgXLcshx7Z71fK0adyN2Kc4vA+t4c1Aa4zjUXo=;
+        b=vNpdhTr+WiBe9D5N9a9D0pOUwsuZjPOMgI0kEKZvtT5d8t4xJoYXjQom+msBt+YYes
+         G0BHyScaICFhr3H0vweHPcH5oqEaZxhD3ynEn4F+vFh87wIoDxNuKy/+MMh3E16k0/lU
+         n4xARzkuHflxhXyNuQiFS+rsQVebW5FJIOqg2yCZ9SjRStMJv4mDm/gHFzbW4fmqWSC5
+         9ENLwvIejsRZp8pLj5KxqZXmbRtWTYJgK8SZ08gi3cF9DTRrWYPy2dO1XIZQI6D6PqSA
+         lxZ8B9MgsqVo/Hc9JTfPVwOiOeO2vIkEcq+7LWcW7kryCK/8p2JV8C8WbdM2wRDKbfBY
+         597w==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@marche-be.com header.s=mail header.b=QZY1hvIL;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of support@marche-be.com designates 167.86.67.183 as permitted sender) smtp.mailfrom=support@marche-be.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=marche-be.com
+Received: from mail.p4u.xyz (mail.p4u.xyz. [167.86.67.183])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-3502bd12234si15742487f8f.723.2024.05.21.13.03.02
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 May 2024 13:03:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of support@marche-be.com designates 167.86.67.183 as permitted sender) client-ip=167.86.67.183;
+Received: from authenticated-user (mail.p4u.xyz [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: hbrks@marche-be.com)
+	by mail.p4u.xyz (Postfix) with ESMTPSA id 90C3241A0D82
+	for <abuse@digitalocean.com>; Tue, 21 May 2024 22:02:59 +0200 (CEST)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=marche-be.com;
+	s=mail; t=1716321779;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=p0yk104vk/d4n2JieZAW7wTzJhy38j5DtSUW2AoSvCY=;
+	b=FiT1IVlIhrtavevJpVyUg16P6FQNi5/X9+SczYZZWk+pUhKrZuBswNWLB4HOZw0KLDKfte
+	+ITTUoS/E/dyXtCgNniMobbxkMVKsr27sAzacSzKOdgQMZddiAex3BFAvcI6dEiC7toOj4
+	go0fVkbEp9HFjzO+cqHVhtexx1TibdA=
+ARC-Seal: i=1; s=mail; d=marche-be.com; t=1716321779; a=rsa-sha256;
+	cv=none;
+	b=oZ4JAPQE4T85oZKq6b/w7CkhdOf4FcnMED85OtCEdhKcKM8P/eOdG40sdkXy0HG79yaJIl
+	MnMDSm1E/6IcBssvZWVC4PrUBHRDltar27vP6rm6uNHxXlsAZZ6Y5kVboo8+xlHaoZdYXg
+	1HyD7W6cOQ3jrQtRrdxcswiwhwZNU20=
+ARC-Authentication-Results: i=1;
+	mail.p4u.xyz;
+	auth=pass smtp.mailfrom=support@marche-be.com
+X-Ee-Sid: g6FuxAQ63ZXpoXTPAAABj5y__KWhbMQMWAIVvOY3vf-Mie6w
+From: "'Hostmaster AbuseIPDB' via abuse" <abuse@digitalocean.com>
+To: "Abuse, DigitalOcean" <abuse@digitalocean.com>
+Subject: Attack from your Network 152.42.254.236!
+Message-ID: <b589f952-9774-823d-6bbd-9445d34a5a87@marche-be.com>
+Date: Tue, 21 May 2024 20:02:58 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="----=_Part-GPnL_8k_ZWVAMi40MS4y_xM9YemXggpI-Part_1"
+X-Original-Sender: support@marche-be.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@marche-be.com header.s=mail header.b=QZY1hvIL;       arc=pass
+ (i=1);       spf=pass (google.com: domain of support@marche-be.com designates
+ 167.86.67.183 as permitted sender) smtp.mailfrom=support@marche-be.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=marche-be.com
+X-Original-From: Hostmaster AbuseIPDB <support@marche-be.com>
+Reply-To: Hostmaster AbuseIPDB <support@marche-be.com>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part-GPnL_8k_ZWVAMi40MS4y_xM9YemXggpI-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Abuse, DigitalOcean!
+
+We have noticed that our infrastructure is being disrupted with=20
+increasing amounts of illegal traffic coming from your network.
+
+ https://api.dev.marche-be.com/ * statusCode: 400 * user-agent:ddos attack =
+/wp-includes/wlwmanifest.xml!
+
+A list of all cases (for example) can be seen here:=20
+https://www.abuseipdb.com/check/152.42.254.236=20
+
+
+We may point out that this transformer affects our network=20
+significantly and generate high unnecessary costs, which we may claim.=20
+We also have to point out that if there is further impairment, the=20
+overriding ASN's can also be informed and that a blocking of your IP=20
+can result.
+------=_Part-GPnL_8k_ZWVAMi40MS4y_xM9YemXggpI-Part_1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!--[if !gte mso 9]><!---->
+<div style=3D"
+    display:none !important;
+    max-height: 0px;
+    max-width: 1px;
+    font-size: 1px;
+    line-height: 1px;
+    opacity: 0.0;
+    mso-hide: all;
+    overflow: hidden !important;
+    visibility: hidden !important;
+">Please stop the attacker! &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; &#8199;&#65279;&#847; =
+&#8199;&#65279;&#847; &#8199;&#65279;&#847; </div>
+<!--<![endif]-->
+<h3>Hello Abuse, DigitalOcean!</h3>
+We have noticed that our infrastructure is being disrupted with=20
+increasing amounts of illegal traffic coming from your network.
+<p>
+<p>  https://api.dev.marche-be.com/ * statusCode: 400 * user-agent:ddos =
+attack /wp-includes/wlwmanifest.xml! </p>
+<p> A list of all cases (for example) can be seen here:=20
+https://www.abuseipdb.com/check/152.42.254.236 </p>
+<p>
+We may point out that this transformer affects our network=20
+significantly and generate high unnecessary costs, which we may claim.=20
+We also have to point out that if there is further impairment, the=20
+overriding ASN's can also be informed and that a blocking of your IP=20
+can result.<img src=3D"https://eee.p4u.xyz/open.gif?=
+data=3DeyJhY3QiOiJvcGVuIiwiYWNjIjoiaGJya3NATUIiLCJtc2ciOiI8YjU4OWY5NTItOTc3=
+NC04MjNkLTZiYmQtOTQ0NWQzNGE1YTg3QG1hcmNoZS1iZS5jb20-In0&sig=3D9kLGJ3pVpWxaD=
+8sdKuk7NBOxyfGlVblvl-dAWMZzols" style=3D"border: 0px; width:1px; height: =
+1px;" tabindex=3D"-1" width=3D"1" height=3D"1" =
+alt=3D"">
+
+------=_Part-GPnL_8k_ZWVAMi40MS4y_xM9YemXggpI-Part_1--

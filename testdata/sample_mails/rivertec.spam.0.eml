@@ -1,0 +1,605 @@
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	by fe2dba61eb49 (Haraka/2.8.26) with ESMTP id 0B45FCDC-C854-41B0-9F65-ED66F9321E22.1
+	envelope-from <abuse+bncBDY4HLPUXILRBWNTWODQMGQEONOJOGI@digitalocean.com>;
+	Tue, 13 Jul 2021 00:10:01 +0000
+Received: by mail-ej1-f71.google.com with SMTP id e23-20020a1709062497b0290504bafdd58dsf3455921ejb.4
+        for <abuse@digitalocean.abusehq.net>; Mon, 12 Jul 2021 17:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=sender:reply-to:from:to:cc:references:in-reply-to:subject:date
+         :organization:message-id:mime-version:thread-index:content-language
+         :importance:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-unsubscribe;
+        bh=kttt/rJ0i9Zulj9SxVzDHTOOd5V7icZXwcW5kjR096g=;
+        b=S49ZKwIey7qWVvX238LoEDNWxhrqvaRPohoPk9qLm9HfkriKTcQ/cYucDeBZAQY5En
+         SBfllNQcsbvIIDLSTg5C9bFO0qbVTX0/PtGZAPq0F7iImfSYcMGWUaxzRmDJuawG2jmv
+         V2Gd2pvQbJTtfMYXCt3BWmPrWVw7lfLKO/iUc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=sender:x-gm-message-state:reply-to:from:to:cc:references
+         :in-reply-to:subject:date:organization:message-id:mime-version
+         :thread-index:content-language:importance:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-unsubscribe;
+        bh=kttt/rJ0i9Zulj9SxVzDHTOOd5V7icZXwcW5kjR096g=;
+        b=S5tJ8ModLRqn89nV/G+22ehr+pE6oMXu8mVlhHMoMK3MWlhp/vzKKzGDU7n3rNIZ/X
+         NeBwvTBUAve5bPoVpJfvfUEfAhIa6YwEyG0HOBPSbh5qVAspT+H07Tz3mxzdM3J+FbOM
+         c0sdH50PLf8PT+z3W0EoggP20FIKYnCS8B7zzZUi3NH+Md9PLy3/jm4rdW5MmUoKWpTE
+         0sSPqwCahUE9k4mbrnGNFvD2X06N2JkKbi+bhron7I1tNmFxiPPi+I6cfvk3yx12bwyQ
+         o5oPM7jOo+NMO7XPgv3snm2yybpOH3tU2Lqn44PZrIsoU/E0ErSDrtYHixXpr8cjECzn
+         lhyw==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOAM531TZ14qy2f4tTMzcjPV+YpOZ3Td2G2qg3DgzOHg8xfieCh8TaEY
+	qpsug6xI7oIa+krWRMGJrqZTmw==
+X-Google-Smtp-Source: ABdhPJz8gDoaFifoChRDwsUTZXiF9yU0BXU0jZyE1cVsS4THbBPPYpifj+jQiWKQ+lxe+1JgQuKotA==
+X-Received: by 2002:a17:906:844b:: with SMTP id e11mr2036861ejy.446.1626135001235;
+        Mon, 12 Jul 2021 17:10:01 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:aa7:d48d:: with SMTP id b13ls8170006edr.0.gmail; Mon, 12 Jul
+ 2021 17:10:00 -0700 (PDT)
+X-Received: by 2002:a05:6402:2552:: with SMTP id l18mr1817468edb.363.1626135000203;
+        Mon, 12 Jul 2021 17:10:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1626135000; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ud6QQ8PSi+SydFVkndEI23oo1ba6muLnqF+JHKsJdpHMupLNlIm7YuynEL311bwEUk
+         NATayICYUwJY26CZlwsBEQtEK3ygP2JqCy2uApfhm4wGIp/seOnsTLYSAeq+LDSo4OnH
+         mIGaVA7dH0TfvC8JZVf5rTRca0+XrOLiWvrDHcGFyiFVaRVul5EIJpdhpp5ev2k/7xGF
+         n1XEhvoma6gByRpjpOLcMP1jg0fpfiszATLvICeRdlmvyCsozIq/6Dr9u40b0G8R540Q
+         RDO82veIuLlMeNU9VLysSa9Qs24ne9PYPkCmOZKgXsx8BuwBxtuGbVzP6bglrbvM06C9
+         NqBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=importance:content-language:thread-index:mime-version:message-id
+         :organization:date:subject:in-reply-to:references:cc:to:from
+         :reply-to;
+        bh=kttt/rJ0i9Zulj9SxVzDHTOOd5V7icZXwcW5kjR096g=;
+        b=oOLdj8rcV+OJq6XX1ludzfwUaMOZISdsK7GNxWL5JC/fs4Jbw9UK6ab39UVPMNs49j
+         IwvjpDgeFhlUjrzFPztzG5LSduYFZxKpXNGC+ZIDxlGe9plH+KWyww/O9uCM+NVnsGh9
+         XOXFJY7ZSOWZZu87iTH7VbgDgh4C1wLuzpibpUdVS7LkX1KunkWJ0hlD4zdOfPPWgyQi
+         qvVdXhsxvZ44+xUhcPcWM9hjND1DXAVPjqGV/kpMtcZ4dGYD/rSrINmDPWtZOAYqLdqE
+         +5/Hw5BGYlZ+DuZ+UIlQlOw06HrPLHx2l+b3Ymk1aDuvZMB6ZpNGW4UhDv/UZhUtqLSW
+         YmaA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=neutral (google.com: 50.28.102.179 is neither permitted nor denied by best guess record for domain of postmaster@rivertec.com) smtp.mailfrom=postmaster@rivertec.com
+Received: from host.ccdsupport.net (host.ccdsupport.net. [50.28.102.179])
+        by mx.google.com with ESMTPS id e25si18788677edu.26.2021.07.12.17.09.59
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Jul 2021 17:10:00 -0700 (PDT)
+Received-SPF: neutral (google.com: 50.28.102.179 is neither permitted nor denied by best guess record for domain of postmaster@rivertec.com) client-ip=50.28.102.179;
+Received: from ip68-225-236-174.oc.oc.cox.net ([68.225.236.174]:52578 helo=Precision7540)
+	by host.ccdsupport.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <postmaster@rivertec.com>)
+	id 1m360e-0007Py-K7; Mon, 12 Jul 2021 20:10:48 -0400
+Reply-To: <postmaster@rivertec.com>
+From: "Postmaster" <postmaster@rivertec.com>
+To: <abuse@digitalocean.com>,
+	<noc@digitalocean.com>
+Cc: <arin-contact@google.com>,
+	<network-abuse@google.com>,
+	<abuse@namecheap.com>
+References: <174c086af92d4ef01ab50297cf37c5d2@1471821830.certainniceobjects.com>
+In-Reply-To: <174c086af92d4ef01ab50297cf37c5d2@1471821830.certainniceobjects.com>
+Subject: FW: Your email is chosen for a reward
+Date: Mon, 12 Jul 2021 17:09:57 -0700
+Organization: Rivertech Inc.
+Message-ID: <011f01d7777b$6a878cb0$3f96a610$@rivertec.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0120_01D77740.BE297800"
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGYDxDoo3u2RaY4UrEO7tWTXcYLDqu+2CVA
+Content-Language: en-us
+Importance: High
+X-Antivirus: Avast (VPS 210712-4, 7/12/2021), Outbound message
+X-Antivirus-Status: Clean
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - host.ccdsupport.net
+X-AntiAbuse: Original Domain - digitalocean.com
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - rivertec.com
+X-Get-Message-Sender-Via: host.ccdsupport.net: authenticated_id: postmaster@rivertec.com
+X-Authenticated-Sender: host.ccdsupport.net: postmaster@rivertec.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Original-Sender: postmaster@rivertec.com
+X-Original-Authentication-Results: mx.google.com;       spf=neutral
+ (google.com: 50.28.102.179 is neither permitted nor denied by best guess
+ record for domain of postmaster@rivertec.com) smtp.mailfrom=postmaster@rivertec.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0120_01D77740.BE297800
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+I am forwarding this suspicious, unsolicited junk mail from a subscriber [1=
+47.182.183.0] to or advertiser [172.217.10.240] with your ISP, I believe. I=
+ did not subscribe to and cannot block these e-mails and/or request to be r=
+emoved/unsubscribed. The full header is below.
+
+I trust that your spam desk will follow industry-standard protocol to inves=
+tigate and take appropriate disciplinary and punitive action and not just s=
+imply forward my complaint to the abuser. As you may know, abusers do retal=
+iate against those who report them -- if the reporter's identity is reveale=
+d by the ISP to the abuser -- by bombarding them with more spam in an effor=
+t to discourage the reporting of their illegal & abusive exploitation of th=
+e internet.
+
+  _____  
+
+ 
+
+Received: from 1471821830.certainniceobjects.com ([147.182.183.0]:60965)
+
+                by host.ccdsupport.net with esmtps  (TLS1.2) tls TLS_ECDHE_=
+RSA_WITH_AES_256_GCM_SHA384
+
+                (Exim 4.94.2)
+
+                (envelope-from <return@1471821830.certainniceobjects.com>)
+
+                id 1m2xvq-000Hj5-46
+
+                for david.harding@rivertec.com; Mon, 12 Jul 2021 11:33:22 -=
+0400
+
+Message-ID: <174c086af92d4ef01ab50297cf37c5d2@1471821830.certainniceobjects=
+=2Ecom>
+
+Date: Mon, 12 Jul 2021 15:27:47 +0000
+
+Subject: Your email is chosen for a reward
+
+From: FedEx_Team <contact@1471821830.certainniceobjects.com>
+
+Reply-To: FedEx_Team <contact@1471821830.certainniceobjects.com>
+
+To: "david.harding@rivertec.com" <david.harding@rivertec.com>
+
+MIME-Version: 1.0
+
+Content-Type: multipart/alternative;
+
+boundary=3D"_=3D_swift_v4_1626103667_974a7e56d4d7249825e648276ea9332a_=3D_"=
+
+
+X-Mw-XD: tr214rh5b768d
+
+X-Mw-Mailer: SwiftMailer - 5.4.x
+
+Precedence: bulk
+
+List-Unsubscribe-Post: List-Unsubscribe=3DOne-Click
+
+X-Spam-Status: No, score=3D3.9
+
+X-Spam-Score: 39
+
+X-Spam-Bar: +++
+
+X-Ham-Report: Spam detection software, running on the system "host.ccdsuppo=
+rt.net",
+
+has NOT identified this incoming email as spam.  The original
+
+message has been attached to this so you can view it or label
+
+similar future email.  If you have any questions, see
+
+root\@localhost for details.
+
+Content preview:  =C3=82  =C3=82  Dear customer, We always do our best and =
+constantly
+
+   strive for your complete satisfaction. But sometimes we need your help. =
+No
+
+    one, but you really know what kind of improvement we need. Please g [..=
+=2E]
+
+    
+
+ Content analysis details:   (3.9 points, 5.0 required)
+
+  pts rule name              description
+
+---- ---------------------- -----------------------------------------------=
+---
+
+  0.8 BAYES_50               BODY: Bayes spam probability is 40 to 60%
+
+                             [score: 0.5001]
+
+-0.0 SPF_PASS               SPF: sender matches SPF record
+
+-0.0 SPF_HELO_PASS          SPF: HELO matches SPF record
+
+  1.3 KAM_STORAGE_GOOGLE     URI: Google Storage API being abused by
+
+                             spammers
+
+  0.0 HTML_FONT_LOW_CONTRAST BODY: HTML font color similar or
+
+                             identical to background
+
+  0.0 HTML_MESSAGE           BODY: HTML included in message
+
+  1.8 PYZOR_CHECK            Listed in Pyzor
+
+                             (https://pyzor.readthedocs.io/en/latest/)
+
+  0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
+
+                             Alignment
+
+X-Spam-Flag: NO
+
+X-BoxTrapper-Queue: released via web action: deliver
+
+X-Antivirus: Avast (VPS 210712-4, 7/12/2021), Inbound message
+
+X-Antivirus-Status: Clean
+
+ 
+
+ 
+
+-----Original Message-----
+From: FedEx_Team <contact@1471821830.certainniceobjects.com> 
+Sent: Monday, July 12, 2021 8:28 AM
+To: david.harding@rivertec.com
+Subject: Your email is chosen for a reward
+
+ 
+
+< <https://storage.googleapis.com/trpics/img/fedex_logo.png> https://storag=
+e.googleapis.com/trpics/img/fedex_logo.png> 
+
+ 
+
+ < <https://storage.googleapis.com/trpics/img/fedex_banner.png> https://sto=
+rage.googleapis.com/trpics/img/fedex_banner.png>              
+
+ 
+
+ 
+
+Dear customer,
+
+ 
+
+We always do our best and constantly strive for your complete satisfaction.=
+ But sometimes we need your help. No one, but you really know what kind of =
+improvement we need.
+
+ 
+
+Please give us 1 minute to take a short survey. For your assistance, we are=
+ going to offer you an instant gift worth over $120 from our partners to th=
+ank you for your time.
+
+ 
+
+Take the survey and claim reward < <https://storage.googleapis.com/trpics/g=
+o.html#3y7pz6xq9ahgiblawm3i&kw=3Dfedex&email=3Ddavid.harding@rivertec.com&c=
+=3Dlr028r4d9a8da&suid=3Dtr214rh5b768d&dsid=3D21> https://storage.googleapis=
+=2Ecom/trpics/go.html#3y7pz6xq9ahgiblawm3i&kw=3Dfedex&email=3Ddavid.harding=
+@rivertec.com&c=3Dlr028r4d9a8da&suid=3Dtr214rh5b768d&dsid=3D21> 
+
+ 
+
+ 
+
+2021 FedEx. The content of this message is protected by copyright and trade=
+mark laws under U.S. and International law. Review our privacy policy. < <h=
+ttps://storage.googleapis.com/trpics/go.html#3y7pz6xq9ahgiblawm3i&kw=3Dfede=
+x&email=3Ddavid.harding@rivertec.com&c=3Dlr028r4d9a8da&suid=3Dtr214rh5b768d=
+&dsid=3D21> https://storage.googleapis.com/trpics/go.html#3y7pz6xq9ahgiblaw=
+m3i&kw=3Dfedex&email=3Ddavid.harding@rivertec.com&c=3Dlr028r4d9a8da&suid=3D=
+tr214rh5b768d&dsid=3D21>  All rights reserved.
+
+ 
+
+6EVAW52SDUWNM10U
+
+ 
+
+Unsubscribe Here < <https://storage.googleapis.com/trpics/go.html#nzv3ps99d=
+uaijur6hx8o&email=3Ddavid.harding@rivertec.com&c=3Dlr028r4d9a8da> https://s=
+torage.googleapis.com/trpics/go.html#nzv3ps99duaijur6hx8o&email=3Ddavid.har=
+ding@rivertec.com&c=3Dlr028r4d9a8da> 
+
+ 
+
+< <https://certainniceobjects.com/click?key=3Dipfrg7i32scggqw3ua37&c=3Dlr02=
+8r4d9a8da&s=3Dtr214rh5b768d&e=3Ddavid.harding@rivertec.com> https://certain=
+niceobjects.com/click?key=3Dipfrg7i32scggqw3ua37&c=3Dlr028r4d9a8da&s=3Dtr21=
+4rh5b768d&e=3Ddavid.harding@rivertec.com> 
+
+
+
+-- 
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
+
+------=_NextPart_000_0120_01D77740.BE297800
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta http-equiv=3DContent-Type content=
+=3D"text/html; charset=3Dutf-8"><meta name=3DGenerator content=3D"Microsoft=
+ Word 15 (filtered medium)"><!--[if !mso]><style>v\:* {behavior:url(#defaul=
+t#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+=2Eshape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+=2EMsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US link=3D"#0563C1=
+" vlink=3D"#954F72"><div class=3DWordSection1><p class=3DMsoNormal><b><span=
+ style=3D'font-size:10.0pt;font-family:"Tahoma",sans-serif;color:navy'>I am=
+ forwarding this </span></b><b><span style=3D'font-family:"Tahoma",sans-ser=
+if;color:red'>suspicious, unsolicited</span></b><b><span style=3D'font-size=
+:10.0pt;font-family:"Tahoma",sans-serif;color:navy'> junk mail from a subsc=
+riber </span></b><b><span style=3D'font-size:10.0pt;font-family:"Tahoma",sa=
+ns-serif;color:red'>[</span><span style=3D'color:red'>147.182.183.0</span><=
+/b><b><span style=3D'font-size:10.0pt;font-family:"Tahoma",sans-serif;color=
+:red'>]</span></b><b><span style=3D'font-size:10.0pt;font-family:"Tahoma",s=
+ans-serif;color:navy'> to or advertiser </span></b><b><span style=3D'font-s=
+ize:10.0pt;font-family:"Tahoma",sans-serif;color:red'>[172.217.10.240]</spa=
+n></b><b><span style=3D'font-size:10.0pt;font-family:"Tahoma",sans-serif;co=
+lor:navy'> with your ISP, I believe. I did </span></b><b><u><span style=3D'=
+font-size:10.0pt;font-family:"Tahoma",sans-serif;color:red'>not</span></u><=
+/b><b><span style=3D'font-size:10.0pt;font-family:"Tahoma",sans-serif;color=
+:navy'> subscribe to and cannot block these e-mails and/or request to be </=
+span></b><b><span style=3D'font-size:10.0pt;font-family:"Tahoma",sans-serif=
+;color:red'>removed/unsubscribed</span></b><b><span style=3D'font-size:10.0=
+pt;font-family:"Tahoma",sans-serif;color:navy'>. The full header is below.<=
+br><br>I trust that your spam desk will follow industry-standard protocol t=
+o investigate and take appropriate disciplinary and punitive action and not=
+ just simply forward my complaint to the abuser. As you may know, abusers d=
+o retaliate against those who report them -- if the reporter's identity is =
+revealed by the ISP to the abuser -- by bombarding them with more spam in a=
+n effort to discourage the reporting of their illegal &amp; abusive exploit=
+ation of the internet.</span></b><o:p></o:p></p><div class=3DMsoNormal alig=
+n=3Dcenter style=3D'text-align:center'><hr size=3D3 width=3D"100%" align=3D=
+center></div><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoPlainT=
+ext>Received: from 1471821830.certainniceobjects.com ([<b><span style=3D'co=
+lor:red;background:yellow;mso-highlight:yellow'>147.182.183.0</span></b>]:6=
+0965)<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 by host.ccdsup=
+port.net with esmtps=C2=A0 (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA3=
+84<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (Exim 4.94.2)<o:p=
+></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (envelope-from &lt;retu=
+rn@1471821830.certainniceobjects.com&gt;)<o:p></o:p></p><p class=3DMsoPlain=
+Text>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 id 1m2xvq-000Hj5-46<o:p></o:p></p><p class=3DMsoPlain=
+Text>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 for david.harding@rivertec.com; Mon, 12 Jul 2021 11:3=
+3:22 -0400<o:p></o:p></p><p class=3DMsoPlainText>Message-ID: &lt;174c086af9=
+2d4ef01ab50297cf37c5d2@1471821830.certainniceobjects.com&gt;<o:p></o:p></p>=
+<p class=3DMsoPlainText>Date: Mon, 12 Jul 2021 15:27:47 +0000<o:p></o:p></p=
+><p class=3DMsoPlainText>Subject: Your email is chosen for a reward<o:p></o=
+:p></p><p class=3DMsoPlainText>From: FedEx_Team &lt;contact@1471821830.cert=
+ainniceobjects.com&gt;<o:p></o:p></p><p class=3DMsoPlainText>Reply-To: FedE=
+x_Team &lt;contact@1471821830.certainniceobjects.com&gt;<o:p></o:p></p><p c=
+lass=3DMsoPlainText>To: &quot;david.harding@rivertec.com&quot; &lt;david.ha=
+rding@rivertec.com&gt;<o:p></o:p></p><p class=3DMsoPlainText>MIME-Version: =
+1.0<o:p></o:p></p><p class=3DMsoPlainText>Content-Type: multipart/alternati=
+ve;<o:p></o:p></p><p class=3DMsoPlainText> boundary=3D&quot;_=3D_swift_v4_1=
+626103667_974a7e56d4d7249825e648276ea9332a_=3D_&quot;<o:p></o:p></p><p clas=
+s=3DMsoPlainText>X-Mw-XD: tr214rh5b768d<o:p></o:p></p><p class=3DMsoPlainTe=
+xt>X-Mw-Mailer: SwiftMailer - 5.4.x<o:p></o:p></p><p class=3DMsoPlainText>P=
+recedence: bulk<o:p></o:p></p><p class=3DMsoPlainText>List-Unsubscribe-Post=
+: List-Unsubscribe=3DOne-Click<o:p></o:p></p><p class=3DMsoPlainText>X-Spam=
+-Status: No, score=3D3.9<o:p></o:p></p><p class=3DMsoPlainText>X-Spam-Score=
+: 39<o:p></o:p></p><p class=3DMsoPlainText>X-Spam-Bar: +++<o:p></o:p></p><p=
+ class=3DMsoPlainText>X-Ham-Report: Spam detection software, running on the=
+ system &quot;host.ccdsupport.net&quot;,<o:p></o:p></p><p class=3DMsoPlainT=
+ext> has NOT identified this incoming email as spam.=C2=A0 The original<o:p=
+></o:p></p><p class=3DMsoPlainText> message has been attached to this so yo=
+u can view it or label<o:p></o:p></p><p class=3DMsoPlainText> similar futur=
+e email.=C2=A0 If you have any questions, see<o:p></o:p></p><p class=3DMsoP=
+lainText> root\@localhost for details.<o:p></o:p></p><p class=3DMsoPlainTex=
+t> Content preview:=C2=A0 =C3=82&nbsp; =C3=82&nbsp; Dear customer, We alway=
+s do our best and constantly<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=
+=C2=A0 strive for your complete satisfaction. But sometimes we need your he=
+lp. No<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0 one, but yo=
+u really know what kind of improvement we need. Please g [...]<o:p></o:p></=
+p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0 <o:p></o:p></p><p class=3DMsoP=
+lainText>=C2=A0Content analysis details:=C2=A0=C2=A0 (3.9 points, 5.0 requi=
+red)<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0 pts rule name=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 descript=
+ion<o:p></o:p></p><p class=3DMsoPlainText> ---- ---------------------- ----=
+----------------------------------------------<o:p></o:p></p><p class=3DMso=
+PlainText>=C2=A0 0.8 BAYES_50=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BODY: Bayes spam probability is 40 =
+to 60%<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0[score: 0.5=
+001]<o:p></o:p></p><p class=3DMsoPlainText> -0.0 SPF_PASS=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SPF: sen=
+der matches SPF record<o:p></o:p></p><p class=3DMsoPlainText> -0.0 SPF_HELO=
+_PASS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SPF: HELO match=
+es SPF record<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0 1.3 KAM_STORAGE_=
+GOOGLE=C2=A0=C2=A0=C2=A0=C2=A0 URI: Google Storage API being abused by<o:p>=
+</o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spammers<o:p></o:p><=
+/p><p class=3DMsoPlainText>=C2=A0 0.0 HTML_FONT_LOW_CONTRAST BODY: HTML fon=
+t color similar or<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ identical to background<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0 0.0 H=
+TML_MESSAGE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BOD=
+Y: HTML included in message<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0 1.=
+8 PYZOR_CHECK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 Listed in Pyzor<o:p></o:p></p><p class=3DMsoPlainText>=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 (https://pyzor.readthedocs.io/en/latest/)<o:p></o:p></p><p class=3DM=
+soPlainText>=C2=A0 0.0 KAM_DMARC_STATUS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ Test Rule for DKIM or SPF Failure with Strict<o:p></o:p></p><p class=3DMso=
+PlainText>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Alignment<o:p></o:p></p><p class=3DMsoPlainT=
+ext>X-Spam-Flag: NO<o:p></o:p></p><p class=3DMsoPlainText>X-BoxTrapper-Queu=
+e: released via web action: deliver<o:p></o:p></p><p class=3DMsoPlainText>X=
+-Antivirus: Avast (VPS 210712-4, 7/12/2021), Inbound message<o:p></o:p></p>=
+<p class=3DMsoPlainText>X-Antivirus-Status: Clean<o:p></o:p></p><p class=3D=
+MsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p>=
+</p><p class=3DMsoPlainText>-----Original Message-----<br>From: FedEx_Team =
+&lt;contact@1471821830.certainniceobjects.com&gt; <br>Sent: Monday, July 12=
+, 2021 8:28 AM<br>To: david.harding@rivertec.com<br>Subject: Your email is =
+chosen for a reward</p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p clas=
+s=3DMsoPlainText> &lt;<a href=3D"https://storage.googleapis.com/trpics/img/=
+fedex_logo.png"><span style=3D'color:windowtext;text-decoration:none'>https=
+://storage.googleapis.com/trpics/img/fedex_logo.png</span></a>&gt; <o:p></o=
+:p></p><p class=3DMsoPlainText>=C2=A0<o:p></o:p></p><p class=3DMsoPlainText=
+>=C2=A0&lt;<a href=3D"https://storage.googleapis.com/trpics/img/fedex_banne=
+r.png"><span style=3D'color:windowtext;text-decoration:none'>https://storag=
+e.googleapis.com/trpics/img/fedex_banner.png</span></a>&gt; =C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <o:p></o:p></p><p=
+ class=3DMsoPlainText>=C2=A0<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nb=
+sp;</o:p></p><p class=3DMsoPlainText>Dear customer,<o:p></o:p></p><p class=
+=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We always do o=
+ur best and constantly strive for your complete satisfaction. But sometimes=
+ we need your help. No one, but you really know what kind of improvement we=
+ need.<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=
+=3DMsoPlainText>Please give us 1 minute to take a short survey. For your as=
+sistance, we are going to offer you an instant gift worth over $120 from ou=
+r partners to thank you for your time.<o:p></o:p></p><p class=3DMsoPlainTex=
+t><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Take the survey and claim re=
+ward &lt;<a href=3D"https://storage.googleapis.com/trpics/go.html#3y7pz6xq9=
+ahgiblawm3i&amp;kw=3Dfedex&amp;email=3Ddavid.harding@rivertec.com&amp;c=3Dl=
+r028r4d9a8da&amp;suid=3Dtr214rh5b768d&amp;dsid=3D21"><span style=3D'color:w=
+indowtext;text-decoration:none'>https://</span><b><span style=3D'color:red;=
+background:yellow;mso-highlight:yellow;text-decoration:none'>storage.google=
+apis.com</span></b><span style=3D'color:windowtext;text-decoration:none'>/t=
+rpics/go.html#3y7pz6xq9ahgiblawm3i&amp;kw=3Dfedex&amp;email=3Ddavid.harding=
+@rivertec.com&amp;c=3Dlr028r4d9a8da&amp;suid=3Dtr214rh5b768d&amp;dsid=3D21<=
+/span></a>&gt; <o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p>=
+<p class=3DMsoPlainText> <o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;=
+</o:p></p><p class=3DMsoPlainText>2021 FedEx. The content of this message i=
+s protected by copyright and trademark laws under U.S. and International la=
+w. Review our privacy policy. &lt;<a href=3D"https://storage.googleapis.com=
+/trpics/go.html#3y7pz6xq9ahgiblawm3i&amp;kw=3Dfedex&amp;email=3Ddavid.hardi=
+ng@rivertec.com&amp;c=3Dlr028r4d9a8da&amp;suid=3Dtr214rh5b768d&amp;dsid=3D2=
+1"><span style=3D'color:windowtext;text-decoration:none'>https://storage.go=
+ogleapis.com/trpics/go.html#3y7pz6xq9ahgiblawm3i&amp;kw=3Dfedex&amp;email=
+=3Ddavid.harding@rivertec.com&amp;c=3Dlr028r4d9a8da&amp;suid=3Dtr214rh5b768=
+d&amp;dsid=3D21</span></a>&gt;=C2=A0 All rights reserved.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>6EVAW52SD=
+UWNM10U<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=
+=3DMsoPlainText>Unsubscribe Here &lt;<a href=3D"https://storage.googleapis.=
+com/trpics/go.html#nzv3ps99duaijur6hx8o&amp;email=3Ddavid.harding@rivertec.=
+com&amp;c=3Dlr028r4d9a8da"><span style=3D'color:windowtext;text-decoration:=
+none'>https://storage.googleapis.com/trpics/go.html#nzv3ps99duaijur6hx8o&am=
+p;email=3Ddavid.harding@rivertec.com&amp;c=3Dlr028r4d9a8da</span></a>&gt; <=
+o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPl=
+ainText> &lt;<a href=3D"https://certainniceobjects.com/click?key=3Dipfrg7i3=
+2scggqw3ua37&amp;c=3Dlr028r4d9a8da&amp;s=3Dtr214rh5b768d&amp;e=3Ddavid.hard=
+ing@rivertec.com"><span style=3D'color:windowtext;text-decoration:none'>htt=
+ps://</span><b><span style=3D'color:red;background:yellow;mso-highlight:yel=
+low;text-decoration:none'>certainniceobjects.com</span></b><span style=3D'c=
+olor:windowtext;text-decoration:none'>/click?key=3Dipfrg7i32scggqw3ua37&amp=
+;c=3Dlr028r4d9a8da&amp;s=3Dtr214rh5b768d&amp;e=3Ddavid.harding@rivertec.com=
+</span></a>&gt; <o:p></o:p></p></div><div id=3D"DAB4FAD8-2DD7-40BB-A1B8-4E2=
+AA1F9FDF2">
+<br /><br />
+<hr style=3D'border:none; color:#909090; background-color:#B0B0B0; height: =
+1px; width: 99%;' />
+<table style=3D'border-collapse:collapse;border:none;'>
+	<tr>
+		<td style=3D'border:none;padding:0px 15px 0px 8px'>
+			<a href=3D"https://www.avast.com/antivirus">
+				<img border=3D0 src=3D"https://static.avast.com/emails/avast-mail-stamp=
+=2Epng" alt=3D"Avast logo" />
+			</a>
+		</td>
+		<td>
+			<p style=3D'color:#3d4d5a; font-family:"Calibri","Verdana","Arial","Helv=
+etica"; font-size:12pt;'>
+				This email has been checked for viruses by Avast antivirus software.
+				<br><a href=3D"https://www.avast.com/antivirus">www.avast.com</a>
+			</p>
+		</td>
+	</tr>
+</table>
+<br />
+<a href=3D"#DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2" width=3D"1" height=3D"1">=
+ </a></div></body></html>
+------=_NextPart_000_0120_01D77740.BE297800--
+

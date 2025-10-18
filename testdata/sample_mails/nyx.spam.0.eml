@@ -1,0 +1,223 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@vodafone.onmicrosoft.com header.d=vodafone.onmicrosoft.com header.s=selector2-vodafone-onmicrosoft-com;
+	dkim=pass header.i=@nyx.net header.d=nyx.net header.s=default
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05lp2104.outbound.protection.outlook.com [104.47.17.104])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 1F294418-2CBE-4863-B3E2-64B3141F2B9B.1
+	envelope-from <abuse.de+SRS=srQgU=EY=nyx.net=rdito@vodafone.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 08 Sep 2023 14:42:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mS0CadGfe03ZbFPyEFX7lIQHpV5Uze0BLDY5Z1N6/2pH/BafMEilOQkHI1EACQimalOFiEOe4DkgLDc+3QeGGyQnEzm1fvPGykOeFfD1nNOT03y8vi3bWRb9RnqWuq3eFCWL3bm/EcyrDQ0oPVFyox0lCdk59pLbISQ0PhL62KF4kM08kGqOiPLKerqSI6Gd7qqnb7oVT8Mc5Jx36BAL6zJeSkoKDqQlNz9Ptm58rvyCVuvTQJOvsDZFv0Wl+UabHFUD5DDC3JmRDT/lZlwy9fDpClDNr9iRCSZ8KRL0KqpoGoo0pE5DnNd1CRk9oq3spq0UlEaa4e7G4jk5eAhc/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8Flz8BGgg+DNsGYn/P/pI7NweIgnDrL+gRdyrXL5cDg=;
+ b=XkES/0ChBsNCK9RUkntxwZRUyv62YdYUPYeTBylfgbwGzy7zD85Mc+aB08DVg8/IcRW5qLFMYuxkJlXBWEQxWco36VGNQqILRAua1j+tuAhw29NrvXBFmsK3gjs+bodZMes8z0STZVL9YWgkIJEV4LKdsSVGuJ5k0WNuP3xyvpwyF+Jaq7T7NZrq/YFsdE/J60JogmBJbC/bOU3mFKP8+buSgvciNnySP+EDyBAXX14hjIkQt0NXV95MhSJZUn4mwczTgrzLZCIv+ytsUsPQY98ejHnQ1MPf+HnQ3lAi3yt+PZRvgCcISSVVHimuU0cNQUVMy6WzH6C+EDlOMjJUTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 54.68.112.181) smtp.rcpttodomain=vodafone.com smtp.mailfrom=nyx.net;
+ dmarc=permerror action=none header.from=nyx.net; dkim=pass (signature was
+ verified) header.d=nyx.net; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vodafone.onmicrosoft.com; s=selector2-vodafone-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Flz8BGgg+DNsGYn/P/pI7NweIgnDrL+gRdyrXL5cDg=;
+ b=YaO4rww/WVdrJDEwlqO1zbYtTsONXuf9e/eReaqnSfZpa+2oDM6DOVQCFths2/tm4Tg2pyRX6Oo2oeH5TxWGrMQ2xSfDHpJfyOjPVmi1jtlqySUJwPj1akjcssOSAsBXXip09nkBfHm33JiTr1/SQ+9qMozQsRU1AnTIdcWTGdYy93BJKsuM8yW/V8jjvOIll77F75d+O+VwmXWhFPloxyaOopRaZHZMf3YyBMNoXdENIzT3hdS+GJqiSClTGg3UY+6KFeHBQEFUbx+DRYI9BR1NHVzFcj9iWw9x94vxpm3qn1mM1gHAe0DumD82cQBO1iI2oUBXZjfoPGL3B9DaBQ==
+Received: from DUZPR01CA0003.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c3::15) by DB9PR05MB9803.eurprd05.prod.outlook.com
+ (2603:10a6:10:3dc::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
+ 2023 14:42:14 +0000
+Received: from DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:3c3:cafe::86) by DUZPR01CA0003.outlook.office365.com
+ (2603:10a6:10:3c3::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30 via Frontend
+ Transport; Fri, 8 Sep 2023 14:42:14 +0000
+Received-SPF: Pass (protection.outlook.com: domain of nyx.net designates
+ 54.68.112.181 as permitted sender) receiver=protection.outlook.com;
+ client-ip=54.68.112.181; helo=hermes.nyx.net; pr=C
+Received: from hermes.nyx.net (54.68.112.181) by
+ DBAEUR03FT012.mail.protection.outlook.com (100.127.142.126) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.30 via Frontend Transport; Fri, 8 Sep 2023 14:42:13 +0000
+X-Originating-IP: 172.31.3.117
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nyx.net; s=default;
+	t=1694184131; bh=0eg/8lTL4FY3v63Nfzylm3S9lNkssBZhpngT9G7aBNI=;
+	h=Date:To:Subject:From:From;
+	b=haXFVwQd/YHPqDZLHSQ5Wj0XbbHQmX0tRZDXdMeskapL82eFy2EAfPzbvQv4PAhg8
+	 FMzy3AUGPpOdCwPsAESKDwy0l/qqZMiNvt+icnDeKYNJ8xS48sMPw722k8X4bBY3zn
+	 atOcqvEs6NWS4Lm6hyEmT4y1rxUqf872j0Vn9v51nbyXopqDSOR0bGVAcFAy98IYrW
+	 Zf6HS+YZskqA/6KyLTaD5fJ/Sr9CVgnVXRaeOyEokA3+0/V7D1YWmxvTEBntSPgImo
+	 yA6cH84W1IhuHgvBjJ5Pp4Bmv8uecfJbeLTwpFSBXQUAji4ZMNNUHU5IjCpEwafvH1
+	 E/blv0z9n+Dzg==
+Received: from nyx.nyx.net (nyx2.nyx.net [172.31.3.117])
+	by hermes.nyx.net (8.15.2/8.15.2/fnord) with ESMTP id 388EgBZP3214014
+	for <abuse.de@vodafone.com>; Fri, 8 Sep 2023 08:42:11 -0600
+Received: by nyx.nyx.net (Postfix, from userid 2979)
+	id 7C4EC2094A; Fri,  8 Sep 2023 08:42:11 -0600 (MDT)
+Date: Fri, 08 Sep 2023 08:42:11 -0600
+To: abuse.de@vodafone.com
+Subject: FWD: Spam
+User-Agent: s-nail v14.9.15
+Message-Id: <20230908144211.7C4EC2094A@nyx.nyx.net>
+From: Robert Ito <rdito@nyx.net>
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (hermes.nyx.net [172.31.7.85]); Fri, 08 Sep 2023 08:42:11 -0600 (MDT)
+Return-Path: rdito@nyx.net
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 68283f3b-8487-4c86-adb3-a5228f18b893:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBAEUR03FT012:EE_|DB9PR05MB9803:EE_
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: af199d01-87c0-4e6d-985b-08dbb079cab2
+X-LD-Processed: 68283f3b-8487-4c86-adb3-a5228f18b893,ExtAddr,ExtFwd
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?emlT9XY+p63vb6kZcAXEJzIBcHT/x3wfUHqYFAldD/SfyFzKNR9fUe0OvOgS?=
+ =?us-ascii?Q?dlF6VTZbH6zVVfFUcgtvKzi9o8ihTNusE/2CfQjS8kXN3+WPfqsde5u7WrKg?=
+ =?us-ascii?Q?pjBtho0ytCZLAqjtLibCehfdtzms3D1eq5BDhfuZhziPZLghnkYAJARvhVFh?=
+ =?us-ascii?Q?Pbaju8IOyXNdMcJEM6ACWFCXnEk22Ds0iAWJ2z0xqQsQ/YBv9dHEBeCglvtB?=
+ =?us-ascii?Q?ohozvjznxp3kAfWv11Lig0x1kna78CKRo9ivpkT3oGB7uLkOXKBWocSKPFG/?=
+ =?us-ascii?Q?RwBQBvEK3/30/n3bRHSpHl28rHteSwaAC7POQgW4LFDiR47v/4/tNRkkjvKo?=
+ =?us-ascii?Q?x29JiifAZ+/ufGqAU3TiykJXMOcNKBiDrsY+vCl5HMfAHkN0ar9bOQuOvKHQ?=
+ =?us-ascii?Q?TLNEnSys8iJhq9qDOnpDBymWejxjmmLc+KyV+CB714DPehPITRZo37lMVuz+?=
+ =?us-ascii?Q?gm7gQSP307isZp7mk2CjWwdNuE3h7Ht8LNa2384DdmfONyFsbPpZ37U6SuEz?=
+ =?us-ascii?Q?E8W6AU5I+ViqFfY+xJMboDE4kco2CuqMSG28ypBHQCBzXBd21TTWjX38PpVx?=
+ =?us-ascii?Q?xEUp9V77skMG9dqHsTpBj6YDGTbdf+0h1Ykm2GVM5wpKFeMwj223PCg0invU?=
+ =?us-ascii?Q?mTbWs5zIO0hlhRACrW0IGdoE/5m2x0xGJW7Vt5i4V83fMfTXYoFd9OlCUmyq?=
+ =?us-ascii?Q?r6r19jpmQyxDY52fNmAwjnld38Sj0CT9E4eMkvfJKCNcAteKOiNdMkVe2/o0?=
+ =?us-ascii?Q?oM4Juh+OWZ25M4xrC/L/SdLFmpFB6HYesSxkuRGGxxV/R4IGX3m8uHuYZlT+?=
+ =?us-ascii?Q?BrlpPDsWuyg6I+RTeGVjp38s9pmIefFHUS/ncOCArltisOOFVp3DkXHYkjgg?=
+ =?us-ascii?Q?Q085CyG7+/r15bYQ6emFPGMEjx5yU5dWE2tI6EZIfEpXSx/lcgsDfrW+5l8d?=
+ =?us-ascii?Q?PlnpU1j6YRmmwbRdMlRriheg//aSXEk7kR5VB1Z/of264+NrkaRNtxCysdT3?=
+ =?us-ascii?Q?idTEGtpXPIjTvaCDwip/HKPnkoKYHKRNmxkxEW0pmBkl9Hi+hq46+ayiBart?=
+ =?us-ascii?Q?mnDChO9BKb/jGQLm+uqHCJBoAlA+HyrcBsNC6TnDGERIvEeO7DycQWAEj26g?=
+ =?us-ascii?Q?jByoXRwD3p12?=
+X-Forefront-Antispam-Report:
+	CIP:54.68.112.181;CTRY:US;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:hermes.nyx.net;PTR:hermes.nyx.net;CAT:OSPM;SFS:(13230031)(4636009)(39860400002)(346002)(376002)(396003)(136003)(451199024)(61400799006)(48200799006)(2906002)(7596003)(86362001)(1076003)(426003)(336012)(6266002)(26005)(45954011)(498600001)(33656002)(83380400001)(82960400001)(120700009)(356005)(66574015)(19627235002)(34206002)(8676002)(2113299009);DIR:OUT;SFP:1501;
+X-MS-Exchange-ForwardingLoop:
+	abuse.de@vodafone.com;68283f3b-8487-4c86-adb3-a5228f18b893
+X-OriginatorOrg: vodafone.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 14:42:13.6603
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: af199d01-87c0-4e6d-985b-08dbb079cab2
+X-MS-Exchange-CrossTenant-Id: 68283f3b-8487-4c86-adb3-a5228f18b893
+X-MS-Exchange-CrossTenant-AuthSource:
+	DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR05MB9803
+Original-Authentication-Results: spf=pass (sender IP is 54.68.112.181)
+ smtp.mailfrom=nyx.net; dkim=pass (signature was verified)
+ header.d=nyx.net;dmarc=permerror action=none header.from=nyx.net;
+
+
+Dear System Administrator;
+
+The following is a junk e-mail message received from your site
+or relayed through your site; please take appropriate action.
+
+Thank you,
+
+Robert Ito
+
+----------------------------------------------------------------
+
+> From rdito@nyx.net  Fri Sep  8 04:31:03 2023
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on hermes.nyx.net
+X-Spam-Level: 
+X-Spam-Status: No, score=0.7 required=4.0 tests=BAYES_00,BITCOIN_SPAM_07,
+	BITCOIN_TOEQFM,BITCOIN_XPRIO,BITCOIN_YOUR_INFO,CK_HELO_GENERIC,
+	HELO_DYNAMIC_DHCP,HELO_DYNAMIC_IPADDR,PDS_BTC_ID,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_DUL,RCVD_IN_ZEN_BLOCKED_OPENDNS,RDNS_DYNAMIC,
+	SPF_HELO_NONE,SPF_SOFTFAIL,XPRIO autolearn=disabled version=3.4.4
+X-Spam-ASN: AS3209 84.56.0.0/13
+X-Originating-IP: 84.59.1.75
+Return-Path: <rdito@nyx.net>
+Received: from dslb-084-059-001-075.084.059.pools.vodafone-ip.de (dslb-084-059-001-075.084.059.pools.vodafone-ip.de [84.59.1.75])
+	by hermes.nyx.net (8.15.2/8.15.2/fnord) with ESMTP id 388AUwr33188510
+	for <rdito@nyx.net>; Fri, 8 Sep 2023 04:31:03 -0600
+Date: 8 Sep 2023 13:06:19 +0100
+> From: <rdito@nyx.net>
+X-Priority: 3
+Message-ID: <353279996.202309081330@nyx.net>
+To: <rdito@nyx.net>
+Subject: Payment associated to your account.
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-14"
+Content-Transfer-Encoding: 8bit
+X-Greylist: Recipient e-mail whitelisted, not delayed by milter-greylist-4.6.2 (hermes.nyx.net [172.31.7.85]); Fri, 08 Sep 2023 04:31:03 -0600 (MDT)
+Status: O
+
+Hi there!
+
+Unfortunately, I need to start our conversation with bad news for you.
+Around few months back I managed to get full access to all devices of yours, 
+which are used by you on a daily basis to browse internet.
+Afterwards, I could initiate monitoring and tracking of all your activities on the internet.
+
+I am proud to share the sequence of how it happened: 
+In the past I bought from hackers the access to various email accounts (today, that is rather a simple thing to do online).
+Clearly, it was not hard at all for me to log in to your email account (rdito@nyx.net).
+
+A week after that, I had already managed to effortlessly install Trojan virus to Operating Systems of all devices that are currently in your use, 
+and as result gained access to your email.
+To be honest, that was not really difficult at all (because you were eagerly opening the links from your inbox emails). 
+I know, I am a genius. (=
+
+With help of that software, I can gain access to all controllers in your devices (such as video camera, keyboard and microphone).
+As result, I downloaded to my remote cloud servers all your personal data, photos and other information including web browsing history.
+Likewise, I have complete access to all your social networks, messengers, chat history, emails, as well as contacts list.
+My intelligent virus unceasingly refreshes its signatures (due to its driver-based nature), and hereby stays unnoticed by your antivirus software.
+
+Herbey, I believe that now you finally start realizing how I could easily remain unnoticed all this while until this very letter...
+While collecting information related to you, I had also unveiled that you are a true fan of porn sites.
+You truly enjoy browsing through adult sites and watching horny vids, while playing your dirty solo games.
+Bingo! I also recorded several filthy scenes with you in the main focus and montaged some dirty videos, 
+which demonstrate your passionate masturbation and cum sessions.
+
+In case you still don't believe me, all I need is just one-two mouse clicks to make all your unmasking videos become available to your friends, 
+colleagues, and even relatives.
+Well, if you still doubt me, I can easily make recorded videos of your orgasms become a public.
+I truly believe that you surely would avoid that from happening, taking in consideration the type of the XXX videos you love watching, 
+(you are clearly aware of what I mean) it will result in a huge disaster for you.
+
+Well, there is still a way to settle this tricky situation in a peaceful manner:
+You will need to transfer $1450 USD to my account (refer to Bitcoin equivalent based on the exchange rate at the moment transfer), 
+so once funds transfer is complete, I will straight away proceed with deleting all that dirty content from servers once and for all.
+
+Afterwards, you can consider that we never met before. You have my honest word, 
+that all the harmful software will also be deactivated and deleted from all your devices currently in use. Worry not, I keep my promises.
+That is truly a win-win solution that comes at a relatively reduced cost, 
+mostly knowing how much effort I spent on monitoring your profile and traffic for a considerably long time.
+In event that you have no idea about means of buying and transferring bitcoins - 
+don't hesitate to use any search engine for your assistance (e.g., Google, Yahoo, Bing, etc.).
+
+My bitcoin wallet is as follows: 1GzNpKDWNuvQXuRWdK1RdDgX9YEizwynPQ
+An important notice: I have specified my Bitcoin wallet with spaces, 
+hence once you carry out a transfer, please make sure that you key-in my bitcoin address without spaces to be sure that your funds successfully reach my wallet. 
+I have allocated 48 hours for you to do that, and the timer started right after you opened this very email (2 days to be exact).
+
+Don't even think of doing anything of the following:
+! Abstain from attempting to reply me (this email was created by me inside your inbox page and the return address was generated accordingly).
+! Abstain from attempting to get in touch with police or any other security services. Moreover, don't even think of sharing this to you friends. 
+ Once I discover this (apparently, that is absolutely easy for me, taking in consideration that I have complete control over all systems you use) - 
+ kinky video will straight away be made public. 
+! Don't even think of attempting to find me &#8211; that is completely useless. Don't forget that all cryptocurrency transactions remain completely anonymous.
+! Don't attempt reinstalling the OS on all your devices or getting rid of them. That won't lead you to success either, 
+ because I have already saved all videos at my remote servers as a backup.
+
+Things you should not be concerned about:
+! That your funds transfer won't reach my wallet.
+- Worry not, I can see everything, hence after you finish the transfer, I will get a notification right away 
+ (trojan virus of mine uses a remote-control feature, which functions similarly to TeamViewer).
+! That I will still distribute your videos although you make the funds transfer.
+- My word, I have no intention or interest in continuing making your life troublesome. 
+ Anyway, If I truly wanted that, it would happen long time ago without me notifying you! 
+
+Everything can be settled in a peaceful and just way!
+And lastly... make sure you don't get caught afterwards in such type of incidents anymore!
+My fair advice - ensure you change all your passwords on a regular basis.
+

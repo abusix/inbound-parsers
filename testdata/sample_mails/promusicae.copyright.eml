@@ -1,0 +1,363 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@servercentral.onmicrosoft.com header.d=servercentral.onmicrosoft.com header.s=selector1-servercentral-onmicrosoft-com;
+	dkim=pass header.i=@amazonses.com header.d=amazonses.com header.s=shh3fegwg5fppqsuzphvschd53n6ihuv
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id B5CF98E1-CB7E-497F-8ED8-D0631D52E31C.1
+	envelope-from <bounces+SRS=W1VQK=FG@servercentral.onmicrosoft.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 22 Sep 2023 12:32:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Iuq5bGRReRvRojzeTFOixerCv+JfZjWpAGf1w3ppLxTGKWVbJUeitjg+DqOQB6v1G8KRgoMT0t2vmxK+YWZzKZZ3CVkPCAY1mdkbhgLhtkzUi0/wxqUk40QlQjx1840uuyrS5wRMopgUH0TAddHwc8XEjO3M8TqNR6Yi3UGO3vkFbtF74/vLP/ka5/sFjqvFKwm/A9zWGYvlRThdHyNlgnakTpiCJcPMhNIb/bTwWy0EF0Gi8rAkI/ICZ9oUteSm4Fevls+Rj3bA/D6RvLs/WOSxI5Z/gywSzI2O8oUw/fhrFsbWoxCiXMdgqt41MhZusBvWazTh6B7lHJ5vkB2NFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yIWxLcQ5M5IS9r206HH81IZ3YJVKK9vXG8rtrGvughY=;
+ b=KgCtCqqF2J86L0jNmordf7HQ/xVA2jbmsqFKlaF2BiiPrSP2bDrNTFPzUeCmXocq48q7N8tkrwZNRg+dtieapqRDJZhEL4xHHwAURM3PNEmCMG7qat9zK1j6BnVb7qk+4TX0v4yRRWBco0jiZJS3hsTxzEXMpA5pj0VdaVKb95+l5i2ek1rkIOD1hZ9jYlxA5L3xB8FomyZ4II9kllNtpsuH8vdj6Z6xDKQZyuxP4F65AK++CECWwU/k7gA1CZFichKrgrZj/GXaMc9J2d/vlxqAAmslxr3mDxsndJQxnSj2amx9SYOFwwSgoIzS6MubWH2dX6c9S6IOE/oUMnNSSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 54.240.7.17) smtp.rcpttodomain=deft.com
+ smtp.mailfrom=eu-west-1.amazonses.com; dmarc=none action=none
+ header.from=promusicae.es; dkim=pass (signature was verified)
+ header.d=amazonses.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=servercentral.onmicrosoft.com; s=selector1-servercentral-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yIWxLcQ5M5IS9r206HH81IZ3YJVKK9vXG8rtrGvughY=;
+ b=RMyEeXbdB++zdcBS8xLtpAthuwl+0fmiBF39objfLWfBcHHWmFax5hNWF9SdkffY9M/wOKL5MzLPIFoZgqkp/+VcI24BBt2O7Y9IWIz0JvBVKo6YM+LnpJsnOrbaOX8hab3uIjwU4KmIu/6FS3S+jDan6UvuCMW69Tzpeff2vx0=
+Received: from MW4PR04CA0151.namprd04.prod.outlook.com (2603:10b6:303:85::6)
+ by SJ2PR20MB5801.namprd20.prod.outlook.com (2603:10b6:a03:4cb::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Fri, 22 Sep
+ 2023 12:32:50 +0000
+Received: from MW2NAM12FT106.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::ba) by MW4PR04CA0151.outlook.office365.com
+ (2603:10b6:303:85::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.32 via Frontend
+ Transport; Fri, 22 Sep 2023 12:32:50 +0000
+Received-SPF: Pass (protection.outlook.com: domain of eu-west-1.amazonses.com
+ designates 54.240.7.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=54.240.7.17; helo=a7-17.smtp-out.eu-west-1.amazonses.com; pr=C
+Received: from a7-17.smtp-out.eu-west-1.amazonses.com (54.240.7.17) by
+ MW2NAM12FT106.mail.protection.outlook.com (10.13.180.208) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.12 via Frontend Transport; Fri, 22 Sep 2023 12:32:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=shh3fegwg5fppqsuzphvschd53n6ihuv; d=amazonses.com; t=1695385968;
+	h=Message-ID:Date:Subject:From:To:MIME-Version:Content-Type:Feedback-ID;
+	bh=SvTqvbFYGOUYR8triO+G/D5rQOsuYn2xqzGbQ/xkoPE=;
+	b=RQVaxHsnErVZSFW/qDhFeuaWU7WTiokHTK5cRNL0uZ4OKkIwTptxvAfcnxTnWHUT
+	rI3DIM9cdMyjfp7xpH7rCBdDwtghNx47V+/Gp9iqY0TIwalOtsWeQWvFTr1nwETeEX+
+	YZsG6ZwxZ9bQs+jLvUyAx3cFcXOdjoJ+E+/Na8o4=
+Message-ID: <0102018abce0dea4-ad502e6d-6482-452e-b36a-03d9084a0b18-000000@eu-west-1.amazonses.com>
+Date: Fri, 22 Sep 2023 12:32:48 +0000
+Subject: Notice of Infringement (REF: A601695385968)
+From: antipirateria@promusicae.es
+To: 56b5ecdb3970459d93b6ad03cd6bd6a0.protect@withheldforprivacy.com, 
+	abuse@deft.com
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1695385968_478217689a3e1ec0d69fa67e8ab4316e_=_"
+X-Unique-Hash: a60f813e827cf1cf8bf435425a9e2d4a
+X-Notice-Id: A601695385968
+Feedback-ID: 1.eu-west-1.55sY90cL8DqSRo1nyNacHZD/G7ZFY2OZl+Vzt13IvYE=:AmazonSES
+X-SES-Outgoing: 2023.09.22-54.240.7.17
+Return-Path:
+	0102018abce0dea4-ad502e6d-6482-452e-b36a-03d9084a0b18-000000@eu-west-1.amazonses.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: b8483a09-f3e5-4681-8a64-16000e26ed41:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW2NAM12FT106:EE_|SJ2PR20MB5801:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e8d59cd-6de6-4288-8cd2-08dbbb6808de
+X-LD-Processed: b8483a09-f3e5-4681-8a64-16000e26ed41,ExtAddr
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-Transport-Rules-Loop: 1
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	FPMxzVl4c4rpBPGncaOuOtwd5NtEIJJ/MW+b1qXs/xgJJ+ADLFP6FURHFlW3V0R6fkgwIh3pBzqSyuzbUBVqvdunoPK4fdYlR9Voe9hPChZyv1Yl4wEUf1RTbYFAsqk3lrDDoyqmr1WB/psQ7F2nJeOkZ9CL7m2hjgJMhcoHctki25RnK8xKWBPpsXMlW8MuJE+HL3BJ8+VqhGFnvpJoRQcuareW0eSPfwGF02T4hJFAtTRCM5MNTeqH57JmxV9BHLNQYgFKSPd96UflTX239MbtbHiV02RROM4KLbtU/RWFgN610tpCKNe4Q0zIeDHLtjYheWwJLXiZhqq2WCguzgBdP21wo5KPAIR7YoVxZ7rSr5I5EqiAGGJQlKxn+jdUePMK9SvEx/tbk90D4bfPoMBQa9RKzPh96dk8cNR1olBSYUVIRtAl71JPLUYLqrvY3QsU2TgSMVvfvleiyBtvSSn4mFJvgCeh7ZMEdGar9dnwsKJQB9y5YKXl/j0QtYSkoJRmYGvnb83nDQVDPfu42g+aCw4xyJIhBhCfEqgff46QX7Zyryhb4z0BBBzZ5j5pGoBUfCr5rXHtgeQtkqhKvDsoEgABP+hmw5xSZNJflVQDny044v2SgAdMU7OD6naEvMkCNAUl7GDuviX1Zuqa/cNAK4rFXEj/rolIvYWRXRFqO4HUgIahGGK+gniSMaWaELE94fI1CzBO3SCOpbc4OnZAwNKLKHh3XTRQ6bj4sU9lHt1Q2eSqSSG+xdtyolUo5fFEoIdunaYMbauOt3OK/Q==
+X-Forefront-Antispam-Report:
+	CIP:54.240.7.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:a7-17.smtp-out.eu-west-1.amazonses.com;PTR:a7-17.smtp-out.eu-west-1.amazonses.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(39850400004)(376002)(136003)(396003)(230921699003)(48200799006)(61400799006)(451199024)(956004)(2906002)(336012)(19627405001)(316002)(36736006)(68406010)(26005)(70586007)(33964004)(83380400001)(79850400001)(83170400001)(42882007)(66574015)(7696005)(6486002)(15650500001)(6506007)(9686003)(356005)(7596003)(7636003)(966005)(498600001)(9316004)(5660300002)(71280400001)(8676002)(489584003)(408884003);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: b8483a09-f3e5-4681-8a64-16000e26ed41
+X-OriginatorOrg: servercentral.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 12:32:49.7227
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e8d59cd-6de6-4288-8cd2-08dbbb6808de
+X-MS-Exchange-CrossTenant-Id: b8483a09-f3e5-4681-8a64-16000e26ed41
+X-MS-Exchange-CrossTenant-AuthSource:
+	MW2NAM12FT106.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR20MB5801
+Original-Authentication-Results: spf=pass (sender IP is 54.240.7.17)
+ smtp.mailfrom=eu-west-1.amazonses.com; dkim=pass (signature was verified)
+ header.d=amazonses.com;dmarc=none action=none header.from=promusicae.es;
+
+--_=_swift_1695385968_478217689a3e1ec0d69fa67e8ab4316e_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body style=3D"color:black=
+; font-size: 14px;background-color:white">
+    September 22, 2023<br><br>=
+
+   =20
+    REF: A601695385968<br>
+   =20
+    <pre>Dear Sir/Madam,
+=
+
+We are contacting you on behalf of PROMUSICAE, the trade association tha=
+t represents the Spanish recorded music industry. PROMUSICAE represents 110=
+ record companies (the =E2=80=9CPROMUSICAE Represented Companies=E2=80=
+=9D: http://www.promusicae.es/miembros/index) who reproduce, distribute, co=
+mmunicate to the public or otherwise exploit their sound recordings (the =
+=E2=80=9CPROMUSICAE Sound Recordings=E2=80=9D).
+
+The information set fo=
+rth in this notice is accurate and, under penalty of perjury, we submit tha=
+t we are authorised to act on behalf of the PROMUSICAE Represented Companie=
+s in matters involving the infringement of exclusive rights that the PROMUS=
+ICAE Represented Companies hold in their sound recordings, including enforc=
+ing their copyrights and other legal rights on the Internet.
+
+We have l=
+earned that your service is making available, distributing and/or referring=
+/linking users to infringing copies of the sound recordings listed below, t=
+he copyrights in which are exclusively owned or controlled by one or more P=
+ROMUSICAE Represented Companies.
+
+We are asking for your immediate assi=
+stance in stopping this unauthorised activity. We require you to take actio=
+n to immediately cease making available, distributing and/or referring/link=
+ing users to infringing copies of the PROMUSICAE Represented Companies=
+=E2=80=99 Sound Recordings on your service. That action should include, whe=
+re applicable:
+
+=E2=80=A2 Deleting all copies from your service=
+=E2=80=99s servers; and
+
+=E2=80=A2 Deleting and/or disabling all URLs;=
+
+
+The action required should be taken not only in relation to the URLs/=
+locations indicated in the notice, but in relation to all instances of maki=
+ng available, distributing and/or referring/linking users to infringing cop=
+ies of the PROMUSICAE  Represented Companies=E2=80=99 Sound Recordings on y=
+our service.
+
+Further, we ask you to take reasonable steps to prevent f=
+urther instances of making available, distributing and/or referring/linking=
+ users to infringing copies of the PROMUSICAE Represented Companies=
+=E2=80=99 Sound Recordings on your service.
+
+Our top priority is to pre=
+vent the continued availability of the PROMUSICAE Represented Companies=
+=E2=80=99 content on the internet. Unauthorised copies of sound recordings =
+that are freely available, especially pre-release recordings, cause substan=
+tial damage to the PROMUSICAE Represented Companies every hour and day they=
+ remain available. In sending this notice we are providing you with specifi=
+c knowledge of the unauthorised activity detailed above and are seeking to =
+ensure that infringing content is removed from the internet as quickly as p=
+ossible through your cooperation. However, please note that we do not admit=
+ that we or the PROMUSICAE Represented Companies are responsible for detect=
+ing infringing material and notifying you of it.
+
+Our use of a notice i=
+n this form, as required by you, is meant to facilitate your removal of the=
+ infringing material listed above and we neither admit nor accept that you =
+are a 'service provider' for the purposes of the United States=E2=80=99 Dig=
+ital Millennium Copyright Act (DMCA), or any similar legislation in another=
+ jurisdiction, or that it is necessary to serve, or that you are entitled t=
+o be served, with such a notice. PROMUSICAE itself and on behalf of the PRO=
+MUSICAE Represented Companies expressly reserves all rights in this regard.=
+
+
+In addition, this notice does not constitute a waiver of any right to=
+ recover damages incurred by virtue of any unauthorised activities describe=
+d in this notice, and such rights as well as claims for other relief under =
+the laws of the United States or any applicable legislation in any other ju=
+risdiction, are hereby expressly reserved.
+
+You may contact me at PROMU=
+SICAE, C/ Mar=C3=ADa de Molina, n=C2=BA 39, 6=C2=AA 28006, Madrid (Spain) o=
+r email antipirateria@promusicae.es to discuss this notice.
+
+We await y=
+our response.
+
+Yours faithfully,
+
+Alejandro Prada
+
+Legal Advise=
+r
+
+Productores de M=C3=BAsica de Espa=C3=B1a =E2=80=93 PROMUSICAE</pre>=
+
+        <br>
+   =20
+   =20
+   =20
+    <br><br>
+
+    <table style=
+=3D"color:black; font-size: 12px;background-color:white">
+               =
+        =20
+                            <tr>
+                    <td>Chri=
+stina Aguilera</td>
+                    <td>Learning To Fly</td>
+      =
+              <td>https://itumusicaplus.com/christina-aguilera-learning-to-=
+fly-single-2023/</td>
+                </tr>
+                   =20
+    =
+        </table>
+
+</body>
+</html>
+
+
+--_=_swift_1695385968_478217689a3e1ec0d69fa67e8ab4316e_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMac=
+SystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color =
+Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-te=
+xt-size-adjust: none; height: 100%; line-height: 1.4; margin: 0; padding: 0=
+; width: 100% !important; color: black; font-size: 14px; background-color: =
+white;">
+    September 22, 2023<br><br>
+   =20
+    REF: A601695385968<br>
+   =20
+    <pre style=3D"box-sizing: border-box; font-family: -apple-system, Blink=
+MacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Col=
+or Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Dear S=
+ir/Madam,
+
+We are contacting you on behalf of PROMUSICAE, the trade association that r=
+epresents the Spanish recorded music industry. PROMUSICAE represents 110 re=
+cord companies (the =E2=80=9CPROMUSICAE Represented Companies=E2=80=9D: htt=
+p://www.promusicae.es/miembros/index) who reproduce, distribute, communicat=
+e to the public or otherwise exploit their sound recordings (the =E2=80=9CP=
+ROMUSICAE Sound Recordings=E2=80=9D).
+
+The information set forth in this notice is accurate and, under penalty of =
+perjury, we submit that we are authorised to act on behalf of the PROMUSICA=
+E Represented Companies in matters involving the infringement of exclusive =
+rights that the PROMUSICAE Represented Companies hold in their sound record=
+ings, including enforcing their copyrights and other legal rights on the In=
+ternet.
+
+We have learned that your service is making available, distributing and/or =
+referring/linking users to infringing copies of the sound recordings listed=
+ below, the copyrights in which are exclusively owned or controlled by one =
+or more PROMUSICAE Represented Companies.
+
+We are asking for your immediate assistance in stopping this unauthorised a=
+ctivity. We require you to take action to immediately cease making availabl=
+e, distributing and/or referring/linking users to infringing copies of the =
+PROMUSICAE Represented Companies=E2=80=99 Sound Recordings on your service.=
+ That action should include, where applicable:
+
+=E2=80=A2 Deleting all copies from your service=E2=80=99s servers; and
+=E2=80=A2 Deleting and/or disabling all URLs;
+
+The action required should be taken not only in relation to the URLs/locati=
+ons indicated in the notice, but in relation to all instances of making ava=
+ilable, distributing and/or referring/linking users to infringing copies of=
+ the PROMUSICAE  Represented Companies=E2=80=99 Sound Recordings on your se=
+rvice.
+
+Further, we ask you to take reasonable steps to prevent further instances o=
+f making available, distributing and/or referring/linking users to infringi=
+ng copies of the PROMUSICAE Represented Companies=E2=80=99 Sound Recordings=
+ on your service.
+
+Our top priority is to prevent the continued availability of the PROMUSICAE=
+ Represented Companies=E2=80=99 content on the internet. Unauthorised copie=
+s of sound recordings that are freely available, especially pre-release rec=
+ordings, cause substantial damage to the PROMUSICAE Represented Companies e=
+very hour and day they remain available. In sending this notice we are prov=
+iding you with specific knowledge of the unauthorised activity detailed abo=
+ve and are seeking to ensure that infringing content is removed from the in=
+ternet as quickly as possible through your cooperation. However, please not=
+e that we do not admit that we or the PROMUSICAE Represented Companies are =
+responsible for detecting infringing material and notifying you of it.
+
+Our use of a notice in this form, as required by you, is meant to facilitat=
+e your removal of the infringing material listed above and we neither admit=
+ nor accept that you are a 'service provider' for the purposes of the Unite=
+d States=E2=80=99 Digital Millennium Copyright Act (DMCA), or any similar l=
+egislation in another jurisdiction, or that it is necessary to serve, or th=
+at you are entitled to be served, with such a notice. PROMUSICAE itself and=
+ on behalf of the PROMUSICAE Represented Companies expressly reserves all r=
+ights in this regard.
+
+In addition, this notice does not constitute a waiver of any right to recov=
+er damages incurred by virtue of any unauthorised activities described in t=
+his notice, and such rights as well as claims for other relief under the la=
+ws of the United States or any applicable legislation in any other jurisdic=
+tion, are hereby expressly reserved.
+
+You may contact me at PROMUSICAE, C/ Mar=C3=ADa de Molina, n=C2=BA 39, 6=C2=
+=AA 28006, Madrid (Spain) or email antipirateria@promusicae.es to discuss t=
+his notice.
+
+We await your response.
+
+Yours faithfully,
+
+Alejandro Prada
+Legal Adviser
+Productores de M=C3=BAsica de Espa=C3=B1a =E2=80=93 PROMUSICAE</pre>
+        <br>
+   =20
+   =20
+   =20
+    <br><br>
+
+    <table style=3D"box-sizing: border-box; font-family: -apple-system, Bli=
+nkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple C=
+olor Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color=
+: black; font-size: 12px; background-color: white;">
+                       =20
+                            <tr>
+                    <td style=3D"box-sizing: border-box; font-family: -appl=
+e-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-se=
+rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: re=
+lative;">Christina Aguilera</td>
+                    <td style=3D"box-sizing: border-box; font-family: -appl=
+e-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-se=
+rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: re=
+lative;">Learning To Fly</td>
+                    <td style=3D"box-sizing: border-box; font-family: -appl=
+e-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-se=
+rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: re=
+lative;">https://itumusicaplus.com/christina-aguilera-learning-to-fly-singl=
+e-2023/</td>
+                </tr>
+                   =20
+            </table>
+
+<img alt=3D"" src=3D"https://yym8p7j8.r.eu-west-1.awstrack.me/I0/0102018abc=
+e0dea4-ad502e6d-6482-452e-b36a-03d9084a0b18-000000/sH1_8gWq5jAaRT9Vn8sc_PKu=
+YHY=3D340" style=3D"display: none; width: 1px; height: 1px;">
+</body>
+</html>
+
+--_=_swift_1695385968_478217689a3e1ec0d69fa67e8ab4316e_=_--

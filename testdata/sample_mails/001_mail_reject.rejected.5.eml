@@ -1,0 +1,119 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@wisctest.wisc.edu header.d=wisctest.wisc.edu header.s=selector2
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 5B1330D6-8015-48C0-9745-A95BFF5F4B67.1
+	envelope-from <postmaster@wisctest.wisc.edu>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Mon, 06 Feb 2023 20:00:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RPpaKXqyjUrMX7sljknrVeX70DW0L9cemIbymE2jMvExubuSw2u9RNI6x/Dgca436Bsgni63/6yenmJ96HDOvKerKTig+1UEsV5uOFhpwBJDW46sCmM9hPom9sRC8GiDeIGlytd/8kHYuxW67LJ+lxpxha8ZzrGhxUcl3QHO8PZj6HqbF583E+OxS3aoILICUgvwuWfBGWEcjlu0T1Z+sJUrlxK+tXK9WeJh7DGhYJha3udr7M5d51PN8/VKUYZ20vKIJZ4p1ks/JFQkbH2oXCqdyfrO2c9RqxfFMDSQb2hGWb64xNGbE6WC5+R87iOWu+7ZVEy06yyIhU+WYGYKpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HSlMegvUVL5LmCxK1CxJ4Vn8v/VIq9+jrMcvsqaVmGU=;
+ b=SBxj1L3CsjadoPxn53pht3sjwsKqsSiYlaQI7Q65LYUlx/64n3/twuk5FD5wpKesA0HiBzcYki+zB0TYYX8eH4IgR0bsxVagmKUyTrai8zC6TJyO/8AUvs/CoS3NriUTdi/nGf1/wOquFvGiEAWGlwv1n1aIYIwANCb2iT3k+A6wpfZxJ5TcQUzNFOK4NDVd8B5DhFwTLa3nNDBmP3DQJV9q0UpbK+apXgojPL60oipfq5BEkAQpAe2HI0OZ1ZUlCJwOkzwD9G0D80HzUQXb6ITvYGEmA7Wob0boMdrVQBtdQHupFRbortxryjAiUcR9l90z1ggPTihuevdljv7v4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=neutral (sender ip is
+ 208.84.66.21) smtp.rcpttodomain=wisctest.wisc.edu
+ smtp.mailfrom=wisctest.wisc.edu; dmarc=fail (p=quarantine sp=quarantine
+ pct=100) action=quarantine header.from=wisctest.wisc.edu; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisctest.wisc.edu;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HSlMegvUVL5LmCxK1CxJ4Vn8v/VIq9+jrMcvsqaVmGU=;
+ b=ftzFarTM4X4NVtyJSZTG4mhf2UFc2AwkkT5Os1lZ9GeKK2LqNBQZ9Go+v3nkzz4gxwBmJdzTdhp/9KckqoWqJJMDwKv3e0KcnbmQPqWgAyTGp04gGGdo00UtWN903rLv8epUlNdOFl3mfFXvQt24jaDTSZrBrzeee7ju7pCdoKg=
+Received: from DM6PR12CA0035.namprd12.prod.outlook.com (2603:10b6:5:1c0::48)
+ by CY5PR20MB4976.namprd20.prod.outlook.com (2603:10b6:930:38::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Mon, 6 Feb
+ 2023 19:59:58 +0000
+Received: from DM6NAM04FT057.eop-NAM04.prod.protection.outlook.com
+ (2603:10b6:5:1c0:cafe::c4) by DM6PR12CA0035.outlook.office365.com
+ (2603:10b6:5:1c0::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.32 via Frontend
+ Transport; Mon, 6 Feb 2023 19:59:58 +0000
+Received-SPF: Neutral (protection.outlook.com: 208.84.66.21 is neither
+ permitted nor denied by domain of wisctest.wisc.edu)
+Received: from mx0a-00834d01.pphosted.com (208.84.65.169) by
+ DM6NAM04FT057.mail.protection.outlook.com (10.13.159.101) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6064.35 via Frontend Transport; Mon, 6 Feb 2023 19:59:58 +0000
+Received: from pps.filterd (m0338518.ppops.net [127.0.0.1])
+	by mx0a-00834d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316JxvDc030550
+	for <postmaster@wisctest.wisc.edu>; Mon, 6 Feb 2023 19:59:57 GMT
+Received: from m0116611.ppops.net (fw001-ge-0-2-101-sc4.proofpoint.com [208.84.66.21])
+	by mx0a-00834d01.pphosted.com (PPS) with ESMTPS id 3nj3gjrg0m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <postmaster@wisctest.wisc.edu>; Mon, 06 Feb 2023 19:59:57 +0000
+Date: Mon, 06 Feb 2023 19:59:57 +0000
+To: postmaster@wisctest.wisc.edu
+From: postmaster@wisctest.wisc.edu
+Subject: Test Message [Antispoof] 5321.Mfrom [RunId: 2a96d379]
+Message-Id: <20230206195957.021035@m0116611.ppops.net>
+X-Mailer: swaks v20170101.0 jetmore.org/john/code/swaks/
+X-Mail-Test: Proofpoint
+Return-Path: postmaster@wisctest.wisc.edu
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: a41f5558-f5ad-4f7d-9380-e2386a406c5e:0
+X-MS-Exchange-SkipListedInternetSender:
+ ip=[208.84.66.21];domain=m0116611.ppops.net
+X-MS-Exchange-ExternalOriginalInternetSender:
+ ip=[208.84.66.21];domain=m0116611.ppops.net
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM04FT057:EE_|CY5PR20MB4976:EE_
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 0ce0cccf-1d6b-4877-b1d9-08db087cb982
+X-MS-Exchange-Transport-Rules-Loop: 1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Forefront-Antispam-Report:
+	CIP:208.84.65.169;CTRY:US;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:m0116611.ppops.net;PTR:fw001-ge-0-2-101-sc4.proofpoint.com;CAT:OSPM;SFS:(13230025)(396003)(136003)(39830400003)(346002)(376002)(451199018)(34020700004)(83380400001)(75432002)(156005)(86362001)(82310400005)(558084003)(55016003)(68406010)(70586007)(8676002)(336012)(956004)(81166007)(26005)(478600001)(1076003)(9686003)(7696005)(316002)(786003)(5660300002)(34206002)(15650500001)(2906002)(2292003);DIR:OUT;SFP:1501;
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sJKn80FKcAHppoYcQnACflfZkX3SRJEVro1DFbwTIVeyd4OhBFaqBIPFVfCf?=
+ =?us-ascii?Q?NCn2suefFDn8G+Qc9nHd35M4MM9mgkww8mpSG5kOXZZb2FxMl74rUCf78Kth?=
+ =?us-ascii?Q?xRCDBgdyRunyKZxqM9qO3NwpqWqmPBTbVGngjWHQBQlHba+Ue2b8ymRP5EUT?=
+ =?us-ascii?Q?rKJsULr4mH9qP3YfJmjaOAOlyoMIgkfFiofMgfiiddNAUJkUeUj8j/i7XD3t?=
+ =?us-ascii?Q?K5keVkYo7ilADZPKt4CrmXKaAAADux5JXzTcI3PFu5V6145vCzTcJpUK3Jv1?=
+ =?us-ascii?Q?PRr+9BZgFcwlV730xZtLTZGWBT+pagtayjg53VBbfpQU6NbTmetC3+eNl0sh?=
+ =?us-ascii?Q?ZOimaD9BU+wtbBg/wuOXsOlTMWhxCgDgFyjud84gMx94glB71iHfvu3oIHS6?=
+ =?us-ascii?Q?ohvcAvV0wnChLPW5DHT55wZ3ihO9s6rUXmC8ExWCM3JtVdpQ1VfwglitzOgJ?=
+ =?us-ascii?Q?VRZCBeizB5yK/PthkT59OaN5mahkNXjjUSlsHdykXGmlUKU0CMiG3O80Gsgn?=
+ =?us-ascii?Q?Ufcpdp5X2C14l9Xkdt8CNfclFfT2uje3tYcpJyPIGbd2C7Tg0iwoJMRkwwBW?=
+ =?us-ascii?Q?77FcfrXUhG3pY/EuPi+iyV1nWOzgLKuFBR3oWNKnNMgsWvAbuItVbDulE/sT?=
+ =?us-ascii?Q?Ij9g4kCZEo18D+3/dvXauP0i0mcyDv98MqmFgAEkmXrBeK5Ke91VdOW8omo2?=
+ =?us-ascii?Q?iRw372laC814cmEUpugV9QXBVELjPCVc7U3MwWiU8Jbfs6b7IboHFj0Z4IGN?=
+ =?us-ascii?Q?NiRVwDFUl+mF+PNZdrdkwtIwBMrWlkJ6DJh9og78WbliN8lVFDv0sUkhiOAR?=
+ =?us-ascii?Q?KKFmL2Xuaq79nAST8wETRYrHJ9nWPY3nuFwlBoioMw+tMhDuux1y26p+2bpt?=
+ =?us-ascii?Q?D7hEk3vi92D898YoCynl8Mve6CY6pxuftbejRB2Vc6ZSMC/x+YdS+wYiKFn1?=
+ =?us-ascii?Q?+9fmRysd75IcY17AtUUP4xf8O0Nu7oi0J1REUnxpBNxX3zoZfJVb1W6wi3GS?=
+ =?us-ascii?Q?4Ic+iz3mhpCxrGJ1fINwKyaP1EpPgKUJFbXyeRGZqDT7Sb/VX+3Gz5iTmI1Q?=
+ =?us-ascii?Q?+Y4YKCJQbzW1nDKnYM7s4RqlhRC+tzYCxf9HtSc5/9fDG53KFbGjN7caB1yV?=
+ =?us-ascii?Q?aR+HR6OZKuRge7JWyIfYRFkeJXMEyKxuJd4o8yEvII1U38fChUyPqu7t6HYe?=
+ =?us-ascii?Q?qZbvVgQIluFiQi5pL9EYc3xFzf1LXaqi3FVYo7nAAJeooR3x9lnxNv2YJEKI?=
+ =?us-ascii?Q?BBMMorJAlcJieZxuNQuPlvw0fMiJjXc+jDQ370phrjpNFoYAG2oHlFdz1vF7?=
+ =?us-ascii?Q?bgucp0SmvQe7RXB99rEh3GbQ?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	ylhu/bE4/smgx6uw81OlUJdPj4Y09/JLaL4jF1meH0Vm3blw4CoyI1+wXu/fNNJ93+yf6CasaqNugSJmfUOxha0fGDeYGw3+T5Zm/IbnTxpwEEQ6fRxEv4bApymhbw0r5f1IN/omAWlx6Ru0C8FSz6Pt10+wilwb2PzSmCMGd4ZmYJ95skHp4vzWOHJWLTA1JKMCUDwqO0i5+2N9BTNaI5+W0tlcGS8M4LQ4Pft2xNp3LNgC/C6PlyXoZJwbAWoBdGiKLpQwnKfvQ+qWBCGhBpRvbfXRTOOPOLyXeiZY/Gb9Qh6bwkazjOPYuH5azeYJ9hlaYEVXfu/BwXpJSlc4/m/AWKb9NfJCZRbG70yBDa0nxs6PCIiqxlLYvBUoK5qgYtr/waHvQ8wIlXIRfa6jzaDM1RNi7bDh4YRug1CYCWKjk5vOONpFIQ3S/rxe6whvX6ou5MF6JgIVHmyaudypPECvcOiz2+1PxL/oSVRxL3i+e9or+9x5VWLRzfGszvRo11FoQIM54pY9lGZ+zXsl5EXLxRxkqZm0XTNY4r2pEKgLIw0+yPV4vhWyUFAkOtPnnETI8KlPSPxcD9qbQFegtSF4IHN/E07DfEmqXfbXwMOHWqSYzyWaJrcvt0l0nKz0qmJb/fnCrCanS9Xu5HRoqIDEcczfu08Nb7lVwjurPBH11NwnIFfmk5heByTQE6BG9w/viQcdfR2WohFklL22w9TcI3gfibUQ8deyULGPVpQCcQJ61T4n6bjd9FDNOjktOsvXLINViR/pZcinZifgsC851hPhBfeMkgyXUXR/dEKgfYaUnfbxeh8ALJemHDiJAjQN6I5fNtwsNr4PB6Twsw==
+X-OriginatorOrg: wisctest.wisc.edu
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2023 19:59:58.2499
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ce0cccf-1d6b-4877-b1d9-08db087cb982
+X-MS-Exchange-CrossTenant-Id: a41f5558-f5ad-4f7d-9380-e2386a406c5e
+X-MS-Exchange-CrossTenant-AuthSource:
+	DM6NAM04FT057.eop-NAM04.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR20MB4976
+Original-Authentication-Results: spf=neutral (sender IP is 208.84.66.21)
+ smtp.mailfrom=wisctest.wisc.edu; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wisctest.wisc.edu;
+
+Hello postmaster@wisctest.wisc.edu, This is a message that should trigger the "pp_antispoof" Email Firewall rule.
+
+ Expected Disposition: Send to quarantine folder [Spoofed] and Discard (or Continue to process the message if pp_antispoof is in audit mode).
+
+
+

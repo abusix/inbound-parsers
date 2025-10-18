@@ -1,0 +1,284 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id C662D839-5EF3-4EE7-BEFE-C551BB8B8081.1
+	envelope-from <abuse+bncBAABBJXYX6ZQMGQE3X5PAQY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 17 Jun 2024 09:04:39 +0000
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-57c5d26a27fsf4063264a12.1
+        for <abuse@digitalocean.abusehq.net>; Mon, 17 Jun 2024 02:04:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718615079; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=iNaPtkF+bpagst+DSoL29fQOmPVXp/IhSiJdjYqkigubiJhx3J97l7C8As1z1E8NlK
+         90nhdk2U7HxCOG2vFBuchZfUgjePYw6w0GpMKhahUDHnl3qQs44AXlh3npK6Vci9bpFe
+         qQIKzfAz7bjhdYEX2/Fjn+U1uh/s2ET7bQ42tfT+H/+dXWXiJGN58NsZY1wHcHzlSrHa
+         BVMLoKPaJvENnQ+bmXC1i+D5h2PVpooTc96TpMZz2s1Hh61JkcoT8+mw7t+xf0JAS8sw
+         X0kW9xdzTNFZu3NPWT9ZrwJKuFOXUW3Qzz9R2NpYNneogtx/bPdOw7YW4ypbb0EUdd+t
+         odHg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:date:message-id:mime-version
+         :subject:to:from:dkim-filter:dkim-signature;
+        bh=ZkFKxDdOkQ63y1Fj+WVJPOXF7t6/N6Pw47W9hqAynnw=;
+        fh=26d8qPMB6iRCzhmG5hvdpkdEgnPq8OlxMFzORvgZIJU=;
+        b=TriQ6hVR8fMtKcysZMpBDJYqRB7yVpcy/qt0BOgCiGM3e6eYApn0+jhlmsz+kIyQI8
+         Cw+wgo0KhQ12nwaYjblGqjdwdKpNDrqyIqVDcSFoNVyWdlz1w5517ngHXi4fKq+pTF/U
+         xm/k42f1C279OLw/7r1Mr2mBWnJPqHrBPG6HdMyaofhzGqJrGl2D4/zvK1vOUAVqFjTA
+         RcqKhXIDHUO6TKX4+/LHFjyPZfCGKpn1G47Fr3tWHFhWV6ctNebRb80jVt+JzNHQM3iE
+         7i9URF+BZfGMGv4Gw5XhTkOvyUAQLUlpInNA8GPxi1zBCYYw4KOtvLgo5DRpUvAH62U4
+         xACw==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@abuse.ipv6home.eu header.s=v20231026 header.b=YBJn9UjH;
+       spf=pass (google.com: domain of report.1718615076@abuse.ipv6home.eu designates 2a03:4000:40:df::1 as permitted sender) smtp.mailfrom=report.1718615076@abuse.ipv6home.eu;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=abuse.ipv6home.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1718615079; x=1719219879; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:date:message-id:mime-version:subject:to:from
+         :dkim-filter:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZkFKxDdOkQ63y1Fj+WVJPOXF7t6/N6Pw47W9hqAynnw=;
+        b=DYL41VWJY3Q9beWS5Gz5Ro6UCYKC4CdFjpbSaDYM+bctxLVwyla9CdvSlCO+aW5kOi
+         E6nE1U6kg3Toy4Ja5jhgwxKWeG+D/fzkV7ti/mIuuHnye8sAUnGCFdsm8D3lSrTMcKKI
+         Zcub5/wZfJqAosus4VJGhxEOiT0jTU10XMIJQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718615079; x=1719219879;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:date:message-id
+         :mime-version:subject:to:from:dkim-filter:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZkFKxDdOkQ63y1Fj+WVJPOXF7t6/N6Pw47W9hqAynnw=;
+        b=UBIXyguBPEtOxugLfBcLY2fvuUFy7xt7k8/HLFy+KjK0rZCSjxmOpL59J+SRQRbZIt
+         AsXyEfEHIO5m+2pUWqMFdYRtzUFje0EVM0MOIoIHIixF8vW8ep33ZHy0L53Sk65N4Gpn
+         2GizpXV+xJirYm7CSlmD+AUKhO+NeWaoXLrGx0Oa5XSIUo3Pym/YUQDsG9EOmBhViJX8
+         Ch+0i8PRPbE1qTwUTi/HcJ2NLLp5SpGb+RHX7ZjN/kjLA2BGzbOBkZmVi7CTN3EA03SQ
+         93juyCuHTxqQy3OajDAdfAEX7HvDywn7yY0PNyV0y5fxp9/u8uyNCxzJXQFZKJtsqI4R
+         WYkw==
+X-Forwarded-Encrypted: i=2; AJvYcCXekuVA7n8GkoBdSQSOLEY8YrW4wc2ts1gyk0hVsEwoS3xgBWxKdb8VNK6tczgoeIAx7FALuE7g5agUquI5XXwtoT6G8R5XAsMExblSZAQ=
+X-Gm-Message-State: AOJu0YxfKNohb19r1bRhn0mCfYlZFgLRHXPLOKiylD4B+amhaIfdxmK8
+	Ux1VKxGvOwV4bj7MWEU1+EE7HBt4P4pZGDCrhIz7XTd65dzLQV2LJ3g4bId5hDQ=
+X-Google-Smtp-Source: AGHT+IFK5LOnusHRYs51/CwkbfEbC875B/wiU+ytptn+myO6QrynrczVvgEEezkAaUW3jWo1vyEPpQ==
+X-Received: by 2002:a50:cd47:0:b0:57c:c171:2fb6 with SMTP id 4fb4d7f45d1cf-57cc1716957mr6623915a12.1.1718615078742;
+        Mon, 17 Jun 2024 02:04:38 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:4316:b0:57c:a472:933c with SMTP id
+ 4fb4d7f45d1cf-57cb4a87333ls3178236a12.0.-pod-prod-00-eu; Mon, 17 Jun 2024
+ 02:04:37 -0700 (PDT)
+X-Received: by 2002:a17:906:f953:b0:a6f:624e:741a with SMTP id a640c23a62f3a-a6f624e76bdmr576720766b.3.1718615077008;
+        Mon, 17 Jun 2024 02:04:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718615076; cv=none;
+        d=google.com; s=arc-20160816;
+        b=LnhZAB+OTIwMFSwf8zDxXjEpIFfm7dHCAlYCIVSdaYnr2s1mAPnYJ8fzMdLhkO91dd
+         XJnWfBbeQSjLzInKV+pDktEBTo60zmIDy6lD7HFU/5ttukQlMXjvur5ofX53pW7eQvMn
+         EyIdv9Nh/E84tm6DWT3aQ2yk/3hQ5chJnyTrgsWwpAImd+QdzIwxO3IFnd3PMJM72SWS
+         rDLawxteodhBBtv0zTIqder+a/VVkpr7S4MXVE4N9Ay90okSqPnVjsbAJbiAKWAzrABw
+         wgG+MKE8nDOM7fIi47dMZvTTmaCe30qotiQWdLmYOq8fmQJ7UPcKcvZc9oTv3/nLjHLP
+         lCzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:mime-version:subject:to:from:dkim-signature
+         :dkim-filter;
+        bh=4VeI8Q6SBob2ww3vxLf+JFIQLWzltAE1NJyHTT0kHAM=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=Dk4Ai6nJMDohXP7jAH+AI4Kbbw6nIs4I4TakDk2us6J2w+znlF93WC9eNAAQwPHquO
+         dWYZODBwrt2ofIJ/ugV3J+THqcsf7jE2zYC7w+vKa8wMFVUpQ7N7Hc49vHAZYVzHpRbb
+         D2G95dU+wnpsY3qx3ebiyS3STJgZM5gW3pQasjnGUb6qjVFRCIXHGhdGC1jDZi+LSMLs
+         xbMes93TBwz8MaER8AH2WaZHWGs7OXMnDE9RmLHaH8xZbWT0BBDQJC8T65ltohcFOImX
+         4FGqMZYelPSYMuFExP+yi7WFxmuIp/NSKfVdqcZgiCc2Qn1ztUMb/GMRgHCC7IGyj27J
+         r6EQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@abuse.ipv6home.eu header.s=v20231026 header.b=YBJn9UjH;
+       spf=pass (google.com: domain of report.1718615076@abuse.ipv6home.eu designates 2a03:4000:40:df::1 as permitted sender) smtp.mailfrom=report.1718615076@abuse.ipv6home.eu;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=abuse.ipv6home.eu
+Received: from donaukurier.host.ipv6help.de (donaukurier.host.ipv6help.de. [2a03:4000:40:df::1])
+        by mx.google.com with ESMTPS id a640c23a62f3a-a6f56e3b340si421105666b.822.2024.06.17.02.04.36
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Jun 2024 02:04:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of report.1718615076@abuse.ipv6home.eu designates 2a03:4000:40:df::1 as permitted sender) client-ip=2a03:4000:40:df::1;
+Received: from shinkansen.host.ipv6help.de (shinkansen.host.ipv6help.de [IPv6:2a03:4000:31:345::1])
+	by donaukurier.host.ipv6help.de (Postfix) with ESMTP id C76BB16EF
+	for <abuse@digitalocean.com>; Mon, 17 Jun 2024 09:04:36 +0000 (UTC)
+Received: by shinkansen.host.ipv6help.de (Postfix, from userid 0)
+	id B4F1368A5A; Mon, 17 Jun 2024 09:04:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 shinkansen.host.ipv6help.de B4F1368A5A
+From: "'Abuse Report' via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+X-Mailer: Abuse-Mail/1.0
+Subject: Abuse report [IP: 137.184.226.118] Alert
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="----7AFAE9E2E9B308A086963E0FEE1B88D3"
+Message-Id: <20240617090436.B4F1368A5A@shinkansen.host.ipv6help.de>
+Date: Mon, 17 Jun 2024 09:04:36 +0000 (UTC)
+X-Original-Sender: report.1718615076@abuse.ipv6home.eu
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@abuse.ipv6home.eu header.s=v20231026 header.b=YBJn9UjH;
+       spf=pass (google.com: domain of report.1718615076@abuse.ipv6home.eu
+ designates 2a03:4000:40:df::1 as permitted sender) smtp.mailfrom=report.1718615076@abuse.ipv6home.eu;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=abuse.ipv6home.eu
+X-Original-From: Abuse Report <report.1718615076@abuse.ipv6home.eu>
+Reply-To: Abuse Report <report.1718615076@abuse.ipv6home.eu>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multi-part message in MIME format.
+------7AFAE9E2E9B308A086963E0FEE1B88D3
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 7-bit
+
+Hello,
+
+Stop this abusive host(s) (IP: 137.184.226.118) of scanning my system(s).
+
+The complete information to stop this abusive host(s)
+ (IP: 137.184.226.118) is given ONLY by THIS report.
+So don't ask further questions as THIS report gives you all informations in order to STOP this.
+
+My systems are located within these ASNs:
+ AS1205, AS12605, AS40994, AS42388, and AS197540.
+(the corresponding IP subnets and IPv6 prefixes are listed in the attached networks.txt)
+The specific IPs are not given, as you do not need them.
+
+See the attached firewall log, that is also given directly to LAW ENFORCEMENT AUTHORITIES.
+(any times given in the logs are in UTC)
+
+AND any replies will be dropped/rejected automatically.
+
+-------------------------------------------------------------------------
+- Doing Portscanning without permission (Opt-in) is a criminal offence. -
+- My personality has nothing to say nor it is needed at all.            -
+-------------------------------------------------------------------------
+
+Please note the attached disclaimer.txt.
+
+Thank You.
+
+--
+Mon, 17 Jun 2024 11:04:36 +0200; C312C398-0-0-0-0-0-52-52
+
+------7AFAE9E2E9B308A086963E0FEE1B88D3
+Content-Type: message/feedback-report
+Content-Disposition: inline
+Feedback-Type: xarf
+User-Agent: Abuse-Mail/1.0
+Version: 1
+
+
+
+------7AFAE9E2E9B308A086963E0FEE1B88D3
+Content-Type: application/json; name=xarf.json
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=xarf.json
+
+ewogICJWZXJzaW9uIjogIjEiLAogICJSZXBvcnRlckluZm8iOiB7CiAgICAiUmVwb3J0ZXJPcmci
+OiAiRkJJaG9tZUx0ZCIsCiAgICAiUmVwb3J0ZXJPcmdEb21haW4iOiAibi9hIiwKICAgICJSZXBv
+cnRlck9yZ0VtYWlsIjogImZiaS1ob21lQGxpd2VzdC5hdCIsCiAgICAiUmVwb3J0ZXJDb250YWN0
+RW1haWwiOiAibi9hIiwKICAgICJSZXBvcnRlckNvbnRhY3ROYW1lIjogIm4vYSIsCiAgICAiUmVw
+b3J0ZXJDb250YWN0UGhvbmUiOiAibi9hIgogIH0sCiAgIkRpc2Nsb3N1cmUiOiB0cnVlLAogICJS
+ZXBvcnQiOiB7CiAgICAiUmVwb3J0Q2xhc3MiOiAiQWN0aXZpdHkiLAogICAgIlJlcG9ydFR5cGUi
+OiAiUG9ydFNjYW4iLAogICAgIkRhdGUiOiAiMjAyNC0wNi0xN1QxMTowNDozNloiLAogICAgIlNv
+dXJjZUlwIjogIjEzNy4xODQuMjI2LjExOCIsCiAgICAiU291cmNlUG9ydCI6IG4vYSwKICAgICJE
+ZXN0aW5hdGlvbklwIjogIiNIT1NUSVAjIiwKICAgICJEZXN0aW5hdGlvblBvcnQiOiBuL2EsCiAg
+ICAiT25nb2luZyI6IHRydWUsCiAgICAiQnl0ZUNvdW50Ijogbi9hLAogICAgIlBhY2tldENvdW50
+Ijogbi9hLAogICAgIlNhbXBsZXMiOiBbCiAgICAgIHsKICAgICAgICAiQ29udGVudFR5cGUiOiAi
+dGV4dC9wbGFpbiIsCiAgICAgICAgIkJhc2U2NEVuY29kZWQiOiBmYWxzZSwKICAgICAgICAiRGVz
+Y3JpcHRpb24iOiAiU2VlIGF0dGFjaGVkIGlwdGFibGVzLmxvZyIsCiAgICAgICAgIlBheWxvYWQi
+OiAibi9hIgogICAgICB9CiAgICBdCiAgfQp9Cg==
+
+------7AFAE9E2E9B308A086963E0FEE1B88D3
+Content-Type: text/plain; name=disclaimer.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=disclaimer.txt
+
+VGhlIHJlY2lwaWVudCBhZGRyZXNzIG9mIHRoaXMgcmVwb3J0IHdhcyBwcm92aWRlZCBieSB0aGUg
+QWJ1c2UgQ29udGFjdCBEQiBieSBhYnVzaXguY29tLgpBYnVzaXggcHJvdmlkZXMgYSBmcmVlIHBy
+b3h5IERCIHNlcnZpY2UgdGhhdCBwcm92aWRlcyB0aGUgYWJ1c2VAIGFkZHJlc3MgZm9yIGFsbCBn
+bG9iYWwgUklScy4KQWJ1c2l4IGRvZXMgbm90IG1haW50YWluIHRoZSBjb3JlIERCIGNvbnRlbnQg
+YnV0IHByb3ZpZGVzIGEgc2VydmljZSBidWlsdCBvbiB0b3Agb2YgdGhlIFJJUiBkYXRhYmFzZXMu
+CklmIHlvdSB3aXNoIHRvIGNoYW5nZSBvciByZXBvcnQgYSBub24td29ya2luZyBhYnVzZSBjb250
+YWN0IGFkZHJlc3MgcGxlYXNlIGNvbnRhY3QgdGhlIGFwcHJvcHJpYXRlIFJJUgpyZXNwb25zaWJs
+ZSBmb3IgbWFuYWdpbmcgdGhlIHVuZGVybHlpbmcgZGF0YS4gSWYgeW91IGhhdmUgYW55IGZ1cnRo
+ZXIgcXVlc3Rpb25zIGFib3V0IHVzaW5nIHRoZSBBYnVzaXgKQWJ1c2UgQ29udGFjdCBEQiwgcGxl
+YXNlIGVpdGhlciBjb250YWN0IGFidXNpeC5jb20gZGlyZWN0bHkgdmlhIGVtYWlsIChpbmZvQGFi
+dXNpeC5jb20pIG9yIHZpc2l0IHRoZQpVUkw6IGh0dHBzOi8vYWJ1c2l4LmNvbS9jb250YWN0LWRi
+LwpBYnVzaXggaXMgbmVpdGhlciByZXNwb25zaWJsZSBub3IgbGlhYmxlIGZvciB0aGUgY29udGVu
+dCBvciBhY2N1cmFjeSBvZiB0aGlzIG1lc3NhZ2UuCg==
+
+------7AFAE9E2E9B308A086963E0FEE1B88D3
+Content-Type: text/plain; name=networks.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=networks.txt
+
+QVMxMjA1Ogo9PT09PT0KCklQLXN1Ym5ldHM6Ci0tLS0tLS0tLS0KMTQwLjc4LjAuMC8xNgoxOTMu
+MTg2LjE3Mi4wLzIyCjE5My4xODYuMTc2LjAvMjIKCklQdjYtcHJlZml4KGVzKToKLS0tLS0tLS0t
+LS0tLS0tCjIwMDE6NjI4OjIwMGE6Oi80OAoyMDAxOjYyODoyMDEwOjovNDgKMjAwMTo2Mjg6MjQw
+MDo6LzQ4CjIwMDE6NjI4OjI0MTA6Oi80OAoyMDAxOjYyODoyNDIwOjovNDgKMjAwMTo2Mjg6MjQz
+MDo6LzQ4CjIwMDE6NjI4OjI0NDA6Oi80OAoyMDAxOjYyODoyNDUwOjovNDgKMjAwMTo2Mjg6MjQ2
+MDo6LzQ4CjIwMDE6Njc4OjhkNDo6LzQ4CgoKQVMxMjYwNToKPT09PT09PQoKSVAtc3VibmV0czoK
+LS0tLS0tLS0tLQo4MS4xMC4xMjguMC8xNwo4My4xNjQuMC4wLzE3Cjg2LjU2LjEyOC4wLzE3Cjkw
+LjE0Ni4wLjAvMTYKMTg1LjE5Ni4xNTYuMC8yMgoyMTIuMzMuMzIuMC8xOQoyMTIuMjQxLjY0LjAv
+MTgKCklQdjYtcHJlZml4KGVzKToKLS0tLS0tLS0tLS0tLS0tCjJhMDA6Y2Y4OjovMzIKCgpBUzQw
+OTk0Ogo9PT09PT09CgpJUC1zdWJuZXRzOgotLS0tLS0tLS0tCjMxLjE0LjE3LjAvMjQKNDYuMTAy
+LjE1Ni4wLzI0CjQ2LjEwMi4xNTcuMC8yNAo4My4xMzguNTUuMC8yNAo4Ni4xMDYuMTgyLjAvMjQK
+OTQuMTc3LjguMC8yNAo5NC4xNzcuOS4wLzI0CgpJUHY2LXByZWZpeGVzOgotLS0tLS0tLS0tLS0t
+CjJhMGQ6ZjMwMTo6LzQ4CjJhMGQ6ZjMwMjo6LzMyCgoKQVM0MjM4ODoKPT09PT09PQoKSVAtc3Vi
+bmV0czoKLS0tLS0tLS0tLQo5NC4xNi4xNi4wLzI0CjE4NS44MS4yMDguMC8yNAoxODguMTcyLjI0
+OC4wLzI0CjIxMy4yMjcuMTYwLjAvMjQKMjEzLjIyNy4xOTEuMC8yNAoyMTcuMTQ2LjE4LjAvMjQK
+CklQdjYtcHJlZml4ZXM6Ci0tLS0tLS0tLS0tLS0KMjYwNTozODA6YWExOjovNDgKMjgwMzphZDgw
+OmFhMTo6LzQ4CjJhMDA6MTFjMDphYTE6Oi80OAoyYTAwOjExYzA6MTAxMDo6LzQ4CjJhMDA6MTFj
+MDoxMWMwOjovNDgKMmEwNTo4OTAwOmFhMTo6LzQ4CgoKQVMxOTc1NDA6Cj09PT09PT09CgpJUC1z
+dWJuZXRzOgotLS0tLS0tLS0tCjIuNTYuOTYuMC8yMgo1LjQ1Ljk2LjAvMjAKNS4xODEuNDguMC8y
+Mgo1LjE4Mi4yMDAuMC8yMwo1LjI1Mi4yMjQuMC8yMgozNy4xMjAuMTYwLjAvMTkKMzcuMjIxLjE5
+Mi4wLzIxCjQ1LjkuNjAuMC8yMgo0NS44My4xMDQuMC8yMgo0NS45MC40LjAvMjIKNDUuMTI5LjE4
+MC4wLzIyCjQ1LjEzMi4yNDQuMC8yMgo0NS4xMzYuMjguMC8yMgo0NS4xNDIuMTc2LjAvMjIKNDUu
+MTQzLjE4NC4wLzIyCjQ1LjE1Ny4xNzYuMC8yMgo0Ni4zOC4yMjQuMC8yMAo0Ni4zOC4yNDAuMC8y
+MAo0Ni4yMzIuMjQ4LjAvMjIKODEuMTYuMTYuMC8yMgo4NS4yMDkuNDguMC8yMgo4NS4yMzUuNjQu
+MC8yMgo4OS41OC4wLjAvMjAKODkuNTguMTYuMC8yMAo4OS41OC4zMi4wLzIwCjg5LjU4LjQ4LjAv
+MjIKODkuNTguNTIuMC8yMgo5MS4xMzIuMTQ0LjAvMjIKOTEuMjA0LjQ0LjAvMjIKOTIuNjAuMzYu
+MC8yMgo5My4xNzcuNjQuMC8yMgo5NC4xNi4zMC4wLzIzCjk0LjE2LjEwNC4wLzIyCjk0LjE2LjEw
+OC4wLzIyCjk0LjE2LjExMi4wLzIxCjk0LjE2LjEyMC4wLzIyCjk0LjE1NC4xNDguMC8yMgoxNTIu
+ODkuMTA0LjAvMjIKMTg1LjE2LjYwLjAvMjIKMTg1LjE0NS4xNjguMC8yMgoxODUuMTU4LjIxMi4w
+LzIyCjE4NS4xNjIuMjQ4LjAvMjIKMTg1LjE2My4xMTYuMC8yMgoxODUuMTcwLjExMi4wLzIyCjE4
+NS4xODMuMTU2LjAvMjIKMTg1LjE5NC4xNDAuMC8yMgoxODUuMjA3LjEwNC4wLzIyCjE4NS4yMTEu
+MjIwLjAvMjIKMTg1LjIxNi4xNzYuMC8yMgoxODUuMjI4LjEzNi4wLzIyCjE4NS4yMzIuNjguMC8y
+MgoxODUuMjMzLjEwNC4wLzIyCjE4NS4yNDMuOC4wLzIyCjE4NS4yNDQuMTkyLjAvMjIKMTg1LjQ4
+LjIyOC4wLzIyCjE4OC42OC4zMi4wLzIwCjE4OC42OC40OC4wLzIwCjE5Mi4xNDUuNDQuMC8yMgox
+OTMuMjYuMTU2LjAvMjIKMTkzLjMwLjEyMC4wLzIyCjE5My4zMS4yNC4wLzIyCjE5NC4xMy44MC4w
+LzIyCjE5NC4zNi4xNDQuMC8yMgoxOTQuMzYuNjAuMC8yMgoxOTQuNTUuMTIuMC8yMgoxOTQuNTku
+MjA0LjAvMjIKMTk1LjEyOC4xMDAuMC8yMgoyMDIuNjEuMTkyLjAvMjAKMjAyLjYxLjIyNC4wLzIw
+CjIwMi42MS4yNDAuMC8yMAoyMTIuNzkuMjA4LjAvMjAKMjEzLjEwOS4xNjAuMC8yMgoKSVB2Ni1w
+cmVmaXhlczoKLS0tLS0tLS0tLS0tLQoyYTAwOjExYzA6NjA6Oi80OAoyYTAzOjQwMDA6Oi8zMgoy
+YTAzOjQwMDE6Oi8zMgoyYTA0OmI1MDA6Oi8zMgoyYTBhOjRjYzA6Oi80MAo=
+
+------7AFAE9E2E9B308A086963E0FEE1B88D3
+Content-Type: application/gzip; name=iptables.log.gz
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=iptables.log.gz
+
+H4sIACT8b2YCA82ZTWsbQQyG7/0VA7kbaSTNh2FPtts6BNvYG0IpPbTgU9Mc6hTaf99Z7zo9ZC4p
+spg5LdgsD+IdjZ6d219PDoMDnhPNKbvTn9Pz8Yf7fvz5dHycu/Xu+eu3x+Pp83rzZe4O+0WHFGeY
+eOZ9mCEmtzz03c3H7aFf727c3WrTBXD99tDBbwC3268W41Pf33XMbr3siBIEt3xfftz2265f7Nxh
+13cUBdgty1OGDO5hvVluH7rAnsHtV9P7Dp827n7/YdeBe3drSR4GcozgK+RCWDgGcl9Wk+QUBPk1
+OSMRnMmZqUlwES5heA0eQ0hn8ADQXFjSQO45UC3leQL3LYblTM6cQ6zVnPxLzKlN8ixciXlpOGks
+eiqrSXJBpFSpefIUpqbYXM4FzuSMESs1p4RjO0/QXM4n8hR9rtRcvIw1l7K4SfQASLnaz3kMeil/
+fit5+dP1T//CHWo1z/Sv5k2Ch4BSAfcYJ3D4jx16bfKXsSVqjy0m5L707VrRYxSexhZuEnyYt0R5
+3rIBT1w7hkhk7Cs8vLUx8PMBiqUjVk6hIFND9NBexkdwIUm13ZnTGBVPqVHy5KFSc84pjbuzjItt
+cgeuCajkS1aoSe5iFKxuFDbksQyJlYx7wsniQptRIaFYG1eA5BKVRsMyCEXWFgobcvYgte0JU1tJ
+1CZ48FQ9PCNd+mFz23O0CTx3kNczOaIfo1JWk+ACQrXt6SWO2zOW1Sa5VL+B+jTZhAdoMytFmgnU
+pdkEvUgzg7o0o400R3VpRqNv/VH7W78JedH9oK/7aCTNQVua0cY9s7p7otElBWpfUlyb/GLNrG7N
+aGTNWd2a0ciaWdma0ciao7I1o5F7Jm33RCP3jOruiUYXiEn7AtGGPAuL9gWiCflgzUHbmtHImrO2
+NaONNWd1a0Yja47q1oxGd81e+67ZhlyqHvRW3/8L+TBgWK4lAAA=
+
+------7AFAE9E2E9B308A086963E0FEE1B88D3--

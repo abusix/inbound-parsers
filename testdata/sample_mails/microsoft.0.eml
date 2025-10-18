@@ -1,0 +1,2134 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=dcuct@microsoft.com header.d=microsoft.com header.s=s1024-meo
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2056.outbound.protection.outlook.com [40.107.10.56])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 93D411C8-3BD6-4EC2-BC35-CE1BD71A6241.1
+	envelope-from <bounces+SRS=MAfer=AZ@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Thu, 04 May 2023 20:04:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dC2HEq5dgo073DGV4EL/tov5yz1VF322PveayAiFdp2ryvXSe6uqASkbJ9c9LZbcYBL3h2jAKhWoSpuy+Oevs/PIJHH1xLXzCFSrwv2cywvdrpGbmhmu7xNxXCETQiudmtIrON6Ayi0N/qYiHaV47/7cqdtbr/EKntjVwm5AnlMjwHzu8hhsBi80E1RaXOm0zQRpy6Akz9junXW0VOfnIx9WLfdSKpV+qyumrjmiUTLQ5VkqSXmr45IbdLTPhm/U+XKqcxxcLPTG1aqqQcg0xnKXWG9hqazb8AzUTaP2LVDaTNGw66M+JcDc8D57MKW4Gou7V5Ne0hXLuCyCepLekQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jhYWJ/Mu0qT6S2Id6eVYX5l3SjTXCJhUqOUBYPEvwUA=;
+ b=hAmE/2IAlVMmXzvt2ZuLTw4ByTZsNzDp2hSAdA3oWbXblFTejUGlfhjFC137nq59HlBEmYeCAmYdlIXPZtpOK9Kd2S7s54gRNqEdhbxV+FOk8fa9ARGVU41OAYQknkAbfcTTkD4ze0xR7yNkfzKfhvqW7UekuD0+GV9+SwZ1yJCFZiZ70jPHzaX9VuA3N656jG+R1J17xzEbtjWmPb6sg+L+G5zY8/b0GlfV1bPSvzscnT+kSjMSM1WSY0J6J6OVrQJE4AK4ESmr0LTk8ge7bbS2Z6ws/uVT9q3jJEpG8bAKT0J7BcmaU1N9WAF5YN5+eglV+VwTZZmepYWHcRDqhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.118.139.209) smtp.rcpttodomain=ipxo.com smtp.mailfrom=microsoft.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=microsoft.com; dkim=pass (signature was verified)
+ header.d=microsoft.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jhYWJ/Mu0qT6S2Id6eVYX5l3SjTXCJhUqOUBYPEvwUA=;
+ b=xd9E3h/UjssWnd1WNl3o1eIvdkxNwmk3nxH2mnJXoJm+3+sDuj7FiV+E6JWma2K0P/gLOi10BuMhlomOzC8xJ6XEQ3n31YREFnBgHRd0O0Kw9mYQ2aXnFOugCNQql663A1QeqV0FcYZ/Q6oYjAsY5ueiL8frpiSRUpZQluMhEmoLmjM+qF/gIjjqeEAstjfihTxBneu1+r6TXYjGK9FlmItI7kJFLMeYaGYHm+upzFpimnW6yPIuw8RebTc0RXmiWDrZaGIt0eKSm9H2X/CkUH/l3VGs5F+A3l990jK6J48XT3H2mV+GCLGLpFL+8yqZ0EjE6N2giAP+RO2GrVdZkA==
+Received: from LO4P123CA0415.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:18b::6)
+ by LO2P302MB0070.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:374::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.11; Thu, 4 May
+ 2023 20:03:59 +0000
+Received: from LO2GBR01FT040.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:600:18b:cafe::90) by LO4P123CA0415.outlook.office365.com
+ (2603:10a6:600:18b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27 via Frontend
+ Transport; Thu, 4 May 2023 20:03:59 +0000
+Received-SPF: Pass (protection.outlook.com: domain of microsoft.com designates
+ 20.118.139.209 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.118.139.209; helo=mail-nam-cu05-usw3.westus3.cloudapp.azure.com;
+ pr=C
+Received: from mail-nam-cu05-usw3.westus3.cloudapp.azure.com (20.118.139.209)
+ by LO2GBR01FT040.mail.protection.outlook.com (10.152.42.167) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6363.26 via Frontend Transport; Thu, 4 May 2023 20:03:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; d=microsoft.com; s=s1024-meo;
+	c=relaxed/relaxed; i=dcuct@microsoft.com; t=1683230637;
+	h=from:subject:date:message-id:to:mime-version:content-type;
+	bh=jhYWJ/Mu0qT6S2Id6eVYX5l3SjTXCJhUqOUBYPEvwUA=;
+	b=blsjHyqmCISfwVOvd8O+lDycGISlzw6oyE0a36ioyRdfca+X+Kb8QMIQis6qjNJzPvehztBHR6L
+	dI5kfqo9x9tue8g1QSbHPon6miZNxVjjwUgkZ2a4xHxnZCnYhCRGU+9cruaHDD7v6LTYWm9C0ewlc
+	bXj/3F347zFESZfq8PI=
+From: Microsoft DCU Cyber Threat Notifications and Fortra LLC
+	<dcuct@microsoft.com>
+Date: Thu, 04 May 2023 20:03:57 +0000
+Subject: Attacks on Microsoft and Fortra Software and Customers by Your
+ =?utf-8?b?T3JnYW5pemF0aW9u4oCZcw==?= IP Addresses - 85.208.107.148
+Message-Id: <eef09e74-1119-464f-8c06-669464a25574@az.westus3.unknown.microsoft.com>
+Reply-To: dcuct@microsoft.com
+To: abuse@ipxo.com
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-8dlN17i5yGx9e3LnCRJGsw=="
+Return-Path: azure-noreply@microsoft.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2GBR01FT040:EE_|LO2P302MB0070:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70eb0b66-8989-47fe-3022-08db4cdab2ac
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Sd0UEwGcDc7pGHZIv7uium7BjytAZxibYB3MZpC4KS+u7V7nFJaXkrZcrwVM3t0kORemy7kEgyXfBBVFG/qu2zEQh/l9c9FOcWx1jlRT7d5NP7MhQWuFjyc4T8NmGUUxnqD366LxI6Mxfq9+XtLq4q9OA2OH4Zbaavi7rASrvwM7epC2zirYEG9cQ2Njv5c9Q+Rs4kaBH+AR/PxlckYBCkSj+G6COXTYrCk1R07a5I9n4t1uPo0xO6yGOG7UOp4JNYTQ/xgIkgP79MEyvly1rBLCA/He/c9ikEQRE8vsD7ZTGEbxgUqvFkIQGrm+4q2Z2MD6TdTqK64sWJe6TVvpWwUlih2p5GCILsth1Uek0Phjut9fURQ4U6iiyzy/nnlp+fJ9RnB6/qQCvLk/54STjHj/c2RlpyMuJYohQf8sDav3FJPbpEufbDY6H2adJp/QJVVs7YQLG4nxtil8PLDfQ3A2FJ6id4r+Z5sT/TT/i525gnwYizq3WhdCf2Lp/HQKnIWnvbzLIAeEUNTVsVbddjMA89/Zug0mTnYFDpnms0gPcdKC1NoWttJPWLLMMZXqFWB7BipM7XoYiiHatpPzESrWb+Un3G7fWRmLSsq/EGE6VKeAuAzl6RklK1s2FHq1V5FnQiBRvNBBabXm8Ke7Ef8IJMPaq2js0waCpDCuU40VkUQUYDmz2r9WNKNebNsq3rmyoTCyJ8U9YQqPjwK4t0lda7sP7Ec1IsjYEJpj+SCqQaICxzFgMxgv4XKxX2uWRwTwPRbRa/gbyr3E4PARodNJ7GNC7ReF9RT5/8zZOl6+5GXzgt/rVtdIqL0n1+Q7
+X-Forefront-Antispam-Report:
+	CIP:20.118.139.209;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail-nam-cu05-usw3.westus3.cloudapp.azure.com;PTR:mail-nam-cu05-usw3.westus3.cloudapp.azure.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(346002)(396003)(39860400002)(47530400004)(451199021)(1690799014)(3450700001)(10290500003)(498600001)(30864003)(2906002)(66899021)(31686004)(19627405001)(34206002)(5660300002)(68406010)(70586007)(316002)(36736006)(40140700001)(966005)(121820200001)(6486002)(33964004)(6506007)(6512007)(956004)(66574015)(83380400001)(26005)(31696002)(336012)(166002)(7636003)(52230400001)(356005)(7596003)(9316004)(369624004)(559001)(579004);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2023 20:03:58.2895
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70eb0b66-8989-47fe-3022-08db4cdab2ac
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	LO2GBR01FT040.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P302MB0070
+Original-Authentication-Results: spf=pass (sender IP is 20.118.139.209)
+ smtp.mailfrom=microsoft.com; dkim=pass (signature was verified)
+ header.d=microsoft.com;dmarc=pass action=none header.from=microsoft.com;
+
+--=-8dlN17i5yGx9e3LnCRJGsw==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+Microsoft
+
+Attacks on Microsoft and Fortra Software and Customers by Your Organiz=
+ation=E2=80=99s IP Addresses
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Dear Abuse and Legal Teams:
+
+We are communicating with you on behalf of Microsoft Corporation (=E2=80=
+=9CMicrosoft=E2=80=9D), a limited liability company incorporated under=
+ the laws of the State of Washington and having its offices at One Mic=
+rosoft Way, Redmond, Washington 98052, United States of America, and F=
+ortra LLC (=E2=80=9CFortra=E2=80=9D), a limited liability company orga=
+nized under the laws of the State of Delaware and having its offices a=
+t 11095 Viking Drive, Suite 100, Eden Prairie, Minnesota 55344, United=
+ States of America, to:
+
+- notify you of illegal activity from the IP addresses outlined at the=
+ end of this message, hosted by your company, which is causing a wides=
+pread attack on, and severe business disruption and injury to, Microso=
+ft, Fortra, and their respective customers, (the =E2=80=9CAttacks=E2=80=
+=9D), as well as constituting an infringement of Fortra=E2=80=99s and =
+Microsoft=E2=80=99s intellectual property rights (the =E2=80=9CInfring=
+ements=E2=80=9D); and
+
+- request that your company take the necessary steps to cease the Infr=
+ingements and stop further illegal Attacks from happening, as per your=
+ legal obligations detailed herein below.
+
+We also request that your abuse team immediately forward this communic=
+ation to your company=E2=80=99s legal team.
+
+Microsoft and Fortra have conducted a detailed investigation and detec=
+ted a pattern of IP addresses hosted by your company acting as command=
+-and-control infrastructure for the malicious, trademark and copyright=
+ infringing use of illegal versions of software known as =E2=80=9CCoba=
+lt Strike=E2=80=9D.
+
+During the Attacks, illegal activity is conducted through these IP add=
+resses by delivering malicious commands to and receiving stolen inform=
+ation from victim computers running Microsoft=E2=80=99s Windows operat=
+ing system. The malicious and unlawful versions of Cobalt Strike contr=
+olled through these IP addresses are used to target victims with ranso=
+mware (i.e., Conti and Lockbit), resulting in extortion of funds and t=
+heft of sensitive information, intrusion into victims=E2=80=99 compute=
+rs and networks, surveillance of the victims, and obfuscation of the c=
+ybercriminals=E2=80=99 activity. In these ways, the Attacks emanating =
+from the IP addresses hosted by your company are causing severe busine=
+ss disruption and injury to Microsoft, Fortra, and their respective cu=
+stomers, including victims in sensitive industries such as healthcare,=
+ and individual consumers.
+
+As regards the Infringements, the malicious and unlawful versions of C=
+obalt Strike software infringe on Fortra=E2=80=99s copyright by litera=
+lly copying the entirety of its copyrighted Cobalt Strike =E2=80=9Ctea=
+m server=E2=80=9D code in a cracked, unauthorized version used for mal=
+icious purposes. The infringement involves unauthorized copying of exe=
+cutable code for all of the Cobalt Strike team server=E2=80=99s web se=
+rver, beacon and configuration features and functionality, including a=
+ll of Fortra=E2=80=99s creative and original method implementations, i=
+nterfaces, parameters, variables, arrays, data types, operators, and o=
+bjects. Further, the content hosted at the IP addresses referred to he=
+rein violates the law as it contains malicious code including unauthor=
+ized use of Fortra=E2=80=99s =E2=80=9CCobalt Strike=E2=80=9D trademark=
+ and both Microsoft=E2=80=99s and Fortra=E2=80=99s copyrighted code.
+
+The Attacks and the Infringements from your company=E2=80=99s infrastr=
+ucture are ongoing. It is also foreseeable that if your customers carr=
+ying out these Infringements and illegal Attacks over the identified I=
+P addresses are permitted to continue to use your company=E2=80=99s in=
+frastructure in the future, Microsoft, Fortra, and their respective cu=
+stomers will as a result be subject to continued serious injury.
+
+Set forth below are the malicious Cobalt Strike command and control IP=
+ addresses identified as being hosted by your company. We are also pro=
+viding you with the relevant details regarding these IP addresses, inc=
+luding evidence of illegal activity, date and time information, and ot=
+her indicators. This notification letter is sent to you to inform you =
+of the illegal activity taking place at these IP addresses and to enab=
+le you to fully identify the illegal activity and customers associated=
+ with the traffic.
+
+The Attacks and the Infringements, as outlined above, violate the law =
+and your company=E2=80=99s terms of use.
+
+We urge your company to review its terms of use for violations by your=
+ customers carrying out the Attacks and the Infringements and to exerc=
+ise its rights to stop the illegal network activity, in order to mitig=
+ate the injury to Microsoft, Fortra, and their respective customers, a=
+nd for Microsoft=E2=80=99s, Fortra=E2=80=99s, and their respective cus=
+tomers=E2=80=99 benefit.
+
+The illegal activity from the IP addresses violates the law as they ar=
+e used to control the malicious versions of stolen Cobalt Strike; and =
+thus, commits several criminal offenses including illegal access, ille=
+gal interception, data interference, misuse of devices, computer-relat=
+ed forgery, and computer-related fraud. The malicious, illegal version=
+s of Cobalt Strike command and control software hosted at the IP addre=
+sses is also engaged in fraudulent conduct, extortion, and theft of fu=
+nds, which is illegal under the laws of all jurisdictions, while also =
+infringing our intellectual property rights.
+
+This letter is an official notification under the laws implementing Ar=
+ticle 14 of the EU e-Commerce Directive 2000/31/EC and other analogous=
+ laws in your jurisdiction, in line with Article 6 of the Digital Serv=
+ices Act =E2=80=93 Regulation 2022/2065, thus providing your company w=
+ith actual knowledge of the illegal activity. Please be advised that t=
+he law requires your company, as a hosting provider, to act against th=
+e illegal activity upon receiving this notice to remove or, at the lea=
+st, to disable access to the illegal information or illegal activity. =
+Under the foregoing legislation a hosting provider, such as your compa=
+ny, can be held liable for the illegal activity originating from your =
+infrastructure unless you act expeditiously to disable the illegal act=
+ivity upon receiving this notice. Under the foregoing legislation a ho=
+sting provider, such as your company, may avoid liability for the ille=
+gal activity originating from their infrastructure if they act expedit=
+iously to remove or disable the illegal activity once obtaining knowle=
+dge or awareness of it, as well as to prevent the illegal activity.
+
+Because the Attacks and the Infringements originate from IP addresses =
+hosted by your company, and for which your company is responsible, Mic=
+rosoft and Fortra respectfully request that your company:
+
+1. take immediate steps to remove or disable access to the infringing =
+content and disable the illegal activity carried out through the IP ad=
+dresses listed below,
+
+2. cease providing services to any existing customer enabling them to =
+use these IPs to carry out the Infringement and the Attacks,
+
+3. ensure that any ultimate customer is not allowed to reestablish the=
+se IP addresses at your company or maintain any future presence on you=
+r company=E2=80=99s network in order to carry out similar Infringement=
+ and Attacks, and
+
+4. preserve for evidence purposes the content and traffic data for the=
+se servers, as well as the user=E2=80=99s control panel, for a period =
+of 6 months.
+
+After having taken the necessary steps, Microsoft and Fortra also requ=
+est that your company immediately notify the customers to cease any il=
+legal activity originating from your infrastructure in the future. As =
+the identified servers do not have any public facing websites, it is i=
+mpossible for Microsoft or Fortra to contact your customers directly.
+
+As you know, failure to comply with this request to take action agains=
+t illegal content and/or illegal activity may result in your company=E2=
+=80=99s liability for the prejudice Microsoft, Fortra and their custom=
+ers are bound to suffer as a result. Consequently, Microsoft and Fortr=
+a look forward to collaborating with your company to reach a full and =
+accurate understanding of the Infringements and the Attacks and their =
+source, and to take all necessary and appropriate steps to ensure that=
+ no further illegal activity occurs; as well as to protect Microsoft, =
+Fortra, and their respective customers from any future harm and the as=
+sociated damage that these Infringements and Attacks have caused or ma=
+y cause.
+
+Please feel free to contact us with any questions or concerns.
+
+Microsoft Corporation=20
+Fortra, LLC
+
+Domain: N/A
+
+IP: 85.208.107.148
+
+Port: 8088
+
+URL: hxxp://85.208.107.148:8088/7Fwi
+
+Last seen: May 4, 2023 18:59 UTC
+
+Autonomous System Number: 30823
+
+Beacon Sha256: 56e1850e7983df089cda1cee17053359f3ecce1f6587342164f4a34=
+1786ee8ba
+
+Watermark: 987654321
+
+--------------------------------------------------
+
+
+Privacy Statement: https://go.microsoft.com/fwlink/?LinkId=3D521839
+
+Microsoft Corporation, One Microsoft Way, Redmond, WA 98052
+
+Microsoft
+
+--=-8dlN17i5yGx9e3LnCRJGsw==
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns=3D"https://www.w3.org/1999/xhtml" lang=3D"en" xmlns:v=3D"u=
+rn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:off=
+ice:office" style=3D"min-height: 100%;background: #ffffff"><head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3D=
+utf-8">
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width">
+    <meta name=3D"eventId" content=3D"cela-dcu-b235-takedown-emea">
+    <meta name=3D"messageId" content=3D"eef09e74-1119-464f-8c06-669464=
+a25574">
+    <meta name=3D"cloud" content=3D"AZ">
+
+
+       =20
+
+    <title>
+       =20
+    Attacks on Microsoft and Fortra Software and Customers by Your Org=
+anization=E2=80=99s IP Addresses - 85.208.107.148
+
+    </title>
+
+        <style id=3D"mediaqueries">@media only screen and (max-width: =
+640px) {
+  .wrap-dangler {
+    padding-right: 10% !important;
+    mso-padding-right-alt: 10% !important;
+  }
+
+  .wrap-dangler.small-text-center .wrap-dangler.text-center {
+    padding-left: 10% !important;
+    mso-padding-left-alt: 10% !important;
+    padding-right: 10% !important;
+    mso-padding-right-alt: 10% !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  p.comment-border-right {
+    margin-left: 0 !important;
+    Margin-left: 0 !important;
+    mso-margin-left-alt: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  p.comment-border-left {
+    margin-left: 0 !important;
+    Margin-left: 0 !important;
+    mso-margin-left-alt: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .small-float-left {
+    margin-left: 0 !important;
+    float: none !important;
+    text-align: left !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .show-for-large {
+    display: none !important;
+    width: 0;
+    mso-hide: all;
+    overflow: hidden;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .wrap-dangler {
+    padding-right: 10% !important;
+    mso-padding-right-alt: 10% !important;
+  }
+
+  .wrap-dangler.small-text-center .wrap-dangler.text-center {
+    padding-left: 10% !important;
+    mso-padding-left-alt: 10% !important;
+    padding-right: 10% !important;
+    mso-padding-right-alt: 10% !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  p.comment-border-right {
+    margin-left: 0 !important;
+    Margin-left: 0 !important;
+    mso-margin-left-alt: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  p.comment-border-left {
+    margin-left: 0 !important;
+    Margin-left: 0 !important;
+    mso-margin-left-alt: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .small-float-left {
+    margin-left: 0 !important;
+    float: none !important;
+    text-align: left !important;
+  }
+}
+
+@media only screen {
+  html {
+    min-height: 100%;
+    background: #ffffff;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .small-float-center {
+    margin: 0 auto !important;
+    float: none !important;
+    text-align: center !important;
+  }
+
+  .small-text-center {
+    text-align: center !important;
+  }
+
+  .small-text-left {
+    text-align: left !important;
+  }
+
+  .small-text-right {
+    text-align: right !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .hide-for-large {
+    display: block !important;
+    width: auto !important;
+    overflow: visible !important;
+    max-height: none !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  table.body table.container .hide-for-large,
+  table.body table.container .row.hide-for-large {
+    display: table !important;
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  table.body table.container .callout-inner.hide-for-large {
+    display: table-cell !important;
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  table.body table.container .show-for-large {
+    display: none !important;
+    width: 0;
+    mso-hide: all;
+    overflow: hidden;
+  }
+}
+
+@media only screen {
+  a[x-apple-data-detectors] {
+    color: inherit !important;
+    text-decoration: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .menu.small-vertical .menu-item {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  table.body img {
+    width: auto;
+    height: auto;
+  }
+
+  table.body center {
+    min-width: 0 !important;
+  }
+
+  table.body .container {
+    width: 95% !important;
+  }
+
+  table.body .columns,
+  table.body .column {
+    height: auto !important;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  table.body .columns .column,
+  table.body .columns .columns,
+  table.body .column .column,
+  table.body .column .columns {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  table.body .collapse .columns,
+  table.body .collapse .column {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  td.small-1,
+  th.small-1 {
+    display: inline-block !important;
+    width: 8.33333% !important;
+  }
+
+  td.small-2,
+  th.small-2 {
+    display: inline-block !important;
+    width: 16.66667% !important;
+  }
+
+  td.small-3,
+  th.small-3 {
+    display: inline-block !important;
+    width: 25% !important;
+  }
+
+  td.small-4,
+  th.small-4 {
+    display: inline-block !important;
+    width: 33.33333% !important;
+  }
+
+  td.small-5,
+  th.small-5 {
+    display: inline-block !important;
+    width: 41.66667% !important;
+  }
+
+  td.small-6,
+  th.small-6 {
+    display: inline-block !important;
+    width: 50% !important;
+  }
+
+  td.small-7,
+  th.small-7 {
+    display: inline-block !important;
+    width: 58.33333% !important;
+  }
+
+  td.small-8,
+  th.small-8 {
+    display: inline-block !important;
+    width: 66.66667% !important;
+  }
+
+  td.small-9,
+  th.small-9 {
+    display: inline-block !important;
+    width: 75% !important;
+  }
+
+  td.small-10,
+  th.small-10 {
+    display: inline-block !important;
+    width: 83.33333% !important;
+  }
+
+  td.small-11,
+  th.small-11 {
+    display: inline-block !important;
+    width: 91.66667% !important;
+  }
+
+  td.small-12,
+  th.small-12 {
+    display: inline-block !important;
+    width: 100% !important;
+  }
+
+  .columns td.small-12,
+  .column td.small-12,
+  .columns th.small-12,
+  .column th.small-12 {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  table.body td.small-offset-1,
+  table.body th.small-offset-1 {
+    margin-left: 8.33333% !important;
+    Margin-left: 8.33333% !important;
+  }
+
+  table.body td.small-offset-2,
+  table.body th.small-offset-2 {
+    margin-left: 16.66667% !important;
+    Margin-left: 16.66667% !important;
+  }
+
+  table.body td.small-offset-3,
+  table.body th.small-offset-3 {
+    margin-left: 25% !important;
+    Margin-left: 25% !important;
+  }
+
+  table.body td.small-offset-4,
+  table.body th.small-offset-4 {
+    margin-left: 33.33333% !important;
+    Margin-left: 33.33333% !important;
+  }
+
+  table.body td.small-offset-5,
+  table.body th.small-offset-5 {
+    margin-left: 41.66667% !important;
+    Margin-left: 41.66667% !important;
+  }
+
+  table.body td.small-offset-6,
+  table.body th.small-offset-6 {
+    margin-left: 50% !important;
+    Margin-left: 50% !important;
+  }
+
+  table.body td.small-offset-7,
+  table.body th.small-offset-7 {
+    margin-left: 58.33333% !important;
+    Margin-left: 58.33333% !important;
+  }
+
+  table.body td.small-offset-8,
+  table.body th.small-offset-8 {
+    margin-left: 66.66667% !important;
+    Margin-left: 66.66667% !important;
+  }
+
+  table.body td.small-offset-9,
+  table.body th.small-offset-9 {
+    margin-left: 75% !important;
+    Margin-left: 75% !important;
+  }
+
+  table.body td.small-offset-10,
+  table.body th.small-offset-10 {
+    margin-left: 83.33333% !important;
+    Margin-left: 83.33333% !important;
+  }
+
+  table.body td.small-offset-11,
+  table.body th.small-offset-11 {
+    margin-left: 91.66667% !important;
+    Margin-left: 91.66667% !important;
+  }
+
+  table.body table.columns td.expander,
+  table.body table.columns th.expander {
+    display: none !important;
+  }
+
+  table.body .right-text-pad,
+  table.body .text-pad-right {
+    padding-left: 12px !important;
+  }
+
+  table.body .left-text-pad,
+  table.body .text-pad-left {
+    padding-right: 12px !important;
+  }
+
+  table.menu {
+    width: 100% !important;
+  }
+
+  table.menu td,
+  table.menu th {
+    width: auto !important;
+    display: inline-block !important;
+  }
+
+  table.menu.vertical td,
+  table.menu.vertical th,
+  table.menu.small-vertical td,
+  table.menu.small-vertical th {
+    display: block !important;
+  }
+
+  table.menu[align=3D"center"] {
+    width: auto !important;
+  }
+
+  table.button.small-expand,
+  table.button.small-expanded {
+    width: 100% !important;
+  }
+
+  table.button.small-expand table,
+  table.button.small-expanded table {
+    width: 100%;
+  }
+
+  table.button.small-expand table a,
+  table.button.small-expanded table a {
+    text-align: center !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  table.button.small-expand center,
+  table.button.small-expanded center {
+    min-width: 0;
+  }
+}
+
+@media (min-resolution: 1dpi) {
+  body[data-outlook-cycle] .main-container > table {
+    width: 640px;
+  }
+
+  body[data-outlook-cycle] .container-wide .main-container > table {
+    width: 888px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .outer-wrapper > tbody > tr > .wrapper-inner,
+  table.body .columns,
+  table.body .column {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .main-container > .float-center {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 888px) {
+  body.container-wide .main-container > table {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  table.button.secondary a {
+    font-size: 16px !important;
+    line-height: 22px !important;
+  }
+
+  .header-right-column table.button table td a {
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-table th:first-child {
+    padding-bottom: 0px !important;
+    mso-padding-bottom-alt: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-table td,
+  .section .card-table th:last-child {
+    padding-top: 0px !important;
+    mso-padding-top-alt: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-table.mobile-padding td {
+    padding-top: 8px !important;
+    mso-padding-top-alt: 8px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-table tr.border-top td,
+  .section .card-table tr.border-top th:last-child {
+    border: none !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-table.no-stack tr.border-top td,
+  .section .card-table.no-stack tr.border-top th {
+    border-top: 1px solid #dedede !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-table.no-stack th,
+  .section .card-table.no-stack td {
+    padding-top: 8px !important;
+    mso-padding-top-alt: 8px !important;
+    padding-bottom: 8px !important;
+    mso-padding-bottom-alt: 8px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-row .columns.first {
+    padding-bottom: 0px !important;
+    mso-padding-bottom-alt: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .section .card-row .columns.last {
+    padding-top: 0px !important;
+    mso-padding-top-alt: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .header-section .stack-for-small th {
+    display: block;
+    width: 100% !important;
+  }
+
+  .header-section .stack-for-small .header-right-column {
+    padding-bottom: 0 !important;
+    padding-top: 24px !important;
+  }
+
+  .header-section .stack-for-small .header-right-column,
+  .header-section .stack-for-small .header-right-column p {
+    text-align: left !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .logo-microsoft-azure {
+    max-height: 21px;
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .logo-microsoft-viva {
+    max-height: 21px;
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .logo-microsoft-dynamic365 {
+    max-height: 21px;
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .list-row .columns.first,
+  .list-row .list-items {
+    padding-bottom: 0 !important;
+    mso-padding-bottom-alt: 0 !important;
+  }
+
+  .list-row .columns.last,
+  .list-row .list-items {
+    padding-top: 0 !important;
+    mso-padding-top-alt: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .number-bar .interior-bar td {
+    padding-top: 0px !important;
+    mso-padding-top-alt: 0px !important;
+    padding-bottom: 0px !important;
+    mso-padding-bottom-alt: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .small-display-block {
+    display: block !important;
+  }
+
+  .small-text-medium {
+    font-size: 18px !important;
+  }
+
+  .small-text-left {
+    text-align: left !important;
+  }
+
+  .small-bottom-padding-8 {
+    padding-bottom: 8px !important;
+    mso-padding-bottom-alt: 8px !important;
+  }
+
+  .small-top-padding-0 {
+    padding-top: 0 !important;
+    mso-padding-top-alt: 0 !important;
+  }
+
+  .video-container img {
+    margin-bottom: 10px;
+    Margin-bottom: 10px;
+    mso-margin-bottom-alt: 10px;
+  }
+
+  .video-container .video-thumbnail img {
+    max-width: 580px;
+    width: 300px;
+  }
+
+  .list-items p {
+    text-align: left !important;
+    font-size: 20px;
+  }
+
+  .list-items p,
+  .list-items img {
+    line-height: 13px !important;
+    mso-line-height-alt: 13px;
+    margin-bottom: 8px;
+    Margin-bottom: 8px;
+    mso-margin-bottom-alt: 8px;
+    text-align: left;
+  }
+
+  .list-items img {
+    vertical-align: middle !important;
+    margin-top: 5px !important;
+  }
+
+  .list-items.bullet-small th img {
+    padding-top: 0;
+    mso-padding-top-alt: 0;
+  }
+
+  table.body {
+    min-width: 320px !important;
+  }
+
+  table.body .main-container {
+    padding: 0 !important;
+  }
+
+  table.body .main-container > table.container {
+    min-width: 300px !important;
+  }
+
+  table.body table.container {
+    width: 100% !important;
+  }
+
+  .header-section img {
+    height: auto !important;
+  }
+
+  .header-section .small-6,
+  .header-section .large-3,
+  .header-section .large-6 {
+    margin-top: 0px;
+    Margin-top: 0px;
+    mso-margin-top-alt: 0px;
+    margin-bottom: 0px;
+    Margin-bottom: 0px;
+    mso-margin-bottom-alt: 0px;
+  }
+
+  .header-section .heading-container {
+    margin-bottom: 0px;
+    Margin-bottom: 0px;
+    mso-margin-bottom-alt: 0px;
+  }
+
+  .header-section .heading-container p {
+    font-family: Segoe UI, SegoeUI, Roboto, "Helvetica Neue", Arial, s=
+ans-serif;
+  }
+
+  .header-section p.amount-title {
+    line-height: 16px;
+    mso-line-height-alt: 16px;
+    font-size: 12px !important;
+    word-wrap: break-word !important;
+    margin: 0 15px 10px 15px;
+    mso-margin-alt: 0 15px 10px 15px;
+    padding-top: 0 !important;
+  }
+
+  .header-section p.amount-value {
+    font-size: 24px;
+    line-height: 18px;
+    mso-line-height-alt: 18px;
+    margin: 0 15px 10px 15px;
+    mso-margin-alt: 0 15px 10px 15px;
+    padding: 0;
+  }
+
+  .section .columns {
+    padding-top: 0px;
+    mso-padding-top-alt: 0px;
+    padding-bottom: 0px;
+    mso-padding-bottom-alt: 0px;
+  }
+
+  .section .show-for-small {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    mso-height-alt: auto !important;
+    max-height: none !important;
+    mso-max-height-alt: none !important;
+    mso-hide: none !important;
+    overflow: visible !important;
+  }
+
+  table.footer-template p {
+    font-size: 12px !important;
+    line-height: 16px !important;
+  }
+
+  .wrapper.wrapper-inner-540-large .wrapper-inner .container {
+    width: 100%;
+  }
+
+  .wrapper.wrapper-inner-20 .wrapper-inner {
+    padding-left: 0px !important;
+    mso-padding-left-alt: 0px !important;
+    padding-right: 20px !important;
+    mso-padding-right-alt: 20px !important;
+  }
+
+  .no-pad-for-small table th {
+    padding-left: 0px !important;
+    mso-padding-left-alt: 0px !important;
+    padding-right: 0px !important;
+    mso-padding-right-alt: 0px !important;
+  }
+
+  .large-pad-left table th {
+    padding-left: 0px !important;
+    mso-padding-left-alt: 0px !important;
+  }
+
+  .large-pad-right table th {
+    padding-right: 0px !important;
+    mso-padding-right-alt: 0px !important;
+  }
+
+  .max-width img {
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 888px) {
+  .max-width img {
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .button {
+    min-width: 132px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .standard-table td {
+    padding-bottom: 5px !important;
+    mso-padding-bottom-alt: 5px !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .table-default.table-heading-rows,
+  .table-default.table-heading-rows-loop {
+    display: table !important;
+  }
+
+  .table-default.table-heading-rows th,
+  .table-default.table-heading-rows td,
+  .table-default.table-heading-rows-loop th,
+  .table-default.table-heading-rows-loop td {
+    padding: 0 !important;
+    mso-padding-alt: 0 !important;
+    display: block;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 6px !important;
+  }
+
+  .table-default.table-heading-rows td,
+  .table-default.table-heading-rows-loop td {
+    border-top: none !important;
+    padding-bottom: 6px !important;
+    padding-top: none !important;
+  }
+
+  .table-default.table-heading-rows td.wrap-word,
+  .table-default.table-heading-rows .code-block td.wrapper-inner,
+  .code-block .table-default.table-heading-rows td.wrapper-inner,
+  .table-default.table-heading-rows .code-block-azns td.wrapper-inner,
+  .code-block-azns .table-default.table-heading-rows td.wrapper-inner,
+  .table-default.table-heading-rows-loop td.wrap-word,
+  .table-default.table-heading-rows-loop .code-block td.wrapper-inner,
+  .code-block .table-default.table-heading-rows-loop td.wrapper-inner,
+  .table-default.table-heading-rows-loop .code-block-azns td.wrapper-i=
+nner,
+  .code-block-azns .table-default.table-heading-rows-loop td.wrapper-i=
+nner {
+    display: block !important;
+  }
+
+  .table-default.table-heading-rows th,
+  .table-default.table-heading-rows-loop th {
+    width: 100% !important;
+    padding-bottom: none !important;
+    padding-top: 6px !important;
+  }
+
+  .table-default.table-heading-rows.no-stack td,
+  .table-default.table-heading-rows-loop.no-stack td {
+    padding-left: 12px !important;
+  }
+
+  .table-default.table-heading-rows.no-stack td.wrap-word,
+  .table-default.table-heading-rows.no-stack .code-block td.wrapper-in=
+ner,
+  .code-block .table-default.table-heading-rows.no-stack td.wrapper-in=
+ner,
+  .table-default.table-heading-rows.no-stack .code-block-azns td.wrapp=
+er-inner,
+  .code-block-azns .table-default.table-heading-rows.no-stack td.wrapp=
+er-inner,
+  .table-default.table-heading-rows-loop.no-stack td.wrap-word,
+  .table-default.table-heading-rows-loop.no-stack .code-block td.wrapp=
+er-inner,
+  .code-block .table-default.table-heading-rows-loop.no-stack td.wrapp=
+er-inner,
+  .table-default.table-heading-rows-loop.no-stack .code-block-azns td.=
+wrapper-inner,
+  .code-block-azns .table-default.table-heading-rows-loop.no-stack td.=
+wrapper-inner {
+    display: table-cell;
+  }
+
+  .table-default.table-heading-rows.no-stack th,
+  .table-default.table-heading-rows-loop.no-stack th {
+    width: 1% !important;
+    padding-right: 12px !important;
+  }
+
+  .table-default.table-heading-rows.no-stack:first-child th,
+  .table-default.table-heading-rows.no-stack:first-child td,
+  .table-default.table-heading-rows.no-stack .table-heading-rows-loop:=
+first-child th,
+  .table-default.table-heading-rows.no-stack .table-heading-rows-loop:=
+first-child td,
+  .table-default.table-heading-rows-loop.no-stack:first-child th,
+  .table-default.table-heading-rows-loop.no-stack:first-child td,
+  .table-default.table-heading-rows-loop.no-stack .table-heading-rows-=
+loop:first-child th,
+  .table-default.table-heading-rows-loop.no-stack .table-heading-rows-=
+loop:first-child td {
+    border-top: none !important;
+  }
+
+  .table-default.table-heading-rows.no-stack th,
+  .table-default.table-heading-rows.no-stack td,
+  .table-default.table-heading-rows-loop.no-stack th,
+  .table-default.table-heading-rows-loop.no-stack td {
+    display: table-cell !important;
+    border-top: solid 1px #dedede !important;
+    padding-top: 8px !important;
+    mso-padding-top-alt: 8px !important;
+    padding-bottom: 8px !important;
+    mso-padding-bottom-alt: 8px !important;
+  }
+
+  .table-default.table-heading-rows.no-stack.table-heading-rows-loop t=
+h,
+  .table-default.table-heading-rows.no-stack.table-heading-rows-loop t=
+d,
+  .table-default.table-heading-rows-loop.no-stack.table-heading-rows-l=
+oop th,
+  .table-default.table-heading-rows-loop.no-stack.table-heading-rows-l=
+oop td {
+    border-top: none !important;
+  }
+
+  .table-default.table-heading-rows.no-stack.table-heading-rows-loop .=
+table-row-loop-start:first-child th,
+  .table-default.table-heading-rows.no-stack.table-heading-rows-loop .=
+table-row-loop-start:first-child td,
+  .table-default.table-heading-rows-loop.no-stack.table-heading-rows-l=
+oop .table-row-loop-start:first-child th,
+  .table-default.table-heading-rows-loop.no-stack.table-heading-rows-l=
+oop .table-row-loop-start:first-child td {
+    border-top: none !important;
+  }
+
+  .table-default.table-heading-rows.no-stack.table-heading-rows-loop .=
+table-row-loop-start th,
+  .table-default.table-heading-rows.no-stack.table-heading-rows-loop .=
+table-row-loop-start td,
+  .table-default.table-heading-rows-loop.no-stack.table-heading-rows-l=
+oop .table-row-loop-start th,
+  .table-default.table-heading-rows-loop.no-stack.table-heading-rows-l=
+oop .table-row-loop-start td {
+    border-top: solid 1px #dedede !important;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .power-bi.container-mooncake .header-section img {
+    height: auto !important;
+    max-height: 16px;
+    max-width: 100%;
+  }
+}</style>
+
+    <!--[if gte (gte mso 9)|(IE)]>
+        <xml>
+            <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+        <style>
+            li {
+                text-align:-webkit-match-parent;
+                display:list-item;
+                text-indent: -1em;
+            }
+
+            .alert span,
+            .arrow-link,
+            b,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            .heading-group th,
+            strong,
+            .card-table th,
+            .header-right-column,
+            .styled-table th,
+            .styled-table td,
+            .text-heading1,
+            .text-heading2,
+            .text-heading3,
+            .text-heading4,
+            .text-heading5,
+            .text-bold,
+            table.button a,
+            .wrapper-inner a,
+            .wrapper-inner p {
+                font-weight: 400 !important;
+            }
+        </style>
+    <![endif]-->
+</head>
+
+
+
+<body class=3D" ltr " dir=3D"ltr" style=3D"width: 100%;min-width: 100%=
+;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;padding: 0;=
+-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing:=
+ border-box;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, &qu=
+ot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;padding-to=
+p: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;text=
+-align: left;font-size: 14px;line-height: 20px">
+        <div class=3D"preheader" style=3D"display: none;visibility: hi=
+dden;opacity: 0;color: #f4f4f4;height: 0;width: 0;line-height: 1px;fon=
+t-size: 1px;max-height: 0;max-width: 0;overflow: hidden;mso-hide: all"=
+>Attacks on Microsoft and Fortra Software and Customers by Your Organi=
+zation=E2=80=99s IP Addresses&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <table role=3D"presentation" class=3D"body " data-made-with-founda=
+tion=3D"data-made-with-foundation" style=3D"border-spacing: 0;border-c=
+ollapse: collapse;vertical-align: top;mso-table-lspace: -1pt;mso-table=
+-rspace: -1pt;background: #ffffff;height: 100%;width: 100%;color: #111=
+00f;font-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;=
+, Arial, sans-serif;font-weight: 400;padding-top: 0;padding-right: 0;p=
+adding-bottom: 0;padding-left: 0;Margin: 0;text-align: left;font-size:=
+ 14px;line-height: 20px">
+        <tbody><tr style=3D"padding-top: 0;padding-right: 0;padding-bo=
+ttom: 0;padding-left: 0;vertical-align: top;text-align: left">
+            <td class=3D"float-center" align=3D"center" valign=3D"top"=
+ style=3D"word-wrap: break-word;-webkit-hyphens: auto;-moz-hyphens: au=
+to;hyphens: auto;border-collapse: collapse;vertical-align: top;color: =
+#11100f;font-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&q=
+uot;, Arial, sans-serif;font-weight: 400;padding-top: 0;padding-right:=
+ 0;padding-bottom: 0;padding-left: 0;font-size: 14px;line-height: 20px=
+;Margin: 0 auto;float: none;text-align: center">
+                <center class=3D"main-container" style=3D"width: 100%;=
+min-width: 640px">
+                    <table role=3D"presentation" bgcolor=3D"#ffffff" a=
+lign=3D"center" class=3D"float-center" style=3D"border-spacing: 0;bord=
+er-collapse: collapse;padding-top: 0;padding-right: 0;padding-bottom: =
+0;padding-left: 0;vertical-align: top;mso-table-lspace: -1pt;mso-table=
+-rspace: -1pt;Margin: 0 auto;float: none;text-align: center">
+                        <tbody><tr style=3D"padding-top: 0;padding-rig=
+ht: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align=
+: left">
+                            <td style=3D"word-wrap: break-word;-webkit=
+-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: colla=
+pse;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI,=
+ Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 40=
+0;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Ma=
+rgin: 0;text-align: left;font-size: 14px;line-height: 20px">
+                               =20
+
+
+<table role=3D"presentation" dir=3D"ltr" align=3D"center" class=3D"con=
+tainer header-container section" style=3D"border-spacing: 0;border-col=
+lapse: collapse;padding-top: 0;padding-right: 0;padding-bottom: 0;padd=
+ing-left: 0;vertical-align: top;mso-table-lspace: -1pt;mso-table-rspac=
+e: -1pt;background: #ffffff;width: 640px;Margin: 0 auto;text-align: in=
+herit"><tbody><tr style=3D"padding-top: 0;padding-right: 0;padding-bot=
+tom: 0;padding-left: 0;vertical-align: top;text-align: left"><td style=
+=3D"word-wrap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyp=
+hens: auto;border-collapse: collapse;vertical-align: top;color: #11100=
+f;font-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, =
+Arial, sans-serif;font-weight: 400;padding-top: 0;padding-right: 0;pad=
+ding-bottom: 0;padding-left: 0;Margin: 0;text-align: left;font-size: 1=
+4px;line-height: 20px">
+    <table role=3D"presentation" align=3D"left" class=3D"wrapper outer=
+-wrapper text-left" style=3D"border-spacing: 0;border-collapse: collap=
+se;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;v=
+ertical-align: top;mso-table-lspace: -1pt;mso-table-rspace: -1pt;width=
+: 100%;text-align: left"><tbody><tr style=3D"padding-top: 0;padding-ri=
+ght: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-alig=
+n: left"><td class=3D"wrapper-inner" style=3D"word-wrap: break-word;-w=
+ebkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: =
+collapse;vertical-align: top;color: #11100f;font-family: Segoe UI, Seg=
+oeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weigh=
+t: 400;padding-right: 0;padding-left: 0;Margin: 0;text-align: left;fon=
+t-size: 14px;line-height: 20px;padding-top: 0;mso-padding-top-alt: 0;p=
+adding-bottom: 0;mso-padding-bottom-alt: 0">
+        <table role=3D"presentation" align=3D"left" class=3D"row heade=
+r-section text-left" style=3D"border-spacing: 0;border-collapse: colla=
+pse;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;=
+vertical-align: top;mso-table-lspace: -1pt;mso-table-rspace: -1pt;padd=
+ing: 0;width: 100%;position: relative;text-align: left;display: table"=
+><tbody><tr style=3D"padding-top: 0;padding-right: 0;padding-bottom: 0=
+;padding-left: 0;vertical-align: top;text-align: left">
+            <th class=3D"text-left small-12 large-12 columns first las=
+t" align=3D"left" style=3D"word-wrap: break-word;-webkit-hyphens: auto=
+;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse;vertical-a=
+lign: top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, &quot=
+;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;font-size: 1=
+4px;line-height: 20px;Margin: 0 auto;width: 616px;text-align: left;pad=
+ding-left: 24px;padding-right: 24px;padding-top: 24px;mso-padding-top-=
+alt: 24px;padding-bottom: 24px;mso-padding-bottom-alt: 24px"><table ro=
+le=3D"presentation" style=3D"border-spacing: 0;border-collapse: collap=
+se;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;v=
+ertical-align: top;text-align: left;mso-table-lspace: -1pt;mso-table-r=
+space: -1pt;width: 100%"><tbody><tr style=3D"padding-top: 0;padding-ri=
+ght: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-alig=
+n: left"><th style=3D"word-wrap: break-word;-webkit-hyphens: auto;-moz=
+-hyphens: auto;hyphens: auto;border-collapse: collapse;vertical-align:=
+ top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, &quot;Helv=
+etica Neue&quot;, Arial, sans-serif;font-weight: 400;padding-top: 0;pa=
+dding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;text-align:=
+ left;font-size: 14px;line-height: 20px">
+                <img height=3D"20" width=3D"auto" src=3D"https://image=
+s.ecomm.microsoft.com/cdn/mediahandler/azure-emails-templates/producti=
+on/shared/images/templates/shared/microsoft-2x.png" alt=3D"Microsoft" =
+title=3D"Microsoft" class=3D"logo-microsoft text-left" style=3D"outlin=
+e: none;text-decoration: none;-ms-interpolation-mode: bicubic;max-widt=
+h: 100%;clear: both;display: block;height: 20px;max-height: 20px;width=
+: auto">
+            </th>
+<th class=3D"expander" style=3D"word-wrap: break-word;-webkit-hyphens:=
+ auto;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse;verti=
+cal-align: top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, =
+&quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;padding=
+-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;t=
+ext-align: left;font-size: 14px;line-height: 20px;visibility: hidden;w=
+idth: 0;padding: 0"></th></tr></tbody></table></th>
+        </tr></tbody></table>
+    </td></tr></tbody></table>
+</td></tr></tbody></table>
+
+
+
+
+
+
+
+<table role=3D"presentation" align=3D"center" class=3D"container templ=
+ate-container section" style=3D"border-spacing: 0;border-collapse: col=
+lapse;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: =
+0;vertical-align: top;mso-table-lspace: -1pt;mso-table-rspace: -1pt;ba=
+ckground: #ffffff;width: 640px;Margin: 0 auto;text-align: inherit"><tb=
+ody><tr style=3D"padding-top: 0;padding-right: 0;padding-bottom: 0;pad=
+ding-left: 0;vertical-align: top;text-align: left"><td style=3D"word-w=
+rap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto=
+;border-collapse: collapse;vertical-align: top;color: #11100f;font-fam=
+ily: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, san=
+s-serif;font-weight: 400;padding-top: 0;padding-right: 0;padding-botto=
+m: 0;padding-left: 0;Margin: 0;text-align: left;font-size: 14px;line-h=
+eight: 20px">
+    <table role=3D"presentation" class=3D"wrapper outer-wrapper" align=
+=3D"center" style=3D"border-spacing: 0;border-collapse: collapse;paddi=
+ng-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-=
+align: top;text-align: left;mso-table-lspace: -1pt;mso-table-rspace: -=
+1pt;width: 100%"><tbody><tr style=3D"padding-top: 0;padding-right: 0;p=
+adding-bottom: 0;padding-left: 0;vertical-align: top;text-align: left"=
+><td class=3D"wrapper-inner" style=3D"word-wrap: break-word;-webkit-hy=
+phens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse=
+;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI, Ro=
+boto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;p=
+adding-right: 0;padding-left: 0;Margin: 0;text-align: left;font-size: =
+14px;line-height: 20px;padding-bottom: 12px;mso-padding-bottom-alt: 12=
+px;padding-top: 6px;mso-padding-top-alt: 6px">
+        <center style=3D"width: 100%;min-width: 640px">
+            <table role=3D"presentation" align=3D"center" class=3D"row=
+ float-center" style=3D"border-spacing: 0;border-collapse: collapse;pa=
+dding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertic=
+al-align: top;mso-table-lspace: -1pt;mso-table-rspace: -1pt;padding: 0=
+;width: 100%;position: relative;Margin: 0 auto;float: none;text-align:=
+ center;display: table"><tbody><tr style=3D"padding-top: 0;padding-rig=
+ht: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align=
+: left">
+                <th class=3D"small-12 large-12 columns first last" sty=
+le=3D"word-wrap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;h=
+yphens: auto;border-collapse: collapse;vertical-align: top;color: #111=
+00f;font-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;=
+, Arial, sans-serif;font-weight: 400;text-align: left;font-size: 14px;=
+line-height: 20px;Margin: 0 auto;width: 616px;padding-bottom: 12px;mso=
+-padding-bottom-alt: 12px;padding-left: 24px;padding-right: 24px;paddi=
+ng-top: 6px;mso-padding-top-alt: 6px"><table role=3D"presentation" sty=
+le=3D"border-spacing: 0;border-collapse: collapse;padding-top: 0;paddi=
+ng-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text=
+-align: left;mso-table-lspace: -1pt;mso-table-rspace: -1pt;width: 100%=
+"><tbody><tr style=3D"padding-top: 0;padding-right: 0;padding-bottom: =
+0;padding-left: 0;vertical-align: top;text-align: left"><th style=3D"w=
+ord-wrap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens:=
+ auto;border-collapse: collapse;vertical-align: top;color: #11100f;fon=
+t-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial=
+, sans-serif;font-weight: 400;padding-top: 0;padding-right: 0;padding-=
+bottom: 0;padding-left: 0;Margin: 0;text-align: left;font-size: 14px;l=
+ine-height: 20px">
+                    <h1 style=3D"padding-top: 0;padding-right: 0;paddi=
+ng-bottom: 0;padding-left: 0;Margin: 0;text-align: left;color: inherit=
+;Margin-bottom: 16px;-webkit-hyphens: none;-moz-hyphens: none;-ms-hyph=
+ens: none;hyphens: none;letter-spacing: -.01em;font-family: Segoe UI S=
+emibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto, &quot;Helvetica N=
+eue&quot;, Arial, sans-serif;font-weight: 600;font-size: 28px;line-hei=
+ght: 36px;mso-line-height-alt: 36px;word-wrap: normal;-webkit-text-siz=
+e-adjust: none">Attacks on Microsoft and Fortra Software and Customers=
+ by Your Organization=E2=80=99s IP Addresses</h1>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">Dear Abuse and Lega=
+l Teams:</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">We are communicatin=
+g with you on behalf of Microsoft Corporation (=E2=80=9CMicrosoft=E2=80=
+=9D), a limited liability company incorporated under the laws of the S=
+tate of Washington and having its offices at One Microsoft Way, Redmon=
+d, Washington 98052, United States of America, and Fortra LLC (=E2=80=9C=
+Fortra=E2=80=9D), a limited liability company organized under the laws=
+ of the State of Delaware and having its offices at 11095 Viking Drive=
+, Suite 100, Eden Prairie, Minnesota 55344, United States of America, =
+to:</p>
+                    <ul class=3D"list-items" style=3D"Margin-bottom: 1=
+5px;mso-margin-bottom-alt: 15px;Margin-left: 17px;mso-margin-left-alt:=
+ 17px;padding: 0px;mso-padding-alt: 0px;-webkit-padding-start: 0px">
+                        <li style=3D"font-size: 16px;line-height: 22px=
+;mso-line-height-alt: 22px;Margin-top: 4px;mso-margin-top-alt: 4px;Mar=
+gin-bottom: 4px;mso-margin-bottom-alt: 4px;Margin-left: 0px;mso-margin=
+-left-alt: 0px;Margin-right: 0px;mso-margin-right-alt: 0px;text-align:=
+ -webkit-match-parent;display: list-item"><strong style=3D"font-family=
+: Segoe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto, &quot=
+;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 600">notify</str=
+ong> you of illegal activity from the IP addresses outlined at the end=
+ of this message, hosted by your company, which is causing a widesprea=
+d attack on, and severe business disruption and injury to, Microsoft, =
+Fortra, and their respective customers, (the =E2=80=9CAttacks=E2=80=9D=
+), as well as constituting an infringement of Fortra=E2=80=99s and Mic=
+rosoft=E2=80=99s intellectual property rights (the =E2=80=9CInfringeme=
+nts=E2=80=9D); and</li>
+                        <li style=3D"font-size: 16px;line-height: 22px=
+;mso-line-height-alt: 22px;Margin-top: 4px;mso-margin-top-alt: 4px;Mar=
+gin-bottom: 4px;mso-margin-bottom-alt: 4px;Margin-left: 0px;mso-margin=
+-left-alt: 0px;Margin-right: 0px;mso-margin-right-alt: 0px;text-align:=
+ -webkit-match-parent;display: list-item"><strong style=3D"font-family=
+: Segoe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto, &quot=
+;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 600">request</st=
+rong> that your company take the necessary steps to cease the Infringe=
+ments and stop further illegal Attacks from happening, as per your leg=
+al obligations detailed herein below.</li>
+                    </ul>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-top: 12px;mso-margin-top-alt: 12px;Margin-bottom: 12px;mso-ma=
+rgin-bottom-alt: 12px">We also request that your abuse team immediatel=
+y forward this communication to your company=E2=80=99s legal team.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">Microsoft and Fortr=
+a have conducted a <strong style=3D"font-family: Segoe UI Semibold, Se=
+goeUISemibold, Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, =
+Arial, sans-serif;font-weight: 600">detailed investigation</strong> an=
+d detected a pattern of IP addresses hosted by your company acting as =
+command-and-control infrastructure for the malicious, trademark and co=
+pyright infringing use of illegal versions of software known as =E2=80=
+=9CCobalt Strike=E2=80=9D.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">During the <strong =
+style=3D"font-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, Se=
+goeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weig=
+ht: 600">Attacks</strong>, illegal activity is conducted through these=
+ IP addresses by delivering malicious commands to and receiving stolen=
+ information from victim computers running Microsoft=E2=80=99s Windows=
+ operating system. The malicious and unlawful versions of Cobalt Strik=
+e controlled through these IP addresses are used to target victims wit=
+h ransomware (i.e., Conti and Lockbit), resulting in extortion of fund=
+s and theft of sensitive information, intrusion into victims=E2=80=99 =
+computers and networks, surveillance of the victims, and obfuscation o=
+f the cybercriminals=E2=80=99 activity. In these ways, the Attacks ema=
+nating from the IP addresses hosted by your company are causing severe=
+ business disruption and injury to Microsoft, Fortra, and their respec=
+tive customers, including victims in sensitive industries such as heal=
+thcare, and individual consumers.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">As regards the <str=
+ong style=3D"font-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI=
+, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-=
+weight: 600">Infringements</strong>, the malicious and unlawful versio=
+ns of Cobalt Strike software infringe on Fortra=E2=80=99s copyright by=
+ literally copying the entirety of its copyrighted Cobalt Strike =E2=80=
+=9Cteam server=E2=80=9D code in a cracked, unauthorized version used f=
+or malicious purposes. The infringement involves unauthorized copying =
+of executable code for all of the Cobalt Strike team server=E2=80=99s =
+web server, beacon and configuration features and functionality, inclu=
+ding all of Fortra=E2=80=99s creative and original method implementati=
+ons, interfaces, parameters, variables, arrays, data types, operators,=
+ and objects.  Further, the content hosted at the IP addresses referre=
+d to herein violates the law as it contains malicious code including u=
+nauthorized use of Fortra=E2=80=99s =E2=80=9CCobalt Strike=E2=80=9D tr=
+ademark and both Microsoft=E2=80=99s and Fortra=E2=80=99s copyrighted =
+code.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">The Attacks and the=
+ Infringements from your company=E2=80=99s infrastructure are ongoing.=
+ It is also foreseeable that if your customers carrying out these Infr=
+ingements and illegal Attacks over the identified IP addresses are per=
+mitted to continue to use your company=E2=80=99s infrastructure in the=
+ future, Microsoft, Fortra, and their respective customers will as a r=
+esult be subject to continued serious injury.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">Set forth below are=
+ the malicious Cobalt Strike command and control <strong style=3D"font=
+-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto=
+, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 600">IP a=
+ddresses identified as being hosted by your company</strong>. We are a=
+lso providing you with the relevant details regarding these IP address=
+es, including evidence of illegal activity, date and time information,=
+ and other indicators. This notification letter is sent to you to info=
+rm you of the illegal activity taking place at these IP addresses and =
+to enable you to fully identify the illegal activity and customers ass=
+ociated with the traffic.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px"><strong style=3D"fo=
+nt-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Robo=
+to, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 600">Th=
+e Attacks and the Infringements, as outlined above, violate the law an=
+d your company=E2=80=99s terms of use.</strong></p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">We urge your compan=
+y to review its <strong style=3D"font-family: Segoe UI Semibold, Segoe=
+UISemibold, Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Ari=
+al, sans-serif;font-weight: 600">terms of use</strong> for violations =
+by your customers carrying out the Attacks and the Infringements and t=
+o exercise its rights to stop the illegal network activity, in order t=
+o mitigate the injury to Microsoft, Fortra, and their respective custo=
+mers, and for Microsoft=E2=80=99s, Fortra=E2=80=99s, and their respect=
+ive customers=E2=80=99 benefit.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">The illegal activit=
+y from the IP addresses violates the <strong style=3D"font-family: Seg=
+oe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto, &quot;Helv=
+etica Neue&quot;, Arial, sans-serif;font-weight: 600">law</strong> as =
+they are used to control the malicious versions of stolen Cobalt Strik=
+e; and thus, commits several criminal offenses including illegal acces=
+s, illegal interception, data interference, misuse of devices, compute=
+r-related forgery, and computer-related fraud. The malicious, illegal =
+versions of Cobalt Strike command and control software hosted at the I=
+P addresses is also engaged in fraudulent conduct, extortion, and thef=
+t of funds, which is illegal under the laws of all jurisdictions, whil=
+e also infringing our intellectual property rights.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">This letter is an <=
+strong style=3D"font-family: Segoe UI Semibold, SegoeUISemibold, Segoe=
+ UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;fo=
+nt-weight: 600">official notification under the laws implementing Arti=
+cle 14 of the EU e-Commerce Directive 2000/31/EC and other analogous l=
+aws in your jurisdiction, in line with Article 6 of the Digital Servic=
+es Act =E2=80=93 Regulation 2022/2065</strong>, thus providing your co=
+mpany with actual knowledge of the illegal activity. Please be advised=
+ that the law requires your company, as a hosting provider, to act aga=
+inst the illegal activity upon receiving this notice to remove or, at =
+the least, to disable access to the illegal information or illegal act=
+ivity. Under the foregoing legislation a hosting provider, such as you=
+r company, can be held liable for the illegal activity originating fro=
+m your infrastructure unless you act expeditiously to disable the ille=
+gal activity upon receiving this notice. Under the foregoing legislati=
+on a hosting provider, such as your company, may avoid liability for t=
+he illegal activity originating from their infrastructure if they act =
+expeditiously to remove or disable the illegal activity once obtaining=
+ knowledge or awareness of it, as well as to prevent the illegal activ=
+ity.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">Because the Attacks=
+ and the Infringements originate from IP addresses hosted by your comp=
+any, and for which your company is responsible, <strong style=3D"font-=
+family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto,=
+ &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 600">Micro=
+soft and Fortra respectfully request that your company:</strong></p>
+                    <ol class=3D"list-items" style=3D"Margin-bottom: 1=
+5px;mso-margin-bottom-alt: 15px;padding: 0px;mso-padding-alt: 0px;-web=
+kit-padding-start: 0px;Margin-left: 20px;mso-margin-left-alt: 20px">
+                        <li style=3D"font-size: 16px;line-height: 22px=
+;mso-line-height-alt: 22px;Margin-top: 4px;mso-margin-top-alt: 4px;Mar=
+gin-bottom: 4px;mso-margin-bottom-alt: 4px;Margin-left: 0px;mso-margin=
+-left-alt: 0px;Margin-right: 0px;mso-margin-right-alt: 0px;text-align:=
+ -webkit-match-parent;display: list-item">take immediate steps to remo=
+ve or disable access to the infringing content and disable the illegal=
+ activity carried out through the IP addresses listed below,</li>
+                        <li style=3D"font-size: 16px;line-height: 22px=
+;mso-line-height-alt: 22px;Margin-top: 4px;mso-margin-top-alt: 4px;Mar=
+gin-bottom: 4px;mso-margin-bottom-alt: 4px;Margin-left: 0px;mso-margin=
+-left-alt: 0px;Margin-right: 0px;mso-margin-right-alt: 0px;text-align:=
+ -webkit-match-parent;display: list-item">cease providing services to =
+any existing customer enabling them to use these IPs to carry out the =
+Infringement and the Attacks,</li>
+                        <li style=3D"font-size: 16px;line-height: 22px=
+;mso-line-height-alt: 22px;Margin-top: 4px;mso-margin-top-alt: 4px;Mar=
+gin-bottom: 4px;mso-margin-bottom-alt: 4px;Margin-left: 0px;mso-margin=
+-left-alt: 0px;Margin-right: 0px;mso-margin-right-alt: 0px;text-align:=
+ -webkit-match-parent;display: list-item">ensure that any ultimate cus=
+tomer is not allowed to reestablish these IP addresses at your company=
+ or maintain any future presence on your company=E2=80=99s network in =
+order to carry out similar Infringement and Attacks, and</li>
+                        <li style=3D"font-size: 16px;line-height: 22px=
+;mso-line-height-alt: 22px;Margin-top: 4px;mso-margin-top-alt: 4px;Mar=
+gin-bottom: 4px;mso-margin-bottom-alt: 4px;Margin-left: 0px;mso-margin=
+-left-alt: 0px;Margin-right: 0px;mso-margin-right-alt: 0px;text-align:=
+ -webkit-match-parent;display: list-item">preserve for evidence purpos=
+es the content and traffic data for these servers, as well as the user=
+=E2=80=99s control panel, for a period of 6 months.</li>
+                    </ol>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-top: 12px;mso-margin-top-alt: 12px;Margin-bottom: 12px;mso-ma=
+rgin-bottom-alt: 12px">After having taken the necessary steps, Microso=
+ft and Fortra also request that your company immediately notify the cu=
+stomers to cease any illegal activity originating from your infrastruc=
+ture in the future. As the identified servers do not have any public f=
+acing websites, it is impossible for Microsoft or Fortra to contact yo=
+ur customers directly.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">As you know, failur=
+e to comply with this request to take action against illegal content a=
+nd/or illegal activity may result in your company=E2=80=99s liability =
+for the prejudice Microsoft, Fortra and their customers are bound to s=
+uffer as a result. Consequently, Microsoft and Fortra look forward to =
+collaborating with your company to reach a full and accurate understan=
+ding of the Infringements and the Attacks and their source, and to tak=
+e all necessary and appropriate steps to ensure that no further illega=
+l activity occurs; as well as to protect Microsoft, Fortra, and their =
+respective customers from any future harm and the associated damage th=
+at these Infringements and Attacks have caused or may cause.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 12px;mso-margin-bottom-alt: 12px">Please feel free to=
+ contact us with any questions or concerns.</p>
+                    <p style=3D"color: #11100f;font-family: Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-le=
+ft: 0;Margin: 0;text-align: left;font-size: 16px;line-height: 22px;mso=
+-line-height-alt: 22px;word-wrap: normal;-webkit-text-size-adjust: non=
+e;Margin-bottom: 0;mso-margin-bottom-alt: 0">Microsoft Corporation <br=
+>Fortra, LLC</p>
+                </th>
+<th class=3D"expander" style=3D"word-wrap: break-word;-webkit-hyphens:=
+ auto;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse;verti=
+cal-align: top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, =
+&quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;padding=
+-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;t=
+ext-align: left;font-size: 14px;line-height: 20px;visibility: hidden;w=
+idth: 0;padding: 0"></th></tr></tbody></table></th>
+            </tr></tbody></table>
+            <table role=3D"presentation" align=3D"center" class=3D"row=
+ float-center" style=3D"border-spacing: 0;border-collapse: collapse;pa=
+dding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertic=
+al-align: top;mso-table-lspace: -1pt;mso-table-rspace: -1pt;padding: 0=
+;width: 100%;position: relative;Margin: 0 auto;float: none;text-align:=
+ center;display: table"><tbody><tr style=3D"padding-top: 0;padding-rig=
+ht: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align=
+: left">
+                <th class=3D"small-12 large-12 columns first last" sty=
+le=3D"word-wrap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;h=
+yphens: auto;border-collapse: collapse;vertical-align: top;color: #111=
+00f;font-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;=
+, Arial, sans-serif;font-weight: 400;text-align: left;font-size: 14px;=
+line-height: 20px;Margin: 0 auto;width: 616px;padding-top: 12px;mso-pa=
+dding-top-alt: 12px;padding-bottom: 12px;mso-padding-bottom-alt: 12px;=
+padding-left: 24px;padding-right: 24px"><table role=3D"presentation" s=
+tyle=3D"border-spacing: 0;border-collapse: collapse;padding-top: 0;pad=
+ding-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;te=
+xt-align: left;mso-table-lspace: -1pt;mso-table-rspace: -1pt;width: 10=
+0%"><tbody><tr style=3D"padding-top: 0;padding-right: 0;padding-bottom=
+: 0;padding-left: 0;vertical-align: top;text-align: left"><th style=3D=
+"word-wrap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphen=
+s: auto;border-collapse: collapse;vertical-align: top;color: #11100f;f=
+ont-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Ari=
+al, sans-serif;font-weight: 400;padding-top: 0;padding-right: 0;paddin=
+g-bottom: 0;padding-left: 0;Margin: 0;text-align: left;font-size: 14px=
+;line-height: 20px">
+                    <table role=3D"presentation" class=3D"table-defaul=
+t table-heading-rows" style=3D"border-spacing: 0;border-collapse: coll=
+apse;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0=
+;vertical-align: top;text-align: left;mso-table-lspace: -1pt;mso-table=
+-rspace: -1pt;max-width: 592px;width: 100%">
+                            <tbody><tr style=3D"padding-top: 0;padding=
+-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-a=
+lign: left">
+                                <th style=3D"-webkit-hyphens: auto;-mo=
+z-hyphens: auto;hyphens: auto;border-collapse: collapse;color: #11100f=
+;Margin: 0;text-align: left;line-height: 20px;word-break: break-word;p=
+adding-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-paddin=
+g-top-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padd=
+ing-bottom-alt: 6px;font-size: 14px;padding-right: 12px;vertical-align=
+: top;width: 1%;white-space: nowrap;word-wrap: initial;font-family: Se=
+goe UI Semibold, SegoeUISemibold, Segoe UI, SegoeUI, Roboto, &quot;Hel=
+vetica Neue&quot;, Arial, sans-serif;font-weight: 600;border-top: none=
+">Domain</th>
+                                <td style=3D"word-wrap: break-word;-we=
+bkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: c=
+ollapse;vertical-align: top;color: #11100f;font-family: Segoe UI, Sego=
+eUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight=
+: 400;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;wor=
+d-break: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-pad=
+ding-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;paddin=
+g-bottom: 6px;mso-padding-bottom-alt: 6px;padding-left: 12px;border-to=
+p: none">N/A</td>
+                            </tr>
+                        <tr style=3D"padding-top: 0;padding-right: 0;p=
+adding-bottom: 0;padding-left: 0;vertical-align: top;text-align: left"=
+>
+                            <th style=3D"-webkit-hyphens: auto;-moz-hy=
+phens: auto;hyphens: auto;border-collapse: collapse;color: #11100f;Mar=
+gin: 0;text-align: left;line-height: 20px;word-break: break-word;paddi=
+ng-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding-to=
+p-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padding-=
+bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padding-=
+right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word-wra=
+p: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 600">IP</th>
+                            <td style=3D"word-wrap: break-word;-webkit=
+-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: colla=
+pse;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI,=
+ Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 40=
+0;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;word-br=
+eak: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding=
+-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;padding-bo=
+ttom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #dedede;pa=
+dding-left: 12px">85.208.107.148</td>
+                        </tr>
+                        <tr style=3D"padding-top: 0;padding-right: 0;p=
+adding-bottom: 0;padding-left: 0;vertical-align: top;text-align: left"=
+>
+                            <th style=3D"-webkit-hyphens: auto;-moz-hy=
+phens: auto;hyphens: auto;border-collapse: collapse;color: #11100f;Mar=
+gin: 0;text-align: left;line-height: 20px;word-break: break-word;paddi=
+ng-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding-to=
+p-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padding-=
+bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padding-=
+right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word-wra=
+p: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 600">Port</th>
+                            <td style=3D"word-wrap: break-word;-webkit=
+-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: colla=
+pse;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI,=
+ Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 40=
+0;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;word-br=
+eak: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding=
+-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;padding-bo=
+ttom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #dedede;pa=
+dding-left: 12px">8088</td>
+                        </tr>
+                            <tr style=3D"padding-top: 0;padding-right:=
+ 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align: l=
+eft">
+                                <th style=3D"-webkit-hyphens: auto;-mo=
+z-hyphens: auto;hyphens: auto;border-collapse: collapse;color: #11100f=
+;Margin: 0;text-align: left;line-height: 20px;word-break: break-word;p=
+adding-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-paddin=
+g-top-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padd=
+ing-bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padd=
+ing-right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word=
+-wrap: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe =
+UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;fon=
+t-weight: 600">URL</th>
+                                <td style=3D"word-wrap: break-word;-we=
+bkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: c=
+ollapse;vertical-align: top;color: #11100f;font-family: Segoe UI, Sego=
+eUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight=
+: 400;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;wor=
+d-break: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-pad=
+ding-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;paddin=
+g-bottom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #deded=
+e;padding-left: 12px">hxxp://85.208.107.148:8088/7Fwi</td>
+                            </tr>
+                        <tr style=3D"padding-top: 0;padding-right: 0;p=
+adding-bottom: 0;padding-left: 0;vertical-align: top;text-align: left"=
+>
+                            <th style=3D"-webkit-hyphens: auto;-moz-hy=
+phens: auto;hyphens: auto;border-collapse: collapse;color: #11100f;Mar=
+gin: 0;text-align: left;line-height: 20px;word-break: break-word;paddi=
+ng-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding-to=
+p-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padding-=
+bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padding-=
+right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word-wra=
+p: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 600">Last seen</th>
+                            <td style=3D"word-wrap: break-word;-webkit=
+-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: colla=
+pse;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI,=
+ Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 40=
+0;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;word-br=
+eak: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding=
+-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;padding-bo=
+ttom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #dedede;pa=
+dding-left: 12px">May 4, 2023 18:59 UTC</td>
+                        </tr>
+                            <tr style=3D"padding-top: 0;padding-right:=
+ 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align: l=
+eft">
+                                <th style=3D"-webkit-hyphens: auto;-mo=
+z-hyphens: auto;hyphens: auto;border-collapse: collapse;color: #11100f=
+;Margin: 0;text-align: left;line-height: 20px;word-break: break-word;p=
+adding-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-paddin=
+g-top-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padd=
+ing-bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padd=
+ing-right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word=
+-wrap: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe =
+UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;fon=
+t-weight: 600">Autonomous System Number</th>
+                                <td style=3D"word-wrap: break-word;-we=
+bkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: c=
+ollapse;vertical-align: top;color: #11100f;font-family: Segoe UI, Sego=
+eUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight=
+: 400;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;wor=
+d-break: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-pad=
+ding-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;paddin=
+g-bottom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #deded=
+e;padding-left: 12px">30823</td>
+                            </tr>
+                                                    <tr style=3D"paddi=
+ng-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;vertical-=
+align: top;text-align: left">
+                                <th style=3D"-webkit-hyphens: auto;-mo=
+z-hyphens: auto;hyphens: auto;border-collapse: collapse;color: #11100f=
+;Margin: 0;text-align: left;line-height: 20px;word-break: break-word;p=
+adding-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-paddin=
+g-top-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padd=
+ing-bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padd=
+ing-right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word=
+-wrap: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe =
+UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;fon=
+t-weight: 600">Beacon Sha256</th>
+                                <td style=3D"word-wrap: break-word;-we=
+bkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: c=
+ollapse;vertical-align: top;color: #11100f;font-family: Segoe UI, Sego=
+eUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight=
+: 400;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;wor=
+d-break: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-pad=
+ding-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;paddin=
+g-bottom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #deded=
+e;padding-left: 12px">56e1850e7983df089cda1cee17053359f3ecce1f65873421=
+64f4a341786ee8ba</td>
+                            </tr>
+                        <tr style=3D"padding-top: 0;padding-right: 0;p=
+adding-bottom: 0;padding-left: 0;vertical-align: top;text-align: left"=
+>
+                            <th style=3D"-webkit-hyphens: auto;-moz-hy=
+phens: auto;hyphens: auto;border-collapse: collapse;color: #11100f;Mar=
+gin: 0;text-align: left;line-height: 20px;word-break: break-word;paddi=
+ng-left: 6px;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding-to=
+p-alt: 6px;mso-padding-right-alt: 6px;padding-bottom: 6px;mso-padding-=
+bottom-alt: 6px;border-top: solid 1px #dedede;font-size: 14px;padding-=
+right: 12px;vertical-align: top;width: 1%;white-space: nowrap;word-wra=
+p: initial;font-family: Segoe UI Semibold, SegoeUISemibold, Segoe UI, =
+SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-we=
+ight: 600;border-bottom: none">Watermark</th>
+                            <td style=3D"word-wrap: break-word;-webkit=
+-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: colla=
+pse;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI,=
+ Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 40=
+0;Margin: 0;text-align: left;font-size: 14px;line-height: 20px;word-br=
+eak: break-word;mso-padding-left-alt: 6px;padding-top: 6px;mso-padding=
+-top-alt: 6px;padding-right: 6px;mso-padding-right-alt: 6px;padding-bo=
+ttom: 6px;mso-padding-bottom-alt: 6px;border-top: solid 1px #dedede;pa=
+dding-left: 12px;border-bottom: none">987654321</td>
+                        </tr>
+                    </tbody></table>
+                </th>
+<th class=3D"expander" style=3D"word-wrap: break-word;-webkit-hyphens:=
+ auto;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse;verti=
+cal-align: top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, =
+&quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;padding=
+-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;t=
+ext-align: left;font-size: 14px;line-height: 20px;visibility: hidden;w=
+idth: 0;padding: 0"></th></tr></tbody></table></th>
+            </tr></tbody></table>
+        </center>
+    </td></tr></tbody></table>
+</td></tr></tbody></table>
+                                <table role=3D"presentation" dir=3D"lt=
+r" align=3D"center" class=3D"container footer-template" style=3D"borde=
+r-spacing: 0;border-collapse: collapse;padding-top: 0;padding-right: 0=
+;padding-bottom: 0;padding-left: 0;vertical-align: top;mso-table-lspac=
+e: -1pt;mso-table-rspace: -1pt;background: #ffffff;width: 640px;Margin=
+: 0 auto;text-align: inherit"><tbody><tr style=3D"padding-top: 0;paddi=
+ng-right: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text=
+-align: left"><td style=3D"word-wrap: break-word;-webkit-hyphens: auto=
+;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse;vertical-a=
+lign: top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, &quot=
+;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;padding-top:=
+ 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;text-a=
+lign: left;font-size: 14px;line-height: 20px">
+                                    <table role=3D"presentation" class=
+=3D"wrapper outer-wrapper footer-wrapper" align=3D"center" style=3D"bo=
+rder-spacing: 0;border-collapse: collapse;padding-top: 0;padding-right=
+: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align: =
+left;mso-table-lspace: -1pt;mso-table-rspace: -1pt;width: 100%;backgro=
+und-color: #F0F0F0"><tbody><tr style=3D"padding-top: 0;padding-right: =
+0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align: le=
+ft"><td class=3D"wrapper-inner" style=3D"word-wrap: break-word;-webkit=
+-hyphens: auto;-moz-hyphens: auto;hyphens: auto;border-collapse: colla=
+pse;vertical-align: top;color: #11100f;font-family: Segoe UI, SegoeUI,=
+ Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 40=
+0;padding-right: 0;padding-left: 0;Margin: 0;text-align: left;font-siz=
+e: 14px;line-height: 20px;padding-top: 12px;mso-padding-top-alt: 12px;=
+padding-bottom: 12px;mso-padding-bottom-alt: 12px">
+                                        <center style=3D"width: 100%;m=
+in-width: 640px">
+                                                                      =
+                 =20
+                                           =20
+
+   =20
+<table role=3D"presentation" class=3D"row" style=3D"border-spacing: 0;=
+border-collapse: collapse;padding-top: 0;padding-right: 0;padding-bott=
+om: 0;padding-left: 0;vertical-align: top;text-align: left;mso-table-l=
+space: -1pt;mso-table-rspace: -1pt;padding: 0;width: 100%;position: re=
+lative;display: table"><tbody><tr style=3D"padding-top: 0;padding-righ=
+t: 0;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align:=
+ left">
+    <th class=3D"small-12 large-12 columns first last" style=3D"word-w=
+rap: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto=
+;border-collapse: collapse;vertical-align: top;color: #11100f;font-fam=
+ily: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, san=
+s-serif;font-weight: 400;text-align: left;font-size: 14px;line-height:=
+ 20px;Margin: 0 auto;padding-left: 24px;padding-right: 24px;padding-to=
+p: 12px;mso-padding-top-alt: 12px;padding-bottom: 12px;mso-padding-bot=
+tom-alt: 12px;width: auto"><table role=3D"presentation" style=3D"borde=
+r-spacing: 0;border-collapse: collapse;padding-top: 0;padding-right: 0=
+;padding-bottom: 0;padding-left: 0;vertical-align: top;text-align: lef=
+t;mso-table-lspace: -1pt;mso-table-rspace: -1pt;width: 100%"><tbody><t=
+r style=3D"padding-top: 0;padding-right: 0;padding-bottom: 0;padding-l=
+eft: 0;vertical-align: top;text-align: left"><th style=3D"word-wrap: b=
+reak-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;borde=
+r-collapse: collapse;vertical-align: top;color: #11100f;font-family: S=
+egoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-seri=
+f;font-weight: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;p=
+adding-left: 0;Margin: 0;text-align: left;font-size: 14px;line-height:=
+ 20px">       =20
+        <p class=3D"margin-bottom-0" style=3D"font-family: Segoe UI, S=
+egoeUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-wei=
+ght: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-lef=
+t: 0;Margin: 0;text-align: left;word-wrap: normal;-webkit-text-size-ad=
+just: none;Margin-bottom: 0px;mso-margin-bottom-alt: 0px;font-size: 12=
+px;line-height: 16px;mso-line-height-alt: 16px;color: #484644">
+
+            <a href=3D"https://nam.safelink.emails.azure.net/redirect/=
+?destination=3Dhttps%3A%2F%2Fgo.microsoft.com%2Ffwlink%2F%3FLinkId%3D5=
+21839&amp;p=3DbT1lZWYwOWU3NC0xMTE5LTQ2NGYtOGMwNi02Njk0NjRhMjU1NzQmdT1h=
+ZW8mbD1wcml2YWN5LXN0YXRlbWVudA%3D%3D" title=3D"Privacy Statement" styl=
+e=3D"font-family: Segoe UI, SegoeUI, Roboto, &quot;Helvetica Neue&quot=
+;, Arial, sans-serif;font-weight: 400;padding: 0;text-align: left;line=
+-height: 20px;color: #484644;display: inline-block;text-decoration: un=
+derline;text-underline: single">Privacy Statement</a>           =20
+        </p>
+        <p class=3D"margin-top-8" style=3D"font-family: Segoe UI, Sego=
+eUI, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight=
+: 400;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: =
+0;Margin: 0;text-align: left;Margin-bottom: 12px;word-wrap: normal;-we=
+bkit-text-size-adjust: none;Margin-top: 8px;mso-margin-top-alt: 8px;fo=
+nt-size: 12px;line-height: 16px;mso-line-height-alt: 16px;color: #4846=
+44">Microsoft Corporation, <span class=3D"no-wrap" style=3D"display: i=
+nline-block;word-break: keep-all;hyphens: none">One Microsoft Way, =E2=
+=80=8BRedmond, WA 98052=E2=80=8B</span></p>
+        <img height=3D"20" width=3D"auto" class=3D"logo-microsoft" src=
+=3D"https://images.ecomm.microsoft.com/cdn/mediahandler/azure-emails-t=
+emplates/production/shared/images/templates/shared/images/logos/micros=
+oft-logo-2x.png" alt=3D"Microsoft" title=3D"Microsoft" style=3D"outlin=
+e: none;text-decoration: none;-ms-interpolation-mode: bicubic;max-widt=
+h: 100%;clear: both;display: block;height: 20px;max-height: 20px;width=
+: auto">
+    </th>
+<th class=3D"expander" style=3D"word-wrap: break-word;-webkit-hyphens:=
+ auto;-moz-hyphens: auto;hyphens: auto;border-collapse: collapse;verti=
+cal-align: top;color: #11100f;font-family: Segoe UI, SegoeUI, Roboto, =
+&quot;Helvetica Neue&quot;, Arial, sans-serif;font-weight: 400;padding=
+-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;Margin: 0;t=
+ext-align: left;font-size: 14px;line-height: 20px;visibility: hidden;w=
+idth: 0;padding: 0"></th></tr></tbody></table></th>
+</tr></tbody></table>
+
+                                        </center>
+                                    </td></tr></tbody></table>
+                                </td></tr></tbody></table>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </center>
+            </td>
+        </tr>
+    </tbody></table>
+        <img height=3D"" width=3D"auto" src=3D"https://nam.safelink.em=
+ails.azure.net/trackingpixel/?p=3DbT1lZWYwOWU3NC0xMTE5LTQ2NGYtOGMwNi02=
+Njk0NjRhMjU1NzQmdT1hZW8%3D" alt=3D"" role=3D"presentation" style=3D"ou=
+tline: none;text-decoration: none;-ms-interpolation-mode: bicubic;widt=
+h: auto;max-width: 100%;clear: both;display: block">
+   =20
+
+</body></html>
+--=-8dlN17i5yGx9e3LnCRJGsw==--

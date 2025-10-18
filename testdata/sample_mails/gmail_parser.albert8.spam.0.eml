@@ -1,0 +1,629 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=fail (body hash did not verify) header.i=@gmail.com header.d=gmail.com header.s=20230601;
+	dkim=pass header.i=@aruba.it header.d=aruba.it header.s=a1
+Received: from smtpstaff01-out01.staff.aruba.it (smtpstaff01-out01.staff.aruba.it [94.177.209.55])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 39C10D16-7672-49FA-979A-AE8B6C992DDC.4
+	envelope-from <albert8@gmail.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Mon, 11 Mar 2024 15:10:29 +0000
+Received: from mxstaffbe01.ad.aruba.it ([10.10.10.93])
+	by Aruba Staff Outgoing SMTP with SMTP
+	id jhIKrZlWg3WfSjhIKrmgb6; Mon, 11 Mar 2024 16:10:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1710169829; bh=263HW8HnbY9keb1yV13sVx55rN/jYl6LBs7RCTgvdG0=;
+	h=MIME-Version:From:Date:Subject:To:Content-Type;
+	b=PSOEeTuIOCNuJ08ydcRFeCS97iFFo3tSDfiO3TejOoLqU95B2MQfFMczzZxcJnZ6L
+	 Fs38ogzGaqoWr29QerW3x+lhyztRpZ5P1aPK2AYW9RXRCjN5t1X8PHEAa0/E2w8PbB
+	 mr9C3SP/08Mx9aumvC2cJq3mgvP+u7uXYM2CctIDfYjsRppLrQ6ouPKxBXGm+6Lp+s
+	 kEgCw3M+qMZGbXswHKDhcpUYW2YYtJpSfckgXoiU06f4PB5/t5FTUtkpPYZ7LaG28q
+	 1xOGaOVwWbHGzEkx+7m42hF50kUi1mgyQwBuAf334G1n6uLY7+nGjwCWmfd4rMvi77
+	 moELmmbM58w+Q==
+Received: (qmail 4481 invoked by uid 89); 11 Mar 2024 15:10:28 -0000
+Delivered-To: abuse@staff.aruba.it
+Received: (qmail 4476 invoked by uid 89); 11 Mar 2024 15:10:28 -0000
+Received: from unknown (HELO pepi1mx-mfest02.ad.aruba.it) (10.10.14.6)
+  by mxstaffbe01.ad.aruba.it with SMTP; 11 Mar 2024 15:10:28 -0000
+Received: from mail-yb1-f176.google.com ([209.85.219.176])
+	by bizsmtp with ESMTPS
+	id jhIJriENYuG6bjhIKrqWlv; Mon, 11 Mar 2024 16:10:28 +0100
+X-Spam-Report: v=2.4 cv=YYge5BRf c=1 sm=1 tr=0 ts=65ef1ee4 cx=a_exe
+ a=0WrWrDzmOGG0pDJVai42kw==:117 a=K6JAEmCyrfEA:10 a=x7bEGLp0ZPQA:10
+ a=kPHjd9IGnSAA:10 a=UqCG9HQmAAAA:8 a=IVvqCPU2AAAA:8 a=CjxXgO3LAAAA:8
+ a=0qAp4rPlPc1Q-Pfp67oA:9 a=6xd-yXtP3b8UHQ4I:21 a=QEXdDO2ut3YA:10
+ a=py87eIK8AzMA:10 a=3rd5BHrnIScA:10 a=X_VTCFvOBRQA:10 a=zV6ERxDFAAAA:8
+ a=qdQ8Mey-AAAA:8 a=Ue4LKTi3JqH76h-PZlUA:9 a=hFlrX67I7Ky9NFWr:21
+ a=lqcHg5cX4UMA:10 a=vexicnJHVZC5-rvN4z9Y:22 a=eZQLK8TZwlO6InT-p8jY:22
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dcbcea9c261so2815796276.3
+        for <abuse@staff.aruba.it>; Mon, 11 Mar 2024 08:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710169827; x=1710774627; darn=staff.aruba.it;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=A770Gh13tqiBAi5JnHhcVteEbfTfrgw8VqtwvbASPxs=;
+        b=ZepMblBKHv/ZIqX1v1JtQWVX3rNwFZYWhZG7+AS3ut/Z+gMslae3kOIBevSXEwJObX
+         LESGm4HL1m8kmUY6RzX/J3PUmVimieeWfYWcbWJuUGryoSs/vUXfGu7vudAFZkQ6CoVD
+         QTf6p5GOYfri24ibwphwnBMEhrhiDiOaBytnwombVH4OrwJeZxitWOVeUJNen2m+Xzjw
+         xsEkFY9m+EnSOGAonZTlJH/5xyJOk4URUBi+zXUw4+BqViC/QEkA3/u8PJgiQNCMKgJW
+         b4+BwdArO0JvY2RZGzaE4bWtjh17jB2fl8Rq3sTMBmvizD2KtdAUJ14baxjmGfvzvkPl
+         zFcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710169827; x=1710774627;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A770Gh13tqiBAi5JnHhcVteEbfTfrgw8VqtwvbASPxs=;
+        b=ndjeNxplu0wJqg/suuQLqD1oIGM0XDjqev8ijAnMBhO8GGWWEkqn5Jv1WpeohxahA1
+         4P8kCM6I3QZFIqHLXAbU4dHDSmVmym2dQWlwGUawfB3SFBhb/+RhZzF6xFicE6TWGNE3
+         LbiG9vktiQ4sPLF39PBCWR8yHnCweB3eRyRsT/WbKdHHgB61vMeAMpNutmTdGzERFscX
+         GRRe3daSF7tTu78dIdNgLbR78IxqocEBOSqly8UDCHE4vsNqGLBpczBzT3XZuAw4RT3M
+         zsopGC7lHEeEl4R8Q2ZEfe9pBwKh+n0ShvY4uRfZ3TMeVhuJR/IuQu/wX9C4lO5UHEJz
+         fnTw==
+X-Gm-Message-State: AOJu0YxXmpkuWxP9SpVodxP0rU0BYWoNiSRs2ZMd9i2pdNdut0vDuRZs
+	gdyZCF0Bpbr9e4tebM6jv/+T0cdyUSixTP/JMvypAxWLKSHhgNa4+8UQ3cRNRVT+FP9EEI15xPp
+	4npC42pR4JiVg4TsOLEHtifTOD3PejTYel4C0Nw==
+X-Google-Smtp-Source: AGHT+IFUdr94uh9JqgCJV0Bu8j0U3yfoKn/hY+T2GFiWlpRVbeGS1feMGDdRxWRzR22d+mjF6VT1ToKxHaKeVzjO2vg=
+X-Received: by 2002:a5b:242:0:b0:dcc:52dc:deb5 with SMTP id
+ g2-20020a5b0242000000b00dcc52dcdeb5mr3950824ybp.20.1710169826618; Mon, 11 Mar
+ 2024 08:10:26 -0700 (PDT)
+MIME-Version: 1.0
+From: Alberto <albert8@gmail.com>
+Date: Mon, 11 Mar 2024 09:10:15 -0600
+Message-ID: <CAFreq=ptrAAVmbvxwXne2mk9nrTMZbNmYWtGX8bQ2ruhU8RT4Q@mail.gmail.com>
+Subject: [External Sender] Scam Email Report
+To: abuse@staff.aruba.it
+Cc: chase.ny@yahoo.com
+Content-Type: multipart/alternative; boundary="00000000000005782c061363f1ce"
+X-Spam-Rating: mxstaffbe01.ad.aruba.it 1.6.2 0/1000/N
+X-CMAE-Envelope: MS4xfK6HrH51o/bpbgBzW0liQz/3pTyAClQ0m8ZnaLqIUKZtY78P14MCBMqK0FwW69X3YBxY4t4Dmw04LyKNAS7GLVI9JAR8plLUDyI9xBLV8biUM5lRXXse
+ J21yjQc0kAJTMyV27dvXUUElfgTQIMW2gA9gte6sYSp3Pb5cxkxD03nb0nZWJfFJ4s3NMuzRcJzaXhWsvXkqrh4JfIrZa3uzDYg=
+Original-Authentication-Results: pepi1mx-mfest02.ad.aruba.it;
+	dkim=pass header.d=gmail.com header.b=ZepMblBK;
+	dmarc=pass header.from=gmail.com
+
+--00000000000005782c061363f1ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+[NOTICE: Pay attention - external email - Sender is albert8@gmail.com ] =0D=
+=0A=0D=0A=0D=0A=0D=0A=0D=0A=0D=0AScam email sent from your servers:=0D=0A=
+=0D=0AReceived: from CO3P220MB0784.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:=
+171::6)=0D=0A by DM8P220MB0326.NAMP220.PROD.OUTLOOK.COM with HTTPS; Mon, 11=
+ Mar 2024=0D=0A 14:55:15 +0000=0D=0AReceived: from AS4P191CA0015.EURP191.PR=
+OD.OUTLOOK.COM=0D=0A(2603:10a6:20b:5d5::12)=0D=0A by CO3P220MB0784.NAMP220.=
+PROD.OUTLOOK.COM (2603:10b6:303:171::6) with=0D=0A Microsoft SMTP Server (v=
+ersion=3DTLS1_2,=0D=0A cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 1=
+5.20.7362.35; Mon, 11 Mar=0D=0A 2024 14:55:13 +0000=0D=0AReceived: from VI1=
+EUR05FT029.eop-eur05.prod.protection.outlook.com=0D=0A (2603:10a6:20b:5d5:c=
+afe::47) by AS4P191CA0015.outlook.office365.com=0D=0A (2603:10a6:20b:5d5::1=
+2) with Microsoft SMTP Server (version=3DTLS1_2,=0D=0A cipher=3DTLS_ECDHE_R=
+SA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35 via Frontend=0D=0A Transport; =
+Mon, 11 Mar 2024 14:55:13 +0000=0D=0AAuthentication-Results: spf=3Dpass (se=
+nder IP is 62.149.156.84)=0D=0A smtp.mailfrom=3Dssmlnelsonmandela.it; dkim=
+=3Dpass (signature was verified)=0D=0A header.d=3Daruba.it;dmarc=3Dpass act=
+ion=3Dnone=0D=0A header.from=3Dssmlnelsonmandela.it;compauth=3Dpass reason=
+=3D100=0D=0AReceived-SPF: Pass (protection.outlook.com: domain of ssmlnelso=
+nmandela.it=0D=0A designates 62.149.156.84 as permitted sender)=0D=0A recei=
+ver=3Dprotection.outlook.com; client-ip=3D62.149.156.84;=0D=0A helo=3Dsmtpc=
+md0884.aruba.it; pr=3DC=0D=0AReceived: from smtpcmd0884.aruba.it (62.149.15=
+6.84) by=0D=0A VI1EUR05FT029.mail.protection.outlook.com (10.233.243.126) w=
+ith Microsoft=0D=0A SMTP Server (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_W=
+ITH_AES_256_GCM_SHA384)=0D=0Aid=0D=0A 15.20.7386.16 via Frontend Transport;=
+ Mon, 11 Mar 2024 14:55:12 +0000=0D=0AX-IncomingTopHeaderMarker:=0D=0A Orig=
+inalChecksum:FFDC79911FA8A5CDE495A81770B2CB2EFB201E91CCAB442F2E064288018701=
+E1;UpperCasedChecksum:BAB5B3560C65F279E0CAE88AA659080C6AED5B95CFD94DA3F4770=
+E31C8563092;SizeAsReceived:3981;Count:15=0D=0AReceived: from ssmlnelsonmand=
+ela.it ([10.10.10.164])=0D=0Aby Aruba Outgoing Smtp  with ESMTPA=0D=0Aid jh=
+3YrNDM8M0dojh3YrGMht; Mon, 11 Mar 2024 15:55:12 +0100=0D=0ADKIM-Signature: =
+v=3D1; a=3Drsa-sha256; c=3Drelaxed/simple; d=3Daruba.it; s=3Da1;=0D=0At=3D1=
+710168912; bh=3D1ob5Bg1Shm9G5c6xzN495gklD7nN4q+79Wa8ldGbOhc=3D;=0D=0Ah=3DDa=
+te:Subject:MIME-Version:Content-Type:From;=0D=0Ab=3Dd+nxrpkJl6i4jt7k/p0q4Av=
+Vmt05JzriIoBarOnPElQME1aetwUTQlVZx93SWH3S+=0D=0At+Fcs2h8mGzPJs3b1NjZW0wCzT9=
+R34GJnY/DUt/gPGmbzWWr6exGqnDzv7qLSpaZ8x=0D=0AriqpqE29WWqx/wUStThz6EidZSZAh3=
+oiO7RQxjTiszs8qsb+xnQJubozhz9aBGfazE=0D=0AijZhZrxOW9A5/RQyMpDT1tS5PhMnTbFY0=
+xqMaFyaHuXnUqVTQry74ocYF1DsLk0V2b=0D=0APVmDvNNtgSNKPApV0pWqMazqRD9oJoZXoFzZ=
+0U3+QxWTpJpna+vlxfsWjRlQUbiI0f=0D=0Aht64ZmVKCT8Gw=3D=3D=0D=0ADate: Mon, 11 =
+Mar 2024 15:55:11 +0100=0D=0AMessage-Id: <SA6US0$5625030966BDC3E97A491093B2=
+D6E70B@ssmlnelsonmandela.it>=0D=0ASubject: Attention=0D=0AX-Sensitivity: 3=
+=0D=0AContent-Type: multipart/alternative;=0D=0Aboundary=3D"_=3D__=3D_XaM3_=
+.1710168912.2A.37257.42.31676.52.42.007.1190217157"=0D=0AReply-To: lorena.c=
+alculli@ssmlnelsonmandela.it=0D=0AFrom: lorena.calculli@ssmlnelsonmandela.i=
+t=0D=0AX-XaM3-API-Version: 4.2.98=0D=0AX-TipoRicevuta: completa=0D=0AX-type=
+: 0=0D=0AX-SenderIP: 219.100.37.234=0D=0AX-CMAE-Envelope:=0D=0AMS4xfD/FfM1e=
+b1gcPEed0mjoay6gKEXV/z5pgH0GwFR+7K7KAGa/cxD2pnIWdcwPTxEKi9CZZJhJX2ofprTo4Hd=
+U95bWJj7u6/9745QXrVBeZkrC56XVp9pY=0D=0A XJZVgpLaSdQwCnDEXVxdshSmrboKB8CXbol=
+L2ecjYgnLprJcF90WE5hjzLHdLtgJ4CJhEkpAfl63IrfdE1hpKwS52MY3oKW+IjddqMfTQZDNJd=
+Lvl7tbuHb+=0D=0A vPwGAKld7cryC8fAIdvXvXi2Sz3nADoWGx3WiO6cthZtAmO/wGenwMdIZD=
+qHZ5p07YWzTjGyiaN9eUBjymW5c3sypcyyFuUrS+5CRPEccLU2FHHvSITEM2oy=0D=0A DdZOeV=
+yMxaa0TDyfzq3RO8s04u6r7WB6IO57ukrqt4K+US9iWDiebxk0eWrwZ2E4SROxIVvCNMSEepudW=
+c5CGqGlFkVl/Q2+/IrBNrx5UbCp+N4Ck38fzoyr=0D=0A S8IXIot92u10Ohl0zkmDknxY9NvPG=
+62+Cjgz44dePs0SfFXRnoHS8mTbrfuXC8QD5cEtNMwHRofrRIEh3IGUSBFHl0Cgam4KktnF0O5z=
+LhqcVmROuGBnsTKr=0D=0A O2ORQyMsPLogzvqu0srbOpxb44rl1fO+kQtHqe1J+ej0u9gGY/Sr=
+y9O9IaVzJCHX9gNXBrgxILpwMAtdOAzF/5LrkF9/5oR8gNwI0bf6/ushySK4BS32nGjW=0D=0A =
+q+7DKF7oVO5LJuE0iRvLNy97JombDuFrbzBOjX6XwZUp+Mfss3HidW06gShjKZtuQ9baMn2dCAq=
+g7+L0rBjVn4UbMApmLvuDRZbtC9Xny2fCO9AwJL+A7WFT=0D=0A Kvln7KNyWf7itk6ejgug257=
+oSlgcXg2FLF1HsnMS2JleeTEm02GcuytbxqjTCgCt25UnRRRcWk4EbtHtRQ0lTeeBqlUutekszm=
+wk0sEb/cPt7ANjcyZTxMDn=0D=0A 9JRJQRria5Bc6J2TQo7ToNvOACCgUPVXhTGEXqcx0GDjtv=
+WK+zL75mPKNtbKVU8SC6Ej8vZfdUmqx+ohbvUr6SDUt/0L14+WASb6qvzgmFo2PHjzfmqDZ7z6=
+=0D=0A a4iG8o/+5U7SAYBpE3Bpxet7dyXL27kNyzYuw6T6y5ac/kWkBvg71dhTIBxM1PEHafai=
+jJVfNctaI0rFaqYVrRa3WNM1tBkQt2E7CkMNFlCQm17sE4ptRBv5=0D=0A Za73NncZgT/MaPDT=
+YsnYOHv5IusbWXjYk0vtpJRs3MqK732divvOw8za8dEzRPGM0HA2RGdy3nY9FR56NNAU7xYTW33=
+JHNDrdJB278JxBzrlHm8vmE/eAeC1=0D=0A v9CinqkcPiKitFwukY1v7WQ7OMDIrWYpTkDYmPt=
+Kf9MMT8StzNEtUyi7sD7hvs3nShRuuKD3zth8oHl/Aj4Sl02XQ1EhMBrPoyw0VpZ0Jn2eqoWV/V=
+avpLVW=0D=0A MgECdJzWMARlRjnJgpYj1ZPSJMOT9kXfUe7IxtA/UIleX3Bbxzu3NnVtLuYkFR=
+i+3cnY4G2u0ObZgQKwOE0NYFR2awLU1HNXlN/PckBC8CWpF8bfJuMhGSnA=0D=0A e6DLU5aEl+=
+n8WjEUdJ6mFeWCBC7PktFLSRML/3ilB13UTVktccLt69Dp3mt2IrQRO12vbu7VYawagAqL04whk=
+fwSX/Gg95IT+gBIB9C7SnZ/yKnJQtQfK2gD=0D=0A 9RY2zmaFic42a39p/Gs5MjMraioEJwHIi=
+8owkWf8zp0VVMMxx7R8zbu3yXEbh+JaX9pwZeu6GlfmBTL7qAqk0bqbBeeRbbvyKyU5DlXhacVE=
+tL3TcrjZ/g0Y=0D=0A McRSJoyi8hyW8BraLxICUiu4vedLWtdNt+VMDkqasFdDUYCSXyvY8r1c=
+5rkZ5ciqXTqh2EfwZZjYh1SmhpqwKqfCR9dSyxA/RvthKtMvgXWlq0zXg3wcQPLY=0D=0A GpLE=
+MmOArLHERK2r6u20MWa8GVrWuuO7Z0R8mvi3TGzYgif8UGLH6HCsq0aX1mYWNWRrvfdNBvdHpu6=
+q6mSvJsj5wUJd6oi11ggiLjJ2+JzR6PC/gwNKysXq=0D=0A g7dJhjGKnlMXGum40WbNLhr0lOx=
+bzIvggTVk563R/yctepVn2tH2DcSYrIOXzA5PeLK/IuyN9oczAvuEZF24+P+6myPUAKqqXjrIfq=
+5cERh/Rtngherdavsf=0D=0A rYjXrVsdpbohQ99K9P8BKfoVEu0Ya3t3b2EprHtS4z2bYluPDx=
+2DklEGFP9Fsjh+eAHW4OjGwDeCGYIXUqtyvjyaykk3MU7jBIEEjuUmgPnwL1Dtwcd6Wz25=0D=
+=0A DjkZcboowpC8c6O+iXOuZ6fUPrEuhRmROjhuruoJNAIeJtSyLJnEVtCqCidgIyw45FDeNcf=
+aDNpHeqCY3/t9ABEi2wFUKKDNO7Dyrdyi+ajoyjkBAb/70xey=0D=0A aKYNkhoHfczoupgdZSK=
+SYzlyGD3bmXAr3RaLta17rXpQT+5fNaEQUgUqMAwkkGWG8r1f8Nm80YKU+cjDwPj/52NPdRlh71=
+qSDkrSNJAowpJvqUB0hfM/uVRT=0D=0A 23eY0Cv3nv6Ejt2IQuyhJOiH5ZdgqJW04zT1IQazDz=
+M85b9CI5841e7iwUq9kBucsZ8f70akBsVwkTXTBN5o1Dui+Lejp93h96aZiXCalxDc0YaKkQEF1=
+YXN=0D=0A kWNZMaaaGvrVAvJGHjCccN3yaP5xLYzEr1sA3gPda3ApGk09VF5Cl7/8avhWdjMoW=
+0LZTUiNVbA=3D=0D=0AX-IncomingHeaderCount: 15=0D=0ATo: Undisclosed recipient=
+s:;=0D=0AReturn-Path: lorena.calculli@ssmlnelsonmandela.it=0D=0AX-MS-Exchan=
+ge-Organization-ExpirationStartTime: 11 Mar 2024 14:55:12.9570=0D=0A (UTC)=
+=0D=0AX-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit=
+=0D=0AX-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000=0D=
+=0AX-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit=0D=
+=0AX-MS-Exchange-Organization-Network-Message-Id:=0D=0A 82c7aa91-0ed4-48fa-=
+0f6d-08dc41db4156=0D=0AX-EOPAttributedMessage: 0=0D=0AX-EOPTenantAttributed=
+Message: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa:0=0D=0AX-MS-Exchange-Organiza=
+tion-MessageDirectionality: Incoming=0D=0AX-MS-PublicTrafficType: Email=0D=
+=0AX-MS-TrafficTypeDiagnostic:=0D=0A VI1EUR05FT029:EE_|CO3P220MB0784:EE_|DM=
+8P220MB0326:EE_=0D=0AX-MS-Exchange-Organization-AuthSource:=0D=0A VI1EUR05F=
+T029.eop-eur05.prod.protection.outlook.com=0D=0AX-MS-Exchange-Organization-=
+AuthAs: Anonymous=0D=0AX-MS-UserLastLogonTime: 3/11/2024 2:44:41 PM=0D=0AX-=
+MS-Office365-Filtering-Correlation-Id:=0D=0A82c7aa91-0ed4-48fa-0f6d-08dc41d=
+b4156=0D=0AX-MS-Exchange-EOPDirect: true=0D=0AX-Sender-IP: 62.149.156.84=0D=
+=0AX-SID-PRA: LORENA.CALCULLI@SSMLNELSONMANDELA.IT=0D=0AX-SID-Result: PASS=
+=0D=0AX-MS-Exchange-Organization-PCL: 2=0D=0AX-MS-Exchange-AtpMessageProper=
+ties: SA|SL=0D=0AX-MS-Exchange-Organization-SCL: 5=0D=0AX-Microsoft-Antispa=
+m: BCL:0;=0D=0AX-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 1=
+4:55:12.7538=0D=0A (UTC)=0D=0AX-MS-Exchange-CrossTenant-Network-Message-Id:=
+=0D=0A82c7aa91-0ed4-48fa-0f6d-08dc41db4156=0D=0AX-MS-Exchange-CrossTenant-I=
+d: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa=0D=0AX-MS-Exchange-CrossTenant-Auth=
+Source:=0D=0A VI1EUR05FT029.eop-eur05.prod.protection.outlook.com=0D=0AX-MS=
+-Exchange-CrossTenant-AuthAs: Anonymous=0D=0AX-MS-Exchange-CrossTenant-From=
+EntityHeader: Internet=0D=0AX-MS-Exchange-CrossTenant-RMS-PersistedConsumer=
+Org:=0D=0A 00000000-0000-0000-0000-000000000000=0D=0AX-MS-Exchange-Transpor=
+t-CrossTenantHeadersStamped: CO3P220MB0784=0D=0AX-MS-Exchange-Transport-End=
+ToEndLatency: 00:00:02.4158456=0D=0AX-MS-Exchange-Processed-By-BccFoldering=
+: 15.20.7339.034=0D=0AX-Microsoft-Antispam-Mailbox-Delivery:=0D=0Aucf:0;jmr=
+:0;ex:0;auth:1;dest:J;OFR:SpamFilterAuthJ;ENG:(5062000305)(920221119095)(90=
+000117)(920221120095)(90005022)(91005020)(91035115)(9050020)(9100341)(94450=
+0132)(2008001134)(2008121020)(4810010)(4910033)(9610028)(9560006)(10180021)=
+(9320005)(9245025)(120001)(1110175);RF:JunkEmail;=0D=0AX-Message-Info:=0D=
+=0A6hMotsjLow8qP6hBgg3CsRbUbt+ZG1T5wbpD+Cb0vCQn3C4QHlmoSyWOTrr7SY12CcRvqrx9=
+6rw6dh8e7Zy0L/4sGDX92CJfWh+hsp/c2+Bg23MMQRzfCJZraIWfC23gGBxLoIGeUF/bcZs1kwL=
+km14Nu9c/6CBdjyJSVA4slWsm8Iu9zP5iQk9OuX+sphzlbu036zaai1isHWaNRj8wwQ=3D=3D=
+=0D=0AX-Message-Delivery: Vj0xLjE7dXM9MDtsPTA7YT0wO0Q9MjtHRD0yO1NDTD02=0D=
+=0AX-Microsoft-Antispam-Message-Info:=0D=0A=3D?utf-8?B?NWZ2cWk1OUNzZEd1empY=
+Ni9FRXM4UjMzSFVpaXRiRWRKRXo4UzR3WFJhRk5Y?=3D=0D=0A =3D?utf-8?B?UlorQmZyRHpP=
+eHE0S0tOVEZzKzNKS0txcitqR3oxOFZWU3UyNnNGbjV3Nm00?=3D=0D=0A =3D?utf-8?B?Z0lo=
+T0JtSHNrMVYzM2ZIaEg1RHB5N2N5aVYweVo5SlFLdDBvemp1cmVKYnV1?=3D=0D=0A =3D?utf-=
+8?B?Z2gxd3NEWHNURENoSnlFUW4xeWFGN1pUNG42Z3J5alVkRmNJdmVTbVFrNUh2?=3D=0D=0A =
+=3D?utf-8?B?QXNOd1BkcWFBeFZmeWwxTnpMNlBGTWw5M0cyUEJhR0RwVENYeEhuZHVaSDRV?=
+=3D=0D=0A =3D?utf-8?B?RlNvdUlDTWw1d3c2QndjQzlGRlZiMCs1SWdzK3FQMXhQMDlZcDZvd=
+DJmMFpJ?=3D=0D=0A =3D?utf-8?B?ekxxaTFpaFJBSDYvMXluTjBhRUpKVGFpaFBJVXd5R2ZVc=
+XdHdUEyeDY3Y05Q?=3D=0D=0A =3D?utf-8?B?a1ExY2NyT0tmT1hIREhUK3BRZ25FOFlYbzlWe=
+ElUWnowVXI0Tnp4M1A5SDRl?=3D=0D=0A =3D?utf-8?B?TElYNkpIa09ZVDJ1TlVvVloxTnNIN=
+HZrMU5mcGlHaDdzUlVIazRHeFgydTVY?=3D=0D=0A =3D?utf-8?B?NVZaV2xjYVgvU0xwQ1BDM=
+mpqR0lvczNwNkh2YWwvNDlLeW1NREc2anRSQ0NK?=3D=0D=0A =3D?utf-8?B?OUo4WksyWnpqR=
+nBCcjV2R3orQ1dUMDlRL0oyTEd2M0VqTGZoa1RqWkxzcm5D?=3D=0D=0A =3D?utf-8?B?NXFuW=
+Xl3cXBvOUZCalBBN1RsSGtMTzR3VlU1d3gxdkVhRXM5Q08rQzR1aVFm?=3D=0D=0A =3D?utf-8=
+?B?RWhSdXBiQ1RoY0ZWYUQ5elQ0ODhOSHYvMU4vMGlhU1pycElieldMTGZsQllB?=3D=0D=0A =
+=3D?utf-8?B?am5heFpYWFoyWllYSG1HMmtXM05ld0V1cUJGc2xiOWZiQWFrWGN1VWFZLzlU?=
+=3D=0D=0A =3D?utf-8?B?Wm5ZZzVRdDJKS3dYakg3N3lpMzFjdXd2NEpFRndYQ0NnOUVPVjJ4U=
+nUzNWls?=3D=0D=0A =3D?utf-8?B?TVE3R0l4cXRkOXpWMTVISGFITWdhR2c4Q0VPUld4bHQyR=
+klIcHcxRHRNSzEz?=3D=0D=0A =3D?utf-8?B?bm5EMXZVc0VKSXdIeHlDRFFoaStncExIakdQO=
+XBNVy9MQXFUQUg0Z0k0VlU3?=3D=0D=0A =3D?utf-8?B?aWhKSStVeWxxMHNZQkZDaDQwOXZBV=
+XpLbFh3dFNUdlZIT1BKZklGOVFRTnI2?=3D=0D=0A =3D?utf-8?B?dWtPQWpjdTJ6NzBwa3RHb=
+G9TM1JSajNaOTQxM1JUdkFuWkt1UWpaazY5cmpW?=3D=0D=0A =3D?utf-8?B?VStQVFBNL3ZNb=
+1BkVmVId0VJSFJUVzFGeHV1U296ZmtZU3A3ak51MmVXVGxS?=3D=0D=0A =3D?utf-8?B?Vm41S=
+lI1dFFPb1g3RkdFcVlnWFV1aUlUaXB2dGN3a3FSUmplRUVzTWQwdndv?=3D=0D=0A =3D?utf-8=
+?B?eWtXRnRJclhpV0VGMysrQlVOd1JhK1l1b2U3R2tlWko1QVJkVG1aS1R2b1NV?=3D=0D=0A =
+=3D?utf-8?B?bjRhalRGYU1ZMXBLd3lVcTNaNVVoWGZOc0xrUmtBU3Erd1NuSUwvem1iL0JR?=
+=3D=0D=0A =3D?utf-8?B?V1M2Y0YxMmtmNDQ2Y1NQZjNaejkxVU1PY3BMOGdZQ0dEY1FPTndEN=
+1JMNnF2?=3D=0D=0A =3D?utf-8?B?RjNjMjBxajhndm5veTZNOFE2QklNWU1kakFramdIckp0d=
+1NWU1prNUU2TlhQ?=3D=0D=0A =3D?utf-8?B?aHVXZ1g3ZURnTjhIN25tcmpGQWRtaWppUmtTU=
+FM2YnExK0RZRjlTS3B3LzEz?=3D=0D=0A =3D?utf-8?B?a1FtYXNFRFZnTCtrcCtZSXR3S2h0V=
+jhZWDdGZDdtdTdqb1IrczlsMTJGckpI?=3D=0D=0A =3D?utf-8?B?RXVxU2E3SmdOSjlybncxb=
+jFHY0hzOGc3WUhMTE9xTWFONkwydGFOWFlQNGlk?=3D=0D=0A =3D?utf-8?B?VU9hb25sRERha=
+TJPc1VrenoyTEh3OXBuNG5ZSjVBaHlUT2VzQ0RTSXM5a2hE?=3D=0D=0A =3D?utf-8?B?Zy9RW=
+VRTbmxZelhRZDdyM29iMzYyOVlhOTdqUDZEN3VKZFpqcmRFejN1RkdZ?=3D=0D=0A =3D?utf-8=
+?B?ckg1UE53S2RqWFVrN0UrcmFhaUx2RVRmNjhOd3AvTEJMNDZBbVV2dFE0T1ZR?=3D=0D=0A =
+=3D?utf-8?B?Zzh1eTd0OFcyaXl6d2t2UUJSVER6WmtGKy9yaXk2c09YclhKZVl3bVRkZTZT?=
+=3D=0D=0A =3D?utf-8?B?MW9Oem5ZSFRXU0FzVVR3VThqdDgzaERPSUhUTzNoL3lSWm01WW5ua=
+lpSWTM5?=3D=0D=0A =3D?utf-8?B?S2hNUDFlU2ZGREh1dmNUamg4WXJFRm9YSzJZR0o4a2IvZ=
+mZqbnZzelJldnRK?=3D=0D=0A =3D?utf-8?B?OCtmVllxNDBObllIbklzMjhIdEhoL3JaUkx1T=
+ThnbEptVzVvNEZMeEFCMnUr?=3D=0D=0A =3D?utf-8?B?R2RUKytyTjRzaXJURWJHbEdMeTk4T=
+zJqQjh6aFhlcjBtS1hHUll2OU55OWRF?=3D=0D=0A =3D?utf-8?B?V0NXajJFdHpZVy9BZ1JsV=
+EZsb0pMZ0tGWmdGY1FKd0h2alY5RDNXc2pnMDBB?=3D=0D=0A =3D?utf-8?B?T3l2YUNkd2NGU=
+zY0NHZQc092RVMxV1dlZnh3RTVsNXZjWExjb29QZzVTR1lk?=3D=0D=0A =3D?utf-8?B?b1oyb=
+msxbTN0YjdaRDcwYjh0TWJSanc4Vkw5MFQ5SEhJZDZ4N3BwV21DenhF?=3D=0D=0A =3D?utf-8=
+?B?N0R6aUJFdmdDaWoyMmNCblhiRWI1Y000YXV4VWhKY1A0ZjhzV0Rxem9hclV2?=3D=0D=0A =
+=3D?utf-8?B?SkZzUmRJMUhxZU9TN0dsZ3k1QUxYYjVCUzJ4enA5RlptclcwcTJjNkN0QUZi?=
+=3D=0D=0A =3D?utf-8?B?c1BHK1NMOHhJdG5hT0k5bk1NM2JUY0NsVnhJdmE1dmUreVBjOGJnZ=
+E9reGV2?=3D=0D=0A =3D?utf-8?B?Sy9nc25PZjloTHdaTDdVOTM1UWVrTVhScHhQNjcvZUIxe=
+UpNVUEvclJJRlpH?=3D=0D=0A =3D?utf-8?B?ZFpBY0ZOQT09?=3D=0D=0AMIME-Version: 1=
+.0=0D=0A=0D=0A--_=3D__=3D_XaM3_.1710168912.2A.37257.42.31676.52.42.007.1190=
+217157=0D=0AContent-Type: text/plain; charset=3Dutf-8=0D=0AContent-Transfer=
+-Encoding: quoted-printable=0D=0A=0D=0A=3D0A   JPMorgan Chase & Co.=3D0A=3D=
+0A   270 Park Avenue,=3D0A=3D0A   Midtown Manha=3D=0D=0Attan=3D0A=3D0A   Ne=
+w York City,=3D0A=3D0A   Attention:=3D0A=3D0A   We are pleased to =3D=0D=0A=
+inform you about your fund which was seized by=3D0A=3D0A   International Mo=
+ne=3D=0D=0Atary Fund (IMF) due to your failure to provide=3D0A=3D0A   neces=
+sary credenti=3D=0D=0Aals which states the legitimacy of your fund, the=3D0=
+A=3D0A   fund was said t=3D=0D=0Ao be transferred from BOA before its seizu=
+re by IMF.=3D0A=3D0A   Presently th=3D=0D=0Ae fund is in JPMorgan Chase ban=
+k for immediate remittance=3D0A=3D0A   to your=3D=0D=0A nominated bank acco=
+unt, below is the account details we have=3D0A=3D0A   abo=3D=0D=0Aut you ki=
+ndly reconfirm if all the details are correct and update=3D0A=3D0A  =3D=0D=
+=0A before we make the transfer.=3D0A=3D0A   EMAIL US....chase.ny@yahoo.com=
+=3D0A=3D0A=3D=0D=0A   NOTE: no one will ask you for transfer or any form of=
+ charge to=3D0A=3D0A =3D=0D=0A  transfer your fund, if ever happen please r=
+eport to us because it=3DE2=3D80=3D=0D=0A=3D99s=3D0A=3D0A   never from us.=
+=3D0A=3D0A   Acct. name: Doreen Koehler.=3D0A=3D0A   B=3D=0D=0Aank name: Ba=
+nk of America=3D0A=3D0A   WIRE#026009593=3D0A=3D0A   ACC.898046532236=3D=0D=
+=0A=3D0A=3D0A   Yours sincerely=3D0A=3D0A   Raymond Martin Brent=3D0A=3D0A =
+  EMAIL.....c=3D=0D=0Ahase.ny@yahoo.com=3D0A=0D=0A--_=3D__=3D_XaM3_.1710168=
+912.2A.37257.42.31676.52.42.007.1190217157=0D=0AContent-Type: text/html; ch=
+arset=3Dutf-8=0D=0AContent-Transfer-Encoding: quoted-printable=0D=0A=0D=0A<=
+meta http-equiv=3D3D"Content-Type" content=3D3D"text/html; charset=3D3Dutf-=
+8"><s=3D=0D=0Apan style=3D3D"font-family: Arial; font-size: medium;" xam-ed=
+itor-container=3D=0D=0A=3D3D"true"><div>JPMorgan Chase &amp; Co.</div><div>=
+270 Park Avenue,</div><di=3D=0D=0Av>Midtown Manhattan</div><div>New York Ci=
+ty,</div><div><br></div><div>Atten=3D=0D=0Ation:</div><div><br></div><div>W=
+e are pleased to inform you about your fund=3D=0D=0A which was seized by</d=
+iv><div>International Monetary Fund (IMF) due to you=3D=0D=0Ar failure to p=
+rovide</div><div>necessary credentials which states the legit=3D=0D=0Aimacy=
+ of your fund, the</div><div>fund was said to be transferred from BOA =3D=
+=0D=0Abefore its seizure by IMF.</div><div>Presently the fund is in JPMorga=
+n Chas=3D=0D=0Ae bank for immediate remittance</div><div>to your nominated =
+bank account, b=3D=0D=0Aelow is the account details we have</div><div>about=
+ you kindly reconfirm if=3D=0D=0A all the details are correct and update</d=
+iv><div>before we make the transf=3D=0D=0Aer.</div><div><br></div><div>EMAI=
+L US....chase.ny@yahoo.com</div><div><br><=3D=0D=0A/div><div><br></div><div=
+>NOTE: no one will ask you for transfer or any form=3D=0D=0A of charge to</=
+div><div>transfer your fund, if ever happen please report to=3D=0D=0A us be=
+cause it=3DE2=3D80=3D99s</div><div>never from us.</div><div><br></div><div>=
+=3D=0D=0AAcct. name: Doreen Koehler.</div><div>Bank name: Bank of America</=
+div><div>=3D=0D=0AWIRE#026009593</div><div>ACC.898046532236</div><div><br><=
+/div><div><br></di=3D=0D=0Av><div>Yours sincerely</div><div>Raymond Martin =
+Brent</div><div>EMAIL.....c=3D=0D=0Ahase.ny@yahoo.com</div></span>=3D=0D=0A=
+=0D=0A--_=3D__=3D_XaM3_.1710168912.2A.37257.42.31676.52.42.007.1190217157--=
+=0D=0A
+--00000000000005782c061363f1ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+<html>=0D=0A<head>=0D=0A<title></title>=0D=0A</head>=0D=0A=0D=0A<body>=0D=
+=0A <div align=3D"center">=0D=0A      <table width=3D"30%" cellspacing=3D"2=
+" cellpadding=3D"2" border=3D"1">=0D=0A        <tbody>=0D=0A          <tr>=
+=0D=0A            <td valign=3D"top" bgcolor=3D"#ffff00">=0D=0A            =
+  <span style=3D"color: red;">NOTICE:</span> Pay attention - external email=
+ - Sender is albert8@gmail.com=0D=0A          </td>=0D=0A          </tr>=0D=
+=0A        </tbody>=0D=0A      </table>=0D=0A      <br>=0D=0A </div>=0D=0A<=
+br><div dir=3D"ltr">=0D=0A<div dir=3D"ltr">=0D=0A<div dir=3D"ltr">=0D=0A<di=
+v dir=3D"ltr">=0D=0A<div dir=3D"ltr">Scam email sent from your servers:=0D=
+=0A<div><br></div>=0D=0A<div>=0D=0A<div>Received: from <a href=3D=0D=0A"htt=
+p://CO3P220MB0784.NAMP220.PROD.OUTLOOK.COM">CO3P220MB0784.NAMP220.PROD.OUTL=
+OOK.COM</a>=0D=0A(2603:10b6:303:171::6)</div>=0D=0A<div>&nbsp;by <a href=3D=
+=0D=0A"http://DM8P220MB0326.NAMP220.PROD.OUTLOOK.COM">DM8P220MB0326.NAMP220=
+.PROD.OUTLOOK.COM</a>=0D=0Awith HTTPS; Mon, 11 Mar 2024</div>=0D=0A<div>&nb=
+sp;14:55:15 +0000</div>=0D=0A<div>Received: from <a href=3D=0D=0A"http://AS=
+4P191CA0015.EURP191.PROD.OUTLOOK.COM">AS4P191CA0015.EURP191.PROD.OUTLOOK.CO=
+M</a>=0D=0A(2603:10a6:20b:5d5::12)</div>=0D=0A<div>&nbsp;by <a href=3D=0D=
+=0A"http://CO3P220MB0784.NAMP220.PROD.OUTLOOK.COM">CO3P220MB0784.NAMP220.PR=
+OD.OUTLOOK.COM</a>=0D=0A(2603:10b6:303:171::6) with</div>=0D=0A<div>&nbsp;M=
+icrosoft SMTP Server (version=3DTLS1_2,</div>=0D=0A<div>&nbsp;cipher=3DTLS_=
+ECDHE_RSA_WITH_AES_256_GCM_SHA384) id=0D=0A15.20.7362.35; Mon, 11 Mar</div>=
+=0D=0A<div>&nbsp;2024 14:55:13 +0000</div>=0D=0A<div>Received: from <a href=
+=3D=0D=0A"http://VI1EUR05FT029.eop-eur05.prod.protection.outlook.com">VI1EU=
+R05FT029.eop-eur05.prod.protection.outlook.com</a></div>=0D=0A<div>&nbsp;(2=
+603:10a6:20b:5d5:cafe::47) by <a href=3D=0D=0A"http://AS4P191CA0015.outlook=
+.office365.com">AS4P191CA0015.outlook.office365.com</a></div>=0D=0A<div>&nb=
+sp;(2603:10a6:20b:5d5::12) with Microsoft SMTP Server=0D=0A(version=3DTLS1_=
+2,</div>=0D=0A<div>&nbsp;cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id=
+=0D=0A15.20.7362.35 via Frontend</div>=0D=0A<div>&nbsp;Transport; Mon, 11 M=
+ar 2024 14:55:13 +0000</div>=0D=0A<div>Authentication-Results: spf=3Dpass (=
+sender IP is=0D=0A62.149.156.84)</div>=0D=0A<div>&nbsp;smtp.mailfrom=3D<a h=
+ref=3D=0D=0A"http://ssmlnelsonmandela.it">ssmlnelsonmandela.it</a>; dkim=3D=
+pass=0D=0A(signature was verified)</div>=0D=0A<div>&nbsp;header.d=3D<a href=
+=3D=0D=0A"http://aruba.it">aruba.it</a>;dmarc=3Dpass action=3Dnone</div>=0D=
+=0A<div>&nbsp;header.from=3D<a href=3D=0D=0A"http://ssmlnelsonmandela.it">s=
+smlnelsonmandela.it</a>;compauth=3Dpass=0D=0Areason=3D100</div>=0D=0A<div>R=
+eceived-SPF: Pass (<a href=3D=0D=0A"http://protection.outlook.com">protecti=
+on.outlook.com</a>: domain=0D=0Aof <a href=3D=0D=0A"http://ssmlnelsonmandel=
+a.it">ssmlnelsonmandela.it</a></div>=0D=0A<div>&nbsp;designates 62.149.156.=
+84 as permitted sender)</div>=0D=0A<div>&nbsp;receiver=3D<a href=3D=0D=0A"h=
+ttp://protection.outlook.com">protection.outlook.com</a>;=0D=0Aclient-ip=3D=
+62.149.156.84;</div>=0D=0A<div>&nbsp;helo=3D<a href=3D=0D=0A"http://smtpcmd=
+0884.aruba.it">smtpcmd0884.aruba.it</a>; pr=3DC</div>=0D=0A<div>Received: f=
+rom <a href=3D=0D=0A"http://smtpcmd0884.aruba.it">smtpcmd0884.aruba.it</a>=
+=0D=0A(62.149.156.84) by</div>=0D=0A<div>&nbsp;<a href=3D=0D=0A"http://VI1E=
+UR05FT029.mail.protection.outlook.com">VI1EUR05FT029.mail.protection.outloo=
+k.com</a>=0D=0A(10.233.243.126) with Microsoft</div>=0D=0A<div>&nbsp;SMTP S=
+erver (version=3DTLS1_2,=0D=0Acipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA38=
+4) id</div>=0D=0A<div>&nbsp;15.20.7386.16 via Frontend Transport; Mon, 11 M=
+ar 2024=0D=0A14:55:12 +0000</div>=0D=0A<div>X-IncomingTopHeaderMarker:</div=
+>=0D=0A<div>=0D=0A&nbsp;OriginalChecksum:FFDC79911FA8A5CDE495A81770B2CB2EFB=
+201E91CCAB442F2E064288018701E1;UpperCasedChecksum:BAB5B3560C65F279E0CAE88AA=
+659080C6AED5B95CFD94DA3F4770E31C8563092;SizeAsReceived:3981;Count:15</div>=
+=0D=0A<div>Received: from <a href=3D=0D=0A"http://ssmlnelsonmandela.it">ssm=
+lnelsonmandela.it</a>=0D=0A([10.10.10.164])</div>=0D=0A<div><span style=3D"=
+white-space:normal"><span style=3D=0D=0A"white-space:pre"></span>by Aruba O=
+utgoing Smtp&nbsp; with=0D=0AESMTPA</span></div>=0D=0A<div><span style=3D"w=
+hite-space:normal"><span style=3D=0D=0A"white-space:pre"></span>id jh3YrNDM=
+8M0dojh3YrGMht; Mon, 11 Mar=0D=0A2024 15:55:12 +0100</span></div>=0D=0A<div=
+>DKIM-Signature: v=3D1; a=3Drsa-sha256; c=3Drelaxed/simple;=0D=0Ad=3D<a hre=
+f=3D"http://aruba.it">aruba.it</a>; s=3Da1;</div>=0D=0A<div><span style=3D"=
+white-space:normal"><span style=3D=0D=0A"white-space:pre"></span>t=3D171016=
+8912;=0D=0Abh=3D1ob5Bg1Shm9G5c6xzN495gklD7nN4q+79Wa8ldGbOhc=3D;</span></div=
+>=0D=0A<div><span style=3D"white-space:normal"><span style=3D=0D=0A"white-s=
+pace:pre"></span>h=3DDate:Subject:MIME-Version:Content-Type:From;</span></d=
+iv>=0D=0A<div><span style=3D"white-space:normal"><span style=3D=0D=0A"white=
+-space:pre"></span>b=3Dd+nxrpkJl6i4jt7k/p0q4AvVmt05JzriIoBarOnPElQME1aetwUT=
+QlVZx93SWH3S+</span></div>=0D=0A<div><span style=3D"white-space:normal"><sp=
+an style=3D=0D=0A"white-space:pre"></span>=0D=0At+Fcs2h8mGzPJs3b1NjZW0wCzT9=
+R34GJnY/DUt/gPGmbzWWr6exGqnDzv7qLSpaZ8x</span></div>=0D=0A<div><span style=
+=3D"white-space:normal"><span style=3D=0D=0A"white-space:pre"></span>=0D=0A=
+riqpqE29WWqx/wUStThz6EidZSZAh3oiO7RQxjTiszs8qsb+xnQJubozhz9aBGfazE</span></=
+div>=0D=0A<div><span style=3D"white-space:normal"><span style=3D=0D=0A"whit=
+e-space:pre"></span>=0D=0AijZhZrxOW9A5/RQyMpDT1tS5PhMnTbFY0xqMaFyaHuXnUqVTQ=
+ry74ocYF1DsLk0V2b</span></div>=0D=0A<div><span style=3D"white-space:normal"=
+><span style=3D=0D=0A"white-space:pre"></span>=0D=0APVmDvNNtgSNKPApV0pWqMaz=
+qRD9oJoZXoFzZ0U3+QxWTpJpna+vlxfsWjRlQUbiI0f</span></div>=0D=0A<div><span st=
+yle=3D"white-space:normal"><span style=3D=0D=0A"white-space:pre"></span> ht=
+64ZmVKCT8Gw=3D=3D</span></div>=0D=0A<div>Date: Mon, 11 Mar 2024 15:55:11 +0=
+100</div>=0D=0A<div>Message-Id: &lt;SA6US0$<a href=3D=0D=0A"mailto:56250309=
+66BDC3E97A491093B2D6E70B@ssmlnelsonmandela.it">5625030966BDC3E97A491093B2D6=
+E70B@ssmlnelsonmandela.it</a>&gt;</div>=0D=0A<div>Subject: Attention</div>=
+=0D=0A<div>X-Sensitivity: 3</div>=0D=0A<div>Content-Type: multipart/alterna=
+tive;</div>=0D=0A<div><span style=3D"white-space:normal"><span style=3D=0D=
+=0A"white-space:pre"></span>boundary=3D&quot;_=3D__=3D_XaM3_.1710168912.2A.=
+37257.42.31676.52.42.007.1190217157&quot;</span></div>=0D=0A<div>Reply-To: =
+<a href=3D=0D=0A"mailto:lorena.calculli@ssmlnelsonmandela.it">lorena.calcul=
+li@ssmlnelsonmandela.it</a></div>=0D=0A<div>From: <a href=3D=0D=0A"mailto:l=
+orena.calculli@ssmlnelsonmandela.it">lorena.calculli@ssmlnelsonmandela.it</=
+a></div>=0D=0A<div>X-XaM3-API-Version: 4.2.98</div>=0D=0A<div>X-TipoRicevut=
+a: completa</div>=0D=0A<div>X-type: 0</div>=0D=0A<div>X-SenderIP: 219.100.3=
+7.234</div>=0D=0A<div>X-CMAE-Envelope:=0D=0AMS4xfD/FfM1eb1gcPEed0mjoay6gKEX=
+V/z5pgH0GwFR+7K7KAGa/cxD2pnIWdcwPTxEKi9CZZJhJX2ofprTo4HdU95bWJj7u6/9745QXrV=
+BeZkrC56XVp9pY</div>=0D=0A<div>=0D=0A&nbsp;XJZVgpLaSdQwCnDEXVxdshSmrboKB8CX=
+bolL2ecjYgnLprJcF90WE5hjzLHdLtgJ4CJhEkpAfl63IrfdE1hpKwS52MY3oKW+IjddqMfTQZD=
+NJdLvl7tbuHb+</div>=0D=0A<div>=0D=0A&nbsp;vPwGAKld7cryC8fAIdvXvXi2Sz3nADoWG=
+x3WiO6cthZtAmO/wGenwMdIZDqHZ5p07YWzTjGyiaN9eUBjymW5c3sypcyyFuUrS+5CRPEccLU2=
+FHHvSITEM2oy</div>=0D=0A<div>=0D=0A&nbsp;DdZOeVyMxaa0TDyfzq3RO8s04u6r7WB6IO=
+57ukrqt4K+US9iWDiebxk0eWrwZ2E4SROxIVvCNMSEepudWc5CGqGlFkVl/Q2+/IrBNrx5UbCp+=
+N4Ck38fzoyr</div>=0D=0A<div>=0D=0A&nbsp;S8IXIot92u10Ohl0zkmDknxY9NvPG62+Cjg=
+z44dePs0SfFXRnoHS8mTbrfuXC8QD5cEtNMwHRofrRIEh3IGUSBFHl0Cgam4KktnF0O5zLhqcVm=
+ROuGBnsTKr</div>=0D=0A<div>=0D=0A&nbsp;O2ORQyMsPLogzvqu0srbOpxb44rl1fO+kQtH=
+qe1J+ej0u9gGY/Sry9O9IaVzJCHX9gNXBrgxILpwMAtdOAzF/5LrkF9/5oR8gNwI0bf6/ushySK=
+4BS32nGjW</div>=0D=0A<div>=0D=0A&nbsp;q+7DKF7oVO5LJuE0iRvLNy97JombDuFrbzBOj=
+X6XwZUp+Mfss3HidW06gShjKZtuQ9baMn2dCAqg7+L0rBjVn4UbMApmLvuDRZbtC9Xny2fCO9Aw=
+JL+A7WFT</div>=0D=0A<div>=0D=0A&nbsp;Kvln7KNyWf7itk6ejgug257oSlgcXg2FLF1Hsn=
+MS2JleeTEm02GcuytbxqjTCgCt25UnRRRcWk4EbtHtRQ0lTeeBqlUutekszmwk0sEb/cPt7ANjc=
+yZTxMDn</div>=0D=0A<div>=0D=0A&nbsp;9JRJQRria5Bc6J2TQo7ToNvOACCgUPVXhTGEXqc=
+x0GDjtvWK+zL75mPKNtbKVU8SC6Ej8vZfdUmqx+ohbvUr6SDUt/0L14+WASb6qvzgmFo2PHjzfm=
+qDZ7z6</div>=0D=0A<div>=0D=0A&nbsp;a4iG8o/+5U7SAYBpE3Bpxet7dyXL27kNyzYuw6T6=
+y5ac/kWkBvg71dhTIBxM1PEHafaijJVfNctaI0rFaqYVrRa3WNM1tBkQt2E7CkMNFlCQm17sE4p=
+tRBv5</div>=0D=0A<div>=0D=0A&nbsp;Za73NncZgT/MaPDTYsnYOHv5IusbWXjYk0vtpJRs3=
+MqK732divvOw8za8dEzRPGM0HA2RGdy3nY9FR56NNAU7xYTW33JHNDrdJB278JxBzrlHm8vmE/e=
+AeC1</div>=0D=0A<div>=0D=0A&nbsp;v9CinqkcPiKitFwukY1v7WQ7OMDIrWYpTkDYmPtKf9=
+MMT8StzNEtUyi7sD7hvs3nShRuuKD3zth8oHl/Aj4Sl02XQ1EhMBrPoyw0VpZ0Jn2eqoWV/Vavp=
+LVW</div>=0D=0A<div>=0D=0A&nbsp;MgECdJzWMARlRjnJgpYj1ZPSJMOT9kXfUe7IxtA/UIl=
+eX3Bbxzu3NnVtLuYkFRi+3cnY4G2u0ObZgQKwOE0NYFR2awLU1HNXlN/PckBC8CWpF8bfJuMhGS=
+nA</div>=0D=0A<div>=0D=0A&nbsp;e6DLU5aEl+n8WjEUdJ6mFeWCBC7PktFLSRML/3ilB13U=
+TVktccLt69Dp3mt2IrQRO12vbu7VYawagAqL04whkfwSX/Gg95IT+gBIB9C7SnZ/yKnJQtQfK2g=
+D</div>=0D=0A<div>=0D=0A&nbsp;9RY2zmaFic42a39p/Gs5MjMraioEJwHIi8owkWf8zp0VV=
+MMxx7R8zbu3yXEbh+JaX9pwZeu6GlfmBTL7qAqk0bqbBeeRbbvyKyU5DlXhacVEtL3TcrjZ/g0Y=
+</div>=0D=0A<div>=0D=0A&nbsp;McRSJoyi8hyW8BraLxICUiu4vedLWtdNt+VMDkqasFdDUY=
+CSXyvY8r1c5rkZ5ciqXTqh2EfwZZjYh1SmhpqwKqfCR9dSyxA/RvthKtMvgXWlq0zXg3wcQPLY<=
+/div>=0D=0A<div>=0D=0A&nbsp;GpLEMmOArLHERK2r6u20MWa8GVrWuuO7Z0R8mvi3TGzYgif=
+8UGLH6HCsq0aX1mYWNWRrvfdNBvdHpu6q6mSvJsj5wUJd6oi11ggiLjJ2+JzR6PC/gwNKysXq</=
+div>=0D=0A<div>=0D=0A&nbsp;g7dJhjGKnlMXGum40WbNLhr0lOxbzIvggTVk563R/yctepVn=
+2tH2DcSYrIOXzA5PeLK/IuyN9oczAvuEZF24+P+6myPUAKqqXjrIfq5cERh/Rtngherdavsf</d=
+iv>=0D=0A<div>=0D=0A&nbsp;rYjXrVsdpbohQ99K9P8BKfoVEu0Ya3t3b2EprHtS4z2bYluPD=
+x2DklEGFP9Fsjh+eAHW4OjGwDeCGYIXUqtyvjyaykk3MU7jBIEEjuUmgPnwL1Dtwcd6Wz25</di=
+v>=0D=0A<div>=0D=0A&nbsp;DjkZcboowpC8c6O+iXOuZ6fUPrEuhRmROjhuruoJNAIeJtSyLJ=
+nEVtCqCidgIyw45FDeNcfaDNpHeqCY3/t9ABEi2wFUKKDNO7Dyrdyi+ajoyjkBAb/70xey</div=
+>=0D=0A<div>=0D=0A&nbsp;aKYNkhoHfczoupgdZSKSYzlyGD3bmXAr3RaLta17rXpQT+5fNaE=
+QUgUqMAwkkGWG8r1f8Nm80YKU+cjDwPj/52NPdRlh71qSDkrSNJAowpJvqUB0hfM/uVRT</div>=
+=0D=0A<div>=0D=0A&nbsp;23eY0Cv3nv6Ejt2IQuyhJOiH5ZdgqJW04zT1IQazDzM85b9CI584=
+1e7iwUq9kBucsZ8f70akBsVwkTXTBN5o1Dui+Lejp93h96aZiXCalxDc0YaKkQEF1YXN</div>=
+=0D=0A<div>=0D=0A&nbsp;kWNZMaaaGvrVAvJGHjCccN3yaP5xLYzEr1sA3gPda3ApGk09VF5C=
+l7/8avhWdjMoW0LZTUiNVbA=3D</div>=0D=0A<div>X-IncomingHeaderCount: 15</div>=
+=0D=0A<div>To: Undisclosed recipients:;</div>=0D=0A<div>Return-Path: <a hre=
+f=3D=0D=0A"mailto:lorena.calculli@ssmlnelsonmandela.it">lorena.calculli@ssm=
+lnelsonmandela.it</a></div>=0D=0A<div>X-MS-Exchange-Organization-Expiration=
+StartTime: 11 Mar 2024=0D=0A14:55:12.9570</div>=0D=0A<div>&nbsp;(UTC)</div>=
+=0D=0A<div>X-MS-Exchange-Organization-ExpirationStartTimeReason:=0D=0AOrigi=
+nalSubmit</div>=0D=0A<div>X-MS-Exchange-Organization-ExpirationInterval:=0D=
+=0A1:00:00:00.0000000</div>=0D=0A<div>X-MS-Exchange-Organization-Expiration=
+IntervalReason:=0D=0AOriginalSubmit</div>=0D=0A<div>X-MS-Exchange-Organizat=
+ion-Network-Message-Id:</div>=0D=0A<div>&nbsp;82c7aa91-0ed4-48fa-0f6d-08dc4=
+1db4156</div>=0D=0A<div>X-EOPAttributedMessage: 0</div>=0D=0A<div>X-EOPTena=
+ntAttributedMessage:=0D=0A84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa:0</div>=0D=
+=0A<div>X-MS-Exchange-Organization-MessageDirectionality:=0D=0AIncoming</di=
+v>=0D=0A<div>X-MS-PublicTrafficType: Email</div>=0D=0A<div>X-MS-TrafficType=
+Diagnostic:</div>=0D=0A<div>=0D=0A&nbsp;VI1EUR05FT029:EE_|CO3P220MB0784:EE_=
+|DM8P220MB0326:EE_</div>=0D=0A<div>X-MS-Exchange-Organization-AuthSource:</=
+div>=0D=0A<div>&nbsp;<a href=3D=0D=0A"http://VI1EUR05FT029.eop-eur05.prod.p=
+rotection.outlook.com">VI1EUR05FT029.eop-eur05.prod.protection.outlook.com<=
+/a></div>=0D=0A<div>X-MS-Exchange-Organization-AuthAs: Anonymous</div>=0D=
+=0A<div>X-MS-UserLastLogonTime: 3/11/2024 2:44:41 PM</div>=0D=0A<div>X-MS-O=
+ffice365-Filtering-Correlation-Id:=0D=0A82c7aa91-0ed4-48fa-0f6d-08dc41db415=
+6</div>=0D=0A<div>X-MS-Exchange-EOPDirect: true</div>=0D=0A<div>X-Sender-IP=
+: 62.149.156.84</div>=0D=0A<div>X-SID-PRA: <a href=3D=0D=0A"mailto:LORENA.C=
+ALCULLI@SSMLNELSONMANDELA.IT">LORENA.CALCULLI@SSMLNELSONMANDELA.IT</a></div=
+>=0D=0A<div>X-SID-Result: PASS</div>=0D=0A<div>X-MS-Exchange-Organization-P=
+CL: 2</div>=0D=0A<div>X-MS-Exchange-AtpMessageProperties: SA|SL</div>=0D=0A=
+<div>X-MS-Exchange-Organization-SCL: 5</div>=0D=0A<div>X-Microsoft-Antispam=
+: BCL:0;</div>=0D=0A<div>X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 =
+Mar 2024=0D=0A14:55:12.7538</div>=0D=0A<div>&nbsp;(UTC)</div>=0D=0A<div>X-M=
+S-Exchange-CrossTenant-Network-Message-Id:=0D=0A82c7aa91-0ed4-48fa-0f6d-08d=
+c41db4156</div>=0D=0A<div>X-MS-Exchange-CrossTenant-Id:=0D=0A84df9e7f-e9f6-=
+40af-b435-aaaaaaaaaaaa</div>=0D=0A<div>X-MS-Exchange-CrossTenant-AuthSource=
+:</div>=0D=0A<div>&nbsp;<a href=3D=0D=0A"http://VI1EUR05FT029.eop-eur05.pro=
+d.protection.outlook.com">VI1EUR05FT029.eop-eur05.prod.protection.outlook.c=
+om</a></div>=0D=0A<div>X-MS-Exchange-CrossTenant-AuthAs: Anonymous</div>=0D=
+=0A<div>X-MS-Exchange-CrossTenant-FromEntityHeader: Internet</div>=0D=0A<di=
+v>X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:</div>=0D=0A<div>&nbsp=
+;00000000-0000-0000-0000-000000000000</div>=0D=0A<div>X-MS-Exchange-Transpo=
+rt-CrossTenantHeadersStamped:=0D=0ACO3P220MB0784</div>=0D=0A<div>X-MS-Excha=
+nge-Transport-EndToEndLatency:=0D=0A00:00:02.4158456</div>=0D=0A<div>X-MS-E=
+xchange-Processed-By-BccFoldering: 15.20.7339.034</div>=0D=0A<div>X-Microso=
+ft-Antispam-Mailbox-Delivery:</div>=0D=0A<div><span style=3D"white-space:no=
+rmal"><span style=3D=0D=0A"white-space:pre"></span>ucf:0;jmr:0;ex:0;auth:1;=
+dest:J;OFR:SpamFilterAuthJ;ENG:(5062000305)(920221119095)(90000117)(9202211=
+20095)(90005022)(91005020)(91035115)(9050020)(9100341)(944500132)(200800113=
+4)(2008121020)(4810010)(4910033)(9610028)(9560006)(10180021)(9320005)(92450=
+25)(120001)(1110175);RF:JunkEmail;</span></div>=0D=0A<div>X-Message-Info:</=
+div>=0D=0A<div><span style=3D"white-space:normal"><span style=3D=0D=0A"whit=
+e-space:pre"></span>6hMotsjLow8qP6hBgg3CsRbUbt+ZG1T5wbpD+Cb0vCQn3C4QHlmoSyW=
+OTrr7SY12CcRvqrx96rw6dh8e7Zy0L/4sGDX92CJfWh+hsp/c2+Bg23MMQRzfCJZraIWfC23gGB=
+xLoIGeUF/bcZs1kwLkm14Nu9c/6CBdjyJSVA4slWsm8Iu9zP5iQk9OuX+sphzlbu036zaai1isH=
+WaNRj8wwQ=3D=3D</span></div>=0D=0A<div>X-Message-Delivery:=0D=0AVj0xLjE7dXM=
+9MDtsPTA7YT0wO0Q9MjtHRD0yO1NDTD02</div>=0D=0A<div>X-Microsoft-Antispam-Mess=
+age-Info:</div>=0D=0A<div><span style=3D"white-space:normal"><span style=3D=
+=0D=0A"white-space:pre"></span>=3D?utf-8?B?NWZ2cWk1OUNzZEd1empYNi9FRXM4UjMz=
+SFVpaXRiRWRKRXo4UzR3WFJhRk5Y?=3D</span></div>=0D=0A<div>=0D=0A&nbsp;=3D?utf=
+-8?B?UlorQmZyRHpPeHE0S0tOVEZzKzNKS0txcitqR3oxOFZWU3UyNnNGbjV3Nm00?=3D</div>=
+=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?Z0loT0JtSHNrMVYzM2ZIaEg1RHB5N2N5aVYweVo5=
+SlFLdDBvemp1cmVKYnV1?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?Z2gxd3NEWH=
+NURENoSnlFUW4xeWFGN1pUNG42Z3J5alVkRmNJdmVTbVFrNUh2?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?QXNOd1BkcWFBeFZmeWwxTnpMNlBGTWw5M0cyUEJhR0RwVENYeEhuZH=
+VaSDRV?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?RlNvdUlDTWw1d3c2QndjQzlG=
+RlZiMCs1SWdzK3FQMXhQMDlZcDZvdDJmMFpJ?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?ekxxaTFpaFJBSDYvMXluTjBhRUpKVGFpaFBJVXd5R2ZVcXdHdUEyeDY3Y05Q?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?a1ExY2NyT0tmT1hIREhUK3BRZ25FOFlYbzlWeEl=
+UWnowVXI0Tnp4M1A5SDRl?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?TElYNkpIa=
+09ZVDJ1TlVvVloxTnNINHZrMU5mcGlHaDdzUlVIazRHeFgydTVY?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?NVZaV2xjYVgvU0xwQ1BDMmpqR0lvczNwNkh2YWwvNDlLeW1NREc2an=
+RSQ0NK?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?OUo4WksyWnpqRnBCcjV2R3or=
+Q1dUMDlRL0oyTEd2M0VqTGZoa1RqWkxzcm5D?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?NXFuWXl3cXBvOUZCalBBN1RsSGtMTzR3VlU1d3gxdkVhRXM5Q08rQzR1aVFm?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?RWhSdXBiQ1RoY0ZWYUQ5elQ0ODhOSHYvMU4vMGl=
+hU1pycElieldMTGZsQllB?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?am5heFpYW=
+FoyWllYSG1HMmtXM05ld0V1cUJGc2xiOWZiQWFrWGN1VWFZLzlU?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?Wm5ZZzVRdDJKS3dYakg3N3lpMzFjdXd2NEpFRndYQ0NnOUVPVjJ4Un=
+UzNWls?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?TVE3R0l4cXRkOXpWMTVISGFI=
+TWdhR2c4Q0VPUld4bHQyRklIcHcxRHRNSzEz?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?bm5EMXZVc0VKSXdIeHlDRFFoaStncExIakdQOXBNVy9MQXFUQUg0Z0k0VlU3?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?aWhKSStVeWxxMHNZQkZDaDQwOXZBVXpLbFh3dFN=
+UdlZIT1BKZklGOVFRTnI2?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?dWtPQWpjd=
+TJ6NzBwa3RHbG9TM1JSajNaOTQxM1JUdkFuWkt1UWpaazY5cmpW?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?VStQVFBNL3ZNb1BkVmVId0VJSFJUVzFGeHV1U296ZmtZU3A3ak51Mm=
+VXVGxS?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?Vm41SlI1dFFPb1g3RkdFcVln=
+WFV1aUlUaXB2dGN3a3FSUmplRUVzTWQwdndv?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?eWtXRnRJclhpV0VGMysrQlVOd1JhK1l1b2U3R2tlWko1QVJkVG1aS1R2b1NV?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?bjRhalRGYU1ZMXBLd3lVcTNaNVVoWGZOc0xrUmt=
+BU3Erd1NuSUwvem1iL0JR?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?V1M2Y0YxM=
+mtmNDQ2Y1NQZjNaejkxVU1PY3BMOGdZQ0dEY1FPTndEN1JMNnF2?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?RjNjMjBxajhndm5veTZNOFE2QklNWU1kakFramdIckp0d1NWU1prNU=
+U2TlhQ?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?aHVXZ1g3ZURnTjhIN25tcmpG=
+QWRtaWppUmtTUFM2YnExK0RZRjlTS3B3LzEz?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?a1FtYXNFRFZnTCtrcCtZSXR3S2h0VjhZWDdGZDdtdTdqb1IrczlsMTJGckpI?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?RXVxU2E3SmdOSjlybncxbjFHY0hzOGc3WUhMTE9=
+xTWFONkwydGFOWFlQNGlk?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?VU9hb25sR=
+ERhaTJPc1VrenoyTEh3OXBuNG5ZSjVBaHlUT2VzQ0RTSXM5a2hE?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?Zy9RWVRTbmxZelhRZDdyM29iMzYyOVlhOTdqUDZEN3VKZFpqcmRFej=
+N1RkdZ?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?ckg1UE53S2RqWFVrN0UrcmFh=
+aUx2RVRmNjhOd3AvTEJMNDZBbVV2dFE0T1ZR?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?Zzh1eTd0OFcyaXl6d2t2UUJSVER6WmtGKy9yaXk2c09YclhKZVl3bVRkZTZT?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?MW9Oem5ZSFRXU0FzVVR3VThqdDgzaERPSUhUTzN=
+oL3lSWm01WW5ualpSWTM5?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?S2hNUDFlU=
+2ZGREh1dmNUamg4WXJFRm9YSzJZR0o4a2IvZmZqbnZzelJldnRK?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?OCtmVllxNDBObllIbklzMjhIdEhoL3JaUkx1TThnbEptVzVvNEZMeE=
+FCMnUr?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?R2RUKytyTjRzaXJURWJHbEdM=
+eTk4TzJqQjh6aFhlcjBtS1hHUll2OU55OWRF?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?V0NXajJFdHpZVy9BZ1JsVEZsb0pMZ0tGWmdGY1FKd0h2alY5RDNXc2pnMDBB?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?T3l2YUNkd2NGUzY0NHZQc092RVMxV1dlZnh3RTV=
+sNXZjWExjb29QZzVTR1lk?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?b1oybmsxb=
+TN0YjdaRDcwYjh0TWJSanc4Vkw5MFQ5SEhJZDZ4N3BwV21DenhF?=3D</div>=0D=0A<div>=0D=
+=0A&nbsp;=3D?utf-8?B?N0R6aUJFdmdDaWoyMmNCblhiRWI1Y000YXV4VWhKY1A0ZjhzV0Rxem=
+9hclV2?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?SkZzUmRJMUhxZU9TN0dsZ3k1=
+QUxYYjVCUzJ4enA5RlptclcwcTJjNkN0QUZi?=3D</div>=0D=0A<div>=0D=0A&nbsp;=3D?ut=
+f-8?B?c1BHK1NMOHhJdG5hT0k5bk1NM2JUY0NsVnhJdmE1dmUreVBjOGJnZE9reGV2?=3D</div=
+>=0D=0A<div>=0D=0A&nbsp;=3D?utf-8?B?Sy9nc25PZjloTHdaTDdVOTM1UWVrTVhScHhQNjc=
+vZUIxeUpNVUEvclJJRlpH?=3D</div>=0D=0A<div>&nbsp;=3D?utf-8?B?ZFpBY0ZOQT09?=
+=3D</div>=0D=0A<div>MIME-Version: 1.0</div>=0D=0A<div><br></div>=0D=0A<div>=
+=0D=0A--_=3D__=3D_XaM3_.1710168912.2A.37257.42.31676.52.42.007.1190217157</=
+div>=0D=0A<div>Content-Type: text/plain; charset=3Dutf-8</div>=0D=0A<div>Co=
+ntent-Transfer-Encoding: quoted-printable</div>=0D=0A<div><br></div>=0D=0A<=
+div>=3D0A&nbsp; &nbsp;JPMorgan Chase &amp; Co.=3D0A=3D0A&nbsp; &nbsp;270=0D=
+=0APark Avenue,=3D0A=3D0A&nbsp; &nbsp;Midtown Manha=3D</div>=0D=0A<div>ttan=
+=3D0A=3D0A&nbsp; &nbsp;New York City,=3D0A=3D0A&nbsp;=0D=0A&nbsp;Attention:=
+=3D0A=3D0A&nbsp; &nbsp;We are pleased to =3D</div>=0D=0A<div>inform you abo=
+ut your fund which was seized by=3D0A=3D0A&nbsp;=0D=0A&nbsp;International M=
+one=3D</div>=0D=0A<div>tary Fund (IMF) due to your failure to provide=3D0A=
+=3D0A&nbsp;=0D=0A&nbsp;necessary credenti=3D</div>=0D=0A<div>als which stat=
+es the legitimacy of your fund, the=3D0A=3D0A&nbsp;=0D=0A&nbsp;fund was sai=
+d t=3D</div>=0D=0A<div>o be transferred from BOA before its seizure by=0D=
+=0AIMF.=3D0A=3D0A&nbsp; &nbsp;Presently th=3D</div>=0D=0A<div>e fund is in =
+JPMorgan Chase bank for immediate=0D=0Aremittance=3D0A=3D0A&nbsp; &nbsp;to =
+your=3D</div>=0D=0A<div>&nbsp;nominated bank account, below is the account =
+details we=0D=0Ahave=3D0A=3D0A&nbsp; &nbsp;abo=3D</div>=0D=0A<div>ut you ki=
+ndly reconfirm if all the details are correct and=0D=0Aupdate=3D0A=3D0A&nbs=
+p; =3D</div>=0D=0A<div>&nbsp;before we make the transfer.=3D0A=3D0A&nbsp; &=
+nbsp;EMAIL=0D=0A<a href=3D=0D=0A"mailto:US....chase.ny@yahoo.com">US....cha=
+se.ny@yahoo.com</a>=3D0A=3D0A=3D</div>=0D=0A<div>&nbsp; &nbsp;NOTE: no one =
+will ask you for transfer or any=0D=0Aform of charge to=3D0A=3D0A =3D</div>=
+=0D=0A<div>&nbsp; transfer your fund, if ever happen please report to us=0D=
+=0Abecause it=3DE2=3D80=3D</div>=0D=0A<div>=3D99s=3D0A=3D0A&nbsp; &nbsp;nev=
+er from us.=3D0A=3D0A&nbsp; &nbsp;Acct.=0D=0Aname: Doreen Koehler.=3D0A=3D0=
+A&nbsp; &nbsp;B=3D</div>=0D=0A<div>ank name: Bank of America=3D0A=3D0A&nbsp=
+;=0D=0A&nbsp;WIRE#026009593=3D0A=3D0A&nbsp; &nbsp;ACC.898046532236=3D</div>=
+=0D=0A<div>=3D0A=3D0A&nbsp; &nbsp;Yours sincerely=3D0A=3D0A&nbsp; &nbsp;Ray=
+mond=0D=0AMartin Brent=3D0A=3D0A&nbsp; &nbsp;EMAIL.....c=3D</div>=0D=0A<div=
+><a href=3D=0D=0A"mailto:hase.ny@yahoo.com">hase.ny@yahoo.com</a>=3D0A</div=
+>=0D=0A<div>=0D=0A--_=3D__=3D_XaM3_.1710168912.2A.37257.42.31676.52.42.007.=
+1190217157</div>=0D=0A<div>Content-Type: text/html; charset=3Dutf-8</div>=
+=0D=0A<div>Content-Transfer-Encoding: quoted-printable</div>=0D=0A<div><br>=
+</div>=0D=0A<div>&lt;meta http-equiv=3D3D&quot;Content-Type&quot;=0D=0Acont=
+ent=3D3D&quot;text/html; charset=3D3Dutf-8&quot;&gt;&lt;s=3D</div>=0D=0A<di=
+v>pan style=3D3D&quot;font-family: Arial; font-size: medium;&quot;=0D=0Axam=
+-editor-container=3D</div>=0D=0A<div>=3D3D&quot;true&quot;&gt;&lt;div&gt;JP=
+Morgan Chase &amp;amp;=0D=0ACo.&lt;/div&gt;&lt;div&gt;270 Park Avenue,&lt;/=
+div&gt;&lt;di=3D</div>=0D=0A<div>v&gt;Midtown Manhattan&lt;/div&gt;&lt;div&=
+gt;New York=0D=0ACity,&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&=
+gt;Atten=3D</div>=0D=0A<div>=0D=0Ation:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt=
+;/div&gt;&lt;div&gt;We are=0D=0Apleased to inform you about your fund=3D</d=
+iv>=0D=0A<div>&nbsp;which was seized by&lt;/div&gt;&lt;div&gt;International=
+=0D=0AMonetary Fund (IMF) due to you=3D</div>=0D=0A<div>r failure to provid=
+e&lt;/div&gt;&lt;div&gt;necessary=0D=0Acredentials which states the legit=
+=3D</div>=0D=0A<div>imacy of your fund, the&lt;/div&gt;&lt;div&gt;fund was =
+said to=0D=0Abe transferred from BOA =3D</div>=0D=0A<div>before its seizure=
+ by IMF.&lt;/div&gt;&lt;div&gt;Presently the=0D=0Afund is in JPMorgan Chas=
+=3D</div>=0D=0A<div>e bank for immediate remittance&lt;/div&gt;&lt;div&gt;t=
+o your=0D=0Anominated bank account, b=3D</div>=0D=0A<div>elow is the accoun=
+t details we=0D=0Ahave&lt;/div&gt;&lt;div&gt;about you kindly reconfirm if=
+=3D</div>=0D=0A<div>&nbsp;all the details are correct and=0D=0Aupdate&lt;/d=
+iv&gt;&lt;div&gt;before we make the transf=3D</div>=0D=0A<div>=0D=0Aer.&lt;=
+/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;EMAIL=0D=0A<a href=3D=
+=0D=0A"mailto:US....chase.ny@yahoo.com">US....chase.ny@yahoo.com</a>&lt;/di=
+v&gt;&lt;div&gt;&lt;br&gt;&lt;=3D</div>=0D=0A<div>/div&gt;&lt;div&gt;&lt;br=
+&gt;&lt;/div&gt;&lt;div&gt;NOTE: no=0D=0Aone will ask you for transfer or a=
+ny form=3D</div>=0D=0A<div>&nbsp;of charge to&lt;/div&gt;&lt;div&gt;transfe=
+r your fund,=0D=0Aif ever happen please report to=3D</div>=0D=0A<div>&nbsp;=
+us because it=3DE2=3D80=3D99s&lt;/div&gt;&lt;div&gt;never from=0D=0Aus.&lt;=
+/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;=3D</div>=0D=0A<div>Acc=
+t. name: Doreen Koehler.&lt;/div&gt;&lt;div&gt;Bank name:=0D=0ABank of Amer=
+ica&lt;/div&gt;&lt;div&gt;=3D</div>=0D=0A<div>=0D=0AWIRE#026009593&lt;/div&=
+gt;&lt;div&gt;ACC.898046532236&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;=
+&lt;div&gt;&lt;br&gt;&lt;/di=3D</div>=0D=0A<div>v&gt;&lt;div&gt;Yours since=
+rely&lt;/div&gt;&lt;div&gt;Raymond=0D=0AMartin Brent&lt;/div&gt;&lt;div&gt;=
+EMAIL.....c=3D</div>=0D=0A<div><a href=3D=0D=0A"mailto:hase.ny@yahoo.com">h=
+ase.ny@yahoo.com</a>&lt;/div&gt;&lt;/span&gt;=3D</div>=0D=0A<div><br></div>=
+=0D=0A<div>=0D=0A--_=3D__=3D_XaM3_.1710168912.2A.37257.42.31676.52.42.007.1=
+190217157--</div>=0D=0A</div>=0D=0A</div>=0D=0A</div>=0D=0A</div>=0D=0A</di=
+v>=0D=0A</div>=0D=0A=0D=0A</body>=0D=0A</html>=0D=0A
+--00000000000005782c061363f1ce--

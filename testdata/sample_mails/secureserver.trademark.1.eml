@@ -1,0 +1,1096 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@amazonses.com header.d=amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx;
+	dkim=pass header.i=@services.secureserver.net header.d=services.secureserver.net header.s=atlassian-3c8fdc
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021115.outbound.protection.outlook.com [52.101.100.115])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id FA6398F4-361C-4CF9-A06B-22CC0B0CD1F9.1
+	envelope-from <010101985a108249-a0cc36f7-0819-4b30-9dd8-e2614d772716-000000@atlassian-bounces.services.secureserver.net>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 30 Jul 2025 06:41:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dqtOMfhosTDzj+oxhz8YSxgZQSAi1LP8ghQAYUmLxg7no08WgGggsFK9MXcuieZdCcMZMtWmzK/BObDqSxxkaM8MraxTMxg4O5e9YwNiGN0pxH+iXR+L6H9f2mFSQwWA2JYitCBNprjjgDmvHet7uEY2SbfaccOIXIpMNbzHKzCIr6hMDdvf4QYxc9S1KTYhjSwUdVW0Vye33hdVFI3MRexmMtt/CLHyIR4N1CFK5HcFiGrgZ+RZ5OW6X3uNNjtM4V/Dneu1JIEIEIhp3Tqbmzx3oxGZ7FXIgc10GnGKqEIYGCaB9GP3DonEghHDPgzf7z+Q1GUnDf5+wVrT9A97zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j6VAZJfrL7lEcAlmJNTTtiEqeyadrLlepy97XcSarBc=;
+ b=WhpAUpv1i89x3BQXUASuLHi+0DM97EDMG8ihRFgVu5uDj+HOpNq0CaKFOuSg53UphjuhkkHxLLdkEp27e3VA3jyfTJZSANcECShxIcBaJnLw347aK6KyI+ZOvWvL1t4i7iuFlgBQ//Blli9vT8o8b7aUBqNLnbEgQp7mOueFkatTsHPSpsHLmLOvIaq4Tc8QkCYrGKYfcNDMtW2A99vnMTFXfFpmSBWZ06jGqyckEaIK7qK4SSHqNw+4ugMV+Vx/KuJfmnLRs6x2LCUP2XSIWSb5P2OTMsXrrKIGk1t/4PQ+3MuoW4cLyv3BF0YyFOYpkawQ1A8vhtevpOCUrxwwIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 76.223.147.254) smtp.rcpttodomain=abuseradar.com
+ smtp.mailfrom=atlassian-bounces.services.secureserver.net; dmarc=pass (p=none
+ sp=none pct=100) action=none header.from=services.secureserver.net; dkim=pass
+ (signature was verified) header.d=services.secureserver.net; dkim=pass
+ (signature was verified) header.d=amazonses.com; arc=none (0)
+Received: from LO4P265CA0222.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:33a::10)
+ by LO2P265MB3691.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1b1::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.12; Wed, 30 Jul
+ 2025 06:41:30 +0000
+Received: from LO1PEPF000022FD.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:33a:cafe::f1) by LO4P265CA0222.outlook.office365.com
+ (2603:10a6:600:33a::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.13 via Frontend Transport; Wed,
+ 30 Jul 2025 06:41:30 +0000
+Received-SPF: Pass (protection.outlook.com: domain of
+ atlassian-bounces.services.secureserver.net designates 76.223.147.254 as
+ permitted sender) receiver=protection.outlook.com; client-ip=76.223.147.254;
+ helo=c147-254.smtp-out.us-west-2.amazonses.com; pr=C
+Received: from c147-254.smtp-out.us-west-2.amazonses.com (76.223.147.254) by
+ LO1PEPF000022FD.mail.protection.outlook.com (10.167.240.21) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.10
+ via Frontend Transport; Wed, 30 Jul 2025 06:41:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=atlassian-3c8fdc; d=services.secureserver.net; t=1753857688;
+	h=Content-Type:Date:From:In-Reply-To:Message-Id:Mime-Version:References:Subject:To:Reply-To;
+	bh=YwHpKdbMB4TyRBvzX3piFL4tSzmCf/cXknSSd745xbk=;
+	b=g/MM9SHTE37BNJa8ZWIpdpqblrASUQSqxtZGpgfraDIH8gF7ov35o23Mbl6ZZUi6
+	kmvVNcEiRcA4lFqM9J8qnmVH6HgVPpf93NkUKG1g8UyGCSoi2DnHpbxXqrTl2m/Gmq9
+	NU/uAuPI3K/Svr7dW8HldF61BshJ2yK3IJCTZfIk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753857688;
+	h=Content-Type:Date:Feedback-Id:From:In-Reply-To:Message-Id:Mime-Version:References:Subject:To:Reply-To;
+	bh=YwHpKdbMB4TyRBvzX3piFL4tSzmCf/cXknSSd745xbk=;
+	b=oOxwMEqd/Re+snQmIQ9UBhExm0PhJc/z27bUGRvT9HQeQy9MnqzLQtmRBILEY6Az
+	sAWVutiXF4A/WmCpue2F3biMcC51JLVd3z6lL4wB3v+JABRYqaLLjcksWo1VgFRmd1P
+	PNLUACew4gJEx3jqENDzHIA+MSPPBNaHRwI+w968=
+Auto-Submitted: auto-generated
+Content-Type: multipart/related;
+ boundary=enmime-297f07f2-263c-4c1f-b07e-4defbf8f7e84
+Date: Wed, 30 Jul 2025 06:41:28 +0000
+Feedback-Id: ip.81ee6cfa:la.jira-servicedesk.CN_PUBLIC_COMMENT_ADDED:1.us-west-2.u9hdoCrnwzQL898efjSTx45gSzOWeGOryLqifXjQ7UQ=:AmazonSES
+From: Claim Support <care@services.secureserver.net>
+In-Reply-To: <JIRA.5823880.1736947360000@Atlassian.JIRA>
+Message-ID: <010101985a108249-a0cc36f7-0819-4b30-9dd8-e2614d772716-000000@us-west-2.amazonses.com>
+Mime-Version: 1.0
+Precedence: bulk
+References: <JIRA.5823880.1736947360000@Atlassian.JIRA>
+ <JIRA.5823880.1736947360426@d4197474df68>
+Subject: Copyright Infringement BMW Software - LEGO-48111
+To: "report@abuseradar.com" <report@abuseradar.com>
+X-Atlassian-Mail-Message-Id: <JIRA.5823880.1736947360000.f2e6e0ac-ca2d-4067-a97d-a707aeceb2e6.1753857687538@Atlassian.JIRA>
+X-Atlassian-Mail-Transaction-Id: 9f0e42d7-d6ee-4691-b488-526f6349a331
+X-Jira-Fingerprint: 266e05c6bd2426ddd3a59e13571c2bb84045d7c3acaf3513ea0866c50d5be7b9
+Reply-To: review@secureserver.net
+X-SES-Outgoing: 2025.07.30-76.223.147.254
+Return-Path:
+	010101985a108249-a0cc36f7-0819-4b30-9dd8-e2614d772716-000000@atlassian-bounces.services.secureserver.net
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 4b06f27d-d0bc-45cd-b169-d61de1bca836:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO1PEPF000022FD:EE_|LO2P265MB3691:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e08b32a-1353-447c-7e51-08ddcf341de6
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:3;ARA:13230040|32142699015|22003199012|9140799003|61400799027|7093399015|4073199012|69100299015|5063199012|5073199012|376014|8096899003|4053099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dDVsVVJvNjV6OVZ2V3FmbzFlYVVyT2VvUGcrZUtXTEVuVmo0bjdsd3NYMDly?=
+ =?utf-8?B?QkJYM09XdnNKSlVPRWVHYXU4ZGhzWFFqclFrUWppY1hpdWJMUXd2TDVzeHNQ?=
+ =?utf-8?B?S3R2bWNVYjVURjIzbUYxbzRBMG4vQThwcHpvTlBKblFBcVBub0dYcm95ekJC?=
+ =?utf-8?B?Z0I2Y2tkelJCdDJZbXppSTFOY2t2Ymp1eG1RTlN6QnJBa2l2UHNMWDBNWFAx?=
+ =?utf-8?B?eUVpQW9uV3pTaS9Nak1lQUN4UEdRUVQ4NnN6UkdTQlZMY0R6TUM0cndhWEd3?=
+ =?utf-8?B?TVloOFlwUHIzRktPeTdrN2N3RmtaeG90aE9wSWRpdS95U0J6V1VndmF5QnM1?=
+ =?utf-8?B?dnl4K3FMcG5MNVgzZnZmNzh5K1U3SGpyTUxlUFQrNXp4Wk1pV3l2RFplZFI2?=
+ =?utf-8?B?L1J1Q3pKRzJpaERkRjI1UnNsS3Z0SHNFbzZnOStJTVAvbXExRnY4NGRuVXpV?=
+ =?utf-8?B?ZHBXblF3WDFpNW9abEpxVmczdFIxM3pJbVpoUk1UMS9XZEFlV3BCRzNDV1hK?=
+ =?utf-8?B?NjY2VWZCYUFBMnFycTRBVUFYZnRvaE5TSXdZem83NGZqZnVyQlpHYmxodk8y?=
+ =?utf-8?B?dnlHOXZzMEt3akdadWNDSldGWnIxdXZIK3RqQlRWMFY3Z0V0UXRLSG1meS93?=
+ =?utf-8?B?R01iOGhpNFlOVEVDcTk4b3FnTkZXalV4TzBkRHkweHhuTHdWbkh0SUVOdEx1?=
+ =?utf-8?B?em9jZkVJOFlRRm1weUl1YVlWVzVrNnAvTTlEblByOGJKRFpVUkJzTDZ4R2Rq?=
+ =?utf-8?B?UDlnWTZaRzVTUnRUZkFJdzlRaWVVWEgreTJyUzdHQUJRbmhQcWppUkJsVXlG?=
+ =?utf-8?B?ZzIxL040L1RlOElQZ3BGWDF2WjRjTlZ4c0o2MzVuVCs3S0pDRU5LODQrV1RQ?=
+ =?utf-8?B?cmZWNTczSnNSSWxISjR1ZGFVSFQ0WDNNLzZZSTRQRXlxNlUrWDlaay9PYnM5?=
+ =?utf-8?B?UHlYT2Z3NVAwMGVSU09FelZDT2FBWUxtNG8zTzZrTDZVYk8vQTNSZFNIQU9Y?=
+ =?utf-8?B?MjhiUTVjZFNHenRMYjF5SUc0VndCVkZvamlEWi9rQ3AxazRxdGtPRHQ5WTFy?=
+ =?utf-8?B?aWZMSnQwSGR2dkN4UVkrN3NFbFdBWitLOERaK0pNalBkOFUzRFRJVkYyK2xt?=
+ =?utf-8?B?cUdQZWMwMlB1ZHdHdzQ1ZzBzQ0VQVXFrVy9PNjQ4Nm1ucE5WS25uNmFueW5j?=
+ =?utf-8?B?L25BaU04QXFvWFhvSnl2b1VSQjBxNUs3WFZuQ2ozRVRpN08xekd3MTBkWS9v?=
+ =?utf-8?B?QzlVbUZ6VEhCM0xLRXcyekNQN1RjeE9VLzUvNmx1ZWlCQnA1NWgvRG1CQ1ZK?=
+ =?utf-8?B?WEdCTUtrREt0aVdhcXFtQ0U2NmY0YUJsM1NZRFRvN1UwN2pNTnBrTU5oYlln?=
+ =?utf-8?B?TGNRRjFFbnRCWmRnL1BoUEhsTmtYM0xCNzdudHcvRDRRRTdUaEc4NnB5QUxm?=
+ =?utf-8?B?NDdKM1dRVG5kc09QODQ4WVhneWMzOUpydGU5cWlPY1owL0dJTitwYU9EWUpR?=
+ =?utf-8?B?Q0NaQXR1M0JadzIwTFg2RHNHbnp1UzFLbWlNTlVKV05RS1NPQnY5UHMvUG9m?=
+ =?utf-8?B?ei9UUnFBdGR6aXB5SlNGMDBzL3ZCWTFVODV5TC96cWl5MnFLeW1YdGZiYlg4?=
+ =?utf-8?B?UnBxZUZZdEhFVUp6bld1MmhqWS94MGtHb0M5Y3NWUWpZcSsrbnNmcWZySjk3?=
+ =?utf-8?B?QWx6U1RkV29DWUliclVRdEpadHRCM3cyK20yWnBFLytIZjl1eTJOS25kODNj?=
+ =?utf-8?B?a2VUb0hhOFV5emZEUmtpengvNThDR2pmZHJvU2dUdG9NZ1JqS0JFcjFsK0Ew?=
+ =?utf-8?B?NTZCWmJ0VGVhbEZSUzVxY01ZMVRRSFAySTBsbzFOUnNhZjBEZi9lRlRQQlhN?=
+ =?utf-8?B?enlnWmZNNnBjd2hRTmNjc0cwN1FjOTJ6b2NxQWsrZFdJb0RhZEN3c1hKVGFQ?=
+ =?utf-8?B?a0Y1TlRyVmFpZXZnak0vZmIvTkszVEVLY29OU0JyRytUL05zdCsyUmxqM2Ix?=
+ =?utf-8?B?NlgxN3c0TmFud2x1WEF6TktjSFlnRVlrcnh0K2srdzVrVVFNV2JrY0tKTDNp?=
+ =?utf-8?B?Y2lQMmNJWWpSb2dZakpjeEdEUzIxVGNWY3p4ZncyTzFPU0I1ZGxINFQ0UTlI?=
+ =?utf-8?B?S1BmcDE3LzZCdnVxdnN6T0MzMVYyMi9teW0wLzdORmd5UzZ1MkpLN2Y3RXZh?=
+ =?utf-8?Q?V0htt9G08zpO8QYSjFZ+aCVLu/hX5FM13Uw5KE3Il9yH?=
+X-Forefront-Antispam-Report:
+	CIP:76.223.147.254;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:c147-254.smtp-out.us-west-2.amazonses.com;PTR:c147-254.smtp-out.us-west-2.amazonses.com;CAT:NONE;SFS:(13230040)(32142699015)(22003199012)(9140799003)(61400799027)(7093399015)(4073199012)(69100299015)(5063199012)(5073199012)(376014)(8096899003)(4053099003)(13003099007);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-OriginatorOrg: netutils.io
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2025 06:41:29.8555
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e08b32a-1353-447c-7e51-08ddcf341de6
+X-MS-Exchange-CrossTenant-Id: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-MS-Exchange-CrossTenant-AuthSource: LO1PEPF000022FD.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3691
+Original-Authentication-Results: spf=pass (sender IP is 76.223.147.254)
+ smtp.mailfrom=atlassian-bounces.services.secureserver.net; dkim=pass
+ (signature was verified) header.d=services.secureserver.net;dkim=pass
+ (signature was verified) header.d=amazonses.com;dmarc=pass action=none
+ header.from=services.secureserver.net;
+
+--enmime-297f07f2-263c-4c1f-b07e-4defbf8f7e84
+Content-Type: multipart/alternative;
+ boundary=enmime-a00103c3-b122-45f7-9b22-2c3e3b349745
+
+--enmime-a00103c3-b122-45f7-9b22-2c3e3b349745
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+=E2=80=94-=E2=80=94-=E2=80=94-=E2=80=94
+
+Reply above this line.
+
+
+
+To whom it may concern,
+
+I am sending this formal notice on behalf of Bayerische Motoren Werke Aktie=
+ngesellschaft (BMW AG) (authorization is attached).
+Please be informed that the website [1]https://bimmerdiagnostics.com/ infri=
+nge on the Client's rights.
+
+BMW offers, and has offered for years, proprietary diagnostic systems compr=
+ised of hardware and software for maintenance, repair, servicing, and progr=
+amming of BMW automobiles. BMW=E2=80=99s proprietary diagnostic systems are=
+ offered only to BMW=E2=80=99s authorized dealers and/or other permitted pa=
+rties, such as independent qualified repair centres who pay for access to t=
+he BMW diagnostic software. These diagnostic tools include BMW=E2=80=99s di=
+agnostic software offered under the BMW mark and additional marks and names=
+ including, Bimmer, ISTA, among others.
+The website [2]https://bimmerdiagnostics.com/ is illegally using ISTA trade=
+mark. The person who manages the site is not a BMW partner and has not been=
+ authorized to sell the software.
+Example of infringing url's:
+[3]https://bimmerdiagnostics.com/
+
+The illegal sale of software constitutes both a violation of copyright law =
+and an infringement of the BMW and ISTA trademark. This is an action that b=
+rings harm to BMW.
+We hereby formally request the immediate removal of the infringing content =
+from your platform and cessation of all related sales and distribution acti=
+vities. Failure to comply may result in further legal action, including but=
+ not limited to reporting to relevant authorities and pursuing civil or cri=
+minal remedies available under the law.
+I therefore request that the domain [4]https://bimmerdiagnostics.com/ be bl=
+ocked.
+I have a good faith belief that use of the copyrighted materials described =
+above as allegedly infringing is not authorized by the copyright owner, its=
+ agent, or the law.
+I swear, under penalty of perjury, that the information in the notification=
+ is accurate and that I am authorized to act on behalf of the owner of an e=
+xclusive right that is allegedly infringed.
+Kind regards,
+
+[5]TM Bimmer 1568357 (0a2e86c8-f7e7-452f-aebd-c7e0b9ba8104).pdf (401 kB)
+
+[6]Copyright registration certificate ISTA (d5588556-fcc8-4890-85a9-5235476=
+5f2fd).pdf (505 kB)
+
+[7]
+
+[8]b6cc3629-3cda-4824-bcb6-196c53ef6f09 (a8f15949-bd96-48ec-b21d-2ecf6634db=
+b4).webp (25 kB)
+
+[9]US word ISTA 79221240 (b10bce7e-451e-42d9-a9aa-1b2bae7d7f08).pdf (364 kB=
+)
+
+[10]BMW PoA (16f30903-2481-433e-97f0-efce796f7082).pdf (57 kB)
+
+[11]b6cc3629-3cda-4824-bcb6-196c53ef6f09 (bf2b9e22-6ee5-4ece-a683-98c2f85e4=
+8e0).webp (25 kB)
+
+[12]BMW USA 5333863 (d8c2e127-f564-49ae-98c6-ec23f7e0e1f0).pdf (611 kB)
+
+[13]BMW WIPO 489368 (7db54414-dfcb-4c7c-83bc-031dbf54e30b).pdf (984 kB)
+
+[14]Int word ISTA 1357923 (5887a5d7-b75e-4272-a07a-6b4f20dc1045).pdf (479 k=
+B)
+
+[15]BMW EU 014015143 (684151a1-3531-433f-b72b-14628553d064).pdf (1.42 MB)
+---------------------------------------------------------------------------=
+-------------
+[1] https://urldefense.com/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe=
+_Lnx!o7Lmg3hQc2749kdsUvvc5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiM=
+jyiRzD_eaTM6JhTPqs$
+[2] https://urldefense.com/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe=
+_Lnx!o7Lmg3hQc2749kdsUvvc5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiM=
+jyiRzD_eaTM6JhTPqs$
+[3] https://urldefense.com/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe=
+_Lnx!o7Lmg3hQc2749kdsUvvc5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiM=
+jyiRzD_eaTM6JhTPqs$
+[4] https://urldefense.com/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe=
+_Lnx!o7Lmg3hQc2749kdsUvvc5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiM=
+jyiRzD_eaTM6JhTPqs$
+[5] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI0IiwiYWNjb3VudElkIjoicW06YjlhZWZhNj=
+ktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2M=
+mY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV4=
+cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.txFz03HyQrdulkhbmesbRDUPy5cSVuIR=
+bWG2UT9XvTo
+[6] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI1IiwiYWNjb3VudElkIjoicW06YjlhZWZhNj=
+ktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2M=
+mY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV4=
+cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.GoVA0EYwvE0mvGeygVz0CXedWTLOGb0i=
+qBTpRKrpFxQ
+[7] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI2IiwiYWNjb3VudElkIjoicW06YjlhZWZhNj=
+ktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2M=
+mY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV4=
+cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.YykOlh1ZxhO-mk_awAR4qDXdTAj2VHDu=
+qm2Uy3BQehA
+[8] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI3IiwiYWNjb3VudElkIjoicW06YjlhZWZhNj=
+ktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2M=
+mY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV4=
+cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.RHDCwMYWi3N8oNpvG3ktOeEv069-2wW1=
+bBlTOU_9Cqk
+[9] https://care.support.secureserver.net/servicedesk/customer/attachment?j=
+wt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsI=
+nFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEw=
+ZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29=
+udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI4IiwiYWNjb3VudElkIjoicW06YjlhZWZhNj=
+ktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2M=
+mY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV4=
+cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.Z4aVxtc2kSDBn5UbGfe-G21REGlDP5DE=
+jthPJrHSKJM
+[10] https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI5IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.O13kjQL2wvZIHXMVI-8R2REnOVbBEMR=
+Xeq9EKjS1L6I
+[11] https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMwIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.8jXhMD-6T8bgFMhzgkY893IplvOaBo7=
+kybXKu3VoeCU
+[12] https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMxIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.ZhyCTVvqkjfVvQo8OT30c36O3WZOrHR=
+LPdUTvtqO-Vg
+[13] https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMyIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.RsVYQXNPKBIweC6daL9HQXPokPV6OmR=
+Qso-T4QYNhz0
+[14] https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMzIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.D4ig_L2CksamYltnTgEItthOut7jVL4=
+ckT6PGmoeP3w
+[15] https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODM0IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.-oizfOTY-O1vEuPIFtygLTjKMf353sf=
+z2krPgTQVMwc
+--enmime-a00103c3-b122-45f7-9b22-2c3e3b349745
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office" lang=3D"en"=
+>
+ <head>
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0"><base href=3D"https://care-godaddy.atlassian.net">
+ </head>
+ <body style=3D"background-color:#F5F7F8;; margin: 0; padding: 0; -webkit-t=
+ext-size-adjust: 100%; -ms-text-size-adjust: 100%; line-height: 34px; margi=
+n: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100=
+%; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adj=
+ust: 100%">
+  <script type=3D"application/ld+json">{"@context":"http://schema.org","typ=
+e":"EmailMessage","description":"View request","potentialAction":{"@type":"=
+ViewAction","target":"https://care.support.secureserver.net/servicedesk/cus=
+tomer/portal/51/LEGO-48111?token=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ=
+0Z3QiOiJhbm9ueW1vdXMtbGluayIsInFzaCI6IjE4NjY1YTUwYmIzZDExNDZlMTZmOTY2YWUyYz=
+RkYTNlYWU4MWNlMjIzYTQ4YmYxYTUwZGY1M2U2MDc4ODlmMWQiLCJpc3MiOiJzZXJ2aWNlZGVza=
+y1qd3QtdG9rZW4taXNzdWVyIiwiY29udGV4dCI6eyJ1c2VyIjoiMTk2NDc2NyIsImlzc3VlIjoi=
+TEVHTy00ODExMSJ9LCJleHAiOjE3NTYyNzY4ODcsImlhdCI6MTc1Mzg1NzY4N30.t_op33DF-xZ=
+9hcj5zGqTYvu5tMqTAqIoIGNoQcfDKso&sda_source=3Dnotification-email-action","n=
+ame":"View request"},"publisher":{"@type":"Organization","name":"Atlassian"=
+,"url":"https://www.atlassian.com"}}</script>
+  <div class=3D"jsd-reply-marker" style=3D"visibility: hidden; color: #f5f7=
+f8">
+   =E2=80=94-=E2=80=94-=E2=80=94-=E2=80=94
+  </div>
+  <title> </title> <!--[if !mso]><!-- -->
+  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"> <!--<![endif]=
+-->
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+  <style type=3D"text/css">
+    #outlook a {
+      padding: 0;
+    }
+
+    .ReadMsgBody {
+      width: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+
+    .ExternalClass * {
+      line-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    p {
+      display: block;
+      margin: 13px 0;
+    }
+  </style> <!--[if !mso]><!-->
+  <style type=3D"text/css">
+    @media only screen and (max-width:480px) {
+      @-ms-viewport {
+        width: 320px;
+      }
+      @viewport {
+        width: 320px;
+      }
+    }
+  </style> <!--<![endif]--> <!--[if mso]>
+        <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+        <![endif]--> <!--[if lte mso 11]>
+        <style type=3D"text/css">
+          .outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]--> <!--[if !mso]><!-->
+  <link href=3D"https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
+0,700" rel=3D"stylesheet" type=3D"text/css">
+  <style type=3D"text/css">
+    @import url(https://fonts.googleapis.com/css?family=3DUbuntu:300,400,50=
+0,700);
+  </style> <!--<![endif]-->
+  <style type=3D"text/css">
+    @media only screen and (min-width:480px) {
+      .mj-column-per-100 {
+        width: 100% !important;
+        max-width: 100%;
+      }
+    }
+  </style>
+  <style type=3D"text/css">
+    @media only screen and (max-width:480px) {
+      table.full-width-mobile {
+        width: 100% !important;
+      }
+      td.full-width-mobile {
+        width: auto !important;
+      }
+    }
+  </style>
+  <div style=3D"background-color:#F5F7F8;">
+   <!--[if mso | IE]>
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:600px;" width=3D"600"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]-->
+   <div style=3D"background:#FFFFFF;background-color:#FFFFFF;Margin:0px aut=
+o;max-width:600px;">
+    <table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"background:#FFFFFF;background-color:#FFFFF=
+F;width:100%;; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-=
+rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rs=
+pace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspa=
+ce: 0pt">
+     <tbody>
+      <tr>
+       <td style=3D"direction:ltr;font-size:0px;padding:10px 0;text-align:c=
+enter;vertical-align:top;; border-collapse: collapse; mso-table-lspace: 0pt=
+; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; =
+mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; ms=
+o-table-rspace: 0pt"><!--[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+               =20
+        <tr>
+     =20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:600px;"
+            >
+          <![endif]-->
+        <div class=3D"mj-column-per-100 outlook-group-fix" style=3D"font-si=
+ze:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:t=
+op;width:100%;">
+         <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pr=
+esentation" style=3D"vertical-align:top;; border-collapse: collapse; mso-ta=
+ble-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-tabl=
+e-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-=
+lspace: 0pt; mso-table-rspace: 0pt" width=3D"100%">
+          <tbody>
+           <tr>
+            <td align=3D"center" style=3D"font-size:0px;word-break:break-wo=
+rd;; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;=
+ border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+             <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
+=3D"presentation" style=3D"border-collapse:collapse;border-spacing:0px;; bo=
+rder-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; bord=
+er-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border=
+-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+              <tbody>
+               <tr>
+                <td style=3D"border-collapse: collapse; mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt=
+; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; =
+mso-table-rspace: 0pt"></td>
+               </tr>
+              </tbody>
+             </table></td>
+           </tr>
+           <tr>
+            <td style=3D"font-size:0px; padding:20px 25px; word-break:break=
+-word;; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace:=
+ 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0=
+pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt=
+"><p style=3D"border-top:solid 2px #BAC0C3;font-size:1;margin:0px auto;widt=
+h:100%;; display: block; margin: 13px 0; display: block; margin: 13px 0; di=
+splay: block; margin: 13px 0"></p> <!--[if mso | IE]>
+        <table
+           align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:solid 2px #1BDBDB;font-size:1;margin:0px auto;width:5=
+50px;" role=3D"presentation" width=3D"550px"
+        >
+          <tr>
+            <td style=3D"height:0;line-height:0;">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      <![endif]--></td>
+           </tr>
+           <tr>
+            <td align=3D"left" style=3D"font-size:0px; padding:10px 25px; w=
+ord-break:break-word;; border-collapse: collapse; mso-table-lspace: 0pt; ms=
+o-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-=
+table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; mso-ta=
+ble-rspace: 0pt">
+             <div style=3D"font-family:helvetica, sans-serif;font-size:16px=
+;line-height:1.5;text-align:left;color:#000000;">
+              <div class=3D"jsd-activity-item-content">
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><font color=3D"#172B4D">To =
+whom it may concern,</font><font color=3D"#172B4D"></font></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><font color=3D"#172B4D"> I =
+am sending this formal notice on behalf of Bayerische Motoren Werke Aktieng=
+esellschaft (BMW AG) (authorization is attached).</font> <br> <font color=
+=3D"#172B4D"> Please be informed that the website</font> <a href=3D"https:/=
+/urldefense.com/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe_Lnx!o7Lmg3=
+hQc2749kdsUvvc5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiMjyiRzD_eaTM=
+6JhTPqs$" class=3D"external-link" rel=3D"nofollow noreferrer">https://bimme=
+rdiagnostics.com/</a><font color=3D"#172B4D"> infringe on the Client's righ=
+ts.</font><font color=3D"#172B4D"></font></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><font color=3D"#172B4D"> BM=
+W offers, and has offered for years, proprietary diagnostic systems compris=
+ed of hardware and software for maintenance, repair, servicing, and program=
+ming of BMW automobiles. BMW=E2=80=99s proprietary diagnostic systems are o=
+ffered only to BMW=E2=80=99s authorized dealers and/or other permitted part=
+ies, such as independent qualified repair centres who pay for access to the=
+ BMW diagnostic software. These diagnostic tools include BMW=E2=80=99s diag=
+nostic software offered under the BMW mark and additional marks and names i=
+ncluding, Bimmer, ISTA, among others.</font> <br> <font color=3D"#172B4D">T=
+he website</font><font color=3D"#172B4D"></font> <a href=3D"https://urldefe=
+nse.com/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe_Lnx!o7Lmg3hQc2749k=
+dsUvvc5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiMjyiRzD_eaTM6JhTPqs$=
+" class=3D"external-link" rel=3D"nofollow noreferrer">https://bimmerdiagnos=
+tics.com/</a><font color=3D"#172B4D"></font> <font color=3D"red"></font><fo=
+nt color=3D"#172B4D">is illegally using ISTA trademark. The person who mana=
+ges the site is not a BMW partner and has not been authorized to sell the s=
+oftware.</font> <br> <font color=3D"#172B4D"> Example of infringing url's:<=
+/font><font color=3D"#172B4D"></font> <br> <a href=3D"https://urldefense.co=
+m/v3/__https://bimmerdiagnostics.com/__;!!Hj18uoVe_Lnx!o7Lmg3hQc2749kdsUvvc=
+5lXUe5_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiMjyiRzD_eaTM6JhTPqs$" clas=
+s=3D"external-link" rel=3D"nofollow noreferrer">https://bimmerdiagnostics.c=
+om/</a><font color=3D"#172B4D"></font><font color=3D"#172B4D"></font></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><font color=3D"#172B4D"> Th=
+e illegal sale of software constitutes both a violation of copyright law an=
+d an infringement of the BMW and ISTA trademark. This is an action that bri=
+ngs harm to BMW.</font> <br> <font color=3D"#172B4D"> We hereby formally <b=
+>request the immediate removal of the infringing content from your platform=
+</b> and cessation of all related sales and distribution activities. Failur=
+e to comply may result in further legal action, including but not limited t=
+o reporting to relevant authorities and pursuing civil or criminal remedies=
+ available under the law.</font> <br> <font color=3D"#172B4D"><b>I therefor=
+e request that the domain</b></font> <a href=3D"https://urldefense.com/v3/_=
+_https://bimmerdiagnostics.com/__;!!Hj18uoVe_Lnx!o7Lmg3hQc2749kdsUvvc5lXUe5=
+_vOBAtKk-I0T2zUElVRRmQtmLAbemBBQW4EgxSu86FiMjyiRzD_eaTM6JhTPqs$" class=3D"e=
+xternal-link" rel=3D"nofollow noreferrer">https://bimmerdiagnostics.com/</a=
+><font color=3D"#172B4D"> <b>be blocked.</b></font> <br> <font color=3D"#17=
+2B4D"> I have a good faith belief that use of the copyrighted materials des=
+cribed above as allegedly infringing is not authorized by the copyright own=
+er, its agent, or the law.</font> <br> <font color=3D"#172B4D"> I swear, un=
+der penalty of perjury, that the information in the notification is accurat=
+e and that I am authorized to act on behalf of the owner of an exclusive ri=
+ght that is allegedly infringed.</font> <br> <font color=3D"#172B4D"> Kind =
+regards,</font><!-- ADF macro (type =3D 'expand') --></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI0IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.txFz03HyQrdulkhbmesbRDUPy5cSVuI=
+RbWG2UT9XvTo" title=3D"TM Bimmer 1568357 (0a2e86c8-f7e7-452f-aebd-c7e0b9ba8=
+104).pdf attached to LEGO-48111" data-attachment-type=3D"file" data-attachm=
+ent-name=3D"TM Bimmer 1568357 (0a2e86c8-f7e7-452f-aebd-c7e0b9ba8104).pdf" d=
+ata-media-services-type=3D"file" data-media-services-id=3D"d663ec64-e640-4d=
+f5-bebe-e54e645b694c" rel=3D"noreferrer">TM Bimmer 1568357 (0a2e86c8-f7e7-4=
+52f-aebd-c7e0b9ba8104).pdf<sup><img class=3D"rendericon" src=3D"cid:jira-ge=
+nerated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c=
+" height=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=
+=3D"border: 0; height: auto; line-height: 100%; outline: none; text-decorat=
+ion: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-h=
+eight: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: =
+bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-de=
+coration: none; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(401=
+ kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI1IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.GoVA0EYwvE0mvGeygVz0CXedWTLOGb0=
+iqBTpRKrpFxQ" title=3D"Copyright registration certificate ISTA (d5588556-fc=
+c8-4890-85a9-52354765f2fd).pdf attached to LEGO-48111" data-attachment-type=
+=3D"file" data-attachment-name=3D"Copyright registration certificate ISTA (=
+d5588556-fcc8-4890-85a9-52354765f2fd).pdf" data-media-services-type=3D"file=
+" data-media-services-id=3D"bbd0fbe9-8fc4-4c74-8303-768b59398c02" rel=3D"no=
+referrer">Copyright registration certificate ISTA (d5588556-fcc8-4890-85a9-=
+52354765f2fd).pdf<sup><img class=3D"rendericon" src=3D"cid:jira-generated-i=
+mage-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" height=
+=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"borde=
+r: 0; height: auto; line-height: 100%; outline: none; text-decoration: none=
+; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 10=
+0%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; =
+border: 0; height: auto; line-height: 100%; outline: none; text-decoration:=
+ none; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(505 kB)</em>=
+</p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"image-wrap" =
+style=3D""><a id=3D"5007826_thumb" href=3D"https://care.support.secureserve=
+r.net/servicedesk/customer/attachment?jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI=
+1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIsInFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZ=
+jhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDEwZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2=
+aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY29udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA=
+3ODI2IiwiYWNjb3VudElkIjoicW06YjlhZWZhNjktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlND=
+AxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiO=
+iI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3=
+Njg3fQ.YykOlh1ZxhO-mk_awAR4qDXdTAj2VHDuqm2Uy3BQehA" title=3D"Screenshot 202=
+5-05-19 085216 (cf284948-63d8-44a6-ae9f-97e656f473e8).png" file-preview-typ=
+e=3D"image" file-preview-id=3D"5007826" file-preview-title=3D"Screenshot 20=
+25-05-19 085216 (cf284948-63d8-44a6-ae9f-97e656f473e8).png">
+                  <jira-attachment-thumbnail url=3D"https://care-godaddy.at=
+lassian.net/rest/api/3/attachment/thumbnail/5007826?default=3Dfalse" jira-u=
+rl=3D"https://care-godaddy.atlassian.net/rest/api/3/attachment/thumbnail/50=
+07826" filename=3D"Screenshot 2025-05-19 085216 (cf284948-63d8-44a6-ae9f-97=
+e656f473e8).png">
+                   <img src=3D"cid:jira-generated-image-static-f8cd9020-e72=
+5-440e-a77a-64038043d9d0" data-attachment-name=3D"Screenshot 2025-05-19 085=
+216 (cf284948-63d8-44a6-ae9f-97e656f473e8).png" data-attachment-type=3D"thu=
+mbnail" data-media-services-id=3D"0880cf91-40d5-4b73-82d2-d119665bf366" dat=
+a-media-services-type=3D"file" style=3D"border: 0px solid black; border: 0;=
+ height: auto; line-height: 100%; outline: none; text-decoration: none; -ms=
+-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; o=
+utline: none; text-decoration: none; -ms-interpolation-mode: bicubic; borde=
+r: 0; height: auto; line-height: 100%; outline: none; text-decoration: none=
+; -ms-interpolation-mode: bicubic">=20
+                  </jira-attachment-thumbnail></a></span></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI3IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.RHDCwMYWi3N8oNpvG3ktOeEv069-2wW=
+1bBlTOU_9Cqk" title=3D"b6cc3629-3cda-4824-bcb6-196c53ef6f09 (a8f15949-bd96-=
+48ec-b21d-2ecf6634dbb4).webp attached to LEGO-48111" data-attachment-type=
+=3D"file" data-attachment-name=3D"b6cc3629-3cda-4824-bcb6-196c53ef6f09 (a8f=
+15949-bd96-48ec-b21d-2ecf6634dbb4).webp" data-media-services-type=3D"file" =
+data-media-services-id=3D"0f884bc6-c9d5-4a33-bf87-15c6adb28e5e" rel=3D"nore=
+ferrer">b6cc3629-3cda-4824-bcb6-196c53ef6f09 (a8f15949-bd96-48ec-b21d-2ecf6=
+634dbb4).webp<sup><img class=3D"rendericon" src=3D"cid:jira-generated-image=
+-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" height=3D"7=
+" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"border: 0;=
+ height: auto; line-height: 100%; outline: none; text-decoration: none; -ms=
+-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; o=
+utline: none; text-decoration: none; -ms-interpolation-mode: bicubic; borde=
+r: 0; height: auto; line-height: 100%; outline: none; text-decoration: none=
+; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(25 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI4IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.Z4aVxtc2kSDBn5UbGfe-G21REGlDP5D=
+EjthPJrHSKJM" title=3D"US word ISTA 79221240 (b10bce7e-451e-42d9-a9aa-1b2ba=
+e7d7f08).pdf attached to LEGO-48111" data-attachment-type=3D"file" data-att=
+achment-name=3D"US word ISTA 79221240 (b10bce7e-451e-42d9-a9aa-1b2bae7d7f08=
+).pdf" data-media-services-type=3D"file" data-media-services-id=3D"44832315=
+-4270-47df-9dc6-1ea169aae74e" rel=3D"noreferrer">US word ISTA 79221240 (b10=
+bce7e-451e-42d9-a9aa-1b2bae7d7f08).pdf<sup><img class=3D"rendericon" src=3D=
+"cid:jira-generated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-=
+b7b22ab48e4c" height=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=
+=3D"0" style=3D"border: 0; height: auto; line-height: 100%; outline: none; =
+text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: =
+auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpol=
+ation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: n=
+one; text-decoration: none; -ms-interpolation-mode: bicubic"></sup></a></sp=
+an> <em>(364 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODI5IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.O13kjQL2wvZIHXMVI-8R2REnOVbBEMR=
+Xeq9EKjS1L6I" title=3D"BMW PoA (16f30903-2481-433e-97f0-efce796f7082).pdf a=
+ttached to LEGO-48111" data-attachment-type=3D"file" data-attachment-name=
+=3D"BMW PoA (16f30903-2481-433e-97f0-efce796f7082).pdf" data-media-services=
+-type=3D"file" data-media-services-id=3D"d022860a-bf78-4ef3-a5d6-eb29ad06a6=
+f4" rel=3D"noreferrer">BMW PoA (16f30903-2481-433e-97f0-efce796f7082).pdf<s=
+up><img class=3D"rendericon" src=3D"cid:jira-generated-image-static-link_at=
+tachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" height=3D"7" width=3D"7" a=
+lign=3D"absmiddle" alt=3D"" border=3D"0" style=3D"border: 0; height: auto; =
+line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-=
+mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; t=
+ext-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: a=
+uto; line-height: 100%; outline: none; text-decoration: none; -ms-interpola=
+tion-mode: bicubic"></sup></a></span> <em>(57 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMwIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.8jXhMD-6T8bgFMhzgkY893IplvOaBo7=
+kybXKu3VoeCU" title=3D"b6cc3629-3cda-4824-bcb6-196c53ef6f09 (bf2b9e22-6ee5-=
+4ece-a683-98c2f85e48e0).webp attached to LEGO-48111" data-attachment-type=
+=3D"file" data-attachment-name=3D"b6cc3629-3cda-4824-bcb6-196c53ef6f09 (bf2=
+b9e22-6ee5-4ece-a683-98c2f85e48e0).webp" data-media-services-type=3D"file" =
+data-media-services-id=3D"59f7e2ba-fd54-4f50-ac98-3da100c4d4d8" rel=3D"nore=
+ferrer">b6cc3629-3cda-4824-bcb6-196c53ef6f09 (bf2b9e22-6ee5-4ece-a683-98c2f=
+85e48e0).webp<sup><img class=3D"rendericon" src=3D"cid:jira-generated-image=
+-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" height=3D"7=
+" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"border: 0;=
+ height: auto; line-height: 100%; outline: none; text-decoration: none; -ms=
+-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; o=
+utline: none; text-decoration: none; -ms-interpolation-mode: bicubic; borde=
+r: 0; height: auto; line-height: 100%; outline: none; text-decoration: none=
+; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(25 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMxIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.ZhyCTVvqkjfVvQo8OT30c36O3WZOrHR=
+LPdUTvtqO-Vg" title=3D"BMW USA 5333863 (d8c2e127-f564-49ae-98c6-ec23f7e0e1f=
+0).pdf attached to LEGO-48111" data-attachment-type=3D"file" data-attachmen=
+t-name=3D"BMW USA 5333863 (d8c2e127-f564-49ae-98c6-ec23f7e0e1f0).pdf" data-=
+media-services-type=3D"file" data-media-services-id=3D"70af104b-af4e-425a-8=
+e6b-0d08427d79ec" rel=3D"noreferrer">BMW USA 5333863 (d8c2e127-f564-49ae-98=
+c6-ec23f7e0e1f0).pdf<sup><img class=3D"rendericon" src=3D"cid:jira-generate=
+d-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" heig=
+ht=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"bor=
+der: 0; height: auto; line-height: 100%; outline: none; text-decoration: no=
+ne; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: =
+100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic=
+; border: 0; height: auto; line-height: 100%; outline: none; text-decoratio=
+n: none; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(611 kB)</e=
+m></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMyIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.RsVYQXNPKBIweC6daL9HQXPokPV6OmR=
+Qso-T4QYNhz0" title=3D"BMW WIPO 489368 (7db54414-dfcb-4c7c-83bc-031dbf54e30=
+b).pdf attached to LEGO-48111" data-attachment-type=3D"file" data-attachmen=
+t-name=3D"BMW WIPO 489368 (7db54414-dfcb-4c7c-83bc-031dbf54e30b).pdf" data-=
+media-services-type=3D"file" data-media-services-id=3D"fa74d933-d306-410f-8=
+026-499286ee4778" rel=3D"noreferrer">BMW WIPO 489368 (7db54414-dfcb-4c7c-83=
+bc-031dbf54e30b).pdf<sup><img class=3D"rendericon" src=3D"cid:jira-generate=
+d-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" heig=
+ht=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"bor=
+der: 0; height: auto; line-height: 100%; outline: none; text-decoration: no=
+ne; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: =
+100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic=
+; border: 0; height: auto; line-height: 100%; outline: none; text-decoratio=
+n: none; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(984 kB)</e=
+m></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODMzIiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.D4ig_L2CksamYltnTgEItthOut7jVL4=
+ckT6PGmoeP3w" title=3D"Int word ISTA 1357923 (5887a5d7-b75e-4272-a07a-6b4f2=
+0dc1045).pdf attached to LEGO-48111" data-attachment-type=3D"file" data-att=
+achment-name=3D"Int word ISTA 1357923 (5887a5d7-b75e-4272-a07a-6b4f20dc1045=
+).pdf" data-media-services-type=3D"file" data-media-services-id=3D"ac2d85ed=
+-0ba5-4f57-8934-0047ca604841" rel=3D"noreferrer">Int word ISTA 1357923 (588=
+7a5d7-b75e-4272-a07a-6b4f20dc1045).pdf<sup><img class=3D"rendericon" src=3D=
+"cid:jira-generated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-=
+b7b22ab48e4c" height=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=
+=3D"0" style=3D"border: 0; height: auto; line-height: 100%; outline: none; =
+text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: =
+auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpol=
+ation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: n=
+one; text-decoration: none; -ms-interpolation-mode: bicubic"></sup></a></sp=
+an> <em>(479 kB)</em></p>
+               <p style=3D"display: block; margin: 13px 0; display: block; =
+margin: 13px 0; display: block; margin: 13px 0"><span class=3D"nobr"><a hre=
+f=3D"https://care.support.secureserver.net/servicedesk/customer/attachment?=
+jwt=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbGluayIs=
+InFzaCI6Ijc1M2E0NzY1Yzk0OTJmYmZmMTgwZjhhMTUyM2NlM2VjMGI1NDBkODZkNjU2MzQ4NDE=
+wZDU0Nzg5OTY1NzgzMDciLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVyIiwiY2=
+9udGV4dCI6eyJhdHRhY2htZW50SWQiOiI1MDA3ODM0IiwiYWNjb3VudElkIjoicW06YjlhZWZhN=
+jktZWY5ZC00ZTllLWFlNGItNDI5ODMwMTJlNDAxOjA5YmFjODVlLWNhZGEtNDk4NS04YTE5LTQ2=
+MmY3M2QwZmQ4YyIsInNlcnZpY2VEZXNrSWQiOiI1MSIsImlzc3VlSWQiOiI1ODIzODgwIn0sImV=
+4cCI6MTc1NjI3Njg4NywiaWF0IjoxNzUzODU3Njg3fQ.-oizfOTY-O1vEuPIFtygLTjKMf353sf=
+z2krPgTQVMwc" title=3D"BMW EU 014015143 (684151a1-3531-433f-b72b-14628553d0=
+64).pdf attached to LEGO-48111" data-attachment-type=3D"file" data-attachme=
+nt-name=3D"BMW EU 014015143 (684151a1-3531-433f-b72b-14628553d064).pdf" dat=
+a-media-services-type=3D"file" data-media-services-id=3D"27cfe5e3-fec8-41ae=
+-908f-f70c4fec7c4a" rel=3D"noreferrer">BMW EU 014015143 (684151a1-3531-433f=
+-b72b-14628553d064).pdf<sup><img class=3D"rendericon" src=3D"cid:jira-gener=
+ated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c" h=
+eight=3D"7" width=3D"7" align=3D"absmiddle" alt=3D"" border=3D"0" style=3D"=
+border: 0; height: auto; line-height: 100%; outline: none; text-decoration:=
+ none; -ms-interpolation-mode: bicubic; border: 0; height: auto; line-heigh=
+t: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicu=
+bic; border: 0; height: auto; line-height: 100%; outline: none; text-decora=
+tion: none; -ms-interpolation-mode: bicubic"></sup></a></span> <em>(1.42 MB=
+)</em></p>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td style=3D"font-size:0px;padding:25px; word-break:break-word;=
+; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; =
+border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; bo=
+rder-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt"><p s=
+tyle=3D"border-top:solid 2px #BAC0C3;font-size:1;margin:0px auto;width:100%=
+;; display: block; margin: 13px 0; display: block; margin: 13px 0; display:=
+ block; margin: 13px 0"></p> <!--[if mso | IE]>
+        <table
+           align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:solid 2px #BAC0C3;font-size:1;margin:0px auto;width:5=
+50px;" role=3D"presentation" width=3D"550px"
+        >
+          <tr>
+            <td style=3D"height:0;line-height:0;">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      <![endif]--></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></td>
+      </tr>
+      <tr>
+      </tr>
+     </tbody>
+    </table>
+    <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" =
+bgcolor=3D"#f5f5f5" style=3D"border-collapse: collapse; mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt=
+; mso-table-rspace: 0pt; border-collapse: collapse; mso-table-lspace: 0pt; =
+mso-table-rspace: 0pt">
+     <tbody>
+      <tr>
+       <td align=3D"left" style=3D"padding-top:10px;padding-bottom:0;paddin=
+g-right:0;padding-left:0;text-align:left;; border-collapse: collapse; mso-t=
+able-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-tab=
+le-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; mso-table=
+-lspace: 0pt; mso-table-rspace: 0pt"><p style=3D"text-align:center;Margin-t=
+op:0px;Margin-bottom:0px;font-family:'gdsherpa', Helvetica, Arial, sans-ser=
+if;font-size:12px;line-height:22px;;color:#BAC0C3;; display: block; margin:=
+ 13px 0; display: block; margin: 13px 0; display: block; margin: 13px 0"><a=
+ href=3D"https://sso.secureserver.net/federate/osp-jira-care?RelayState=3Dh=
+ttps://care.support.secureserver.net/servicedesk/customer/portal/51/LEGO-48=
+111?token=3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0Z3QiOiJhbm9ueW1vdXMtbG=
+luayIsInFzaCI6IjE4NjY1YTUwYmIzZDExNDZlMTZmOTY2YWUyYzRkYTNlYWU4MWNlMjIzYTQ4Y=
+mYxYTUwZGY1M2U2MDc4ODlmMWQiLCJpc3MiOiJzZXJ2aWNlZGVzay1qd3QtdG9rZW4taXNzdWVy=
+IiwiY29udGV4dCI6eyJ1c2VyIjoiMTk2NDc2NyIsImlzc3VlIjoiTEVHTy00ODExMSJ9LCJleHA=
+iOjE3NTYyNzY4ODYsImlhdCI6MTc1Mzg1NzY4Nn0.mIxcAW385jV6W64ByzpP4crZ0xgh_8xEwu=
+lZv7McLjc&amp;sda_source=3Dnotification-email" target=3D"_blank" style=3D"c=
+olor: #BAC0C3;"><b>Reply via portal here</b></a></p><p class=3D"centered" s=
+tyle=3D"font-family: Helvetica, Arial, sans-serif;font-size:10px;line-heigh=
+t:1;text-align:center;color:#BAC0C3;; display: block; margin: 13px 0; displ=
+ay: block; margin: 13px 0; display: block; margin: 13px 0"><br> By using th=
+ese products, you agree that you are bound by the Terms of Service. <br><br=
+>This email is shared with aniczyporuk@ebrand.com, abuse@sioru.com, info@ab=
+rites.com, and 17 other people.</p></td>
+      </tr>
+     </tbody>
+    </table> <!--[if mso | IE]>
+            </td>
+         =20
+        </tr>
+     =20
+                  </table>
+                <![endif]-->
+   </div> <!--[if mso | IE]>
+          </td>
+        </tr>
+      </table>
+      <![endif]-->
+   <div style=3D"visibility: hidden; opacity: 0; font-size: 1px; display: n=
+one; width:0; max-height: 0; overflow: hidden">
+    Sent on July 29, 2025 11:41:27 PM MST
+   </div>
+  </div>
+ <img alt=3D"" src=3D"http://atlassian-trk.prd.msg.ss-inf.net/CI0/010101985=
+a108249-a0cc36f7-0819-4b30-9dd8-e2614d772716-000000/CKEpCXOVlXUoGfUQCU0fyOn=
+kI2xoMtU8c2NKRNEynDI=3D415" style=3D"display: none; width: 1px; height: 1px=
+;">
+</body>
+</html>
+--enmime-a00103c3-b122-45f7-9b22-2c3e3b349745--
+
+--enmime-297f07f2-263c-4c1f-b07e-4defbf8f7e84
+Content-Disposition: inline;
+ filename=jira-generated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c
+Content-Id: <jira-generated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c>
+Content-Transfer-Encoding: base64
+Content-Type: image/gif;
+ name=jira-generated-image-static-link_attachment_7-bf0ee91c-16bc-40c8-bcef-b7b22ab48e4c
+
+R0lGODlhBwAHAMQAAABEAFLQN///zEJxQpnMmQB2AEDEKnXmTWfeRYr1W4DvVQF4AABKAFzWPU1+
+TUbJL0XIL////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUU
+ABEALAAAAAAHAAcAAAUgYLQsTmQWgrAQ45IoAgoMxYEIARCxTfDoCxzEAAQYjSEAOw==
+
+--enmime-297f07f2-263c-4c1f-b07e-4defbf8f7e84
+Content-Disposition: inline;
+ filename=jira-generated-image-static-f8cd9020-e725-440e-a77a-64038043d9d0
+Content-Id: <jira-generated-image-static-f8cd9020-e725-440e-a77a-64038043d9d0>
+Content-Transfer-Encoding: base64
+Content-Type: image/jpeg;
+ name=jira-generated-image-static-f8cd9020-e725-440e-a77a-64038043d9d0
+
+/9j/4AAQSkZJRgABAgAAAQABAAD/wAARCABsAMgDAREAAhEBAxEB/9sAQwAIBgYHBgUIBwcHCQkI
+CgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJ
+CQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy
+MjIyMjIy/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3d59i
+zny5z5POAmS3GcL60DirtIYz5jkP+k/KTJ9zkj+6B3+lF7Ba7sV2hfkfarwfSMH+lVcmw428iJI5
+uro7BkgICT9OOaXMNRu7EjvsSRsTnYpbAjOTgdB6mqj7zSJeiuEL+cqHE6b1Bw8ZGPr6US91tAtV
+cRZNyBtlwMjODGc/lSuOw8nCg/vjk4+4eOM01qIaXxIqbZ/mQtu8s4HOMH39qf2eYXWwjybI9+2d
+vmVcLGc8nGfoO9Tcqw7PH/Lb/v2aOYLBnDMMTfKcZ2Hn6VKne+g3G1tRpkxMI9lwcpv3CM4HOMZ9
+fatLe7zGfN73L/ww4nBIxNwAchCetTcrrYUnGP8AW8jPEZNLm1tYdhC2D/y2/wC/Zp8wWHONgz+8
+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
+CSMcgdevegD/2Q==
+
+--enmime-297f07f2-263c-4c1f-b07e-4defbf8f7e84--

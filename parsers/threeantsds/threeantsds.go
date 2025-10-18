@@ -14,7 +14,7 @@ import (
 var (
 	officialURLPattern = regexp.MustCompile(`(?i)an authorized example of the content is available at[^h.]*http([^\s]+)`)
 	httpOrHTTPS        = regexp.MustCompile(`^(?P<url>https?://\S+)`)
-	workURLs           = regexp.MustCompile(`^((?P<name>(?!http).+)\s{0,2})?(?P<urls>(https?://\S+\s?)+)`)
+	workURLs           = regexp.MustCompile(`^((?P<name>.+)\s{0,2})?(?P<urls>(https?://\S+\s?)+)`)
 )
 
 // Parser implements the threeantsds parser

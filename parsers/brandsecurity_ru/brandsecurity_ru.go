@@ -61,10 +61,7 @@ func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event,
 		var nr []string
 		if owner == "" {
 			// Extract from block
-			lines := common.GetBlockAfter(
-				body,
-				"including protection of rights to copyright and intellectual property objects and trademarks",
-				"",
+			lines := common.GetBlockAfterWithStop(body, "including protection of rights to copyright and intellectual property objects and trademarks", "",
 			)
 			for _, line := range lines {
 				if owner == "" {

@@ -68,7 +68,7 @@ func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event,
 	} else if strings.Contains(subject, "hacking attempt") {
 		eventType = events.NewWebHack()
 	} else if strings.Contains(subject, "spamhaus sbl") {
-		eventType = events.NewBlacklist()
+		eventType = events.NewBlacklist("")
 	} else if strings.Contains(subject, "suspicious activity") || strings.Contains(subject, "fraud") {
 		eventType = events.NewFraud()
 	} else {

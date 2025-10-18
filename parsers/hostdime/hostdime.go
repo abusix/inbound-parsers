@@ -27,8 +27,8 @@ func basicEventCopyrightParser(event *events.Event, body string) error {
 	}
 
 	// Parse key-value pairs using the same regex as Python
-	// Pattern: (?P<key>.+?): +(?!\r)(?P<value>.+(?:\r?\n?(?!.*: ).*)
-	pattern := regexp.MustCompile(`(.+?): +(?!\r)(.+(?:\r?\n?(?!.*: ).*)*)`)
+	// Pattern: (?P<key>.+?): +(?P<value>.+(?:\r?\n?.*)
+	pattern := regexp.MustCompile(`(.+?): +(.+(?:\r?\n?.*)*)`)
 	matches := pattern.FindAllStringSubmatch(body, -1)
 
 	stripper := "\r\n\t-#> "

@@ -16,7 +16,7 @@ type Parser struct{}
 
 var (
 	xmlPattern          = regexp.MustCompile(`(?s)<\?xml[\s\S]*?<[iI]nfringement[\s\S]*?</[iI]nfringement>`)
-	xmlEntityRefPattern = regexp.MustCompile(`&(?!\w+;)`)
+	xmlEntityRefPattern = regexp.MustCompile(`&`)
 )
 
 // Infringement represents the ACNS XML structure

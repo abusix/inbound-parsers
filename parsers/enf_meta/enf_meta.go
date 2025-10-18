@@ -1,7 +1,7 @@
 package enf_meta
 
 import (
-	"github.com/abusix/inbound-parsers/email"
+	"github.com/abusix/inbound-parsers/pkg/email"
 	"github.com/abusix/inbound-parsers/events"
 	"github.com/abusix/inbound-parsers/parsers/common"
 )
@@ -17,7 +17,7 @@ func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event,
 	_ = body
 
 	event := events.NewEvent("enf_meta")
-	event.EventTypes = []events.EventType{events.EventTypeCopyright}
+	event.EventTypes = []events.EventType{events.NewCopyright("", "", "")}
 
 	return []*events.Event{event}, nil
 }

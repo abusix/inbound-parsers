@@ -511,7 +511,7 @@ func parseMalwarePart(serializedEmail *email.SerializedEmail) ([]*events.Event, 
 					eventType = events.NewLoginAttack("", "")
 					transportProtocol = &events.TransportProtocol{Protocol: value}
 				} else if strings.Contains(value, "blacklisted") {
-					eventType = events.NewBlacklist()
+					eventType = events.NewBlacklist("")
 				} else {
 					eventType = events.NewMalware(value)
 				}

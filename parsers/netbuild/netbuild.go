@@ -8,13 +8,16 @@ import (
 	"github.com/abusix/inbound-parsers/pkg/email"
 )
 
+// Parser implements the parser
+type Parser struct{}
+
 // Match returns true if the email is from netbuild
 func Match(serializedEmail *email.SerializedEmail, fromAddr string) bool {
 	return fromAddr == "abuse@netbuild.net"
 }
 
 // Parse processes the netbuild abuse email
-func Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
+func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
 	body, err := common.GetBody(serializedEmail, true)
 	if err != nil {
 		return nil, err

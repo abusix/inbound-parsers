@@ -10,8 +10,11 @@ import (
 	"github.com/abusix/inbound-parsers/pkg/email"
 )
 
+// Parser implements the parser
+type Parser struct{}
+
 // Parse converts a mirrorimagegaming email into abuse events
-func Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
+func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
 	body, err := common.GetBody(serializedEmail, true)
 	if err != nil {
 		return nil, err

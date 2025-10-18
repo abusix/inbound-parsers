@@ -5,6 +5,8 @@ import (
 	"net/mail"
 	"strings"
 
+	"github.com/abusix/inbound-parsers/events"
+	"github.com/abusix/inbound-parsers/parsers/common"
 	"github.com/abusix/inbound-parsers/pkg/email"
 )
 
@@ -103,4 +105,28 @@ func extractEmailAddress(s string) string {
 // GetPriority returns the parser priority (lower numbers run first)
 func (p *Parser) GetPriority() int {
 	return 2
+}
+
+// Parse implements the base.Parser interface
+// This preprocessor doesn't generate events, it just rewrites the email
+func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
+	// Get from address
+	var fromAddr string
+	if fromHeaders, ok := serializedEmail.Headers["from"]; ok && len(fromHeaders) > 0 {
+		fromAddr = extractEmailAddress(fromHeaders[0])
+	}
+	
+	// Check if this email should be rewritten
+	if !Match(serializedEmail, fromAddr) {
+		return nil, common.NewIgnoreError("simple_rewrite: email does not need rewriting")
+	}
+	
+	// Rewrite the email
+	_, err := Rewrite(serializedEmail)
+	if err != nil {
+		return nil, err
+	}
+	
+	// Return ignore error to let other parsers handle it
+	return nil, common.NewIgnoreError("simple_rewrite: email rewritten, continuing to other parsers")
 }

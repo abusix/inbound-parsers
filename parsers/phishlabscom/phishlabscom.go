@@ -14,7 +14,7 @@ import (
 
 var (
 	httpSpaceGadget = regexp.MustCompile(`h(xx|tt)p(?P<ssl>s?)\s?(://)?`)
-	spaceBeforeTLD  = regexp.MustCompile(`\s(?=[.]\S)`)
+	spaceBeforeTLD  = regexp.MustCompile(`\s(?:[.]\S)`)
 )
 
 type Parser struct{}

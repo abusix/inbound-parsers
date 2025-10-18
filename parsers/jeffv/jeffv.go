@@ -11,7 +11,7 @@ import (
 
 var (
 	headerKey          = `[\w-]+:`
-	looksLikeHeaderRe  = regexp.MustCompile(`(?m)(?s)^Received(.*?)(?=` + headerKey + `)`)
+	looksLikeHeaderRe  = regexp.MustCompile(`(?m)(?s)^Received(.*?)`)
 )
 
 type Parser struct{}

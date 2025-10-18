@@ -22,12 +22,12 @@ var (
 
 	// SPAMVERTIZED_PATTERN with named groups
 	spamvertizedPattern = regexp.MustCompile(
-		`Spamvertised web site:\s+(?P<url>(?!.*<div class=).*?)(?P<w3m>\shttps://www\.spamcop\.net/w3m.*?\s).*?\s+` +
+		`Spamvertised web site:\s+(?P<url>.*?)(?P<w3m>\shttps://www\.spamcop\.net/w3m.*?\s).*?\s+` +
 			`is\s+(?P<ip>[.\d]{7,15});\s+(?P<date>[\w,.:\d\- ]*)`,
 	)
 
 	// SPAMVERTIZED_PATTERN_SIMPLE
-	spamvertizedPatternSimple = regexp.MustCompile(`Spamvertised web site:\s+(?P<url>(?!https://<div class=).*)\s(?P<w3m>.*)`)
+	spamvertizedPatternSimple = regexp.MustCompile(`Spamvertised web site:\s+(?P<url>.*)\s(?P<w3m>.*)`)
 
 	// Date pattern for extracting oldest date
 	oldestDatePattern = regexp.MustCompile(`[a-z]{2,4}, \d{1,2} [a-z]{3,4} \d{4} [\d|:]* \S+`)

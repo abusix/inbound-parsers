@@ -39,7 +39,7 @@ func getURLs(doc *goquery.Document) []string {
 
 		for _, line := range lines {
 			// Remove everything before "http"
-			re := regexp.MustCompile(`(.*)(?=http)`)
+			re := regexp.MustCompile(`(.*?)(http)`)
 			line = re.ReplaceAllString(line, "")
 			line = strings.TrimSpace(line)
 

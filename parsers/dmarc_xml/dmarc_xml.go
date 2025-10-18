@@ -27,7 +27,7 @@ func NewParser() *Parser {
 
 var (
 	// XML entity reference pattern to fix malformed XML
-	xmlEntityRefPattern = regexp.MustCompile(`&(?!\w+;)`)
+	xmlEntityRefPattern = regexp.MustCompile(`&`)
 
 	// Valid sender addresses for DMARC reports
 	validFroms = map[string]bool{

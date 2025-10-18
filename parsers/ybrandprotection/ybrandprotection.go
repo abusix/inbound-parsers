@@ -196,7 +196,7 @@ func parsePhishingAndTrademark(serializedEmail *email.SerializedEmail, subjectLo
 	}
 
 	// Extract official URL
-	urlStartPattern := regexp.MustCompile(`(?P<official_website>(?!phishing\b)\b\S+ (website|website login):)`)
+	urlStartPattern := regexp.MustCompile(`(?P<official_website>\b\S+ (website|website login):)`)
 	urlStartMatch := urlStartPattern.FindStringSubmatch(bodyLower)
 	if len(urlStartMatch) < 2 {
 		return nil, common.NewNewTypeError(subjectLower)

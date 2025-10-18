@@ -20,7 +20,7 @@ type Parser struct {
 
 var (
 	lineMatcher             = regexp.MustCompile(`(?:([\w/ ]*?)/ .*?):[\n]?(.*)`)
-	complicatedColonData    = regexp.MustCompile(`(?P<key>.+?): +(?!\r)(?P<value>.+(?:\r?\n?(?!.*: ).*)*)`)
+	complicatedColonData    = regexp.MustCompile(`(?P<key>[^:]+):\s+(?P<value>.+)`)
 	htmlCleaner             = regexp.MustCompile(`<.*?>`)
 	htmlBRMatcher           = regexp.MustCompile(`(?i)<br.*?>`)
 )

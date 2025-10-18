@@ -198,7 +198,7 @@ func (p *Parser) parseCSV(serializedEmail *email.SerializedEmail) ([]*events.Eve
 		} else if identifier != "" && strings.Contains(identifier, "open") {
 			eventType = events.NewOpen(common.MapServiceStrings(identifier))
 		} else if identifier != "" && strings.Contains(identifier, "blacklisted") {
-			eventType = events.NewBlacklist()
+			eventType = events.NewBlacklist("")
 		} else if identifier != "" && strings.Contains(identifier, "ddos") {
 			eventType = events.NewDDoS()
 		} else if strings.Contains(classTaxonomy, "maliciouscode") && strings.Contains(classType, "infectedsystem") {

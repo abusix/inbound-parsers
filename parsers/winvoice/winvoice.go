@@ -12,6 +12,9 @@ import (
 	"github.com/abusix/inbound-parsers/pkg/email"
 )
 
+// Parser implements the parser
+type Parser struct{}
+
 // Match returns true if the email is from @winvoice.com
 func Match(serializedEmail *email.SerializedEmail, fromAddr string) bool {
 	if fromAddr == "" || !strings.Contains(fromAddr, "@winvoice.com") {
@@ -32,7 +35,7 @@ func Match(serializedEmail *email.SerializedEmail, fromAddr string) bool {
 }
 
 // Parse processes the winvoice abuse email
-func Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
+func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event, error) {
 	subject, err := common.GetSubject(serializedEmail, true)
 	if err != nil {
 		return nil, err

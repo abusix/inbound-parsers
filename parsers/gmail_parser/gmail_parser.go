@@ -1,11 +1,9 @@
 package gmail_parser
 
 import (
-	"github.com/abusix/inbound-parsers/email"
+	"github.com/abusix/inbound-parsers/pkg/email"
 	"github.com/abusix/inbound-parsers/events"
 	"github.com/abusix/inbound-parsers/parsers/common"
-	"regexp"
-	"strings"
 )
 
 type Parser struct{}
@@ -19,7 +17,7 @@ func (p *Parser) Parse(serializedEmail *email.SerializedEmail) ([]*events.Event,
 	subject, _ := common.GetSubject(serializedEmail, false)
 
 	event := events.NewEvent("gmail_parser")
-	event.EventTypes = []events.EventType{events.EventTypeCopyright}
+	event.EventTypes = []events.EventType{events.NewCopyright("", "", "")}
 
 	// TODO: Port parsing logic from Python version
 	_ = body

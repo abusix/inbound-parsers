@@ -103,10 +103,7 @@ func parseCopyrightInfringementNotice(subject, body, copyrightOwner string) ([]*
 	}
 
 	// Extract copyrighted works
-	copyrightedWorkLines := common.GetBlockAfter(
-		body,
-		"copyrighted work(s) infringed upon:",
-		"location of infringing material:",
+	copyrightedWorkLines := common.GetBlockAfterWithStop(body, "copyrighted work(s) infringed upon:", "location of infringing material:",
 	)
 
 	var copyrightedWorks []string
@@ -119,10 +116,7 @@ func parseCopyrightInfringementNotice(subject, body, copyrightOwner string) ([]*
 	copyrightedWork := fmt.Sprintf("%v", copyrightedWorks)
 
 	// Extract URLs
-	urlLines := common.GetBlockAfter(
-		body,
-		"location of infringing material:",
-		"i have a good faith belief",
+	urlLines := common.GetBlockAfterWithStop(body, "location of infringing material:", "i have a good faith belief",
 	)
 
 	var eventsResult []*events.Event
@@ -161,10 +155,7 @@ func parseInfringementOf(body, copyrightOwner string) ([]*events.Event, error) {
 	}
 
 	// Extract copyrighted works
-	copyrightedWorkLines := common.GetBlockAfter(
-		body,
-		"representative list of titles:",
-		"examples of locations",
+	copyrightedWorkLines := common.GetBlockAfterWithStop(body, "representative list of titles:", "examples of locations",
 	)
 
 	var copyrightedWorks []string
@@ -177,10 +168,7 @@ func parseInfringementOf(body, copyrightOwner string) ([]*events.Event, error) {
 	copyrightedWork := fmt.Sprintf("%v", copyrightedWorks)
 
 	// Extract URLs - using empty stopMarker to continue until end
-	urlLines := common.GetBlockAfter(
-		body,
-		"examples of locations where infringing materials can be found:",
-		"",
+	urlLines := common.GetBlockAfterWithStop(body, "examples of locations where infringing materials can be found:", "",
 	)
 
 	var eventsResult []*events.Event

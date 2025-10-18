@@ -454,9 +454,9 @@ func GetBlockAroundWithContinueUntil(text, marker, continueUntil string) ([]stri
 // This is a 100% exact Go translation of Python's one_line_colon_key_value_generator
 // It matches lines like "Key: value" where value doesn't start with \r and ends at \n
 func OneLineColonKeyValueGenerator(text string) map[string][]string {
-	// Regex: ([\w \']+): +(?!\r)(.+?)\r?\n
+	// Regex: ([\w \']+): +(.+?)\r?\n
 	// Matches: key (word chars, spaces, apostrophes) : space+ value (not starting with \r) ending with optional \r\n
-	pattern := regexp.MustCompile(`([\w \']+): +(?!\r)(.+?)\r?\n`)
+	pattern := regexp.MustCompile(`([\w \']+): +(.+?)\r?\n`)
 	matches := pattern.FindAllStringSubmatch(text, -1)
 
 	result := make(map[string][]string)

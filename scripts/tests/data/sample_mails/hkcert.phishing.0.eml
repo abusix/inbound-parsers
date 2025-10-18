@@ -1,0 +1,362 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id E60A35FF-2047-4135-A0D5-42D34D75102F.1
+	envelope-from <abuse+bncBCQ4LD4ORUFRBQMRQC5AMGQEMNCDKXQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 22 Nov 2024 04:29:55 +0000
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-211ff2d7d70sf18227595ad.1
+        for <abuse@digitalocean.abusehq.net>; Thu, 21 Nov 2024 20:29:55 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1732249794; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=ZhQQEId+hNLgrpCEMCcH8EZcmu3QHmkCP6tFcEhjWdSIJuXnsRp3CcIu3l92RZE4PB
+         SqiE98f6//frN7d0RvcdMSsT1aVzmktOL0T5mFzNJACupWsQy9rwwtgSeZqrPzB2bXLN
+         ZYA2Y4H67tCMlwj9q9jFp/CpfBltusv5oSSIYHYE/5YQvgW6pxm+32yK8yryU5l+1wpB
+         2AN6GsyKBDAkZoRqn8Our+V2P7GSk8KsIAbQSbCrTfRv9mU3jJKctlMVSq74yZu2fGHE
+         JjLWFacEZLfXB/6TVd4TlHaxCG4O4HJp6XOAp3K0/M727J5vdejlaoe8uQJBS09SbC7C
+         eyiA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:autocrypt:content-language:to
+         :subject:from:user-agent:date:message-id:sender:dkim-signature;
+        bh=VF/Kmp0kt1ezjTuaIvX+Cv+H38PTUZSmDKNvuj6kGoc=;
+        fh=Yq31eJhVbvawS7yiGYreq3nAAwJYHFUPd79+x5s/yRA=;
+        b=XhBNgscDQ39XQF9y9wumGYDuPkjlY63JA/KeXiOr34+1Dbbw1jAV9vOa23tK3l7p28
+         0RL1TDLRPnqltsKT5YURYbpRJTPIRgr5CErLfQVy4o7dvxAz/+x8hVVSQFY9qeE+ab1Y
+         Y5r/OsHJLk343p2DXNFXP6uqFyZNohDbVwtMPJjko2gxewwh7thwtCBT9IyfTMMvLZoR
+         xDwfMxTcNPfycsd4DD0tqUvLSOW7xG0ki5A+JvenWJgGvYsQarUT2+SHqoPOI1dSaiGt
+         6IyZuZdfziL4Ei3r7LmUSzwQLl1B0/oOphU1Rwxu+1/fBPaz7gKH3kWuNwN9nlo1Ra60
+         ZL3A==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@hkcert.org header.s=selector2 header.b=tQuaTaXy;
+       arc=pass (i=1 spf=pass spfdomain=hkcert.org dkim=pass dkdomain=hkcert.org dmarc=pass fromdomain=hkcert.org);
+       spf=pass (google.com: domain of hkcert@hkcert.org designates 2a01:111:f403:c407::1 as permitted sender) smtp.mailfrom=hkcert@hkcert.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1732249794; x=1732854594; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:autocrypt:content-language:to
+         :subject:from:user-agent:date:message-id:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VF/Kmp0kt1ezjTuaIvX+Cv+H38PTUZSmDKNvuj6kGoc=;
+        b=ej0l29JoK/q0MaayrrkOdF88vbdoPx0GDO/ufitarLxEOgUVr2hcmKKeVaTa9PUAHB
+         y4ztK+77azdxm/eFTKhSZnwDfQoQIivtSPvPZG9O1NX020EnWBumeyR7smr+dM6CdgPX
+         bqw7pyGMUSCYVmhEdjTZZ9tkzMjwVlzTagf0U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732249794; x=1732854594;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :autocrypt:content-language:to:subject:from:user-agent:date
+         :message-id:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VF/Kmp0kt1ezjTuaIvX+Cv+H38PTUZSmDKNvuj6kGoc=;
+        b=ANi+OLtWwWpULH9k/+oEbi806Td2EeU8oiwZe7bMyV5QoMxGrvtmuBtTSEmCP+RXci
+         sXWjGnH1ZB54H452J1aiX2Sh6dkRhPVjyRnIJqC2ZsYhIksMyf+3BlGqcRg13phcSkSX
+         icuU5I6DWz1ZPyy2vHhJLHJMsU3YBthicRm4Px0GBT4+kOho7DD0DM07jrhZY84qCU2m
+         KvBvmlJGwauFDiEv3eWxfB+XCwNOpJSPS5WchWeqyRzD7hso/7hRZ+xUKH4ofvMbmKyB
+         0F94P4UU1hcqfozKNRwxJ3KudIjVNfrIO+xHcRjl/Nqs6ThHjEQ+vRI8cxgejE2AvNqk
+         jjqA==
+Sender: abuse@digitalocean.com
+X-Forwarded-Encrypted: i=3; AJvYcCV1ybv3/aFRRmoXdHkXk3zx9ZkLR6Pb2LblkeJhyDXQQzOPPKFLgDOhmg1eqTYlCM0nwOwAdA==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0YxGTIDIt5VQGUPM0aAEBMcbQlQ6roaToQnWx6Td2c4+atJjBdDz
+	ugNgWBkW1uIDsyRl+errlFa1O92lrxGgV6dggMVgv1Wa9NqaYfa6hLdy02NWahA=
+X-Google-Smtp-Source: AGHT+IEki/epe3PJ/RosV/g06Me/m3brTgdHjk/lhwSO7SljyPH8gduuCmRuLIHTQcEXqOV2d2elxQ==
+X-Received: by 2002:a17:902:e84f:b0:212:26e:cf9 with SMTP id d9443c01a7336-2129fd0be2fmr18323385ad.16.1732249794181;
+        Thu, 21 Nov 2024 20:29:54 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:f815:b0:212:2223:27a7 with SMTP id
+ d9443c01a7336-21283b97bfbls10673595ad.2.-pod-prod-00-us; Thu, 21 Nov 2024
+ 20:29:53 -0800 (PST)
+X-Received: by 2002:a17:903:2347:b0:20c:68af:a4e3 with SMTP id d9443c01a7336-2129feaa12cmr22157265ad.22.1732249792714;
+        Thu, 21 Nov 2024 20:29:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1732249792; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=KvnVt7s/GnAQgfgj6gZ7kI+KnzcpszjorWRibwA5nMyfym2+9JfrE7Y27TKtxg+wjb
+         3/QWTGXy+QcSXK/Davoz//lro6dUHuPw4vhAmAYy0DC0FtyZ0TgO0I1KLiQf2XvNrKce
+         XYMIiMsft0o/GzBmoysvMyA30DuXGHBacrQk/EsMkfKo6FCD/fGtaz8a40D7lVs1/ptJ
+         EqPJS5iQ6H76pXSnJjY2U9uc9V7oB7A4Fk9sBfbNXz4kjDRFs4SEJXMEy40RIxXJGgtG
+         xX4MDdQH9kxu90loj1Q1sMHnLt8uC2hn2unIFOe3PmdL17GBE1pXWuFloNAt1DSxsG0y
+         5dSw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:autocrypt:content-language:to:subject:from:user-agent
+         :date:message-id:dkim-signature;
+        bh=VF/Kmp0kt1ezjTuaIvX+Cv+H38PTUZSmDKNvuj6kGoc=;
+        fh=gMCi9PBqLnoEp3oTBR+sqLRO2tROB0Qckh2Nu0fAahw=;
+        b=KupJuPwNdryVC6t+ZPG7iWtRsCOOoz5UeBunI/sFT6u7cz5mIUijCpLIdllEW54MZg
+         6AAUeGaf+Q6zjxOwa83g4jX/TXEWOxWKUs8Vg+SWpNzzjUKpY98xJBTcxqrBghgsb4J6
+         QYovbRZB1mWlSm7kUGXQ33P9Pw2N/jGa0VCm3a6G0l4B9qSADF3g9rRcK+1jKpYNkIuV
+         vMG7LWnanRBiUop6eWRCHpV0/P7qG5ZAvjOtzh/R59mlMNfcwwLU5uKawIWWB9jP7w0n
+         O775AmQLf+HmsxEB6iHRaWMI+VfVbroiqx0rlBFH+dg6I/sKqDf7ivFrk2pLFeX/ZdGz
+         NVhg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@hkcert.org header.s=selector2 header.b=tQuaTaXy;
+       arc=pass (i=1 spf=pass spfdomain=hkcert.org dkim=pass dkdomain=hkcert.org dmarc=pass fromdomain=hkcert.org);
+       spf=pass (google.com: domain of hkcert@hkcert.org designates 2a01:111:f403:c407::1 as permitted sender) smtp.mailfrom=hkcert@hkcert.org
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazlp170110001.outbound.protection.outlook.com. [2a01:111:f403:c407::1])
+        by mx.google.com with ESMTPS id d9443c01a7336-2129dcd5cb7si12877025ad.357.2024.11.21.20.29.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Nov 2024 20:29:52 -0800 (PST)
+Received-SPF: pass (google.com: domain of hkcert@hkcert.org designates 2a01:111:f403:c407::1 as permitted sender) client-ip=2a01:111:f403:c407::1;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IrpKUcOltqDJlOF15epmuskkMpeedwoEbIV4Tm6kg3LfcRDA921m12v1ya1G+4+4pNvM2W518mK0d/KZ0wFkprQXRQEFApfO2Hxt4HXtnaWGsmpJsiOiBKGqxabDQHB2Z/nlbVou+AVb9e3hVfEgxcnvvtFYhlsomdyPQLQFy1l0te80WXKmBRPI9vgPAExpiaEFKSWfR5K5ot4u4U+RNff2y7s6WiPNzaqvTZMAvPirqfKZfoez8egihhMwkDeO1mh3gt2KRqN4IKWboIfeZvSXWqfZ8DMcyaJmNJE1Ik7oqSLdTGeCluCDp38mGE7CZhZju+xZtaOyJIea6VCDUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VF/Kmp0kt1ezjTuaIvX+Cv+H38PTUZSmDKNvuj6kGoc=;
+ b=MLmpICxBw2PMXkM3vGhpns+/T1RutXgmv28Jx8LAcYWzusE7gvAGubpf+CNepm+Sz25OHPSxaVSRQlBtxXo+v8z3rjQWcB8SU7CUE1A3OF1Mjil6xelryhnLl1iVxS50Eit05PAbWEe1Bwp/H5StzFHK5O2JJQSoHSToZiI6/OwuG4zlXzShekpvwMjSBQd3lx0tckhbYzuWQHNJOov7aYETcTZXdazIV5oKG1FX5R15NR9O+lufTT3hgO1OMdJe+PqVlHXyxRugsswwagiAPL0dZujygRMxq+C1vI5Cq8St+AmGgpJ37GMKI1OtYITGqLAEGQSD2Lrkshfignicbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hkcert.org; dmarc=pass action=none header.from=hkcert.org;
+ dkim=pass header.d=hkcert.org; arc=none
+Received: from TYYP286MB3052.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2f4::12)
+ by OSZP286MB2143.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:16e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.16; Fri, 22 Nov
+ 2024 04:29:50 +0000
+Received: from TYYP286MB3052.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::fb8c:4070:b8b3:2e2c]) by TYYP286MB3052.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::fb8c:4070:b8b3:2e2c%2]) with mapi id 15.20.8158.023; Fri, 22 Nov 2024
+ 04:29:50 +0000
+Message-ID: <ea2c6f0a-b6f3-4ee6-a30b-d88ecd9dda21@hkcert.org>
+Date: Fri, 22 Nov 2024 12:29:48 +0800
+User-Agent: Mozilla Thunderbird
+From: HKCERT <hkcert@hkcert.org>
+Subject: [OPR] HKCERT #20241114014, 20241112018 - Servers on your network
+ hosting Phishing Hosting content [AS14061 NA]
+To: abuse@digitalocean.com, noc@digitalocean.com
+Content-Language: en-US
+Autocrypt: addr=hkcert@hkcert.org; keydata=
+ xsDiBETNvE0RBADlBAjFWOmnmKLzQlcg7DYFPHW03nRb4VH2IL6y5qa+JqW5G+lRh4OI0UkL
+ momzgjiY2dV3wNNdiiIfjLU2obw+QSRrqRZiacHCfNVLzf+zGy58V38ltlNQpb37b2VhetQf
+ f726SDh1Cq03+tBAA2UiqxGFOhWt8KnLpf/SobNv3wCg/3dorfKYvluQTDb0jH1dEF8z5dME
+ AJF2qu9PS+5at19jw4NqrkrDe75sf9a6MhjvTi2/4NXyd/CGlbhBimdFXkBzvEmfopcyhzs2
+ /bN+qCJMGdx19y4vcaaha6XFpdT2tmaYuLLlVcLWoJUZ+uG5pKaxp32lqr9TpCRQ5zBNx7Pe
+ YpUlpyt838c0Jk8bXnonqH4sa07IA/42u81xscgM0FV/ogEdQnQL1fhbAMHCT6HN6Ao8w77z
+ nVQpTrsSAqBPWjJIQ0e/zIeifvoZIoGj0TXFokxoKfy6Kl54ONF25X28b04K0rheOa8MT2Ms
+ vradxsgHr6nGfCcOtEEcbLqtVsZv+9TeTfvNvnJTtzjF01QluJxTiF7MYM0aSEtDRVJUIDxo
+ a2NlcnRAaGtjZXJ0Lm9yZz7CXQQQEQIAHQUCRM28TQcLCQgHAwIKAhkBBRsDAAAABR4BAAAA
+ AAoJEJvCYF4BjHVzticAnjzNVMXaBSEH45FZQt5RsfN4qkdBAJ4i+T9q6hDRYiYjD7EwIKyi
+ wUE0P87BTQREzbxNEAgA9kJXtwh/CBdyorrWqULzBej5UxE5T7bxbrlLOCDaAadWoxTpj0BV
+ 89AHxstDqZSt90xkhkn4DIO9ZekX1KHTUPj1WV/cdlJPPT2N286Z4VeSWc39uK50T8X8dryD
+ xUcwYc58yWb/Ffm7/ZFexwGq01uejaClcjrUGvC/RgBYK+X0iP1YTknbzSC0neSRBzZrM2w4
+ DUUdD3yIsxx8Wy2O9vPJI8BD8KVbGI2Ou1WMuF040zT9fBdXQ6MdGGzeMyEstSr/POGxKUAY
+ EY18hKcKctaGxAMZyAcpesqVDNmWn6vQClCbAkbTCD1mpF1Bn5x8vYlLIhkmuquiXsNV6TIL
+ OwACAgf/R7WZSXukdZKBp63WwL2H1/CFmKp0sIjcwFZJsEQTQFkk2WnyarIFFpMFn0gs47kT
+ xlEYQyU+rd9OGgsRX+w3jsbi73e2C9kNqeGo4ABaWXRA6D9WzrIn4e+frP4wTBkmR0xiUo0Z
+ hdsL0wDX+imHbIIoP49lqTJnjjZ+6v2F4XbXRiek7B35bu0dKSK/MvEtHmCccTeuvf4vqGuM
+ aus07ipV8PcXFKeRV0XlQsh7JSW/dP3NiADwFhrL5arALty8jWrcXF96ELU1SSrVhtczArnw
+ j/0iafM04CuoxeLkVm/I2uGdsaax9jYTFh/uwSNF70keI1TgOw71S9zotlhHuMJMBBgRAgAM
+ BQJEzbxNBRsMAAAAAAoJEJvCYF4BjHVz3REAoOumIy7mYW/PJMwYmynOGnTJzUJRAKDz8Ey7
+ v4Gv7RDe6S11/gKLIFi68w==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BCDOuEKJ0xwJBCngtD57X7h0"
+X-ClientProxiedBy: SGAP274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::23)
+ To TYYP286MB3052.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2f4::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYP286MB3052:EE_|OSZP286MB2143:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88b96caa-d667-4476-77ca-08dd0aae4dc1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RDh1ckdvdnd0cHpmeXhIK3hzTlVId1Zma3FyMlphSUxCdWNvZUdJVEZ4ODRJ?=
+ =?utf-8?B?M29oYVc0bDFjSUc5VmpKdlZWcmRTcFdyMlVkalVqam95V0ZXY2puemxiM0pm?=
+ =?utf-8?B?R2JIVDZzSmtTRkN6bnN6WjJ4cXlMUXk0VUZ5azR2UkpzeGljT0JYVTZrdzNC?=
+ =?utf-8?B?RjNjOWNKVmV5ZjMzckVmZWpwOXlIcGdCUGN1VjdkWHU2Rk5kUHdoRjg1V2NM?=
+ =?utf-8?B?aTlwNGdtVTJqMXBYZGFzdHlldFhRU1RwQWpNU0drN2w1NnFzQmFVS1hkUE1h?=
+ =?utf-8?B?L0I3L0RsL2kwaTYrc09lbXJZcGo1SlRmQTJ1SXN1RzQ5ajhicmU0THBZais5?=
+ =?utf-8?B?aGYyR2tPZU1VWDk3bTdEeUg5dmFoM0RRTkdISzcwNWtaMWtzaDNHLzcvQ0Z4?=
+ =?utf-8?B?YmF5cHpIOG5ka2ZJR1J5V0FzZDRaNWdpdFBiSmFNRnVJRXR0emNxVGFrcVRw?=
+ =?utf-8?B?b3dRN0ZYejd0TEowSE8zcUdLRFYyVDJZWEJud0o1RzFZY1dSazZXYUhJbFdn?=
+ =?utf-8?B?bU1NV2M0eFFiUWNkNlA1WWlEcGk0OGl1R3pqSFBTNUI0TGRKQmh2WUM3YXR5?=
+ =?utf-8?B?cmw5NlRxTmF4YjZwTlBRM1g0RVRzSTB4R0libDJoWm5WOGlvbjgvNmpCM2k5?=
+ =?utf-8?B?cXNjeFVJOFdBRDQ4Rzk4bDFzVmRCMXdxNUNHeERFcTNGNFBmSWlsY2JFL1g5?=
+ =?utf-8?B?cC9PTWlGek1ZbGFldmt3K0MyaGozV01oYmJOTHdUWFdacGdpNFdCK0FPNG5M?=
+ =?utf-8?B?MUJFNklDZXNYN1M1Wmt2bllkdm9KWExmVWlVQnROeE52YkVJUUs0ZmxPaTRm?=
+ =?utf-8?B?ZEt5elJrRVordEJaU29GYzZCK1lobktQZlNDL0hPUVp6V2dMc05RTzdpQi95?=
+ =?utf-8?B?NTVrQmFpNXg1Ti9lOXpiajVEQXJ5L0U5VmRjdTFGWjhvdDRrYWVxdjJLd054?=
+ =?utf-8?B?R0YwUE5HelIrVm81Z3dSdmI2RFVDc1Nyd2hPL3NMbFVtTU9sdG5DYzQ0QVEz?=
+ =?utf-8?B?dzNIV2ZndVZUSkZwc29EMGZPTlZyQ05ROVc0cUt2b3hLUXlra3NmTDYxa25o?=
+ =?utf-8?B?ZkpCcDFnOWlmcHhkUGE5K2FFWUVyTE4xVmpsMHpaTWNSdnhmZUxmUW1hTUsy?=
+ =?utf-8?B?a01tVmxxbW52VzBpd2dyWEFXSkQ0SERQbUhabnFETElEVUExcDdDUkF2MExU?=
+ =?utf-8?B?cWR6ZnNrMGV6Y3MxZ3ZRc2VrMTNPYWhIZlhreGVGczd0cjR1d1VYeStyODgw?=
+ =?utf-8?B?cit4UGRXWXlhNjlPV2R1eHlGUzRUZXNlM2ZZR2tPOXVLMDhVY1l6QzhrQWRH?=
+ =?utf-8?B?Q2Z6c3J2dW12ekxkdmVveEltQ0Z2OUhTdXBiclk2Qk40Q09xSnZUc1J2Q0p4?=
+ =?utf-8?B?cEszdkJYb2NsaVZKUkE0NXVhK0VodzVpa3dCaUxiU0tKOC9LRlFlcUtHa3B6?=
+ =?utf-8?B?eDUyWE5sUGQxYU1HOVd4Nm1CbitUN0xSOVd0b1JDcUdIRGZmWnE4SlhYM0ZO?=
+ =?utf-8?B?UVRqLzAzZGxhNEpZK2tWVmtUdE0xU1VnRmlFRDExZ29WaDN1VENyaFRPTWZY?=
+ =?utf-8?B?THgxR3BVV2RUZGRhbjM2TDRnZlQ4d004U1YwOWRwZXdTU252MUljT29HTENj?=
+ =?utf-8?B?dUl0aW5NQWJNaDBLWEdEaTlOVklFR0lMTnlVaWRQR2FuSlZic0ZvWkRkRjVB?=
+ =?utf-8?Q?GbqEB4owF+iXgMfKh/cO?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYP286MB3052.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGhBS1Z3TDVOOWExQjZvQnBEUHpkZTZuLy9oYndZVzI0KzF5ODB5eTBkcGQv?=
+ =?utf-8?B?Mk9qWFZKNHVYMWE4dTN4Q2hjTTlzUmgwMjR3UjRMSU9scmNmSWlldnlKWXJ2?=
+ =?utf-8?B?Z3h4KzRyc01Zbi8zS1lSME9VVU5MQnliUHQrR3JwTExrN0hPVnFNU3g4SkR3?=
+ =?utf-8?B?WVVnemdoNGpWRFlIWkl3Q3psTmhrTlB6R2dPbjUya1c2Z2g3V1pOSldWZXFJ?=
+ =?utf-8?B?TVg1ZCt2ZmNjTmU4Tk96ZHB6WjBLRkNMWlhVVUlpV21FVitqU0lOODJ5c3J2?=
+ =?utf-8?B?THhJQ0pRRUs1Yzk2RSt3eGVDMXdtc2Z2ckFCRmMwLzlHNGxKRjI3clJlQkNo?=
+ =?utf-8?B?Mm1sS1ZyTTNabmwyZ2VVczN5YitUT0dZS3dGaVRzMkNSY0E1bW9vOWJEQ0RW?=
+ =?utf-8?B?ZVkxYlZJdlVDV0pyNDNxdk1JUy9nYVFpTXpEOGJDVms1Q28wblo1My9maW9Q?=
+ =?utf-8?B?Yko2L3hhYnArbjFsYk9TblpDZ1Q3R00xNmswcnF2ZUJXOXZ0bmxmcExXSHBV?=
+ =?utf-8?B?QVlQelZYbkR2VkdndkF0a3BRMnlhQlBudmhrWHJXN2hxNmovb3p2bWhJRWpB?=
+ =?utf-8?B?R0NZM0pXWTJQNDc5QVZWa0RBR0JDMFQwcit2SVZZN3JYZU1IMkMvbE44bUhK?=
+ =?utf-8?B?VlhPdy96UlFYWGhhWG5nVU9aaFNhNEZFMlJDVUt1UmI2Q1lsUENCbWRMbkMw?=
+ =?utf-8?B?aEdMMENVR0hycUQ0S0VpZjZmZlNLQ2hpSW5NTC9YNmRkcGNCRHRvR1poMzFk?=
+ =?utf-8?B?MmdoQVZ4MGQ3TTViMlVHVXJNWmxFR2lYeWdVMW1sTEgrUUdzSHFRUFlwZ1po?=
+ =?utf-8?B?dG5CaC9ERHpvbWxMclN1UzN2U0t6Q1huWFRvVm1HaXYwTFlYZ0g3S1FHQXJW?=
+ =?utf-8?B?ZjNadEdiUDNnQmlaWCs0OHhDZFdpbUc3QVBVNWpmWXZ2Z0MxV0tWbjFseEJu?=
+ =?utf-8?B?K2wrUHJjaXREMGhUTEF5MlAzemNNSGJyUU5xdVNRN3ZjQ0xNQ0ppanJFQXB4?=
+ =?utf-8?B?Y2tCdzVHS3lQUk1TMTd3NTVnL1l1Sm9BWUE5SS9rbk1ZZUJJckl1V0pibnZz?=
+ =?utf-8?B?eDd5YUliYm9LenZTSDNZQTFISDk2V3BudmhvYUViSFNndmF2TVhFR2UzOHow?=
+ =?utf-8?B?TVJ1YW9nNE9uMkk2OGFRSGNRbmVpbm1mY1EzbzhBRFN1VEhEQWhHWEg3UWVR?=
+ =?utf-8?B?NEgvQnZ5VGljZHFMczJPRk5LVU5YdFJFbk5jUGcreVBHM2hDMFNrNS9oY0Ns?=
+ =?utf-8?B?WVBXRXY3NG1OWnVkUDdkNWFRVHo4Njdzd2VUdkJpMHlFdUFEM0w1VmNMYzRu?=
+ =?utf-8?B?dU9PYlo4Mk5uMHhMd0JHeDJTUXFkaCtrQ3E2eGxrWjNpM1FMV1JpQTlPSjVH?=
+ =?utf-8?B?U0hvZ25WaGZVK01TZ0dyUkljbkNaVGVIeXlqc3pzdHRpMEwvNGhnYlJOT0pO?=
+ =?utf-8?B?UWJrNXVzMjFaMVVjQU9qdFY2dTY2T3FOT29nMkRWYmtSYkl0eGtFK1FDeEY5?=
+ =?utf-8?B?cXFRSmhaVG5TL1QzZzRZN0ZiNmdNaEtaVU0ycXVpcEFySHBhL2Z1WENvaXNv?=
+ =?utf-8?B?blYyKzJjdWFZR0xCbmpORi90WGhxTlBmNkV4K05mWmF4VjhiQU5IUjdSeUJH?=
+ =?utf-8?B?ZTlMemU0OXhBb3VyOVhVS0g5azdOVE5ydWd1TmxTZ1M0VmVqOUFFYktxSmg4?=
+ =?utf-8?B?VnJob3JaTnU3TTcvdWVMVXg5NFdWVE5TVngvMXRrNWRWQVFveExhcjB3OUVp?=
+ =?utf-8?B?V0NxMmxrVmV0M2ZncndhWkJnS2U2eGpub25BVUV6Vjd5c0xrd1V2V3FvT3Qx?=
+ =?utf-8?B?b011aDZsT2RBOFgvbDRQQ1R1V3NDV1ovY1ZoZm9aNVJUd2RPaTg2SmI5a3Fj?=
+ =?utf-8?B?MlFudi8vZWtZeTUrRHBxZTF4bHliR29LY0Q3aFdmbk85aERTQUl5N3p0NCtW?=
+ =?utf-8?B?ekQ4RWh3eTNXWXZkbVNoUVdORFQ1Q01WY3BwTDY4Q3RmR1ZJUWE3L2QrZDla?=
+ =?utf-8?B?emNoUUlzMmJXR0FwdVNmT0hEVnZyKzhHL0VQenVnd2Frbmt2OEZTUzUyaS9k?=
+ =?utf-8?B?bko1cmlaWmMvdEVRWnBrSWtQYi9BdVdVckFWalAwRWhQRGRlU0I4MnM2YlN0?=
+ =?utf-8?Q?Y2NnaAfehFcWKxZerjAvXEzFT?=
+X-OriginatorOrg: hkcert.org
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88b96caa-d667-4476-77ca-08dd0aae4dc1
+X-MS-Exchange-CrossTenant-AuthSource: TYYP286MB3052.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2024 04:29:50.3810
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 27d6420b-1891-483e-bcf9-0a7802a7c1b4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p5yfm2J5+f/dXNb+U1UokGt/oGyhBWKBPWfv4UdRGhnQg7OwQ9kB4VLt58PIlDvDCYzYDh6d8EZJfxx7IoWJSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB2143
+X-Original-Sender: hkcert@hkcert.org
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@hkcert.org header.s=selector2 header.b=tQuaTaXy;       arc=pass
+ (i=1 spf=pass spfdomain=hkcert.org dkim=pass dkdomain=hkcert.org dmarc=pass
+ fromdomain=hkcert.org);       spf=pass (google.com: domain of
+ hkcert@hkcert.org designates 2a01:111:f403:c407::1 as permitted sender) smtp.mailfrom=hkcert@hkcert.org
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--------------BCDOuEKJ0xwJBCngtD57X7h0
+Content-Type: multipart/mixed; boundary="------------0s8M8qaClQ0QmIAO9jjNPjrG";
+ protected-headers="v1"
+From: HKCERT <hkcert@hkcert.org>
+To: abuse@digitalocean.com, noc@digitalocean.com
+Message-ID: <ea2c6f0a-b6f3-4ee6-a30b-d88ecd9dda21@hkcert.org>
+Subject: [OPR] HKCERT #20241114014, 20241112018 - Servers on your network
+ hosting Phishing Hosting content [AS14061 NA]
+
+--------------0s8M8qaClQ0QmIAO9jjNPjrG
+Content-Type: multipart/mixed; boundary="------------22A5L6YMJR02xz8fikdO05IT"
+
+--------------22A5L6YMJR02xz8fikdO05IT
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+DQpEZWFyIFNpci9NYWRhbSwNCg0KV2UgYXJlIEhLQ0VSVCwgYW4gb3JnYW5pemF0aW9uIHN1
+cHBvcnRlZCBieSB0aGUgSEtTQVIgZ292ZXJubWVudCB0bw0KY29vcmRpbmF0ZSB0aGUgY29t
+cHV0ZXIgc2VjdXJpdHkgaW5jaWRlbnQgcmVzcG9uc2UgaW4gSG9uZyBLb25nLg0KRm9yIGRl
+dGFpbHMgb2Ygb3VyIGNlbnRyZSBwbGVhc2UgcmVmZXIgdG8NCmh0dHBzOi8vd3d3LmhrY2Vy
+dC5vcmcvDQoNCk1heSB3ZSBzZWVrIHlvdXIgYXNzaXN0YW5jZSB3aXRoIHRoZSByZXBvcnRl
+ZCBpbmNpZGVudCByZWZlcmVuY2VkIGJ5Og0KSEtDRVJUIENhc2UgTm8uOiAgMjAyNDExMTQw
+MTQsIDIwMjQxMTEyMDE4DQoxc3QgTm90aWZpY2F0aW9uOiAyNDExMTIsIDI0MTExNA0KDQpJ
+bmZvcm1hdGlvbiBvbiB0aGUgaW5jaWRlbnQNCi0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQpUeXBlOiAgUGhpc2hpbmcgSG9zdGluZw0KDQpDYXNlIE5vOiBBUzE0MDYxDQpPcGVy
+YXRlZCBieTogTkENClVSTC9JUC9Mb2c6IFBsZWFzZSByZWZlciB0byBiZWxvdy4NCg0KUGxl
+YXNlIGFzc2lzdDoNCi0gLS0tLS0tLS0tLS0tLS0NCjEuIFBsZWFzZSB2ZXJpZnkgdGhhdCB0
+aGUgc2FpZCBzZXJ2ZXJzIC8gSVAgYWRkcmVzc2VzIC8gd2Vic2l0ZXMgLyANCmRvbWFpbnMg
+YXJlIHVuZGVyIHlvdXIgYWRtaW5pc3RyYXRpb24uDQoNCjIuIFBsZWFzZSBrZWVwIHRoZSBs
+b2cgYW5kIGltYWdlIG9mIHRoZSBzYWlkIHNlcnZlcnMgLyB3ZWJzaXRlcyBmb3IgDQpwb3Rl
+bnRpYWwgY3JpbWluYWwgaW52ZXN0aWdhdGlvbi4gUGxlYXNlIGFsc28gc2h1dCBkb3duIHRo
+ZSBzYWlkIHNlcnZlcnMgDQovIHdlYnNpdGVzIGltbWVkaWF0ZWx5LiBJZiB0aGUgc2VydmVy
+cyAvIHdlYnNpdGVzIGFyZSBvd25lZCBieSB5b3VyIA0KY2xpZW50cywgcGxlYXNlIGluZm9y
+bSB0aGVtIHRvIHBlcmZvcm0gdGhlIGFib3ZlIGFjdGlvbnMuDQoNCjMuIFBsZWFzZSByZXBs
+eSB1cyB5b3VyIGFjdGlvbnMgdGFrZW4gYW5kIHlvdXIgcmVmZXJlbmNlIG5vLg0KDQpGb3Ig
+aW5xdWlyeSwgcGxlYXNlIGNvbnRhY3QgdXMgYXQgODEwNSA2MDYwIG9yIGhrY2VydEBoa2Nl
+cnQub3JnLg0KDQpSZWdhcmRzLA0KSEtDRVJUDQoNClRlbDogICArODUyLTgxMDU2MDYwDQpG
+YXg6ICAgKzg1Mi04MTA1OTc2MA0KRW1haWw6IGhrY2VydEBoa2NlcnQub3JnDQpXZWI6ICAg
+aHR0cHM6Ly93d3cuaGtjZXJ0Lm9yZy8NCg0KRGV0YWlsczoNCiJSZXBvcnQgVGltZSAoVVRD
+KzgpIiwgIlR5cGUiLCAiVVJMIiwgIlN0YXR1cyIsICJIb3N0IElQIiwgIkFTTiIsICJDQyIs
+IA0KIkJyYW5kIiwgIkZpcnN0IEhhbmRsaW5nIiwgIk91dHN0YW5kaW5nIiwgIkhLQ0VSVCAj
+IiAiMjAyNC0xMS0xMSANCjE2OjU2OjAyIiwgIlBoaXNoaW5nIEhvc3RpbmciLCANCiJodHRw
+Oi8vYmFmeWJlaWZ5eGU3Nnpienhoa3dmbXU2NHJsM253N2dweXdpZzN6b2M3NHlla2hkN3J0
+dmdpbjZwM3FbLl1pcGZzWy5dZmxrLWlwZnNbLl14eXovIiwgDQoiMjAwIiwgIjE0Ni4xOTAu
+Ny4yMDciLCAiQVMxNDA2MSIsICJVUyIsICJQYXlQYWwiLCAiMjQxMTEyIiwgIjEwZCIsIA0K
+IjIwMjQxMTEyMDE4IiAiMjAyNC0xMS0xMyAxNjo0NzoxNSIsICJQaGlzaGluZyBIb3N0aW5n
+IiwgDQoiaHR0cHM6Ly9iYWZrcmVpZGhlNWl6Y3FybHJjN2hwNGwyaDJlMmhzYndxaWZveW5h
+NzJqM2ZkdnRuYWRhamczYXpqNFsuXWlwZnNbLl1mbGstaXBmc1suXXh5eiIsIA0KIjIwMCIs
+ICIxNDYuMTkwLjcuMjA3IiwgIkFTMTQwNjEiLCAiVVMiLCAiREhMIiwgIjI0MTExNCIsICIw
+OGQiLCANCiIyMDI0MTExNDAxNCINCg==
+--------------22A5L6YMJR02xz8fikdO05IT
+Content-Type: application/pgp-keys; name="OpenPGP_0x9BC2605E018C7573.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x9BC2605E018C7573.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsDiBETNvE0RBADlBAjFWOmnmKLzQlcg7DYFPHW03nRb4VH2IL6y5qa+JqW5G+lR
+h4OI0UkLmomzgjiY2dV3wNNdiiIfjLU2obw+QSRrqRZiacHCfNVLzf+zGy58V38l
+tlNQpb37b2VhetQff726SDh1Cq03+tBAA2UiqxGFOhWt8KnLpf/SobNv3wCg/3do
+rfKYvluQTDb0jH1dEF8z5dMEAJF2qu9PS+5at19jw4NqrkrDe75sf9a6MhjvTi2/
+4NXyd/CGlbhBimdFXkBzvEmfopcyhzs2/bN+qCJMGdx19y4vcaaha6XFpdT2tmaY
+uLLlVcLWoJUZ+uG5pKaxp32lqr9TpCRQ5zBNx7PeYpUlpyt838c0Jk8bXnonqH4s
+a07IA/42u81xscgM0FV/ogEdQnQL1fhbAMHCT6HN6Ao8w77znVQpTrsSAqBPWjJI
+Q0e/zIeifvoZIoGj0TXFokxoKfy6Kl54ONF25X28b04K0rheOa8MT2MsvradxsgH
+r6nGfCcOtEEcbLqtVsZv+9TeTfvNvnJTtzjF01QluJxTiF7MYM0aSEtDRVJUIDxo
+a2NlcnRAaGtjZXJ0Lm9yZz7CXQQQEQIAHQUCRM28TQcLCQgHAwIKAhkBBRsDAAAA
+BR4BAAAAAAoJEJvCYF4BjHVzticAnjzNVMXaBSEH45FZQt5RsfN4qkdBAJ4i+T9q
+6hDRYiYjD7EwIKyiwUE0P87BTQREzbxNEAgA9kJXtwh/CBdyorrWqULzBej5UxE5
+T7bxbrlLOCDaAadWoxTpj0BV89AHxstDqZSt90xkhkn4DIO9ZekX1KHTUPj1WV/c
+dlJPPT2N286Z4VeSWc39uK50T8X8dryDxUcwYc58yWb/Ffm7/ZFexwGq01uejaCl
+cjrUGvC/RgBYK+X0iP1YTknbzSC0neSRBzZrM2w4DUUdD3yIsxx8Wy2O9vPJI8BD
+8KVbGI2Ou1WMuF040zT9fBdXQ6MdGGzeMyEstSr/POGxKUAYEY18hKcKctaGxAMZ
+yAcpesqVDNmWn6vQClCbAkbTCD1mpF1Bn5x8vYlLIhkmuquiXsNV6TILOwACAgf/
+R7WZSXukdZKBp63WwL2H1/CFmKp0sIjcwFZJsEQTQFkk2WnyarIFFpMFn0gs47kT
+xlEYQyU+rd9OGgsRX+w3jsbi73e2C9kNqeGo4ABaWXRA6D9WzrIn4e+frP4wTBkm
+R0xiUo0ZhdsL0wDX+imHbIIoP49lqTJnjjZ+6v2F4XbXRiek7B35bu0dKSK/MvEt
+HmCccTeuvf4vqGuMaus07ipV8PcXFKeRV0XlQsh7JSW/dP3NiADwFhrL5arALty8
+jWrcXF96ELU1SSrVhtczArnwj/0iafM04CuoxeLkVm/I2uGdsaax9jYTFh/uwSNF
+70keI1TgOw71S9zotlhHuMJMBBgRAgAMBQJEzbxNBRsMAAAAAAoJEJvCYF4BjHVz
+3REAoOumIy7mYW/PJMwYmynOGnTJzUJRAKDz8Ey7v4Gv7RDe6S11/gKLIFi68w=3D=3D
+=3DF5YE
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------22A5L6YMJR02xz8fikdO05IT--
+
+--------------0s8M8qaClQ0QmIAO9jjNPjrG--
+
+--------------BCDOuEKJ0xwJBCngtD57X7h0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQTTiB056xcy01RXysqbwmBeAYx1cwUCZ0AIvAUDAAAAAAAKCRCbwmBeAYx1c/MK
+AJ956CZ90rMluZhSnNoBPeOxX0OZywCeMg9YrwDi8Se0cSmWppi6Q7TGPks=
+=3M86
+-----END PGP SIGNATURE-----
+
+--------------BCDOuEKJ0xwJBCngtD57X7h0--

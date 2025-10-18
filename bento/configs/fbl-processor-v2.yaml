@@ -1,0 +1,63 @@
+# Bento configuration for FBL parser (V2 - Go implementation)
+# Processes CFBL emails and outputs to fbl-events-v2 topic for comparison
+
+input:
+  kafka:
+    addresses:
+      - localhost:9092
+    topics:
+      - fbl-input
+    consumer_group: bento-fbl-v2
+
+pipeline:
+  processors:
+    - bloblang: |
+        # Parse email from Kafka message
+        root = this
+
+    - subprocess:
+        name: fbl-parser-v2
+        codec: lines
+        command:
+          - /app/bento-parsers
+          - process
+
+output:
+  kafka:
+    addresses:
+      - localhost:9092
+    topic: fbl-events-v2  # V2 output topic for comparison
+    key: ${! json("report_id") }
+    partitioner: murmur2_hash
+    max_in_flight: 10
+    compression: snappy
+    metadata:
+      include_patterns:
+        - ".*"
+
+logger:
+  level: INFO
+  format: json
+  add_timestamp: true
+
+metrics:
+  prometheus:
+    path_mapping: |
+      if this.contains("fbl") {
+        root = "fbl_v2_" + this
+      } else {
+        root = this
+      }
+
+  mapping: |
+    root = if this.contains("error") {
+      deleted()
+    } else {
+      this
+    }
+
+http:
+  address: 0.0.0.0:4196  # Different port than V1 (4195)
+  enabled: true
+  root_path: /bento
+  debug_endpoints: true

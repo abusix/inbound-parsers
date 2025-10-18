@@ -1,0 +1,137 @@
+Received: from mta02.eastlink.ca (mta02.eastlink.ca [24.224.136.13])
+	by 27ae0e316043 (Haraka/2.8.20) with ESMTP id 897B39E4-8055-4D02-B4CB-A35CE30A8CF6.1
+	envelope-from <ddos-response@nfoservers.com>;
+	Mon, 05 Nov 2018 21:31:40 +0000
+Received: from emgw04.eastlink.ca ([71.7.199.171])
+ by mta02.eastlink.ca (Oracle Communications Messaging Server 8.0.2.2.20180531
+ 64bit (built May 31 2018)) with ESMTPS id <0PHQ005GZOPW9CW0@mta02.eastlink.ca>
+ for abuse@eastlink.abusehq.net (ORCPT arin-abuse@eastlink.ca); Mon,
+ 05 Nov 2018 17:31:39 -0400 (AST)
+Received: from mail.nuclearfallout.net ([192.223.25.228])
+	by Eastlink with SMTP	id JmTCgwo0fnNEVJmTDgOkZd; Mon,
+ 05 Nov 2018 17:31:39 -0400
+X-Authority-Analysis: v=2.3 cv=XswrxmN9 c=1 sm=1 tr=0
+ a=ZikHRM3MI+sFy5Tm4iW/Qw==:117 a=ZikHRM3MI+sFy5Tm4iW/Qw==:17 a=eIhxMilvRf8A:10
+ a=8nJEP1OIZ-IA:10 a=kC0FM16KG_sA:10 a=JHtHm7312UAA:10 a=1ibwJlUuAAAA:8
+ a=8pif782wAAAA:8 a=Hffy2ttzAAAA:8 a=SJvMnXOjAAAA:8 a=OyKIbFCTbuedH5Hn-JIA:9
+ a=x4peYLYT5K3SGSDR:21 a=iO3NlPP131DbkjKw:21 a=wPNLvfGTeEIA:10
+ a=bW8NlmvHORIA:10 a=EJ8iiW30K8V1E3RA9arv:22 a=WwHJs3vkRUUY8lQ1WAJs:22
+ a=hDZ3JhHebz7EvlRg8ePK:22
+Received-SPF: PASS receiver=emgw04.eastlink.ca; client-ip=192.223.25.228;
+ identity=mailfrom; envelope-from=ddos-response@nfoservers.com
+Authentication-results: emgw04.eastlink.ca;	dmarc=none
+ header.from=nfoservers.com
+Received: from www.nfoservers.com (www.nfoservers.com [192.223.25.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)	by mail.nuclearfallout.net (Postfix)
+ with ESMTPS id A54548DC3E856	for <arin-abuse@eastlink.ca>; Mon,
+ 5 Nov 2018 13:31:38 -0800 (PST)
+Received: from www (localhost [127.0.0.1])	by www.nfoservers.com (Postfix)
+ with ESMTP id 449B9413A46	for <arin-abuse@eastlink.ca>; Mon,
+ 5 Nov 2018 13:31:38 -0800 (PST)
+Content-type: text/plain; charset="iso-8859-1"
+MIME-version: 1.0
+Subject: Exploitable SSDP server used for an attack: 24.222.241.125
+To: arin-abuse@eastlink.ca
+Content-transfer-encoding: quoted-printable
+Message-id: <78704481541453498@nfoservers.com>
+From: NFOservers.com DDoS notifier <ddos-response@nfoservers.com>
+Date: Mon, 5 Nov 2018 13:31:38 -0800
+Original-Authentication-Results: emgw04.eastlink.ca;	dmarc=none
+ header.from=nfoservers.com
+
+A public-facing device on your network, running on IP address 24.222.241.12=
+5, operates an open SSDP service on port 1900 and participated in a large-s=
+cale reflection attack against a customer of ours, generating UDP responses=
+ to spoofed M-SEARCH requests that claimed to be from the attack target. De=
+vices often send such responses to the victim from a different port, as you=
+rs did here.
+
+Please consider reconfiguring this SSDP-speaking server in one or more of t=
+hese ways:
+
+1. Updating the firmware/software on the device (if the update is recent, t=
+his is usually enough to resolve the situation).
+2. Adding a firewall rule to block outside access to this host on port 1900=
+.=20
+3. Disabling UPnP entirely (SSDP is a component of the overall UPnP subsyst=
+em and can't usually be disabled separately).
+4. Reconfiguring the device to not respond to outside M-SEARCH requests.
+
+If you represent an ISP, please also consider a default-deny rule for outsi=
+de traffic destined for UDP port 1900 within your network, if you do not al=
+ready have one. Like chargen (UDP port 19), the SSDP port is rarely used le=
+gitimately by external hosts, and UPnP requires the use of broadcast traffi=
+c, so it doesn't apply outside of local subnets; as a result, we have not s=
+een any reports that a filter of UDP 1900 has caused collateral damage. Man=
+y large ISPs, including US-based consumer ISP Comcast, already block UDP po=
+rt 1900 within their networks.
+
+Further reading:
+
+http://www.internetsociety.org/sites/default/files/01_5.pdf
+http://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
+http://en.wikipedia.org/wiki/Universal_Plug_and_Play#Discovery
+
+Example SSDP responses from the host during this attack are given below.
+Date/timestamps (at the very left) are UTC.
+
+2018-11-05 16:34:34.194670 IP (tos 0x0, ttl 53, id 0, offset 0, flags [DF],=
+ proto UDP (17), length 601)
+    24.222.241.125.48240 > 185.107.96.x.25200: UDP, length 573
+	0x0000:  4500 0259 0000 4000 3511 1fa5 18de f17d  E..Y..@.5......}
+	0x0010:  b96b 6028 bc70 6270 0245 e912 4854 5450  .k`(.pbp.E..HTTP
+	0x0020:  2f31 2e31 2032 3030 204f 4b0d 0a43 4143  /1.1.200.OK..CAC
+	0x0030:  4845 2d43 4f4e 5452 4f4c 3a20 6d61 782d  HE-CONTROL:.max-
+	0x0040:  6167 653d 3138 3030 0d0a 4441 5445 3a20  age=3D1800..DATE:.
+	0x0050:  5468                                     Th
+2018-11-05 16:34:34.211388 IP (tos 0x0, ttl 53, id 0, offset 0, flags [DF],=
+ proto UDP (17), length 559)
+    24.222.241.125.53494 > 185.107.96.x.25200: UDP, length 531
+	0x0000:  4500 022f 0000 4000 3511 1fcf 18de f17d  E../..@.5......}
+	0x0010:  b96b 6028 d0f6 6270 021b 2ac0 4854 5450  .k`(..bp..*.HTTP
+	0x0020:  2f31 2e31 2032 3030 204f 4b0d 0a43 4143  /1.1.200.OK..CAC
+	0x0030:  4845 2d43 4f4e 5452 4f4c 3a20 6d61 782d  HE-CONTROL:.max-
+	0x0040:  6167 653d 3138 3030 0d0a 4441 5445 3a20  age=3D1800..DATE:.
+	0x0050:  5468                                     Th
+2018-11-05 16:34:34.211395 IP (tos 0x0, ttl 53, id 0, offset 0, flags [DF],=
+ proto UDP (17), length 564)
+    24.222.241.125.53494 > 185.107.96.x.25200: UDP, length 536
+	0x0000:  4500 0234 0000 4000 3511 1fca 18de f17d  E..4..@.5......}
+	0x0010:  b96b 6028 d0f6 6270 0220 3c79 4854 5450  .k`(..bp..<yHTTP
+	0x0020:  2f31 2e31 2032 3030 204f 4b0d 0a43 4143  /1.1.200.OK..CAC
+	0x0030:  4845 2d43 4f4e 5452 4f4c 3a20 6d61 782d  HE-CONTROL:.max-
+	0x0040:  6167 653d 3138 3030 0d0a 4441 5445 3a20  age=3D1800..DATE:.
+	0x0050:  5468                                     Th
+2018-11-05 16:34:34.211401 IP (tos 0x0, ttl 53, id 0, offset 0, flags [DF],=
+ proto UDP (17), length 607)
+    24.222.241.125.53494 > 185.107.96.x.25200: UDP, length 579
+	0x0000:  4500 025f 0000 4000 3511 1f9f 18de f17d  E.._..@.5......}
+	0x0010:  b96b 6028 d0f6 6270 024b 72a8 4854 5450  .k`(..bp.Kr.HTTP
+	0x0020:  2f31 2e31 2032 3030 204f 4b0d 0a43 4143  /1.1.200.OK..CAC
+	0x0030:  4845 2d43 4f4e 5452 4f4c 3a20 6d61 782d  HE-CONTROL:.max-
+	0x0040:  6167 653d 3138 3030 0d0a 4441 5445 3a20  age=3D1800..DATE:.
+	0x0050:  5468                                     Th
+2018-11-05 16:34:34.205536 IP (tos 0x0, ttl 53, id 0, offset 0, flags [DF],=
+ proto UDP (17), length 601)
+    24.222.241.125.56472 > 185.107.96.x.25200: UDP, length 573
+	0x0000:  4500 0259 0000 4000 3511 1fa5 18de f17d  E..Y..@.5......}
+	0x0010:  b96b 6028 dc98 6270 0245 c8ea 4854 5450  .k`(..bp.E..HTTP
+	0x0020:  2f31 2e31 2032 3030 204f 4b0d 0a43 4143  /1.1.200.OK..CAC
+	0x0030:  4845 2d43 4f4e 5452 4f4c 3a20 6d61 782d  HE-CONTROL:.max-
+	0x0040:  6167 653d 3138 3030 0d0a 4441 5445 3a20  age=3D1800..DATE:.
+	0x0050:  5468                                     Th
+
+
+(The final octet of our customer's IP address is masked in the above output=
+ because some automatic parsers become confused when multiple IP addresses =
+are included. The value of that octet is "40".)
+
+-John
+President
+NFOservers.com
+
+(We're sending out so many of these notices, and seeing so many auto-respon=
+ses, that we can't go through this email inbox effectively. If you have fol=
+low-up questions, please contact us at noc@nfoe.net.)=
+

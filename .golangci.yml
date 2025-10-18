@@ -1,0 +1,256 @@
+# golangci-lint configuration for inbound-parsers
+# https://golangci-lint.run/usage/configuration/
+
+run:
+  timeout: 5m
+  tests: true
+  build-tags:
+    - integration
+  skip-dirs:
+    - vendor
+    - .github
+    - .claude
+    - monitoring
+    - docker
+  skip-files:
+    - ".*\\.pb\\.go$"
+    - ".*\\_gen\\.go$"
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: false
+  sort-results: true
+
+linters:
+  disable-all: true
+  enable:
+    # Default linters (zero-config quality)
+    - errcheck       # Check for unchecked errors
+    - gosimple       # Suggest code simplifications
+    - govet          # Vet examines Go source code
+    - ineffassign    # Detect ineffectual assignments
+    - staticcheck    # Advanced static analysis (replaces many linters)
+    - unused         # Find unused constants, variables, functions
+
+    # Formatting and style
+    - gofmt          # Check code formatting (should never fail with pre-commit)
+    - goimports      # Check import ordering (should never fail with pre-commit)
+    - gofumpt        # Stricter gofmt alternative
+    - gci            # Control import order and grouping
+
+    # Code quality
+    - bodyclose      # Check HTTP response body is closed
+    - dupl           # Code clone detection
+    - goconst        # Find repeated strings that could be constants
+    - gocritic       # Comprehensive set of checks and performance improvements
+    - gocyclo        # Cyclomatic complexity
+    - goprintffuncname # Check printf-like function names match format
+    - misspell       # Find misspelled words in comments
+    - nakedret       # Find naked returns in long functions
+    - nolintlint     # Report ill-formed or insufficient nolint directives
+    - prealloc       # Find slice declarations that could be preallocated
+    - predeclared    # Find code that shadows predeclared identifiers
+    - revive         # Fast, extensible, flexible, and beautiful linter
+    - unconvert      # Remove unnecessary type conversions
+    - unparam        # Report unused function parameters
+    - whitespace     # Check for unnecessary whitespace
+
+    # Security
+    - gosec          # Security scanner for Go (replaces bandit)
+
+    # Error handling
+    - errorlint      # Find code that will cause problems with Go 1.13+ error wrapping
+    - goerr113       # Enforce error wrapping conventions
+
+    # Maintainability
+    - godot          # Check comments end with period
+    - godox          # Detect FIXME, TODO, and other comment tags
+    - nestif         # Report deeply nested if statements
+    - noctx          # Find HTTP requests without context.Context
+
+    # Performance
+    - nilerr         # Find code returning nil even if it checks that error is not nil
+    - nilnil         # Check that there is no simultaneous return of nil error and nil value
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+    exclude-functions:
+      - (io.Closer).Close
+      - (*os.File).Close
+      - (io.ReadCloser).Close
+
+  govet:
+    enable-all: true
+    disable:
+      - shadow  # Too noisy in some cases
+    settings:
+      printf:
+        funcs:
+          - (github.com/warpstreamlabs/bento/public/service.Logger).Debugf
+          - (github.com/warpstreamlabs/bento/public/service.Logger).Infof
+          - (github.com/warpstreamlabs/bento/public/service.Logger).Warnf
+          - (github.com/warpstreamlabs/bento/public/service.Logger).Errorf
+
+  gocyclo:
+    min-complexity: 15  # Maximum cyclomatic complexity
+
+  goconst:
+    min-len: 3  # Minimum length of string constant
+    min-occurrences: 3  # Minimum number of occurrences
+
+  dupl:
+    threshold: 100  # Tokens count to trigger issue
+
+  misspell:
+    locale: US
+    ignore-words:
+      - abusix
+      - dkim
+      - shadowserver
+
+  revive:
+    severity: warning
+    confidence: 0.8
+    rules:
+      - name: blank-imports
+      - name: context-as-argument
+      - name: context-keys-type
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: exported
+        arguments:
+          - "checkPrivateReceivers"
+      - name: if-return
+      - name: increment-decrement
+      - name: var-naming
+      - name: var-declaration
+      - name: package-comments
+      - name: range
+      - name: receiver-naming
+      - name: time-naming
+      - name: unexported-return
+      - name: indent-error-flow
+      - name: errorf
+      - name: empty-block
+      - name: superfluous-else
+      - name: unused-parameter
+      - name: unreachable-code
+      - name: redefines-builtin-id
+
+  gosec:
+    severity: medium
+    confidence: medium
+    excludes:
+      - G104  # Unhandled errors (covered by errcheck)
+      - G307  # Deferring unsafe method Close (too noisy)
+    config:
+      G306: "0644"  # File permissions
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - whyNoLint  # We use nolintlint instead
+      - unnamedResult  # Sometimes unnamed results are clearer
+
+  nolintlint:
+    allow-unused: false
+    allow-leading-space: false
+    allow-no-explanation: []
+    require-explanation: true
+    require-specific: true
+
+  godot:
+    scope: declarations
+    capital: false
+
+  gci:
+    sections:
+      - standard  # Standard library
+      - default   # Everything else
+      - prefix(github.com/abusix/inbound-parsers)  # Our packages
+    skip-generated: true
+    custom-order: true
+
+  gofumpt:
+    extra-rules: true
+    lang-version: "1.23"
+
+  nestif:
+    min-complexity: 5
+
+issues:
+  # Maximum issues count per one linter (0 = unlimited)
+  max-issues-per-linter: 0
+
+  # Maximum count of issues with the same text (0 = unlimited)
+  max-same-issues: 0
+
+  # Show only new issues created after git revision
+  new: false
+
+  # Fix found issues (if supported by linter)
+  fix: false
+
+  # Excluding configuration per-path, per-linter, per-text, and per-source
+  exclude-rules:
+    # Exclude some linters from running on tests
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+        - goconst
+
+    # Exclude legacy code from some checks
+    - path: parsers/legacy/
+      linters:
+        - staticcheck
+        - gocritic
+
+    # Allow complexity in main.go (CLI setup code)
+    - path: cmd/bento-parsers/main\.go
+      linters:
+        - gocyclo
+        - funlen
+
+    # Allow globals in test setup
+    - path: _test\.go
+      text: "global variable"
+      linters:
+        - gochecknoglobals
+
+  exclude-use-default: false
+  exclude:
+    # errcheck: Almost all programs ignore errors on these functions
+    - Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*print(f|ln)?|os\.(Un)?Setenv). is not checked
+
+    # golint: Annoying issue about not having a comment
+    - (comment on exported (method|function|type|const)|should have( a package)? comment|comment should be of the form)
+
+    # govet: Common false positives
+    - (possible misuse of unsafe.Pointer|should have signature)
+
+    # staticcheck: Ignore ST1000 (package comment) for now
+    - "ST1000:"
+
+# Severity levels: error, warning, info
+severity:
+  default-severity: error
+  rules:
+    - linters:
+        - dupl
+        - godot
+        - godox
+      severity: warning

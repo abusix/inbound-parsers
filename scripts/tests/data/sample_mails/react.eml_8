@@ -1,0 +1,269 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 33D8933C-1409-4CD7-A3A9-782C9009313B.1
+	envelope-from <abuse+bncBC5ZRYG634FBB2464SWQMGQELTQRSCQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 30 Jan 2024 15:02:04 +0000
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5597d3e0aa3sf2578539a12.0
+        for <abuse@digitalocean.abusehq.net>; Tue, 30 Jan 2024 07:02:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1706626924; x=1707231724; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:from:to
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WpsU4mc0MRR2D5364sy8M8NULPhxGTKhMN5059Ngjck=;
+        b=UkQjugrmNzYa0kKkx34bL/HcPCIXqyuqckihkL8g/SBEmcN3sHoHDuiPdePN5UbFv3
+         Co7OYL9vlb75yWDWCElSw1Pgf7gITsaIV5we2ypDZQSMpZckweZFoGIfCnwXlXRKJK+0
+         WW/7oB5j0diet7tYMFGIKIdjde6R4JELw9QoU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706626924; x=1707231724;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:from:to:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WpsU4mc0MRR2D5364sy8M8NULPhxGTKhMN5059Ngjck=;
+        b=cmqwr9Qv1l3XXNqG12iqgnTSg+t1a+biiHoU09RxN47e3SbUMTpST0LenShvhSEFoE
+         Iv2zOk6PKQ76XADg+/sYUZ1AmYC5jXH7HEVUWRWrmFzQkhPpC3NmGTzz1i4+aCAioRWN
+         vAwfuaxpaiA9omzRUctwmdzQ6HJogyjZWO+OatCrB+HEalFcB2l37DQyBisgQof8oMrn
+         Oy/X+l6UblQPeWIsSPw1LJOaynR38TIMa4ELfS5WKDFzDVaHmR3QPeL4fn80K/gvNqE9
+         YvPfitj3/a0YvY7RCRzu7UABTNGL+0r8vy1lj0FDFgZ18/2gcHUIDJ93eO8FrA7v5KQF
+         x8zw==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0YwxCDeTH5I4pZSl4NNwFOO8nfdx1ib5kmKNk9XbUWfrk04YTyQ+
+	QZJqaq9E9nAKS67QLRdDySmcXPeraxSjaezYA7dNfMBiwKr5wnnLyTggbUFHc7w=
+X-Google-Smtp-Source: AGHT+IH3mWZXVQ4OY3uLg8Ox2PAvu91PG+Gj+JsIGmcNfareGXS2ZfPwXJajJqqqXSubgPie86rVzw==
+X-Received: by 2002:a05:6402:309a:b0:55f:19b4:9805 with SMTP id de26-20020a056402309a00b0055f19b49805mr2981246edb.15.1706626923731;
+        Tue, 30 Jan 2024 07:02:03 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:3214:b0:55f:3ffa:3511 with SMTP id
+ g20-20020a056402321400b0055f3ffa3511ls210084eda.2.-pod-prod-09-eu; Tue, 30
+ Jan 2024 07:02:02 -0800 (PST)
+X-Received: by 2002:a17:906:4719:b0:a31:117b:8b54 with SMTP id y25-20020a170906471900b00a31117b8b54mr7620937ejq.15.1706626921876;
+        Tue, 30 Jan 2024 07:02:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706626921; cv=none;
+        d=google.com; s=arc-20160816;
+        b=f6m6ztrwf3AeiyKzsdZ2y1YGRofXYmtKEEjG9iMC4zn31/IwZr9Ujx/cEKP+75otXF
+         sMPwjlS9hzg+jqw/V5e5lrdmAI0l4GAT5UeS/miEysaCg+ILAFU17Uij+dKcfv1QleJ5
+         ddjglZvSCeDphf7AXB9CnTPxc9S1N0cL/akGzXav5JMIqpK2H5GKsq5mPsZ77/XJ3sNU
+         nbdN8TrMbS43kjnSskFxaTxUqw3xFGU7UZTKv9EMMhj0ZLO30jrcYFS6twV6Guc9m8dz
+         mMwiuMkpW7fR8sS2OG+KDFMe/HZqI8cPyPm/TtxQ8VIGueKVYaV/3fWyx9EbAnGkwRms
+         NUdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:message-id:date:subject:from:to;
+        bh=WpsU4mc0MRR2D5364sy8M8NULPhxGTKhMN5059Ngjck=;
+        fh=XTV3SJCvPpoZgIuMk6nX1W/pJfZKaTFL/H8lGf6Lyfc=;
+        b=koqAdyVgMobLmEiZosOZT2bFoPyAyzaAPSTbQH7sNMUa5YupH8P4aNYJLmG249CCKI
+         jSPEteOO2upF9HRJleEbb/gobdfl5CxyP6JBhhhaK9vxkefFAia/l8iXoTtSrJjjIwp1
+         IkcqJdZl8eJGYSfIcoSG0F9BlnLo/Cy5Qyki9QANiBsvLh5CRBDTYHdCtysF6wRaBYbm
+         oUY3/sQtkTi+UYn++5pNKuw4aFsU9giajiZbtrwYkU57U7kAfkZdBzwdd9/EFGBdwHmL
+         AXKEIvfyR9Y67oK/fFyGBC2z28fTjOvfnT8fmhbaURRQgrY6LFNMpE3pVwTL0IM5M/ZR
+         WPmA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of commercialsites@react.org designates 37.97.133.239 as permitted sender) smtp.mailfrom=Commercialsites@react.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=react.org
+Received: from 37-97-133-239.colo.transip.net (37-97-133-239.colo.transip.net. [37.97.133.239])
+        by mx.google.com with SMTP id t17-20020a1709063e5100b00a3655a4585dsi14115eji.539.2024.01.30.07.02.00
+        for <Abuse@digitalocean.com>;
+        Tue, 30 Jan 2024 07:02:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of commercialsites@react.org designates 37.97.133.239 as permitted sender) client-ip=37.97.133.239;
+To: Abuse@digitalocean.com
+From: Commercialsites@react.org
+Subject: collectorfreaks.com / Notice of Fake/TM identical Infringement
+Date: Tue, 30 Jan 2024 16:01:32 +0100
+Message-ID: <20240130160132430000.15536718.13340@react.org>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+  boundary="Message-Boundary-24013016013232132"
+X-Original-Sender: commercialsites@react.org
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of commercialsites@react.org designates 37.97.133.239 as permitted
+ sender) smtp.mailfrom=Commercialsites@react.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=react.org
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--Message-Boundary-24013016013232132
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+To Whom It May Concern,
+
+We are sending this notice from The Anti-Counterfeiting Network- c.v. SNB-R=
+EACT u.a. (=E2=80=9CReact=E2=80=9D), that is a not-for-profit organization =
+representing over 300 members from all sectors of industry related to intel=
+lectual property rights (=E2=80=9CIPR=E2=80=9D) infringement matters. For a=
+dditional information about our organization and its members please refer t=
+o our official website: https://www.react.org/.
+
+We are contacting you on behalf of our member that owns the IPR of the well=
+-known brand WARNER BROS.
+
+The member has authorized React to enforce their IPR against illegal infrin=
+gements, which include trademarks, designs, and/or patents, applicable in m=
+ultiple national jurisdictions; and copyrights and related rights, related =
+to the brand=E2=80=99s official websites, social media accounts, publicatio=
+ns, promotional and marketing material.
+
+It came to our attention that the below-referenced website/link(s) is infri=
+nging upon the IPR of our member, as the goods offered for sale are counter=
+feit items. This is a trademark infringement causing damage to our member.
+
+URL:
+https://www.collectorfreaks.com/threads/six-feet-lane-studio-1-6-the-conund=
+rum-man-riddler.245813/
+https://www.collectorfreaks.com/threads/mars-toys-1-6-the-ninja-master-ra-s=
+-al-ghul-batman-begins.234929/
+https://www.collectorfreaks.com/threads/mars-toys-1-6-prank-villain-three-v=
+ersions-of-cesar-romeros-joker.246941/
+https://www.collectorfreaks.com/threads/mars-toys-1-6-prank-villain-three-v=
+ersions-of-cesar-romeros-joker.246941/
+https://www.collectorfreaks.com/threads/mars-toys-black-manta-%E2%80%9https=
+://www.collectorfreaks.com/threads/1-6-statue-armored-batman-bvs-z-studio-b=
+asic-pro-deluxe.250415/#post-11002140Cblack-soldier%E2%80%9D-aquaman-1-6-fi=
+gure.246236/
+
+ISP: DIGITALOCEAN
+IP nr: 172.67.168.53
+
+We hereby summon you to take prompt action; to remove or to disable access =
+to the infringing content referenced above immediately and prevent further =
+infringements on our member=E2=80=99s intellectual property rights, but und=
+er no circumstances later than five days as of today.
+
+In accordance with Article 9 of Regulation (EU) 2017/1001, Article 14 of th=
+e European Directive on Electronic Commerce (2000/31/EC), Title 15 U.S.C. =
+=C2=A7 11141 and Article 36 of the Tort Law of the People's Republic of Chi=
+na (Decree of the President of the People's Republic of China No. 21), an I=
+SP/Registrar is obliged, as soon as the ISP/Registrar obtains actual knowle=
+dge of the illegal activity or information and, as regards claims for damag=
+es, is aware of facts or circumstances from which the illegal activity or i=
+nformation is apparent, to act expeditiously to remove the information or t=
+o disable access to the information.
+
+We have a good faith belief that the use of IPR materials described above a=
+s allegedly infringing is not authorized by the right-owner, its agent, or =
+the law.
+
+The information in this notification is accurate, and I declare under penal=
+ty of perjury, that I am authorized by the right-holder to act on their beh=
+alf.
+
+Looking forward to your reply and prompt action.
+
+commercialsites@react.org
+REACT Anti-Counterfeiting Network
+Online Enforcement Department
+www.react.org
+The Netherlands
+-----------------------------------------------------------------
+
+This email is from c.v. SNB-REACT U.A.
+The contents of this email and any attachments are confidential to the inte=
+nded recipient. They may not be disclosed to or used by or copied in any wa=
+y by anyone other than the intended recipient.
+
+
+--Message-Boundary-24013016013232132
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<HTML>
+<HEAD>
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; charset=3Dutf8">
+</HEAD>
+<BODY>
+<Font Face=3D"Verdana" Size=3D2>
+To Whom It May Concern,<BR/>
+ <BR/>
+We are sending this notice from The Anti-Counterfeiting Network- c.v. SNB-R=
+EACT u.a.  (=E2=80=9CReact=E2=80=9D), that is a not-for-profit organization=
+ representing over 300 members from all sectors of industry related to inte=
+llectual property rights (=E2=80=9CIPR=E2=80=9D) infringement matters. For =
+additional information about our organization and its members please refer =
+to our official website: https://www.react.org/.<BR/>
+ <BR/>
+We are contacting you on behalf of our member that owns the IPR of the well=
+-known brand WARNER BROS.<BR/>
+ <BR/>
+The member has authorized React to enforce their IPR against illegal infrin=
+gements, which include trademarks, designs, and/or patents, applicable in m=
+ultiple national jurisdictions; and copyrights and related rights, related =
+to the brand=E2=80=99s official websites, social media accounts, publicatio=
+ns, promotional and marketing material. <BR/>
+ <BR/>
+It came to our attention that the below-referenced website/link(s) is infri=
+nging upon the IPR of our member, as the goods offered for sale are counter=
+feit items. This is a trademark infringement causing damage to our member.<=
+BR/>
+ <BR/>
+URL: <BR/>
+https://www.collectorfreaks.com/threads/six-feet-lane-studio-1-6-the-conund=
+rum-man-riddler.245813/<BR/>
+https://www.collectorfreaks.com/threads/mars-toys-1-6-the-ninja-master-ra-s=
+-al-ghul-batman-begins.234929/<BR/>
+https://www.collectorfreaks.com/threads/mars-toys-1-6-prank-villain-three-v=
+ersions-of-cesar-romeros-joker.246941/<BR/>
+https://www.collectorfreaks.com/threads/mars-toys-1-6-prank-villain-three-v=
+ersions-of-cesar-romeros-joker.246941/<BR/>
+https://www.collectorfreaks.com/threads/mars-toys-black-manta-%E2%80%9https=
+://www.collectorfreaks.com/threads/1-6-statue-armored-batman-bvs-z-studio-b=
+asic-pro-deluxe.250415/#post-11002140Cblack-soldier%E2%80%9D-aquaman-1-6-fi=
+gure.246236/<BR/>
+ <BR/>
+ISP: DIGITALOCEAN<BR/>
+IP nr: 172.67.168.53<BR/>
+ <BR/>
+We hereby summon you to take prompt action; to remove or to disable access =
+to the infringing content referenced above immediately and prevent further =
+infringements on our member=E2=80=99s intellectual property rights, but und=
+er no circumstances later than five days as of today.<BR/>
+ <BR/>
+In accordance with Article 9 of Regulation (EU) 2017/1001, Article 14 of th=
+e European Directive on Electronic Commerce (2000/31/EC), Title 15 U.S.C. =
+=C2=A7 11141 and Article 36 of the Tort Law of the People's Republic of Chi=
+na (Decree of the President of the People's Republic of China No. 21), an I=
+SP/Registrar is obliged, as soon as the ISP/Registrar obtains actual knowle=
+dge of the illegal activity or information and, as regards claims for damag=
+es, is aware of facts or circumstances from which the illegal activity or i=
+nformation is apparent, to act expeditiously to remove the information or t=
+o disable access to the information.<BR/>
+ <BR/>
+We have a good faith belief that the use of IPR materials described above a=
+s allegedly infringing is not authorized by the right-owner, its agent, or =
+the law. <BR/>
+ <BR/>
+The information in this notification is accurate, and I declare under penal=
+ty of perjury, that I am authorized by the right-holder to act on their beh=
+alf.<BR/>
+ <BR/>
+Looking forward to your reply and prompt action.<BR/>
+ <BR/>
+commercialsites@react.org<BR/>
+REACT Anti-Counterfeiting Network<BR/>
+Online Enforcement Department<BR/>
+www.react.org<BR/>
+The Netherlands<BR/>
+<hr/><BR/>
+This email is from c.v. SNB-REACT U.A. <BR/>
+The contents of this email and any attachments are confidential to the inte=
+nded recipient. They may not be disclosed to or used by or copied in any wa=
+y by anyone other than the intended recipient.<BR/>
+ <BR/>
+
+</Font>
+</BODY>
+</HTML>
+
+--Message-Boundary-24013016013232132--

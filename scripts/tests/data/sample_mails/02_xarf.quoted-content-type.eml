@@ -1,0 +1,211 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=fail (body hash did not verify) header.i=@netabuse.info header.d=netabuse.info header.s=default;
+	dkim=pass header.i=@vodafone.onmicrosoft.com header.d=vodafone.onmicrosoft.com header.s=selector1-vodafone-onmicrosoft-com
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05lp2105.outbound.protection.outlook.com [104.47.18.105])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id FE69B869-0AC9-4900-99C4-8F56706C1DDB.1
+	envelope-from <abuse.de+SRS=I+4t/=3F=netabuse.info=abuse-report@vodafone.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Sat, 05 Nov 2022 23:34:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oOoJCp1kCEwM6XYTFw2XSZWW2tmKo1sMEXVt6DC5ew50vDPFLLq5TaFKDQntGn6xWHoJpWI0iPA7dZ1TEJ/dWhlIInlgVC3cZXAfWFCaNy3zm3rcMsWRQJHGEv+sr80Ek5EjeIa/mlVzv/noag96zl772qWL94d950pj2VnSGbIRFa0ZWo1w7wYGUNfNDAYOC7Y7muTCKEUPNOtY7aGaTVwHlmTvQVECiTXeL0ffXsbjnDTDMg7rOhkiKGHBEedVblpsv0rNqLYofeai1I2eNUPRJByKCwvj1ru8ddx0TjvFkCwJ6cuoOef+2cxx6ZLgbKeBhsFKH/UVILms3ldBfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rYUzQPED0fcn4BegW9uOgdPioTHFn/1x6B9PF3zyG+g=;
+ b=cnwx6KXTrlK22tTUXhNmBQDzjQt99j70s1NI3wStxydOpPnELttph/qLl1Syq43cXlEL0dXUYLGaTirPZx4TgTwPR0S3yb8EzTk9rKgSw3/x0VAlkOQWs1n7RackvRBX46xQLoabDOnZWtSnYLvPne8OjWHXJEDmLv+7QyYVo+HDKoFd6QLZbKFioehuYElCTqEhxFxk7WKc0dUIuA2IKto5/HoRmiXLZTHQCWza4AX0UW9yUvQbK5ObXTcMlWX9pmTeCHkQX1bokqC++vLzvmYdEXtLAoXoN6ZBk49B0DZpBSIkvQRuanpYYQJlJ69xcbc8wiGb0+hHWeeiU9f8NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 81.210.161.20) smtp.rcpttodomain=vodafone.com smtp.mailfrom=netabuse.info;
+ dmarc=fail (p=quarantine sp=none pct=100) action=quarantine
+ header.from=netabuse.info; dkim=fail (signature did not verify)
+ header.d=netabuse.info; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vodafone.onmicrosoft.com; s=selector1-vodafone-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rYUzQPED0fcn4BegW9uOgdPioTHFn/1x6B9PF3zyG+g=;
+ b=kteDlAFZGePZNL1voVLmmLqS2JgRLPrk8pdWGyzf4jZQ6jywuS3Dfpd/OdLzj7nM3Rh1tDGBviginAfot5VrPYcezVVBoqAHcAaM6mAJvkh3rtWfdOea/+Kl4HYrqG8dctQTealENfAjYnvBMVZoFMyRAZKJAWhxk0z/E1NSsbYpfCivgTepd5mgNc/eYEdouEFOespLIfbc9cBeEAEkaYtRBEStSwks2YZJ+ZTqnaKWDwcVSKS7pM95mZsiRTd3yDBUbTdSLmO8+5qSh4a30GLgktu7jk0NGR7gHd6pUXyWaSnIuITSd8svuBlrmWI0ZXcjzSBCCHOSCTsXyGX+WQ==
+Received: from AS9PR06CA0125.eurprd06.prod.outlook.com (2603:10a6:20b:467::21)
+ by VI1PR05MB6944.eurprd05.prod.outlook.com (2603:10a6:800:185::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Sat, 5 Nov
+ 2022 23:34:33 +0000
+Received: from AM7EUR03FT039.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:467:cafe::24) by AS9PR06CA0125.outlook.office365.com
+ (2603:10a6:20b:467::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25 via Frontend
+ Transport; Sat, 5 Nov 2022 23:34:27 +0000
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ netabuse.info discourages use of 81.210.161.20 as permitted sender)
+Received: from mx.unitymedia.de (81.210.161.20) by
+ AM7EUR03FT039.mail.protection.outlook.com (100.127.140.224) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5791.20 via Frontend Transport; Sat, 5 Nov 2022 23:34:26 +0000
+Received: from kerp-smx004.unitymedia.de (gateway [172.25.1.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx.unitymedia.de (Postfix) with ESMTPS id 4N4Yjp2PGhz5D2qX
+	for <abuse.de@vodafone.com>; Sun,  6 Nov 2022 00:34:22 +0100 (CET)
+Received: from kerp-smx004.unitymedia.de (localhost [127.0.0.1])
+	by kerp-smx004.unitymedia.de (Postfix) with ESMTP id 39DB198070
+	for <abuse.de@vodafone.com>; Sun,  6 Nov 2022 00:34:22 +0100 (CET)
+Received: from KERP-CAS001.unity.media.corp (unknown [172.25.43.11])
+	by kerp-smx004.unitymedia.de (Postfix) with ESMTP id 01DBE987A5
+	for <abuse.de@vodafone.com>; Sun,  6 Nov 2022 00:11:01 +0100 (CET)
+Received: from kerp-smx003.unitymedia.de (172.25.1.123) by
+ KERP-CAS001.unity.media.corp (172.25.43.10) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Sun, 6 Nov 2022 00:10:57 +0100
+Received: from kerp-smx003.unitymedia.de (localhost [127.0.0.1])	by
+ kerp-smx003.unitymedia.de (Postfix) with ESMTP id 2DA8217406A	for
+ <abuseish.support@umkbw.de>; Sun,  6 Nov 2022 00:10:58 +0100 (CET)
+Received: from mx.unitymedia.de (unknown [172.25.1.186])	by
+ kerp-smx003.unitymedia.de (Postfix) with ESMTP id E999A174069	for
+ <abuseish.support@umkbw.de>; Sun,  6 Nov 2022 00:10:57 +0100 (CET)
+Received: from netabuse.info (netabuse.info [IPv6:2a10:6e40:0:1::2])	(using
+ TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))	(No client
+ certificate requested)	by mx.unitymedia.de (Postfix) with ESMTPS id
+ 4N4YBf5kg9z5CjVH	for <abuse@unitymedia.de>; Sun,  6 Nov 2022 00:10:50 +0100
+ (CET)
+Received: from netabuse.info (localhost [127.0.0.1])	by netabuse.info
+ (8.15.2/8.15.2/Debian-22) with ESMTPS id 2A5NAh25702847	(version=TLSv1.3
+ cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)	for <abuse@unitymedia.de>;
+ Sun, 6 Nov 2022 00:10:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=netabuse.info;
+	s=default; t=1667689844;
+	bh=90fer3ZcG6BjuFdtos2WXaRQ88D1aDgd/aMzWyrplgg=;
+	h=Date:To:From:Subject:From;
+	b=u68i67cfGTEEZGCMtnI7s81myQ98ibROdlLtI+A8JPTiLTWKgjQVrD+nAjkDL6RPm
+	 +jsAnA9dXBKPUshxMyKrlwEySNglvwcrR8HKmMyBtKr40IwPllSgf4wN2vWzcf21VU
+	 ayWLM/1fY+SI19ANDZLt1aHznAn44gUXWcMeROLhMfmGOHkD4FHzCYnPI4AvsWS0wX
+	 9Tzgd9uFzW0+pbvweKe0BaKzk9KQkuWY/WyT4WaaZKsQ5g53IwpXIA6mWWZ6OirA5N
+	 3lVIZ0LyT3QbadQmM+lLezcuWBJDZPSE7hJAHGlLvPKxrMgFxz8NVLymectsOzrzvw
+	 kUH+gj1cVN4kQ==
+Received: (from root@localhost)	by netabuse.info (8.15.2/8.15.2/Submit) id
+ 2A5NAhoH702846;	Sun, 6 Nov 2022 00:10:43 +0100
+Date: Sun, 6 Nov 2022 00:10:43 +0100
+To: <abuse@unitymedia.de>
+From: Netabuse <abuse-report@netabuse.info>
+Subject: [VI#20221106000001205484] Abuse-report 78.43.2.183
+Message-ID: <uIArhJMnNVoFOhpVpTHngjiQ7ITotqBrhbjf912WhM@netabuse>
+X-Mailer: PHPMailer 6.2.0 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted: auto-generated
+X-XARF: PLAIN
+Feedback-ID: 20221106000001205484:20221106000001205484:20221106000001205484:1205484
+X-Abuse-Report-Id: VI#20221106000001205484
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="b1_uIArhJMnNVoFOhpVpTHngjiQ7ITotqBrhbjf912WhM"
+X-Rspamd-Queue-Id: 4N4Yjp2PGhz5D2qX
+X-Spam-Status: Yes, score=7.90
+Authentication-Results-Original: mx.unitymedia.de;	none
+X-Spamd-Bar: +++++++
+X-Rspamd-Server: ker-l-mtasrv02p
+X-Spam-Level: *******
+X-Spam: Yes
+Return-Path: abuse-report@netabuse.info
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 68283f3b-8487-4c86-adb3-a5228f18b893:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7EUR03FT039:EE_|VI1PR05MB6944:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b7033ec-9274-48e1-d820-08dabf864728
+X-LD-Processed: 68283f3b-8487-4c86-adb3-a5228f18b893,ExtAddr,ExtFwd
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 2
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?OzvOQoLGsjRRDGcrO+JB9opLPJW3szT5IN+iaIhQ4Pj4g5oeqTu43QY5DF8O?=
+ =?us-ascii?Q?2nQBFCkgb+9ru9b94lzoaHNDaKyIuggno32elsdwxAo96ArRiGJfk8nSirGC?=
+ =?us-ascii?Q?RXA0MSk9KJwI24ZsBbXmKt4Zou2FadExCcq6hFrhcTwfvIqrY9wT7VRbZ5of?=
+ =?us-ascii?Q?k+00eQgifxXFFURUkLNzum0Pdeu3xXFo7C8mUol6eniSuQ1vJJbxzVr/0t4Q?=
+ =?us-ascii?Q?Ibskc0CFrIqZFytlrP8bMKmlnCodSmSk53LhU39uBM5xXheXm7yRroA6pCbP?=
+ =?us-ascii?Q?aD13g0tz9zlVTaCK1UAPlw8Zzc/JUjwRKPCin9fd582AL9PmGSzHj2shClKK?=
+ =?us-ascii?Q?TuK7EzhwtgwwwWXrHfoupPEgUxKX6j5b3N78rRZGGEQ2BTBNcdk5Z313ndjj?=
+ =?us-ascii?Q?/iJRYTo8Zf6L1xbh37nwNc+ZtejPlwWvKpzsdkD0Kspcm3g8fA8ZAIM9ZP1B?=
+ =?us-ascii?Q?o7zdVHfZYIyp/2KeEvSsNa+7TwsUuUJdivnaRBQPhVLKZD2O7tYjLv2vQH6i?=
+ =?us-ascii?Q?n8ou0yPF8oXtiQOAiPXwmBjfAxdgF2zr9EIVSfy1sSIqV8VHAm4kZ5GnIrgi?=
+ =?us-ascii?Q?AuhSG0/yLlStJIr6vBVziVoRKonxMsYYYgwy2+U9AlBWz3ejqXPIDsht0lJd?=
+ =?us-ascii?Q?7Meu3QS+E5aE7SbLZakcOJ12ptodwIV6F0gjd2p5eemjFBPt00kMrVlIvuk2?=
+ =?us-ascii?Q?31HgJ8JS2Idi+STQbRjCVlOrhKSERbdTFhlfQi5mIQ05cKuhDknQFVGzHrxk?=
+ =?us-ascii?Q?OQstcO+zgYhT/DCj+b5ROYXotI4w7e/XOGcCw1akCGfOCzl+PtiywlSIfQiT?=
+ =?us-ascii?Q?hBswQNPDMuTsFAiFSe57lwKXT5j1fQCNMedHgbcZ0B8izx7A8k/MvVcmf2NM?=
+ =?us-ascii?Q?19NZ3FXt39IlEBDwOMy9knZEdwQGaGn27bi7JnofB04oa0IolmgEss3iOu8V?=
+ =?us-ascii?Q?XQnSZHrwbq8p6KruOMmFvsVsI046aeX6H2OJl0ftGS4odMtNT8RFGWBAEPyR?=
+ =?us-ascii?Q?Xprv+YLDbYSVUI9GKOLotEGhfuaASpAfEAqp4YS1a4a2D+0SZ3tFzQSpWdPM?=
+ =?us-ascii?Q?9zOB8egZachXyaogEC21e1eqbKSlHwKZWJiGV/NyT/R29w3j2cQVkhKcGAbW?=
+ =?us-ascii?Q?xccm1bDn5lRsRe711prgM8V3O5RmZ32GKVqzdK7sa5zaV6FSPU4iN1Dv2GTf?=
+ =?us-ascii?Q?OAOTl5hIQh0OTAhoTiDLDR4Jmk+sjB6oCBdYJZ9iHfoBGqcTPsnPw0uEHGND?=
+ =?us-ascii?Q?XwzBfq8knmOz9lAyVKIFlFP7UgPVAWiyyI4YwNOAxMwKG198L76UyOkhn6T0?=
+ =?us-ascii?Q?HaL3Gmu7SQIyDe41RtErH5qbioujC2PQ24WKgpntRGnye8lQJ8qW7HRdkY9n?=
+ =?us-ascii?Q?4Bnfb87b4ArxcW4IGTK5DJH2QNLciaA7whU3lFLonpMZsaGKm3GjmfNN0sXe?=
+ =?us-ascii?Q?39MhzT57jNrXH3+9RZK6w53s72Id1paj0SefJPyjLsk7x4o2OautYY5Z1uYI?=
+ =?us-ascii?Q?Z8u/zmOD0WUjNdI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:81.210.161.20;CTRY:DE;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:mx.unitymedia.de;PTR:mx.unitymedia.de;CAT:OSPM;SFS:(13230022)(4636009)(136003)(346002)(376002)(396003)(39860400002)(451199015)(68406010)(8676002)(70586007)(966005)(316002)(42186006)(6862004)(5660300002)(235185007)(2906002)(82960400001)(21480400003)(33964004)(83380400001)(336012)(426003)(9686003)(26005)(498600001)(86362001)(7636003)(7596003)(356005)(66899015)(33716001)(28556002)(27256005);DIR:OUT;SFP:1501;
+X-MS-Exchange-ForwardingLoop:
+	abuse.de@vodafone.com;68283f3b-8487-4c86-adb3-a5228f18b893
+X-OriginatorOrg: vodafone.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2022 23:34:26.6259
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b7033ec-9274-48e1-d820-08dabf864728
+X-MS-Exchange-CrossTenant-Id: 68283f3b-8487-4c86-adb3-a5228f18b893
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM7EUR03FT039.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6944
+Original-Authentication-Results: spf=softfail (sender IP is 81.210.161.20)
+ smtp.mailfrom=netabuse.info; dkim=fail (signature did not verify)
+ header.d=netabuse.info;dmarc=fail action=quarantine
+ header.from=netabuse.info;
+
+--b1_uIArhJMnNVoFOhpVpTHngjiQ7ITotqBrhbjf912WhM
+Content-Type: text/plain; charset="us-ascii"
+
+Dear Administrator(s),
+
+Our security system detected an IP address of your responsibility (78.43.2.183) tried to abuse one or more machines in our network. We hope this is the correct emailaddress for abuse reports; if not, please read the end of this email. 
+
+Additionally you may found a X-ARF report attached to this document, with all relevant details for automated complaint parsing. Learn more about X-ARF: http://www.x-arf.org/specification.html
+
+Here's a summary of the abuse:
+
+2022-11-05 23:22:48	SMTP Authentication failure
+
+You can find some lines from our logfiles in the attached logfile.txt. Note that we ignore any request to send this information in the email body because of your company's security policy. There's many (free) software available which can handle these X-ARF reports automatically so you do not need to open the attachments.
+
+Note that all dates and times are in Amsterdam timezone
+
+We expect you to take the necessary steps to avoid recurrence. If the number of abuse incidents is too high, will block all traffic from/to your network.
+If this abuse is part of a "research project", please read our statement about such projects at https://www.netabuse.info/#faq and provide us with a name of your project and list of IP-addresses to exclude using the contact form at https://netabuse.info/#contact.
+
+Thanks for your collaboration. Do not hesitate send me an email if you need any additional information, but please leave the ticketnumber  (between square brackets) in the subject untouched.
+
+Best regards,
+
+Jurrian van Iersel
+netabuse.info
+More info: https://www.netabuse.info/
+
+--b1_uIArhJMnNVoFOhpVpTHngjiQ7ITotqBrhbjf912WhM
+Content-Type: text/plain; name="logfile.txt"
+Content-Disposition: attachment; filename="logfile.txt"
+
+Nov  5 23:22:48 s02 sm-mta[2098437]: 2A5MMcrR2098437: AUTH failure (LOGIN): authentication failure (-13) SASL(-13): authentication failure: checkpass failed, relay=ip-078-043-002-183.um18.pools.vodafone-ip.de [78.43.2.183]
+
+--b1_uIArhJMnNVoFOhpVpTHngjiQ7ITotqBrhbjf912WhM
+Content-Type: text/plain; charset="utf-8"; name="report.txt"
+Content-Disposition: attachment; filename="report.txt"
+
+Reported-From: abuse-report@netabuse.info
+Report-Type: login-attack
+User-Agent: netabuse abuse report
+Report-ID: 20221106000001205484@netabuse.info
+Date: Sat, 05 Nov 2022 23:22:48 +0100
+Source: 78.43.2.183
+Source-Type: ipv4
+Attachment: text/plain
+Schema-URL: http://www.x-arf.org/schema/abuse_login-attack_0.1.2.json
+Category: abuse
+Service: smtp
+Port: 25
+
+--b1_uIArhJMnNVoFOhpVpTHngjiQ7ITotqBrhbjf912WhM--

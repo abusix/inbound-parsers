@@ -1,0 +1,1333 @@
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-eopbgr80099.outbound.protection.outlook.com [40.107.8.99])
+	by fe2dba61eb49 (Haraka/2.8.26) with ESMTP id 0DAA59A8-E5A5-43D9-9A4D-F2B8A354912B.1
+	envelope-from <prvs=87260e55a=apache@cert.ro>;
+	Thu, 02 Sep 2021 11:02:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ee+FenZADBxGDDGfewvHRWluAgzAJnBtZm/e5905RdOK0RaK9EEGkfvZhoDVD+aKB4j/FolpTu/I3hoKZDHWgx4XdXGYCMCRwD5uZXDvPL8gwiEXbP0dp2mlAShbcaCKvJ4+OQEEPY8klQPbxlOkqk26UVt1cULNld0Kiw0AukPwwBRuZ/6R3lEr7Ti7Rdll6gtZi8BaiqbEMV1BFYB6JBiJrG7KKZevLMGufNxPW3RC7g4nCwPKCDwMUkDQ7Fx3a+tyAv6cDCJJks0kciWCgAsmocyF/SlwXGqp8g9wTgPnz88xgb52/sTbdZI5lRxXBQy5btn6An67YR+O27crtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nU8rdkbkpeHrw/+NehlbJfWqeFWWHjntVfKlnbAZ2Wc=;
+ b=BGRkQ2JtBQxnH4C1irno73CLOZDfwTaqtvRSFlx1ZVKe+ADejYwe2j4WPzQpBUF1HNwtzIL9XKIutJxCIacEk5GJd/4QAVx9nMZgUcpgrAmRjINjcQ0yAQno4Mlo+v/QWSf9V/qtoYJkBX5nTEmp0OXZF2rg552Xm3B20QjbTN/ZOxRmlIoLmSLR+67nxt6MaJmXFIwTelS62Es2XaOI27AbF7/j3mOUzwJhYuufs0n4abdY2+wwb+YYYI/XlB/9XhujjM5ed1BNSSrjVY8uMvxwWZuwRFdUJxtv/VqR4X5SITDrRXE1sxXtSaBivrf4CsH1gHsvSqwbRxM7tkONAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=digitalet.onmicrosoft.com; s=selector2-digitalet-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nU8rdkbkpeHrw/+NehlbJfWqeFWWHjntVfKlnbAZ2Wc=;
+ b=NpfR+WIFaDnbGdALXzfhJ1LtzatVM6q0e1vc/XBPug33x0rwZ78yG2/gxkkQrv+HEwREU0qnP0qIlKEQxBlByC7Ba6ZvkBwuZO2GpNS065mtKx11wCzUlcPIArMAn7LU39tnvxLA4K3z0kVS0tzLeC9xMyHbgaey0pGa3jsoYMg=
+Received: from PR0P264CA0114.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:19::30)
+ by VI1PR09MB4191.eurprd09.prod.outlook.com (2603:10a6:800:122::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Thu, 2 Sep
+ 2021 11:02:50 +0000
+Received: from VE1EUR03FT031.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:100:19:cafe::aa) by PR0P264CA0114.outlook.office365.com
+ (2603:10a6:100:19::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend
+ Transport; Thu, 2 Sep 2021 11:02:50 +0000
+Authentication-Results: spf=pass (sender IP is 192.166.122.41)
+ smtp.mailfrom=cert.ro; heficed.com; dkim=pass (signature was verified)
+ header.d=cert.ro;heficed.com; dmarc=pass action=none header.from=cert.ro;
+Received-SPF: Pass (protection.outlook.com: domain of cert.ro designates
+ 192.166.122.41 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.166.122.41; helo=mx0c.cert-ro.eu;
+Received: from mx0c.cert-ro.eu (192.166.122.41) by
+ VE1EUR03FT031.mail.protection.outlook.com (10.152.18.69) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 11:02:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=cert.ro; s=semnatACERTRO; t=1630580546;
+  h=subject:from:reply-to:in-reply-to:references:message-id:
+   to:date:mime-version;
+  bh=nU8rdkbkpeHrw/+NehlbJfWqeFWWHjntVfKlnbAZ2Wc=;
+  b=K2r83AtdC7gKQywcJJ3co1Jjf2VRHesHsJtEHpDonWZx7r+Q/t4OtCf+
+   /IgnmEg6V+PDjzFVSfnnR5g5gKTUlqNKHx/99lcVuU5b0Sc92H6av5P6N
+   rf/LkabrAGJYvQbNgVOTLxhHyIN1EpqhplJBUdb+qyOx4wyE1N5NH+mjJ
+   S4MP4bYjqchuPNx2cxu+AP/j5uSzsAbCdMH18Tr7/JWpoLznL44yx6iA2
+   XdXMjEbZDI12HGPqmwUYmriY7KQO2upW/v42c6ZOWNf2EXUXVnuzX763g
+   ATAOLieuN6TQVudhKQ38g2/bwoLJLV5hnp3PNEGi4ykZrO6Dp0UzULnVM
+   Q==;
+Authentication-Results-Original: mx0c.cert-ro.eu; dkim=none (message not
+ signed) header.i=none
+IronPort-SDR: pOfRJ0Ww6ECVL7Hico9VSrX6whaEyc21a9Lkl29GLBELhu0b+p1MBQek3AtokBfHxcTHWAW4kp
+ Mq6duhpWGlnA==
+X-IPAS-Result: =?us-ascii?q?A2ERAAAMcvlf/yN6psBiBhQBAQEBAQEBAQEBAwEBAQESA?=
+ =?us-ascii?q?QEBAQICAQEBAUeBNgMBAQEBCwGCIxgBZC0qJAE8hD+DS40GaQOBBY58BIo7F?=
+ =?us-ascii?q?DCBKwgCAQ0BAQEKARwDFAQBAQGESYF0ASU2Bw4CAwEBAQMCAwEBAQEBBQEBA?=
+ =?us-ascii?q?QEBAQUDAQEBAoYVOQyCOCKCASyBSgMDAxcBCCY/ARgKHQ4CAgIBTAgVBAWDI?=
+ =?us-ascii?q?QGCdw+sF4E9gRQeGgKDa4E/hHwQgTgBgVKFHoQ/TIEvJhIJggCBDwEBgmRzg?=
+ =?us-ascii?q?QSDAAUBEgFNgmyCYASBVQQWARA+gRJaYQhSPwuMEgSDZzCCfIh3U4oYgxiOJ?=
+ =?us-ascii?q?wohglWBGINGjA6CUIhFD5MQA4kIhjUttix+A4EYcIEFR4JdCSMXDRmORh+JS?=
+ =?us-ascii?q?YRMQTA3AgYKAQEDCY1VAQE?=
+IronPort-PHdr: =?us-ascii?q?9a23=3AX0MSehQufNhqmPx97TbgV6doJtpsv+yvbD5Q0Y?=
+ =?us-ascii?q?Iujvd0So/mwa6yYRaN2/xhgRfzUJnB7Loc0qyK6v+mAzBeqsjf+Fk5M7V0Hy?=
+ =?us-ascii?q?cfjssXmwFySOWkMmbcaMDQUiohAc5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFR?=
+ =?us-ascii?q?rwLxd6KfroEYDOkcu3y/qy+5rOaAlUmTaxe7x/IAi0oAnLqMUbjopvJqkwxx?=
+ =?us-ascii?q?bIv3BFZ/lYyWR0KFyJgh3y/N2w/Jlt8yRRv/Iu6ctNWrjkcqo7ULJVEi0oP3?=
+ =?us-ascii?q?g668P3uxbDSxCP5mYHXWUNjhVIGQnF4wrkUZr3ryD3q/By2CiePc3xULA0RT?=
+ =?us-ascii?q?Gv5LplRRP0lCsKMSMy/WfKgcJyka1bugqsqQF/zY7OYo6VOvlwcL3Ffd0USm?=
+ =?us-ascii?q?VOQt1cVyNdDo6mdYYDE/YNMOReooLgp1UOtxy+BQy0Ce/h0DFGn2L407M93e?=
+ =?us-ascii?q?k9DA/IwgMuEc4Tu3rItdv7LbkcWv2rzKnJ1zrIcu9Y1ynz5IPVdR0uu/WMUq?=
+ =?us-ascii?q?xqccrN0kkiDB/KgUuKqYz5JT+VzOMNvnGd4uF9Wu2hl3QppBttojiz2MgskI?=
+ =?us-ascii?q?/Ji5oJx13E6yh0w5g5KcClRUNlbtOpDYZcuiGUOYV2Q84vXW9ltignxrACtp?=
+ =?us-ascii?q?C2czUHxpo5yxPQaPGKcpSE7w7gWeifJzpzmXxreLW6hxmo8EigzPXxWdWq31?=
+ =?us-ascii?q?ZQsipJiMPMtncL2hfO6caHUuNw8lql1DqRzQzf9+BJLEEumabGNZIt3KQ8m5?=
+ =?us-ascii?q?QTvEnFAyT4gl/5jLWMeUUh4uWo7uPnbaj4qZKELI90jx3+MrwpmsyiHeQ0Kg?=
+ =?us-ascii?q?gOUHaf+eS7zLDj+EL4TKtQgvIqjKbZqozaKd4Bpq6+GwNV04Aj5AijDzq+zd?=
+ =?us-ascii?q?gVmWcLIEhYdB+GjoXlIUzCLO7mAfuljVmhkC9nx/XcMb3gBpXNIGLDkLDkfb?=
+ =?us-ascii?q?tl8UFc0BA8wsxf551KEbwOPOz8WlXttNDCFB85NBS4w/z7B9VlyoMeRWWPD7?=
+ =?us-ascii?q?eDP6zJrF+I/fwgLvKMZIALtjb9KuQq6ODzgnMjhVAdeqypjtMrbyWxFOl9Lm?=
+ =?us-ascii?q?2ZbHTtidoNV2wNu1kEQfTumWGFBDdXamyuRIo36ysnTpihXqnZQYX4yoSm5x?=
+ =?us-ascii?q?ueN6ZqS1oOMHerLT/2dozMYctGIHabJsJ7jicsXrW7V8k70kf950fB17N7I7?=
+ =?us-ascii?q?+MqWUjvpX52Y0tvbeBvAwu9TFyE8WW2n2MSGcxpG4TWjsqx/4m80ltklzF2q?=
+ =?us-ascii?q?Vin7lCEppe+qABXgQ7MMvayOp3Q5D3Vxnad9iEAFChXp29AD43Q95wi98Dak?=
+ =?us-ascii?q?pwAZOj2xbE2Sen?=
+X-IronPort-Anti-Spam-Filtered: true
+X-URL-LookUp-ScanningError: 1
+X-IronPort-AV: E=Sophos;i="5.79,333,1602536400"; 
+   d="xml'?csv'?zip'48?scan'48,208,48";a="1471757"
+Received: from unknown (HELO mx2.cert.ro) ([192.166.122.35])
+  by mx0c.cert-ro.eu with ESMTP; 02 Sep 2021 14:02:25 +0300
+Subject: [CERT-RO #2052039] [61317_2021-09-02T11:01:11+00:00] Alerta de
+ securitate cibernetica
+From: "POSTMASTER ROOT via RT" <alerts@cert.ro>
+Reply-To: alerts@cert.ro
+In-Reply-To: <9db2bb36717b246541c04d51fd4ab1e7@intelmq.ssim.local>
+References: <RT-Ticket-2052039@CERT-RO>
+ <9db2bb36717b246541c04d51fd4ab1e7@intelmq.ssim.local>
+Message-ID: <rt-4.4.4-9453-1630580568-1102.2052039-39-0@CERT-RO>
+X-RT-Loop-Prevention: CERT-RO
+X-RT-Ticket: CERT-RO #2052039
+X-Managed-BY: RT 4.4.4 (http://www.bestpractical.com/rt/)
+To: abuse@heficed.com
+X-RT-Original-Encoding: utf-8
+Precedence: bulk
+Date: Thu, 02 Sep 2021 14:02:48 +0300
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="----------=_1630580568-9453-158";
+ micalg="pgp-sha1"; protocol="application/pgp-signature"
+X-AXIGEN-SPF-Result: Failed
+Return-Path: prvs=87260e55a=apache@cert.ro
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 08785955-bde8-476e-9da2-278dabe67d0b:0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: abce85b2-0843-467c-9a92-08d96e013467
+X-MS-TrafficTypeDiagnostic: VI1PR09MB4191:
+X-LD-Processed: 08785955-bde8-476e-9da2-278dabe67d0b,ExtAddr,ExtFwd
+X-MS-Exchange-Transport-Forked: True
+X-MS-Exchange-Transport-Rules-Loop: 1
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	mKs4CnY0CGKMczl0vSzOC51nxO3+oBJGzjyCTupyJTNeSgf2187TTEYkXiRdvgookhZQRYVF+9FhduYIXtNXaafG0aVd79Z3avvml9ulLMdAf+J0FJJ6ba/8PJT9e6O1R+wBk/fkTqEdrQmF9+P3L44fpo/gzbP9SZCQtX8ItrwNcYJs71he8b+NrOjsZtIvN+a/e6M+wnMm5p6y7Ipi6f09KGUAEk8kZyXGMlO/kLUu4YwCuQitki/UJ/EBAbjl9teQBtqZmB2qTFDHwxF/C0W7iNlc13QpBKn60EnGLqVBkfp2pUvjJpHdqMBxzdaw+J73bp6zNFLdW+9nUiPyuA6R1M/Eoh1i8+mFGK8nvOO4Lhrk6xPB5zP9dt7xbaSI1KKYO41sVzxoS4fxc+cxJaeD0+wxBeUU/wZVeGYYSWGLzaHGX7+aLYm0pUay4zb8ECCrFN5IbHGReNYoasTnmPpXcXdN8xi1FHU2V7wq9Aol12q/OPfgs0OTFofcOhh4pa2IhIXsKTt3UeQH9a1mgjQk7ol4gA2d5hbw9rWzDab8KntSIC/InVRxQ3wJu+KNxIqu/cFn44gMW0nd2ozfuXPjzhKhQSbuJzuDMOhQtVH/NnlMZw2B7L9hryC1Ay8esklpaw+4a+rBOeRHP7MTIPVU1AQppVkAFwtHj22Xnt4sm6TJJt/0E4Gbl7+CAUF9OuI6MRYVv2lCQnGbtKf/6N3asR4UJoCmLFabnO/VXOno0uQ9RFwaRszE5rmM52TZ
+X-Forefront-Antispam-Report:
+	CIP:192.166.122.41;CTRY:RO;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mx0c.cert-ro.eu;PTR:mx0c.cert.ro;CAT:NONE;SFS:(7916004)(396003)(39860400002)(346002)(136003)(376002)(30864003)(33716001)(34206002)(316002)(956004)(83380400001)(235185007)(26005)(5660300002)(356005)(9686003)(2906002)(81166007)(15974865002)(15650500001)(336012)(66616009)(68406010)(70586007)(6666004)(498600001)(44144004)(33964004)(8676002)(3450700001)(21470400002)(21480400003)(81226003)(102196002)(579004);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 08785955-bde8-476e-9da2-278dabe67d0b
+X-OriginatorOrg: heficed.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 11:02:50.1374
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: abce85b2-0843-467c-9a92-08d96e013467
+X-MS-Exchange-CrossTenant-Id: 08785955-bde8-476e-9da2-278dabe67d0b
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT031.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR09MB4191
+Original-Authentication-Results: spf=pass (sender IP is 192.166.122.41)
+ smtp.mailfrom=cert.ro; heficed.com; dkim=pass (signature was verified)
+ header.d=cert.ro;heficed.com; dmarc=pass action=none header.from=cert.ro;
+
+This is a multi-part message in MIME format...
+
+------------=_1630580568-9453-158
+Content-Type: multipart/mixed; boundary="----------=_1630580568-9453-157"
+Content-Transfer-Encoding: 8bit
+
+This is a multi-part message in MIME format...
+
+------------=_1630580568-9453-157
+Content-Type: text/plain; charset="utf-8"
+
+
+Queue: Investigations Subject: [613172021-09-02T11:01:11+00:00] Alerta de
+securitate cibernetica Owner: root Requestor: abuse@heficed.com
+
+[English version follows below]
+
+Buna ziua,
+
+Aceasta este o alerta de securitate cibernetica.
+
+Conform informatiilor detinute de CERT-RO, anumite adrese IP si/sau domenii web
+detinute, utilizate sau administrate de dvs. (sau organizatia dvs.), au fost
+identificte ca fiind asociate unor sisteme/servicii informatice vulnerabile,
+compromise sau implicate in diferite tipuri de atacuri cibernetice.
+
+Informatii detaliate despre fiecare adresa IP si/sau domeniu in parte se
+regasesc la finalul prezentului email sau in arhiva atasata (fisiere CSV si
+XML, in cazul in care sunt mai mult de 1000 de inregistrari).
+
+Cu stima,
+
+Echipa CERT-RO
+
+---------- English ----------
+
+Dear Sir/Madam,
+
+This is a cyber security alert.
+
+CERT-RO has become aware of one or more IP addresses and/or web domains owned,
+used, or administered by you (or your organisation), that were identified as
+beeing associated with information systems/services that are vulnerable,
+compromised or used in different cyber attacks.
+
+Detailed information about every IP address and/or web domain can be seen in
+the final part of this email or in the attached archive (CSV and XML files, in
+case of more than 1000 records).
+
+Kind regards,
+
+CERT-RO Team
+
+report_id,schema_version,incident_class,incident_type,data_type,timestamp,src_ip,src_port,src_hostname,dst_ip,dst_port,dst_hostname,src_ip_version,src_cidr,src_asn,src_cc,src_domain,src_domain_tld,additional_data
+d60da8c5ab380559d1365472b2e65d5f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:19:52+00:00,193.109.213.234,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+63c6341710649c521ed4cabaaf5559b9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:16:16+00:00,193.109.213.199,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+316efba6252c1809ec661f33e0117bd3,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:43:23+00:00,193.109.213.153,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+793e8b139921a6299b72679ac2804468,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:51:38+00:00,193.109.213.47,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+dc4d38d99246b4261d836c88b57eecdf,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:02:12+00:00,193.109.213.239,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+b9e5cde47a0e41585a43967eee2fe035,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:47:15+00:00,193.109.213.49,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2777b6cf99707273e18ee3e21e2bb915,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:57:00+00:00,193.109.213.88,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+33b3bcd8ffbfa015f4ac7281aafc7558,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:58:21+00:00,193.109.213.98,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2cbf58df34f15df8e69b8e4eea77d4b6,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:03:28+00:00,193.109.213.3,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+1320346b4d8013ce9bf0da3b17a78847,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:13:05+00:00,193.109.213.250,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+aa7086def18d4c3f7ecac2008f97442c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:05:58+00:00,193.109.213.160,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+9e36d095c279254e4059e14700861b73,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:29:11+00:00,193.109.213.201,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+13eef7d8cc4416e2350f505638552c8f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:32:58+00:00,193.109.213.73,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a8afcb79851354cba8bbb69b054e4077,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:30:00+00:00,193.109.213.193,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+fcbe1a747e97b9facb714807f320a559,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:30:27+00:00,193.109.213.111,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+8db54230dbd575b28d6629be578ab126,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:24:11+00:00,193.109.213.233,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+6e44405adad8c2c03dced3c32e198f4b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:26:31+00:00,193.109.213.15,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+9f494e655c65e47c2a79ef8562354144,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:26:54+00:00,193.109.213.57,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+49a5aa374184a16ae596b2031d3488de,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:44:35+00:00,193.109.213.43,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f6df144eed20aac9a1f668be749da6f8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:46:00+00:00,193.109.213.210,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4f319d5036aec31f55cb43c214091e2b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:00:48+00:00,193.109.213.212,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2f1b356274029859c27d2248540feda4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:43:21+00:00,193.109.213.137,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+82b08891d4451d97582eafc0026d9d5c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:59:49+00:00,193.109.213.86,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2a54131f4cc45e2190eea2a6b8039a77,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:07:40+00:00,193.109.213.141,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c6c004910ec828ee999a75894dae40bc,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:02:42+00:00,193.109.213.100,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+47e791f98dfac0333268849386a5fda2,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:03:41+00:00,193.109.213.126,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+e609620028b832bd38c0c88e75502c39,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:04:16+00:00,193.109.213.71,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f129673d031a3405c639e3d8a81e2dd8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:20:40+00:00,193.109.213.42,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c5b49bb46b926eed581d1e0f929b0d0b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:15:28+00:00,193.109.213.220,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c9927c4882eaf4d2d5c9378125a2d1bc,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:17:15+00:00,193.109.213.120,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+29f3a4bb3e3d73e23df7e0ce7e88a560,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:12:44+00:00,193.109.213.31,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+979da1ea8f54d299a261d9e7d0890b73,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:09:07+00:00,193.109.213.169,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+3ad9909e1b36af57bea3a308cbe8faaa,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:32:44+00:00,193.109.213.61,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+995c6c0051e7aa6c0debc6bff6da392f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:38:42+00:00,193.109.213.188,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ee2b42ee1ff1046a5f249ae2dcb7a108,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:29:58+00:00,193.109.213.28,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+e9e49b1a1681e4ef2d2a213f1e810632,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:35:41+00:00,193.109.213.119,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+e461e10c1b7840f4ec1656b8bae569bc,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:37:29+00:00,193.109.213.140,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+5fc6dcca1668367b5778894fa162a8ef,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:01:11+00:00,193.109.213.114,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c5a421f703133ed23ff7fb0e78cf0b27,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:01:13+00:00,193.109.213.35,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2ef6bd610cc53498f840b2cdcdfab721,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:01:14+00:00,193.109.213.68,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+7831c58d0011bdb9a515d6da3cc4cb02,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:47:51+00:00,193.109.213.241,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+42929ceb41f672e02477ce1a56c283ad,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:45:31+00:00,193.109.213.191,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ff09c674f5f7b6e1138b424705a9c322,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:41:54+00:00,193.109.213.33,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+02ffca3482fe567bb359a31bfe6839ba,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:43:00+00:00,193.109.213.219,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2dba39bf484043f6be8fbc17ea5f72f4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:54:52+00:00,193.109.213.216,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+16694e979db862050a16249050cfc247,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:12:01+00:00,193.109.213.74,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+3f35b5b9c0456decce731bc5df85d13b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:14:56+00:00,193.109.213.217,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+792a9c7504b0e47fb51b62bb508178cf,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:16:32+00:00,193.109.213.202,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+09a3b5b6ec51621da249843a83b78e18,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:27:49+00:00,193.109.213.13,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f126b247ef47ef69a2fe1da153460b67,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:34:43+00:00,193.109.213.56,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+96af3c1ab56d4ecee976bc91427c26d0,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:41:10+00:00,193.109.213.89,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+551503bd0d6a30fd9211b7f0150e7371,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:29:35+00:00,193.109.213.150,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+567175f06f0bc3d7905c8d2182203557,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:44:18+00:00,193.109.213.112,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+5c7b9a56557ed36b877de67d6a7b9add,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:56:57+00:00,193.109.213.243,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4f3fb0e7d630738830f22e6a1e870ca7,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:01:52+00:00,193.109.213.195,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c3b137bfa8ca86768fbd874c0686d3c9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:49:22+00:00,193.109.213.66,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+3313ff4a598cd4579fd519cea28ad8e3,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:07:20+00:00,193.109.213.156,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+7351feb6646f5c7e69ad8faee3041ff8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:26:26+00:00,193.109.213.18,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+b74866aa9a8c16099078ee4e2b4594ff,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:21:07+00:00,193.109.213.131,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+31a287a52256da7e7301114917a3af15,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:28:07+00:00,193.109.213.4,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+da2e973814fcf09865a5fed74567d14e,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:24:45+00:00,193.109.213.236,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+34d2b4d14aa7c7305ee80dfae25d1ba8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:27:56+00:00,193.109.213.235,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+103c34ccb91e64b895e3a2a1c1f0c1b8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:23:07+00:00,193.109.213.76,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+fd7e1f11c39d35ac03e8f214549e0c06,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:44:51+00:00,193.109.213.226,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+69120d4c6ca63fd9d7a2482b92d2060b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:00:33+00:00,193.109.213.196,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+af6ce9cbc87c674c0e00d8187fc6b3c8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:55:21+00:00,193.109.213.218,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+9cba2026f31eb985c15e21020547cf47,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:39:22+00:00,193.109.213.85,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4736b690eb243c2bbbc55411392e2ea0,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:30:58+00:00,193.109.213.122,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2f72544b60c418fd764e60bec7966e30,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:31:08+00:00,193.109.213.187,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+370db51fa396d7e513ae96e490aa18bd,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:26:22+00:00,193.109.213.87,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+79d812856c0bd21b45c2b4d241986b7a,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:23:54+00:00,193.109.213.197,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+27572f89e73c54823c76a3c51197d273,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:32:46+00:00,193.109.213.244,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4b49d887ff19105362cb8de1e949e06f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:33:54+00:00,193.109.213.208,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+8857b6a4d88674dcc6af755c95f488db,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:34:29+00:00,193.109.213.151,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+035dee996e212a7b1abc17e19c6921a0,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:20:54+00:00,193.109.213.12,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+50726e4ec641a9772e9b4f0be371469c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:16:42+00:00,193.109.213.93,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d3d881cf4865a8c0b0f502db9dd2ae79,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:16:58+00:00,193.109.213.27,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+57a4e65e77e043056cb187c07f763c09,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:11:18+00:00,193.109.213.55,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+cc4471d5517268af786534844ac1cee8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:12:54+00:00,193.109.213.30,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a52340ed660fb680a2c4ab0df223e508,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:05:27+00:00,193.109.213.64,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+cf8aaef0937f95b00b36c41c7fc34cee,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:03:14+00:00,193.109.213.91,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+96e6f5b1a34e4dc87b494fa5d6ccfece,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:54:23+00:00,193.109.213.149,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+3500614b1a0c7924c379ee1bb9476601,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:47:31+00:00,193.109.213.159,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f3adade3378935027e9c47dc2962aff1,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:52:44+00:00,193.109.213.25,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d95f89cc310ba2a5a81029cbdda26a32,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:53:02+00:00,193.109.213.84,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+0a4770804ab8f5d160a8e28720a2e514,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:59:26+00:00,193.109.213.5,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+21fabe4bf37998d0674e5f82441173c4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:00:24+00:00,193.109.213.51,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+acc52d8b578f779a9742f569c74eff42,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:00:49+00:00,193.109.213.16,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+921c09d2632a00623c0e2c0544654e28,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:25:51+00:00,193.109.213.60,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+40a235c3a1ec68e9c4be7c14efe22ac8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:36:56+00:00,193.109.213.39,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+0edce227c85a6dcabf38491fe028dd5b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:01:42+00:00,193.109.213.36,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+b749735a556f3fcf0dee7ad1f5774f85,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:59:36+00:00,193.109.213.40,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+09dbea3876893bce25619b69728e7db1,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:52:28+00:00,193.109.213.11,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+55cc4d42c79d1d1fc3be75b12964d50f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:57:46+00:00,193.109.213.77,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bb9e2a5fea4646f2aa0eb76eb912ceb9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:13:44+00:00,193.109.213.158,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+72cd8909854e9747634ebbe40798bf60,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:14:08+00:00,193.109.213.186,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+0fe7d78db30b261621f3aacf378745b5,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:03:31+00:00,193.109.213.154,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+088714fbf6bf8cdb4e1c241b4689f988,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:14:57+00:00,193.109.213.206,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f6d5fbd476a814ab767dbe79669f9107,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:11:55+00:00,193.109.213.168,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a685f053a824532960f8c7aa35110158,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:06:27+00:00,193.109.213.172,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+3c3c16583083fbb34cd54bb24db22c85,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:07:52+00:00,193.109.213.176,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2956b401adbb35c5eef8a7fdeb642909,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:42:31+00:00,193.109.213.107,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+df587e927b75b769f97fa6b88a8e5bcb,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:40:53+00:00,193.109.213.203,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+49912861adc27d5873f9a0bdcce5c516,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:30:34+00:00,193.109.213.162,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bbc36370ffb92132861c155b6133dc44,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:41:33+00:00,193.109.213.183,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+41d0b5662af2dea47fac20b4f4b99998,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:40:07+00:00,193.109.213.132,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d32f922ab7ad6b3379976c8754574184,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:40:13+00:00,193.109.213.34,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ef0690574f5348e4a5ed5cf993fbb61a,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:11:22+00:00,193.109.213.240,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+8d50492c4f712b5cfed346c8f07d4cac,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:04:18+00:00,193.109.213.7,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+513393177fbf1c3dea7a25e6b7ec2539,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:16:00+00:00,193.109.213.41,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a9c5e9f6c8811eb19d748c5cf59ea5fd,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:18:37+00:00,193.109.213.128,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d744568b5afef9018976ac20459a3012,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:08:51+00:00,193.109.213.222,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c9aab5e2257be322e5b968a3cc176f3b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:06:53+00:00,193.109.213.138,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a4722fa22e07972ab9521044c65cb0ca,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:05:22+00:00,193.109.213.198,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+38b8991970304bcf3d9ed14d92659079,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:57:04+00:00,193.109.213.103,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+6c554bbcd28c92d6f68fccf57f35929a,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:44:47+00:00,193.109.213.32,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+91726b197e6ddf843b1115794ae15a46,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:48:17+00:00,193.109.213.227,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bc56d3ffbf6a02298b9587cc829ab3aa,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:20:40+00:00,193.109.213.245,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+8f918cffb09512647e8f7ade4d6fc26c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:15:18+00:00,193.109.213.194,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+b76aae99be835cd31cf2a42c8f15294e,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:16:19+00:00,193.109.213.142,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+8bad20af08ba7f80ebd80ab7392d2e7d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:08:04+00:00,193.109.213.147,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+271ff5bedeeb173edded1de96b361ff7,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:47:40+00:00,193.109.213.124,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+e4de30b1829f295a1abf9495c5118859,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:55:22+00:00,193.109.213.182,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bc28652aac89c504fc58a11401890012,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:56:30+00:00,193.109.213.237,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f9b862aeca69c44b5b048681dd4a6c90,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:44:07+00:00,193.109.213.121,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+5f53a61d3fe15bce3539e67b3c5932bc,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:31:05+00:00,193.109.213.44,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+438d7038f267c7797ba744aa4369cdf1,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:36:36+00:00,193.109.213.180,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bdf66dc1e573077a514bff67e8da6db9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:34:30+00:00,193.109.213.125,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a7db39818ae1005ef84c9b8e1e930c59,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:44:06+00:00,193.109.213.8,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+88455a8d87828b1e0541f932c9d030dc,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:36:13+00:00,193.109.213.163,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+63a85c17d8eb02bc782c8cd5a665e96b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:40:52+00:00,193.109.213.10,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+5a966d2bd523a04ebdb688e433a0841d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:25:16+00:00,193.109.213.109,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+479e1281834e2532e305d42fd85af79f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:41:49+00:00,193.109.213.184,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+e8096208d475427d766fa0c08e631032,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:29:28+00:00,193.109.213.101,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+89e2ac4da169f810e59537b8700d5f07,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:32:33+00:00,193.109.213.29,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+051b6a1ab0e38dcda2c1d1ae0c5f3846,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:55:29+00:00,193.109.213.178,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ad69b491b2d90c0c19046baf9c36e673,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:04:51+00:00,193.109.213.104,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a5564ce3567d4f3d8ceac8939cc139ef,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:00:58+00:00,193.109.213.83,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+dd40980de3622fe70e22b943547a37c4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:59:18+00:00,193.109.213.92,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+945a46bcb490e5a6d65bcd3dab5d0ae0,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:36:24+00:00,193.109.213.225,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+331ece6498962a822d9a7595d0ea2b32,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:24:07+00:00,193.109.213.72,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+416bf4dd1b7590d543d5f487d51b7f05,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:29:17+00:00,193.109.213.161,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f61305bf4a9b866a474f35360ad671f2,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:25:59+00:00,193.109.213.155,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c32531b177d847651564fa32ade95084,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:31:56+00:00,193.109.213.118,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+38635e1e51b5295232ad03c6b4ca66be,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:22:48+00:00,193.109.213.146,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+cbe0475981a91f776ac9abbf13517c21,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:16:29+00:00,193.109.213.170,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f44e35d2fe518c9cada0256dcb6497ca,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:26:45+00:00,193.109.213.21,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d9b35319445a30bf73c29729ce708702,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:19:46+00:00,193.109.213.116,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f3b3db7c7f0ec42cfcf6916586cddd2b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:20:24+00:00,193.109.213.200,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+64fb2f225ea0fc058060c7211b1670b8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:22:27+00:00,193.109.213.81,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a4b8c41042e0a81a3f45bf00e51d1fa5,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:17:43+00:00,193.109.213.82,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+69ba1b90d139b33a7957194f6cf7d31c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:28:33+00:00,193.109.213.110,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+b18cadff74ce54e48fe79ff6feb19bd7,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:28:51+00:00,193.109.213.230,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+da3b1e54b16ccbc253cf50f03e6ef8a7,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:26:58+00:00,193.109.213.167,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f5ecced19e185b944293b616cf4fd8f4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:21:21+00:00,193.109.213.67,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+7e583986ae28a5b9931e3c196c09b801,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:57:26+00:00,193.109.213.50,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+8f171dcfcbb233230f355309510e6bd1,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:44:54+00:00,193.109.213.69,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+34826eb90f3de268165bfe7aeb689788,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:44:55+00:00,193.109.213.127,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+52575ef6b3805c090682b6440e3236a3,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:39:51+00:00,193.109.213.214,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+0e32cd5c76c64ab3eafe95d65fa5bda4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:48:40+00:00,193.109.213.207,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+99993bcbd8152392cbf29aed75a8dd30,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:41:06+00:00,193.109.213.133,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ca1f83040b29f5b5744f96c2bacdcaf8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:35:43+00:00,193.109.213.59,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f890a281560560b0b86e9c56c18c5cab,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:43:37+00:00,193.109.213.75,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+1cb60879dccd43afdddc4420135fbb59,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:43:42+00:00,193.109.213.54,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+34d189d2b7f2684ff500d22b64aabc8c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:37:59+00:00,193.109.213.108,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+9ce76cd1db411331f13d98a2c40fa176,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:38:21+00:00,193.109.213.144,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+97f8ec074c72c55eb31bca72de29d270,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:42:45+00:00,193.109.213.53,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d7c3f444ca2b99a7b0f3abe0dca38d31,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:47:17+00:00,193.109.213.139,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4a12c4dbf6d34b4eb53b341b057883d0,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:47:51+00:00,193.109.213.38,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+753501a8574c1a910adba17d11ff4dfc,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:42:30+00:00,193.109.213.52,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+50c299733b10336d8dbe49b97359f836,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:56:03+00:00,193.109.213.134,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4f7b4d4008a3260ebf0c9426f77a2df4,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:50:15+00:00,193.109.213.17,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ac46d41530cf199dac00c733c30a19b6,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:48:16+00:00,193.109.213.24,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+942eecb5d0bea654ca97a0b22c1c7d37,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:17:37+00:00,193.109.213.48,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+cf90a792f9d68b37c26aa0524b740c8a,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:08:03+00:00,193.109.213.181,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+32daca68846b7d4bf77848cde4b59230,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:06:11+00:00,193.109.213.157,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bbafdd4290486c4de93398390e1f5c76,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:12:12+00:00,193.109.213.247,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+dbd079d8ef39d13ce86fd5316cbc0481,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:58:35+00:00,193.109.213.99,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+69e0f727b7e66d9d3f71fd4bdc69e4f2,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:00:07+00:00,193.109.213.213,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+df0624bcd681d1134940dd6f102bf511,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:15:19+00:00,193.109.213.129,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+dca315eb01a7a3da69af62d8adb6724e,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:15:50+00:00,193.109.213.62,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+609cdfd68950bc77b06dc737974adba1,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:16:18+00:00,193.109.213.97,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c7ae56cc63d1577379e5ccdf8aa55ccb,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:56:05+00:00,193.109.213.215,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+93f1a5a4d0023bb66c65a31b8fa64e84,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:00:42+00:00,193.109.213.70,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ae535922facd30027687e19c32be0a71,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:08:38+00:00,193.109.213.130,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+502a94e74c7ed60b5463d4a5538032b7,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:13:39+00:00,193.109.213.171,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a380525e9121bc8f0787cc72ae4abc6e,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:13:57+00:00,193.109.213.23,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+df6f0b324408ae33a9c34bfdaff37918,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:15:30+00:00,193.109.213.232,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+6ddd88a8274047909d17fd472eb48442,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:16:27+00:00,193.109.213.179,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4027d5f18df57b17eacb74f858bd8100,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:16:49+00:00,193.109.213.166,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f0399aca218dc40d6d513b816c48d4cf,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:18:06+00:00,193.109.213.185,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+7783f1c7adbea536ecb120f6a6816ef9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:24:03+00:00,193.109.213.173,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+189e02647943f5fed78b5656b45cf468,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:09:31+00:00,193.109.213.136,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4e6c6b56e925ec77aeada8738de78445,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:19:10+00:00,193.109.213.231,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d910f6f3486503e6e5d3b304985d8e01,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:35:07+00:00,193.109.213.123,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+db399c90a8ec66d5b95d534f31f8db06,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:35:52+00:00,193.109.213.229,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+494ed86c688ea3a47a80811e8ac671e3,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:00:09+00:00,193.109.213.246,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+f0e4514f21960d0e9ed425007b41ad4f,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T09:00:54+00:00,193.109.213.211,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+b3d8bb80034df4c09747d2aaa260791e,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:33:35+00:00,193.109.213.20,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+d1c60b72a66ed183074bab70335e3978,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:37:54+00:00,193.109.213.94,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+327c69f8665f56cafec45c84e75fe795,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:38:11+00:00,193.109.213.145,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4487685f2af07ed70efab2a5f5ab4b9d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:38:13+00:00,193.109.213.6,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+bfd5c63bbfa9cf5c313927ec4535e51b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:49:26+00:00,193.109.213.102,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+a8f913cd4f7435fd672fb9f799e5e176,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:41:41+00:00,193.109.213.46,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+9b70fa718cace702acf73bcc3cdae520,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:36:03+00:00,193.109.213.221,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+faee9d50cfdd5a7b8d66e130aeade707,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:50:45+00:00,193.109.213.95,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+37d2fbc6683012fcaa2a857c504983e1,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:34:16+00:00,193.109.213.22,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+550a62f3d8df85b5e4004f2c593a8fca,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:38:01+00:00,193.109.213.238,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+17cf4b9cff6cb20f1f24ea98cf7a6760,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:17:03+00:00,193.109.213.135,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+66ab5db558506395eb75d74d66df492b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:18:09+00:00,193.109.213.19,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+58f20424fe3c4d0893c0fb1873e31696,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:18:58+00:00,193.109.213.249,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+369310029cc17984d8aa304411fba9b7,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:23:11+00:00,193.109.213.177,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+dd70c91a23bc535ff284333acf279e84,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:15:57+00:00,193.109.213.252,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c11d32df6287e4c8bb6ae9b5a143438b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:16:05+00:00,193.109.213.224,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+caa33616569e9b6b9af3afe671c44bbb,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:27:04+00:00,193.109.213.251,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ba17863884cf745f959693547ea2910c,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:21:45+00:00,193.109.213.143,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4706a14fde68b79aa67bb3d220f7b34d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:10:57+00:00,193.109.213.164,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ea232a38862f90e028256f759b417099,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:12:17+00:00,193.109.213.148,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c2aceebdf7b7ce7c76e61fb1a6d48042,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:26:46+00:00,193.109.213.9,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+c28c5a3b171ad88cd241f309fc05144b,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:20:05+00:00,193.109.213.113,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+6b251af6408cb3a732eb2487cdc2bcc6,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:20:47+00:00,193.109.213.209,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+ca4f8d90c1cf3d302e9bd9160eef43ac,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:24:05+00:00,193.109.213.80,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+02f8fd5bd4acdcc054d65533ea4c2428,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:29:08+00:00,193.109.213.14,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+729f37e99c5250975388f9f20d58bd4a,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:21:08+00:00,193.109.213.165,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+abbc8e9a2783964990dcb866355759b8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:21:46+00:00,193.109.213.204,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+44397f96e05b9ee0ff9b3261b59d24d9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:09:22+00:00,193.109.213.45,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+64f5274e539150a7cbb0484f6985b2e0,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:21:54+00:00,193.109.213.205,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+0b5b92d5e963ef4eb184dfad322d66ec,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:23:16+00:00,193.109.213.90,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+976223fd8be5a6651371305bf42eea72,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:24:36+00:00,193.109.213.242,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+11bc9e277778c34204140b3ebd37552d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:14:56+00:00,193.109.213.192,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+884820db4d7fa6886abea40977d7ee10,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:49:23+00:00,193.109.213.189,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+97cfed24668977d46d056e471bf55c20,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:07:49+00:00,193.109.213.63,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+66757b4b1d44e6a4689d2af811aca409,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:49:11+00:00,193.109.213.78,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+2972fe0edf55a85798493939d12ff39d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:00:48+00:00,193.109.213.105,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+876df61e673269508a0667d8dbd2f61d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:53:01+00:00,193.109.213.96,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+6a12f58064d1599e4931c4b227f7110d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:53:31+00:00,193.109.213.248,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+0676058daf068a68c20309f66079d664,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:48:07+00:00,193.109.213.37,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+4fd84c5cfa3c946b6d3deb75808508d9,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T08:02:32+00:00,193.109.213.174,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+58ff2f292b4128f2384ae95d07fbfd5d,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:57:18+00:00,193.109.213.228,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+6b95c6b664ab3a4b6041c26a2b848fd8,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:52:53+00:00,193.109.213.223,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+3f1ae845538573f3dbd54c59ffa5f583,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T07:49:53+00:00,193.109.213.117,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+fb01bea2beceb4dcc2772092665c4c63,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T06:06:16+00:00,193.109.213.65,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+48c20313a6f03de9480a4cfcce13ece6,1.0,Vulnerable,"Open for abuse","Open
+Portmapper Scan
+Report",2021-08-31T05:59:50+00:00,193.109.213.190,111,,,,,IPv4,193.109.213.0/24,61317,RO,,
+
+
+
+----------
+Centrul National de Raspuns la Incidente de Securitate Cibernetica - CERT-RO
+[Romanian National Computer Security Incident Response Team]
+T: 1911
+E: alerts@cert.ro
+W: www.cert.ro
+------------=_1630580568-9453-157
+Content-Type: application/zip; name="as61317_2021-09-02T11:01:11+00:00.zip"
+Content-Disposition: attachment;
+ filename="as61317_2021-09-02T11:01:11+00:00.zip"
+Content-Transfer-Encoding: base64
+RT-Attachment: 2052039/28398426/6372789
+
+UEsDBBQAAAAIACVwIlMV//EaKSMAABMIAgAKAAAAYWxlcnRlLnhtbOWdzY50
+x3Gm974KQduBxIz/iAZN7waYlQ2PZ7ZC/o4JiBRB0sbM3U+e7jqW7FUSuTmF
+JFrS6erSp/paLyIjnox449t/+L8//Pl3/95//uX7v/z497+HP6bf/67/WP/S
+vv/x//z97//Xv/z3P/jv/+G7v/u25V/zd99+/2v/IX33+c2ffv1/P/Xv/vGn
+/uPv/ukvP//6Q/7pp/7z7/5nzT/+7p/7T/OVb7/569u+/fnzpT99375rmlr2
+KrmQJ5FoQCpsWLCrNBnffvPX9377S/3X/kP+0+vjfTc/3bff/JfXvv3+x/p9
+6z/++qf65/zLL9/973/784/951z+3L/95r/86K9v/etnH3/5+Xe5/Nsvf/vu
+r4/86/c/9F9+zT/89B0mhD8k/wPBvyT5gPgQ/G8pfaT5Yf76pm9/+bn+6fuf
+voOgP0KKPyLQH5F4ft6v1z9/fv3FvgOAr1c/v/t8/V//8suvP+Yf+jfzd/vL
+/Kv/9Hq43vF6/Ju3fP2J//Eb+B//9O//8T/z11/L9f38+/z8nz5Q+gZfb/38
+0eeb8i8/fqdAYF8/uL79+i/X7/75H19vrl8vtb/8kL//8Zu//eZPv/65zRe+
+eSnj+g/YE4hSVWIwSMpRBaE3rrnkPGTKpcTzBaLza00gEHGSQOBLILgnEALt
+o2RFwQqeoldVGEQ9AVhp9HiBMH0gLQpE6CSB4JdAaE8gFtS9AEUgTJlEFEO1
+yBU9Mas/XiACH+RrAmE7SR/0pQ/eTEEqN/I25cFaGBWak1b3ItZ7bU9PQfQj
+4QcspyBHnTD8JRDZE0iJLrV1tpw6g7hkptApjo6jJ5LnnzD2AbIYQI7Sh3zp
+Q/f0gWZWtI4IS4ZGHbx36jNVxVICnq8PsamMNX24n6QP/dKHbWaoVKjU5mOU
+kRPI4FwNHWYNU03kDRIQ/0BY00ccpQ/70odvxo9ahngbxAOkDe8axTv3ns0a
+F31+AjIrmMUE9aj6xb/kEXvyAMJEV2raPAHVHmWklqmAZXO/Mv6HywPoIy2m
+HyjpJIHEC5FtQtScLbm2PsAbVxrW66xuU/IRxoz1+QHkOmMWEYgepRC4Keom
+Ro1O2lJIRQsU7pwkOrBNkSgUo8dLBOMDFnMQTHCURF4cFXD3nOl9WPNamUE7
+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
+szoYQC08Y+U0MtjzdyCRLwN5OMy3VW/aqruLsmx4r8m4GlaRXghKzYat44wv
+lp6/KAuXW1vlsMrmpq2629pqlQYz14wlIltJg3LpaZY15I3g+Rqx9bk9Oqy0
+uWmrbtJWzjBPllaGNuLCvQgVYihJzJ1aegeRrNLWw3YA6w1bdRO2mpAkyC7z
+uLnmbVJuZWYiDWAMbuP5HWnzsFn1f5azuhb1Zq22yVolVYwwogKJSJu30jnK
+fEViOL2B/5V+pOVl4mdlrXazVtt1EhhWuHFKngk19TJSDUYdZhnbG/QaSfqA
+1fvfsy5t7Gattslac2VtDEKpDohouaZUZ1yplDJEeX4guVYA6+p217M0crNW
+o11rI+y9Xj5GpWeVWeGE5VQQK1RrZI/vIwFb5vF8VtJqN2u1TdZaR6RsgSOa
+eiGrqDknQS7Gqfrzh3+vtZ2rCclh81h2s1bbZK2E83zJ6s5arHGZiYiz19a5
+SOAbdAhcTgKrrFUOy0hu1mqbrLWU6zaPMa4de5VbD6JwitRhXB1Iz/eawPm1
+mpEcJpIbttoubC0tWTTvg6IB1e46mhBoLXXq5vmGJOIftFjaxFms1W7War47
+2dnTMLRiXbVFo2Ew5qnT6vwJj+d7TVzqsNXO1rNubeyGrbYJW9tIOpPU2q51
+rgDEwak1HZCwDIHn39rALG9WewQO2zZgN231Tdp6XeGB9JIgW6aWNfJQbJ5b
+UUPu7yASWSTyehaR9xu2+q6PQLo2uM4wEpJKNStJWzWyMP68v3m+RnTdI/ys
+rNVv2OqbsLVa7qK1KrVZHl7i6FKnajxnmQ/PNza6bm2WHdLO6mz1m7b6Lm2l
+AVkyt5SQSlGtKvP4KT6ycvfn39pMeax2th5mteg3bfVN2jrDCEkgjlwbTZ2Y
+unWISlh6yvb8PeLXluhVq4nD/Ej8pq0uuz0CmIP71bTYm6YiPM8dnicNeZpC
+sednJPRBy6atZyF5v2mr7+7IusZ+UXoAQqk+krnVapg751K1v4NIZBWSnMVI
+/Iatvgtbh45UCJmT506U50HDZbQ8xkxhwd+h/F1tSEM6rP69aavv0tbWmnt2
+NE5skaKBjcaGvbAz4zvUv6t+nGBngTS/aatv0laeqWqTAd6GWAHruRbj4eLX
+1HhK7yCS5SXRepb9s9+0NTZp60gUkWvGKZPKqWkToOKglb1xHc8Xia/7CPhZ
+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
+s5oByjrSzFiDPWWuo9YONGXz/CZ5mYEkrd7tndUlcGnj8//17/7u/wNQSwME
+FAAAAAgAJXAiU/xqT4oxHAAAZqkAAAoAAABhbGVydGUuY3N2vX3bqiVGcuW7
+v6Lx65Tbcc3IPH8wTzaeYV6bvGJBt7qRZMP8/aw8bTwzkBs6IXEhUbvOUZVC
+ociIteL6y/zLn3/57Q8/jR+/9n+df6p/+Pf5y68//fnnHz/93H8a8+ff/tD/
+WH/99f/+8rf//Zf5Y9Tf6l8//fbTn+avv9U//eXHr7/0P/z015/2H/n94V//
+/OtvP9c/4Tf8+tv+5v7p+5v7w39+86+/8z//zfuX+Jf98v2h/vofX+jfP40/
+/6n+9PP/8/EPv/1x/Khj/PQbfmv94x+2ZH83Eo2au9emmdzLYE1uIU1m8uHr
+B/+efvyvf/vjz/OX2v44f/z9P/1l/vy79edfflfbv/06//4/vvDPkPRP9S9/
+mb/87n/0+vPv/uVbV3//Q0j4Hyj/g/L/JP/i8uXy34i+iH5w0d8zld8L6+9F
+7Qcz/9g//vs//7v9f9+kfxT7kVg5fvzLP/348XdJe1LjYEpWugvPYb22WpdD
+/lbeSpzw10FiLuVvl1g5zdVqEpfOmcrsKfFSncQcbehTiU2/RE8Su/7tEkfR
+mRtrKcKQu5QWkqLULpnMUn4qsfOX5oPEFn+7wKPb0Dwgr6VmknhkTT3n5jFn
+Hy/NOH2RfPHZjC+MopXpfUyLStPYs1fTkiDtlDVJ/a1RxBf7ScUXAktEtNRX
+KUEhoZPznDrx/qS1wm8F9oCoB4Fzvnh22rT1kddqqxL7stpDMsNT9HB/bMT5
+S/ggcLkQWHpbnsdSW+xj5ZlKy9PmrBHDWnprxPATp1d34SVYhXS/t5GJtc/S
+FoKJNo4aOe/n+1Be1i86mbA4/e0S1xqU05iLM4KGrpgdPo0orxJm0t9qeFvF
+yROnC4nL1DSoeJco4jaNvEy2gMyJW+hTiaV88cmIhfjGKuZcMXLvZgh8ok7L
+yZNmR/zLb12xylnHcWHGNcMhtCjZWd16q7m1hqdH3+qOt2asdHZs+Py3Swxx
+J9ewmCVaWRXSs2WKhQdZAYJeSyxxkpgvjCKP5iZKow0Pb5JHAqxo0yPXxvLW
+tYl9MGO90HGaZnhsdVSYsnTS0efQrjK55GXtrcRQMx9B24WnWFYMoN17csCK
+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
+905dHX2x3uA2C5FVISoYR8DDFRcms568N+r19bodOfc53uyMyi0jSJcgJWvg
+HaPMwTaKJC8UbzneXnJ1jNA3mCLttgmE6SG5Fxlppbw63l0s9SLl8bSHfdnp
+5d2Eu7LrSfAQMdMYK5s2/FaPYnWyg1q/FRje4kiYbkp3rXsauteIpUoi4M4F
+2K33DPU2fTrx6h8nzcF8LuIdiFzukJiKsySLmRfQxTTYR5fUX4+an5u4i93k
+21Kts5Q2M9jHUO5Lqu19UexSHrc67q2O53nMCzvOre49MIvwIVam2UYmgDjd
+bW0z3k6yfcOKo8RXvSq8lrc5JiJ06BwDvm3MAtCZ8J23xN8+Lf6QG6RpYyo1
+xktbIKiVa1vFyiZLnPPjRVf+KYDkG8LUwZFcau0ZkIhsdc+V2TbAoLewYqfl
+wfKODbAXVrHKHmGrs9dUwOiaN7KcMo9hNfVCr9cwnQmT3GSOwTtqYrhkRIzW
+pwIRzxRNuxeV1p834h0XR920XGkeQBR5SYoegELwGGa1mkLlY73NzWs6FxM4
+XxCmNlZKo/P0UIqozrYXJiCOjJpGK69brvTsKi5CXo3RtGTOgBFEPoEs+l6f
+ybModS+v55bopOOrpjZzr3nkyJIbT3LjBfPtZQB7jrdrozSdWT+nG6SpdfcV
+x8izEZ4ZBO+5D68p+Q4ibx0Ffchp3oyy1QIjljZctJIhQLeU8zTFr7LxeNva
+7x82RVO5aYouEyyWs9oEzxcEPx8ma2TQ1Chvd2caf6ic3zRTzPy9NioPCzeJ
+ESmtSp3yTAoeI6/3k57Ljjf7SfOu4nUblVNZmWl6cY2Wg2j4elz+UDmnNOWm
+dr4Hnzf0oYk40keVzoPrhFfbVfT0tlDqH9pf44b3j1SaFW4yCmyhcyFLra7S
+NSFQPx6++zCiwmQ3vYOebCOJFMPA+nOfG8Fp6Z0BLtZbiT9MI9ykuYHOqGQC
+PE4iawZNkVZM3aJqPG0K+u5PODK8ckP7bZP71mEXeHIAEQnQbeiozQfBmF+3
+rBy7mOQGUajy7DNZybv1LguMuQacxaBZpT11bb6n786TYXJT+kht2RjcICac
+menYHfIx/Hvm/O2G9r0r+rxL7Ga3Cj6TQ+i6SUiqFnh8rongQUBW5Xnj1bmz
+/2oQGnGZQZ8BgyySM/zGqioVPNrpabFmL685d14xX6U0kzpgMIzAwaFly0ra
+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
+AKo/AAAAAA==
+
+------------=_1630580568-9453-157--
+
+------------=_1630580568-9453-158
+Content-Type: application/pgp-signature
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAABAgAGBQJhMK9YAAoJEJPckKOjGWWtLJMP/iL3VVRkJwjGt53/2hnUjsBF
+H9EMXpvkZa56dXaD/QRAugAwv55o4P9kBtQ5JdjJ06wT0QfopWl7ODLFt9zRfj67
+aPTLl12nIA32JbhogYV6lWTdkZfCXLnVo7/8K5F+zt0a00tcaI6wWNOyP3sbxi1J
+51hOeIFfY3vEF35tFuqAo1/pSci4F4HyvVs0NJlZ2QbFfpZHOCuKyMuFFvkGHIAo
+/cAVR5J9EymyQAmLbD7RGmRC8FFcothkibj73ZZWA1AZs9ku6OT5WVGoYqDfdi60
+6ue0d+NkRnGJKqQbzvvw8503yQwXmUlIdH0Kn/y79uRdlHjqWKKcQxgkT1uN5jT4
+6de+nF6LbvT2SsUxdyGyYc8Fg5Dvt1qIWSdVb916KoyWH90CQZTMa1FZ2DNhl/zw
+IiGVNrhHRF8T7xfYfsBP8ormcikjyxStnmEEQrVCRocfSexw7oCZbY1ytkI1qOPw
+36Y3463bUWevOO1HQVs+j0okp4iUw/90UBqvUNbBCKXZYXPZUWXvo8NVfp4ZssVF
+/+Y0zbv6G0zn0KYt8gRHA+NqrdXiDHnqxZodj/pdwW3Pc0kpp9U0LOBYKxecp1OU
++W/Pzma8FJd5IFegrtBOwjLErcWvKGK5mFi0Ms2F/Xlfc09yI9uHesOyK3nzMXH2
+LQYsggmQp+Ej9qHpz0JD
+=BqPo
+-----END PGP SIGNATURE-----
+
+------------=_1630580568-9453-158--

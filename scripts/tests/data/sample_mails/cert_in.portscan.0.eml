@@ -1,0 +1,303 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id E86E1658-422B-4414-8BCB-126FC95B82D5.1
+	envelope-from <abuse+bncBC6NF5PRSYBBBNHIUCOQMGQEABOM7NI@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Sun, 25 Dec 2022 11:29:58 +0000
+Received: by mail-pg1-f197.google.com with SMTP id l63-20020a639142000000b0047942953738sf4409973pge.15
+        for <abuse@digitalocean.abusehq.net>; Sun, 25 Dec 2022 03:29:58 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1671967797; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=fAezpC78MuwVNHUfhdecG3Ze2Rm77BsSBaQ/4Dhezist+ENAaA9iLw2e7UE35gyodA
+         SfuggjlZ2TXm2dUzxbYZ4SPYzVJ7jaY60f58iCEuVqdEj5r2X9TNBY8R7S3lr9kIIzu2
+         vK3M1BtrupNIKrlE+2UQ1AdSFG/M0OdiBx4jugcFy0YPV97DtlNqBvGlhvHUsFOX26SE
+         RMBqLQHt+XKbKIh2TBlRoKZlplfxEOHZq3hvVZIEifXb8nYhgFA76ReLpoDINfMetdtj
+         NZg7Grn4gWEP/wVQHu//1nC/WAzQe+clXGLQdr0W9oaemFlySmoVeJO0+IaGU7Pie/sC
+         fo3A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:thread-topic:thread-index
+         :mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=6XnF4cvufarOmi6O7N55/YxgC2Dn9PDelg9UNh+0CBg=;
+        b=vVn3KY3WHDVT//4ob4LAjCKJl4jyIbNXBSaePj+Dnh8NqBHQUsrOtspIufpW3oPaN4
+         uf66N0l/0NxcfTUFpicULnrQBGd1aCwgXD2FQzkGAxAG+spR7K7UIQrD36xKqqnLDJ6i
+         ZFs9Hkti+RZUWICNPJFpLQGePVwd6TPTiHFs0PwiHM4QFIxd8Mxx444sfR6hdDAqxHyh
+         VeRbwrX/slYJHzPrQARgZN4IIiDe5YYHeGbZEOTPPippOEv+IbqWsqWtdW6at5EHo2/R
+         JTeRuecp8jU9V8fDHzP1KlAZjwM4v7AERgjgDN1IhrwkrxKiaGgD92v4Ongq5uJKvAFG
+         1NFQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert-in.org.in header.s=certindomainkey header.b=SAvRnZS3;
+       spf=pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.107 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:thread-topic:thread-index:mime-version:subject
+         :message-id:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6XnF4cvufarOmi6O7N55/YxgC2Dn9PDelg9UNh+0CBg=;
+        b=DiHikrr0yYWUimBRT1Pd7EUJhL5tsPeeFjlF/rO5GFGK9tjG3Z/HbCjAxD9sFQk5Hy
+         FMhOkvz2mILIl0yXpr9etMxk6ImRav9Z8vhYoJzvdPuvTOEFbN/1U0K6VhHJIxHueWih
+         L8YUoQ6AeF0h3783VG/QwUjH5hgbRd7ZL3osA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:thread-topic
+         :thread-index:mime-version:subject:message-id:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6XnF4cvufarOmi6O7N55/YxgC2Dn9PDelg9UNh+0CBg=;
+        b=o1CLbBsDkzg2HLL2eD3gJjF//gH9dRxuIpacNYhliSGJts/6bDvcBarlBoQLorxabk
+         zB432uleIgHwgtl+o8E4P5MwbcFty6F/QX7ZNLAQO69JAf/Ph5dinc/QgCapfOK9K8oZ
+         psQI3oWw7W4fyK+9vM3h0ChD/pYTJkkJ1sxTj0I80O0anHiL2/dUYJZN//y2KPqc86tL
+         cF6QdYrrJk87vtNnLrgL/djocbspr+cC3q13rnwos4GdqNZuz5F/yMZqvopE+PHMreqi
+         GLseK0y0u/mrAU11nU3/ZNUyXLO6FeliUEjEBDqxwR5Fa4YVUbY3KyS+AVrn/RgfcN1+
+         gPOQ==
+X-Gm-Message-State: AFqh2kp7f/M/1E1MFv21vcsUATQR/gHmNqs8hWrA8/JY/kuGd/qCmA/F
+	xzWvXKwIkwBm6647G1zNjrEtYg==
+X-Google-Smtp-Source: AMrXdXv+kjj+Z2DNJ79VgckrKf9AhOc0ZYwd0i8XboEMnZV7ytvzXbpg2CRhX6PC0XoXHCIqUgVBRw==
+X-Received: by 2002:a17:902:b611:b0:189:e687:b350 with SMTP id b17-20020a170902b61100b00189e687b350mr1145449pls.33.1671967796839;
+        Sun, 25 Dec 2022 03:29:56 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:d18c:b0:188:62b8:814f with SMTP id
+ m12-20020a170902d18c00b0018862b8814fls9587311plb.1.-pod-prod-gmail; Sun, 25
+ Dec 2022 03:29:56 -0800 (PST)
+X-Received: by 2002:a05:6a21:339b:b0:ad:c97f:1c1b with SMTP id yy27-20020a056a21339b00b000adc97f1c1bmr26065152pzb.0.1671967795654;
+        Sun, 25 Dec 2022 03:29:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671967795; cv=none;
+        d=google.com; s=arc-20160816;
+        b=V6KIBF+XxKB1J4bmp+v+T6udMWuUdEK8vO8WAdibfYtRSZEqd8TSUZVBGSQFuF3exI
+         pJbEDY2Ke1e4jldLdwjmSY5EkxORIpnQiFqF/uxWYD99uPE1ge7H0GVA4ko3EFbg4ViM
+         u5B4+DIJ6tDGThQod2OB4hB9/DWbEVbwD8LkpZLuQxPNoQc0ji5Hc0B3WciinCCwkNyF
+         S3bWSacQoSePKChXjDfLIxZ7Nx/tNt3cEFnts+yTS71dTsv7Ft1jRbrQIqDt1nuuUJQD
+         pJWIcR7nmVxpmDe/1C8u/R7pMjdsWROG/kTRZ7t2tHNBhG/26ot0PkwT7r3vnCXO4mfT
+         ACQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=thread-topic:thread-index:mime-version:subject:message-id:to:from
+         :date:dkim-signature;
+        bh=6XnF4cvufarOmi6O7N55/YxgC2Dn9PDelg9UNh+0CBg=;
+        b=jNh1NX42Q3wi0lTR6mK/QdLzbMzdpjJXz0ANAYXRDIkftqI8F1ytPImfN7JIVjyx4W
+         2Gny2OUbCG3vrl+wWO+D+XqOtHyGjs1GiwdOqoqHB1efYwnhXHYhh6Q1VbkYuWfoO908
+         fWeK+7AEflIzmzqyjpI1wrbLy2ml0/PeJiNs/NOT9itv+TuAIyzrPyUv/2XbPU19g1Wo
+         2z7viAZA3pXXFWUN9Q0rKP3RWAOMNTgb9AS0//K9AaXORuuwnO+viEBFUFJF7UBSyuyw
+         sRbzowoNjpyPadvE8h6QiBZ46ckylIDlcojHjnX4eVLUB8WtYdeOVwFeMu9e6j831Bjk
+         rYLw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert-in.org.in header.s=certindomainkey header.b=SAvRnZS3;
+       spf=pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.107 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+Received: from mail.cert-in.org.in (mail.cert-in.org.in. [59.176.167.107])
+        by mx.google.com with ESMTP id o6-20020a63e346000000b00478d39fcb3dsi8900126pgj.519.2022.12.25.03.29.54
+        for <abuse@digitalocean.com>;
+        Sun, 25 Dec 2022 03:29:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.107 as permitted sender) client-ip=59.176.167.107;
+X-AuditID: ac110a67-200b5700000028d2-44-63a83422dc5f
+Received: from mailz.cert-in.org.in (Unknown_Domain [172.17.10.250])
+	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mail.cert-in.org.in (Symantec Messaging Gateway) with SMTP id A5.BC.10450.22438A36; Sun, 25 Dec 2022 16:59:38 +0530 (IST)
+Received: from mailz.cert-in.org.in (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTPS id EF4CD1484850E3
+	for <abuse@digitalocean.com>; Sun, 25 Dec 2022 16:57:18 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id D8D531484850E5
+	for <abuse@digitalocean.com>; Sun, 25 Dec 2022 16:57:18 +0530 (IST)
+Received: from mailz.cert-in.org.in ([127.0.0.1])
+	by localhost (mailz.cert-in.org.in [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id vtZtvM8di485 for <abuse@digitalocean.com>;
+	Sun, 25 Dec 2022 16:57:18 +0530 (IST)
+Received: from mailz.cert-in.org.in (mailz.cert-in.org.in [172.17.10.250])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id BC0541484850E3
+	for <abuse@digitalocean.com>; Sun, 25 Dec 2022 16:57:18 +0530 (IST)
+Date: Sun, 25 Dec 2022 16:57:18 +0530 (IST)
+From: "'Incident' via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Message-ID: <714115404.967345.1671967638278.JavaMail.zimbra@cert-in.org.in>
+Subject: Unauthorised scanning activity from IP "139.59.93[.]228" ; Ref:
+ CERTIn-30734322_1
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="=_7794e306-34f3-4bcf-bbc9-c231fcc02279"
+X-Originating-IP: [172.17.10.250]
+X-Mailer: Zimbra 8.8.15_GA_4272 (ZimbraWebClient - GC108 (Win)/8.8.15_GA_4257)
+Thread-Index: 2Dq/lFiJXanxQYY5ZzUvh12p71JeXQ==
+Thread-Topic: Unauthorised scanning activity from IP "139.59.93[.]228" ; Ref: CERTIn-30734322_1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHJMWRmVeSWpSXmKPExsWyRpDrl66SyYpkg3WnhCxuzJ3H5sDo8eX1
+	U+YAxigum5TUnMyy1CJ9uwSujCPbd7IXrLOp+DthN0sD4yvTLkZODgkBE4npjbMZuxi5OIQE
+	NjJJHJ/dwwbhHGaUePvpITOEs51RYuG9xVDOA0aJN3+WsEI4FxklGvZ/YQcZxiKgLbHh+Bsw
+	m01AQ6L/9wFWEFtEQEri2aXpTF2MHBy8At4S0ydFgoSFBWIkfr54yQZi8woISpyc+YQFpIRZ
+	IFJi34MaiPMUJX5N2s0OYftJLFzdxwYxUU/i24zPLBB2vMSqKbtYJzAKzkIyaRbCpAWMTKsY
+	hXMTM3P0klOLSnQz8/Tyi9L1MvM2MUICMH0H48W+z3qHGJk4OKUamPblqkZzTq9IiYiastE8
+	YX1kzi3/vb9Ff9twvKypyl7lmlgp6bbA5IhFp+XFPz4Czg8kw1aeX/pj/r6LRgwvc/cJ+u79
+	5M7c8u63PvPkV3bvj954uDC0qH52VD2Ttfm/9yr7j14XuHrn9IfLy2ZKa/lt+Gl495fd7mDh
+	A/MqzwdwXnz1wkr9RVPC271FAgtl/zHdN4pKSRbp9Tzh0eqUYac44eOJs6HcBZvaHN59PWn0
+	8Imbr7Vj9f+eO7YNaW03N1st1LAI3nXqZ/Yyx/tG9eXMy8LS/e2nHuCcazChU/KLpJfhIdE5
+	bhmzlukd3z5xTul+YZM997JXf5n/Irvz3TbJLQ5ZzgtOO52ZksC147ASS3FGoqEWc1FxIgB8
+	utAUcQIAAA==
+X-Original-Sender: incident@cert-in.org.in
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert-in.org.in header.s=certindomainkey header.b=SAvRnZS3;
+       spf=pass (google.com: domain of incident@cert-in.org.in designates
+ 59.176.167.107 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+X-Original-From: Incident <incident@cert-in.org.in>
+Reply-To: Incident <incident@cert-in.org.in>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--=_7794e306-34f3-4bcf-bbc9-c231fcc02279
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE----- 
+Hash: SHA256 
+
+Ref:CERTIn-30734322_1 
+- ---------------------------------------- 
+Dear Sir/Madam, 
+
+This is an email from the Indian Computer Emergency Response Team 
+(CERT-In). CERT-In is the national nodal agency for responding to cyber 
+security incidents in India as per the Information Technology Act 2000 
+(Section 70B). Details are available on our website www.cert-in.org.in. 
+
+We have received a report of unauthorized scanning activities originating 
+from host with IP address 139.59.93[.]228, currently under your control. 
+
+It is requested that immediate steps may kindly be taken to stop these 
+unauthorized activities and prevent occurrence of such incidents in future. 
+
+Relevant logs extracts are attached below with this message. 
+
+If you are not the appropriate staff to handle this matter, you are 
+requested to immediately escalate this matter to the attention of 
+concerned authority. 
+
+We greatly appreciate your prompt attention to this matter. Kindly 
+intimate us about action taken in this matter at the earliest. 
+
+This email shall be acknowledged within 24 hours, and requisite information 
+on actions taken on the directions shall be provided within 48 hours. 
+
++++++++++++++++++++++++Logs++++++++++++++++++++++ 
+Timestamp Country Name Src ASN ASN Number Source IP Source Port Destination 
+IP Destination Port Connection Protocol Count 
+Dec 25, 2022 @ 08:02:59.717 India Digital Ocean, Inc. 14061 139.59.93.228 
+41.206.60.85 443 Scanning 6 
++++++++++++++++++++++++End Logs++++++++++++++++++++ 
+
+
+- -- 
+Thanks and Regards, 
+
+CERT-In 
+
+Incident Response Help Desk 
+e-mail: incident@cert-in.org.in 
+Phone: 1800-11-4949 
+FAX: 1800-11-6969 
+Web: http://www.cert-in.org.in 
+PGP Fingerprint: A768 083E 4475 5725 B81A A379 2156 C0C0 B620 D0B4 
+PGP Key information: 
+https://www.cert-in.org.in/s2cMainServlet?pageid=CONTACTUS 
+
+Postal address: 
+Indian Computer Emergency Response Team (CERT-In) 
+Ministry of Electronics and Information Technology 
+Government of India 
+Electronics Niketan 
+6, C.G.O. Complex 
+New Delhi-110 003 
+
+-----BEGIN PGP SIGNATURE----- 
+Version: Encryption Desktop 10.4.1 (Build 620) 
+Charset: utf-8 
+
+wsFVAwUBY6gzhCFWwMC2INC0AQgGkRAAudSwG/8Mi6Y96Tdm2XItxiAK+/+kiYfY 
+mVJwE85zAiM7Ezo7e8vlJQSdRm/cew5sR19OpcGWsUOxe/pApLxQkoS72Jq35jSY 
+V5jUi7qpZUj0Cj4vmQfXbu/BJCx9eio+INo7sdwvtrdtbvICPr+sgwv6ZtSvJkFJ 
+jXBVC7OA2CiyYSVHehovn4ROwQ8Ny9XMO2Wfm8w2FQlYYSmFsFOBtcgTAGP5fsQn 
+GsGzZjeGiK28abIJuZK8Ja/wycUohzAfQMteECsao4KiGEqiLN8UyuoLisRp7AnK 
+axAUmW4AetGKOOu+DkJLNpXZqxC2s2KNeYOCYyHfmYrLRbzQz8RUuONlzJZmXC+7 
++L/5bdFrsJBehWJ4eZP3dA84UhqPHaeT3QKAGQISkrcjM1j5YhfgP7kruBJk+Rls 
+x9XnWp42QPjLF+tzksyC+bEu70I+WKKo/sQ7JCU5ZYrmR0jkHF+0bNEe3Fh5iCP2 
+dAHK6vN99lKD88Wp9j64DaMI0xf6gDL5ph9Kp7eY2/ke9QijNHSZToYNqrrIdDp+ 
+H/JslCiCZd52Trld2cC2V/a9ZQOuBXCCQtTYelJ+P35n2rLWG/nzURvquTKR/Lzl 
+JMFZBzaV6HClOE0cKgyAbOEf25yYjbLjXzO0WbzbTHNBXkKkEAsiJ1+W6RdAE8T5 
+OeSfYtkQeWg= 
+=fBY+ 
+-----END PGP SIGNATURE----- 
+
+
+--=_7794e306-34f3-4bcf-bbc9-c231fcc02279
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
+ize: 12pt; color: #1a1a1a"><div><div>-----BEGIN PGP SIGNED MESSAGE-----</di=
+v><div>Hash: SHA256</div><div><br></div><div>Ref:CERTIn-30734322_1</div><di=
+v>- ----------------------------------------</div><div>Dear Sir/Madam,</div=
+><div><br></div><div>This is an email from the Indian Computer Emergency Re=
+sponse Team</div><div>(CERT-In). CERT-In is the national nodal agency for r=
+esponding to cyber</div><div>security incidents in India as per the Informa=
+tion Technology Act 2000</div><div>(Section 70B). Details are available on =
+our website www.cert-in.org.in.</div><div><br></div><div>We have received a=
+ report of unauthorized&nbsp; scanning activities originating</div><div>fro=
+m host with IP address 139.59.93[.]228, currently under your control.</div>=
+<div><br></div><div>It is requested that immediate steps may kindly be take=
+n to stop these&nbsp;</div><div>unauthorized activities and prevent occurre=
+nce of such incidents in future.</div><div><br></div><div>Relevant logs ext=
+racts are attached below with this message.&nbsp;</div><div><br></div><div>=
+If you are not the appropriate staff to handle this matter, you are&nbsp;</=
+div><div>requested to immediately escalate this matter to the attention of&=
+nbsp;</div><div>concerned authority.&nbsp;&nbsp;</div><div><br></div><div>W=
+e greatly appreciate your prompt attention to this matter. Kindly&nbsp;</di=
+v><div>intimate us about action taken in this matter at the earliest.</div>=
+<div><br></div><div>This email shall be acknowledged within 24 hours, and r=
+equisite information</div><div>on actions taken on the directions shall be =
+provided within 48 hours.</div><div><br></div><div>+++++++++++++++++++++++L=
+ogs++++++++++++++++++++++</div><div>Timestamp Country Name Src ASN ASN Numb=
+er Source IP Source Port Destination</div><div>IP Destination Port Connecti=
+on Protocol Count</div><div>Dec 25, 2022 @ 08:02:59.717<span style=3D"white=
+-space:pre">=09</span>India<span style=3D"white-space:pre">=09</span>Digita=
+l Ocean, Inc.<span style=3D"white-space:pre">=09</span>14061<span style=3D"=
+white-space:pre">=09</span>139.59.93.228</div><div>41.206.60.85<span style=
+=3D"white-space:pre">=09</span>443<span style=3D"white-space:pre">=09</span=
+>Scanning<span style=3D"white-space:pre">=09</span>6</div><div>++++++++++++=
++++++++++++End Logs++++++++++++++++++++</div><div><br></div><div><br></div>=
+<div>- --</div><div>Thanks and Regards,</div><div><br></div><div>CERT-In</d=
+iv><div><br></div><div>Incident Response Help Desk</div><div>e-mail: incide=
+nt@cert-in.org.in</div><div>Phone: 1800-11-4949</div><div>FAX: 1800-11-6969=
+</div><div>Web: http://www.cert-in.org.in</div><div>PGP Fingerprint: A768 0=
+83E 4475 5725 B81A A379 2156 C0C0 B620 D0B4</div><div>PGP Key information:<=
+/div><div>https://www.cert-in.org.in/s2cMainServlet?pageid=3DCONTACTUS</div=
+><div><br></div><div>Postal address:</div><div>Indian Computer Emergency Re=
+sponse Team (CERT-In)</div><div>Ministry of Electronics and Information Tec=
+hnology</div><div>Government of India</div><div>Electronics Niketan</div><d=
+iv>6, C.G.O. Complex</div><div>New Delhi-110 003</div><div><br></div><div>-=
+----BEGIN PGP SIGNATURE-----</div><div>Version: Encryption Desktop 10.4.1 (=
+Build 620)</div><div>Charset: utf-8</div><div><br></div><div>wsFVAwUBY6gzhC=
+FWwMC2INC0AQgGkRAAudSwG/8Mi6Y96Tdm2XItxiAK+/+kiYfY</div><div>mVJwE85zAiM7Ez=
+o7e8vlJQSdRm/cew5sR19OpcGWsUOxe/pApLxQkoS72Jq35jSY</div><div>V5jUi7qpZUj0Cj=
+4vmQfXbu/BJCx9eio+INo7sdwvtrdtbvICPr+sgwv6ZtSvJkFJ</div><div>jXBVC7OA2CiyYS=
+VHehovn4ROwQ8Ny9XMO2Wfm8w2FQlYYSmFsFOBtcgTAGP5fsQn</div><div>GsGzZjeGiK28ab=
+IJuZK8Ja/wycUohzAfQMteECsao4KiGEqiLN8UyuoLisRp7AnK</div><div>axAUmW4AetGKOO=
+u+DkJLNpXZqxC2s2KNeYOCYyHfmYrLRbzQz8RUuONlzJZmXC+7</div><div>+L/5bdFrsJBehW=
+J4eZP3dA84UhqPHaeT3QKAGQISkrcjM1j5YhfgP7kruBJk+Rls</div><div>x9XnWp42QPjLF+=
+tzksyC+bEu70I+WKKo/sQ7JCU5ZYrmR0jkHF+0bNEe3Fh5iCP2</div><div>dAHK6vN99lKD88=
+Wp9j64DaMI0xf6gDL5ph9Kp7eY2/ke9QijNHSZToYNqrrIdDp+</div><div>H/JslCiCZd52Tr=
+ld2cC2V/a9ZQOuBXCCQtTYelJ+P35n2rLWG/nzURvquTKR/Lzl</div><div>JMFZBzaV6HClOE=
+0cKgyAbOEf25yYjbLjXzO0WbzbTHNBXkKkEAsiJ1+W6RdAE8T5</div><div>OeSfYtkQeWg=3D=
+</div><div>=3DfBY+</div><div>-----END PGP SIGNATURE-----</div></div><div><b=
+r></div></div></body></html>
+--=_7794e306-34f3-4bcf-bbc9-c231fcc02279--

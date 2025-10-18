@@ -1,0 +1,531 @@
+Received: by mail-lf0-f72.google.com with SMTP id 71sf2095476lfu.11
+        for <abuse@digitalocean.abusehq.net>; Tue, 11 Jul 2017 19:25:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1499826339; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=BM+oqcENjIW1TKOZ8yf1fDftygVmXpVmG5gqJqoeUk6RdZwYROsvXmBfiuzLZkLM/W
+         LHs+PmJWrg4QnG83LLYS2soZCOzaes9iO+4hqlCIWtEAIEDHDokAMLxXaHoxJte/R5FI
+         KtCq9R0ss7Eyn7mtUvYCjVUaTMteif2jxOMrDz4p7ISSJgpTat3QshpuRJfZU3+jkAEa
+         unbM+p0UjLhhJdwsIiMobUJBBTWQC05b5noC1u7iyouwvXAOEIE0ofYEgPFjRDGj7k/i
+         ZU53qQZzfjlWsIoZ6/CxGarh3biVefBhsrGcp0i0XDgMLTya4j8Aa/ZLJ3nPHnBHQvZx
+         p17g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:from:content-transfer-encoding:to:precedence:rt-ticket
+         :sender:date:subject:managed-by:rt-originator:message-id:reply-to
+         :references:in-reply-to:mime-version:arc-authentication-results
+         :arc-message-signature:arc-authentication-results;
+        bh=3+qpejhdiV1L64uyIiXuT23PGwM8oRJTNSbb0qxiZWo=;
+        b=gHsfzHSG6VAzHkwqjihItRyQOu7ZNZHHAxsymJfNkl8Y5iXaJZ8bu5brXuFxQSpct+
+         +kI38J968+2XCNO14+fm6HZ+lupKWgAv2r8ZGbphuJ7BzGrQ2Bs94JDz2TpwwUsew1Ct
+         8xnRJFtkSevfsMWaHr3cBuKVjgPck8YO0hXJmLIPUw0EOuk0IIi/pVDNqG9ewhTYeOPY
+         SYKBjoHJzLCo+EyXvRId5YSHQaPilHbuxFHlZ91HpnnTyW9kxnY1p+NVBA0ZoS6u+vMA
+         vgS1ZsrvcMa65cvYbwpPHP9kDfd9KRyfmmmRDt24knodSmWPxrRpFrprgIlWoXJnsi9i
+         ttbw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       spf=pass (google.com: best guess record for domain of www-data@csirt-rt.ics.muni.cz designates 147.251.4.46 as permitted sender) smtp.mailfrom=www-data@csirt-rt.ics.muni.cz
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:reply-to
+         :message-id:rt-originator:managed-by:subject:date:sender:rt-ticket
+         :precedence:to:content-transfer-encoding:from:x-original-sender
+         :x-original-authentication-results:mailing-list:list-id:list-post
+         :list-help:list-archive:list-unsubscribe;
+        bh=3+qpejhdiV1L64uyIiXuT23PGwM8oRJTNSbb0qxiZWo=;
+        b=JCft1+A+3FeL6BMX9JfLacoiBSI8UesVh7WHfHtz7caE1FP4oiLdzTgswGUJXIWR2S
+         9v8LAwo9vhtqtqoXt/Fn2BxSB9tmfbsHt8KKSX1xosCbicBflnNAQbXZTnKKltFNozah
+         q9RjYj2VSIymgtSvU8sFhpndTPsHtXr8KC9VhWuAB3WGp2MgxpNGM7LaK4Mhk9m4cTEg
+         WPMhJtvqUP/3rdKzgF3AJAmFouq38CTVRVAAIKejrVrvrQesI+SRdhRwiYJ5HDjfiHBt
+         /qcLAd3hHHaMJ6zBBp7tHmQAqboD7FiaJz/ew/sojliqRxeALPkxGXQmYl4uCkN9Sa5y
+         HAzQ==
+X-Gm-Message-State: AIVw110UthAmKsm+L7xyd6Iz2VyWRrRHGwahIP+m81ZP6YUf97xai5mG
+	qXgJLTg+LYZo0GrK
+X-Received: by 10.25.0.199 with SMTP id 190mr461821lfa.20.1499826339247;
+        Tue, 11 Jul 2017 19:25:39 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 10.28.134.141 with SMTP id i135ls111704wmd.10.canary-gmail; Tue,
+ 11 Jul 2017 19:25:38 -0700 (PDT)
+X-Received: by 10.28.21.21 with SMTP id 21mr725936wmv.82.1499826338797;
+        Tue, 11 Jul 2017 19:25:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1499826338; cv=none;
+        d=google.com; s=arc-20160816;
+        b=HgnR5DTPet3MwXRKZX2b5GyfSJY4MTZqZpcuQRIyztp39w7/domuIBpeuV6Sr3zC0I
+         sjAUF0c9P+JSKWIzIygnwg+OJlDJeg5psVTbyPOZaVtFPqScMjSiokRnDO/ytn5gj9z2
+         EUQG6dLvwqTtypQnAFNPAq8RXPjMolf+c+UrGRdpCxN4oxSWhYi/8H8227T50IhL1mpk
+         aIznaBNTlML6G2iUR3j3qxjDK3KwtnUpfa8QJfmF/hvBTMHKNHDXR55toER7LQTSBXm/
+         OEJQ1ERCDqAJCk05alMKNmgZk97bXg/CzBSnN1NQzeIH6EHBnzrYUvOqAe1RMMFnpz1k
+         j+aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=from:content-transfer-encoding:to:precedence:rt-ticket:sender:date
+         :subject:managed-by:rt-originator:message-id:reply-to:references
+         :in-reply-to:mime-version:arc-authentication-results;
+        bh=3+qpejhdiV1L64uyIiXuT23PGwM8oRJTNSbb0qxiZWo=;
+        b=xV1eChvhbf9wFyRc9cfbOkdt8uIK0oln8EFRzHZcvKAZRNHofyEQh+edL8LWo8gVTn
+         zBuC5B8AXG4a92rZ/q7seGXBMmT8BMg2cPK165CoU06BfPKNF9jDLbMGrFdH+oyzNI68
+         kYwDJ8DQdAYUFh2/C44NUdwPyCOnlOaYde5A2cNVbJEcpMT4DDHtLQ/LbnPJp0d6dupH
+         8ow7dZnaCWquZI1rJZa3tnFi0qef+ZcynKzTdoUQ98cU8ZZe3jtkzKPwXF3Anbfvex84
+         /aq3f5Cocl6dm10RWdXe0AXMLk20CgscfWo2ujy0Z1RLCLR+ORvrWcH5nGNDPvdDOMkb
+         zpkQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: best guess record for domain of www-data@csirt-rt.ics.muni.cz designates 147.251.4.46 as permitted sender) smtp.mailfrom=www-data@csirt-rt.ics.muni.cz
+Received: from minas.ics.muni.cz (minas.ics.muni.cz. [147.251.4.46])
+        by mx.google.com with ESMTPS id z11si935079wmc.24.2017.07.11.19.25.38
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jul 2017 19:25:38 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of www-data@csirt-rt.ics.muni.cz designates 147.251.4.46 as permitted sender) client-ip=147.251.4.46;
+Received: from csirt-rt.ics.muni.cz (csirt-rt.ics.muni.cz [147.251.6.78])
+	by minas.ics.muni.cz (8.14.4/8.14.4/Debian-4+deb7u1) with ESMTP id v6C2Pbfd020907
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <abuse@digitalocean.com>; Wed, 12 Jul 2017 04:25:38 +0200
+Received: from csirt-rt.ics.muni.cz (localhost [127.0.0.1])
+	by csirt-rt.ics.muni.cz (8.14.3/8.14.3/Debian-9.4) with ESMTP id v6C2PVFU013547
+	for <abuse@digitalocean.com>; Wed, 12 Jul 2017 04:25:32 +0200
+Received: (from www-data@localhost)
+	by csirt-rt.ics.muni.cz (8.14.3/8.14.3/Submit) id v6C2PVuB013546;
+	Wed, 12 Jul 2017 04:25:31 +0200
+MIME-Version: 1.0
+In-Reply-To: <201707120225.v6C2PUUC013541@csirt-rt.ics.muni.cz>
+X-Mailer: Perl5 Mail::Internet v2.06
+References: <RT-Ticket-419694@CSIRT-MU> <201707120225.v6C2PUUC013541@csirt-rt.ics.muni.cz>
+Reply-To: CSIRT-MU (do not reply) <csirt-no-reply@muni.cz>
+Content-Type: multipart/alternative; boundary="----------=_1499826331-12622-2"
+Message-ID: <rt-4.0.6-12622-1499826331-1241.419694-112-0@CSIRT-MU>
+RT-Originator: ToolGateway@csirt-rt.ics.muni.cz
+Managed-BY: RT 4.0.6 (http://www.bestpractical.com/rt/)
+Subject: =?UTF-8?B?W0NTSVJULU1VICM0MTk2OTRdIFDFmcOtc3R1cCBrIGhvbmV5cG90xa9tIHog?=
+ =?UTF-8?B?SVAgYWRyZXN5IDEzOS41OS4zNi41NiAvIEFjY2VzcyB0byBob25leXBvdHMg?=
+ =?UTF-8?B?ZnJvbSBJUCBhZGRyZXMgMTM5LjU5LjM2LjU2?=
+Date: Wed, 12 Jul 2017 04:25:31 +0200
+Sender: "www-data" <www-data@csirt-rt.ics.muni.cz>
+RT-Ticket: CSIRT-MU #419694
+Precedence: list
+X-RT-Loop-Prevention: CSIRT-MU
+To: abuse@digitalocean.com
+Content-Transfer-Encoding: 8bit
+From: CSIRT-MU <csirt@muni.cz>
+X-Muni-Envelope-From: www-data@csirt-rt.ics.muni.cz
+X-Muni-Spam-TestIP: 147.251.6.78
+X-Muni-Local-IP: yes
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.3.9 (minas.ics.muni.cz [147.251.4.35]); Wed, 12 Jul 2017 04:25:38 +0200 (CEST)
+X-Virus-Scanned: clamav-milter 0.99.2 at minas
+X-Virus-Status: Clean
+X-Original-Sender: csirt@muni.cz
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ best guess record for domain of www-data@csirt-rt.ics.muni.cz designates
+ 147.251.4.46 as permitted sender) smtp.mailfrom=www-data@csirt-rt.ics.muni.cz
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multi-part message in MIME format...
+
+------------=_1499826331-12622-2
+Reply-To: CSIRT-MU (do not reply) <csirt-no-reply@muni.cz>
+From: CSIRT-MU <csirt@muni.cz>
+Content-Type: text/plain; charset="utf-8"
+RT-Attach-Message: Yes\nSubject: Přístup k honeypotům z IP adresy 139.59.36.56 / Access to honeypots from IP addres 139.59.36.56
+X-RT-Original-Encoding: utf-8
+
+=======================================================================
+  Please scroll down for English version of this report                
+=======================================================================
+
+
+Dobrý den,
+
+bezpečnostní tým CSIRT-MU detekoval v čase 2017-07-12 06:20:00 +0200 zapojení stroje s IP adresou 139.59.36.56 do bezpečnostního incidentu Přístup k honeypotům.
+Z důvodu závažnosti incidentu došlo k zablokování IP adresy 139.59.36.56 na dobu 14 dnů. Blokování bylo provedeno za účelem ochrany sítě a podmínkou pro předčasné odblokování je vyřešení bezpečnostního problému, který k zablokování vedl.
+
+Popis incidentu:
+Počítač s výše uvedenou IP adresou přistupoval do segmentu síťových pastí, takzvaných honeypotů. Primární úlohou honeypotů je nalákání potenciálního útočníka a každý přístup k nim je proto z principu podezřelý. Tato aktivita v drtivé většině případů znamená, že je daný počítač nakažen virem či jiným škodlivým kódem nebo provozuje chybně nastavenou službu.
+
+Řešení incidentu:
+Důrazně doporučujeme zkontrolovat počítač pomocí aktualizovaného antivirového software, případně zkontrolovat nastavení síťových služeb.
+
+Detaily incidentu:
+Podrobné informace o incidentu jsou dostupné na https://reports.csirt.muni.cz/5BC3731A-66A9-11E7-895D-B8BF04FD5A46/
+
+S pozdravem
+CSIRT-MU, bezpečnostní tým Masarykovy univerzity
+http://www.muni.cz/csirt
+
+
+
+=======================================================================
+
+Greetings,
+
+the security team CSIRT-MU detected in the time 2017-07-12 06:20:00 +0200 involvement of the IP address 139.59.36.56 into security incident Honeypot access.
+Because of severity of the incident, the IP address 139.59.36.56 was blocked for 14 days. The block was performed to protect the network and can be lifted earlier only after the security issue that led to it is resolved.
+
+Description of the incident:
+Computer with the aforementioned IP address accessed the segment of network traps, or so-called honeypots. The aim of honeypots is to attract attackers, therefore any access to them is by nature suspicious. This activity most often means that the computer is infected by a virus or other malicious code, or runs some misconfigured service.
+
+Incident solution:
+We strongly recomend to check the computer with up-to-date antivirus software and eventually check configuration of network services.
+
+Details of the incident:
+Detailed information about this incident can be found at this address: https://reports.csirt.muni.cz/5BC3731A-66A9-11E7-895D-B8BF04FD5A46/?lang=EN
+
+Best regards,
+CSIRT-MU, the security team of Masaryk University
+http://www.muni.cz/csirt
+
+
+------------=_1499826331-12622-2
+Content-Type: text/html; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>CSIRT-MU Hlášení bezpečnostního incidentu</title>
+  <style>
+    body {
+      font-family: Open Sans, Verdana, sans-serif;
+      color: #222222;
+      font-size: 12px;
+    }
+    
+    p {
+      line-height: 150%;
+    }
+    
+    p.warning {
+      border: 1px solid #E0081D;
+      color: #E0081D;
+      font-weight:bold;
+      padding:12px;
+    }
+    
+    a {
+      color: #5C5539;
+    }
+  
+    a:hover {
+      text-decoration:none;
+    }
+    
+    a.logo {
+      float:right;
+      margin-top: 8px;
+    }
+    
+    div.infobox {
+      padding: 10px 20px;
+      background-color: #E3E3E3;
+      border-bottom: 10px solid #132B70;
+      height: 50px;
+    }
+    
+    div.content {
+      padding: 20px;
+    }
+  
+    table {
+      margin-left: 20px;
+      font-size: 12px;
+    }
+    
+    td.table-caption {
+      font-weight: bold;
+      padding-right: 20px;
+    }
+    
+    h1 {
+      color: #132B70;
+      font-size: 2.3em;
+      font-weight: 200;
+      margin-top: 8px;
+    }
+    
+  </style>
+  </head>
+  <body>
+<p style="margin-left:20px;">Please scroll down for English version of this report</p>
+
+
+<div class="infobox">
+      <a class="logo" href="http://csirt.muni.cz" title="CSIRT-MU"><img src="data:image/png;base64,
+      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
+      TkSuQmCC"></a>
+      <h1>Hlášení bezpečnostního incidentu</h1>
+    </div>
+
+    <div class="content">
+
+<p>Dobrý den</p>
+
+
+<p>bezpečnostní tým CSIRT-MU detekoval zapojení <strong>IP adresy 139.59.36.56</strong> do následujícího incidentu</p>
+<table>
+<tr><td class="table-caption">Typ incidentu:</td> <td>Přístup k honeypotům</td></tr>
+<tr><td class="table-caption">Čas detekce:</td> <td>2017-07-12 06:20:00 +0200</td></tr>
+<tr><td class="table-caption">IP adresa:</td><td>139.59.36.56</td></tr><tr><td class="table-caption">Doménové jméno:</td><td>---</td></tr>
+</table>
+<p>Detaily k incidentu jsou dostupné na této adrese:
+<p class="warning">Z důvodu závažnosti incidentu došlo k zablokování IP adresy 139.59.36.56 na dobu 14 dnů. Blokování bylo provedeno za účelem ochrany sítě a podmínkou pro předčasné odblokování je vyřešení bezpečnostního problému, který k zablokování vedl.
+</p><p>Popis incidentu:<br>Počítač s výše uvedenou IP adresou přistupoval do segmentu síťových pastí, takzvaných honeypotů. Primární úlohou honeypotů je nalákání potenciálního útočníka a každý přístup k nim je proto z principu podezřelý. Tato aktivita v drtivé většině případů znamená, že je daný počítač nakažen virem či jiným škodlivým kódem nebo provozuje chybně nastavenou službu.</p><p>Řešení incidentu:<br>Důrazně doporučujeme zkontrolovat počítač pomocí aktualizovaného antivirového software, případně zkontrolovat nastavení síťových služeb.</p><p>Detaily incidentu:<br>Podrobné informace o incidentu jsou dostupné na <a href="https://reports.csirt.muni.cz/5BC3731A-66A9-11E7-895D-B8BF04FD5A46/">https://reports.csirt.muni.cz/5BC3731A-66A9-11E7-895D-B8BF04FD5A46/</a></p>
+<p>
+<a class="logo" href="http://csirt.muni.cz" title="CSIRT-MU"><img src="data:image/png;base64,
+      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
+      TkSuQmCC"></a>
+S pozdravem<br>
+CSIRT-MU, bezpečnostní tým Masarykovy univerzity<br>
+<a href="http://csirt.muni.cz/">http://csirt.muni.cz</a>
+</p>
+
+<a href="http://reports.csirt.muni.cz/help/rt_instructions.html">Jak nejlépe komunikovat s týmem CSIRT-MU</a></div><div class="infobox">
+      <a class="logo" href="http://csirt.muni.cz" title="CSIRT-MU"><img src="data:image/png;base64,
+      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
+      TkSuQmCC"></a>
+      <h1>Security incident report</h1>
+    </div>
+
+    <div class="content">
+
+<p>Greetings,</p>
+
+
+<p>the security team CSIRT-MU detected involvement of <strong>the IP address 139.59.36.56</strong> into the following incident:</p>
+<table>
+<tr><td class="table-caption">Incident type:</td> <td>Honeypot access</td></tr>
+<tr><td class="table-caption">Time of detection:</td> <td>2017-07-12 06:20:00 +0200</td></tr>
+<tr><td class="table-caption">IP address:</td><td>139.59.36.56</td></tr><tr><td class="table-caption">Domain name:</td><td>---</td></tr>
+</table>
+<p>Details of this incident can be found at this address:
+<p class="warning">Because of severity of the incident, the IP address 139.59.36.56 was blocked for 14 days. The block was performed to protect the network and can be lifted earlier only after the security issue that led to it is resolved.
+</p><p>Description of the incident:<br>Computer with the aforementioned IP address accessed the segment of network traps, or so-called honeypots. The aim of honeypots is to attract attackers, therefore any access to them is by nature suspicious. This activity most often means that the computer is infected by a virus or other malicious code, or runs some misconfigured service.</p><p>Incident solution:<br>We strongly recomend to check the computer with up-to-date antivirus software and eventually check configuration of network services.</p><p>Details of the incident:<br>Detailed information about this incident can be found at this address: <a href="https://reports.csirt.muni.cz/5BC3731A-66A9-11E7-895D-B8BF04FD5A46/?lang=EN">https://reports.csirt.muni.cz/5BC3731A-66A9-11E7-895D-B8BF04FD5A46/?lang=EN</a></p>
+<p>
+<a class="logo" href="http://csirt.muni.cz" title="CSIRT-MU"><img src="data:image/png;base64,
+      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
+      TkSuQmCC"></a>
+Best regards<br>
+CSIRT-MU, the security team of Masaryk University<br>
+<a href="http://csirt.muni.cz/">http://csirt.muni.cz</a>
+</p>
+
+<a href="http://reports.csirt.muni.cz/help/rt_instructions.html?lang=EN">How to communicate with the CSIRT-MU team</a></div>  </body>
+</html>
+                                                              
+
+------------=_1499826331-12622-2--

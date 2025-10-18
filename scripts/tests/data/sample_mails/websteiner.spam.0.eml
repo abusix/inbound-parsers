@@ -1,0 +1,508 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@xneelo.com header.d=xneelo.com header.s=se;
+	dkim=pass header.i=@websteiner.com header.d=websteiner.com header.s=kas202303151632
+Received: from outgoing16.cpt4.host-h.net (outgoing16.cpt4.host-h.net [197.189.249.73])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id DBDA86D2-9D7E-4119-A764-F79185DA9A02.1
+	envelope-from <hetz@mail1.cpt3.host-h.net>
+	tls TLS_AES_256_GCM_SHA384;
+	Sat, 13 May 2023 12:32:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xneelo.com;
+	 s=se; h=Content-Type:Mime-Version:Subject:From:To:Date:Message-Id:reply-to:
+	sender:cc:bcc:in-reply-to:references:content-transfer-encoding;
+	bh=JDxb/iDU9q2+kkszpA6rRix3zTOioY8Z5q7fW2knq10=; b=UHfPYwNsk77HbXEbKEx/KWjvJ9
+	cEeaTwIEQD6gu7/icjOXkv62k8vfUWZ3gXJ3iy1RPxZSZ5WiV/XqZ8KvOiITOyJVVHCNFX6LeU+V5
+	tzri5xxz8Llzns2JjGm8LSphmmx66OOPCRXABr3jrFoaVDmulvFFwIW9/QHDpR/48iDA4EAGR70qN
+	HxSF8ceAPnxdJcHoB2BMBHMOVEBGnXxhRYoQoLiwoj64lpwqN5kJCPhYVjXYMOvGjxVMoeRm1UD0F
+	TcMPtDh5hcftaBxGice1qPugJd1G0/1V8XXf+MsSGFbLXz1XhU3USdZmGbHzWUbn7A6d43+tPy+Hc
+	7smwOi/A==;
+Received: from mail1.cpt3.host-h.net ([197.221.0.19])
+	by antispam4-cpt4.host-h.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <hetz@mail1.cpt3.host-h.net>)
+	id 1pxoQO-00F14u-DK
+	for abuse@xneelo.abusehq.net; Sat, 13 May 2023 14:32:37 +0200
+Received: from localhost ([127.0.0.1] helo=mail1.cpt3.host-h.net)
+	by mail1.cpt3.host-h.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <hetz@mail1.cpt3.host-h.net>)
+	id 1pxoQN-0003wA-Cb
+	for abuse@xneelo.abusehq.net; Sat, 13 May 2023 14:32:35 +0200
+Received: from hetz by mail1.cpt3.host-h.net with local (Exim 4.92)
+	(envelope-from <hetz@mail1.cpt3.host-h.net>)
+	id 1pxoQN-0003w5-0V
+	for abuse@xneelo.abusehq.net; Sat, 13 May 2023 14:32:35 +0200
+X-Sieve: Pigeonhole Sieve 0.5.4 ()
+X-Sieve-Redirected-From: abuse-headers@xneelo.com
+Received: from mail1.cpt3.host-h.net
+	by mail1.cpt3.host-h.net with LMTP
+	id WE5vNWKDX2TvOgAAbNNNQw
+	(envelope-from <bernhard@websteiner.com>)
+	for <abuse-headers@xneelo.com>; Sat, 13 May 2023 14:32:34 +0200
+Received: from antispam3-cpt4.host-h.net ([197.189.244.90])
+	by mail1.cpt3.host-h.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <bernhard@websteiner.com>)
+	id 1pxoQL-0003vx-Kg
+	for abuse@xneelo.com; Sat, 13 May 2023 14:32:34 +0200
+Received: from dd34728.kasserver.com ([85.13.151.230])
+	by antispam3-cpt4.host-h.net with esmtps (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <bernhard@websteiner.com>)
+	id 1pxoQG-00Frrj-Hz
+	for abuse@xneelo.com; Sat, 13 May 2023 14:32:31 +0200
+Received: from elrond.websteiner.com (193-83-25-185.adsl.highway.telekom.at [193.83.25.185])
+	by dd34728.kasserver.com (Postfix) with ESMTPA id 463C0B2C02DB;
+	Sat, 13 May 2023 14:32:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=websteiner.com;
+	s=kas202303151632; t=1683981143;
+	bh=JDxb/iDU9q2+kkszpA6rRix3zTOioY8Z5q7fW2knq10=;
+	h=Date:To:From:Subject:From;
+	b=q7YlHITKhs6kepnqFb9tGv/jIeobMA3HJxWW4iZLeDACmDhMnZl4Z2R7ZcuY7IX5W
+	 T9367eljOT/G8hyHNIDFmwU3tYcoyVv/p4gK+FyM5x80kyfsX9eyCaGOvLd+7/nsqv
+	 vWiymau7sssd2vcljFf6bORoMSs1dmtN4F0OCnpYEZL8zdAjbwoRzRvuWzzEEq3ZZp
+	 1aOig9Btd95upR0mB53A4M8lpLynDKcqD6CRMzI7q+Xbu/lThz3B7nuWaxH/JhIKeg
+	 XYmDNb7jz+w+WWB71G6yg0jAtoNYtONf2oAcmKUCqheRVoDnCCQw8llcqEKgFyrVZe
+	 KVwTXIqfPHPhg==
+Message-Id: <6.2.3.4.2.20230513143155.072c8238@pop3.websteiner.com>
+Disposition-Notification-To: <bernhard@websteiner.com>
+X-Mailer: QUALCOMM Windows Eudora Version 6.2.3.4
+Date: Sat, 13 May 2023 14:32:23 +0200
+To: abusepoc@afrinic.net,abuse@xneelo.com
+From: Bernhard Steiner <bernhard@websteiner.com>
+Subject: Fwd: Stellen Sie sich Ihre Lieblingsprodukte zu einem
+  Bruchteil des Preises vor!
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="=====================_112075921==.ALT"
+X-Spamd-Bar: --
+X-SpamExperts-Class: not-filtered
+X-SpamExperts-Evidence: recipient
+X-Recommended-Action: accept
+X-Filter-ID: 8G1aH+8yearZuN6N5+X5bm6KuAmzEgFjeXz34jnHp0x08Il7varBXXciVISxy9QKmmZ78lvyfSIk
+ yZhaHuOaXZJgBtZVc8z1SEdECe9OeDcX3g6lVhUVcyhKEwPPpLTsXIQcvI1E70C++qKyAw4UJ56u
+ 2bE5xrwlrVSZ4bgdm3JvJwodbFYAihK336ZpIlmlJ8AsLwjco2gEAWn4BMTnEefs8b26xRWYRpfF
+ imgnkGAeXve973oYEUTCXXdcePfEVOEDZ3Ju+RkpASTA7wcJ0wGgvbz7Rz3DdgKEVYePDG55xBHk
+ CMCjMposz65/e+f68BACxHJxg5x31BCWdA+uz+pyh+c7SClutCQ6K52Gn4xlsV1vXPNSXKEOQIST
+ +IOyAcD25hJuzKSVGsxeU0HMhVKcgxQTqdSE3cxlP67ssuZxn2a3k66wqHQRkdHrnUf0XuDVW1RA
+ VP/E7/UYy9T8rmK9AikN96YW5VF1TsFQ3/i8SSvu8dZgmbBP2kL6dv42HeTyW/vUZ9G1DNGQ6Yd1
+ MPtGvfNnjMXfoUcQGFdWoQLfX8TdqEXkwxwMjsp2mNApDsb3LLZs0UikxV7vKuunPlD6eZwORZDp
+ wsNIc2eWDAjEwNPfdq78GIKXwGjvB7g8P0L8NXqgXoCP9hKpkTmWX5TpCI4t7v9i+YUmCvb/qGwR
+ 23DDanvvKUEn4P5LndhmTyczjuasrSUMnosoLfkzaXMcN6qoXPjenLhIOF1oeRbgXa34PH96r0Fx
+ XymAG8jGH/gQXZxeEkQ0HOSB6C0Cn93wHcoZoLk1Sc3wIgG3DT9LK/EpEWHXF0wlhXRz+wFLERWe
+ KKG4PAQYNyavp7c49KPsvPW/9PgtmsBWLKtyQGznQNR7PbduQRQj2eo9JsU+Wj3IrAh5Ob9N8HHT
+ CiBZ5Bc7Er41K1dSVEwlHeu6zMpRXxKF5tPxTxfD0dMN+t5ZJt5GBr7v3RpVxRijeE9LwHqO8myZ
+ pmlspFk2wAGdVxh708zxYipVaRJUocNcKCtXbGpIpVhdj6LiKwln2YzEk1tIDpT88TEiAnXgl0Wd
+ 2i2VxmQ9Grs2GjHIzCqLxDbd7GfT93MTtu/Fjw5Zg3clIA==
+X-Report-Abuse-To: spam@antispamquarantine.host-h.net
+X-Virus-Scanned: Clear (ClamAV 0.103.8/26608/Thu Jul 21 09:57:36 2022)
+X-Originating-IP: 197.221.0.19
+X-SpamExperts-Domain: xneelo.com
+X-SpamExperts-Username: 
+X-SpamExperts-Outgoing-Class: whitelisted
+X-SpamExperts-Outgoing-Evidence: rule/header
+X-Recommended-Action: accept
+X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT8Wip+HgyyUxdc26mqIiCX+nzo7nQn5RqIF
+ JeWNLOjbiNUlcoxRZ4l59whM6NMkh25EzVnVJNTpdjhsdyH6yCSssDpicjNaq/LkZ1ga20gBg4fS
+ srZQiKy4gjkr5UJmF5QBsklM42F0tSuIhPhTuDkQxGBwJrJzC3cmpnOZ5o1PdFprjQPFk8m4tSTf
+ ORUp3yn8qwQcwkW9qHuCQjXdrDqXt5IwJf2r0kojqUSMl449qob7spaAP5sM8iSGBpX4Gs35l2E8
+ uI4ni8F5pUs0Hau1xBamBxEDWRHuViaxbJFk4lFlrHF0Dgk9eVOAQFl/YbJG1H2oAvnqs7X9OJhp
+ HiFplgPKU8B1dOPu2Fudzkn9ha0iBdGyE5gm0UsfuiSmQ8M8SD49VFOJrE9jnafQ+n/zgfF+W0yJ
+ JnzcYL6x+8K5vrmXL8rNdlxvESmUUBjYdbihmakX1Qr68zHZr2lbh1h0FR3zU6AxZcU1MFAPT1B1
+ EK9EwlGbGhvpiwB+1aAwvEwg/I6L+hYGdAt8yl7zB+1i17NirEYyqwqMBGrw8ELiqFbBpU8Agko0
+ Eetu7CS2ceGyaki2jY7gk7Z/HWAi40eC/pufmnal1bT3YiiQb3IFhK4Dt0gTEK9vOlOvpFXXjOyu
+ cj735mFcFqoc4yysvQM8ASJFC/49WOPBr5nlEUI4xJe1eEpQl8VXaVqJd0HmdKhb8qOZsYtjbTvD
+ a9ADl91H5zFsYLpXS854jkiuQJVsgQJH+TNQbScPAmx0bZVIe54jilc9iVTyGBEaTlBlYSWxrfOY
+ 3UNVu8TOdjOCr0g4m5HWvxtAu9ADMVBMVDajMWDrc6JrZ3CmMZDvypyiFX/xBVQm2UkBCh/eXlya
+ gX+N58v3JPDsIv+TdmU+aLd9sdPAP/cRoI+7WicVrR2fe7mKTFHiae5+uyXVi2owmemDhOuO5TcD
+ eKjrEmYPn2IVWRvrZDvn5U3SMuz9SMyGwmoT3GCxbcARNcN9zLg1CgACwdoTbnSHIe+8VgBTiQ1r
+ bHKi8gnN+VQO0b1vxxohqsS9EJwFnd9oAi1CM6C3Z+GvGe0MoufcSul3fBnWYw5Al8A=
+X-Report-Abuse-To: spam@antispamquarantine.host-h.net
+Original-Authentication-Results: host-h.net; dkim=pass header.i=websteiner.com
+
+--=====================_112075921==.ALT
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+
+=3D=3D=3Dbot=3D=3D=3D
+Return-Path: <microcheap@modisure.co.za>
+X-Original-To: foto@websteiner.com
+Delivered-To: m0110bb0@dd34728.kasserver.com
+Received: from dd17500.kasserver.com (dd17500.kasserver.com [85.13.131.119])
+         by dd34728.kasserver.com (Postfix) with ESMTPS id 5B3FDB2C048A
+         for <foto@websteiner.com>; Sat, 13 May 2023 12:20:35 +0200 (CEST)
+Authentication-Results: dd34728.kasserver.com;
+         dkim=3Dfail reason=3D"signature verification=20
+failed" (2048-bit key; unprotected)=20
+header.d=3Dmodisure.co.za header.i=3D@modisure.co.za=20
+header.a=3Drsa-sha256 header.s=3Dxneelo header.b=3DS5T9lKiL;
+         dkim-atps=3Dneutral
+X-policyd-weight:  NOT_IN_SPAMCOP=3D-1.5=20
+NOT_IN_IX_MANITU=3D-1.5 CL_IP_EQ_HELO_IP=3D-2 (check=20
+from: .modisure. - helo: .outgoing39.jnb.host-h.=20
+- helo-domain: .host-h.)  FROM/MX_MATCHES_NOT_HELO(DOMAIN)=3D1; rate: -4
+Authentication-Results: dd17500.kasserver.com;
+         dkim=3Dpass (2048-bit key; unprotected)=20
+header.d=3Dmodisure.co.za header.i=3D@modisure.co.za=20
+header.a=3Drsa-sha256 header.s=3Dxneelo header.b=3DS5T9lKiL;
+         dkim-atps=3Dneutral
+Received: from outgoing39.jnb.host-h.net=20
+(outgoing39.jnb.host-h.net [129.232.250.24])
+         by dd17500.kasserver.com (Postfix) with ESMTPS id E71924340591
+         for <info@fotosteiner.com>; Sat, 13 May 2023 12:20:28 +0200 (CEST)
+DKIM-Signature: v=3D1; a=3Drsa-sha256; q=3Ddns/txt; c=3Drelaxed/relaxed;
+         d=3Dmodisure.co.za; s=3Dxneelo;=20
+h=3DDate:Message-Id:From:Content-type:MIME-Version:
+         Subject:To:reply-to:sender:cc:bcc:in-reply-to:references:
+         content-transfer-encoding;=20
+bh=3D2Z7jNooffpWX/mCdZ3SChJByIhlMGhQ1El6BrCj6ERc=3D;
+        =
+ b=3DS5T9lKiL5v3CUJXRcivAj7QpWo/CAaSD8Mw73w80hzse/QFxMrtlzDjgzPZehzyWmb32F5T=
+9/k
+        =
+ 2CgixS8Qc06Rz+wNAQluCSPN7oyxaFj/7pBvRb2VIX2+TFtPMpiUuoYhEAh+TqUkSuBeLNJwdOp=
+lf
+        =
+ b9+BCrJ8gkWh8zHv6gn1AFhdqMI7JsqZA5HswNG4BRW9ERafgodqHbImlDEfw6Fd8dpF4gTdZZn=
+9t
+        =
+ riDacL7p2SVCZCh9Cg9gDQkI/+XbrHpOIcvVPZfT/IxZZArK/LIe7z2FkSgkrQSQX1npi/LMLg6=
+3M
+         zyz2LUIucdUW4wXFLyLJ3c3HjwmRKNtrQms2g=3D=3D;
+Received: from www409.jnb1.host-h.net ([196.22.142.174])
+         by antispam10-jnb1.host-h.net with=20
+esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+         (Exim 4.92)
+         (envelope-from <microcheap@modisure.co.za>)
+         id 1pxmMJ-0055C1-HJ
+         for info@fotosteiner.com; Sat, 13 May 2023 12:20:25 +0200
+Received: from localhost ([127.0.0.1] helo=3Dwww409.jnb1.host-h.net)
+         by www409.jnb1.host-h.net with esmtps=20
+(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+         (Exim 4.92)
+         (envelope-from <microcheap@modisure.co.za>)
+         id 1pxmMI-0005BV-P8
+         for info@fotosteiner.com; Sat, 13 May 2023 12:20:14 +0200
+Received: from modisrbxpt by www409.jnb1.host-h.net with local (Exim 4.92)
+         (envelope-from <modisrbxpt@www409.jnb1.host-h.net>)
+         id 1pxmMI-00058g-GI
+         for info@fotosteiner.com; Sat, 13 May 2023 12:20:14 +0200
+To: info@fotosteiner.com
+Subject: Stellen Sie sich Ihre Lieblingsprodukte=20
+zu einem Bruchteil des Preises vor!
+X-PHP-Originating-Script: 2313:index.php
+MIME-Version: 1.0
+Content-type: text/html; charset=3Diso-8859-1
+From: Digigod <microcheap@modisure.co.za>
+Message-Id: <E1pxmMI-00058g-GI@www409.jnb1.host-h.net>
+Date: Sat, 13 May 2023 12:20:14 +0200
+X-Hetz-Sender-Domain: modisure.co.za
+X-Originating-IP: 196.22.142.174
+X-SpamExperts-Domain: modisure.co.za
+X-SpamExperts-Username:
+Authentication-Results: host-h.net; auth=3Dpass (login)=
+ smtp.auth=3D@modisure.co.za
+X-SpamExperts-Outgoing-Class: unsure
+X-SpamExperts-Outgoing-Evidence: Combined (0.57)
+X-Recommended-Action: accept
+X-Filter-ID:=20
+Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT8sDorYL6llc/tX6TElbnw1PUtbdvnXkggZ
+ =
+ 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5zVecNZOfTRpc4OI1vZZC0EawIWJ/LoABG/CgO4KFxG5si=
+7
+ =
+ Ir1lC4b4FYK/++7m3nG8ZAHp58k005zfriQoXB5USxIRXVMlFuiz/acFNeeXt0RkiUQUkc901fi=
+4
+ =
+ +Llu0leFcwLbxYAZ6mr+/0DiAFW6I0S6EKny9Ae5JhwzDKX24YPAgTtUp75uqlx0KezvZHXKzMl=
+u
+ =
+ gq41oEqskG5s/phzKnKo8GWAUftCOCCQw9YWA9zZqrrsu03WRFccpjwfEvECZ7McMtbybAwv7WD=
+G
+ =
+ ymUz6cTrAfIBtLJVe62uoyOAUpYIiHqfCgG4wrA3w4/kQTYKxDHA9JN9J4k4XZq11JQkYCWAfss=
+/
+ =
+ vhNHUsAcK91IExS8NlKloYSzPP05QObEf8Wuqr0aikOvJA+DuzeF4b+ym3AhG426mliYkCHBZpO=
+g
+ =
+ oqc4uCQ1hIibn+MrIDYy2WBZvd1k7AMVUvw4r/dmrv4vMEE6KEyh19rc7LZU5nlp0w2QEetkvH0=
+0
+ =
+ /xmn6oF5z8skuB4fLNdsm49znGEOwW1RyaT+fhnmPmZ+OUuV5BM6eyy5Vo6xOiF9lxkCbdmQZuR=
+2
+ =
+ rRlQzUqerBYdw+/GcP+uupg8GpP9x1tFExoUL6K3zmEHLFL4ag1goXX/A7rwjtQ+mrWoSveZYo5=
+t
+ =
+ FkTS6iH37yFM015AwIoiYphoS1Bbks2IOlTdXa/v/CPhe5I8v3lpdPIN/77kERWWOhSSjabDbkr=
+r
+ =
+ XJdjvnK1Pf/En0f/axxBXSK45O4tPZgZYY5ADgYp9HaEZSNGyuKwd78j7Mmsl6ZFUDBhTw7M1JT=
+q
+ =
+ LGlfTVLuRtlf002kiFLrzez9m7zrjuU3A3io6xJmD59iFVkb8/ZY1CUB0LR15uBnnsR383nFclh=
+U
+ =
+ Tx8cSXpvegfDpRm2UYC3nHd+F0bSxeRmZK2YK48zBUFiTBZlsVonx1/dsKYqMqJhMK7zo5npQAo=
+6
+  6E7yKxL56TB3QjzBRZUNmuZa
+X-Report-Abuse-To: spam@antispamquarantine.host-h.net
+X-Spamd-Bar: ++++++++++
+X-Spam: Yes
+X-KasLoop: m0110bb0
+X-Virus-Status: No
+X-KasScanner: clean
+
+
+
+Stellen Sie sich Ihre Lieblingsprodukte zu einem Bruchteil des Preises vor!
+
+
+
+Schauen Sie sich unseren groBten Rabatt an:
+
+
+
+
+
+Microsoft Office 2019 Professional Plus Online-Lizenzschlussel
+
+-Fur 1 Gerat
+
+-Jetzt kaufen, fur immer nutzen
+
+-Digitaler Schlussel
+
+-Lebenslanger Support ohne zus=C3=A4tzliche Kosten
+
+
+29.99 249.99
+
+<http://google.com/amp/shoppy.gg/@Digigod>JETZT 210 SPAREN
+
+
+Windows 11 Home-Lizenzschlussel fur 1 PC
+
+-Fur 1 Gerat
+
+-Jetzt kaufen, fur immer nutzen
+
+-Digitaler Schlussel
+
+-Lebenslanger Support ohne zusatzliche Kosten
+
+
+29.99179.99
+
+<http://google.com/amp/shoppy.gg/@Digigod>JETZT 150 SPAREN
+
+
+
+Und noch viel mehr Produkte im Inneren
+
+
+Weitere Vorteile!
+
+
+
+
+Sofortiger E-Mail-Versand
+
+
+Einfache zahlungsmethoden
+
+
+Brauchen Sie Hilfe? 24/7-Support hier
+
+One Microsoft Way, Redmond, WA 98052, USA
+
+=3D=3D=3Deot=3D=3D=3D=20
+--=====================_112075921==.ALT
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<body>
+<br>
+=3D=3D=3Dbot=3D=3D=3D<br>
+Return-Path: &lt;microcheap@modisure.co.za&gt;<br>
+X-Original-To: foto@websteiner.com<br>
+Delivered-To: m0110bb0@dd34728.kasserver.com<br>
+Received: from dd17500.kasserver.com (dd17500.kasserver.com
+[85.13.131.119])<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>by
+dd34728.kasserver.com (Postfix) with ESMTPS id 5B3FDB2C048A<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>for
+&lt;foto@websteiner.com&gt;; Sat, 13 May 2023 12:20:35 +0200 (CEST)<br>
+Authentication-Results: dd34728.kasserver.com;<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>dkim=3Dfail
+reason=3D&quot;signature verification failed&quot; (2048-bit key;
+unprotected) header.d=3Dmodisure.co.za header.i=3D@modisure.co.za
+header.a=3Drsa-sha256 header.s=3Dxneelo header.b=3DS5T9lKiL;<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+dkim-atps=3Dneutral<br>
+X-policyd-weight:&nbsp; NOT_IN_SPAMCOP=3D-1.5 NOT_IN_IX_MANITU=3D-1.5
+CL_IP_EQ_HELO_IP=3D-2 (check from: .modisure. - helo:
+.outgoing39.jnb.host-h. - helo-domain: .host-h.)&nbsp;
+FROM/MX_MATCHES_NOT_HELO(DOMAIN)=3D1; rate: -4<br>
+Authentication-Results: dd17500.kasserver.com;<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>dkim=3Dpass
+(2048-bit key; unprotected) header.d=3Dmodisure.co.za
+header.i=3D@modisure.co.za header.a=3Drsa-sha256 header.s=3Dxneelo
+header.b=3DS5T9lKiL;<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+dkim-atps=3Dneutral<br>
+Received: from outgoing39.jnb.host-h.net (outgoing39.jnb.host-h.net
+[129.232.250.24])<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>by
+dd17500.kasserver.com (Postfix) with ESMTPS id E71924340591<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>for
+&lt;info@fotosteiner.com&gt;; Sat, 13 May 2023 12:20:28 +0200 (CEST)<br>
+DKIM-Signature: v=3D1; a=3Drsa-sha256; q=3Ddns/txt; c=3Drelaxed/relaxed;<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+d=3Dmodisure.co.za; s=3Dxneelo;
+h=3DDate:Message-Id:From:Content-type:MIME-Version:<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+Subject:To:reply-to:sender:cc:bcc:in-reply-to:references:<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+content-transfer-encoding;
+bh=3D2Z7jNooffpWX/mCdZ3SChJByIhlMGhQ1El6BrCj6ERc=3D;<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+b=3DS5T9lKiL5v3CUJXRcivAj7QpWo/CAaSD8Mw73w80hzse/QFxMrtlzDjgzPZehzyWmb32F5T9=
+/k<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+2CgixS8Qc06Rz+wNAQluCSPN7oyxaFj/7pBvRb2VIX2+TFtPMpiUuoYhEAh+TqUkSuBeLNJwdOpl=
+f<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+b9+BCrJ8gkWh8zHv6gn1AFhdqMI7JsqZA5HswNG4BRW9ERafgodqHbImlDEfw6Fd8dpF4gTdZZn9=
+t<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+riDacL7p2SVCZCh9Cg9gDQkI/+XbrHpOIcvVPZfT/IxZZArK/LIe7z2FkSgkrQSQX1npi/LMLg63=
+M<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+zyz2LUIucdUW4wXFLyLJ3c3HjwmRKNtrQms2g=3D=3D;<br>
+Received: from www409.jnb1.host-h.net ([196.22.142.174])<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>by
+antispam10-jnb1.host-h.net with esmtpsa
+(TLSv1.3:TLS_AES_256_GCM_SHA384:256)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>(Exim
+4.92)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+(envelope-from &lt;microcheap@modisure.co.za&gt;)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>id
+1pxmMJ-0055C1-HJ<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>for
+info@fotosteiner.com; Sat, 13 May 2023 12:20:25 +0200<br>
+Received: from localhost ([127.0.0.1] helo=3Dwww409.jnb1.host-h.net)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>by
+www409.jnb1.host-h.net with esmtps
+(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>(Exim
+4.92)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+(envelope-from &lt;microcheap@modisure.co.za&gt;)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>id
+1pxmMI-0005BV-P8<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>for
+info@fotosteiner.com; Sat, 13 May 2023 12:20:14 +0200<br>
+Received: from modisrbxpt by www409.jnb1.host-h.net with local (Exim
+4.92)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>
+(envelope-from &lt;modisrbxpt@www409.jnb1.host-h.net&gt;)<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>id
+1pxmMI-00058g-GI<br>
+<x-tab>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</x-tab>for
+info@fotosteiner.com; Sat, 13 May 2023 12:20:14 +0200<br>
+To: info@fotosteiner.com<br>
+Subject: Stellen Sie sich Ihre Lieblingsprodukte zu einem Bruchteil des
+Preises vor!<br>
+X-PHP-Originating-Script: 2313:index.php<br>
+MIME-Version: 1.0<br>
+Content-type: text/html; charset=3Diso-8859-1<br>
+From: Digigod &lt;microcheap@modisure.co.za&gt;<br>
+Message-Id: &lt;E1pxmMI-00058g-GI@www409.jnb1.host-h.net&gt;<br>
+Date: Sat, 13 May 2023 12:20:14 +0200<br>
+X-Hetz-Sender-Domain: modisure.co.za<br>
+X-Originating-IP: 196.22.142.174<br>
+X-SpamExperts-Domain: modisure.co.za<br>
+X-SpamExperts-Username: <br>
+Authentication-Results: host-h.net; auth=3Dpass (login)
+smtp.auth=3D@modisure.co.za<br>
+X-SpamExperts-Outgoing-Class: unsure<br>
+X-SpamExperts-Outgoing-Evidence: Combined (0.57)<br>
+X-Recommended-Action: accept<br>
+X-Filter-ID:
+Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT8sDorYL6llc/tX6TElbnw1PUtbdvnXkggZ=
+<br>
+&nbsp;3YnVId/Y5jcf0yeVQAvfjHznO7+bT5zVecNZOfTRpc4OI1vZZC0EawIWJ/LoABG/CgO4KF=
+xG5si7<br>
+&nbsp;Ir1lC4b4FYK/++7m3nG8ZAHp58k005zfriQoXB5USxIRXVMlFuiz/acFNeeXt0RkiUQUkc=
+901fi4<br>
+&nbsp;+Llu0leFcwLbxYAZ6mr+/0DiAFW6I0S6EKny9Ae5JhwzDKX24YPAgTtUp75uqlx0KezvZH=
+XKzMlu<br>
+&nbsp;gq41oEqskG5s/phzKnKo8GWAUftCOCCQw9YWA9zZqrrsu03WRFccpjwfEvECZ7McMtbybA=
+wv7WDG<br>
+&nbsp;ymUz6cTrAfIBtLJVe62uoyOAUpYIiHqfCgG4wrA3w4/kQTYKxDHA9JN9J4k4XZq11JQkYC=
+WAfss/<br>
+&nbsp;vhNHUsAcK91IExS8NlKloYSzPP05QObEf8Wuqr0aikOvJA+DuzeF4b+ym3AhG426mliYkC=
+HBZpOg<br>
+&nbsp;oqc4uCQ1hIibn+MrIDYy2WBZvd1k7AMVUvw4r/dmrv4vMEE6KEyh19rc7LZU5nlp0w2QEe=
+tkvH00<br>
+&nbsp;/xmn6oF5z8skuB4fLNdsm49znGEOwW1RyaT+fhnmPmZ+OUuV5BM6eyy5Vo6xOiF9lxkCbd=
+mQZuR2<br>
+&nbsp;rRlQzUqerBYdw+/GcP+uupg8GpP9x1tFExoUL6K3zmEHLFL4ag1goXX/A7rwjtQ+mrWoSv=
+eZYo5t<br>
+&nbsp;FkTS6iH37yFM015AwIoiYphoS1Bbks2IOlTdXa/v/CPhe5I8v3lpdPIN/77kERWWOhSSja=
+bDbkrr<br>
+&nbsp;XJdjvnK1Pf/En0f/axxBXSK45O4tPZgZYY5ADgYp9HaEZSNGyuKwd78j7Mmsl6ZFUDBhTw=
+7M1JTq<br>
+&nbsp;LGlfTVLuRtlf002kiFLrzez9m7zrjuU3A3io6xJmD59iFVkb8/ZY1CUB0LR15uBnnsR383=
+nFclhU<br>
+&nbsp;Tx8cSXpvegfDpRm2UYC3nHd+F0bSxeRmZK2YK48zBUFiTBZlsVonx1/dsKYqMqJhMK7zo5=
+npQAo6<br>
+&nbsp;6E7yKxL56TB3QjzBRZUNmuZa<br>
+X-Report-Abuse-To: spam@antispamquarantine.host-h.net<br>
+X-Spamd-Bar: ++++++++++<br>
+X-Spam: Yes<br>
+X-KasLoop: m0110bb0<br>
+X-Virus-Status: No<br>
+X-KasScanner: clean<br><br>
+<br>
+<h2><b>Stellen Sie sich Ihre Lieblingsprodukte zu einem Bruchteil des
+Preises vor!<br><br>
+<br><br>
+Schauen Sie sich unseren groBten Rabatt an:<br><br>
+<br><br>
+</b></h2><h3><b>Microsoft Office 2019 Professional Plus
+Online-Lizenzschlussel</b></h3>-Fur 1 Gerat<br><br>
+-Jetzt kaufen, fur immer nutzen<br><br>
+-Digitaler Schlussel<br><br>
+-Lebenslanger Support ohne zus=C3=A4tzliche Kosten<br><br>
+<h2><b>29.99
+249.99</s></b></h2><a href=3D"http://google.com/amp/shoppy.gg/@Digigod">
+JETZT 210 SPAREN</a> <br><br>
+<h3><b>Windows 11 Home-Lizenzschlussel fur 1 PC</b></h3>-Fur 1
+Gerat<br><br>
+-Jetzt kaufen, fur immer nutzen<br><br>
+-Digitaler Schlussel<br><br>
+-Lebenslanger Support ohne zusatzliche Kosten<br><br>
+<h2><b>29.99179.99</s></b></h2>
+<a href=3D"http://google.com/amp/shoppy.gg/@Digigod">JETZT 150 SPAREN</a>
+<br><br>
+<br>
+<h2><b>Und noch viel mehr Produkte im Inneren<br><br>
+<br>
+Weitere Vorteile!<br><br>
+<br>
+</b></h2><h3><b>Sofortiger E-Mail-Versand<br><br>
+<br>
+Einfache zahlungsmethoden<br><br>
+<br>
+Brauchen Sie Hilfe? 24/7-Support hier</b></h3>One Microsoft Way, Redmond,
+WA 98052, USA<br><br>
+=3D=3D=3Deot=3D=3D=3D</body>
+</html>
+
+--=====================_112075921==.ALT--
+

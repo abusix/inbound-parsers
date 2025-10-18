@@ -1,0 +1,154 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@servercentral.onmicrosoft.com header.d=servercentral.onmicrosoft.com header.s=selector1-servercentral-onmicrosoft-com;
+	dkim=pass header.i=@amazonses.com header.d=amazonses.com header.s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2102.outbound.protection.outlook.com [40.107.92.102])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 055AED5B-2E6B-4D17-89E1-F716C5C78DB5.1
+	envelope-from <bounces+SRS=/OEyN=ON@servercentral.onmicrosoft.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Sat, 13 Jul 2024 22:06:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gjnKpsaOTCEiFBGHp71nH/YdwWTBYq5wQvAcJNUFM/tNfVMWPOuIla5cIiuKtPmOHZIEnlH6Y3L0Kd0dCDJik+0YgfdsD5J71YJBjN7gULj0od18O3qXco4TcS1g5uTjUi0Ko1T56oDAAeFMBxsyxwtBdRIjIbnhhZW+pQ/3yHsm0p1mnk4rNmIbBmGXh15TJ5zwSIQJ5AB5eLA9JgmNa+2Lc8nnu7CvOW4GZgLWDXdoDZuL7v8l+CveneowrcyVjj/mdbvrUx7VNvfR2+WYij99K5AMIbR/EEmLut1YqzkuYtdXraYJYym21lhxeth1PmW5Utz1Bnjz5sPUbd+j3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NlQTnGrFCk4W+I3VlkufQX6lgOsP/RBdH7se7fPp/oA=;
+ b=xL5QylhR+N2xs2pSfMFjinXBverOUU5Yf3KycE4ftEuuL5xVJLvAxTf7canOJ40yXrbU6V/M+U+6eaxZFWdtIu7gx/5FB5ODRjvel6/w20nkAEWCUp8cPUvueJJ30gzOEKjsWYV8jAll6HlsXO5PX1CWNoNKR0gPyCtx0HvLYGB+9jALKVi2Y9X+lARvR8g/K4bfwmWDWBrlnww96aCvPVJVTLbRdEHgx3lGPag4aj6nwRumF04bJrSuIjg6nOlyP3E1xlU3PSqdLpdq67BUPJZ/U0lVupClBQtx6hqy0pVzM7nEuKF4m75+uGbiU1AiLQkN5uPP/Ync2o208VS+qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 54.240.8.55) smtp.rcpttodomain=deft.com smtp.mailfrom=amazonses.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=latam.com;
+ dkim=pass (signature was verified) header.d=amazonses.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=servercentral.onmicrosoft.com; s=selector1-servercentral-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NlQTnGrFCk4W+I3VlkufQX6lgOsP/RBdH7se7fPp/oA=;
+ b=YlsOd+qWl4YrtQ6itsBAfjl2PtQHI0SLFEgbwXRnFc2zcCq40qVKZIUlE/qxypKrDl5Y2EjPy59exwsf0JlNrd/Y+SDuKB2xw5qMQMmzlLmrx2knTwfI6FM5h5LI97b5VeBMsWwoFuDlgXfHi7k1TX/wTlo1XSu/DdVw38QKl0g=
+Received: from SN6PR16CA0052.namprd16.prod.outlook.com (2603:10b6:805:ca::29)
+ by CYXPR20MB6860.namprd20.prod.outlook.com (2603:10b6:930:d7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20; Sat, 13 Jul
+ 2024 22:06:18 +0000
+Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
+ (2603:10b6:805:ca:cafe::1b) by SN6PR16CA0052.outlook.office365.com
+ (2603:10b6:805:ca::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.25 via Frontend
+ Transport; Sat, 13 Jul 2024 22:06:18 +0000
+Received-SPF: Pass (protection.outlook.com: domain of amazonses.com designates
+ 54.240.8.55 as permitted sender) receiver=protection.outlook.com;
+ client-ip=54.240.8.55; helo=a8-55.smtp-out.amazonses.com; pr=C
+Received: from a8-55.smtp-out.amazonses.com (54.240.8.55) by
+ SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7784.11
+ via Frontend Transport; Sat, 13 Jul 2024 22:06:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1720908377;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type:Feedback-ID;
+	bh=vORGtqULLQ4qiw9ffZ4l36pE9gUas+hh+jeWA7FQLFg=;
+	b=jJ8Jg9VGBsp+nRegjAQyJ3I7TqMq3+vpVNpCtaLlUaDT6xoFpI0eqnS0yyjyh11t
+	m7yYkexSGdG9Q7pFdXvOf5A7KNHSHpdnyXLML/E8Yu8EaCn2ZNolN01UP+t0QhIOybB
+	QzOC6FDTQAYf8bU7M7dphCdZthnXsGNa2IYZfMtw=
+Date: Sat, 13 Jul 2024 22:06:17 +0000
+From: enforcement@latam.com
+To: abuse@deft.com
+Message-ID: <01000190ae21ec3e-71574dbe-61b8-4283-a9e6-e6cca2ec826f-000000@email.amazonses.com>
+Subject: Abuse report: Phishing hosted at your structure (Tracking:
+ #EFC2953472)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_409148_917072326.1720908376991"
+Feedback-ID: ::1.us-east-1.mR9CBhEVjWOSBm2JfqbUKSUhIg9Q0yq7vGnsob9WAws=:AmazonSES
+X-SES-Outgoing: 2024.07.13-54.240.8.55
+Return-Path:
+	01000190ae21ec3e-71574dbe-61b8-4283-a9e6-e6cca2ec826f-000000@amazonses.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: b8483a09-f3e5-4681-8a64-16000e26ed41:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|CYXPR20MB6860:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65da94e8-4b54-48a5-fef1-08dca3880564
+X-LD-Processed: b8483a09-f3e5-4681-8a64-16000e26ed41,ExtAddr
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-Transport-Rules-Loop: 1
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|48200799018|69100299015|32142699015|376014|61400799027;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Vm12bDZWUTd6a2laRXFVdkVOLzBjYkdEdG5ZM3VIM0RsWTJYRWRHVkMwMDMy?=
+ =?utf-8?B?ZVVIbTVtdFkwZlBPeXBDTGhKVEpoZmVXcFJ5QkgwUG51Z280dHgrdlFzcDlx?=
+ =?utf-8?B?Sm1PREZ6N3g2WFV3TkhxdHEyQ2VSL3lkZ0hPSUkvUW01NGlEU1o5N2tINkhT?=
+ =?utf-8?B?dkFscDBzaDBKbGx2a0VaekkrZER4amoycjhucCtSWE9xM1hpWm56ZnB6RmY2?=
+ =?utf-8?B?TmdEZWFOMWdmeVEyRGR3MzRObW80ZnkxUm5Rbzk0N2YvVHd2aDkrMElxdHc5?=
+ =?utf-8?B?ZG9sTTIzbjdlbDAxRGNNWU96UXNJMGF3ZDJyNjh4OWVkQVhKcWFOTkZ6K1lY?=
+ =?utf-8?B?WHVIZDByZlNybnkvK2VHRHljMjRsekpYbFpzYmRWeHlDNTJuM2hqZ0pocEFz?=
+ =?utf-8?B?RlY3eFArNnY2Y2hwV1Q3d3F2S3Qvc1draFEzNHJnazV2eVJGdThSczJjY1ZO?=
+ =?utf-8?B?cWRYZVYzQzRCYXc5bG12NGRKSklUN3FZc3RZdmduY2N5cHVhY0h2VUhmS2Ry?=
+ =?utf-8?B?S0lhVlJ5QlBmbzA2ZWU5aStWZDZnY3o0K0tPYVpCbzEyN0Q4WXpnNUVETEtu?=
+ =?utf-8?B?bGFocE82SEczSXU2dVpQem5PZTZFdXdBQUVkWE5XR2V3a3pzZEFieXFWTVRr?=
+ =?utf-8?B?RmhrLy9FK1lMZnpUM090UGtVTHNyT1NNbVNlenRUMGhMYkZLM0pxWFF0Y1JX?=
+ =?utf-8?B?VUJ5UVdDTlorRmQzajdJMkxueTJQaG8zM2J0dy9EYkVwL29zSFBMbjRUeDlN?=
+ =?utf-8?B?b0lzbzEyUkFZblM1aU83bVRqYU12YitFY0tGWnVxTkxwa0pqS1pUNjRVS1JO?=
+ =?utf-8?B?cmpyZlp4QUo1VGk3V0NxZWlIZG9pRGRWem9wRy9kODR6VFA1SnhOa1ZScHg1?=
+ =?utf-8?B?eFhFNS8vYStQRXltSHlhSVBCd2orVktHdURpZlJ6TFlBNW5YQmlqUGUyOHFv?=
+ =?utf-8?B?dXB0WGVmSnljdEs1TjFJNEpiNVptWElJSWdzTkhjZGhoYWxCakJ3WWR1Ni8v?=
+ =?utf-8?B?K25KRDd4dGhmUURmNXcwbm41ajExcExuQUhyZzJLL2VGT2lvWnZ1My84N3Zz?=
+ =?utf-8?B?ZnlvL1V5VVhRTm1JaVhZUUh1cFg2ekF2QUJob1lFa1VnYUJDV1MrRFk3aUhB?=
+ =?utf-8?B?a3BsMVlyZ1BONURwRSs2Z0JOSmZJaDlDcnVZZEtPclU2dmdIaUQ1dzYrNTZB?=
+ =?utf-8?B?UndxMjZkRnpVODdOajRNMk9XZHQzeTJuQ1FNUXppRVpSMmNZQTJmVU40ZjY3?=
+ =?utf-8?B?TTJlWDJyd1p1QytkbWJCVDB2NVlVdmtBdkN1Z1FJblNWNEYxMS83OXJidGRR?=
+ =?utf-8?B?WHF1SjdoNFVGSU1nZUR0WG9rcUMweXNZQkNJT20vSzFKZzRyeTBoaFlwNktK?=
+ =?utf-8?B?ZFNmcFduV0hHUC9HVHVZYW1sZHE4U0szd05tSVhONlpQZjZQV21PaHFWblBn?=
+ =?utf-8?B?d1lUemRRRGJGK1RjZkNTU3hMdGJYKy96a0pFaVRBa044QVIrVWhwbjVPeVJN?=
+ =?utf-8?B?T2h2OWNFNW93Qzl1dTU5QlhmenhKUUllbGFSWXJYQ0ZvUDVQRlh4T1VMcmd0?=
+ =?utf-8?B?RlE5UmFjVk9kVXFmWVp3ZVlKMXhTTHZka3lUbFRmd2pQYWVteDZuZE1jYmVD?=
+ =?utf-8?B?a3AxWi9qZzNCQ24vZndkMGhFc0d3QVA0ZVlBRSs3amVZTDAxckhIL1pvTWJn?=
+ =?utf-8?B?cG5yOFNib01mY3FpYzE2ajdOOFpBaTdVNDQ1SlR6cTJTZElSR1FrUGRPbUk5?=
+ =?utf-8?B?anhuekprUnlDZGV5WjQ5d2FtWjkwaGpZT1VzRHJZdHlHeEhJNExSam90UFJX?=
+ =?utf-8?B?MGM5V2Y5K1c1dTZhbjNJcnNPN0dqKzIya3h6ajBtL0hZaUNCVlVJdXNBMjRE?=
+ =?utf-8?Q?lgUK2fcNkScTJ?=
+X-Forefront-Antispam-Report:
+	CIP:54.240.8.55;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:a8-55.smtp-out.amazonses.com;PTR:a8-55.smtp-out.amazonses.com;CAT:NONE;SFS:(13230040)(48200799018)(69100299015)(32142699015)(376014)(61400799027);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: b8483a09-f3e5-4681-8a64-16000e26ed41
+X-OriginatorOrg: servercentral.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2024 22:06:17.9433
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65da94e8-4b54-48a5-fef1-08dca3880564
+X-MS-Exchange-CrossTenant-Id: b8483a09-f3e5-4681-8a64-16000e26ed41
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F67.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR20MB6860
+Original-Authentication-Results: spf=pass (sender IP is 54.240.8.55)
+ smtp.mailfrom=amazonses.com; dkim=pass (signature was verified)
+ header.d=amazonses.com;dmarc=fail action=none header.from=latam.com;
+
+------=_Part_409148_917072326.1720908376991
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<pre>Dear Abuse/Support Team,&#10;&#10;We detected a phishing website hoste=
+d at:&#10; &#10;http [://] compraslatam [.] online &#10;&#10;Host: comprasl=
+atam [.] online  IP: 66 [.] 225 [.] 221 [.] 86 &#10;&#10;    Country access=
+ing the page: Brazil&#10;    User-agent : Incognito Google Chrome tab confi=
+gured to mobile mode (ctrl+F12) on PC with Windows 10.&#10;&#10; This fake =
+website was created to attack LATAM&#39;s website and its customers. The or=
+ganization&#39;s legitimate website is: https://www.latamairlines.com/&#10;=
+&#10;If you have trouble accessing the phishing page, we suggest you to ope=
+n the reported urls using several different user agents, such as incognito =
+tabs, mobile configured tabs (F12 on Google Chrome), proxy sites and mobile=
+ devices with mobile data access. We are experiencing some phishing pages c=
+onfigured to block the access using normal desktop tabs.&#10;&#10;Besides t=
+hat, we have found issues where the page is activated and deactivated by th=
+e fraudster according to their configuration, so even though it may seem in=
+accessible, the phishing page can be reactivated at any time. &#10;&#10;Tha=
+t is why we request your action to help us deactivate the content available=
+ not only on the reported URL, but also in the whole server related to the =
+domain.&#10;&#10;We kindly ask your cooperation, according to your policies=
+, to cease this activity and shut down the phishing page as soon as possibl=
+e.&#10; &#10;Thanks in advance. We would also appreciate it if you could pr=
+ovide a confirmation that this message has been received and an estimate of=
+ the time to shutdown. To contact us about this matter, please inform the t=
+racking code: #EFC2953472.&#10; &#10;Best regards,&#10;&#10;LATAM AIRLINES =
+BRASIL&#10;enforcement@latam.com&#10;&#10;</pre><img name=3D'confirmation' =
+src=3D'https://api.axur.com/gateway/1.0/email-sender/notify/email/read/rwID=
+VoX1OGI8YpfQzuGyu' style=3D'display:none' id=3D'confirmation' />
+------=_Part_409148_917072326.1720908376991--

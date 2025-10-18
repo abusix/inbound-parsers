@@ -1,0 +1,101 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@vultr.com header.d=vultr.com header.s=mail1
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2080.outbound.protection.outlook.com [40.107.10.80])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 0AF42130-B325-42F9-B71E-E8190B821B94.1
+	envelope-from <bounces+SRS=KeQIg=CI@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Tue, 20 Jun 2023 10:43:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D/Y01+tqbDS192DNzYGtmHxiuSoaWDw53JGIhaC46u82qR3hcXV8yMnTVAci/ucRfcZAqDnFqGHnW9HV4ewzUCkcIQLxbaov2fX1ACbtb4J22Ycbin9ChE9J3xg/33zADm7Ww5QrAQ1hdlNGDFIlxRqzW6Af2+RZP2LYKRAikdMbmnCN4Vm+FQyohUUlwCTLQp2RuXJuA/Xt3pb9PbulTsA7eNnqv6DEnFYLHsthkcALYimEnaH9NPKEiT8JXhz0PiCeFx6KIttMIRKpf30/teN0oYzDa4X5ONIVnArozESlbjtn91JfzbXvD2LnmHdHHl/YiW9JM//fWwG+Jl1y5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VVGqhE4pZi6HKvmFMrQtNWngL4XiEvkTH7cnd88RIL4=;
+ b=hMmOoKvrZHxvVSAZqklxmILVaKTqiKwqOwMwE22rOep7vUC6IwnR3NG8zUDo2DVGjHbHKSEGwUf8uVMHu7HaRnzLSEYO2V8gpCsJRvIfvA1pSO9ypeNAubUQjqFZ5E3lcMbQ2raX2G5TKCjUkWDO1GdHQbkZk8WpIzWXwYGYYFLwiS13287dBS4f8Fpupeyhh2UHF8GhsC4xNR3NNolsdEbz4OV2hagFBDcJ3C1RH4KbbsPE2GYG8HUu6WqjG2m1GBR7VUnQaJl3Q//jvD5ncCBiJoFUFy1Q+4Y54jxFkSYJvzLjtIGQ8gUdhwgBju0Bl0xsXubsfrPYdVd+AlgmIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 45.32.4.155) smtp.rcpttodomain=ipxo.com smtp.mailfrom=vultr.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=vultr.com; dkim=pass
+ (signature was verified) header.d=vultr.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VVGqhE4pZi6HKvmFMrQtNWngL4XiEvkTH7cnd88RIL4=;
+ b=shtsTYCS5v/eYf3J8EgWaU0+P7MzEGGSov/nkQwNE//ZF6wirMot2wej27X7i9jDb+TTqqZYnLpZ7ylSwl3op/N16DIJ8Tq0FURcze1nDXoB8gtMUaH3lqs4TnJKXe/5jP5jB3q2uazmS98exYPLaxXXvy7RiKMGr6rjz9DBISAcIPUPdZRWwaA9xzGg5FI1vAx79Jvv87ObrFEGLq16pz4xWZnfZNOV+rtnA/qaoMSwhCrZYQ/B2a2UgbeS9vSOHWnFGHDux+5FSdm1l/j/elOtWyyRMdtDxbeq8ejPv6ZN28/PG965HdP13IwRsxDvN1g+Sl+EvrtJJr48gbkVNw==
+Received: from LO4P265CA0266.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:37c::8)
+ by LO6P302MB0047.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:382::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.21; Tue, 20 Jun
+ 2023 10:42:59 +0000
+Received: from LO2GBR01FT025.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:600:37c:cafe::c1) by LO4P265CA0266.outlook.office365.com
+ (2603:10a6:600:37c::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37 via Frontend
+ Transport; Tue, 20 Jun 2023 10:43:01 +0000
+Received-SPF: Pass (protection.outlook.com: domain of vultr.com designates
+ 45.32.4.155 as permitted sender) receiver=protection.outlook.com;
+ client-ip=45.32.4.155; helo=mail6.vultr.com; pr=C
+Received: from mail6.vultr.com (45.32.4.155) by
+ LO2GBR01FT025.mail.protection.outlook.com (10.152.42.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.20 via Frontend Transport; Tue, 20 Jun 2023 10:43:01 +0000
+Date: Tue, 20 Jun 2023 06:43:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vultr.com; s=mail1;
+	t=1687257780; bh=VVGqhE4pZi6HKvmFMrQtNWngL4XiEvkTH7cnd88RIL4=;
+	h=Date:To:From:Subject;
+	b=uVM+CNvR9bgtAIkWzgLjHKmGzz6KzJzWmO/E3533ocMpuG8nAiEqJ0nzo6wZ6IZ9D
+	 uNW5VFwCiw5IIZkbCNpnkAaBBI4gOFcW4hmvbG2v9G6TkNrIVWslXMQABh5d0s0j0M
+	 NGk0hjUjAQuIKWs8HqUIqbARSs/KphI+gkUwtBgTOBJYMSHXYFmH+eeTyDygArpTt4
+	 vjKB9065kZlXDU97XLMm6FB5bJkIJPil8xdlqqTB/7d1Qvty8B+Oh9YtQId4+qmFUc
+	 U6r5Uko7pDzjsbGfG2cfkhwk5ajA91n1ZLryc6VqOPDUgzz/Bh+hMGwLoCSg8z2+12
+	 7aluDF50bbuMQ==
+To: abuse@ipxo.com
+From: "support@vultr.com" <support@vultr.com>
+Subject: BGP Announcement validation for prefix 5.253.36.0/24
+Message-ID: <35d5615fffebd83536e61b94539920f2@vultr.com>
+X-Auto-Response-Suppress: All
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+Return-Path: support@vultr.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2GBR01FT025:EE_|LO6P302MB0047:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfde4469-f39f-47a4-8e22-08db717b1ed2
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:5;
+X-Microsoft-Antispam-Message-Info:
+	DID/CDqzlPxwt4+PByZBpgN/uhWd0wKHd1O1YkVM5RSq5pUHlQnli6ep1Yfp2b6/oACU4Tu+V/Qw4YAWq2/ETVxfjDdxNSNqjz5DgeEOmea1TmwLmQUEo8iVKbzQbZhfae74nRM9mcvEm4EFl9YY1XnQ4I5AqRXru1I6nlqq9tPSCTgOK2kpPz489Y07ZNCoA9NE4OggLDJOVtdEjVNHrpRHZNJUJYIAnSUaOzPM50JbX5K1Mul0zo5E7LUC0pDiV6IigQdH4fFmZjvgkxxfVnxGei+ASjaRWqvYKXdHw8v4ber+iNaRR+X4+fay3QGKdYajZ0QFhPvsPcI5rhr9X8ZCJRj/OLH3tWp3KBdCd5djMSwcNTrYSskJGaovLXx0byL32MRmdx4XeRxbjnEhbdomuD09v3M9Dk6Xftz2Cw3eH2Zd+KLRuGwDb4pueCrfB2ylczsWSgKZCoCT0IsxaaDG3176vqo25l1t2sOJNO1VooTIxQWI5EbiJoME/n7cgov6c0YqOgFjYzTLnmvyaH/Yolfg5opHwR29t9j08cHzvmh+AGG+hFqPVrwU2ndcOkLGDJcCzSBCfH/K3WSWKglhg3SLCApTYyigFCrbcnTskWI4bQ+5SHNZGKI2RBwAGdJ3sBtxAvKzZIXjMitT5GaWPM/kJcrbnzdA8pmhBnubyROZS/Z7wO5opi5jEV+3nlY9wo4woUCF4in9KWf6oDNur7LiI45Fqx1tUWZuAEFUzl9jLKMktSMVBFHI/nBaG6AtJ+xlNQgzzcNBkFtgMinWJIabcKmhxGCaWmkJ66m3+d0VwyfI7PF83Jd6CXbnesWWJ1kRpu3egoCXbqk0vzluuGVel3Wuit7HGbUOAfDc+SlvjPNPB5vIJ4caxaG2KjlsZIQnpAz2V5PQBPn3WQ==
+X-Forefront-Antispam-Report:
+	CIP:45.32.4.155;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail6.vultr.com;PTR:mail6.vultr.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(396003)(346002)(136003)(39860400002)(286005)(451199021)(36756003)(956004)(336012)(2616005)(83380400001)(9316004)(26005)(966005)(108616005)(498600001)(7696005)(24736004)(6486002)(356005)(7596003)(7636003)(86362001)(68406010)(316002)(36736006)(70586007)(4744005)(8676002)(118246002)(34206002)(2906002)(105780200016);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 10:43:01.3132
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfde4469-f39f-47a4-8e22-08db717b1ed2
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	LO2GBR01FT025.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P302MB0047
+Original-Authentication-Results: spf=pass (sender IP is 45.32.4.155)
+ smtp.mailfrom=vultr.com; dkim=pass (signature was verified)
+ header.d=vultr.com;dmarc=pass action=none header.from=vultr.com;
+
+SGVsbG8sCgpXZSBoYXZlIHJlY2VpdmVkIGEgcmVxdWVzdCBmcm9tIGJlbiB3dSAoYWRtaW5AYWtp
+bGUuaW8pIHRvIGFsbG93IHRoZSB1c2Ugb2YgcHJlZml4IDUuMjUzLjM2LjAvMjQgaW4gQkdQIGFu
+bm91bmNlbWVudHMuCgpJZiB5b3Ugd291bGQgbGlrZSB0byBhdXRob3JpemUgdGhpcyByZXF1ZXN0
+LCBwbGVhc2UgdXNlIHRoZSBmb2xsb3dpbmcgbGluazogaHR0cHM6Ly9teS52dWx0ci5jb20vYmdw
+X3ZhbGlkYXRlL2FwcHJvdmUvUFAyNFNPSFZPRFhQR1dJUUVJSE1ERUlGV0VaTURSQkVIWlpRCgpJ
+ZiB5b3Ugd291bGQgbGlrZSB0byBkZW55IHRoaXMgcmVxdWVzdCwgcGxlYXNlIHVzZSB0aGUgZm9s
+bG93aW5nIGxpbms6IGh0dHBzOi8vbXkudnVsdHIuY29tL2JncF92YWxpZGF0ZS9kZW55L1BQMjRT
+T0hWT0RYUEdXSVFFSUhNREVJRldFWk1EUkJFSFpaUQoKSWYgeW91IGhhdmUgYW55IHF1ZXN0aW9u
+cyByZWdhcmRpbmcgdGhpcyByZXF1ZXN0LCBwbGVhc2UgbGV0IHVzIGtub3cuCgpJZiB5b3UgbmVl
+ZCB0byByZXZva2UgdGhpcyBhdXRob3JpemF0aW9uIGluIHRoZSBmdXR1cmUsIHBsZWFzZSBlbWFp
+bCB1cyBhdCBzdXBwb3J0QHZ1bHRyLmNvbS4KCi0tIFZ1bHRyLmNvbSBTdXBwb3J0IFRlYW0gLS0K
+

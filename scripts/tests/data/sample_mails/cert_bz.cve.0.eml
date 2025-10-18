@@ -1,0 +1,164 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@cert.bz header.d=cert.bz header.s=email
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01on2088.outbound.protection.outlook.com [40.107.122.88])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 32746251-757F-4B6C-8E42-77DC8D25AD7F.1
+	envelope-from <bounces+SRS=4tyal=EX@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Thu, 07 Sep 2023 14:15:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AAE1SsH4UZAWMhhbt4YKxs5a3ynnsfBnufSskLPDk3oaBmxRm+Zu2xQzPLd9UXPD+xsMx3WXfm09TtDYDdLYB6tddOwCej0sVy0bi2fQTzc8SmpCoHJt2v2PwgfnXNVOwSLR+wK7NwDeLoj4j2ortogJrI4kfZSHStWrDbe6wpJv9pejsIiaJuI3uuxxwrcWW6rgaj+DcgdzLYdYC3zGUPJ0pTLgoIhoEZESWTCzGdMBvTZhi58kIONJpCKkkdf0vEQRVZT6OoRe4QCBIHSi1QyK3NOYEjqXfkUYNgC7uIpGqsAVJO62CBq5osAcRgGCsZUMpemCZ/vJgmtynSUCFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mWyPWpbp/k3hRoJ6p1PJfRWkJSCFNsKgg7STrGFJbUo=;
+ b=bZkMtbRvYyHeSdkVXtfigRZdkBDddjMBNPxdV9B6V3FvY2Ic6czRxPFs4XKlX16dtfa5o5F4m/ANxvn/6eBjHlXFr2q40CD8m+RqaYwN97nCqGA9e/Joxm8HUOVVqRL+fdaoC/NZfVz2wPDs+HFzoKpDqWY7qyYd15kYD5U1173n7k9L2cM+Xy1FFi3WH8A5qbjvZW23KYcMK3jvCj+DypewqkKHS9j+bzQ8ODrFxnnLuA3MfOWqyaGNVJiXbMbn7+10AJ1PM363rcingmLDnxcGAox6hMunawEvHk8PLdw5xzh1Ob3iaAbcSiU5M50bibtJ/i1SU5/KCi1BBU6Clg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 161.38.204.237) smtp.rcpttodomain=ipxo.com smtp.mailfrom=cert.bz;
+ dmarc=bestguesspass action=none header.from=cert.bz; dkim=pass (signature was
+ verified) header.d=cert.bz; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mWyPWpbp/k3hRoJ6p1PJfRWkJSCFNsKgg7STrGFJbUo=;
+ b=Jd4bozWwrhKOYmrOb0hOdydJ2tGaS7QFROgMY6k0fMwJKiYSzxu6Rb5SmmA3F61uSluW/XNxgd2+9FA/vQhA38M7o87LtS2V6XCv7q6oaxGcI4STkUEgA+UGXVis3k6ojVrJSWafwlD48dlikiQLG7db6fGDkKVs40dJ1z+2X8Q1NbdmYs/rl8vcXlZ8flfuleDpo02IDhm92ipae0zUp+eoqXWJ5MPBTDOs2G37LcmCEjxX3Att2IOroS3yjHEmf3cOWmlYrqdDQ6vdN0dNnzsw4v4MzM89KZWQHoKCfMly980GVCfA7Oa9oMgv5GY4Di6xL8fkebDQVoI6qKOz9g==
+Received: from LO4P123CA0582.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:276::17)
+ by LO6P302MB0112.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:384::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.36; Thu, 7 Sep
+ 2023 14:15:45 +0000
+Received: from CWLGBR01FT038.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:600:276:cafe::d7) by LO4P123CA0582.outlook.office365.com
+ (2603:10a6:600:276::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.36 via Frontend
+ Transport; Thu, 7 Sep 2023 14:15:45 +0000
+Received-SPF: Pass (protection.outlook.com: domain of cert.bz designates
+ 161.38.204.237 as permitted sender) receiver=protection.outlook.com;
+ client-ip=161.38.204.237; helo=m204-237.eu.mailgun.net; pr=C
+Received: from m204-237.eu.mailgun.net (161.38.204.237) by
+ CWLGBR01FT038.mail.protection.outlook.com (10.152.40.166) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.28 via Frontend Transport; Thu, 7 Sep 2023 14:15:44 +0000
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=cert.bz; q=dns/txt;
+ s=email; t=1694096144; x=1694103344; h=Message-Id: To: To: From: From:
+ Subject: Subject: Content-Type: Mime-Version: Date: Sender: Sender;
+ bh=mWyPWpbp/k3hRoJ6p1PJfRWkJSCFNsKgg7STrGFJbUo=;
+ b=tlJlvHcU1LAKXHB99h9edQ8HDF/0iM0hnFC6Th3n1fHaw1wgDBXaYNeK6pNcvU8UzADARuOPnSTC2rFGuPsKI4+tBeRSY6CJXO2GWW3ti4YszFqgBNlm8OA1dFECHJ2s3cYU69iTuKjJRdF8EvdRzlzA2saWR5pCAdvf/FWPN1k=
+X-Mailgun-Sending-Ip: 161.38.204.237
+X-Mailgun-Sid: WyJhNjE1OSIsImFidXNlQGlweG8uY29tIiwiNjkyN2MiXQ==
+Received: from <unknown> (<unknown> []) by f1ed369e1ed8 with HTTP id
+ 64f9db10b9d1069ce4429dbd; Thu, 07 Sep 2023 14:15:44 GMT
+Sender: noc@cert.bz
+Date: Thu, 07 Sep 2023 14:15:44 +0000
+Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="15b5a8d15f2629646aef4d4bd7b6423a22f685c4905c062679334df47e61"
+Subject: [50.114.55.253] NTP amplification abuse report
+From: Abuse report <noc@cert.bz>
+To: abuse@ipxo.com
+Message-Id: <20230907141544.2d7778f55440d5d6@cert.bz>
+Return-Path: bounce+994429.6927c-abuse=ipxo.com@cert.bz
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLGBR01FT038:EE_|LO6P302MB0112:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd7f495a-ca9c-4ee3-91ef-08dbafaced45
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	JrM71lYmjMbXEDREgm3AhoBLH64egkqsYZh3yQ0ATkYmdr7PMcXcOqGkq5ztwMIeud+TC9XtCDkzK5tDqmHA86OCNFGswJ6JCnOjOne9TiHfIP5OXbg49wf1rT9MIzJouD/V7K3AAfMKrmkb3lYFC4t5dulbNgYs4Sp+juNMmPvHFAIDzh2Bbi5JCBARgU685WpQZ/dPed4cz683xWS7MPG6pjUBkfVXCpvZ4zpNOaF3HgLS0MXh3qmeJ+RvGriL/ZHW+qKFhWGgqRhZz5V18mQaitQc+k28C8EJ00ge0cJPOHINj+H7OHs7e3kcVNa5ydlPvI3jvcC0YhYyfRApO+2l66FG0mJjjszRPDf4Bqbx/RzI3tCW0lSC/hPOxwYjyTmJgIEiNelvsppmQGMyhsOVC7B44BpZpKO33t/cBVYLqc+Jq/L5PP+HY2ACGd9lBq/T4w4yfpILHh4HqAjCKXYPDnqiN2GwqUIk7YoR618Zn4AZrtpiEDE/oeiGcyB6rUUbpziZzZbcQqafUJ99fboRwf+yiJUxSHgxThAfxe0O95kfbkTSB68kAqj9uKiweLfTuUbT+RM92oa1Ze5aR+TesveFuywhN1wpz19ggASrzi5bvy7EuARxsKHDJMdVXuvtbKt/nIJ1NghCBYflw40m+OV4QqErgijsBRBfBlYU7aSVDDBCx7I9UECwXsrJXQOGqJC/VRFbDLERTSLJVg1WUUNcF4vvOHAzMhkrvR43SdWSTcVLRIebmUp9N8qoCTTIErJ1BK3z1G281fJdRzpE0zgYJwu2o/Lj7pWpmqyIuFWMvIRv1oooRymZnJsqZ2hiCNMTWNbQ1ma9/a/G/VO4k8FHRVeV3HJtgtDhPYA=
+X-Forefront-Antispam-Report:
+	CIP:161.38.204.237;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:m204-237.eu.mailgun.net;PTR:m204-237.eu.mailgun.net;CAT:NONE;SFS:(13230031)(4636009)(396003)(346002)(136003)(376002)(39850400004)(451199024)(61400799006)(7636003)(7596003)(356005)(7846003)(36756003)(1076003)(2616005)(336012)(26005)(426003)(83380400001)(498600001)(21480400003)(68406010)(70586007)(34206002)(8676002)(5660300002)(316002)(235185007)(2906002)(84240200001)(93036002);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 14:15:44.9703
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd7f495a-ca9c-4ee3-91ef-08dbafaced45
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	CWLGBR01FT038.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P302MB0112
+Original-Authentication-Results: spf=pass (sender IP is 161.38.204.237)
+ smtp.mailfrom=cert.bz; dkim=pass (signature was verified)
+ header.d=cert.bz;dmarc=bestguesspass action=none header.from=cert.bz;
+
+--15b5a8d15f2629646aef4d4bd7b6423a22f685c4905c062679334df47e61
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
+
+This is an abuse report for a vulnerable NTP server that was used for NTP amplification and DDOS attack on 2023-09-07 15:23:23 (UTC+3)
+Device with IP '50.114.55.253' has vulnerable NTP server affected by CVE-2013-5211 attack and measures should be taken ASAP to stop traffic from the specified IP.
+
+Please, consider one of this options to stop the server from being used by hacksters for DDOS attack.
+1. Update NTPd to a version 4.27+ that is not affected by the vulnerability.
+2. In order to disable this functionality on a public-facing NTP server, add the 'noquery' directive to the 'restrict default' line in the system's ntp.conf, as shown below:
+'restrict default kod nomodify notrap nopeer noquery'
+And restart your ntpd daemon.
+3. In case, you have no access to the vulnerable server, you can block outgoing 123/udp port for this IP.
+4. Stop serving a client with vulnerable software that is used for DDoS attacks.
+
+This is an example of the latest sflow streams recorded from this IP:
+TOTAL_MEGABYTES|DATE_TIME|FLOW_ID|IPV4_SRC_ADDR|IPV4_DST_ADDR|IP_DST_PORT|THROUGHPUT
+14.62|2023-09-07 15:23:23|25300080323|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:24:14|25300292293|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:24:33|25300375819|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:24:46|25300432667|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:24:47|25300436759|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:24:52|25300454241|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:25:03|25300497777|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:25:21|25300573719|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:25:43|25300672093|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:26:00|25300743922|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:26:03|25300752129|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:26:06|25300768778|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:26:15|25300802410|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:26:28|25300864249|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:26:49|25300945887|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:27:03|25301003556|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:27:04|25301011883|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:27:14|25301053299|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:27:19|25301073485|"77.91.122.155"|"50.114.55.253"|123|0.00
+14.62|2023-09-07 15:27:37|25301144451|"77.91.122.155"|"50.114.55.253"|123|0.00
+
+Check attached log file to get full data. Recorded streams: 21, file size: 1,7K
+--15b5a8d15f2629646aef4d4bd7b6423a22f685c4905c062679334df47e61
+Content-Type: text/plain; name="sflow_attacker_50.114.55.253.log"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="sflow_attacker_50.114.55.253.log"
+
+VE9UQUxfTUVHQUJZVEVTfERBVEVfVElNRXxGTE9XX0lEfElQVjRfU1JDX0FERFJ8SVBWNF9EU1Rf
+QUREUnxJUF9EU1RfUE9SVHxUSFJPVUdIUFVUCjE0LjYyfDIwMjMtMDktMDcgMTU6MjM6MjN8MjUz
+MDAwODAzMjN8Ijc3LjkxLjEyMi4xNTUifCI1MC4xMTQuNTUuMjUzInwxMjN8MC4wMAoxNC42Mnwy
+MDIzLTA5LTA3IDE1OjI0OjE0fDI1MzAwMjkyMjkzfCI3Ny45MS4xMjIuMTU1InwiNTAuMTE0LjU1
+LjI1MyJ8MTIzfDAuMDAKMTQuNjJ8MjAyMy0wOS0wNyAxNToyNDozM3wyNTMwMDM3NTgxOXwiNzcu
+OTEuMTIyLjE1NSJ8IjUwLjExNC41NS4yNTMifDEyM3wwLjAwCjE0LjYyfDIwMjMtMDktMDcgMTU6
+MjQ6NDZ8MjUzMDA0MzI2Njd8Ijc3LjkxLjEyMi4xNTUifCI1MC4xMTQuNTUuMjUzInwxMjN8MC4w
+MAoxNC42MnwyMDIzLTA5LTA3IDE1OjI0OjQ3fDI1MzAwNDM2NzU5fCI3Ny45MS4xMjIuMTU1Inwi
+NTAuMTE0LjU1LjI1MyJ8MTIzfDAuMDAKMTQuNjJ8MjAyMy0wOS0wNyAxNToyNDo1MnwyNTMwMDQ1
+NDI0MXwiNzcuOTEuMTIyLjE1NSJ8IjUwLjExNC41NS4yNTMifDEyM3wwLjAwCjE0LjYyfDIwMjMt
+MDktMDcgMTU6MjU6MDN8MjUzMDA0OTc3Nzd8Ijc3LjkxLjEyMi4xNTUifCI1MC4xMTQuNTUuMjUz
+InwxMjN8MC4wMAoxNC42MnwyMDIzLTA5LTA3IDE1OjI1OjIxfDI1MzAwNTczNzE5fCI3Ny45MS4x
+MjIuMTU1InwiNTAuMTE0LjU1LjI1MyJ8MTIzfDAuMDAKMTQuNjJ8MjAyMy0wOS0wNyAxNToyNTo0
+M3wyNTMwMDY3MjA5M3wiNzcuOTEuMTIyLjE1NSJ8IjUwLjExNC41NS4yNTMifDEyM3wwLjAwCjE0
+LjYyfDIwMjMtMDktMDcgMTU6MjY6MDB8MjUzMDA3NDM5MjJ8Ijc3LjkxLjEyMi4xNTUifCI1MC4x
+MTQuNTUuMjUzInwxMjN8MC4wMAoxNC42MnwyMDIzLTA5LTA3IDE1OjI2OjAzfDI1MzAwNzUyMTI5
+fCI3Ny45MS4xMjIuMTU1InwiNTAuMTE0LjU1LjI1MyJ8MTIzfDAuMDAKMTQuNjJ8MjAyMy0wOS0w
+NyAxNToyNjowNnwyNTMwMDc2ODc3OHwiNzcuOTEuMTIyLjE1NSJ8IjUwLjExNC41NS4yNTMifDEy
+M3wwLjAwCjE0LjYyfDIwMjMtMDktMDcgMTU6MjY6MTV8MjUzMDA4MDI0MTB8Ijc3LjkxLjEyMi4x
+NTUifCI1MC4xMTQuNTUuMjUzInwxMjN8MC4wMAoxNC42MnwyMDIzLTA5LTA3IDE1OjI2OjI4fDI1
+MzAwODY0MjQ5fCI3Ny45MS4xMjIuMTU1InwiNTAuMTE0LjU1LjI1MyJ8MTIzfDAuMDAKMTQuNjJ8
+MjAyMy0wOS0wNyAxNToyNjo0OXwyNTMwMDk0NTg4N3wiNzcuOTEuMTIyLjE1NSJ8IjUwLjExNC41
+NS4yNTMifDEyM3wwLjAwCjE0LjYyfDIwMjMtMDktMDcgMTU6Mjc6MDN8MjUzMDEwMDM1NTZ8Ijc3
+LjkxLjEyMi4xNTUifCI1MC4xMTQuNTUuMjUzInwxMjN8MC4wMAoxNC42MnwyMDIzLTA5LTA3IDE1
+OjI3OjA0fDI1MzAxMDExODgzfCI3Ny45MS4xMjIuMTU1InwiNTAuMTE0LjU1LjI1MyJ8MTIzfDAu
+MDAKMTQuNjJ8MjAyMy0wOS0wNyAxNToyNzoxNHwyNTMwMTA1MzI5OXwiNzcuOTEuMTIyLjE1NSJ8
+IjUwLjExNC41NS4yNTMifDEyM3wwLjAwCjE0LjYyfDIwMjMtMDktMDcgMTU6Mjc6MTl8MjUzMDEw
+NzM0ODV8Ijc3LjkxLjEyMi4xNTUifCI1MC4xMTQuNTUuMjUzInwxMjN8MC4wMAoxNC42MnwyMDIz
+LTA5LTA3IDE1OjI3OjM3fDI1MzAxMTQ0NDUxfCI3Ny45MS4xMjIuMTU1InwiNTAuMTE0LjU1LjI1
+MyJ8MTIzfDAuMDAK
+--15b5a8d15f2629646aef4d4bd7b6423a22f685c4905c062679334df47e61--

@@ -1,0 +1,604 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 00F71381-021B-4BA9-9148-4753FC419698.1
+	envelope-from <abuse+bncBCSLB7EK3ILBBN62ZC2QMGQEODDSMKY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 06 Aug 2024 14:03:36 +0000
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-3db174d6614sf4233084b6e.0
+        for <abuse@digitalocean.abusehq.net>; Tue, 06 Aug 2024 07:03:36 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1722953015; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=IwBtQr8kayoUFEtfyUF7Yc2awKXqMUv2Pq1682OfB/IoR+oJnVQsNLMsByC9b596kJ
+         NLJ+r8JEDMTM2gyLJ3/PkShs2q4DatruC20XMYZDTS6qEENZHXln5jL4VksjtbbvAPQG
+         +mFbj2HW2oxAZ2f7VomhgtW6CQYlBaqoMN0/vNmzX/Z2CJEtSLL9nLQHZB9Qanrd2fi8
+         wBrrb0Gkg5SKQ9EqFy7zN3pzMo82VJHIfFq18MOG1/fzhJmuHc+b15K7pn8lVIyXYSLW
+         59e3fq0LVrSzlaXGTv3sy8wMHf2e2I4hTk9JYmcNeH0wP6ZmlDfeVCNenYJGlYtcSzuX
+         bIQw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:msip_labels:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:sender:dkim-signature;
+        bh=pq/Ao35o/QMrUK7PHxhD49gS3f3pkl+QsAAsVZ4LJJc=;
+        fh=mYb76q35Chg8LISHbZ/t4nKmJI/38Q/Jw7evvFvEg4o=;
+        b=m9b/TcsPrUdFaAQ9y87xSB8qmJp9n9zO/m31vfgffeQ/iy++mV3TQsfbJtleGIgB7L
+         ZvwjEeHUgYWml1MhYTg7lY2S0IBXQAEJjJZUp+PsSIGwq8qE1AXSvklesjJOYPrnx+GD
+         2BLnOj4WyvyabcGZeqDrZnCTeC/dv9TKzhJGITAUv+tWLFkHtPAGSyJyQXHROQuPeEr6
+         ObD+u0NuA6Z6RucqNdqnKsAbXlRw8YlfjMaCqFs3GtRW4/jW3RkroUUtkNhGmi2LjSm1
+         Vw7bx/qYY6Cm/kvYa8PnRx5npARpQQTzWFFsb659vohWGr2qTi6ERxXBO79+F8tAy018
+         ssHQ==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=mxa8mc5+;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of colej2000@hotmail.com designates 2a01:111:f400:7e1a::831 as permitted sender) smtp.mailfrom=colej2000@hotmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1722953015; x=1723557815; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:msip_labels:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pq/Ao35o/QMrUK7PHxhD49gS3f3pkl+QsAAsVZ4LJJc=;
+        b=hl6x3cPy/ZOK3nbayLWkxXTQyR55Pr/v+wKlFZRDDsh6lrQDJnplrc55LGrJEZ9/sq
+         SQAGdh6U9nxHOxlfBeQjfi+AVpKIWkPsVuviS/s1lc8WSlV2UlCemR+ln4gSXBN2Ol6+
+         0JxSV5hENtF3ltNSyt1ComlYSaF16xaWC+Giw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722953015; x=1723557815;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :msip_labels:content-language:accept-language:in-reply-to:references
+         :message-id:date:thread-index:thread-topic:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pq/Ao35o/QMrUK7PHxhD49gS3f3pkl+QsAAsVZ4LJJc=;
+        b=VsSgqI9Bh2Ura+0tfZ+CYz5W26usbjNxvfF2UlEL28Tgc0HoQr4J/opTabjrY13s5m
+         MngesIwtR+yHWurmX3Oa8zvpJhzd9cRpjVCWHczW+RnGG90/MHZXBid4dSduoRaXK3Aj
+         WxciM2+YZsB+Gz+g6zwosJt41RK7f84JdZCYwa+t00y8m7hfCQEfYNhevQNP07OUWpYS
+         W1PhMQiDKAodKRpFxS3AvuqYOfM7HBJYu902A9aBVwuns2SLJkLnJcHIqa1mk4Ymn0/y
+         k4kVRMFQZ+zS3IE5p4NL5RR00mFjjOtypnakafyM1XBPMp8slrH5xfzEfBtFFI996MNA
+         Acww==
+Sender: abuse@digitalocean.com
+X-Forwarded-Encrypted: i=3; AJvYcCWlzS9/f2JSxczUwDXoh4AUWuJbYwmwPO8ERa6jbqVbhJK9St4qq6snf7C0qJp5SseHJhiU7LFEGVDvCOjm8Ay+8VyuHsLt9GJt+5mWEYw=
+X-Gm-Message-State: AOJu0YxDFYvfdGiRtrDBiRa0fJf95vGV58BBZ0aEmx5rA9hpUDSKP0ju
+	fzNPJmHL7n6pK2XoBe3+bSq2dD2sv+HI6xPbDnbG6OdgPSzV/pTJdB70IGY8aOA=
+X-Google-Smtp-Source: AGHT+IGwORO4aDwwVQinqPro0ZWTxEa2oMQWlDT56Q4Rlmi0y/UdLjiNK8d7f+++lQtsu/n9jwRQsw==
+X-Received: by 2002:a54:4690:0:b0:3d9:3b45:f56b with SMTP id 5614622812f47-3db537eda34mr6889434b6e.12.1722953015255;
+        Tue, 06 Aug 2024 07:03:35 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a4a:e041:0:b0:5c2:27cb:68fb with SMTP id 006d021491bc7-5d8014bb6a4ls2682311eaf.1.-pod-prod-06-us;
+ Tue, 06 Aug 2024 07:03:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCUoy0KjTJeKdeWep0UOb8f6gPQImWIqCTsJzIotPIskZQnhiMtgC+r0K0o8Yz4rZPHZxiUgk8CIEGU2KNxR1gM7Eml4Bl08
+X-Received: by 2002:a05:6808:13c9:b0:3d9:23ad:1ff1 with SMTP id 5614622812f47-3db557fbc8emr15619982b6e.3.1722953014394;
+        Tue, 06 Aug 2024 07:03:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722953014; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ZPmRTgRd+su11U9t5EoLIi57EouZMy86V4AZlwxI1ZH/3+4X+ADuc9u6iAM8TodPnd
+         d4UVfmM10UhybvH5BzNUsiAWoCk/zA0988nWfnkkt/G/7ry1xLWe+Dt+nVN6Ax6DBqf6
+         I97kR0SIPkCj4FO+9Hh5b98rqBYXmpPzaq0uMTmsrtfR3D1ivt1RTlHOt0D63a/hwJZI
+         EA97SKvCdHCNynqSs5LtHyeZLtp0/V8gQ1qbqBniSPcVAPIfAs8K4rcBikR9u8fABKNP
+         RJpf5T/o0JmhWo5gmbpAIHAYkqNKdoLgyLlePrYen2Uch2/PKYnQ+FlXjyTDT72tEvzI
+         xCFw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:msip_labels:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:dkim-signature;
+        bh=pq/Ao35o/QMrUK7PHxhD49gS3f3pkl+QsAAsVZ4LJJc=;
+        fh=6erLh3In6KiWtmHleIUPBDieqSZ/nGpl8WDYntbK3pY=;
+        b=M06XS7i0xUk+nNG9RVU09ncRCn3xYnitNg5WA+69C2fbVbhGJXB4JjDnY9cxa+YO1m
+         K6RSj4TqFtYc1wTxXI7XVN6wwdbqC5LxRYr/hVgbbi7LKvrJ8bjOKKwmUj6ZhCVvFjed
+         Q8sYUC0C4ne0G7ymvCooGs68ueeZwoKCgjNLPd5vDFiYBRp6dT7XDVclUiG6JP+qux7o
+         Eufc5/GZ4RlKt1/Wk7rqf6bBMb2qDG+u8KyyFU7j/Fw1lc9oHimklXv07Ro+wGG1dcoj
+         ILSGV/w3j0JPQWwNMyJuhMoyhGD/B7dG9zXSJCrawl46V7bR3lvgtBkmjzvNYGRTObFt
+         2crw==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=mxa8mc5+;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of colej2000@hotmail.com designates 2a01:111:f400:7e1a::831 as permitted sender) smtp.mailfrom=colej2000@hotmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05olkn20831.outbound.protection.outlook.com. [2a01:111:f400:7e1a::831])
+        by mx.google.com with ESMTPS id 6a1803df08f44-6bb9c83d11bsi121682916d6.228.2024.08.06.07.03.34
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Aug 2024 07:03:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of colej2000@hotmail.com designates 2a01:111:f400:7e1a::831 as permitted sender) client-ip=2a01:111:f400:7e1a::831;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=crQfiT9z0DsJBm3bvw9mNHfZpp/KlDmsclYN2f9nMICrx7bJgG4O5Idbi9iSKnLXSlroPQcwN0wyTruh1B4mwIcbnlj6303RcD+1Ezab00etqhx6P/cQKWxHCmLIVHRBfXE60nee0faUK2h7kKqc5OWoyEd45MHpWh4KCoHMoATvi1iSpiyuIhpOvaF6lSUgdDoF6KZl+sX0uU5GUgEE6D1ddnxc8PkoKDE5SqVt+Bt6uRMCHIYkZBlw1+JRg5CQ7tuLrB2nawmpIn0hH6r0HJuWCcR2mTry62iXMhGhB3TZs+5IVH4kuxqt9uVDlyxxUn0sk/aYN/3ryUlSyMJBCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pq/Ao35o/QMrUK7PHxhD49gS3f3pkl+QsAAsVZ4LJJc=;
+ b=Cqxt5wpNB5/S7SzjKdIMdxbE1Ud/0TqfLD7w5bv7GVKMhQMu8LRGkpK0rqQ3w1pwHrIacTFh9idWHAE5LoA+2DZxmHG7JsDuk5zDtjDmqDxuvk2kWaVEi5cIwdHuDf8ghhBZww/Oez11A/z7ziXOhF3TjbkSNLw2v8ErODS2U4IHQLGUIupeIYJoBVVHBKYPR9ejl6Mk2JTGw42zoSqtmVLJTG0QTs7MjnSN4QqC0NVQz09+lkycdPgwputUSnHNBadOsB9tSxzkwn71xu5ibG5tVYlwFfgh7k3HSa3EVDCXMYBWChHuAoJFRE+R8VCAmJHjVdlp0lFo1lTC2MV4Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DB8P192MB0693.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:165::23)
+ by DB8P192MB0773.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:16e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.12; Tue, 6 Aug
+ 2024 14:03:30 +0000
+Received: from DB8P192MB0693.EURP192.PROD.OUTLOOK.COM
+ ([fe80::4e75:a253:c243:3b89]) by DB8P192MB0693.EURP192.PROD.OUTLOOK.COM
+ ([fe80::4e75:a253:c243:3b89%6]) with mapi id 15.20.7828.023; Tue, 6 Aug 2024
+ 14:03:30 +0000
+From: John Cole <colej2000@hotmail.com>
+To: CVS Pharmacy <info@twgdns.com>, DigitalOcean Abuse
+	<abuse@digitalocean.com>, "abuse@level3.net" <abuse@level3.net>,
+	"sewr@senpluspluseop.onmicrosoft.com" <sewr@senpluspluseop.onmicrosoft.com>,
+	"abuse@microsoft.com" <abuse@microsoft.com>, Microsoft <Cert@Microsoft.com>,
+	"Microsoft Spam. Scams, Phishing" <cdoccm@microsoft.com>, Office 365 Spam
+	<junk@office365.microsoft.com>
+CC: Phishing Report <phishing-report@us-cert.gov>, Phishing.gov.uk
+	<report@phishing.gov.uk>, "info@listarmor.com" <info@listarmor.com>
+Subject: Re: Exclusive: $90 CVSCare Pass Winner | Expiring SOON
+Thread-Topic: Exclusive: $90 CVSCare Pass Winner | Expiring SOON
+Thread-Index: AQHa52OowNQ3az1Cx0+2OLDMOD6nv7IaQxU6
+Date: Tue, 6 Aug 2024 14:03:30 +0000
+Message-ID: <DB8P192MB0693DAC8B306FF5DFC96332AA2BF2@DB8P192MB0693.EURP192.PROD.OUTLOOK.COM>
+References: <ufv5P2HSbkDkaShTcv5ZHLPw3s@twgdns.com>
+In-Reply-To: <ufv5P2HSbkDkaShTcv5ZHLPw3s@twgdns.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [wrRdzpgh/TWozfTXYN1sr0q6VOVRfdPz]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8P192MB0693:EE_|DB8P192MB0773:EE_
+x-ms-office365-filtering-correlation-id: 3aa91899-0af8-44c8-d836-08dcb6208d3c
+x-ms-exchange-antispam-submissionids: 40a17cf6-8427-443c-c20c-08dcb6208d9c
+x-microsoft-antispam: BCL:0;ARA:14566002|42300799015|12050799009|461199028|1680799051|15030799003|9400799024|19110799003|9000799047|8060799006|4601999012|102099032|4302099013|440099028|3412199025|1602099012;
+x-microsoft-antispam-message-info: =?Windows-1252?Q?zdqvYq9Pb8y6rLs4GDMATNv/qPTnbVjM+/uJ2c7IC83ujPNo8RWa1tW+?=
+ =?Windows-1252?Q?hRcCMHE9dp5IRsm5xm7PoXZIOVLVVEaAkdRDr3ZuFh9tx52dg04VwIXp?=
+ =?Windows-1252?Q?E7paRYivaKeC7iZUDSk6aC3hhBFhxmuUkdbc89ClFshpuWd0G2Iz7iAO?=
+ =?Windows-1252?Q?StMnGfx2ZN8ma0CXinJaisrmj2uIDvt2cQgaRsC5tgYLjQu1oZ8+mgok?=
+ =?Windows-1252?Q?wVuAQAyRcpnbchr5HhCRqtyliJYvka8Ft95FDCCgczR6ZYggZ4oPwCu9?=
+ =?Windows-1252?Q?XiCdJH4p7QyK5qkVXLjsZYRaruul2yA4nFiZS8ntZkts+xFSF79imHDX?=
+ =?Windows-1252?Q?IoL7csK/0UFo9hv4ygTY5XVKxd+9dVivh/4jFoVDLMK3CerbX5yrmCVq?=
+ =?Windows-1252?Q?ATfnmoZTeLOANf7hqPYMJaawXpE73Ycon9jCgXFWkOiHeGF2EBTEE/eu?=
+ =?Windows-1252?Q?TQ1aVK+DdM2FPd5iLlZvh43jEyFUwYUKUOjMWame4fiOkNNH3nvts7xk?=
+ =?Windows-1252?Q?U/+qrP4YRS+aj0Lp97nvAzRu60Tum3+WCOcaL+hAl6wtkiKhimh//eHy?=
+ =?Windows-1252?Q?Dpv5e/LA9PQvurCWpN8kUs7YawM406MkIECnr/T9Kk8aVKCzyfUjCzJo?=
+ =?Windows-1252?Q?3FX6Pkgui+pZbfGwWSkVoq+FcHR1s9kovMhAz9Q8IoOJw3oSn09xwmck?=
+ =?Windows-1252?Q?iojD0j6CaEC6A1EBlmSHnL5qKgKikv/SaT8jptCWah2PMOvRPWkCHP62?=
+ =?Windows-1252?Q?8jy6c3+Urwf2mBTIsLchTLFyDaNvCeHZ+BIOsIQ3aeJAVfjIQXNZNXnk?=
+ =?Windows-1252?Q?AEH+4vL1j/DWhg6HtyFBiPFbS/GAt1EyPsvt1cInM+Cep8V9BqynPBOj?=
+ =?Windows-1252?Q?KB27hf2ysB7m28L8Ns987RQCk+zq7NFL8YfCdzeDJlWflVLq7LN30Bsf?=
+ =?Windows-1252?Q?vJjhqPqWIFsgn2dGcc+/vnQVenyshZ/PXjYVXKEuBZjisEd4Q3K2NlcC?=
+ =?Windows-1252?Q?3Cw8+GY5FRz8RVUZUBoIJAvnnBSwdJ/hHtZFZYyeSCH2MmC9JA0=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?y9WDKvogQkdE3S9JDkDfMtic0/hcVjG+s2HnQpdN7FAvYqu7CDatn9P9?=
+ =?Windows-1252?Q?9Gjg/3ceNMSaPa0p4vlpAzFoRdrWG+dOTc/lxXTDAGHQyhp/GCB0gmej?=
+ =?Windows-1252?Q?dPMEyyuwuzgUUXaB+BDUbp4GbcEmYoKQ8AeqNeUNeLPkUVa8XPhqPO65?=
+ =?Windows-1252?Q?fxjFb3YRHt7+kO3bkVWCVQP6WjQnTe0QA3gqug9Eo3LM7krU1rhqKJtJ?=
+ =?Windows-1252?Q?BoI53dCfsdehZrDWIwht5ske+CT02MGBw/8jCbLb0NM2u0lSeILj5dYU?=
+ =?Windows-1252?Q?OJpRl4UqOvjm9tPcFPh3Rhj7vLT3GiPCIcktJlylLRZG7LEMruFpwFSU?=
+ =?Windows-1252?Q?6FtK8Jk+3NHqXe5n2a8bPtZbLG+ULrV5FPtjQWo0dqPsfvVj3k0gCutc?=
+ =?Windows-1252?Q?5fYMw0gWDBvToJuBjL57HAJ/FiDVzCzUYCyXySgwVunMk8XQba+ibAQh?=
+ =?Windows-1252?Q?PL35WTmjfF29flRaNwAFZ1kEENaS7e/EkxZjPgW05Y3mww+zUM6vEEal?=
+ =?Windows-1252?Q?z1WFEad6tHP9NBr7T4om44MVN6Qcwg3UMlQgDZ6HEU5zKRlZAEBbGXiE?=
+ =?Windows-1252?Q?AI+iDGMOuhdu52AhkJaICQwB575rDU4gP/5vaQ/avXjCWpmmNil9++It?=
+ =?Windows-1252?Q?d4BnTzNu5i/t/V46ix4RRbAWHSoY9ejXEKGQxzzNnyLcV1rRckWHomsi?=
+ =?Windows-1252?Q?jyRd4CYJizX6+69tEbB6YeREJTz/8rKAw2nFUWc0jZk177+9z5SFj6/s?=
+ =?Windows-1252?Q?b9h4qgN1+Q7viMRi1BWvOUKmUrnMqJas7mUH7Qo9qKHrMh/mjp5NfQvH?=
+ =?Windows-1252?Q?7Py9XgzNoJvSDrqMwGKz5adMpzlWh+TM3I3Wix3mkkXhKgE7hbmOrDuy?=
+ =?Windows-1252?Q?cH2DayBcYxire2CIUnIGtD5SGoPGKawOLTRpdJz1L/1A1XN7atLd/Ee7?=
+ =?Windows-1252?Q?3QAK9NGzaKgHukUqwM39FNong1dXdS4V1W5I6BDIDxbKlYLXkos3wpbJ?=
+ =?Windows-1252?Q?ENjo5vyBGlbkHu5ghOUVidhBLbTx+UwW2DKPDqRfr4dDIIsFKt8akXR8?=
+ =?Windows-1252?Q?iylDtSM+helqNGeX3a/zZcgekLJW2cHMvtZ5WPGQIUgygLicuLnfaT09?=
+ =?Windows-1252?Q?zfK8X55aHzfvLUL8l/Q2OlhUt9OD93lTNXLAXDXkb5M1ytDekGo14NIF?=
+ =?Windows-1252?Q?8u8vxUFYUy3/QGFiCnAw7AAaLr+NwBVu3fAtoXsyWcU0PolAGJeu5QK7?=
+ =?Windows-1252?Q?A9wP38B3QYe4pepsTICva0+oA/MplfDyipSn6Yq5Cip40TShOdO99EIO?=
+ =?Windows-1252?Q?xlyQZQ=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_DB8P192MB0693DAC8B306FF5DFC96332AA2BF2DB8P192MB0693EURP_"
+MIME-Version: 1.0
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-78076.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8P192MB0693.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aa91899-0af8-44c8-d836-08dcb6208d3c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2024 14:03:30.4409
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P192MB0773
+X-Original-Sender: colej2000@hotmail.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@hotmail.com header.s=selector1 header.b=mxa8mc5+;       arc=pass
+ (i=1);       spf=pass (google.com: domain of colej2000@hotmail.com designates
+ 2a01:111:f400:7e1a::831 as permitted sender) smtp.mailfrom=colej2000@hotmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_DB8P192MB0693DAC8B306FF5DFC96332AA2BF2DB8P192MB0693EURP_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+3RD WORLD TERRORIST FUNDING SCUM WON=92T STOP THANKS TO THESE CRIMINAL NETW=
+ORKS BEING USE TO SEND AND HOST THE SCUM
+These criminals are listarmor.com
+https://opt.listarmor.com/unsub/vbhUDf89cL2sMWZogHCmYFkq
+
+Terrorist funding scum still hosted by Digitalocean & Level3
+
+header
+
+
+Received: from AS2P192MB2005.EURP192.PROD.OUTLOOK.COM (::1) by DB8P192MB069=
+3.EURP192.PROD.OUTLOOK.COM with HTTPS; Mon, 5 Aug 2024 18:16:56 +0000 Recei=
+ved: from BL0PR02CA0134.namprd02.prod.outlook.com (2603:10b6:208:35::39) by=
+ AS2P192MB2005.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:556::5) with Microso=
+ft SMTP Server (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_S=
+HA384) id 15.20.7828.26; Mon, 5 Aug 2024 18:16:55 +0000 Received: from MN1P=
+EPF0000ECD6.namprd02.prod.outlook.com (2603:10b6:208:35:cafe::82) by BL0PR0=
+2CA0134.outlook.office365.com (2603:10b6:208:35::39) with Microsoft SMTP Se=
+rver (version=3DTLS1_2, cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id =
+15.20.7828.27 via Frontend Transport; Mon, 5 Aug 2024 18:16:54 +0000 Authen=
+tication-Results: spf=3Dpass (sender IP is 40.114.241.6) smtp.mailfrom=3Dtw=
+gdns.com; dkim=3Dnone (message not signed) header.d=3Dnone;dmarc=3Dbestgues=
+spass action=3Dnone header.from=3Dtwgdns.com;compauth=3Dpass reason=3D109 R=
+eceived-SPF: Pass (protection.outlook.com: domain of twgdns.com designates =
+40.114.241.6 as permitted sender) receiver=3Dprotection.outlook.com; client=
+-ip=3D40.114.241.6; helo=3Dc6jn.vmdo.com; pr=3DM Received: from c6jn.vmdo.c=
+om (40.114.241.6) by MN1PEPF0000ECD6.mail.protection.outlook.com (10.167.24=
+2.135) with Microsoft SMTP Server id 15.20.7849.8 via Frontend Transport; M=
+on, 5 Aug 2024 18:16:54 +0000 X-IncomingTopHeaderMarker: OriginalChecksum:A=
+491B654A759C5841533DFB20D6C8F4B7ACFEF8587113F61FA9F787CD8330D49;UpperCasedC=
+hecksum:B36DF2BF17940B1B2E7BFCA8E86883454BB3C9F93B77DF7BABC6AFCDA47C3417;Si=
+zeAsReceived:283;Count:8 From: "CVS Pharmacy" <info@twgdns.com> To: <colej2=
+000@outlook.com> Cc: <colej2000@outlook.com> Subject: Exclusive: $90 CVSCar=
+e Pass Winner | Expiring SOON message-ID: <ufv5P2HSbkDkaShTcv5ZHLPw3s@twgdn=
+s.com> Content-Type: text/html;charset=3Dus-ascii Date: Mon, 5 Aug 2024 18:=
+16:54 +0000 X-IncomingHeaderCount: 8 Return-Path: info@twgdns.com X-MS-Exch=
+ange-Organization-ExpirationStartTime: 05 Aug 2024 18:16:54.7610 (UTC) X-MS=
+-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit X-MS-Excha=
+nge-Organization-ExpirationInterval: 1:00:00:00.0000000 X-MS-Exchange-Organ=
+ization-ExpirationIntervalReason: OriginalSubmit X-MS-Exchange-Organization=
+-Network-Message-Id: abfaab70-71db-4e29-0fd5-08dcb57ac94c X-EOPAttributedMe=
+ssage: 0 X-EOPTenantAttributedMessage: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa=
+:0 X-MS-Exchange-Organization-MessageDirectionality: Incoming X-MS-PublicTr=
+afficType: Email X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD6:EE_|AS2P192MB2=
+005:EE_|DB8P192MB0693:EE_ X-MS-Exchange-Organization-AuthSource: MN1PEPF000=
+0ECD6.namprd02.prod.outlook.com X-MS-Exchange-Organization-AuthAs: Anonymou=
+s X-MS-UserLastLogonTime: 8/5/2024 6:01:29 PM X-MS-Office365-Filtering-Corr=
+elation-Id: abfaab70-71db-4e29-0fd5-08dcb57ac94c X-MS-Exchange-EOPDirect: t=
+rue X-Sender-IP: 40.114.241.6 X-SID-PRA: INFO@TWGDNS.COM X-SID-Result: PASS=
+ X-MS-Exchange-Organization-SCL: 5 X-Microsoft-Antispam: BCL:0;ARA:14441110=
+02|461199028|1680799051|2700799026|5310799015|970799054|10300799029|9000799=
+047|9400799024|42300799015|16110799025|4601999012|1131999012|6022199012|560=
+1999024|17101999012|440099028|4302099013|4141999018|6111999012|8011999012|7=
+011999012|21101999012|56899033|16500799027; X-MS-Exchange-CrossTenant-Origi=
+nalArrivalTime: 05 Aug 2024 18:16:54.5266 (UTC) X-MS-Exchange-CrossTenant-N=
+etwork-Message-Id: abfaab70-71db-4e29-0fd5-08dcb57ac94c X-MS-Exchange-Cross=
+Tenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa X-MS-Exchange-CrossTenant-A=
+uthSource: MN1PEPF0000ECD6.namprd02.prod.outlook.com X-MS-Exchange-CrossTen=
+ant-AuthAs: Anonymous X-MS-Exchange-CrossTenant-FromEntityHeader: Internet =
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000=
+-000000000000 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2P192MB2=
+005 X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.0444991 X-MS-Exchange=
+-Processed-By-BccFoldering: 15.20.7828.000 X-Microsoft-Antispam-Mailbox-Del=
+ivery: ucf:0;jmr:0;ex:1;auth:1;dest:J;OFR:SpamFilterAuthJ;ENG:(5062000308)(=
+920221119095)(90000117)(920221120095)(90005022)(91005020)(91035115)(9050020=
+)(9100341)(944500132)(2008001181)(2008121020)(4810010)(4910033)(10005027)(9=
+610028)(9540006)(10160021)(9320005)(9245025)(120001);RF:JunkEmail; X-Messag=
+e-Delivery: Vj0xLjE7dXM9MDtsPTA7YT0wO0Q9MjtHRD0xO1NDTD02 X-Microsoft-Antisp=
+am-Message-Info: =3D?us-ascii?Q?PdSex1fqRXRBwkGJBTGlxSro+5YAi0iPRCU7K4aRDWk=
+oc7MZ53/B4rvwONtK?=3D =3D?us-ascii?Q?l1nvraMwHRTtI1sCDHzen0Q6VSktLE9PAzxtPm=
+uxqcSw15INZIV7dEKrGSxM?=3D =3D?us-ascii?Q?hkM1Mu+0c2vI7OccRfSH3CtHeLI8ch/CM=
+nbtcKepgF+5+9ACmX4W1EkrGMwu?=3D =3D?us-ascii?Q?sQ01Ae7I4shke2t4YrlJs0TJGawz=
+prpRPNFSHAV69DMow/WTBRBclNWCHftO?=3D =3D?us-ascii?Q?mMzTpUhI7A2xIDOm+jh7Iqu=
+RjgYjqeNZfkcCjymo4h0bR7MXBPe4FT9GP4MR?=3D =3D?us-ascii?Q?AVHdmm1h5jlenO5zdL=
+Jr02dYcjOt1N/0gB+RuoahBW5a3wXTAO9uPrTTzH/H?=3D =3D?us-ascii?Q?qhAsa833HqbGA=
+PSYgkAoUXJfLbLBIA/mV3NSVxdITOj4W/Q7qBD41X7zIlb9?=3D =3D?us-ascii?Q?yC3UslFV=
+ZukfNgSKZ8lbpFs4QiZIqyJ5iVrq8/j2X0eIw9X8uFV4QabCUF8U?=3D =3D?us-ascii?Q?47x=
+qJBzSpBTcCoTF9EHS9kuJg8JCMDd1IgjfE2j2x4cAILKlIq3EWSn78Ne/?=3D =3D?us-ascii?=
+Q?LS7U8FQ4vEapa5W/beijmZ13OpKxbz2h71ngqRyN73xFI/t9k+rBWaaJepQ2?=3D =3D?us-a=
+scii?Q?PIm3umRBfQswROq8ez8os/o7h1EDMDayTLmTK4R59X401sGWluM9GRfRAwM5?=3D =3D=
+?us-ascii?Q?64YSEBImMz2EYJcJJgvR66HGwsseGyiBnijVtG/NRSjhHBGnBhmKrkdwcv0j?=
+=3D =3D?us-ascii?Q?3MeVxmi01zXYrJgTL81EhbU7FzrmqtVsg8xZtf8wx5c22lImhUUZgyHd=
+fD59?=3D =3D?us-ascii?Q?DyGJAZ93qZ6I2D2dLCTh9rVVfozr8SLEFFZqA6uH5X4qvQWOXb7=
+KBVEHgmXR?=3D =3D?us-ascii?Q?BIawyi6kM3S91tJ95kCxoyogCIk1HMq5kMlWdoCoR27JIm=
+Krusz+Xq9TakOl?=3D =3D?us-ascii?Q?33rNbE8v8YZEINymCGXejaViKaw92XsL9KRbbCVMD=
+gEAfFom0pUT/psmdDhv?=3D =3D?us-ascii?Q?SkgdynrjAsr7YDcDwO5XStfkM3B+0/kUANGm=
+g3xsM+6mzlms5PjweSa1BfDV?=3D =3D?us-ascii?Q?etP/Bhw9qYLFk3H1sk6N+TEYcfcaQuM=
+sYJnQbYKxBqUmp14zwxWmuhuBmsG7?=3D =3D?us-ascii?Q?I4DDgPjeqCalmynT4FZonomD42=
+Ve2CVkE4lRmJGVnCcht5XWuFwSt47c8LKC?=3D =3D?us-ascii?Q?IjiseK+yampoLt4AGwFni=
+f4vTO81n4PDSqDqECiTJIUqt/i7f2GGLMdl8NNR?=3D =3D?us-ascii?Q?kDqmPUJiBvNbeKDt=
+Na149tutEo3D+N2hIGfDTnxruK4s7ur+wqGRBVIHNEr/?=3D =3D?us-ascii?Q?rm6k6SFidda=
+dZjkicfzfCM47/HcUWjhBzGKDYhTlTPxVs9bsx2RWlfNgNqC5?=3D =3D?us-ascii?Q?RiFJLG=
+dmzyk1kMO+bqsou4oBs6VZcCQHlKwYsdf+IBViCeSRnrip3BDCnB/N?=3D =3D?us-ascii?Q?o=
+zt4NyFm9j1rCbDxproDVf6KF1zKY5ovL9aEnvXddFgjtm6coAsT3dRo8mD2?=3D =3D?us-asci=
+i?Q?uroMFZlHl6qpOada0Zy91JAxOo/UQJsb79RgePLdUjvy2nUjsrlstHZYEKqe?=3D =3D?us=
+-ascii?Q?2ScNzneLmgoUZIEMkDwjJFl83R3IxXZECYUQcGQjgaAtafiOGwi2MQDzHzm8?=3D =
+=3D?us-ascii?Q?7hc84R8ylcsdHMJvHDNtiPzkUW9sXCseNU3vUXqHaqsLi79fHDggtBlsU1g0=
+?=3D =3D?us-ascii?Q?5/BZcv0r6TpiruxgUmtwd3mopFs7CfvpWTRo934kxvrtgFNpYKJMDUf=
+xqb5l?=3D =3D?us-ascii?Q?LRDh71xy8Hv9yY4uW53w9776z6moq4VdGkegT3Q/lqGWeJ/1Pw=
+RFHuzTAh2l?=3D =3D?us-ascii?Q?fuy/94xaxTRe/albWSHL/MLNtwRQ0XlJqQ7BNOVTrLiBi=
+rfIMAZTKBGPy82W?=3D =3D?us-ascii?Q?opVqwOK4Bx9VOUi/emGzMXEhTUjTgMQ8Ws5WFyES=
+/Oy84Dc3hJXjr/fN8qEu?=3D =3D?us-ascii?Q?Tyueb+wemPFuQ3j9Xid5qxm50Vebkwenwa8=
+VvyUM5ctSf2fi/Y09fOnIVqfe?=3D =3D?us-ascii?Q?qK1DHoBV9SG+/OneCZSEV5SyaUnk1V=
+LVa8Bopb0QqNhq63+WUrQ9SDeCG1zK?=3D =3D?us-ascii?Q?Ap7Uk6JFSyK8OBA7JmPyNskHu=
+SCc7P52R6voshJHjVlE5bD11aQTFTbAOlC1?=3D =3D?us-ascii?Q?zfnOZydyM1KB74f48Yzd=
+58/yhRmi+1K8uhPwdDfYZLqcy0zwfeZxYqZ7AIQA?=3D =3D?us-ascii?Q?v/0BnlSj/c96oy9=
+Ov6S5mu8wGzWlctz2ldeY6qA56Yy9F2yGA7Vt0aRHTso+?=3D =3D?us-ascii?Q?Jix/PIYPr8=
+qaEDdht/lXweg5sXmQknt7wOx8MxyS7dO8QMEBMGoVmEI+h2qW?=3D =3D?us-ascii?Q?CSVRs=
+rN1ND6ZqqgThX5O8VAUOL8jLaGK6goBrNXsAL63iCMkjxTWk60kZ1lJ?=3D =3D?us-ascii?Q?=
+JCedT3Y0E8O1ewor13oqLnJ05cqbOX39Tr8j4cBXkQ0DxmHCGHvSEi1iyws1?=3D =3D?us-asc=
+ii?Q?waes1foA4v34cyrbZ35O4oyhU8HyMV4bQWdeimPOt4WpPBvC5ggBlJVw+P4p?=3D =3D?u=
+s-ascii?Q?mrhUp9Q64KV8oFpM8YJKRlqJBrOwtK8YdtSyT30xpGf/uaDBZqOrdgo6dZ1/?=3D =
+=3D?us-ascii?Q?cDCWGIKZ3qFbe1zlztT9xVMyH593yWA8sUdfr6WKXdV99PHYl/GzN4/B1WiV=
+?=3D =3D?us-ascii?Q?ct0cXQGvJ0hJcEubTJQndqR7dm1B8TEf98HwC4PLb8ebwwNLfCAHGut=
+zgNOF?=3D =3D?us-ascii?Q?hOlH8TeHhrTL+i4h2IzYj2uGsMAoTTUpxPLBiO3uwnGr6JmOZL=
+OyyZDHb+gd?=3D =3D?us-ascii?Q?Zh+jKm5zHdq8VNkoqtZmWqV9BOICQTUP9mtYHjvfsvo0k=
+H2tmPoVyYQAqTaN?=3D =3D?us-ascii?Q?l9l3yyo6pzvJhKDVsARnquqRTp4/Q5QLwV/dQ23A=
+uFyh9r1MCR0HkvvYRm7z?=3D =3D?us-ascii?Q?WPi6BRCbJEpJm19i/Aezw0xGEkm+8MkkQcz=
+nbTIMTC5R4wp344NRyap3?=3D MIME-Version: 1.0 <meta http-equiv=3D"Content-Typ=
+e" content=3D"text/html; charset=3Dus-ascii"><center> <a style=3D"color:#00=
+0; text-decoration:none" href=3D"https://t.co/lEaa2IVJDE"> <h1>$90 Gift Car=
+d_Act Now!</h1> <center> <a href=3D"https://t.co/lEaa2IVJDE"> <img src=3D"h=
+ttps://pbs.twimg.com/media/GUN032RXAAAmVcM?format=3Dpng&amp;name=3Dsmall" w=
+idth=3D"600"> <img src=3D"//pbs.twimg.com/media/GUN032RXAAAmVcM?format=3Dpn=
+g&amp;name=3Dsmall" width=3D"600"> <br></a> <br> <a href=3D"https://t.co/nF=
+3X3VjKlJ"> <img src=3D"https://pbs.twimg.com/media/GUN1PfQWYAAmKuB?format=
+=3Dpng&amp;name=3Dsmall" width=3D"550"><br> <img src=3D"//pbs.twimg.com/med=
+ia/GUN1PfQWYAAmKuB?format=3Dpng&amp;name=3Dsmall" width=3D"550"> <br></a>
+________________________________
+From: CVS Pharmacy <info@twgdns.com>
+Sent: 05 August 2024 18:16
+To: colej2000@outlook.com <colej2000@outlook.com>
+Cc: colej2000@outlook.com <colej2000@outlook.com>
+Subject: Exclusive: $90 CVSCare Pass Winner | Expiring SOON
+
+<https://t.co/lEaa2IVJDE>
+$90 Gift Card_Act Now!
+[https://pbs.twimg.com/media/GUN032RXAAAmVcM?format=3Dpng&name=3Dsmall] [X]
+<https://t.co/lEaa2IVJDE>
+[https://pbs.twimg.com/media/GUN1PfQWYAAmKuB?format=3Dpng&name=3Dsmall]
+[X]
+<https://t.co/nF3X3VjKlJ>
+
+--_000_DB8P192MB0693DAC8B306FF5DFC96332AA2BF2DB8P192MB0693EURP_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"line-height: 100%; margin-top: 1em; =
+margin-bottom: 0cm; font-family: Calibri, Helvetica, sans-serif; font-size:=
+ 12pt; color: rgb(0, 0, 0);">
+3RD WORLD TERRORIST FUNDING SCUM WON=92T STOP THANKS TO THESE CRIMINAL NETW=
+ORKS BEING USE TO SEND AND HOST THE SCUM</div>
+<div class=3D"elementToProof" style=3D"line-height: 100%; margin-top: 1em; =
+margin-bottom: 0cm; font-family: Calibri, Helvetica, sans-serif; font-size:=
+ 14pt; color: rgb(0, 0, 0);">
+<b>These criminals are listarmor.com</b></div>
+<div class=3D"elementToProof" style=3D"line-height: 100%; margin-top: 1em; =
+margin-bottom: 0cm; font-family: Calibri, Helvetica, sans-serif; font-size:=
+ 12pt; color: rgb(0, 0, 0);">
+<a href=3D"https://opt.listarmor.com/unsub/vbhUDf89cL2sMWZogHCmYFkq" id=3D"=
+LPlnk502028">https://opt.listarmor.com/unsub/vbhUDf89cL2sMWZogHCmYFkq</a><b=
+r>
+</div>
+<div class=3D"elementToProof" style=3D"line-height: 100%; margin-top: 1em; =
+margin-bottom: 0cm; font-family: Calibri, Helvetica, sans-serif; font-size:=
+ 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"line-height: 100%; margin-top: 1em; =
+margin-bottom: 0cm; font-family: Calibri, Helvetica, sans-serif; font-size:=
+ 12pt; color: rgb(0, 0, 0);">
+Terrorist funding scum still hosted by Digitalocean &amp; Level3</div>
+<div style=3D"line-height: 100%; margin-top: 1em; margin-bottom: 0cm; font-=
+family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0=
+);">
+<br>
+</div>
+<div style=3D"line-height: 100%; margin-top: 1em; margin-bottom: 0cm; font-=
+family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0=
+);">
+header</div>
+<div class=3D"elementToProof" style=3D"line-height: 100%; margin-top: 1em; =
+margin-bottom: 0cm; font-family: Calibri, Helvetica, sans-serif; font-size:=
+ 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Calibri, Helvetica, san=
+s-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Calibri, Helvetica, san=
+s-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Received: from AS2P192MB2005.EURP192.PROD.OUTLOOK.COM (::1) by DB8P192MB069=
+3.EURP192.PROD.OUTLOOK.COM with HTTPS; Mon, 5 Aug 2024 18:16:56 +0000 Recei=
+ved: from BL0PR02CA0134.namprd02.prod.outlook.com (2603:10b6:208:35::39) by=
+ AS2P192MB2005.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:556::5) with Microsoft SMTP Server (version=3DTLS1_2, ciphe=
+r=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Mon, 5 Aug 202=
+4 18:16:55 +0000 Received: from MN1PEPF0000ECD6.namprd02.prod.outlook.com (=
+2603:10b6:208:35:cafe::82) by BL0PR02CA0134.outlook.office365.com
+ (2603:10b6:208:35::39) with Microsoft SMTP Server (version=3DTLS1_2, ciphe=
+r=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.27 via Frontend Tr=
+ansport; Mon, 5 Aug 2024 18:16:54 +0000 Authentication-Results: spf=3Dpass =
+(sender IP is 40.114.241.6) smtp.mailfrom=3Dtwgdns.com;
+ dkim=3Dnone (message not signed) header.d=3Dnone;dmarc=3Dbestguesspass act=
+ion=3Dnone header.from=3Dtwgdns.com;compauth=3Dpass reason=3D109 Received-S=
+PF: Pass (protection.outlook.com: domain of twgdns.com designates 40.114.24=
+1.6 as permitted sender) receiver=3Dprotection.outlook.com;
+ client-ip=3D40.114.241.6; helo=3Dc6jn.vmdo.com; pr=3DM Received: from c6jn=
+.vmdo.com (40.114.241.6) by MN1PEPF0000ECD6.mail.protection.outlook.com (10=
+.167.242.135) with Microsoft SMTP Server id 15.20.7849.8 via Frontend Trans=
+port; Mon, 5 Aug 2024 18:16:54 +0000 X-IncomingTopHeaderMarker:
+ OriginalChecksum:A491B654A759C5841533DFB20D6C8F4B7ACFEF8587113F61FA9F787CD=
+8330D49;UpperCasedChecksum:B36DF2BF17940B1B2E7BFCA8E86883454BB3C9F93B77DF7B=
+ABC6AFCDA47C3417;SizeAsReceived:283;Count:8 From: &quot;CVS Pharmacy&quot; =
+&lt;info@twgdns.com&gt; To: &lt;colej2000@outlook.com&gt;
+ Cc: &lt;colej2000@outlook.com&gt; Subject: Exclusive: $90 CVSCare Pass Win=
+ner | Expiring SOON message-ID: &lt;ufv5P2HSbkDkaShTcv5ZHLPw3s@twgdns.com&g=
+t; Content-Type: text/html;charset=3Dus-ascii Date: Mon, 5 Aug 2024 18:16:5=
+4 +0000 X-IncomingHeaderCount: 8 Return-Path:
+ info@twgdns.com X-MS-Exchange-Organization-ExpirationStartTime: 05 Aug 202=
+4 18:16:54.7610 (UTC) X-MS-Exchange-Organization-ExpirationStartTimeReason:=
+ OriginalSubmit X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0=
+000000 X-MS-Exchange-Organization-ExpirationIntervalReason:
+ OriginalSubmit X-MS-Exchange-Organization-Network-Message-Id: abfaab70-71d=
+b-4e29-0fd5-08dcb57ac94c X-EOPAttributedMessage: 0 X-EOPTenantAttributedMes=
+sage: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa:0 X-MS-Exchange-Organization-Mes=
+sageDirectionality: Incoming X-MS-PublicTrafficType:
+ Email X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD6:EE_|AS2P192MB2005:EE_|DB=
+8P192MB0693:EE_ X-MS-Exchange-Organization-AuthSource: MN1PEPF0000ECD6.namp=
+rd02.prod.outlook.com X-MS-Exchange-Organization-AuthAs: Anonymous X-MS-Use=
+rLastLogonTime: 8/5/2024 6:01:29
+ PM X-MS-Office365-Filtering-Correlation-Id: abfaab70-71db-4e29-0fd5-08dcb5=
+7ac94c X-MS-Exchange-EOPDirect: true X-Sender-IP: 40.114.241.6 X-SID-PRA: I=
+NFO@TWGDNS.COM X-SID-Result: PASS X-MS-Exchange-Organization-SCL: 5 X-Micro=
+soft-Antispam: BCL:0;ARA:1444111002|461199028|1680799051|2700799026|5310799=
+015|970799054|10300799029|9000799047|9400799024|42300799015|16110799025|460=
+1999012|1131999012|6022199012|5601999024|17101999012|440099028|4302099013|4=
+141999018|6111999012|8011999012|7011999012|21101999012|56899033|16500799027=
+;
+ X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2024 18:16:54.5266 (=
+UTC) X-MS-Exchange-CrossTenant-Network-Message-Id: abfaab70-71db-4e29-0fd5-=
+08dcb57ac94c X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaa=
+aaaa X-MS-Exchange-CrossTenant-AuthSource:
+ MN1PEPF0000ECD6.namprd02.prod.outlook.com X-MS-Exchange-CrossTenant-AuthAs=
+: Anonymous X-MS-Exchange-CrossTenant-FromEntityHeader: Internet X-MS-Excha=
+nge-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000=
+000 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+ AS2P192MB2005 X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.0444991 X-=
+MS-Exchange-Processed-By-BccFoldering: 15.20.7828.000 X-Microsoft-Antispam-=
+Mailbox-Delivery: ucf:0;jmr:0;ex:1;auth:1;dest:J;OFR:SpamFilterAuthJ;ENG:(5=
+062000308)(920221119095)(90000117)(920221120095)(90005022)(91005020)(910351=
+15)(9050020)(9100341)(944500132)(2008001181)(2008121020)(4810010)(4910033)(=
+10005027)(9610028)(9540006)(10160021)(9320005)(9245025)(120001);RF:JunkEmai=
+l;
+ X-Message-Delivery: Vj0xLjE7dXM9MDtsPTA7YT0wO0Q9MjtHRD0xO1NDTD02 X-Microso=
+ft-Antispam-Message-Info: =3D?us-ascii?Q?PdSex1fqRXRBwkGJBTGlxSro+5YAi0iPRC=
+U7K4aRDWkoc7MZ53/B4rvwONtK?=3D =3D?us-ascii?Q?l1nvraMwHRTtI1sCDHzen0Q6VSktL=
+E9PAzxtPmuxqcSw15INZIV7dEKrGSxM?=3D =3D?us-ascii?Q?hkM1Mu+0c2vI7OccRfSH3CtH=
+eLI8ch/CMnbtcKepgF+5+9ACmX4W1EkrGMwu?=3D
+ =3D?us-ascii?Q?sQ01Ae7I4shke2t4YrlJs0TJGawzprpRPNFSHAV69DMow/WTBRBclNWCHft=
+O?=3D =3D?us-ascii?Q?mMzTpUhI7A2xIDOm+jh7IquRjgYjqeNZfkcCjymo4h0bR7MXBPe4FT=
+9GP4MR?=3D =3D?us-ascii?Q?AVHdmm1h5jlenO5zdLJr02dYcjOt1N/0gB+RuoahBW5a3wXTA=
+O9uPrTTzH/H?=3D =3D?us-ascii?Q?qhAsa833HqbGAPSYgkAoUXJfLbLBIA/mV3NSVxdITOj4=
+W/Q7qBD41X7zIlb9?=3D
+ =3D?us-ascii?Q?yC3UslFVZukfNgSKZ8lbpFs4QiZIqyJ5iVrq8/j2X0eIw9X8uFV4QabCUF8=
+U?=3D =3D?us-ascii?Q?47xqJBzSpBTcCoTF9EHS9kuJg8JCMDd1IgjfE2j2x4cAILKlIq3EWS=
+n78Ne/?=3D =3D?us-ascii?Q?LS7U8FQ4vEapa5W/beijmZ13OpKxbz2h71ngqRyN73xFI/t9k=
++rBWaaJepQ2?=3D =3D?us-ascii?Q?PIm3umRBfQswROq8ez8os/o7h1EDMDayTLmTK4R59X40=
+1sGWluM9GRfRAwM5?=3D
+ =3D?us-ascii?Q?64YSEBImMz2EYJcJJgvR66HGwsseGyiBnijVtG/NRSjhHBGnBhmKrkdwcv0=
+j?=3D =3D?us-ascii?Q?3MeVxmi01zXYrJgTL81EhbU7FzrmqtVsg8xZtf8wx5c22lImhUUZgy=
+HdfD59?=3D =3D?us-ascii?Q?DyGJAZ93qZ6I2D2dLCTh9rVVfozr8SLEFFZqA6uH5X4qvQWOX=
+b7KBVEHgmXR?=3D =3D?us-ascii?Q?BIawyi6kM3S91tJ95kCxoyogCIk1HMq5kMlWdoCoR27J=
+ImKrusz+Xq9TakOl?=3D
+ =3D?us-ascii?Q?33rNbE8v8YZEINymCGXejaViKaw92XsL9KRbbCVMDgEAfFom0pUT/psmdDh=
+v?=3D =3D?us-ascii?Q?SkgdynrjAsr7YDcDwO5XStfkM3B+0/kUANGmg3xsM+6mzlms5PjweS=
+a1BfDV?=3D =3D?us-ascii?Q?etP/Bhw9qYLFk3H1sk6N+TEYcfcaQuMsYJnQbYKxBqUmp14zw=
+xWmuhuBmsG7?=3D =3D?us-ascii?Q?I4DDgPjeqCalmynT4FZonomD42Ve2CVkE4lRmJGVnCch=
+t5XWuFwSt47c8LKC?=3D
+ =3D?us-ascii?Q?IjiseK+yampoLt4AGwFnif4vTO81n4PDSqDqECiTJIUqt/i7f2GGLMdl8NN=
+R?=3D =3D?us-ascii?Q?kDqmPUJiBvNbeKDtNa149tutEo3D+N2hIGfDTnxruK4s7ur+wqGRBV=
+IHNEr/?=3D =3D?us-ascii?Q?rm6k6SFiddadZjkicfzfCM47/HcUWjhBzGKDYhTlTPxVs9bsx=
+2RWlfNgNqC5?=3D =3D?us-ascii?Q?RiFJLGdmzyk1kMO+bqsou4oBs6VZcCQHlKwYsdf+IBVi=
+CeSRnrip3BDCnB/N?=3D
+ =3D?us-ascii?Q?ozt4NyFm9j1rCbDxproDVf6KF1zKY5ovL9aEnvXddFgjtm6coAsT3dRo8mD=
+2?=3D =3D?us-ascii?Q?uroMFZlHl6qpOada0Zy91JAxOo/UQJsb79RgePLdUjvy2nUjsrlstH=
+ZYEKqe?=3D =3D?us-ascii?Q?2ScNzneLmgoUZIEMkDwjJFl83R3IxXZECYUQcGQjgaAtafiOG=
+wi2MQDzHzm8?=3D =3D?us-ascii?Q?7hc84R8ylcsdHMJvHDNtiPzkUW9sXCseNU3vUXqHaqsL=
+i79fHDggtBlsU1g0?=3D
+ =3D?us-ascii?Q?5/BZcv0r6TpiruxgUmtwd3mopFs7CfvpWTRo934kxvrtgFNpYKJMDUfxqb5=
+l?=3D =3D?us-ascii?Q?LRDh71xy8Hv9yY4uW53w9776z6moq4VdGkegT3Q/lqGWeJ/1PwRFHu=
+zTAh2l?=3D =3D?us-ascii?Q?fuy/94xaxTRe/albWSHL/MLNtwRQ0XlJqQ7BNOVTrLiBirfIM=
+AZTKBGPy82W?=3D =3D?us-ascii?Q?opVqwOK4Bx9VOUi/emGzMXEhTUjTgMQ8Ws5WFyES/Oy8=
+4Dc3hJXjr/fN8qEu?=3D
+ =3D?us-ascii?Q?Tyueb+wemPFuQ3j9Xid5qxm50Vebkwenwa8VvyUM5ctSf2fi/Y09fOnIVqf=
+e?=3D =3D?us-ascii?Q?qK1DHoBV9SG+/OneCZSEV5SyaUnk1VLVa8Bopb0QqNhq63+WUrQ9SD=
+eCG1zK?=3D =3D?us-ascii?Q?Ap7Uk6JFSyK8OBA7JmPyNskHuSCc7P52R6voshJHjVlE5bD11=
+aQTFTbAOlC1?=3D =3D?us-ascii?Q?zfnOZydyM1KB74f48Yzd58/yhRmi+1K8uhPwdDfYZLqc=
+y0zwfeZxYqZ7AIQA?=3D
+ =3D?us-ascii?Q?v/0BnlSj/c96oy9Ov6S5mu8wGzWlctz2ldeY6qA56Yy9F2yGA7Vt0aRHTso=
++?=3D =3D?us-ascii?Q?Jix/PIYPr8qaEDdht/lXweg5sXmQknt7wOx8MxyS7dO8QMEBMGoVmE=
+I+h2qW?=3D =3D?us-ascii?Q?CSVRsrN1ND6ZqqgThX5O8VAUOL8jLaGK6goBrNXsAL63iCMkj=
+xTWk60kZ1lJ?=3D =3D?us-ascii?Q?JCedT3Y0E8O1ewor13oqLnJ05cqbOX39Tr8j4cBXkQ0D=
+xmHCGHvSEi1iyws1?=3D
+ =3D?us-ascii?Q?waes1foA4v34cyrbZ35O4oyhU8HyMV4bQWdeimPOt4WpPBvC5ggBlJVw+P4=
+p?=3D =3D?us-ascii?Q?mrhUp9Q64KV8oFpM8YJKRlqJBrOwtK8YdtSyT30xpGf/uaDBZqOrdg=
+o6dZ1/?=3D =3D?us-ascii?Q?cDCWGIKZ3qFbe1zlztT9xVMyH593yWA8sUdfr6WKXdV99PHYl=
+/GzN4/B1WiV?=3D =3D?us-ascii?Q?ct0cXQGvJ0hJcEubTJQndqR7dm1B8TEf98HwC4PLb8eb=
+wwNLfCAHGutzgNOF?=3D
+ =3D?us-ascii?Q?hOlH8TeHhrTL+i4h2IzYj2uGsMAoTTUpxPLBiO3uwnGr6JmOZLOyyZDHb+g=
+d?=3D =3D?us-ascii?Q?Zh+jKm5zHdq8VNkoqtZmWqV9BOICQTUP9mtYHjvfsvo0kH2tmPoVyY=
+QAqTaN?=3D =3D?us-ascii?Q?l9l3yyo6pzvJhKDVsARnquqRTp4/Q5QLwV/dQ23AuFyh9r1MC=
+R0HkvvYRm7z?=3D =3D?us-ascii?Q?WPi6BRCbJEpJm19i/Aezw0xGEkm+8MkkQcznbTIMTC5R=
+4wp344NRyap3?=3D
+ MIME-Version: 1.0 &lt;meta http-equiv=3D&quot;Content-Type&quot; content=
+=3D&quot;text/html; charset=3Dus-ascii&quot;&gt;&lt;center&gt; &lt;a style=
+=3D&quot;color:#000; text-decoration:none&quot; href=3D&quot;https://t.co/l=
+Eaa2IVJDE&quot;&gt; &lt;h1&gt;$90 Gift Card_Act Now!&lt;/h1&gt; &lt;center&=
+gt; &lt;a href=3D&quot;https://t.co/lEaa2IVJDE&quot;&gt; &lt;img src=3D&quo=
+t;https://pbs.twimg.com/media/GUN032RXAAAmVcM?format=3Dpng&amp;amp;name=3Ds=
+mall&quot;
+ width=3D&quot;600&quot;&gt; &lt;img src=3D&quot;//pbs.twimg.com/media/GUN0=
+32RXAAAmVcM?format=3Dpng&amp;amp;name=3Dsmall&quot; width=3D&quot;600&quot;=
+&gt; &lt;br&gt;&lt;/a&gt; &lt;br&gt; &lt;a href=3D&quot;https://t.co/nF3X3V=
+jKlJ&quot;&gt; &lt;img src=3D&quot;https://pbs.twimg.com/media/GUN1PfQWYAAm=
+KuB?format=3Dpng&amp;amp;name=3Dsmall&quot; width=3D&quot;550&quot;&gt;&lt;=
+br&gt; &lt;img src=3D&quot;//pbs.twimg.com/media/GUN1PfQWYAAmKuB?format=3Dp=
+ng&amp;amp;name=3Dsmall&quot;
+ width=3D&quot;550&quot;&gt; &lt;br&gt;&lt;/a&gt;</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> CVS Pharmacy &lt;info=
+@twgdns.com&gt;<br>
+<b>Sent:</b> 05 August 2024 18:16<br>
+<b>To:</b> colej2000@outlook.com &lt;colej2000@outlook.com&gt;<br>
+<b>Cc:</b> colej2000@outlook.com &lt;colej2000@outlook.com&gt;<br>
+<b>Subject:</b> Exclusive: $90 CVSCare Pass Winner | Expiring SOON</font>
+<div>&nbsp;</div>
+</div>
+<div>
+<center><a href=3D"https://t.co/lEaa2IVJDE" style=3D"color:#000; text-decor=
+ation:none">
+<h1>$90 Gift Card_Act Now!</h1>
+<center></a><a href=3D"https://t.co/lEaa2IVJDE"><img width=3D"600" src=3D"h=
+ttps://pbs.twimg.com/media/GUN032RXAAAmVcM?format=3Dpng&amp;name=3Dsmall">
+<img width=3D"600" src=3D"//pbs.twimg.com/media/GUN032RXAAAmVcM?format=3Dpn=
+g&amp;name=3Dsmall">
+<br>
+</a><br>
+<a href=3D"https://t.co/nF3X3VjKlJ"><img width=3D"550" src=3D"https://pbs.t=
+wimg.com/media/GUN1PfQWYAAmKuB?format=3Dpng&amp;name=3Dsmall"><br>
+<img width=3D"550" src=3D"//pbs.twimg.com/media/GUN1PfQWYAAmKuB?format=3Dpn=
+g&amp;name=3Dsmall">
+<br>
+</a></center>
+</center>
+</div>
+</body>
+</html>
+
+--_000_DB8P192MB0693DAC8B306FF5DFC96332AA2BF2DB8P192MB0693EURP_--

@@ -1,0 +1,287 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@linode.com header.d=linode.com header.s=g1
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 42485C73-4258-4FA1-93AF-EDD98FE31895.1
+	envelope-from <abuse+bncBAABB6UL3CTQMGQEH6YTEQA@linode.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 04 Sep 2023 16:29:47 +0000
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-573c84224easf572015a12.1
+        for <abuse@linode.abusehq.net>; Mon, 04 Sep 2023 09:29:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1693844986; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Zt9SvA0UC8N200WP27ryrUmMXt9ml70CFSoxi8Ozo0maal6epnwBi+JsJ4MR0lHNp/
+         FqG5Null8apipaIjH4kTccrEOprMuSexJbWOP/kCwS1Tr98i23HcPxdXwqnWhcc56nnj
+         zQ3Lr+G9LRot+M9ljY56hsYhi69eUN1JVd2UdW1FpCPVM5WhYE7XbK7ZJZbkmRANQqw3
+         wQ7FgoYdH4/bf+p7j8hIHqoIEvn/FKlXSEsvOY0zy4/tTQEa1F7luVsvaOIjcVC7l3+c
+         UYKes94DSVE89swy0v3W1BVHOPYRsX4vqUF2fVvS/T4+S9XJ8+bXewYjWBH0IELJ9V5e
+         HM8A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:to:from:dkim-signature;
+        bh=Vf91KXctptm2ViE1Vyq5JInjpx7sW2qEHhzcg1fFts0=;
+        fh=VyO4TYmoq71q/lTNASfsbDNhzifjSXrpIsxBoqJr3ME=;
+        b=uJUwAUWXgHxXg0peUOPnpVCnzvPLRBVcaKunbgrZOHC3ffL4YN4xHqp5Gf6V4TfbZL
+         6QfpbZp5lM/YBJswW2Rq2bfbUVN1lGOSJtvUyeZh32ZCzIYyTlxp81IkbO6I2yOYqRG0
+         G2hDCZFlBHGB5fTea0ifwSfIj+9h3kPWChSyq081fZ4dksFtzKxmrpD8BrvD2hg/OzZM
+         5MVzJ6/+Hy906MIyx40IR6nzbEpfUP+15IxlNVow6MoJdtp2s49mgIqK2NBGCedGpV2s
+         VhDsDd5WDC4QJtR2ulMrC/K3A0G1+TDjfEEWiOCEZ9TGWzBBbvhVzha7lIVWRBpyDHd7
+         KVMQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@akamai.com header.s=jan2016.eng header.b=GI5zOXnQ;
+       spf=pass (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1 as permitted sender) smtp.mailfrom=Infosec-ops@akamai.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linode.com; s=g1; t=1693844986; x=1694449786; darn=linode.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vf91KXctptm2ViE1Vyq5JInjpx7sW2qEHhzcg1fFts0=;
+        b=ixrynIl2yO6Je9SMIXrLPIZQl19gUkqDTKu1kZ08b7he8iqirHvEskOxfLKpRFQkFx
+         VZKnd5tcneimOr4sJfeJA0Ix1DkOvuIVb+tBeDpNlR4rjaRazS/QxOtOKXRahacZPXhM
+         gzacdm5aQDM2sf+OpYBhoiO/PjVX6YjzS+BoJeIKNYGMD0L+kvoEj59oGslDxntO2Gx/
+         E7BP0/WpUpk2NMAcfNnk1mKb7KNayqDkHsv98NIgmVkTMfAy198hFyEJKsP3aAZZf0/3
+         bgo+L9xaDrY1ooUxylcmNczd1WNDqnE3KB7+0EexWVYTCf2jwkQjr0g8ox8QtvPwOY+C
+         IuUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693844986; x=1694449786;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:to:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vf91KXctptm2ViE1Vyq5JInjpx7sW2qEHhzcg1fFts0=;
+        b=dmht5A/7K4yX548kT86op2ifwcfRayQ9K/eDOQRBhmhgNRwfw15vZ6FS8wvy1ZCZJV
+         FZ+pOEUvx8jUINWnFUrKehajPduVG2OB1KGZ2gos6x3kCgj9AU4ICD4gA2Jra0K88eG3
+         Ibb1rqBWOrcAHrmIs41IuWW/wvCzwQ99boAt1G+13xFs98SvK1WPJDmeUPWjPkjAJpOg
+         eME5IFFA4xxEbH3s/uxM2b5KtE9dj2Xv7HCS8uCnHsN47zeQEi0tzwhEtpITc2pxcXcC
+         Q+5QXML7jWMidbKaruBOrnteLAwSdv6c9yIWv7yjPb86QTuIQV8C82+4WUijCF+sf5Zz
+         9aJQ==
+X-Gm-Message-State: AOJu0YzdNNCp5ZAyj2Uv3fldW+LjT6EaPGjQMJYXOLHMwgZBbN7tDsTb
+	uH3hxwICqHyLl/rIoVoiJKbq3Q==
+X-Google-Smtp-Source: AGHT+IF0kSGU0yny1vIpkxiY6PqrrilhvHa1e3WpnchUIy9ZWk7wP8/NwSm0BUGUMVw9YS/Cs7DqXg==
+X-Received: by 2002:a17:902:c941:b0:1b8:88c5:2d2f with SMTP id i1-20020a170902c94100b001b888c52d2fmr12175192pla.64.1693844986379;
+        Mon, 04 Sep 2023 09:29:46 -0700 (PDT)
+X-BeenThere: abuse@linode.com
+Received: by 2002:a17:902:64c8:b0:1b8:522f:20d6 with SMTP id
+ y8-20020a17090264c800b001b8522f20d6ls3226896pli.1.-pod-prod-08-us; Mon, 04
+ Sep 2023 09:29:45 -0700 (PDT)
+X-Received: by 2002:a17:902:ef93:b0:1c1:dbd6:9bf6 with SMTP id iz19-20020a170902ef9300b001c1dbd69bf6mr9163178plb.41.1693844985144;
+        Mon, 04 Sep 2023 09:29:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1693844985; cv=none;
+        d=google.com; s=arc-20160816;
+        b=t/nCtfXrwz/Uy0i/6IUA1DLXi6jPsQ5V8qkNClR+IkDTYGiMoijnfI0+hAliOF4qrC
+         /pWxgoaxHaBPxx9xT5UwEPMR/sKBwjTsYls1qw1xpFF6+sgZE+kbOedIamC9uaciaSZ5
+         ZspCMIfmpLFQT4TyoaEqD8zfovsnuQ+R9TSpka3B+g/ijXnCu4m6M/SMJs5+3Q6c3BFc
+         zSC+M1BMOzYlO7KA5p/55V/HP4YFmtGSeQeuKbzWbK3I5Cca655us2xz+NLeXRZmouzC
+         1dOi3aVfnHn1y9PqHg/FY3a8HoF/Iw3YDum6xLh1nsMxlkMNF+diVfPS1Wm7a0g86YFg
+         9TPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:to
+         :from:dkim-signature;
+        bh=Vf91KXctptm2ViE1Vyq5JInjpx7sW2qEHhzcg1fFts0=;
+        fh=VyO4TYmoq71q/lTNASfsbDNhzifjSXrpIsxBoqJr3ME=;
+        b=PqH4Q7MsyQx+54CesP1GsJCPUmN/mXGvb9aL5u7THT41NgB1/xMu8D6xT4hiqWFj72
+         UvAmv/4V9531MXdlS5wXtZotWxWyg42Np/uG79pW0CW56dkUhW7TQ694T5NbDaQ+L3qU
+         Bkb9akyzjW583cYHDgoT9M3mH3Hh9a3zTGxfSdmO402sV9zNLi1ht0hx/lCyHwOiQZY7
+         sLCHGemsZWXnJz1vPpVcVBKRhb2NyGxeAyWNpPJLKGaQ2cjkgQDM6hMmS1fNdl2DrhJ3
+         /sQiKleWW6dWdWaQ1Qp9ud2bJP2DMAAtujTY6tmgKqr+BXKCAt6Yy6FnVr/4ZSzat3+A
+         rTsA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@akamai.com header.s=jan2016.eng header.b=GI5zOXnQ;
+       spf=pass (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1 as permitted sender) smtp.mailfrom=Infosec-ops@akamai.com
+Received: from inbound-mail3.linode.com (inbound-mail3.linode.com. [74.207.247.55])
+        by mx.google.com with ESMTPS id le8-20020a170902fb0800b001bbcddc33dasi7537272plb.180.2023.09.04.09.29.45
+        for <abuse@linode.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Sep 2023 09:29:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1 as permitted sender) client-ip=2620:100:9005:57f::1;
+Received-SPF: pass (akamai.com: 2620:100:9005:57f::1 is authorized to use 'Infosec-ops@akamai.com' in 'mfrom' identity (mechanism 'mx' matched)) receiver=linode.com; identity=mailfrom; envelope-from="Infosec-ops@akamai.com"; helo=mx0b-00190b01.pphosted.com; client-ip="2620:100:9005:57f::1"
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
+	by inbound-mail3.linode.com (Postfix) with ESMTPS id A49AD9FF0
+	for <abuse@linode.com>; Mon,  4 Sep 2023 12:29:44 -0400 (EDT)
+Received: from pps.filterd (m0050096.ppops.net [127.0.0.1])
+	by m0050096.ppops.net-00190b01. (8.17.1.22/8.17.1.22) with ESMTP id 384D6ZL6026654
+	for <abuse@linode.com>; Mon, 4 Sep 2023 17:29:43 +0100
+Received: from prod-mail-ppoint7 (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be forged))
+	by m0050096.ppops.net-00190b01. (PPS) with ESMTPS id 3suwf8juw7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.com>; Mon, 04 Sep 2023 17:29:43 +0100 (BST)
+Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
+	by prod-mail-ppoint7.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 384EDYBq030866
+	for <abuse@linode.com>; Mon, 4 Sep 2023 12:29:43 -0400
+Received: from email.msg.corp.akamai.com ([172.27.50.203])
+	by prod-mail-ppoint7.akamai.com (PPS) with ESMTPS id 3sv0cw4eew-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <abuse@linode.com>; Mon, 04 Sep 2023 12:29:42 -0400
+Received: from ustx2ex-dag4mb4.msg.corp.akamai.com (172.27.50.203) by
+ ustx2ex-dag4mb4.msg.corp.akamai.com (172.27.50.203) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.16; Mon, 4 Sep 2023 09:29:42 -0700
+Received: from ustx2ex-dag4mb4.msg.corp.akamai.com ([172.27.50.203]) by
+ ustx2ex-dag4mb4.msg.corp.akamai.com ([172.27.50.203]) with mapi id
+ 15.02.1258.016; Mon, 4 Sep 2023 09:29:42 -0700
+From: "'Infosec-ops' via Abuse" <abuse@linode.com>
+To: Linode Abuse <abuse@linode.com>
+Subject: FW: Issue 38535025: Fake pharmacy at
+ hxxps://www[.]superfirearmshop[.]com/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-google-fonts-provider/src/introspectors/engine.html
+Thread-Topic: Issue 38535025: Fake pharmacy at
+ hxxps://www[.]superfirearmshop[.]com/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-google-fonts-provider/src/introspectors/engine.html
+Thread-Index: AQHZ300B/1JpkRrvF0+oHjn7qpq3nQ==
+Date: Mon, 4 Sep 2023 16:29:42 +0000
+Message-ID: <47609E8A-579B-4BF8-A8C7-C5BC425E9CF4@akamai.com>
+References: <bf81f58970a55bdfb6aaa2adda7caeec@takedown.netcraft.com>
+In-Reply-To: <bf81f58970a55bdfb6aaa2adda7caeec@takedown.netcraft.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [172.27.118.139]
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+Content-Type: multipart/mixed;
+	boundary="_003_47609E8A579B4BF8A8C7C5BC425E9CF4akamaicom_"
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-04_10,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=364 suspectscore=0 phishscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2309040146
+X-Proofpoint-GUID: oYXt_tC8_PyiG_iwAcPH6X2njTrtXLhM
+X-Proofpoint-ORIG-GUID: oYXt_tC8_PyiG_iwAcPH6X2njTrtXLhM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-04_10,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=347 clxscore=1015
+ mlxscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2308100000
+ definitions=main-2309040147
+X-Original-Sender: infosec-ops@akamai.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@akamai.com header.s=jan2016.eng header.b=GI5zOXnQ;       spf=pass
+ (google.com: domain of infosec-ops@akamai.com designates 2620:100:9005:57f::1
+ as permitted sender) smtp.mailfrom=Infosec-ops@akamai.com
+X-Original-From: Infosec-ops <Infosec-ops@akamai.com>
+Reply-To: Infosec-ops <Infosec-ops@akamai.com>
+Precedence: list
+Mailing-list: list abuse@linode.com; contact abuse+owners@linode.com
+List-ID: <abuse.linode.com>
+X-Spam-Checked-In-Group: abuse@linode.com
+X-Google-Group-Id: 895230844096
+List-Post: <https://groups.google.com/a/linode.com/group/abuse/post>, <mailto:abuse@linode.com>
+List-Help: <https://support.google.com/a/linode.com/bin/topic.py?topic=25838>, <mailto:abuse+help@linode.com>
+List-Archive: <https://groups.google.com/a/linode.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+895230844096+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/linode.com/group/abuse/subscribe>
+
+--_003_47609E8A579B4BF8A8C7C5BC425E9CF4akamaicom_
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <93C3E09F3BB5F747A79CF30B71DDE056@akamai.com>
+Content-Transfer-Encoding: base64
+
+DQoNCu+7v09uIDkvMi8yMywgNDo0MiBBTSwgIk5ldGNyYWZ0IFRha2Vkb3duIFNlcnZpY2UiIDx0
+YWtlZG93bi1yZXNwb25zZSszODUzNTAyNUBuZXRjcmFmdC5jb20gPG1haWx0bzp0YWtlZG93bi1y
+ZXNwb25zZSszODUzNTAyNUBuZXRjcmFmdC5jb20+PiB3cm90ZToNCg0KDQpIZWxsbywNCg0KDQpX
+ZSBoYXZlIGRldGVjdGVkIGEgZnJhdWR1bGVudCBwaGFybWFjeSBzaXRlIGhvc3RlZCBvbiB5b3Vy
+IG5ldHdvcms6DQpoeHhwczovL3d3d1suXXN1cGVyZmlyZWFybXNob3BbLl1jb20vd3AtY29udGVu
+dC9wbHVnaW5zL2pldHBhY2svamV0cGFja192ZW5kb3IvYXV0b21hdHRpYy9qZXRwYWNrLWdvb2ds
+ZS1mb250cy1wcm92aWRlci9zcmMvaW50cm9zcGVjdG9ycy9lbmdpbmUuaHRtbCBbMTcyLjIzMi40
+Ljg5XQ0KDQoNCldlIHVuZGVyc3RhbmQgdGhhdCB0aGlzIHNpdGUgaXMgc2ltcGx5IGEgcmVkaXJl
+Y3QgdG8gZXhwaXJlZCBjb250ZW50LCBob3dldmVyIGl0IHVzZWQgdG8gcmVkaXJlY3QgdG8gZnJh
+dWR1bGVudCBjb250ZW50LiBUaGUgcmVkaXJlY3QgaXMgY29udHJvbGxlZCBieSBhIGZyYXVkc3Rl
+ciBzbyBjYW4gYmUgcmV1c2VkIGZvciBmdXR1cmUgYXR0YWNrcywgbWFraW5nIGl0cyByZW1vdmFs
+IGFsbCB0aGUgbW9yZSBpbXBvcnRhbnQuDQoNCg0KRnJhdWR1bGVudCBwaGFybWFjeSBzaXRlcyBw
+dXJwb3J0IHRvIGJlIGxlZ2l0aW1hdGUgaW50ZXJuZXQgcGhhcm1hY2llcywgb2ZmZXJpbmcgcHJl
+c2NyaXB0aW9uIGRydWdzIGF0IGEgZ3JlYXRseSByZWR1Y2VkIHByaWNlIHRvIGRlY2VpdmUgY29u
+c3VtZXJzLiBXaGVuIGEgY29uc3VtZXIgbWFrZXMgYSBwYXltZW50LCB0aGV5IHJlY2VpdmUgZWl0
+aGVyIHBvdGVudGlhbGx5IGhhcm1mdWwgY291bnRlcmZlaXQgZHJ1Z3MsIG9yIG5vdGhpbmcgYXQg
+YWxsLiBUaGVzZSBzaXRlcyBjYW4gYmUgaWRlbnRpZmllZCBieSBhIGNvbWJpbmF0aW9uIG9mIHRo
+ZSBmb2xsb3dpbmcgZmFjdG9yczoNCiogUHJlc2NyaXB0aW9uIG1lZGljYXRpb24gY2FuIGJlIG9y
+ZGVyZWQgd2l0aG91dCBjb25zdWx0YXRpb247DQoqIE9mZmVyaW5nIHRvIHNoaXAgcHJvZHVjdHMg
+YW55d2hlcmUgaW4gdGhlIHdvcmxkLCB3aGljaCBpcyBpbmZlYXNpYmxlIGZvciBsZWdpdGltYXRl
+IHBoYXJtYWNpZXMgZHVlIHRvIHZhcnlpbmcgcmVndWxhdGlvbjsNCiogRm9yZ2VkIG9yIG5vIGxp
+Y2Vuc2luZyBmcm9tIGFwcHJvcHJpYXRlIGJvZGllcywgc3VjaCBhcyB0aGUgVVMgRm9vZCBhbmQg
+RHJ1Z3MgQWRtaW5pc3RyYXRpb24sIG9yIHN0YXRlL3Byb3ZpbmNpYWwtbGV2ZWwgYm9kaWVzIG9m
+IHBoYXJtYWN5LiBGb3JnZWQgbGljZW5zZXMgYXJlIHR5cGljYWxseSBpbWFnZXMgaG9zdGVkIGJ5
+IHRoZSBzaXRlLCBzaWduZWQgYnkgaW5kaXZpZHVhbHMgd2hvIGFyZSBub3QgcmVhbCBlbXBsb3ll
+ZXM7DQoqIE5vIG9wdGlvbiB0byBzcGVhayB0byBhIGhlYWx0aGNhcmUgcHJvZmVzc2lvbmFsOw0K
+KiBMaXR0bGUgdG8gbm8gbWVkaWNhbCBpbmZvcm1hdGlvbiBpcyBwcmVzZW50ZWQgdG8gdGhlIGNv
+bnN1bWVyOw0KKiBUaGUgcHVycG9ydGVkIGNvbXBhbnkgYWRkcmVzcywgaWYgb25lIGlzIHByZXNl
+bnRlZCwgZG9lcyBub3QgY29ycmVzcG9uZCB0byBhIHJlYWwgYnVzaW5lc3M7DQoqIEhpZ2hseSBk
+aXNjb3VudGVkIHByaWNlcyBvbiBhbGwgcHJvZHVjdHMgaW4gdGhlIHN0b3JlLg0KDQoNClRoZXNl
+IHNpdGVzIG9mZmVyIGZyYXVkdWxlbnQgZ29vZHMsIGRvIG5vdCByZXNwZWN0IGNvbnN1bWVycycg
+cmlnaHRzLCBhbmQgdmlvbGF0ZSBwaGFybWFjZXV0aWNhbCBtYW51ZmFjdHVyZXJzJyBpbnRlbGxl
+Y3R1YWwgcHJvcGVydHkgcmlnaHRzIGluIHNldmVyYWwganVyaXNkaWN0aW9ucy4gRnVydGhlcm1v
+cmUsIHRoZXkgcG9zZSBzaWduaWZpY2FudCBwdWJsaWMgaGVhbHRoIGNvbmNlcm5zLCB3aXRoIGZh
+bHNpZmllZCBtZWRpY2luZXMgaGF2aW5nIG5vIGd1YXJhbnRlZSBvZiBjb250ZW50cyBvciBlZmZl
+Y3RzLCBhbmQgbm8gcmVzdHJpY3Rpb25zIGFzIHRvIGRvc2FnZS4gU29tZSBmYWtlIHBoYXJtYWNp
+ZXMgZXZlbiBvZmZlciBoaWdobHkgY29udHJvbGxlZCBuYXJjb3RpYyBzdWJzdGFuY2VzLCBpbmNs
+dWRpbmcgbW9ycGhpbmUgYW5kIG90aGVyIG9waWF0ZXMuDQoNCg0KV291bGQgaXQgYmUgcG9zc2li
+bGUgdG8gaGF2ZSB0aGUgZnJhdWR1bGVudCBjb250ZW50LCBhbmQgYW55IG90aGVyIGFzc29jaWF0
+ZWQgZnJhdWR1bGVudCBjb250ZW50LCB0YWtlbiBkb3duIGFzIHNvb24gYXMgeW91IGFyZSBhYmxl
+IHRvPw0KDQoNCk1vcmUgaW5mb3JtYXRpb24gYWJvdXQgdGhlIGRldGVjdGVkIGlzc3VlIGlzIHBy
+b3ZpZGVkIGF0IGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovL2luY2lkZW50Lm5l
+dGNyYWZ0LmNvbS80N2JkOTk2MDBkZjMvX187ISFHanZUel92ayFYMkNMVzFQVUlPYkg2WmxkUFY3
+cjFNMWJHSzgxSnc0Tm5iV3BnM1Y3aUY3NURnd1padlVITUt4b3BBRGZZVnl3NTI0Q01US0NYcDd2
+ZWxBeU5DeTJlb2F6bnckIDxodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9pbmNp
+ZGVudC5uZXRjcmFmdC5jb20vNDdiZDk5NjAwZGYzL19fOyEhR2p2VHpfdmshWDJDTFcxUFVJT2JI
+NlpsZFBWN3IxTTFiR0s4MUp3NE5uYldwZzNWN2lGNzVEZ3daWnZVSE1LeG9wQURmWVZ5dzUyNENN
+VEtDWHA3dmVsQXlOQ3kyZW9hem53JD4gDQoNCg0KTWFueSB0aGFua3MsDQoNCg0KTmV0Y3JhZnQN
+Cg0KDQpQaG9uZTogKzQ0KDApMTIyNSA0NDc1MDANCkZheDogKzQ0KDApMTIyNSA0NDg2MDANCk5l
+dGNyYWZ0IElzc3VlIE51bWJlcjogMzg1MzUwMjUNCg0KDQpUbyBjb250YWN0IHVzIGFib3V0IHVw
+ZGF0ZXMgcmVnYXJkaW5nIHRoaXMgYXR0YWNrLCBwbGVhc2UgcmVzcG9uZCB0byB0aGlzIGVtYWls
+LiBQbGVhc2Ugbm90ZTogcmVwbGllcyB0byB0aGlzIGFkZHJlc3Mgd2lsbCBiZSBsb2dnZWQsIGJ1
+dCBhcmVuJ3QgYWx3YXlzIHJlYWQuIElmIHlvdSBiZWxpZXZlIHlvdSBoYXZlIHJlY2VpdmVkIHRo
+aXMgZW1haWwgaW4gZXJyb3IsIG9yIHlvdSByZXF1aXJlIGZ1cnRoZXIgc3VwcG9ydCwgcGxlYXNl
+IGNvbnRhY3Q6IHRha2Vkb3duQG5ldGNyYWZ0LmNvbSA8bWFpbHRvOnRha2Vkb3duQG5ldGNyYWZ0
+LmNvbT4uDQoNCg0KVGhpcyBtYWlsIGNhbiBiZSBwYXJzZWQgd2l0aCB4LWFyZiB0b29scy4gVmlz
+aXQgaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHA6Ly93d3cueGFyZi5vcmcvX187ISFH
+anZUel92ayFYMkNMVzFQVUlPYkg2WmxkUFY3cjFNMWJHSzgxSnc0Tm5iV3BnM1Y3aUY3NURnd1pa
+dlVITUt4b3BBRGZZVnl3NTI0Q01US0NYcDd2ZWxBeU5Dd3JJUTM2dWckIDxodHRwczovL3VybGRl
+ZmVuc2UuY29tL3YzL19faHR0cDovL3d3dy54YXJmLm9yZy9fXzshIUdqdlR6X3ZrIVgyQ0xXMVBV
+SU9iSDZabGRQVjdyMU0xYkdLODFKdzRObmJXcGczVjdpRjc1RGd3Wlp2VUhNS3hvcEFEZllWeXc1
+MjRDTVRLQ1hwN3ZlbEF5TkN3cklRMzZ1ZyQ+IGZvciBtb3JlIGluZm9ybWF0aW9uIGFib3V0IHgt
+YXJmLg0KDQo=
+
+--_003_47609E8A579B4BF8A8C7C5BC425E9CF4akamaicom_
+Content-Type: message/feedback-report; name="ATT00001"
+Content-Description: ATT00001
+Content-Disposition: attachment; filename="ATT00001"; size=80;
+	creation-date="Mon, 04 Sep 2023 16:29:42 GMT";
+	modification-date="Mon, 04 Sep 2023 16:29:42 GMT"
+Content-ID: <4BBC6D85A9C6DD40BB2435A0C1AAC342@akamai.com>
+Content-Transfer-Encoding: base64
+
+DQpSbVZsWkdKaFkyc3RWSGx3WlRvZ2VHRnlaZzBLVlhObGNpMUJaMlZ1ZERvZ1RtVjBZM0poWm5R
+TkNsWmxjbk5wYjI0NklERU4NCkNnMEs=
+
+--_003_47609E8A579B4BF8A8C7C5BC425E9CF4akamaicom_
+Content-Type: application/json; name="xarf.json"
+Content-Description: xarf.json
+Content-Disposition: attachment; filename="xarf.json"; size=628;
+	creation-date="Mon, 04 Sep 2023 16:29:42 GMT";
+	modification-date="Mon, 04 Sep 2023 16:29:42 GMT"
+Content-ID: <6C36010F82A0724BBCFFD0B9E534BA79@akamai.com>
+Content-Transfer-Encoding: base64
+
+eyJEaXNjbG9zdXJlIjp0cnVlLCJWZXJzaW9uIjoiMSIsIlJlcG9ydGVySW5mbyI6eyJSZXBvcnRl
+ck9yZ0VtYWlsIjoidGFrZWRvd24tcmVzcG9uc2UrMzg1MzUwMjVAbmV0Y3JhZnQuY29tIiwiUmVw
+b3J0ZXJPcmciOiJOZXRjcmFmdCIsIlJlcG9ydGVyT3JnRG9tYWluIjoibmV0Y3JhZnQuY29tIn0s
+IlJlcG9ydCI6eyJSZXBvcnRlck5vdGVzIjoiU2VlIGh0dHBzOi8vaW5jaWRlbnQubmV0Y3JhZnQu
+Y29tLzQ3YmQ5OTYwMGRmMy8gZm9yIG1vcmUgaW5mb3JtYXRpb24iLCJEYXRlIjoiMjAyMy0wOS0w
+MVQyMjo0MToxMloiLCJSZXBvcnRDbGFzcyI6IkNvbnRlbnQiLCJTb3VyY2VJcCI6IjE3Mi4yMzIu
+NC44OSIsIlJlcG9ydFR5cGUiOiJQaGlzaGluZyIsIlNvdXJjZVVybCI6Imh0dHBzOi8vd3d3LnN1
+cGVyZmlyZWFybXNob3AuY29tL3dwLWNvbnRlbnQvcGx1Z2lucy9qZXRwYWNrL2pldHBhY2tfdmVu
+ZG9yL2F1dG9tYXR0aWMvamV0cGFjay1nb29nbGUtZm9udHMtcHJvdmlkZXIvc3JjL2ludHJvc3Bl
+Y3RvcnMvZW5naW5lLmh0bWwiLCJGaXJzdFNlZW4iOiIyMDIyLTEyLTIyVDIyOjQ5OjIzWiIsIlJl
+cG9ydFN1YlR5cGUiOiJGYWtlIFBoYXJtYWN5IiwiUmVwb3J0ZXJDYXNlSUQiOiIzODUzNTAyNSJ9
+fQ==
+
+--_003_47609E8A579B4BF8A8C7C5BC425E9CF4akamaicom_--

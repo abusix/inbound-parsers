@@ -1,0 +1,509 @@
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	by 053ea0284110 (Haraka/2.8.28) with ESMTP id 2DB3F614-C267-4B21-86BA-CBF2E19C99E9.1
+	envelope-from <abuse+bncBDANP5WS34EBBIVY2OKAMGQE5FQY3RQ@digitalocean.com>;
+	Mon, 30 May 2022 15:00:50 +0000
+Received: by mail-ej1-f72.google.com with SMTP id ks1-20020a170906f84100b006fee53b22c2sf4216577ejb.10
+        for <abuse@digitalocean.abusehq.net>; Mon, 30 May 2022 08:00:50 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1653922850; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=pdmHRxg1+CROxNqGNqDjRUTH7jBT3+G+9caDiaaV2CYRAGyNHUdJJkmuivJ5UWzma4
+         8+XrC+dKaGp6mwiD3IZ3cbaBq7zIDiytmTkE/flpxws+q7k6WPNkY7MDEZH52NXpMKIw
+         /CAaax7PUfEC7VmCjF8vq6p/Y7mGMyoqN57Op62JmIy/q6gG/wPaztfk3zst61AkzxDo
+         S42Pz8HdYgI7gR6UqyS0qRllGATyxvA6AeMUTxYwr5Bdnb4HDQ3Lska5o7zqcgvxTgTC
+         2clCf5WhuBML7klUh7A2j2os9jZLkVYJnHRKdqEma4oBuC7ehm7L9noem30T9ayMDsI6
+         kpqw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version:msip_labels
+         :content-language:accept-language:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:dkim-signature;
+        bh=FmU6ZHWpGEal8HFI9TtDpRd4DiCoJuNzq6sa5/ezIFk=;
+        b=PgqjIL9cFv6t6zlFbWWtduV7kDgxIJ5QHL1OXqUo3iK76BwXHu45ZVAexfCbiV1CL5
+         igbrub+WiVwyRr5TgP+/46GAkXfYFByoqNBPsVtwaKt1VYOHtbHLvyeNxy2BpuRRdJ+M
+         ViXb6aWHPgQ8FW6trPkYL9ngemKDoOdpYrGB9XMrVuoOX8GPz/ykFT9LWTX3N8SDJeXW
+         4YYNLZspY1dPJWu6GaUdjfi7p6v/rHgTXwiiEixZxFSyysiEmZequrlqyjS6X4HR+s4+
+         tlalSReBDDnw9fhLRCiyJ0q+LCD4CfLf2xh70qZQirzXBJAzNc32YrxtittQw5Ty5WDU
+         V7iw==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@cyber.gc.ca header.s=selector1 header.b=hvkiwVsi;
+       arc=pass (i=1 spf=pass spfdomain=cyber.gc.ca dkim=pass dkdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of cyberincident@cyber.gc.ca designates 2a01:111:f400:fe5c::620 as permitted sender) smtp.mailfrom=CyberIncident@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :accept-language:content-language:msip_labels:mime-version
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-unsubscribe;
+        bh=FmU6ZHWpGEal8HFI9TtDpRd4DiCoJuNzq6sa5/ezIFk=;
+        b=DoCCRuj8hT8sDXpldrZVuZdOln3pA8gCWzMtb36pqfIrRcqWO3ky+GOWJ/sJEEMYOK
+         zvbQXs9uMWb0LOC7bD4hEoKcbDEW/opctL/r9jjscdlNgQ/Yc/KmoQJSBk7XOyDsh88b
+         oscyVvPXJ/WrayHdKlYsRe+dieRYbVIkL3v/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:thread-topic:thread-index
+         :date:message-id:accept-language:content-language:msip_labels
+         :mime-version:x-original-sender:x-original-authentication-results
+         :reply-to:precedence:mailing-list:list-id:x-spam-checked-in-group
+         :list-post:list-help:list-archive:list-unsubscribe;
+        bh=FmU6ZHWpGEal8HFI9TtDpRd4DiCoJuNzq6sa5/ezIFk=;
+        b=wm5Mc8BO1l7k6zYxzNVwRIA4GhD2TCbwQX2/0Bym7hGbJA8c4qLQnz5B1UACueXmyD
+         QpKI5dzPpZaQMJX9TKBigwBYcCaRzq3EP1m/1iDfou2nryjrebx/TSUp7J1yd5VvmDC8
+         Y6bYuVANpD+q0AuegzXiZEbB1rjDgJCF0MXdNknDPFAFrOmlRcE6yxqGfRPhhFoEot2F
+         Iav688NWr9fA8KcToITcddJ+z39yS6oDYCz5n65B699dWcN6TadZxmaqWHWuARRwwZUo
+         c6A1lDVj7MNBr1mj3fb2louLV0jwjfGABtyUCa4eiDf6jtp1DZ5cUG2iSUUS7knKgzh1
+         blTg==
+X-Gm-Message-State: AOAM530r5quXqO+fMOhxoS3t4YaE7ThuAuNlHYGMOdhv4ChDvG21nWi9
+	MjqUxpJdwLOayFKAHEuViY5pIQ==
+X-Google-Smtp-Source: ABdhPJxnml+CQGDWvrtPgulFSmnwXFC0ZRFY0hfdvHy+bSrx7BCIN0NVfevGyPwPRbBwbct+Lfb4nA==
+X-Received: by 2002:a17:907:3f89:b0:6fe:e7a7:c038 with SMTP id hr9-20020a1709073f8900b006fee7a7c038mr33835565ejc.730.1653922850267;
+        Mon, 30 May 2022 08:00:50 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:2741:b0:41f:7eee:e393 with SMTP id
+ z1-20020a056402274100b0041f7eeee393ls7016019edd.3.gmail; Mon, 30 May 2022
+ 08:00:49 -0700 (PDT)
+X-Received: by 2002:a05:6402:f17:b0:42d:d3f3:244c with SMTP id i23-20020a0564020f1700b0042dd3f3244cmr4344276eda.52.1653922849142;
+        Mon, 30 May 2022 08:00:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653922849; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=XDuwv6Cwk3mfny+R5bmnCdYUYTqVkWi6vkeyeXtUfYD1fbDbQXCad9YbJS9oToU9lg
+         OS2Bci6Rof7V4/wzd6jJHQ8IBZTue77ToA58w5LqwKQXe+HOOlQjvzvaU6goSdQOsV2P
+         mNtw8M2jIjyzGscpVdYQ2p1nxbPvR9WYxnoFXGcAup53tDrv0Em8g3u30rskWy5kwpnm
+         5lsNL90FdXbEAGau6baJjpHgNmFKCUFZ8HOWwh1sB52bCdvxm/r5bA1tGrLFPcdZ1V4U
+         u4cZZwugvWhxx4k2WtyyD9mqYLlzRTgfLxG/2M5LXEHX8QtoWg2UzlfELQS4+Hiq0lg3
+         OUAw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:msip_labels:content-language:accept-language
+         :message-id:date:thread-index:thread-topic:subject:cc:to:from
+         :dkim-signature;
+        bh=FmU6ZHWpGEal8HFI9TtDpRd4DiCoJuNzq6sa5/ezIFk=;
+        b=fOUdYbYD5QDemRM3wnmnYGu/QpCWmwaDXQhGpvjEox1JvwcHfaamqpPGecHMSGfZSI
+         YJtHD6PSazGmw9XCsJECLjBJit64f8Y7p7Ldn4rAVE1ueZul5AVVLfyv2OrCFGDejBbA
+         vsQ1RpPoC18cPVe1pvxDi93Om2dkE6vkdT2CFJ4a2E08YPBt0U8SJ/90eXVqGn+KvRk4
+         TVaWorL3E+wSdqbU9CIekarJlfOj7NPRBKexkiPunwv6yGDSYluiRP274f4JGau22r6o
+         o/+NUu3ooIvMCIN7kGM6o4O0DWWEGkMuYuRozUGf26TwGjwg0Cun9/c7zH1snfxuaL39
+         7qww==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cyber.gc.ca header.s=selector1 header.b=hvkiwVsi;
+       arc=pass (i=1 spf=pass spfdomain=cyber.gc.ca dkim=pass dkdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of cyberincident@cyber.gc.ca designates 2a01:111:f400:fe5c::620 as permitted sender) smtp.mailfrom=CyberIncident@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+Received: from CAN01-QB1-obe.outbound.protection.outlook.com (mail-qb1can01on0620.outbound.protection.outlook.com. [2a01:111:f400:fe5c::620])
+        by mx.google.com with ESMTPS id v7-20020a50d587000000b004264948a110si11138356edi.615.2022.05.30.08.00.48
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 May 2022 08:00:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cyberincident@cyber.gc.ca designates 2a01:111:f400:fe5c::620 as permitted sender) client-ip=2a01:111:f400:fe5c::620;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VMom3XfyuJVT3BP/GR2CFK67lT337h4H1OxPJWEv07O7FLc898W2uLeZOfLDMY3fKJK0FXZmTrerKOCu/P7UJ5b/5RxirDcLwqcWvQiEb0OeDwzRFfIK53UfXExlQ1PVNg95EaxZX+ELCAC8h0BC2XWC0SyTCbVRXq6NbiR+TTmXZRNX3rqlsqqvILlTPyiUZdL9mgP+o1ylEbP3FE9/UoYSfEP2GEltbl7TyjTcAEL1OMNC4YVWHkYqcT/p6Oc9u6CDYgduBwAJgCRLAY4Rfk/BZ2cyp11USMS8Nr+TlBUYxkJ+6Vur7ezqhiDEQhNSkZ/FQwxUXEEuzGpa1GHH4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FmU6ZHWpGEal8HFI9TtDpRd4DiCoJuNzq6sa5/ezIFk=;
+ b=EZ+SGlGIcn/utYviyx1T8Zys5Wm69BjNLr9FHEM7HzIS0k7JcVxmKdvrWsC2oPR+TwdKbFkPVIdjefzCnj6CO6KJ0tAPPSKOj5ZS9+ASjBASBwr93+iscrW3VNzkhEBdDO3ODkE3BIq4aL3a+5kfuVvDQpD7N0MQttp8qVry8OOWKzQsZ6XOTvPNXG1cz1iCARY/kh1a7SlccDt5nPl6636JllHjNYAd6PVZwYTrsuoXadtUMl6PBOkaz/bVKa3vcrJozhQoyEVC8rRIvlsU99XiX3M0vYlooyEqHsWt6CTter/hwc8aHwwgNVm9tmlo4an2kEiyABUWYm8yIQWiZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cyber.gc.ca; dmarc=pass action=none header.from=cyber.gc.ca;
+ dkim=pass header.d=cyber.gc.ca; arc=none
+Received: from YT4PR01MB9813.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:e5::18)
+ by YT3PR01MB9442.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:a3::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
+ 2022 15:00:46 +0000
+Received: from YT4PR01MB9813.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::a098:d1cd:5d1e:4b66]) by YT4PR01MB9813.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::a098:d1cd:5d1e:4b66%9]) with mapi id 15.20.5293.019; Mon, 30 May 2022
+ 15:00:46 +0000
+From: "'Cyber Incident' via abuse" <abuse@digitalocean.com>
+To: "'abuse@digitalocean.com'" <abuse@digitalocean.com>
+CC: Cyber Incident <CyberIncident@cyber.gc.ca>
+Subject: CE2022-0530-02 Abuse Report
+Thread-Topic: CE2022-0530-02 Abuse Report
+Thread-Index: Adh0ML6u56eE0D9gRd2pBI5PTceFWA==
+Date: Mon, 30 May 2022 15:00:45 +0000
+Message-ID: <YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9@YT4PR01MB9813.CANPRD01.PROD.OUTLOOK.COM>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_ActionId=b11ace32-11b6-4094-9777-f852b689691b;MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_ContentBits=0;MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_Enabled=true;MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_Method=Privileged;MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_Name=TLP-Amber;MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_SetDate=2022-05-03T13:09:24Z;MSIP_Label_0cbdb893-899f-4d1c-855d-0c340eb2aafa_SiteId=da9cbe40-ec1e-4997-afb3-17d87574571a;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2fa2ecdf-4f5a-4448-0356-08da424d2cfa
+x-ms-traffictypediagnostic: YT3PR01MB9442:EE_
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-microsoft-antispam-prvs: <YT3PR01MB9442BF1043357FF9DD6550B5EADD9@YT3PR01MB9442.CANPRD01.PROD.OUTLOOK.COM>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8XlTxnFaxLFcp11EoBppsrZTJWKMYPOMcefrfzC9bUtnvaAx6kUER6Fq+hZ/B9CeaIC3mmjJa1sMZvoiztYtytI11u2VQ9JUmDk4AbKh5CdOwHfKF8O9APB1JVmBfC8qIWIDyazYoOJ4qu1nbYfDxZAauDyn3rwuYkqxod2LNkp6RWYkLr+L4NjQjw6iSICmBdtFiTVyLv9ADMbVbtkJnNvvimVYHoy9lH5YyXGuyLvsEZqxMDyzqeFG/YvqwaiPt+O2X6RhBuenzQWvG2ldB7iMHpHba8lVdIwO9Z57GB5G+6N3epa7fvitHst4ZSnArDGXisgCnfOcfjTavOqqh18mMFs/xAMeVSPqSwIx+w5X+4F8h8I2Ym/hbhp9DZtQnSu3rOllhbuPg6/T3Kmsj9Em/hYCte46gEXHIRIs6kwAF02gLNOhivwFpBs3KtyzSCKv8QFUcceoVF4mBDP8MK4cydukyQbCkQ/9PFleaZEwBjIuwh39ITC5vHqJ+IeLaS5DjNjYudB+furgNeI36EiPafnmlDrtTXOZfU9JCaCyMoBT+DLvvAmu0A7x81a1ptQP5U16qsIdbb61rYSNgNwdnpPrMZztNUTSurM0ohlvUBQBosaRJNRF5fQREZuCcqoEmUPYtlAIxajrONp/rKOabgU1W2BxfmM2jb02netueZs3akrrNWUwTdQFLfbSBGhlygxNnmRhzm0c6OMCJTfOrMbf0bt4pOBaI9+klbk=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT4PR01MB9813.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(107886003)(186003)(55016003)(71200400001)(66574015)(8676002)(316002)(4326008)(6916009)(66476007)(66446008)(76116006)(83380400001)(38070700005)(64756008)(8936002)(52536014)(7696005)(6506007)(86362001)(508600001)(40140700001)(33656002)(5660300002)(99936003)(82960400001)(122000001)(9686003)(26005)(2906002)(66556008)(66946007)(491001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RKhZ+UVgcZgTII/ICLCPlf70/XhZ0Y9FrSDLgBmb72/P2zDnhiRF8wGp1XcK?=
+ =?us-ascii?Q?o7S6Aa76Sj4+UY+12davop0+2Pp2Pvkb9bCUbZdGdIpv16uGAsrubxu+IKMf?=
+ =?us-ascii?Q?EHm3s8VUutdHTczFGkEXQZprXUYoDxbNv7zlzg/pqjmPVBenzYbp2XseFJiA?=
+ =?us-ascii?Q?X2iGa5x6+DGP9kMT+2dF7BIaC5qFdFBK1WKBqgLfQh3KAIKmpd451oPb/zoh?=
+ =?us-ascii?Q?uuVLEHitrZ4/qRB883XqoiwbK3p2a9a7u37WgdIFuGTLGBipOhQti9LspCVz?=
+ =?us-ascii?Q?dhWsxYgOlwnLh27BQ3LvAEbbnGSpJ0haUNmnsXo45tIFDcJjVneQXTuIrbYB?=
+ =?us-ascii?Q?6knhS2MoqYBtc1ELVog7ziLDdVwubBfNSd1ySxxRnk3kBVtelTNV0L7G3gcq?=
+ =?us-ascii?Q?Ji36VPZCJQiodKfbJRyIVyASSokbLHloQlI8ppESv7y1HTCeKuPOMkpsEyTB?=
+ =?us-ascii?Q?OhWCqSceZyzJUGNuJWDdWwTp91vBaHfIRcNTBYUaSPjfA17pW0BF2BVuFrJ0?=
+ =?us-ascii?Q?BCA1HxBMN24dWKBqqiKLNSKi+K8h3Og+KjpUAM4olGpY7EUqr7FqPbsMJ5b4?=
+ =?us-ascii?Q?Pca9rAOyHrZfC6xiLBCVdQnJT4I1VFowIEf1JjZ9vBuZQ69tH7ZoHFzXwfKc?=
+ =?us-ascii?Q?QwNx9JeaOkIElJPnBoRivhpOE5FaEkcruxK+JoJJHxjwXrR+MzGi9JwfIBJT?=
+ =?us-ascii?Q?7EaBQQK1O+72N+9+wG5pT29AXacG1QZ9PUjVgklf97keNJRZd1OJyEG6IIEC?=
+ =?us-ascii?Q?B5mj8X4QRo+bMw+OGmGiso3FvNbek+77UnnnyQQzEAmvrsKg9uhwp/TdzJ6E?=
+ =?us-ascii?Q?H3q6jBK65O//dirTrzI9r2qRuFtSuJztBY1mVMR6Uhgz+ruXV+2ZiEEEIoMN?=
+ =?us-ascii?Q?VrUFhe4Sfw67Vrisfxn/gUXidBW5Xl9ER3+RMA0ygpr93GvSqOR+y6u/T8iU?=
+ =?us-ascii?Q?WfFhRslcEfu4I/H1djLIVDf1F6jVmpqo/EBbtaSi+TG0/H6meq50BJuVBT6R?=
+ =?us-ascii?Q?eYd14sGmfbX2ixK+lYgGLlXaxRyNi0SpPPkuhdFEnd4aHQaR6uYKkkAkDY+J?=
+ =?us-ascii?Q?b5v5qH04cbtJ2NRQ1qgR8hnaTkvRv0Y4lTECN4jyOuEQpJwiASDHgGPQm9rd?=
+ =?us-ascii?Q?v0QCTO/p0onHk5+4DJkmi852dXhjxLzNie3Kvue7J5F96yhxyZ7863Urh1hJ?=
+ =?us-ascii?Q?dRy1PbuZdhiXF1LQ2j28hN7yOrZ3KcyTj/cMg6O7hgprpFk6vQvtlC2piVxn?=
+ =?us-ascii?Q?rfOyNN9kTn23IZfRCAhX9KhFeQYcmibCCqWd3X1b4D5atsOkfhKyHGl4ktVz?=
+ =?us-ascii?Q?rx08441ZqNXSHt3b3eIzfPMex6ybU1F8WBEnK6MSMfZK0i04DyU+MoeB7KUD?=
+ =?us-ascii?Q?AqVxjMQkN1Y+xYeSWPs212PS4OgV34LhfXUsTYNj0VsWzPv0QllM+dMaBtvi?=
+ =?us-ascii?Q?suGFM4LTrsGUpY2eAZnFdH2NJjvNM6ERXHtSejcDpH8NfC9Ub5q9R5KG/Yr0?=
+ =?us-ascii?Q?R0QqijomN+IMyIp9SoyKr6VDsKjgW0Vzyc10iDlQzsScBCsIbCNrruXPizmq?=
+ =?us-ascii?Q?HapUyqGZFEjtqdNLHhqYcebvckS1z7DlOvYPVWUlqvTnMN7/KsZnzpkhnxq1?=
+ =?us-ascii?Q?BWhL7/XrHy4v6rkO0zC4DUjPiKi+lL7OAw6g342U5OrxBFtnDtsuWIrp2IiH?=
+ =?us-ascii?Q?RQ7Oqs9/I0PphMqexKCstWPwL/kt5gs3cSyBcvpB6l+y6GXLSItTsNFdDj8A?=
+ =?us-ascii?Q?Hrqj4VSpx1yaH3GxFNgOe/K22lhLNTw=3D?=
+Content-Type: multipart/mixed;
+	boundary="_004_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_"
+MIME-Version: 1.0
+X-OriginatorOrg: cyber.gc.ca
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: YT4PR01MB9813.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fa2ecdf-4f5a-4448-0356-08da424d2cfa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2022 15:00:46.0219
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: da9cbe40-ec1e-4997-afb3-17d87574571a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BuFQ+wj8A96ZuaklyBXZsgo8GAi2bFx8j90d1uGE/I6wNmolKZ8K8FgClmlQ8OtzRZKSaJACPCQmWTWayCcWw51gk8wfFnUXfYZJldqobCQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB9442
+X-Original-Sender: cyberincident@cyber.gc.ca
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cyber.gc.ca header.s=selector1 header.b=hvkiwVsi;       arc=pass
+ (i=1 spf=pass spfdomain=cyber.gc.ca dkim=pass dkdomain=cyber.gc.ca dmarc=pass
+ fromdomain=cyber.gc.ca);       spf=pass (google.com: domain of
+ cyberincident@cyber.gc.ca designates 2a01:111:f400:fe5c::620 as permitted
+ sender) smtp.mailfrom=CyberIncident@cyber.gc.ca;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=cyber.gc.ca
+X-Original-From: Cyber Incident <CyberIncident@cyber.gc.ca>
+Reply-To: Cyber Incident <CyberIncident@cyber.gc.ca>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_004_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_
+Content-Type: multipart/alternative;
+	boundary="_000_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_"
+
+--_000_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+UNCLASSIFIED / NON CLASSIFI?//TLP:AMBER
+
+
+Good day,
+
+Please find below the following Abuse Report for your attention. Please ack=
+nowledge receipt of this message.
+
+Thank you,
+
+Natalie
+Incident Handler
+Canadian Centre for Cyber Security
+
+***********************************
+ABUSE REPORT
+***********************************
+Executive Summary
+The Cyber Centre has received a report regarding web attacks from systems o=
+n your infrastructure.
+
+Abuse Summary
+You are receiving this notification because you are identified as a technic=
+al contact for the affected asset(s).
+
+/// DATA ATTACHED \\\
+
+Requested Actions
+The CCCS recommends your security team locate and investigate the hosts lis=
+ted in the attachment for suspicious behavior as identified.
+
+CRITICAL NOTE
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The information contained in this report may be shared with your internal I=
+T staff, your contracted third-party service provider, or the identified sy=
+stem owner. This information is intended to be distributed and used for net=
+work defence purposes only, such as using the contained IOCs to search for =
+or prevent malicious activity on your network. No portion of this report ma=
+y be used in affidavits, court proceedings or for any other legal or judici=
+al purposes without prior approval of the originator. This notification is =
+the property of the CCCS. It must be securely stored according to the class=
+ification or designation; access must be controlled accordingly.
+
+It may not be used in any way that could expose or jeopardize CCCS sources =
+or methods.
+
+This notification may contain information from external sources. Links to t=
+hird-party websites are provided solely for the convenience of users. The C=
+yber Centre is not responsible for the accuracy, currency or reliability of=
+ third-party content or information derived from external sources of inform=
+ation.
+
+NOTE TO READERS
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The Canadian Centre for Cyber Security (Cyber Centre) operates as part of t=
+he Communications Security Establishment. We are Canadas national authority=
+ on cyber security and we lead the governments response to cyber security e=
+vents. As Canada's national computer security incident response team, the C=
+yber Centre works in close collaboration with government departments, criti=
+cal infrastructure, Canadian businesses and international partners to prepa=
+re for, respond to, mitigate, and recover from cyber events. We do this by =
+providing authoritative advice and support, and coordinating information sh=
+aring and incident response. The Cyber Centre is outward-facing, welcoming =
+partnerships that help build a stronger, more resilient cyber space in Cana=
+da.
+
+GENERAL CYBER RELATED QUESTION
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Email: contact@cyber.gc.ca<mailto:contact@cyber.gc.ca>
+Toll Free: 1-833-CYBER-88 (1-833-292-3788)
+Local: 613-949-7048
+
+REPORT A CYBER INCIDENT
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+E-mail: cyberincident@cyber.gc.ca<mailto:cyberincident@cyber.gc.ca>
+Entrust Key: For secure communications, the Cyber Centre's public Entrust K=
+ey is available to Government of Canada organizations.
+
+PGP Key: Alternatively, the Cyber Centre's Public Pretty Good Privacy (PGP)=
+ key (Text format 3KB) is also available by request.
+
+
+
+--_000_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-CA" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<p style=3D"font-family:Calibri;font-size:10pt;color:#008000;margin:5pt;" a=
+lign=3D"Right">
+UNCLASSIFIED / NON CLASSIFI&Eacute;//TLP:AMBER<br>
+</p>
+<br>
+<div>
+<div class=3D"WordSection1">
+<div>
+<p>Good day, <o:p></o:p></p>
+<p>Please find below the following Abuse Report for your attention. Please =
+acknowledge receipt of this message.
+<o:p></o:p></p>
+<p>Thank you, <o:p></o:p></p>
+<p>Natalie <br>
+Incident Handler <br>
+Canadian Centre for Cyber Security <o:p></o:p></p>
+<p>*********************************** <br>
+ABUSE REPORT <br>
+*********************************** <o:p></o:p></p>
+<p class=3D"MsoNormal">Executive Summary <br>
+<span lang=3D"EN-US">The Cyber Centre has received a report regarding web a=
+ttacks from systems on your infrastructure.<o:p></o:p></span></p>
+<p>Abuse Summary <br>
+You are receiving this notification because you are identified as a technic=
+al contact for the affected asset(s).
+<o:p></o:p></p>
+<p>/// DATA ATTACHED \\\ <o:p></o:p></p>
+<p>Requested Actions <br>
+The CCCS recommends your security team locate and investigate the hosts lis=
+ted in the attachment for suspicious behavior as identified.
+<o:p></o:p></p>
+<p><br>
+CRITICAL NOTE <br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D <br>
+The information contained in this report may be shared with your internal I=
+T staff, your contracted third-party service provider, or the identified sy=
+stem owner. This information is intended to be distributed and used for net=
+work defence purposes only, such
+ as using the contained IOCs to search for or prevent malicious activity on=
+ your network. No portion of this report may be used in affidavits, court p=
+roceedings or for any other legal or judicial purposes without prior approv=
+al of the originator. This notification
+ is the property of the CCCS. It must be securely stored according to the c=
+lassification or designation; access must be controlled accordingly.<o:p></=
+o:p></p>
+<p>It may not be used in any way that could expose or jeopardize CCCS sourc=
+es or methods.
+<br>
+<br>
+This notification may contain information from external sources. Links to t=
+hird-party websites are provided solely for the convenience of users. The C=
+yber Centre is not responsible for the accuracy, currency or reliability of=
+ third-party content or information
+ derived from external sources of information.<o:p></o:p></p>
+<p><br>
+NOTE TO READERS <br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D <br>
+The Canadian Centre for Cyber Security (Cyber Centre) operates as part of t=
+he Communications Security Establishment. We are Canadas national authority=
+ on cyber security and we lead the governments response to cyber security e=
+vents. As Canada's national computer
+ security incident response team, the Cyber Centre works in close collabora=
+tion with government departments, critical infrastructure, Canadian busines=
+ses and international partners to prepare for, respond to, mitigate, and re=
+cover from cyber events. We do this
+ by providing authoritative advice and support, and coordinating informatio=
+n sharing and incident response. The Cyber Centre is outward-facing, welcom=
+ing partnerships that help build a stronger, more resilient cyber space in =
+Canada.<o:p></o:p></p>
+<p>GENERAL CYBER RELATED QUESTION <br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D <br>
+Email: <a href=3D"mailto:contact@cyber.gc.ca">contact@cyber.gc.ca</a> <br>
+Toll Free: 1-833-CYBER-88 (1-833-292-3788) <br>
+Local: 613-949-7048 <o:p></o:p></p>
+<p>REPORT A CYBER INCIDENT <br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D <br>
+E-mail: <a href=3D"mailto:cyberincident@cyber.gc.ca">cyberincident@cyber.gc=
+.ca</a> <br>
+Entrust Key: For secure communications, the Cyber Centre's public Entrust K=
+ey is available to Government of Canada organizations.<o:p></o:p></p>
+<p>PGP Key: Alternatively, the Cyber Centre's Public Pretty Good Privacy (P=
+GP) key (Text format 3KB) is also available by request.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"><o:p>&nbs=
+p;</o:p></span></p>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_--
+
+--_004_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_
+Content-Type: application/octet-stream; name="CE2022-0530-02.csv"
+Content-Description: CE2022-0530-02.csv
+Content-Disposition: attachment; filename="CE2022-0530-02.csv"; size=3164;
+	creation-date="Mon, 30 May 2022 14:23:55 GMT";
+	modification-date="Mon, 30 May 2022 15:00:45 GMT"
+Content-Transfer-Encoding: base64
+
+VGltZXN0YW1wLENvdW50cnkgTmFtZSxTcmMgQVNOLEFTTiBOdW1iZXIsU291cmNlIElQLERlc3Rp
+bmF0aW9uIElQLERlc3RpbmF0aW9uIFBvcnQsVVJMLFVzZXIgQWdlbnQsQ291bnQNCiJNYXkgMjcs
+IDIwMjIgQCAyMjo1NTowNC4xMDMiLENhbmFkYSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQy
+LDE3Mi4yOC4wLjIsOTIwMCwvLmdpdC9jb25maWcsR28taHR0cC1jbGllbnQvMS4xLDENCiJNYXkg
+MjcsIDIwMjIgQCAyMjo1NTowNC4xMTQiLENhbmFkYSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMy
+LjQyLDE3Mi4yOC4wLjIsOTIwMCwvZWNwL0N1cnJlbnQvZXhwb3J0dG9vbC9taWNyb3NvZnQuZXhj
+aGFuZ2UuZWRpc2NvdmVyeS5leHBvcnR0b29sLmFwcGxpY2F0aW9uLEdvLWh0dHAtY2xpZW50LzEu
+MSwxDQoiTWF5IDI3LCAyMDIyIEAgMjI6NTU6MDQuMTIxIixDYW5hZGEsRm9ydGhuZXQsMTI0MSwx
+NzguMTI4LjIzMi40MiwxNzIuMjguMC4yLDkyMDAsLy5EU19TdG9yZSxHby1odHRwLWNsaWVudC8x
+LjEsMQ0KIk1heSAyNywgMjAyMiBAIDIyOjU1OjA0LjEyNyIsQ2FuYWRhLEZvcnRobmV0LDEyNDEs
+MTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5MjAwLC90ZWxlc2NvcGUvcmVxdWVzdHMsR28taHR0
+cC1jbGllbnQvMS4xLDENCiJNYXkgMjcsIDIwMjIgQCAyMjo1NTowNC4xMzIiLENhbmFkYSxGb3J0
+aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4wLjIsOTIwMCwvc2VydmVyLXN0YXR1cyxH
+by1odHRwLWNsaWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIyOjU1OjA0LjEzOCIsQ2FuYWRh
+LEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5MjAwLC8uZW52LEdvLWh0
+dHAtY2xpZW50LzEuMSwxDQoiTWF5IDI3LCAyMDIyIEAgMjI6NTU6MDQuMTQ2IixDYW5hZGEsRm9y
+dGhuZXQsMTI0MSwxNzguMTI4LjIzMi40MiwxNzIuMjguMC4yLDkyMDAsL3MvbGt4L18vOy9NRVRB
+LUlORi9tYXZlbi9jb20uYXRsYXNzaWFuLmppcmEvamlyYS13ZWJhcHAtZGlzdC9wb20ucHJvcGVy
+dGllcyxHby1odHRwLWNsaWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIyOjU1OjA0LjE1MSIs
+Q2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5MjAwLC9pbmZv
+LnBocCxHby1odHRwLWNsaWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIyOjU1OjA0LjE1NiIs
+Q2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5MjAwLC8/cmVz
+dF9yb3V0ZT0vd3AvdjIvdXNlcnMvLEdvLWh0dHAtY2xpZW50LzEuMSwxDQoiTWF5IDI3LCAyMDIy
+IEAgMjI6NTU6MDUuMTIxIixDYW5hZGEsRm9ydGhuZXQsMTI0MSwxNzguMTI4LjIzMi40MiwxNzIu
+MjguMC4yLDkyMDAsLyxsOXRjcGlkL3YxLjEuMCwxDQoiTWF5IDI3LCAyMDIyIEAgMjI6NTU6MDUu
+NzE4IixDYW5hZGEsRm9ydGhuZXQsMTI0MSwxNzguMTI4LjIzMi40MiwxNzIuMjguMC4yLDkyMDAs
+L2xvZ2luLmFjdGlvbixHby1odHRwLWNsaWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIyOjU1
+OjA1LjczMSIsQ2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5
+MjAwLC9jb25maWcuanNvbixHby1odHRwLWNsaWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIz
+OjUwOjMxLjgxNCIsQ2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAu
+Miw5MjAwLC8sbDl0Y3BpZC92MS4xLjAsMQ0KIk1heSAyNywgMjAyMiBAIDIzOjUwOjMxLjgyMCIs
+Q2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5MjAwLC9zL2xr
+eC9fLzsvTUVUQS1JTkYvbWF2ZW4vY29tLmF0bGFzc2lhbi5qaXJhL2ppcmEtd2ViYXBwLWRpc3Qv
+cG9tLnByb3BlcnRpZXMsR28taHR0cC1jbGllbnQvMS4xLDENCiJNYXkgMjcsIDIwMjIgQCAyMzo1
+MDozMS44MjYiLENhbmFkYSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4wLjIs
+OTIwMCwvLmdpdC9jb25maWcsR28taHR0cC1jbGllbnQvMS4xLDENCiJNYXkgMjcsIDIwMjIgQCAy
+Mzo1MDozMS44MzEiLENhbmFkYSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4w
+LjIsOTIwMCwvLmVudixHby1odHRwLWNsaWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIzOjUw
+OjMxLjgzNyIsQ2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5
+MjAwLC8uRFNfU3RvcmUsR28taHR0cC1jbGllbnQvMS4xLDENCiJNYXkgMjcsIDIwMjIgQCAyMzo1
+MDozMS44NDIiLENhbmFkYSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4wLjIs
+OTIwMCwvP3Jlc3Rfcm91dGU9L3dwL3YyL3VzZXJzLyxHby1odHRwLWNsaWVudC8xLjEsMQ0KIk1h
+eSAyNywgMjAyMiBAIDIzOjUwOjMxLjg0NyIsQ2FuYWRhLEZvcnRobmV0LDEyNDEsMTc4LjEyOC4y
+MzIuNDIsMTcyLjI4LjAuMiw5MjAwLC9lY3AvQ3VycmVudC9leHBvcnR0b29sL21pY3Jvc29mdC5l
+eGNoYW5nZS5lZGlzY292ZXJ5LmV4cG9ydHRvb2wuYXBwbGljYXRpb24sR28taHR0cC1jbGllbnQv
+MS4xLDENCiJNYXkgMjcsIDIwMjIgQCAyMzo1MDozMS44NTMiLENhbmFkYSxGb3J0aG5ldCwxMjQx
+LDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4wLjIsOTIwMCwvc2VydmVyLXN0YXR1cyxHby1odHRwLWNs
+aWVudC8xLjEsMQ0KIk1heSAyNywgMjAyMiBAIDIzOjUwOjMxLjg1OCIsQ2FuYWRhLEZvcnRobmV0
+LDEyNDEsMTc4LjEyOC4yMzIuNDIsMTcyLjI4LjAuMiw5MjAwLC90ZWxlc2NvcGUvcmVxdWVzdHMs
+R28taHR0cC1jbGllbnQvMS4xLDENCiJNYXkgMjcsIDIwMjIgQCAyMzo1MDozMS44NjMiLENhbmFk
+YSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4wLjIsOTIwMCwvaW5mby5waHAs
+R28taHR0cC1jbGllbnQvMS4xLDENCiJNYXkgMjcsIDIwMjIgQCAyMzo1MDozMi4zNjciLENhbmFk
+YSxGb3J0aG5ldCwxMjQxLDE3OC4xMjguMjMyLjQyLDE3Mi4yOC4wLjIsOTIwMCwvbG9naW4uYWN0
+aW9uLEdvLWh0dHAtY2xpZW50LzEuMSwxDQoiTWF5IDI3LCAyMDIyIEAgMjM6NTA6MzIuMzc0IixD
+YW5hZGEsRm9ydGhuZXQsMTI0MSwxNzguMTI4LjIzMi40MiwxNzIuMjguMC4yLDkyMDAsL2NvbmZp
+Zy5qc29uLEdvLWh0dHAtY2xpZW50LzEuMSwxDQo=
+
+--_004_YT4PR01MB9813EAD028EDDF926BC44F6DC7DD9YT4PR01MB9813CANP_--

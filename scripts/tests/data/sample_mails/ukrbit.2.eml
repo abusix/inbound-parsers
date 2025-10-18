@@ -1,0 +1,617 @@
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+	by 053ea0284110 (Haraka/2.8.28) with ESMTP id FBE35246-2959-4667-9884-CCBB3F3BA550.1
+	envelope-from <abuse+bncBDLJLQMRVEOBBUX76CKAMGQEGZSVEEQ@digitalocean.com>;
+	Sun, 05 Jun 2022 05:32:02 +0000
+Received: by mail-wr1-f70.google.com with SMTP id s14-20020adfa28e000000b0020ac7532f08sf2101466wra.15
+        for <abuse@digitalocean.abusehq.net>; Sat, 04 Jun 2022 22:32:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1654407122; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=cw2D9MQXt+L8tILGf0eJR0jb8QYUmDGMZyMEIEvwA8qLsBlCjQhcCpxfz1hZsO/KJC
+         gxMWVprOPDrS3HCGHdcifofJ8jSyCDTqYumJnwQ2YUZXTxvz8+TAqKcjgb3gZy4T/ATp
+         3RbjvSZAsSsQ7dIrcD7FuBRP1E0uMCXyOWgb81VZAbS0/BVRcBRM1Bjkx/NiYZFi1/U4
+         9r6zNa7JHCdCI+ENKQToRuixyoQU9mv0Q1sz0Pr50YH4LOyV5JX8Kt73GlO2O68FHIaT
+         YuFom+htCocVz4bQpDMuq/ECQTmXKiLIpAbpmtb2Xmi52s8P32ucAr4+/P9hvfh9xccl
+         129w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:content-language:thread-index:mime-version
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=gskbMrdSMSvK3smiRYaVbGhH0n0km5BfUUttYHvzj+Y=;
+        b=TjELKMKTK263w2cxCo4cBpLPhDjQ37S+1heHWv1cFB/QPBTKiRBm/vZWzSleI63ioi
+         OoG3di8OxQCWmdJf9+PCm18ZJQOoPu+yfOctO6L5WPmqMt5I9B6BO5J1DKMjKEcK/lRV
+         22DDdKhcdQ1q7UJ5MHFJUbEgtrroB7vmTCtxlxmZ/ON7at9x2LogKSAu6t0kO9PF8u6K
+         kOfYC+GZuDfPxQxVYAao24xeQp1pnlN1ow09rkNw7EWS46xHfxZjiuA/tIZNe84vweE4
+         e6+9l3J8hpYzMUuOG12f338+OalcINoM4pH5nBe/l54aBYo1iR/y2ScBu+g9bcdTdf6B
+         EKEw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@ukrbit.net header.s=default1905 header.b=VA6GuExZ;
+       spf=pass (google.com: domain of admin@ukrbit.net designates 78.46.0.253 as permitted sender) smtp.mailfrom=admin@ukrbit.net;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ukrbit.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=sender:from:to:cc:subject:date:message-id:mime-version:thread-index
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-unsubscribe;
+        bh=gskbMrdSMSvK3smiRYaVbGhH0n0km5BfUUttYHvzj+Y=;
+        b=A/i5TqYS3tFP1JsoQ/VOHZGTRc4358GfKqij1I6Mp9ynkLYYCgImWcN+KP6qKcif8S
+         AwiU/yGfxYbU1tgBKPXJlLkDlQZ5/HeeFY2DfwLRWmS/2kPVTb4nBd62cJYRy76XmR6B
+         AxLIv4yzmb8zAY6duNkXmGcDg1DUMJrOoto7Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:thread-index:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-unsubscribe;
+        bh=gskbMrdSMSvK3smiRYaVbGhH0n0km5BfUUttYHvzj+Y=;
+        b=mJZ6MmuE87qTN/tZo4vyhWTHzAKdJL0h6Al4W3fbvAEXNt+itNeByOC9geoWpB0NIp
+         +xq1ZDe+DhBQInibU2eT8UVaIHSPKBwtRCOGJ6BPFwH8E6Bqx4KOpbD5pZ4mfCQzzFBJ
+         5iz65Q4e3HGdxUNkuo04O9Dn8/KhRigtlpMU1YPFs2+EHtNro3t/RfhOMCbkptaP8P1A
+         cYzewoKqseDLKYSepxusurTwCO1qIYGJoTfey7a2izw0uB0Tp9MN8avOrnkrUvOsinP+
+         B9OFF5pvRzXVwmuJkJAYZKJipAJHkwFTe96SrhC0hq+LE5eQUuRQzAPXxKUtctDYrRhg
+         VKNQ==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOAM530bc7on9jAIpj4oFOTHiFHHpzOdNY+alaJJTiRTeq7390xyyrVL
+	/4lCSJ1RTcPq3RMhF7GbET8GMw==
+X-Google-Smtp-Source: ABdhPJywSZKqD4SywFJVP/l0EzjAPgHFGKUAumkBiOn82IasxRoPDuv13E+kOjlMU6XcZl3q4JKPEg==
+X-Received: by 2002:a05:600c:5124:b0:39c:453f:5e10 with SMTP id o36-20020a05600c512400b0039c453f5e10mr6364640wms.81.1654407122450;
+        Sat, 04 Jun 2022 22:32:02 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a5d:648e:0:b0:217:c8b4:52e3 with SMTP id o14-20020a5d648e000000b00217c8b452e3ls122407wri.1.gmail;
+ Sat, 04 Jun 2022 22:32:01 -0700 (PDT)
+X-Received: by 2002:adf:ce03:0:b0:210:32ec:50fd with SMTP id p3-20020adfce03000000b0021032ec50fdmr15638693wrn.407.1654407121365;
+        Sat, 04 Jun 2022 22:32:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654407121; cv=none;
+        d=google.com; s=arc-20160816;
+        b=p0REpY5uL0e0UuD9TBgceZANyZY/WSA5NC6EwpL658BCifLOB0A/kqknNOkiQmGMbj
+         n4NqsCw4zl4ZLYiuO4Njnjr8JlOvIpPIJEYDSH1BNQXtoQQcuYGiI0WlhKDINQClcKoZ
+         tcKB55zhqeDw7dMuWAOWv23vTZZ1SCyEsPKDzqw2gU3c/BrgNfMxQ6RftnX+HejRUpEk
+         c+Pcr48fKmTHTwceLUHCrp4tVdzyKohpQ51MVG9ufxzb+9lR0CAynOboGE7q3bxwcp7V
+         sVuppPdEof/wDvLX398NX3p50OfibhtzCC4HdlZUDJ6UYyPjp5UyPyEJSKo3cWY5OTLt
+         HQew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :cc:to:from:dkim-signature;
+        bh=gskbMrdSMSvK3smiRYaVbGhH0n0km5BfUUttYHvzj+Y=;
+        b=k+lmgIz+TUluXlVoYSC/9o6icI1ycmznYr4yfkwK9pbTQ3TSvCd2ZKaPL6uAwFG2mx
+         zXQDyRjK74HV6BqRMynV4DJWNUmUMiRtsq0gewFA3PEkoVbehiLcaBTTlFvJ/8nFbOCR
+         rhzZUxgsZelPsg7TnpBxPQigheJSX52VGaej/c5yn6bB1Zu+U4xBLJqwimjn+/6NeSdJ
+         jYfn5Uqcux5AjUaEtR+nfrUHv29VW0IUHs0j6UCmvapDzA6BfhxVVqrP9RkntzzewBDc
+         ZT7fOvGqC+40/R+WwOJUuvEQeAmWzycarpPExB/roE4NglsmB+VnAIUZPU9ADc4dEQwW
+         xPKQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ukrbit.net header.s=default1905 header.b=VA6GuExZ;
+       spf=pass (google.com: domain of admin@ukrbit.net designates 78.46.0.253 as permitted sender) smtp.mailfrom=admin@ukrbit.net;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ukrbit.net
+Received: from www213.your-server.de (www213.your-server.de. [78.46.0.253])
+        by mx.google.com with ESMTPS id bv14-20020a0560001f0e00b002100dc1f379si8178141wrb.1005.2022.06.04.22.32.01
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jun 2022 22:32:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of admin@ukrbit.net designates 78.46.0.253 as permitted sender) client-ip=78.46.0.253;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www213.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3)
+	(envelope-from <admin@ukrbit.net>)
+	id 1nxirp-000AsV-5D; Sun, 05 Jun 2022 07:32:01 +0200
+Received: from [45.132.226.181] (helo=kabylake)
+	by sslproxy01.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.92)
+	(envelope-from <admin@ukrbit.net>)
+	id 1nxiro-000XrH-UL; Sun, 05 Jun 2022 07:32:01 +0200
+From: "Henry" <admin@ukrbit.net>
+To: <submit.pBubOlK0qjHdJmM7@spam.spamcop.net>
+Cc: <abuse@digitalocean.com>
+Subject: FW: All your data has been hacked and copied to my servers. Instructions inside (SPAM report)
+Date: Sun, 5 Jun 2022 07:32:00 +0200
+Message-ID: <514301d8789d$95172430$bf456c90$@ukrbit.net>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="----=_NextPart_000_5144_01D878AE.58A0DE90"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Adh4nXuA6OI8Oi2zRT2SsCQxmd7+8w==
+Content-Language: en-us
+X-Authenticated-Sender: admin@ukrbit.net
+X-Virus-Scanned: Clear (ClamAV 0.103.6/26562/Sat Jun  4 10:05:34 2022)
+X-Original-Sender: admin@ukrbit.net
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@ukrbit.net header.s=default1905 header.b=VA6GuExZ;       spf=pass
+ (google.com: domain of admin@ukrbit.net designates 78.46.0.253 as permitted
+ sender) smtp.mailfrom=admin@ukrbit.net;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=ukrbit.net
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_5144_01D878AE.58A0DE90
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_001_5145_01D878AE.58A0DE90"
+
+
+------=_NextPart_001_5145_01D878AE.58A0DE90
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+This is SPAM. I did not sign up for this!
+
+=20
+
+Return-Path: <facturacion@sidesoftcorp.com>
+
+Received: from www213.your-server.de
+
+              by www213.your-server.de with LMTP
+
+              id oBSPKt4enGLrLgAAZtVoIg
+
+              (envelope-from <facturacion@sidesoftcorp.com>); Sun, 05 =
+Jun 2022 05:11:26 +0200
+
+Envelope-to: vall@ukrbit.net
+
+Delivery-date: Sun, 05 Jun 2022 05:11:26 +0200
+
+Authentication-Results: www213.your-server.de;
+
+              iprev=3Dpass (correo.sidesoftcorp.com) =
+smtp.remote-ip=3D159.203.99.92;
+
+              spf=3Dpass smtp.mailfrom=3Dsidesoftcorp.com;
+
+              dkim=3Dpass header.d=3Dsidesoftcorp.com =
+header.s=3DBA48B0C4-6E58-11EC-90F4-4E4CB08BC0A5 header.a=3Drsa-sha256;
+
+              dmarc=3Dskipped
+
+Received: from correo.sidesoftcorp.com ([159.203.99.92])
+
+              by www213.your-server.de with esmtps =
+(TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+
+              (Exim 4.92.3)
+
+              (envelope-from <facturacion@sidesoftcorp.com>)
+
+              id 1nxgfm-0003QK-1O
+
+              for vall@ukrbit.net; Sun, 05 Jun 2022 05:11:26 +0200
+
+Received: from localhost (localhost [127.0.0.1])
+
+              by correo.sidesoftcorp.com (Postfix) with ESMTP id =
+4BE4524273A
+
+              for <vall@ukrbit.net>; Sun,  5 Jun 2022 03:10:11 +0000 =
+(UTC)
+
+Received: from correo.sidesoftcorp.com ([127.0.0.1])
+
+              by localhost (correo.sidesoftcorp.com [127.0.0.1]) =
+(amavisd-new, port 10032)
+
+              with ESMTP id P1CTQ6LuvMPm for <vall@ukrbit.net>;
+
+              Sun,  5 Jun 2022 03:10:10 +0000 (UTC)
+
+Received: from localhost (localhost [127.0.0.1])
+
+              by correo.sidesoftcorp.com (Postfix) with ESMTP id =
+D21E624273C
+
+              for <vall@ukrbit.net>; Sun,  5 Jun 2022 03:10:10 +0000 =
+(UTC)
+
+DKIM-Filter: OpenDKIM Filter v2.10.3 correo.sidesoftcorp.com D21E624273C
+
+DKIM-Signature: v=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed; =
+d=3Dsidesoftcorp.com;
+
+              s=3DBA48B0C4-6E58-11EC-90F4-4E4CB08BC0A5; t=3D1654398610;
+
+              bh=3Dl93GYFKO6azLza0MRODbBU4Wk48siD6SvPkby7MTxg0=3D;
+
+              h=3DTo:From:Date:MIME-Version:Message-ID;
+
+b=3Ds72FM2rhDLsyBRC63YHpQM/Zk8HDECkdYiDfWsYyEYWO9vLZKnm/TY3unQVyRRNEE
+
+              =
+iXcUKioDTQf7e67p0LPd1LLGrRSY8EcidQujyC6vVu43qXqYAPOOku3qacJbRUm/bC
+
+              =
+6yTXlrgYV9jfLmFSCr+vY5eCaxJWT+WuMRgarH+Yw6lRzi4Lt9mxo8i67vfAv6KBp1
+
+              =
+RuggehFpJLst58Q3utlKCQD239tts87QVm2NkPd9O/XzpWo6/M1YM+CcAcjXjE4219
+
+              =
+8hdvusNg5ICoToiwJMO7tFHsbirPXdtf69MoaDEw3srW/Rg2oxAN2W9AdzKCK3q3hM
+
+              nDboOuYZ+BVvQ=3D=3D
+
+X-Virus-Scanned: amavisd-new at correo.sidesoftcorp.com
+
+Received: from correo.sidesoftcorp.com ([127.0.0.1])
+
+              by localhost (correo.sidesoftcorp.com [127.0.0.1]) =
+(amavisd-new, port 10026)
+
+              with ESMTP id gIVVgMpZdKeL for <vall@ukrbit.net>;
+
+              Sun,  5 Jun 2022 03:10:10 +0000 (UTC)
+
+Received: from [127.0.0.1] (unknown [196.0.86.250])
+
+              by correo.sidesoftcorp.com (Postfix) with ESMTPSA id =
+960C523F50B
+
+              for <vall@ukrbit.net>; Sun,  5 Jun 2022 03:10:09 +0000 =
+(UTC)
+
+To: vall@ukrbit.net
+
+From: Jane Sampson <facturacion@sidesoftcorp.com>
+
+Content-Type: text/plain; charset=3DUTF-8
+
+Subject: All your data has been hacked and copied to my servers. =
+Instructions
+
+inside
+
+Date: Sun, 5 Jun 2022 05:10:11 +0200
+
+MIME-Version: 1.0
+
+Message-ID: <22192200519796.0.0493J5K73Y3W3Z37@sidesoftcorp.com>
+
+X-Message-ID: 5266536545
+
+Content-Transfer-Encoding: quoted-printable
+
+X-DKIM-Status: pass [(sidesoftcorp.com) - 159.203.99.92]
+
+X-Virus-Scanned: Clear (ClamAV 0.103.6/26562/Sat Jun  4 10:05:34 2022)
+
+X-Spam-Score: 15.6 (+++++++++++++++)
+
+Delivered-To: ukrbit-vall@ukrbit.net
+
+=20
+
+
+------=_NextPart_001_5145_01D878AE.58A0DE90
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
+name=3DGenerator content=3D"Microsoft Word 15 (filtered =
+medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal>This is SPAM. I did not sign =
+up for this!<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Return-Path: =
+&lt;facturacion@sidesoftcorp.com&gt;<o:p></o:p></p><p =
+class=3DMsoNormal>Received: from www213.your-server.de<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by www213.your-server.de with =
+LMTP<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 id oBSPKt4enGLrLgAAZtVoIg<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 (envelope-from =
+&lt;facturacion@sidesoftcorp.com&gt;); Sun, 05 Jun 2022 05:11:26 =
++0200<o:p></o:p></p><p class=3DMsoNormal>Envelope-to: =
+vall@ukrbit.net<o:p></o:p></p><p class=3DMsoNormal>Delivery-date: Sun, =
+05 Jun 2022 05:11:26 +0200<o:p></o:p></p><p =
+class=3DMsoNormal>Authentication-Results: =
+www213.your-server.de;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 iprev=3Dpass (correo.sidesoftcorp.com) =
+smtp.remote-ip=3D159.203.99.92;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 spf=3Dpass =
+smtp.mailfrom=3Dsidesoftcorp.com;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dkim=3Dpass header.d=3Dsidesoftcorp.com =
+header.s=3DBA48B0C4-6E58-11EC-90F4-4E4CB08BC0A5 =
+header.a=3Drsa-sha256;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dmarc=3Dskipped<o:p></o:p></p><p =
+class=3DMsoNormal>Received: from correo.sidesoftcorp.com =
+([159.203.99.92])<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by www213.your-server.de with esmtps =
+(TLSv1.3:TLS_AES_256_GCM_SHA384:256)<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 (Exim 4.92.3)<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 (envelope-from =
+&lt;facturacion@sidesoftcorp.com&gt;)<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 id 1nxgfm-0003QK-1O<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 for vall@ukrbit.net; Sun, 05 Jun 2022 05:11:26 =
++0200<o:p></o:p></p><p class=3DMsoNormal>Received: from localhost =
+(localhost [127.0.0.1])<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by correo.sidesoftcorp.com (Postfix) with ESMTP id =
+4BE4524273A<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 for &lt;vall@ukrbit.net&gt;; Sun,=C2=A0 5 Jun 2022 =
+03:10:11 +0000 (UTC)<o:p></o:p></p><p class=3DMsoNormal>Received: from =
+correo.sidesoftcorp.com ([127.0.0.1])<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by localhost (correo.sidesoftcorp.com [127.0.0.1]) =
+(amavisd-new, port 10032)<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 with ESMTP id P1CTQ6LuvMPm for =
+&lt;vall@ukrbit.net&gt;;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 Sun,=C2=A0 5 Jun 2022 03:10:10 +0000 =
+(UTC)<o:p></o:p></p><p class=3DMsoNormal>Received: from localhost =
+(localhost [127.0.0.1])<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by correo.sidesoftcorp.com (Postfix) with ESMTP id =
+D21E624273C<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 for &lt;vall@ukrbit.net&gt;; Sun,=C2=A0 5 Jun 2022 =
+03:10:10 +0000 (UTC)<o:p></o:p></p><p class=3DMsoNormal>DKIM-Filter: =
+OpenDKIM Filter v2.10.3 correo.sidesoftcorp.com =
+D21E624273C<o:p></o:p></p><p class=3DMsoNormal>DKIM-Signature: v=3D1; =
+a=3Drsa-sha256; c=3Drelaxed/relaxed; =
+d=3Dsidesoftcorp.com;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 s=3DBA48B0C4-6E58-11EC-90F4-4E4CB08BC0A5; =
+t=3D1654398610;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =
+bh=3Dl93GYFKO6azLza0MRODbBU4Wk48siD6SvPkby7MTxg0=3D;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =
+h=3DTo:From:Date:MIME-Version:Message-ID;<o:p></o:p></p><p =
+class=3DMsoNormal> =
+b=3Ds72FM2rhDLsyBRC63YHpQM/Zk8HDECkdYiDfWsYyEYWO9vLZKnm/TY3unQVyRRNEE<o:p=
+></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0  =
+iXcUKioDTQf7e67p0LPd1LLGrRSY8EcidQujyC6vVu43qXqYAPOOku3qacJbRUm/bC<o:p></=
+o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0  =
+6yTXlrgYV9jfLmFSCr+vY5eCaxJWT+WuMRgarH+Yw6lRzi4Lt9mxo8i67vfAv6KBp1<o:p></=
+o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0  =
+RuggehFpJLst58Q3utlKCQD239tts87QVm2NkPd9O/XzpWo6/M1YM+CcAcjXjE4219<o:p></=
+o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0  =
+8hdvusNg5ICoToiwJMO7tFHsbirPXdtf69MoaDEw3srW/Rg2oxAN2W9AdzKCK3q3hM<o:p></=
+o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0  nDboOuYZ+BVvQ=3D=3D<o:p></o:p></p><p =
+class=3DMsoNormal>X-Virus-Scanned: amavisd-new at =
+correo.sidesoftcorp.com<o:p></o:p></p><p class=3DMsoNormal>Received: =
+from correo.sidesoftcorp.com ([127.0.0.1])<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by localhost (correo.sidesoftcorp.com [127.0.0.1]) =
+(amavisd-new, port 10026)<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 with ESMTP id gIVVgMpZdKeL for =
+&lt;vall@ukrbit.net&gt;;<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 Sun,=C2=A0 5 Jun 2022 03:10:10 +0000 =
+(UTC)<o:p></o:p></p><p class=3DMsoNormal>Received: from [127.0.0.1] =
+(unknown [196.0.86.250])<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 by correo.sidesoftcorp.com (Postfix) with ESMTPSA =
+id 960C523F50B<o:p></o:p></p><p =
+class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 for &lt;vall@ukrbit.net&gt;; Sun,=C2=A0 5 Jun 2022 =
+03:10:09 +0000 (UTC)<o:p></o:p></p><p class=3DMsoNormal>To: =
+vall@ukrbit.net<o:p></o:p></p><p class=3DMsoNormal>From: Jane Sampson =
+&lt;facturacion@sidesoftcorp.com&gt;<o:p></o:p></p><p =
+class=3DMsoNormal>Content-Type: text/plain; =
+charset=3DUTF-8<o:p></o:p></p><p class=3DMsoNormal>Subject: All your =
+data has been hacked and copied to my servers. =
+Instructions<o:p></o:p></p><p class=3DMsoNormal> inside<o:p></o:p></p><p =
+class=3DMsoNormal>Date: Sun, 5 Jun 2022 05:10:11 +0200<o:p></o:p></p><p =
+class=3DMsoNormal>MIME-Version: 1.0<o:p></o:p></p><p =
+class=3DMsoNormal>Message-ID: =
+&lt;22192200519796.0.0493J5K73Y3W3Z37@sidesoftcorp.com&gt;<o:p></o:p></p>=
+<p class=3DMsoNormal>X-Message-ID: 5266536545<o:p></o:p></p><p =
+class=3DMsoNormal>Content-Transfer-Encoding: =
+quoted-printable<o:p></o:p></p><p class=3DMsoNormal>X-DKIM-Status: pass =
+[(sidesoftcorp.com) - 159.203.99.92]<o:p></o:p></p><p =
+class=3DMsoNormal>X-Virus-Scanned: Clear (ClamAV 0.103.6/26562/Sat =
+Jun=C2=A0 4 10:05:34 2022)<o:p></o:p></p><p =
+class=3DMsoNormal>X-Spam-Score: 15.6 (+++++++++++++++)<o:p></o:p></p><p =
+class=3DMsoNormal>Delivered-To: ukrbit-vall@ukrbit.net<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_001_5145_01D878AE.58A0DE90--
+
+------=_NextPart_000_5144_01D878AE.58A0DE90
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment
+
+Received: from correo.sidesoftcorp.com ([127.0.0.1])
+	by localhost (correo.sidesoftcorp.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id P1CTQ6LuvMPm for <vall@ukrbit.net>;
+	Sun,  5 Jun 2022 03:10:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by correo.sidesoftcorp.com (Postfix) with ESMTP id 4BE4524273A
+	for <vall@ukrbit.net>; Sun,  5 Jun 2022 03:10:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by correo.sidesoftcorp.com (Postfix) with ESMTP id D21E624273C
+	for <vall@ukrbit.net>; Sun,  5 Jun 2022 03:10:10 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [196.0.86.250])
+	by correo.sidesoftcorp.com (Postfix) with ESMTPSA id 960C523F50B
+	for <vall@ukrbit.net>; Sun,  5 Jun 2022 03:10:09 +0000 (UTC)
+Received: from correo.sidesoftcorp.com ([127.0.0.1])
+	by localhost (correo.sidesoftcorp.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id gIVVgMpZdKeL for <vall@ukrbit.net>;
+	Sun,  5 Jun 2022 03:10:10 +0000 (UTC)
+Received: from correo.sidesoftcorp.com ([159.203.99.92])
+	by www213.your-server.de with esmtps (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3)
+	(envelope-from <facturacion@sidesoftcorp.com>)
+	id 1nxgfm-0003QK-1O
+	for vall@ukrbit.net; Sun, 05 Jun 2022 05:11:26 +0200
+Received: from www213.your-server.de
+	by www213.your-server.de with LMTP
+	id oBSPKt4enGLrLgAAZtVoIg
+	(envelope-from <facturacion@sidesoftcorp.com>); Sun, 05 Jun 2022 05:11:26 +0200
+From: "Jane Sampson" <facturacion@sidesoftcorp.com>
+To: <vall@ukrbit.net>
+Subject: All your data has been hacked and copied to my servers. Instructions inside
+Date: Sun, 5 Jun 2022 05:10:11 +0200
+Message-ID: <22192200519796.0.0493J5K73Y3W3Z37@sidesoftcorp.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Authentication-Results: www213.your-server.de;
+	iprev=pass (correo.sidesoftcorp.com) smtp.remote-ip=159.203.99.92;
+	spf=pass smtp.mailfrom=sidesoftcorp.com;
+	dkim=pass header.d=sidesoftcorp.com header.s=BA48B0C4-6E58-11EC-90F4-4E4CB08BC0A5 header.a=rsa-sha256;
+	dmarc=skipped
+X-DKIM-Status: pass [(sidesoftcorp.com) - 159.203.99.92]
+X-Virus-Scanned: amavisd-new at correo.sidesoftcorp.com
+X-Virus-Scanned: Clear (ClamAV 0.103.6/26562/Sat Jun  4 10:05:34 2022)
+X-Spam-Score: 15.6 (+++++++++++++++)
+Thread-Index: AQMd0oq28Ww6GZV3iQ5rfFPzuz4EsA==
+X-Message-ID: 5266536545
+
+I have  bad info for you  personally.=20
+
+
+Some  time ago  Managed to  get admission to your systems.=20
+Following  that, I  began monitoring  your actions.=20
+
+
+
+I  mounted  a Trojan  viruses  on the  os's  of all gadgets that  you  =
+utilize to reach  the  web.=20
+This particular  program  gives me  access to  all your  systems.=20
+
+
+
+I've  uploaded all  your  data, images,  and browsing  history to  my =
+servers. I  just got  admission  to  all your  data, communication  =
+messengers,  social networking, contacts, email etcetera.=20
+
+
+
+
+My  malware  updates signatures  & remains  hidden to  anti-virus  =
+applications. Whilst gathering  details about you,  I found you're  a  =
+huge  admirer of  grownup websites and  are  enjoying exciting  clips  =
+whilst experiencing so much  pleasure.=20
+
+
+
+
+
+I was  able to capture some  of  your filthy  moments as  you  jack off  =
+& achieve  male  orgasms.=20
+
+If there  are any  skepticism, I am  able to  generate  a couple  of =
+clicks and clips are going  to  be shown  to everyone  you know.=20
+
+
+
+
+
+And  also I  can  publish all  your communication,  personal pics,  and =
+all your  private information  online. I  can harm  your status  for =
+good.=20
+
+I  think  you  really  do not  want that  to take  place, considering  =
+the character  of the  videos you  adore to  watch,  do you  know what =
+I'm  talking about,  it's going  to be an  absolute disaster  in your  =
+case.=20
+
+
+Let's  fix that  by  doing this:  you send  me 1000  DOLLARS (in  =
+bitcoin corresponding to the  exchange rate  at the  time of exchange),  =
+and I'll immediately  remove everything. After  that, we'll  forget =
+about  each other.=20
+
+
+I  additionally promise  to de-activate  & remove  all  viruses out of  =
+your devices.=20
+
+
+Keep  in mind  that I  always  keep my word. Here's my  btc wallet:  =
+bc1qcp5c4gu6dmtvdrrdrgh3dnc3w3zkxxvx2fu0c5
+
+
+
+You have  Two business  days as  soon as  you view this email.=20
+
+
+
+If you  don't forward  money, your  videos  and all  your computer  data =
+ will be posted  on the  Internet for  all individuals  and your friends =
+and  family. I'll destroy your  status  permanently.=20
+
+
+
+
+Do not  seek me and  do not contact  the  authorities  along  with other =
+ help,  otherwise  your data  will be posted.=20
+I  know  numerous secrets regarding you,  so in case  your status  is =
+valuable,  keep in  mind that  I can  ruin it  forever.
+
+------=_NextPart_000_5144_01D878AE.58A0DE90--
+

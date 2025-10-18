@@ -1,0 +1,233 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id F290A5FC-3964-495B-8083-D24C6BA01B21.1
+	envelope-from <abuse+bncBAABBYXYQGVQMGQE75EGWXQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 24 Nov 2023 10:35:15 +0000
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-54442ba286fsf1085239a12.2
+        for <abuse@digitalocean.abusehq.net>; Fri, 24 Nov 2023 02:35:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700822115; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=B3SkblA74pgpTB/aZSHGU/E5M+3NJzs2M81KLljvqSLJLAFfxTd09C+yBdUJXWfz8E
+         KgvFKbGFK/PxhQwrkNSyyFkZpJ1uzGp8yvUMnXqBtHXfpmCOq4PT2JQbtU8TrMdIS+j4
+         25Sl83iW/KrD6rXRrw8Cxdz9e/TIFs1Q2t/brCc+ZO0itJHedzQdUgnM/KcIFQukC6OV
+         h3n1a1uiKhTzGmsy8cU5fWC80FpwvUyQ0hvw5sSOOapB5Dyhh4PCgpEnlW+cAqB/YVEH
+         1OLFSSkJ4euh+QSsZ/jUX6CML+49aa6QJ7Ta0hrHaUsTSYdgszN7rswIqTbt8fbckKAg
+         1OiA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:mime-version:date:precedence:to:message-id:references
+         :in-reply-to:reply-to:from:subject:dkim-signature;
+        bh=jDnc4KGT21+dc8fo8Xd/7X3boUCC18jsC8/V9YX2nxE=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=g17vVVd957Ka3MbLPIyC9OVZqG5tVzR7GcGtEzkkffMU+jcdgle1TxaJupxe0siUcc
+         /b586FlMextzJlkV9ssxJD4OUmBykkg8zeLMcON0hBBga6T7cWWPQWDe4EBTW6lQSjSg
+         vwfrVBiXXs4gfdoN7yE36y5onAvZgusrOFImnVAcW5aWUZSEH2WUdJcZcdBChnIdM0B6
+         Rtyuf2HsdI9b0e6ULl5IQODl/iZaDbPKN2V96i8kg1Q1frXW2rRCUDpIO75WB02snJ+K
+         AOA00dTL9TOMsa4v7IdaQUSrgH03JowIt6pjmyxZaqhbqPv4JEoJmY8DcoNLjhYJjfIQ
+         01Ww==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert.ro header.s=semnatSTS header.b=ENcYcnYr;
+       spf=pass (google.com: domain of apache@dnsc.ro designates 213.177.28.103 as permitted sender) smtp.mailfrom=apache@dnsc.ro;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=cert.ro
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1700822115; x=1701426915; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:x-original-authentication-results:x-original-sender
+         :mime-version:date:precedence:to:message-id:references:in-reply-to
+         :reply-to:from:subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDnc4KGT21+dc8fo8Xd/7X3boUCC18jsC8/V9YX2nxE=;
+        b=iUJKovwFxrMzjRuqRmrbDsm38S6f6vT6O3xjrASYUxwbCXlmzpGPdJh61DsZpqgIZJ
+         d4uTMSLKp9ak+iKD8vPaQ0KSp+DB3kMObl+GDyuV2ayoF7GL/3+e+eNIYRrHAOt79VDu
+         QCKF+MEXiybrcraDQ82fjm3FKjVhMSvCnz9cQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700822115; x=1701426915;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list
+         :x-original-authentication-results:x-original-sender:mime-version
+         :date:precedence:to:message-id:references:in-reply-to:reply-to:from
+         :subject:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jDnc4KGT21+dc8fo8Xd/7X3boUCC18jsC8/V9YX2nxE=;
+        b=N6hsFT2U0MNho6zrCSuEl7hgkjwOEojc7QVRo4b8SGXRT88nEID7UCek+SanBaLZeL
+         qmBLkDnE/kGZm/GKj1O+pndMU8KQmIfRqUS2AQ9HIbasZM3BVmiXAs+axYqtd8nLfwpA
+         vkRTTWoTfPVdo/90atsEx5wfN3BnlgcN0A9iQVD7BZdkch9WL910OeO1SsTS1qLIef9G
+         eF+K00YMqWgZ8d4UbvzPTxeww5tgxGqq+mvVYyGwQgD5sxv6W9+PY4w1i/P0m22EYXqI
+         ol7By3SMCKBAnhGWKrQ6RUruejYtXnzwyNNjzb3Q/SVXeknEelWgUrZInOrMwDQ+vRms
+         yo7g==
+X-Gm-Message-State: AOJu0YxSi0xGi6gUfYUKw2Rt2YqQnnhG8hEtmBzMY0iWUcM3prI0Kqmn
+	kbvtgDCVPQwwhAU/CI4OJ+Unig==
+X-Google-Smtp-Source: AGHT+IGLi1alPBiEOeJG0pSiqmysuPnybGXwX6hDrvtqeiRJycIY5nM0eKAN/wiYe8vBLURCvz58mQ==
+X-Received: by 2002:a50:9fe9:0:b0:54a:97c4:b035 with SMTP id c96-20020a509fe9000000b0054a97c4b035mr1792302edf.1.1700822114904;
+        Fri, 24 Nov 2023 02:35:14 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:22c7:b0:54a:ffa9:8a07 with SMTP id
+ dm7-20020a05640222c700b0054affa98a07ls170452edb.2.-pod-prod-03-eu; Fri, 24
+ Nov 2023 02:35:13 -0800 (PST)
+X-Received: by 2002:a17:906:7485:b0:a00:231a:92f8 with SMTP id e5-20020a170906748500b00a00231a92f8mr1206731ejl.15.1700822113154;
+        Fri, 24 Nov 2023 02:35:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700822113; cv=none;
+        d=google.com; s=arc-20160816;
+        b=v0W67KhzmDQT70/+fz7dEL94LtT1ZLRvU0AKU5UOceh8B5VwPwteax1V47nZSxhbgm
+         bPGoHQFwLBsY0uNxQAwLwZQcXAvOQFFkAUcMnGTwCbf7WYyNAielxSLCSHwmFC/1nWUT
+         FwWuwUjWKJDRySy3j46sZQpUIVvQuHx4GpGQAGM+lkNsO2DU4E+Vk6s3Tg4Jk59eH/JC
+         NlxcazV944tLNNTW4ka+x8L7Ux4i4KH6ppWNcEu1VbDmcqjgAw9L8iFwtBgg+a+8O5H6
+         bj28MjfxyHQoMFHHP1KIik3MyITUNWVI94dl6kfSCFjK8iEgO19IIKf1g1xQo60/Zinl
+         aGXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=dkim-signature:mime-version:date:precedence:to:message-id
+         :references:in-reply-to:reply-to:from:subject;
+        bh=jDnc4KGT21+dc8fo8Xd/7X3boUCC18jsC8/V9YX2nxE=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=D2QNyBkp3Rsolesd911Rv5nl8+phsDcWkFSw0WKRymivCc9yr2yMiyRGWy/oOV4kvf
+         gLNIaMezwfTDW7zPoYqEmqF12AotzZzRhfqhebOIfalgRRGU0PjhPH4OOaH/3gq5i9Nn
+         lMr2/Ov//6TFdSGmcVsY/aNXuduTIYd61LxRSxjeOsVF/lsGeaj2soGDOE4NtMUIR3rV
+         1Ql3bSzps9CmFLEbs8AHykJFVyFyHAN+IIASt7vjKERzjGL8zPz56vHedRvo12hgP7+r
+         zTC8mYJ7n1y8kxPJqmhu2ij/v1ESuhWFMgc/vjYzbtaQLwEN8Cq1AepL7bJS/uZW0BIU
+         rguw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert.ro header.s=semnatSTS header.b=ENcYcnYr;
+       spf=pass (google.com: domain of apache@dnsc.ro designates 213.177.28.103 as permitted sender) smtp.mailfrom=apache@dnsc.ro;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=cert.ro
+Received: from 213.177.28.103.cert.ro ([213.177.28.103])
+        by mx.google.com with ESMTPS id t27-20020a508d5b000000b00548e31cdb15si1654632edt.344.2023.11.24.02.35.12
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 02:35:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of apache@dnsc.ro designates 213.177.28.103 as permitted sender) client-ip=213.177.28.103;
+Received: from mx2.cert.ro ([192.166.122.35])
+	by 213.177.28.103.cert.ro  with ESMTP id 3AOAZCZ2014302-3AOAZCZ4014302
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
+	for <abuse@digitalocean.com>; Fri, 24 Nov 2023 12:35:12 +0200
+Received: from rtir.cert.ro (192.168.210.53) by mx2.cert.ro (Axigen)
+ with ESMTP id 1D1D01; Fri, 24 Nov 2023 12:35:12 +0200
+Received: by rtir.cert.ro (Postfix, from userid 48)	id A49B712708E;
+ Fri, 24 Nov 2023 12:43:16 +0200 (EET)
+Subject: [DNSC #2213075] Cybersecurity alert [ Fake Webshop -
+ maritimodatca.com -  146.190.233.188 ]
+From: "'operator-6 via RT' via abuse" <abuse@digitalocean.com>
+Reply-To: alerts@cert.ro
+In-Reply-To: 
+References: <RT-Ticket-2213075@CERT-RO>
+Message-ID: <rt-4.4.4-10521-1700822596-351.2213075-39-0@CERT-RO>
+X-RT-Loop-Prevention: DNSC
+X-RT-Ticket: DNSC #2213075
+X-Managed-BY: RT 4.4.4 (http://www.bestpractical.com/rt/)
+To: abuse@digitalocean.com
+X-RT-Original-Encoding: utf-8
+Precedence: list
+Date: Fri, 24 Nov 2023 12:43:16 +0200
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="----------=_1700822596-10521-80";
+ micalg="pgp-sha1"; protocol="application/pgp-signature"
+Received-SPF: fail (dnsc.ro: domain of apache@dnsc.ro does not designate
+ 192.168.210.53 as permitted sender) client-ip=192.168.210.53;
+ envelope-from=apache@dnsc.ro; mechanism=default; identity=mailfrom;
+ receiver=mx2.cert.ro;
+X-AXIGEN-SPF-Result: Failed
+X-FEAS-Client-IP: 192.166.122.35
+X-FE-Last-Public-Client-IP: 192.166.122.35
+X-FE-Policy-ID: 3:3:0:SYSTEM
+X-Original-Sender: alerts@cert.ro
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert.ro header.s=semnatSTS header.b=ENcYcnYr;       spf=pass
+ (google.com: domain of apache@dnsc.ro designates 213.177.28.103 as permitted
+ sender) smtp.mailfrom=apache@dnsc.ro;       dmarc=pass (p=REJECT sp=NONE
+ dis=NONE) header.from=cert.ro
+X-Original-From: "operator-6 via RT" <alerts@cert.ro>
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multi-part message in MIME format...
+
+------------=_1700822596-10521-80
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+Hello,
+
+As a result of proactive measures undertaken by the National Cyber Security
+Directorate (DNSC), we would like to inform you that the domain below is
+hosting a fake online store.
+
+Similar to phishing scams, fake shops fraudulently induce victims to divulge
+bank details in exchange for fictitious/counterfeit products.
+
+A combination of the following factors identifies a shop as fake:
+* Newly registered domain, often registered on a recently expired domain.
+* The domain name does not match the brand or trademarks contained on the s=
+ite.
+* Very low prices for all products in the store, often over 50%, with all i=
+tems
+in stock, with an arbitrarily large number of units in stock.
+* The look and feel of the site is very generic - displays only products, w=
+ith
+no accompanying text, often using a default theme.
+* Either have false contact details, or no contact address and phone number=
+ for
+the company running the site - the contact page is often just a form.
+* Some sites offer security seals at the bottom of the page (e.g. "SSL
+Secured", "Verified by Visa" or "Verisign Secured"), but these are just ima=
+ges.
+* The store may have limited delivery information and other policies or text
+copied from legitimate sites.
+* Existence of grammatical errors/typos in the website content.
+* Lack of "Terms and Conditions" and/or "Contact" sections.
+
+Please deactivate these areas as soon as possible. We ask that you provide
+feedback as soon as possible on the action taken in this case.
+Please note that you are receiving this email because you are one of the
+contact persons for the website in question (WHOIS records).
+
+
+Regards,
+General Division of Technical Operations
+----------------------------------------------
+The Romanian National Cyber Security Directorate
+T: 1911
+E: alerte@dnsc.ro
+SM: https://linktr.ee/dnsc.ro
+
+
+[TLP AMBER].This is confidential information. Recipients may share this
+information only with members of their own organization who need to know, a=
+nd
+only as much as necessary to act on the information (More on classification:
+https://www.first.org/tlp/).
+
+
+
+------------=_1700822596-10521-80
+Content-Type: application/pgp-signature
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAABAgAGBQJlYH5EAAoJEJPckKOjGWWtHYgQAIP1jhCl041kD9uQg/2pp8A9
+owpj6loawciBarkTZMYf9b7480hPE3jzhBgXZyhb1Rf/ANvBUclT90XRLWLjzNJd
+Xx032cYAsQxDrznxHeiXwuqZjbhsr7UB3mmKKPb9A08YFUgEj3JsgCvgR3aVH6kE
+CCCMcJC6J4QB5ZrV2G07FLri2inM0R5x0Rd4ILgrfhEbT1V8sxbnPITTaKZeyvaz
+E860tiS0rARdnuPtguz2Q9NyvE00Tamr9IlvAlNAZ7IV29ejzJ9E3bQyynoEHgko
+3O7BtyQOuuIUSUC0vEChlvh5RXnXOM1+r3k0IXUZGjhu+LeMOEavyAuHx7yJKyOv
++zfy8fZ29GLItj7rP6VPof5tOBZa/tQQhDzHsZ3WsQhyWfU0TqXrxFN58byWHG9Q
+yAepCxx//Sy2XeXgMVF5NN7UJWBTfXtpWaRS71AMmObl1wUTnGLaDdYUh9SZDALz
+vCIlk8WyWtVoV/wsaQqtK0BJ6W6+YmFBWelNfpFyQ5kMEXhpRKg5+IW2Ii+i2+Fw
+FxezWtvi0JwhV7GbXB736pKkQGsr4hiw77/0vkkoznGFqwpaAuXkQeji75s1Micl
+Y3iijXzdPW0e7hetq9hhOMg6nrRa4/OHOUjzsKu2qhWz+la1bpipugLw08YHHNrj
+/6n8UeJpHdvCxOICV9VJ
+=/XuH
+-----END PGP SIGNATURE-----
+
+------------=_1700822596-10521-80--

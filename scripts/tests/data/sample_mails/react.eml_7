@@ -1,0 +1,244 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id C509F5FB-DD66-4163-8AE5-3D3537295875.1
+	envelope-from <abuse+bncBC5ZRYG634FBBRFNQWWQMGQERYVL7ZI@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 12 Jan 2024 15:12:05 +0000
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-556415459d2sf3786271a12.0
+        for <abuse@digitalocean.abusehq.net>; Fri, 12 Jan 2024 07:12:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1705072324; x=1705677124; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:from:to
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HGglklvEGuVonlo5ktRnUyXUErGs5YbYv+qrnz51HcE=;
+        b=Z8SCXNc5dWn7vK+jE2lQ1raECmTpfgdflHwDWPuJWVl7LS7g66Hor3Co68yZADSYH3
+         NcBceMJ6gEACarypFBItKTtZZ5V+UqvB+CclXo2wcRdq3zGp/xvD9BIGj1r5VbMfkuVG
+         XSK5EvEEjXIIhN+IRj8t/X9uvtWDFS/2hjo6c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705072324; x=1705677124;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:from:to:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HGglklvEGuVonlo5ktRnUyXUErGs5YbYv+qrnz51HcE=;
+        b=VCt0JC3F7UfiQOOYv8Mz2jVN5N9aHcwWsIy0Z2ozuFE1L7iOIYEuNga7wY44Vd0VY1
+         JnIbsjvZdkww+ntZn5KcEiQZDsTPvopmg+PUUe+pV6e+0eqlQeS4udDJYvEIcJQdizLU
+         +ayD+APN/nwDcBXq28lKqfbWtTbbyxEwKu17NlBwfOLTdhH1UlxrTl+g8rqozLI+3Psy
+         1o2tU4Nd5DHvG37Xzln6xVuBiI6uURxvzsPdrx+2apx3KuJVKwmnRZ5qmXd3ogH9+VWp
+         tAl+d1DduwV/krJPRTgBrYSyk7nVQRHJqEXyCqv940QhxJPUTFdfMW6qzqckIYzSPyOx
+         aWDA==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0Yx7FmlUfqf5ATmR77diIeNIWlf0BvQeXRcAxJ7FkGYkA4TUrVrw
+	4jzdX8YbSV1l8LH/I1TIK/woTmS0fdVHHQ==
+X-Google-Smtp-Source: AGHT+IE3eSdwKFsFHxGPV/V+q3kFHz38MWgGTAKawEI+mDZLqHuRm5F0ElQ9Y0pGziEGbDnhlNKw+Q==
+X-Received: by 2002:aa7:d5cb:0:b0:557:741c:7b8 with SMTP id d11-20020aa7d5cb000000b00557741c07b8mr501653eds.55.1705072324778;
+        Fri, 12 Jan 2024 07:12:04 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:40c9:b0:554:caa2:8017 with SMTP id
+ z9-20020a05640240c900b00554caa28017ls291461edb.2.-pod-prod-02-eu; Fri, 12 Jan
+ 2024 07:12:03 -0800 (PST)
+X-Received: by 2002:a17:906:2842:b0:a28:46fe:77f1 with SMTP id s2-20020a170906284200b00a2846fe77f1mr484114ejc.179.1705072323136;
+        Fri, 12 Jan 2024 07:12:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705072323; cv=none;
+        d=google.com; s=arc-20160816;
+        b=UA9zfHZOuK4KAgfJb5NVSshxRelt0fuG3Yv+oiCsuJPKz1FMCbBZiAzdS4mncYpYRD
+         ajGUpIIvdqHBxMx/yWeisTV+4zjQyIeU246HY3i539DvQaq2FFOZt0IQV+WIoq/JstNz
+         uqlWSiWsSONQdFzFWXpM/g+xfj5gVkNIDVTCSl4qki+8J7Ni82OlX8nZRSzq1/+lCvz+
+         turFlkhGtPk+HAKxJ701bd8q81n/TjD37xIxB8ZYWCe2TXepH8P63rrt3yft8XsY3xoz
+         jt6ebYXK101rZo3tAmMygBn0Zshc7WA15OKr3vYGyXP1Xf7KPr7fc4K/XTvbW3oDn9bJ
+         fR9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:message-id:date:subject:from:to;
+        bh=HGglklvEGuVonlo5ktRnUyXUErGs5YbYv+qrnz51HcE=;
+        fh=xQhr97Mv08LuO6OodycpOSkpvBStq3AVbDFcSdJAnJw=;
+        b=FegZZKbyccihwunZuAhuXlhnQm5PfvgaYKiDZUK0wr8R07UbjER0/AtADfD8+Z7Spx
+         F5lZQso8xX+u6TuAo2wSk4hsxUTMdqHiO6+aAb/NvLqODVLxGzyq016kioBNpgAOlO+d
+         /lk/k8OAVSLkliYzG94kuMYC8U1E4TsGfLs2FGKt5MkhD1am/6C68l3N9T8VZ+9VUdKR
+         PQhUciEH6sOWayPGUPVq3izyW/lpVL4Y9Qve83XQd70YWuGEVGUBvyk0FYX/zUCHR3la
+         CfTsrQFR5ZpYA79J/PhgE+6dmdw4PIBn6cfkHRMG8YzmLDt76hCt65xgfHyfdxROHFMY
+         n5MA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of commercialsites@react.org designates 37.97.133.239 as permitted sender) smtp.mailfrom=Commercialsites@react.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=react.org
+Received: from 37-97-133-239.colo.transip.net (37-97-133-239.colo.transip.net. [37.97.133.239])
+        by mx.google.com with SMTP id e27-20020a170906249b00b00a27d512997bsi1405485ejb.592.2024.01.12.07.12.03;
+        Fri, 12 Jan 2024 07:12:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of commercialsites@react.org designates 37.97.133.239 as permitted sender) client-ip=37.97.133.239;
+To: Abuse@digitalocean.com, Noc@digitalocean.com
+From: Commercialsites@react.org
+Subject: uaetechnician.com / Notice of Trademark - Well-known brand 
+ isuse Infringement
+Date: Fri, 12 Jan 2024 16:11:26 +0100
+Message-ID: <20240112161126130000.15531368.25523@react.org>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+  boundary="Message-Boundary-2401121611264778"
+X-Original-Sender: commercialsites@react.org
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of commercialsites@react.org designates 37.97.133.239 as permitted
+ sender) smtp.mailfrom=Commercialsites@react.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=react.org
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--Message-Boundary-2401121611264778
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+To Whom It May Concern,
+
+We are sending this notice from The Anti-Counterfeiting Network- c.v. SNB-R=
+EACT u.a. (=E2=80=9CReact=E2=80=9D), that is a not-for-profit organization =
+representing over 300 members from all sectors of industry related to intel=
+lectual property rights (=E2=80=9CIPR=E2=80=9D) infringement matters. For a=
+dditional information about our organization and its members please refer t=
+o our official website: https://www.react.org/.
+
+We are contacting you on behalf of our member that owns the IPR of the well=
+-known brand SAMSUNG.
+
+The member has authorized React to enforce their IPR against illegal infrin=
+gements, which include trademarks, designs, and/or patents, applicable in m=
+ultiple national jurisdictions; and copyrights and related rights, related =
+to the brand=E2=80=99s official websites, social media accounts, publicatio=
+ns, promotional and marketing material.
+
+It came to our attention that the below-referenced website/link(s) is infri=
+nging upon the IPR of our member, by using a registered trademark without t=
+heir authorization. This is a trademark infringement causing damage to our =
+member.
+
+URL: https://www.uaetechnician.com/samsung-service-center.html
+ISP: DIGITALOCEAN
+IP nr: 188.166.178.150
+
+We hereby summon you to take prompt action; to remove or to disable access =
+to the infringing content referenced above immediately and prevent further =
+infringements on our member=E2=80=99s intellectual property rights, but und=
+er no circumstances later than five days as of today.
+
+In accordance with Article 9 of Regulation (EU) 2017/1001, Article 14 of th=
+e European Directive on Electronic Commerce (2000/31/EC), Title 15 U.S.C. =
+=C2=A7 11141 and Article 36 of the Tort Law of the People's Republic of Chi=
+na (Decree of the President of the People's Republic of China No. 21), an I=
+SP/Registrar is obliged, as soon as the ISP/Registrar obtains actual knowle=
+dge of the illegal activity or information and, as regards claims for damag=
+es, is aware of facts or circumstances from which the illegal activity or i=
+nformation is apparent, to act expeditiously to remove the information or t=
+o disable access to the information.
+
+We have a good faith belief that the use of IPR materials described above a=
+s allegedly infringing is not authorized by the right-owner, its agent, or =
+the law.
+
+The information in this notification is accurate, and I declare under penal=
+ty of perjury, that I am authorized by the right-holder to act on their beh=
+alf.
+
+Looking forward to your reply and prompt action.
+
+commercialsites@react.org
+REACT Anti-Counterfeiting Network
+Online Enforcement Department
+www.react.org
+The Netherlands
+-----------------------------------------------------------------
+
+This email is from c.v. SNB-REACT U.A.
+The contents of this email and any attachments are confidential to the inte=
+nded recipient. They may not be disclosed to or used by or copied in any wa=
+y by anyone other than the intended recipient.
+
+
+--Message-Boundary-2401121611264778
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<HTML>
+<HEAD>
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; charset=3Dutf8">
+</HEAD>
+<BODY>
+<Font Face=3D"Verdana" Size=3D2>
+To Whom It May Concern,<BR/>
+ <BR/>
+We are sending this notice from The Anti-Counterfeiting Network- c.v. SNB-R=
+EACT u.a.  (=E2=80=9CReact=E2=80=9D), that is a not-for-profit organization=
+ representing over 300 members from all sectors of industry related to inte=
+llectual property rights (=E2=80=9CIPR=E2=80=9D) infringement matters. For =
+additional information about our organization and its members please refer =
+to our official website: https://www.react.org/.<BR/>
+ <BR/>
+We are contacting you on behalf of our member that owns the IPR of the well=
+-known brand SAMSUNG.<BR/>
+ <BR/>
+The member has authorized React to enforce their IPR against illegal infrin=
+gements, which include trademarks, designs, and/or patents, applicable in m=
+ultiple national jurisdictions; and copyrights and related rights, related =
+to the brand=E2=80=99s official websites, social media accounts, publicatio=
+ns, promotional and marketing material. <BR/>
+ <BR/>
+It came to our attention that the below-referenced website/link(s) is infri=
+nging upon the IPR of our member, by using a registered trademark without t=
+heir authorization. This is a trademark infringement causing damage to our =
+member.<BR/>
+ <BR/>
+URL: https://www.uaetechnician.com/samsung-service-center.html<BR/>
+ISP: DIGITALOCEAN<BR/>
+IP nr: 188.166.178.150<BR/>
+ <BR/>
+We hereby summon you to take prompt action; to remove or to disable access =
+to the infringing content referenced above immediately and prevent further =
+infringements on our member=E2=80=99s intellectual property rights, but und=
+er no circumstances later than five days as of today.<BR/>
+ <BR/>
+In accordance with Article 9 of Regulation (EU) 2017/1001, Article 14 of th=
+e European Directive on Electronic Commerce (2000/31/EC), Title 15 U.S.C. =
+=C2=A7 11141 and Article 36 of the Tort Law of the People's Republic of Chi=
+na (Decree of the President of the People's Republic of China No. 21), an I=
+SP/Registrar is obliged, as soon as the ISP/Registrar obtains actual knowle=
+dge of the illegal activity or information and, as regards claims for damag=
+es, is aware of facts or circumstances from which the illegal activity or i=
+nformation is apparent, to act expeditiously to remove the information or t=
+o disable access to the information.<BR/>
+ <BR/>
+We have a good faith belief that the use of IPR materials described above a=
+s allegedly infringing is not authorized by the right-owner, its agent, or =
+the law. <BR/>
+ <BR/>
+The information in this notification is accurate, and I declare under penal=
+ty of perjury, that I am authorized by the right-holder to act on their beh=
+alf.<BR/>
+ <BR/>
+Looking forward to your reply and prompt action.<BR/>
+ <BR/>
+commercialsites@react.org<BR/>
+REACT Anti-Counterfeiting Network<BR/>
+Online Enforcement Department<BR/>
+www.react.org<BR/>
+The Netherlands<BR/>
+<hr/><BR/>
+This email is from c.v. SNB-REACT U.A. <BR/>
+The contents of this email and any attachments are confidential to the inte=
+nded recipient. They may not be disclosed to or used by or copied in any wa=
+y by anyone other than the intended recipient.<BR/>
+ <P/>
+
+</Font>
+</BODY>
+</HTML>
+
+--Message-Boundary-2401121611264778--

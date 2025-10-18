@@ -1,0 +1,169 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id D57FD635-0085-418B-B8D2-A7ED8B5599EA.1
+	envelope-from <abuse+bncBCC25NF33YKRBXNBUGWQMGQEK2Z6DBY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 17 Jan 2024 22:12:46 +0000
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-2108f293797sf1886556fac.2
+        for <abuse@digitalocean.abusehq.net>; Wed, 17 Jan 2024 14:12:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705529565; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=mn823IF/C4VJ7O1ZR2tUsacO7uzIaaeS5tqPJzTxXlj4l1ahPzI5eJGYm8zni4KOfv
+         wJTlmeipEx/dt+ItkrKC8Ym4Bu5n4zS0d9P1IrL6HSXFAYfyV8W4Gnbz/tK8LAIwFXn7
+         dyzm46VVBSYdSLPaA5pljpAJPad/7q0oeC8vp4hbd4qmSPakHFqTUV/FRBLxPo/eJlvs
+         r9//nIjE/F+4UvWSPPGKWzLSaHd9YcSoSxZsvRSJ7ZUjZlgrmKUIT33vGUo2f+lCt/n1
+         hiLipCJF/hBp2Z3CUIpz/4F84iO5Qy89lBV/KNpyp7z3w4xJHQP6uZaXLE2VynkLbZHZ
+         gweg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:feedback-id:mime-version:subject
+         :message-id:to:from:date:dkim-signature;
+        bh=Y8kXx2zPQ7iKgnGEwGm5+aDzYcb/BkTNRI67r9OPaBQ=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=OJqw8qoK5OiE2srnlrkwTLDpM2CUzZ4YF+JKC4DsxqMum+XjphFXdgS8tqmhkV+x6v
+         Sh5KSWpukAOX62fIB669Ke6ZuIEJFubl4DIfoSEKYL7Nji4Wg5OftMJx8BWXOfAYc2SB
+         jmow5Ch5k8ct5qajomZ+/0NI1F5xM0BKSyPDGqxE99Y1Vop+WHW3V/UIDZ9yb+y8lOKe
+         tbS5NGkbB90J7+ES0A45ISjO2RGlwByRxOiNuANEmH38wKJ9mMp3GaR++y++lGE+PoVW
+         Z8dWEZeyrcVreoJou1PW+ODJxoD+r0Z2SkdOGbVF9Or8yeA16H3TvwNI1n4HNR7CzV9D
+         6PEA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@axur.com header.s=qpmiccjn5b774ssedvcryovbhxf4qlrh header.b=YZBL3t6u;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=Kn97hnGw;
+       spf=pass (google.com: domain of 0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com designates 54.240.8.221 as permitted sender) smtp.mailfrom=0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=axur.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1705529565; x=1706134365; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:mime-version:subject:message-id:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8kXx2zPQ7iKgnGEwGm5+aDzYcb/BkTNRI67r9OPaBQ=;
+        b=NT4k1QjR5M36jYC7LzySydLCTLANU9Cg1APeOr7old22LuFH5JoxMD4rCVn9mV15Ne
+         1jDp9uxA1X41NIKR8MNAr+GuVtm+L+UXT8hWwNjS8/vY6/Jpe/KAyhwjuFWWBFHfUW/y
+         MqXGszQK+o4huTpguGrbydJVeoP05HhbTW2kI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705529565; x=1706134365;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :mime-version:subject:message-id:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8kXx2zPQ7iKgnGEwGm5+aDzYcb/BkTNRI67r9OPaBQ=;
+        b=CMJdO0uOM76LyUMKdnGMAhUAU0TLzCjOwP7oLznoc9GNcZdXtGelC0I0wuBsq5lmfJ
+         W4TuONSmKVIOR+ukj8UC5M7kBqA9bawQQpeFeGK6iVJgThfcc141vr1iJGtNidIICHK4
+         knJGxGgJ0ZmwLphfymPxOo8Ye0JKtYK06xBKH8kfillpp9xOHxKpt2YDb3/ckHbEqCoo
+         j5jIr2I+ueC6NhHHzQlAoQL4lyPkyBnIEnfQX03A+gDP3BLfBcR4kJVBKMmAS9k+MY58
+         D4q2guiNnMTGGagTRZrPgzni4WrIUDpmMmNtRrNLJnlAbNtCyj7KdourUzX1J/qDYs6E
+         PwgQ==
+X-Gm-Message-State: AOJu0YysGHZVjv5/igkhaCfTQ3vcY14rvX/4/nYyvHrUQDa2bCffYAiF
+	H7GTnSKAEAgOFPJ7z/ii/jWrdiAEvKdpzQ==
+X-Google-Smtp-Source: AGHT+IFFAZQBBvEMlJWAdVRQjbAa29hM8eLe/1GFj3iTU8a5VYdpkR2e19Ay3sM2/b91tbbXJ0UL6g==
+X-Received: by 2002:a05:6870:bb06:b0:206:779f:56a with SMTP id nw6-20020a056870bb0600b00206779f056amr10100978oab.111.1705529565535;
+        Wed, 17 Jan 2024 14:12:45 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6870:35cb:b0:206:b891:5006 with SMTP id
+ c11-20020a05687035cb00b00206b8915006ls820379oak.1.-pod-prod-04-us; Wed, 17
+ Jan 2024 14:12:45 -0800 (PST)
+X-Received: by 2002:a05:6808:1b11:b0:3bd:8daa:f7e7 with SMTP id bx17-20020a0568081b1100b003bd8daaf7e7mr3339661oib.41.1705529564893;
+        Wed, 17 Jan 2024 14:12:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705529564; cv=none;
+        d=google.com; s=arc-20160816;
+        b=I9CGXQIhh6/G04k+ptPeaRjMmcn+caKVIWhYdM5hG/hDVbUznOcsHP1gd6Dsf7BB25
+         Yg8TMgTQKa88wZwGwIB1pWzdp18OZkTOr9tA0tRa76KgVFzJhMOjmFJzjZhq9eoUzcGd
+         72henFrbl8nd00+JkAYaYkk/t3MDyJg/XIK/eUWDLrgGlJfhja8CmQ1SvgBJ/KTCaXJK
+         vOkv1OsNkFHNddXLOI9SSgUQxI5nSrRxV1/xbC5+NG0VqxG9IzaLI1tyJXNPszAouVT9
+         uVJGbuT093VLYWfvE5kxQDYryY2kn67BPBj9ocY7XRax2LM6vUzlOPt1WBj9zQMHJx6X
+         v11Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:mime-version:subject:message-id:to:from:date
+         :dkim-signature:dkim-signature;
+        bh=Y8kXx2zPQ7iKgnGEwGm5+aDzYcb/BkTNRI67r9OPaBQ=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=rzWi/GU1wdLqc2Rp30L9gEMEigsJs0jyE3mwsUvP0kKZ9bYbulYnnw1uV8P1tj8vJS
+         SrSA/WO3OGqQ1xr32RnxGeZMEBfKqH4R4n2uy+8lt3xsLh8frnUWDWgsZyL25Xz0azYB
+         iJ9ZFScyJ34MnXDoXVJ6X5VXRdrzxL2E19HMkfHi7L0j/q7W3jmR3GbMhFQQx/6URMnr
+         /CB3ecc650FiiyBHyGs5V1o+ENbTiisFrjKufydHG+xct3xbd8rhmEgB2ETJ1APUZ5Th
+         CjvXZ+wsywM+PrB2bPOM2UxAm5gcKnu24VYu8GJdbcDeIj92zyZuYqVfAEyutR+nSpcQ
+         VHrQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@axur.com header.s=qpmiccjn5b774ssedvcryovbhxf4qlrh header.b=YZBL3t6u;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=Kn97hnGw;
+       spf=pass (google.com: domain of 0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com designates 54.240.8.221 as permitted sender) smtp.mailfrom=0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=axur.com
+Received: from a8-221.smtp-out.amazonses.com (a8-221.smtp-out.amazonses.com. [54.240.8.221])
+        by mx.google.com with ESMTPS id t2-20020ac85882000000b004277ffa516dsi12451273qta.428.2024.01.17.14.12.44
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 17 Jan 2024 14:12:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of 0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com designates 54.240.8.221 as permitted sender) client-ip=54.240.8.221;
+Date: Wed, 17 Jan 2024 22:12:44 +0000
+From: "abuse.efc via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Message-ID: <0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@email.amazonses.com>
+Subject: =?UTF-8?Q?False_promise_to_clear_name_a?=
+ =?UTF-8?Q?nd_debt_in_the_SERASA=C2=B4s_system?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1971194_68029864.1705529564240"
+Feedback-ID: 1.us-east-1.mR9CBhEVjWOSBm2JfqbUKSUhIg9Q0yq7vGnsob9WAws=:AmazonSES
+X-SES-Outgoing: 2024.01.17-54.240.8.221
+X-Original-Sender: abuse.efc@axur.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@axur.com header.s=qpmiccjn5b774ssedvcryovbhxf4qlrh
+ header.b=YZBL3t6u;       dkim=pass header.i=@amazonses.com
+ header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=Kn97hnGw;       spf=pass
+ (google.com: domain of 0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com
+ designates 54.240.8.221 as permitted sender) smtp.mailfrom=0100018d197bdcce-9b5f9af0-d043-4828-84e1-8eb9845b9d0c-000000@bounce.axur.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=axur.com
+X-Original-From: abuse.efc@axur.com
+Reply-To: abuse.efc@axur.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part_1971194_68029864.1705529564240
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<pre>
+Dear Sir/Madam,&#10;&#10;My name is Giulio Scalpini from Axur and we are th=
+e Authorized Representative of Serasa Experian in issues involving the viol=
+ation of intellectual property and fraud on the Internet.&#10;&#10;Address:=
+ R. Mostardeiro, 322 - sala 1501 , Porto Alegre - RS, Brazil, 90430-000&#10=
+;&#10;Phone Contact: +5511990045457&#10;&#10;Email: abuse.efc@axur.com&#10;=
+&#10;Copyright owner: Serasa Experian&#10;&#10;Title of copyright: Limpa No=
+me&#10;&#10;Material protected by Copyright:&#10;https://www.serasa.com.br/=
+limpa-nome-online/&#10;&#10;Serasa Experian is a brazilian company that pro=
+vides financial information to credit agencies and credit collection agenci=
+es and its trademark is exclusively used to identify products, services, ac=
+tivities and events related to Serasa Experian.&#10;&#10;The following site=
+ promotes illegally the clearing of debt and name of customers who have deb=
+ts registered in the internal system of SERASA EXPERIAN and also recovery e=
+asily the credit score:&#10;&#10;https://noticiaprahoje.online/serasalimpan=
+omefeirao&#10;&#10;This practice carried out on your network, uses the trad=
+emark SERASA for the commercialization of an illegal and fraudulent service=
+, which is characterized as a criminal and a civil law violation. That&#39;=
+s why we count on your collaboration to remove as soon as possible the infr=
+inging content mentioned above to avoid more scam.&#10;&#10;The authorizati=
+on letter with Serasa Experian as proof that we can act on behalf of them i=
+s available in the following link:  https://njoyjnztcx.s3.amazonaws.com/055=
+40ce122f6a49118ef811c27be0b8a7a99fd063c537d8a6ecacc9a13b4556e.pdf &#10;&#10=
+;I declare in good faith that the usage of the material reported is not aut=
+horized by the copyright owner, the authorized representative, or the law. =
+Under penalty of perjury, I affirm that the information is accurate and tru=
+e.&#10;&#10;Please, to contact us about this matter inform the tracking cod=
+e: #EFC2495985.&#10;&#10;Sincerely,&#10;&#10;Giulio Scalpini&#10;abuse.efc@=
+axur.com
+</pre><img name=3D'confirmation' src=3D'https://api.axur.com/gateway/1.0/em=
+ail-sender/notify/email/read/nRemN2OYvsDJEPAebFDEv' style=3D'display:none' =
+id=3D'confirmation' />
+------=_Part_1971194_68029864.1705529564240--

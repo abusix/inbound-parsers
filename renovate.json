@@ -1,0 +1,220 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Renovate configuration for inbound-parsers Go dependencies",
+
+  "extends": [
+    "config:base",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases"
+  ],
+
+  "timezone": "UTC",
+  "schedule": [
+    "before 6am on Monday"
+  ],
+
+  "prConcurrentLimit": 5,
+  "prCreation": "immediate",
+  "prHourlyLimit": 0,
+
+  "automerge": false,
+  "platformAutomerge": true,
+
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+
+  "assignees": [],
+  "reviewers": [],
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security",
+      "dependencies"
+    ],
+    "automerge": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
+
+  "packageRules": [
+    {
+      "description": "Auto-merge Go minor and patch updates (non-major)",
+      "matchDatasources": ["go"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "ignoreTests": false
+    },
+    {
+      "description": "Manual review for Go major version updates",
+      "matchDatasources": ["go"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "major-update",
+        "review-required"
+      ]
+    },
+    {
+      "description": "Group all Go standard library updates",
+      "matchDatasources": ["go"],
+      "matchPackagePatterns": ["^golang\\.org/x/"],
+      "groupName": "golang.org/x packages",
+      "automerge": true
+    },
+    {
+      "description": "Group all Bento updates together",
+      "matchDatasources": ["go"],
+      "matchPackagePatterns": ["^github\\.com/warpstreamlabs/bento"],
+      "groupName": "Bento",
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "bento",
+        "review-required"
+      ]
+    },
+    {
+      "description": "Group all test dependencies",
+      "matchDatasources": ["go"],
+      "matchPackagePatterns": [
+        "^github\\.com/stretchr/testify",
+        "^github\\.com/golang/mock",
+        "^github\\.com/google/go-cmp"
+      ],
+      "groupName": "Go test dependencies",
+      "automerge": true
+    },
+    {
+      "description": "Security packages require manual review",
+      "matchDatasources": ["go"],
+      "matchPackagePatterns": [
+        "crypto",
+        "security",
+        "auth",
+        "dkim"
+      ],
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "security",
+        "review-required"
+      ]
+    },
+    {
+      "description": "Auto-merge GitHub Actions updates",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Group all Docker updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Docker images",
+      "automerge": true
+    },
+    {
+      "description": "Pin Docker digests for security",
+      "matchDatasources": ["docker"],
+      "pinDigests": true
+    },
+    {
+      "description": "Monthly schedule for dev dependencies",
+      "matchDepTypes": ["devDependencies"],
+      "extends": ["schedule:monthly"],
+      "automerge": true
+    }
+  ],
+
+  "go": {
+    "enabled": true,
+    "commitMessageTopic": "module {{depName}}",
+    "prBodyColumns": [
+      "Package",
+      "Update",
+      "Type",
+      "Change",
+      "Package file"
+    ],
+    "prBodyDefinitions": {
+      "Type": "{{#if isPatch}}Patch{{else}}{{#if isMinor}}Minor{{else}}{{#if isMajor}}**Major**{{else}}Other{{/if}}{{/if}}{{/if}}"
+    },
+    "postUpdateOptions": [
+      "gomodTidy",
+      "gomodUpdateImportPaths"
+    ]
+  },
+
+  "docker": {
+    "enabled": true,
+    "major": {
+      "enabled": true
+    },
+    "digest": {
+      "enabled": true
+    }
+  },
+
+  "github-actions": {
+    "enabled": true,
+    "fileMatch": [
+      "^\\.github/workflows/[^/]+\\.ya?ml$"
+    ]
+  },
+
+  "regexManagers": [
+    {
+      "description": "Update Go version in Dockerfiles",
+      "fileMatch": ["(^|/)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "matchStrings": [
+        "FROM golang:(?<currentValue>.*?)(@(?<currentDigest>sha256:[a-f0-9]+))? as"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "golang"
+    },
+    {
+      "description": "Update Go version in CI workflows",
+      "fileMatch": ["^\\.github/workflows/[^/]+\\.ya?ml$"],
+      "matchStrings": [
+        "go-version:\\s*['\"]?(?<currentValue>[^'\"\\s]+)['\"]?"
+      ],
+      "datasourceTemplate": "golang-version",
+      "depNameTemplate": "go"
+    }
+  ],
+
+  "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
+
+  "onboarding": false,
+  "requireConfig": "optional",
+  "suppressNotifications": ["prIgnoreNotification"],
+
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  },
+
+  "stabilityDays": 0,
+
+  "postUpgradeTasks": {
+    "commands": [
+      "go mod tidy",
+      "go mod verify"
+    ],
+    "fileFilters": [
+      "go.mod",
+      "go.sum"
+    ],
+    "executionMode": "update"
+  }
+}

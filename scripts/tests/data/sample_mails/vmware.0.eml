@@ -1,0 +1,711 @@
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com (mail-eopbgr40125.outbound.protection.outlook.com [40.107.4.125])
+	by fe2dba61eb49 (Haraka/2.8.26) with ESMTP id 70B8E967-48FF-4314-A0C3-0B0889EDF8E8.1
+	envelope-from <048-SZW-045.0.256263.0.0.61530.9.114752340@undelivered1.vmware.com>;
+	Thu, 11 Nov 2021 15:31:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XLBT5cQcjeicbQKC9YMZlqmvZMk6HIObBjVUPHQ8XSs+D1mEA3sOJjYzbFOfT2vgV1Wh+D3EHT+GbINhXH2sfTYrXX76n3+Lgp7PJMto1Hz/EoA+e5Pdsd7aam/rQf2ze9U54mxQ7/C/DM1mTZjDkdp0tvz4A+yUrCSHqKluXLrOnA3Bn7Fndorh5uZp/HpbLAHW7gwnwjAkWu26M0mmfGtREbeZJI6Pcqe5ZQi1icGbnP77eLCGnys/XA+PWQJHraniicxaePfd939vQxU3fK8TnU4EHdT4sxT+H/jVL2ol/iaJzI/sxhLdttzFKkW+1jtHQj1YXot4cYwSZyA1Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0UONgaRs3N/OCVcSz+Gdm03jWyIvsT6CUVdLs3KdJm4=;
+ b=QYEl/0SwfMXJVWaM55qKdGHM8S5ZBJ6EJusbGcce/57qt0CuAuAItvYflpa5asLK0uvTna1t1guenZ6p7DzoW/WPpeI+QzvPh0n2qgIfKzWGFoPkdAXbHB2vOaRX2NZVbdNCTqKjy17Lup4bET1TWvwTXFhbgx6CpUyta1d5Jt/pWYU/roCUi4j4K32lwtX+jamSY95lRxMJtPTcMbWY2SVGIzslbafI2sOybWiCiSNMdtiFMje5EGC0Xrj7BJEXWftxDbl4S0hxYjtsD7cShVxgsJRrKlPKNlrrIfaIvloUuZmrgAJhfcToStbFm40bB3cXP/DrLsxomMRjWDMO0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=digitalet.onmicrosoft.com; s=selector2-digitalet-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0UONgaRs3N/OCVcSz+Gdm03jWyIvsT6CUVdLs3KdJm4=;
+ b=cZZco4IgfdyQ6ZaNCeuAw2RT/rJ0+ewMKFZDbZlx3CbCHmfWO3EkbURh3nKDxyrR0LZHddesVcX5D4TFXoRh9vtZzjgNjjiTlk3l1yXQKWx4aWxNQCr43IayX+Qx0BDcaD1UXdlzJhZHNpS+9AWzaQguMFqFTZ91vKl6rrNOi7M=
+Received: from DB9PR05CA0027.eurprd05.prod.outlook.com (2603:10a6:10:1da::32)
+ by AM0PR09MB4132.eurprd09.prod.outlook.com (2603:10a6:208:193::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Thu, 11 Nov
+ 2021 15:31:46 +0000
+Received: from DB5EUR03FT024.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:1da:cafe::2) by DB9PR05CA0027.outlook.office365.com
+ (2603:10a6:10:1da::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19 via Frontend
+ Transport; Thu, 11 Nov 2021 15:31:46 +0000
+Authentication-Results: spf=pass (sender IP is 192.28.155.93)
+ smtp.mailfrom=undelivered1.vmware.com; dkim=pass (signature was verified)
+ header.d=connect.vmware.com;dmarc=pass action=none
+ header.from=connect.vmware.com;
+Received-SPF: Pass (protection.outlook.com: domain of undelivered1.vmware.com
+ designates 192.28.155.93 as permitted sender)
+ receiver=protection.outlook.com; client-ip=192.28.155.93;
+ helo=undelivered2.vmware.com;
+Received: from undelivered2.vmware.com (192.28.155.93) by
+ DB5EUR03FT024.mail.protection.outlook.com (10.152.20.67) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4690.15 via Frontend Transport; Thu, 11 Nov 2021 15:31:46 +0000
+X-MSFBL: mRgPG3qcMqAzgUkT4uHLUO8jX0vu0C571lDxwO6XrQc=|eyJyIjoiYWJ1c2VAaGV
+	maWNlZC5jb20iLCJ1IjoiMDQ4LVNaVy0wNDU6MDozMjk1MTo2MzYxODc6MzA0MDQ
+	5OTo2MTUzMDo5OjI1NjI2MzoxMTQ3NTIzNDAiLCJnIjoiYmctYWJkLTkzNyIsImI
+	iOiJkdnAtMTkyLTI4LTE1NS05MyJ9
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1636644705;
+	s=m1; d=connect.vmware.com; i=@connect.vmware.com;
+	h=Content-Type:MIME-Version:Subject:To:From:Date;
+	bh=0UONgaRs3N/OCVcSz+Gdm03jWyIvsT6CUVdLs3KdJm4=;
+	b=e17iCZtcRq1+/2dSVY4G2saV796wNiDH+F5tx6Jk7L/VbaoGyIOlRBWciuIr6MA9
+	wxrN4mhHXgcj+vNEB7voEatgfER//Pm3Oj666cJc7hh1C0vmuWQ7UMlYQXr/3C4apzO
+	Pzu7Hsw/GVvE0AHLtuHF+fGaIbA7RZ4mIcMscvf4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1636644705;
+	s=m1; d=mktdns.com; i=@mktdns.com;
+	h=Content-Type:MIME-Version:Subject:To:From:Date;
+	bh=0UONgaRs3N/OCVcSz+Gdm03jWyIvsT6CUVdLs3KdJm4=;
+	b=BrpKKuedjrsVzLjQlMalhHL7GDKWWY33anvtdSoLC6BulJp61Iu1ZA1GuYgpG/jh
+	qo31PEKmof5mYs0vDCCCc/5SHB/6vAX/to+0XvLOfRSC5WUFGTjK6GC9qRiH8+gd9Es
+	mtcH2Zy/Wb21pvxW5BgzhY8idKo+qAyD6+cTw+FI=
+Date: Thu, 11 Nov 2021 09:31:45 -0600 (CST)
+From: VMware <vmwareteam@connect.vmware.com>
+Reply-To: reply@vmware.com
+To: abuse@heficed.com
+Message-ID: <1520485162.248485530.1636644705331@abmktmail-batch1c.marketo.org>
+Subject: Important Alert - We have detected that you have vCenter Server(s)
+ on the internet
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_248485528_237408098.1636644705331"
+X-Binding: bg-abd-937
+X-MarketoID: 048-SZW-045:0:32951:636187:3040499:61530:9:256263:114752340
+X-Mailfrom: 048-SZW-045.0.256263.0.0.61530.9.114752340@undelivered1.vmware.com
+List-Unsubscribe: <mailto:GFHXCZTOMNZGIN3PGVEWOX2MJJYHMMKYMJTUON2LG5UXKSKWOFDXOM3EKJLC2ODZKJHVSPI=.256263.61530.9@unsub-ab.mktomail.com>
+X-MktArchive: false
+X-MSYS-API: {"options":{"open_tracking":false,"click_tracking":false}}
+X-MktMailDKIM: true
+Return-Path:
+ 048-SZW-045.0.256263.0.0.61530.9.114752340@undelivered1.vmware.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 08785955-bde8-476e-9da2-278dabe67d0b:0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8f9c7443-4fdb-47d1-46cf-08d9a5285f24
+X-MS-TrafficTypeDiagnostic: AM0PR09MB4132:
+X-LD-Processed: 08785955-bde8-476e-9da2-278dabe67d0b,ExtAddr,ExtFwd
+X-MS-Exchange-Transport-Rules-Loop: 1
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:1;
+X-Microsoft-Antispam-Message-Info:
+	I84fRL0feuW+rqKg/GYqc47QyJ07xKBBGwJ9I90bMGUS4tcyeOHH/5thf+bQH4tYrIh0yP/gPJyOUH81EvlFH1dR1zoSj7NziRs1RCE2oJIvoalzckhrnA7YfhamJfVgOY49WunwJd/XSQ0vVOQrR7s71RiY6k3csMPP14MW3MOCF3cpR4BU413PVtmBvPqwJMYNq/TBl4m2WYClvZIgb2Uyac/0TgHIXuaKCZc3zERT7E0iBbfkR022lZKIZscZZ3zTXZdShOcXvhOiTV/2kHMuYMfeSPNZdC3SMwUE2TsVV4zb33nZoyL/k+2Eib0fyz8FN17QBFExgBfLu01Oba2jxiaCtZqoF9yWuzfvoA8Q5dsAWFuUK9G4eCCBtVQiAdlz5zhrta/pdl8bPM81CFK9r71kfJ9UUZHoj7RP7rFxA7lN786UrTu6vSXA3m0/kcOvxC8+6V+pqcmk1hVe4gV2QabWmUpvapjqOM6GQp6d0lh2twRFimBv8dkdQwQg3IapInVuuIaST0cWMYf/F5CwfrIMBVEMdHIEAX1GfVoOoKm43QggiiVx22WHycvCl/V6t+jUZBFIF9NRccwxP4Omi6IEXXEqac0qYJhF0ISx1IMwvSQ6XI3nsE9cSc+GMlsYQuViGoMLN96glHyNSlVkl2p/9oL3saNU8Iu4SsTwNuqq6MRYLhaQ8RnVCxpDQXf7F6v4nxxjzEXY+6H7XhUv8osWdNjhjptspWYIdCMjfkV7KoY2wFs+kgPbEYI8Ne2sMvn+fWTHpsw6DemjKqzNwz6quWWiFYwiEZ0Uo0M=
+X-Forefront-Antispam-Report:
+	CIP:192.28.155.93;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:undelivered2.vmware.com;PTR:undelivered2.vmware.com;CAT:NONE;SFS:(286005)(6506007)(118246002)(26005)(6512007)(66574015)(9686003)(83380400001)(33964004)(8676002)(336012)(42882007)(2906002)(40140700001)(956004)(15650500001)(36736006)(316002)(508600001)(966005)(7036003)(19627405001)(68406010)(70586007)(356005)(83170400001)(166002)(16799955002)(6486002)(34206002)(76236003)(7636003)(7596003);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 08785955-bde8-476e-9da2-278dabe67d0b
+X-OriginatorOrg: heficed.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2021 15:31:46.0035
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f9c7443-4fdb-47d1-46cf-08d9a5285f24
+X-MS-Exchange-CrossTenant-Id: 08785955-bde8-476e-9da2-278dabe67d0b
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT024.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4132
+Original-Authentication-Results: spf=pass (sender IP is 192.28.155.93)
+ smtp.mailfrom=undelivered1.vmware.com; dkim=pass (signature was verified)
+ header.d=connect.vmware.com;dmarc=pass action=none
+ header.from=connect.vmware.com;
+
+------=_Part_248485528_237408098.1636644705331
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+
+.
+
+------=_Part_248485528_237408098.1636644705331
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html>
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>=20
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">=
+=20
+<meta content=3D"telephone=3Dno" name=3D"format-detection">=20
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.=
+0">=20
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">=20
+<title>VMware</title>=20
+<style type=3D"text/css">
+body {
+font-family: "Metropolis Light", Metropolis, Helvetica, Arial, sans-serif;
+margin: 0px !important;
+padding: 0px !important;
+-webkit-text-size-adjust: 100% !important;
+-ms-text-size-adjust: 100% !important;
+-webkit-font-smoothing: antialiased !important;
+}
+
+img {
+border: 0 !important;
+outline: none !important;
+display: block !important;
+}
+table {
+border-collapse: collapse;
+mso-table-lspace: 0px;
+mso-table-rspace: 0px;
+}
+td {
+border-collapse: collapse;
+mso-line-height-rule: exactly;
+}
+a, span {
+mso-line-height-rule: exactly;
+}
+.ExternalClass * {
+line-height: 100%;
+}
+.white a {
+color: #ffffff;
+text-decoration: none;
+}
+.black3 a {
+font-family: "Metropolis Light", Metropolis, Helvetica, Arial, sans-serif;
+color: #333333;
+text-decoration: none;
+}
+.black2 a {
+font-family: "Metropolis Light", Metropolis, Helvetica, Arial, sans-serif;
+color: #282828;
+text-decoration: none;
+}
+.blue a {
+font-family: "Metropolis Light", Metropolis, Helvetica, Arial, sans-serif;
+color: #006990;
+text-decoration: none;
+}
+.grey1 a {
+color: #757575;
+text-decoration: none;
+}
+/**.applewhiltelink a {
+color: inherit !important;
+text-decoration: none !important;
+}**/
+.fullwidthimage img {
+width: 100%;
+height: auto;
+}
+@media only screen and (min-width:481px) and (max-width:599px) {
+table[class=3Dwrapper] {
+width: 100% !important;
+}
+table[class=3Dmain_table] {
+width: 100% !important;
+}
+td[class=3Dpad_side] {
+padding-left: 14px !important;
+padding-right: 14px !important;
+}
+td[class=3Dhide], br[class=3Dhide] {
+display: none !important;
+}
+img[class=3Dfull_img] {
+width: 100% !important;
+height: auto !important;
+}
+td[class=3Dtext], td[class=3Dblack2], td[class=3Dwhite], td[class=3Dwhite1]=
+, td[class=3Dwhite2], td[class=3Dgrey] {
+text-align: center !important;
+}
+td[class=3Dpad_bottom] {
+padding-bottom: 20px !important;
+}
+td[class=3Dpad_top] {
+padding-top: 20px !important;
+}
+td[class=3Dfix_height] {
+height: 20px !important;
+}
+td[class=3Dfullwidthimage] img {
+width: 100% !important;
+height: auto !important;
+}
+}
+@media only screen and (max-width:480px) {
+table[class=3Dwrapper] {
+width: 100% !important;
+}
+table[class=3Dmain_table] {
+width: 100% !important;
+}
+td[class=3Dpad_side] {
+padding-left: 14px !important;
+padding-right: 14px !important;
+}
+td[class=3Dhide], br[class=3Dhide] {
+display: none !important;
+}
+img[class=3Dfull_img] {
+width: 100% !important;
+height: auto !important;
+}
+td[class=3Dtext], td[class=3Dblack2], td[class=3Dwhite], td[class=3Dwhite1]=
+, td[class=3Dwhite2], td[class=3Dgrey] {
+text-align: center !important;
+}
+td[class=3Dpad_bottom] {
+padding-bottom: 20px !important;
+}
+td[class=3Dpad_top] {
+padding-top: 20px !important;
+}
+td[class=3Dfix_height] {
+height: 20px !important;
+}
+td[class=3Dfullwidthimage] img {
+width: 100% !important;
+height: auto !important;
+}
+td[class=3Dhighlight] img {
+width: 70% !important;
+height: auto !important;
+}
+}
+.button1 {      /*@editable*/ background-color: #6db33f !important;
+/*@editable*/ border-radius:3px !important;
+/*@editable*/ color: #ffffff !important;
+}
+.button2 {      /*@editable*/ background-color: #0095d3 !important;
+/*@editable*/ border-radius:3px !important;
+/*@editable*/ color: #ffffff !important;
+}
+</style>=20
+</head>=20
+<body marginwidth=3D"0" marginheight=3D"0" offset=3D"0" topmargin=3D"0" lef=
+tmargin=3D"0" bgcolor=3D"#f2f6f8">=20
+<div class=3D"mktoSnippet" id=3D"pre-headertext948337f0-f1ac-4265-9318-b3fb=
+38ca84cb" style=3D"margin-bottom:20px">
+<p>&nbsp;</p>=20
+<table class=3D"emailheader" width=3D"100%" align=3D"center">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center"><span size=3D"1" face=3D"Arial" style=3D"font-family: =
+Arial; font-size: xx-small;">If you are having trouble reading this email, =
+<a data-targettype=3D"sysaction" href=3D"https://web.vmware.com/index.php/e=
+mail/emailWebview?mkt_tok=3DMDQ4LVNaVy0wNDUAAAGArpkEL4FLCm9JuwinwJ10rOlzRIm=
+yabcGn_aZzCO-nA0RyI4ulLdWXcEMBMjGTjVhd9FTaX1x9w9dV5LDKEenHeyKuSO0UYID2trUOM=
+7vf6zcDPVE&md_id=3D61530" style=3D"color: #0095d3;" target=3D"_blank">read =
+the online version.</a>&nbsp;</span></td>=20
+</tr>=20
+</tbody>=20
+</table>
+</div>=20
+<!--BEGIN HEADER-->=20
+<table width=3D"100%" border=3D"0" align=3D"center" cellspacing=3D"0" cellp=
+adding=3D"0">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center">=20
+<table style=3D"table-layout:fixed;" width=3D"650" border=3D"0" cellspacing=
+=3D"0" cellpadding=3D"0" align=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td class=3D"hide" height=3D"1" style=3D"line-height:0px; font-size:0px;"><=
+img src=3D"images/spacer.gif" height=3D"1" width=3D"650" style=3D"display:b=
+lock; width:650px; min-width:650px;" border=3D"0"></td>=20
+</tr>=20
+<tr>=20
+<td valign=3D"top">=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper" style=3D"table-layout:auto;">=20
+<tbody>=20
+<tr>=20
+<td>=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td>=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td height=3D"28" class=3D"fix_height">&nbsp;</td>=20
+</tr>=20
+<tr>=20
+<td valign=3D"top">=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td width=3D"25" class=3D"hide"></td>=20
+<td valign=3D"top">=20
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" alig=
+n=3D"center">=20
+<tbody>=20
+<tr>=20
+<td valign=3D"top">=20
+<table width=3D"138px" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" ali=
+gn=3D"left" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELxzsfDDfu8RsQ1l_n2X_q=
+cyKFArvLzpmDp1cnTBTSLAtBomuXPCBwxqo41arD6zxP6k=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/vmware-logo-dark.p=
+ng" width=3D"138px" alt=3D"VMware" style=3D"display:block; max-width:138px;=
+ padding-bottom: " border=3D"0"></a></td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<table width=3D"350" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"right" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td valign=3D"top" class=3D"pad_top" style=3D"padding-top: 15px">=20
+<table width=3D"350" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td class=3D"white1" style=3D"font-size:13px; line-height:16px; color:#0091=
+da;" align=3D"right">PRODUCT ANNOUNCEMENT</td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+<td width=3D"25" class=3D"hide"></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+<td width=3D"30" class=3D"hide"></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+<tr>=20
+<td height=3D"10" class=3D"fix_height">&nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!-- END HEADER -->=20
+<!-- TOP EMAIL CONTENT PADDING! -->=20
+<table width=3D"600" border=3D"0" align=3D"center" cellpadding=3D"0" cellsp=
+acing=3D"0" class=3D"wrapper" style=3D"table-layout:fixed;" bgcolor=3D"#fff=
+fff">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center"><img src=3D"http://campaign.vmware.com/imgs/resp-email=
+s/stripe-bar-gradient.jpg" alt=3D"fullwidhtimage" width=3D"100%" height=3D"=
+8" border=3D"0" class=3D"full_img" style=3D"display:block;"></td>=20
+</tr>=20
+<tr>=20
+<td height=3D"25" class=3D"fix_height" style=3D"line-height:0px; font-size:=
+0px;">&nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!-- END TOP EMAIL CONTENT PADDING -->=20
+<!-- TEXT - FULLWIDTH LEFT ALIGN WITH BUTTON -->=20
+<table width=3D"600" border=3D"0" align=3D"center" cellpadding=3D"0" cellsp=
+acing=3D"0" class=3D"wrapper" style=3D"table-layout:fixed;" bgcolor=3D"#fff=
+fff">=20
+<tbody>=20
+<tr>=20
+<td height=3D"15" class=3D"fix_height" style=3D"line-height:0px; font-size:=
+0px;">&nbsp;</td>=20
+</tr>=20
+<tr>=20
+<td class=3D"pad_side">=20
+<table width=3D"600" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" class=
+=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td width=3D"45" class=3D"hide">&nbsp;</td>=20
+<td>=20
+<table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">=20
+<tbody>=20
+<tr>=20
+<td class=3D"black2" style=3D"font-size:24px; line-height:26px; color:#2828=
+28;">Important Alert - We have detected that you have vCenter Server(s) on =
+the internet</td>=20
+</tr>=20
+<tr>=20
+<td height=3D"10" style=3D"line-height:0px; font-size:0px;">&nbsp;</td>=20
+</tr>=20
+<tr>=20
+<td class=3D"black2" style=3D"font-size:15px; line-height:20px; color:#3333=
+33;"><p>Your IP Address: 77.72.81.90, 191.101.166.173, 216.173.114.108, 192=
+.154.253.135, 185.170.42.200, 191.96.166.195, 46.37.100.91</p> <p> We live =
+in a time of unprecedented cyberattacks, with some of these attacks making =
+national news. There is increasing interest from cybercriminals in VMware s=
+oftware, as well. VMware takes the security of its customers and partners v=
+ery seriously, and we continue to be vigilant over the activities on the we=
+b, deep web and dark web, and by monitoring threat intelligence in general.=
+ <br><br>Your, or one of your customers=E2=80=99, VMware vCenter Server app=
+ears to be open to the internet, according to the shodan.io security search=
+ engine. We understand this may be unintentional and wanted to ensure you a=
+re made aware of this fact. <br><br>What can you and your customers do to p=
+revent ransomware? </p>=20
+<ol>=20
+<li>Ensure VMware vSphere (vCenter Server, VMware ESXi, etc.) and related s=
+ystems do not have their management interfaces exposed to the internet. The=
+y should be behind a VPN or another mechanism to secure network access to o=
+nly their authorized administrators, as part of standard defense-in-depth a=
+nd least privilege information security practices.</li>=20
+<li>Patch vCenter Server and ESXi. Patching is the only way to remove vulne=
+rabilities from an environment. There are many features in vSphere that ena=
+ble easy patching, such as vMotion, Distributed Resource Scheduler, Lifecyc=
+le Manager, and more.</li>=20
+<li>Please sign up for VMware Security Advisory notifications to be alerted=
+ when vulnerabilities in VMware products are disclosed. You can sign up at:=
+ <a style=3D"text-decoration: underline; color: #1a428a" href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELwhnO5nA5Oa499Wch-ChM=
+yl9QJAL_07ncicfkMswujfsfzqTovNy-0kvqUnYmZL71hU=3D" target=3D"_blank"
+>https://lists.vmware.com/cgi-bin/mailman/listinfo/security-announce</a></l=
+i>=20
+<li>Please visit our Ransomware Resiliency page for additional resources an=
+d ideas for protecting your environment, located at: <a style=3D"text-decor=
+ation: underline; color: #1a428a" href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELzi-HFyvGNuJMmb7jadBa=
+BlaE4qlsZHkwPWtmS1aizSNjHpicqDS9NrWfeEwKPrSeF0=3D" target=3D"_blank"
+>https://core.vmware.com/ransomware</a></li>=20
+</ol> If you have any questions, please contact us via <a style=3D"text-dec=
+oration: underline; color: #1a428a" href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELxbnyuFtzgToP8VCgKfZZ=
+UK8bQ7L5TRSvHYq3jDovgLWDQ1NCAPrjqOm-bJxpXry_8c=3D" target=3D"_blank"
+>internetopenvcenters@vmware.com</a>. <br><br> Thank you for your attention=
+ to this! <p></p> <p>- The Product Team</p></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+<td width=3D"45" class=3D"hide">&nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+<tr>=20
+<td height=3D"25" style=3D"line-height:0px; font-size:0px;=09">&nbsp;</td>=
+=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!-- END TEXT - FULLWIDTH LEFT ALIGN WITH BUTTON -->=20
+<!-- SPACING MODULE -->=20
+<table width=3D"600" border=3D"0" align=3D"center" cellpadding=3D"0" cellsp=
+acing=3D"0" class=3D"wrapper" style=3D"table-layout:fixed;">=20
+<tbody>=20
+<tr>=20
+<td height=3D"20" style=3D"line-height:0px; font-size:0px;=09">&nbsp;</td>=
+=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!-- END SPACING MODULE-->=20
+<!-- BOTTOM EMAIL CONTENT PADDING! -->=20
+<table width=3D"600" border=3D"0" align=3D"center" cellpadding=3D"0" cellsp=
+acing=3D"0" class=3D"wrapper" style=3D"table-layout:fixed;">=20
+<tbody>=20
+<tr>=20
+<td height=3D"35" class=3D"fix_height" style=3D"line-height:0px; font-size:=
+0px;">&nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--END BOTTOM EMAIL PADDING-->=20
+<!--FOOTER BEGINS-->=20
+<table width=3D"100%" border=3D"0" align=3D"center" cellspacing=3D"0" cellp=
+adding=3D"0" bgcolor=3D"#f2f6f8">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center"><img src=3D"http://campaign.vmware.com/imgs/resp-email=
+s/stripe-bar-gradient.jpg" alt=3D"fullwidhtimage" width=3D"100%" height=3D"=
+8" border=3D"0" class=3D"full_img" style=3D"display:block;"></td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<table width=3D"100%" border=3D"0" align=3D"center" cellspacing=3D"0" cellp=
+adding=3D"0" bgcolor=3D"#f2f6f8">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center">=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td>=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td bgcolor=3D"#f2f6f8" class=3D"pad_side">=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td height=3D"35" class=3D"fix_height">&nbsp;</td>=20
+</tr>=20
+<tr>=20
+<td align=3D"center">=20
+<table width=3D"650" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td width=3D"100" class=3D"hide">&nbsp;</td>=20
+<td>=20
+<table width=3D"450" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center" class=3D"wrapper">=20
+<tbody>=20
+<tr>=20
+<td align=3D"center"><img align=3D"center" src=3D"http://campaign.vmware.co=
+m/imgs/resp-emails/vmware-logo-dark.png" width=3D"138" height=3D"34" alt=3D=
+"VMware" style=3D"display:block;" border=3D"0"></td>=20
+</tr>=20
+<tr>=20
+<td height=3D"20">&nbsp;</td>=20
+</tr>=20
+<tr>=20
+<td align=3D"center">=20
+<table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"center">=
+=20
+<tbody>=20
+<tr>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL_skkbYFnEtauE1nVJy_D=
+MK4aaboDv9jKq-2KpgQKArjJYgYlvWYRDqznhLSWNKXFzw=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-faceb=
+ook-30x30.png" width=3D"30" height=3D"30" alt=3D"Facebook" style=3D"display=
+:block;" border=3D"0"></a></td>=20
+<td width=3D"16">&nbsp;</td>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELzJ7wG5rHz1S9AlQexoPQ=
+2rqcs9pzbQ2mrIP1yOmwOUV3Ae3ILRR3KYwputIM-E2ItI=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-twitt=
+er-30x30.png" width=3D"30" height=3D"30" alt=3D"Twitter" style=3D"display:b=
+lock;" border=3D"0"></a></td>=20
+<td width=3D"16">&nbsp;</td>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELzw0ZskznPXo01wbuG0t3=
+IgGhCmS2EGTgFaN6DIuEgvEXTO65PFvudLfbfJLfR30_EM=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-linke=
+din-30x30.png" width=3D"30" height=3D"30" alt=3D"LinkedIn" style=3D"display=
+:block;" border=3D"0"></a></td>=20
+<td width=3D"16">&nbsp;</td>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL56egDYED4ayQf254lVLt=
+ISzFHldyQciCberprek0iC1Wwn2zDvktrmhfwqZsvwaiCw=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-blog-=
+30x30.png" width=3D"30" height=3D"30" alt=3D"Blog" style=3D"display:block;"=
+ border=3D"0"></a></td>=20
+<td width=3D"16">&nbsp;</td>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL44oj6i66I90u8gPTkZJ5=
+zcRyTJFrGbXL9xlD3V-9IWfPYhAoKZV9fcHdEHO0_VXKxI=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-youtu=
+be-30x30.png" width=3D"30" height=3D"30" alt=3D"YouTube" style=3D"display:b=
+lock;" border=3D"0"></a></td>=20
+<td width=3D"16">&nbsp;</td>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL1wJjsSOUQn6CChdhcWI4=
+yg3KKRJDqZhEpy67RvpYAEQSLnnazEPyYzelH3GAbyyZEw=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-vmwar=
+e-30x30.png" width=3D"30" height=3D"30" alt=3D"My VMware" style=3D"display:=
+block;" border=3D"0"></a></td>=20
+<td width=3D"16">&nbsp;</td>=20
+<td width=3D"36"><a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL2ClsbmnfsEo_U5_70gsg=
+Y6HxamDJlZBJAvdxwLDgPPh6JwxuuXbgiPyDxtKi1ilEng=3D" target=3D"_blank"
+><img src=3D"http://campaign.vmware.com/imgs/resp-emails/icon-reverse-vmug-=
+30x30.png" width=3D"30" height=3D"30" alt=3D"vmug" style=3D"display:block;"=
+ border=3D"0"></a></td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+<tr>=20
+<td height=3D"60">&nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+<td width=3D"100" class=3D"hide">&nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+<tr>=20
+<td height=3D"35" class=3D"fix_height" align=3D"center" style=3D"font-size:=
+8px; color:#999999;"> 1007452_EM4</td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!-- Emailer Ends Here //-->=20
+<div class=3D"mktoSnippet" id=3D"footersnippetdba097dd-0a26-42f9-920c-006ec=
+37fab55" style=3D"margin-top:20px ">
+<center>=20
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"font-size:=
+ 10px; line-height;20px; color: #000;" width=3D"600">=20
+<tbody>=20
+<tr>=20
+<td style=3D"padding-left: 10px; padding-top: 15px;"><strong>VMware, Inc. 3=
+401 Hillview Ave. Palo Alto CA 94304 USA Tel 1-877-486-9273 </strong><br> <=
+br> Copyright =C2=A9 2021 VMware, Inc. All rights reserved. VMware is a reg=
+istered trademark of VMware, Inc. The content and links in this email conta=
+in information intended solely for its named recipients and are not to be s=
+hared with third parties unless otherwise specified. <br> <br> You are rece=
+iving this email because of your previous interactions with VMware. If you =
+don=E2=80=99t want to receive commercial communications from VMware you can=
+ opt-out at any time by using the <a style=3D"color: #0091da; text-decorati=
+on: none;" href=3D
+"https://marketing.vmware.com/dc/_pu8BfO78C5WTqqcua2e04vH1nfvLv2l0zT-igFwsm=
+FGXyiCN3bNTnNvx3idFo1yf-ztweKKafdueNa-5TvcjWFvO3y9SwYh4q1kst-CzXQ=3D/MDQ4LV=
+NaVy0wNDUAAAGArpkEL-uhnim0XxO5FVTa0KOpgJeg2uYywCZdsTEKLFF4dCMfPH8ETMoGEkjhp=
+FncDyzfVyA=3D"
+>VMware Subscription page</a>.
+<br> <br> Alternatively, to manage your profile, subscription preferences, =
+and to unsubscribe from VMware commercial communications, please go to <a h=
+ref=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL9yJ8FQn30_7w0cwj3uuU=
+3AogZ8_hSjFh678MCWruSNghFEVhfdh3iG-R8bkthfacqY=3D" style=3D"color: #0091da;=
+ text-decoration: none;"
+>Customer Connect</a>. For more information on how VMware processes your pe=
+rsonal data please see the <a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkELwFE66dQbr_cO1-1thhXI=
+jZraw96WyJtFPUf0fHtYqNPl5XPunsSW8eMcm7_WixNjeg=3D" style=3D"color: #0091da;=
+ text-decoration: none;"
+>VMware Global Privacy Policy</a>. <br> <br> Please do not reply to this me=
+ssage. Replies to this message are routed to an unmonitored mailbox. If you=
+ have questions, please <a href=3D
+"https://marketing.vmware.com/MDQ4LVNaVy0wNDUAAAGArpkEL_is9Mji710oadJ5rubIL=
+vyEgHjacUy_85C0xjr59H3ggiHjeJKiHgP5TkJ1nsgdbK8=3D" style=3D"color: #0091da;=
+ text-decoration: none;"
+>contact</a> us.</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center>=20
+</div> =20
+
+<img src=3D"https://marketing.vmware.com/trk?t=3D1&mid=3DMDQ4LVNaVy0wNDU6MD=
+ozMjk1MTo2MzYxODc6MzA0MDQ5OTo2MTUzMDo5OjI1NjI2MzoxMTQ3NTIzNDA6YWJ1c2VAaGVma=
+WNlZC5jb20%3D" width=3D"1" height=3D"1" style=3D"display:none !important;" =
+alt=3D"" />
+
+<!-- Controlled by template -->
+</body>
+</html>
+------=_Part_248485528_237408098.1636644705331--

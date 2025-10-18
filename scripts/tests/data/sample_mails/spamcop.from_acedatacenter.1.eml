@@ -1,0 +1,298 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@acedatacenter.com header.d=acedatacenter.com header.s=default
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2076.outbound.protection.outlook.com [40.107.11.76])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 3783959F-A301-4D6F-938A-1E1C9CB78B16.1
+	envelope-from <bounces+SRS=m7wUI=AH@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Sun, 16 Apr 2023 20:44:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cGFxJIJALeFw5jI/lrPRyz8P+wPfDme64U4s2WhlG6p81nbzum63fksKgB3mu0TZpeU6QHlJDFtBbDz7eXHVlBabLt4NT/hVuT490gfnOAzIpvqRPuCGP/JGGN8616ow2dyEhKfZCh8Z6qcfaVAMe9wvoMnM7lx3qU8nRrKp/D8if3MHKDyB+HXT4cUqrgP6eEy9706q+lKgGFejMtzRDPCvcjYeCfeX41DJjqHU7LYqjvMjXEr05zyyTuGTONlnqCQs2iUfF6Ls89CAby7lZC6L2cxf2dwcQvfa0hGannh+wv1uWX9DonlbGyDm1OtMi8m8pPN15RUV8u4XekIi2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c7xw9Saf018h95D2mmyovabwYlr6Zr+JwXCeSkLNv3E=;
+ b=GxE194/rcl5Y0nk4KDAzOnCI8UxLOlZ7494p05N2E2GKbw5efj9LF5SSL524soM+oIjk1eZ7P8RBrLvo++U2q/6DXENxghElTEmk92HC2a5Booc2CxaY47/q8M5kOc8ukh9zxw9vneYSCUUYhW7Bl61+KHYqx1Za65/srnhL8XqRKA/EHucyPhGozGBsHK6HlQvLy8PvsjnPrOU/G/UWUrvMM12v77Fv36DUt+xHCrxxQMWg3YnOLpsBrBetWpEvq3ZxECNZlWjqZQRIGQRGgZ83cwdO8gdX3dj62cW+hW81Ei22q5dt9+dMuhVDAg5bf0DjlJVh4NYAe97Wf6p2UA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 199.58.199.50) smtp.rcpttodomain=ipxo.com smtp.mailfrom=acedatacenter.com;
+ dmarc=bestguesspass action=none header.from=acedatacenter.com; dkim=pass
+ (signature was verified) header.d=acedatacenter.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c7xw9Saf018h95D2mmyovabwYlr6Zr+JwXCeSkLNv3E=;
+ b=dxfOfn9XXnuzUoqn/IZwPVHckvtOE1PkYSZe3lvtjP33DzUYlzbPTGemwLcoIKpeyzW3i3WZttKJhK1MwHF1I/Z2OG9rfSoNIM3BMRSP/AK/oo0lVKr+LdEV2yEgkjg/KnzZvePiz2uehOYPdblejgzoAV6QG6eXbA+0suwsVbdwODmty7n8GxMMe8sHU7h71Jkal5Tyr2xB59l8y2sC7uGpg04jcm+vKNYlLU5Y0vpfnZz4l3uiAAfAyH5y4Tx1LIUaTS355TzFKts5X01G4tpTsfXK82dIVMck604yHaV7tmoOk0NXhbrizdOYVICydDfLNhLPr8JZEYPRJmdupg==
+Received: from CWLP123CA0119.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:5f::35)
+ by CWLP302MB0004.GBRP302.PROD.OUTLOOK.COM (2603:10a6:400:223::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Sun, 16 Apr
+ 2023 20:44:33 +0000
+Received: from CWLGBR01FT021.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:401:5f:cafe::9b) by CWLP123CA0119.outlook.office365.com
+ (2603:10a6:401:5f::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45 via Frontend
+ Transport; Sun, 16 Apr 2023 20:44:33 +0000
+Received-SPF: Pass (protection.outlook.com: domain of acedatacenter.com
+ designates 199.58.199.50 as permitted sender)
+ receiver=protection.outlook.com; client-ip=199.58.199.50;
+ helo=mail.betterlinux.com; pr=C
+Received: from mail.betterlinux.com (199.58.199.50) by
+ CWLGBR01FT021.mail.protection.outlook.com (10.152.40.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6319.19 via Frontend Transport; Sun, 16 Apr 2023 20:44:31 +0000
+Received: from smtpclient.apple (66-219-235-252.dynamic.ip.veracitynetworks.com [66.219.235.252])
+	by mail.betterlinux.com (Postfix) with ESMTPSA id 89DC48212B
+	for <abuse@ipxo.com>; Sun, 16 Apr 2023 14:44:30 -0600 (MDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acedatacenter.com;
+	s=default; t=1681677870;
+	bh=c7xw9Saf018h95D2mmyovabwYlr6Zr+JwXCeSkLNv3E=;
+	h=From:Subject:References:To:Date;
+	b=mDDp0QnSV4SL0TyuLYS0zMs2Q+xu4eU13DH+P8R6LRF8evDAon3oVjfSijDjiJtyU
+	 gQZjrQ+PMw/8UyKrpSsspUxR5wtgfPAp/vLcIsoVDD29z6WL4GZ0olgdRXLny1+1SC
+	 OnPJH7l05sjwWt6V4d3MzPNzwWsR25X1byaqv5Uc=
+From: Zach Heaton <zach@acedatacenter.com>
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_AA3C6A8E-460B-4C14-B14F-4525491BCC86"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: =?utf-8?Q?Fwd=3A_=5BSpamCop_=28http=3A//action=2Eswirl=2Enl/h13vo?=
+ =?utf-8?Q?i=2Ehggghlfjglw=2Ek=2Ek7rbh=2Ekc349=2Ejl=2Ek17=2Ehx=2Em76r2=2Ev?=
+ =?utf-8?Q?c3x=2Ehgghv5=29_id=3A7255272727=5DUma_remessa_do_seu_pedido_=23?=
+ =?utf-8?Q?29194772_est=C3=A1_dispon=C3=AD=2E=2E?=
+Message-Id: <4613C53F-7B99-4EAD-B871-50B605E6CA22@acedatacenter.com>
+References: <rid_7255272727@msgid.spamcop.net>
+To: abuse@ipxo.com
+Date: Sun, 16 Apr 2023 14:44:20 -0600
+X-Mailer: Apple Mail (2.3731.400.51.1.1)
+Return-Path: zach@acedatacenter.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLGBR01FT021:EE_|CWLP302MB0004:EE_
+X-MS-Office365-Filtering-Correlation-Id: e91c3563-a634-4395-9284-08db3ebb61a7
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	GHNqe/Zw8T61aRBF7EaM5MbtHBGTuO6XHXC6TlvXPDYphBIHtlWtDNj3EHU0aeAYvYYUE6m7eVGPOZrpbnvCWxEdzbJ6Q77s3nro7a7u3qTNUz5ljqqHU+BltF6o9MHox0HcYdECd7mkPT2Xgfi2WFajvN2R939t96pgnCsxnZGwhlxmrydQK+mzrFWjHSKCnZ6cuflXMiVqwraMSGjIhT9QAtyOKWpOoo1txtwF4L0EJ0PCxn6BXu16Ga87PeZRyAhuINb5ub5KD7KV0MnfuqVvIq2FeNpptR8tjBdEV1SDXS0L1H86K/9AbLdTBhqhYohN2Q5ewGnwthWnbt26qWMv2sDzY7+ALT1Y+27PVyP9shWlMr7E4wnEGzcewGVvX1oq9T2cjV2BjLM2fNXQ7JoDDiY4nP4uP31elDXxPp0Ajv2mqAQN8y/LF/s0fjmPD6Bf5M87SPwYYQj5Q9KfZvYgHFAZC2SWQlhaS7NzVZn3DvUWuTWZVD5vuFFZ5NQl+3q/Bn4+dGWslA0DCqrC+QkXmSUxfCl/DkbFJcF3VF9CzKEIlw0mJUbG1m2t2fQq3R5A1lUGfkSD9AilvS3H5FCTrjNni1SENBUbmj/BQQxL6QYgNFiDl52jqKTrqhskRT/v0DZaPUZpJThBnBMV5tMNw2WR13oecDJOcWO/iFSdAbG7qZJNxPNfsTon7EarWDnzStXGkF+gcsU0Os/GaWNEL8QNiVqEnjY9baf3q3rDz87LvwbavsKUmnPgWfl4NLJ+HxpnV0mPZjTPhbQTs2NuzEakztDDjLxWoreylsBU91omcbueVeTCU3aSmYEs
+X-Forefront-Antispam-Report:
+	CIP:199.58.199.50;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.betterlinux.com;PTR:mail.betterlinux.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(346002)(376002)(396003)(451199021)(1690799014)(5660300002)(2616005)(336012)(956004)(86362001)(66574015)(83380400001)(76236004)(966005)(6266002)(26005)(356005)(7596003)(7636003)(166002)(6966003)(33656002)(498600001)(6666004)(33964004)(224303003)(316002)(34206002)(36756003)(68406010)(70586007)(2906002)(66899021)(15398625002)(19593365017);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2023 20:44:31.8215
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e91c3563-a634-4395-9284-08db3ebb61a7
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	CWLGBR01FT021.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP302MB0004
+Original-Authentication-Results: spf=pass (sender IP is 199.58.199.50)
+ smtp.mailfrom=acedatacenter.com; dkim=pass (signature was verified)
+ header.d=acedatacenter.com;dmarc=bestguesspass action=none
+ header.from=acedatacenter.com;
+
+
+--Apple-Mail=_AA3C6A8E-460B-4C14-B14F-4525491BCC86
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+
+> Begin forwarded message:
+>=20
+> From: 7255272727@reports.spamcop.net
+> Subject: [SpamCop =
+(http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.m76r2.v=
+c3x.hgghv5) id:7255272727]Uma remessa do seu pedido #29194772 est=C3=A1 =
+dispon=C3=AD..
+> Date: April 16, 2023 at 08:58:19 MDT
+> To: ipabuse@acedatacenter.com
+>=20
+> [ SpamCop V5.4.0 ]
+> This message is brief for your comfort.  Please use links below for =
+details.
+>=20
+> Spamvertised web site: =
+http://action.swirl.nl/h13voi.hggghlfjglw.h.k7rbh.kc349.jl.k17.hx.m76r2.vc=
+3x.hgghv5
+> =
+https://www.spamcop.net/w3m?i=3Dz7255272726z1b69058555dbf5c62effd7c6381bb0=
+78z
+> =
+http://action.swirl.nl/h13voi.hggghlfjglw.h.k7rbh.kc349.jl.k17.hx.m76r2.vc=
+3x.hgghv5 is 108.165.129.2; Sun, 16 Apr 2023 16:01:22 GMT
+>=20
+> Spamvertised web site: =
+http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.m76r2.vc=
+3x.hgghv5
+> =
+https://www.spamcop.net/w3m?i=3Dz7255272727z1f4895578e378a54342ab5a943cbb4=
+a2z
+> =
+http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.m76r2.vc=
+3x.hgghv5 is 108.165.129.2; Sun, 16 Apr 2023 16:01:22 GMT
+>=20
+> [ Offending message ]
+> Received: (qmail 28002 invoked from network); 16 Apr 2023 14:58:19 =
+-0000
+> Received: from mcginleygowns.ie (brownclements.sekenterprise.com =
+[217.119.132.118])
+>          (envelope-sender <uspgq@rogers.com>)
+>          by ptmail-mta03 (qmail-ptmail-1.0.0) with SMTP
+>          for <x>; 16 Apr 2023 14:58:19 -0000
+> Received-SPF: none (ptmail-mta03: domain at rogers.com does not =
+designate permitted sender hosts)
+> X-PTMail-RemoteIP: 217.119.132.118
+> X-PTMail-AllowedSender-Action:=20
+> X-PTMail-Service: default
+> Date: Sun, 16 Apr 2023 10:57:22 -0400 (EDT)
+> To: x
+> Message-ID: =
+<1060_______________________9888@qnuquglxhi.eu-west-1.amazonses.com>
+> Subject: Uma remessa do seu pedido #29194772 est=C3=A1 dispon=C3=ADvel =
+para entrega
+> MIME-Version: 1.0
+> Content-Type: multipart/mixed; boundary=3D"000000000000c94f4b05e464d657"=
+
+> From: @Luisaseisal <Luisaseisal@altius-pacs.com.au>
+>=20
+> --000000000000c94f4b05e464d657
+> Content-Type: multipart/alternative; =
+boundary=3D"000000000000c94f4a05e464d655"
+>=20
+> --000000000000c94f4b05e464d657
+> Content-Type: text/plain; charset=3D"UTF-8"
+>=20
+>=20
+>=20
+> --000000000000c94f4b05e464d657
+> Content-Type: text/html; charset=3D"UTF-8"
+> Content-Transfer-Encoding: 8bit
+>=20
+> <center><a =
+href=3D"http://action.swirl.nl/h13voi.hggghlfjglw.h.k7rbh.kc349.jl.k17.hx.=
+m76r2.vc3x.hgghv5"><p style=3D"font-size:30px;color:#FF0000;">=20
+> OI,Luisaseisal<br></p>
+> <img =
+src=3D"https://www.itechflare.com/demo/filetrip/wp-content/uploads/2023/04=
+/0_screenshot_3gH8Lij3yEaRv-1681655563.png" =
+data-cke-saved-src=3D"\\srv-camping-01\ThelisPartage\ThelisData\Common\Ima=
+ges\logo camping.jpg"><br></p></a><br><br><br><br>
+> <hr>
+> <br>=20
+> <br>=20
+> To unsubscribe, <a =
+href=3D"http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.=
+m76r2.vc3x.hgghv5">        click here. </a><br><br>
+> <img =
+src=3D"http://action.swirl.nl/h13voi.hggghlfjglw.g.k7rbh.kc349.jl.k17.hx.m=
+76r2.vc3x.hgghv5" width=3D'1' height=3D'1'>
+>=20
+>=20
+> --000000000000c94f4b05e464d657--
+> --000000000000c94f4b05e464d657
+>=20
+> Content-Transfer-Encoding: base64
+>=20
+>=20
+>=20
+> --000000000000c94f4b05e464d657--
+>=20
+
+
+--Apple-Mail=_AA3C6A8E-460B-4C14-B14F-4525491BCC86
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"overflow-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: =
+after-white-space;"><br><div><br><blockquote type=3D"cite"><div>Begin =
+forwarded message:</div><br class=3D"Apple-interchange-newline"><div =
+style=3D"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; =
+margin-left: 0px;"><span style=3D"font-family: -webkit-system-font, =
+Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, =
+1.0);"><b>From: </b></span><span style=3D"font-family: =
+-webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif;">7255272727@reports.spamcop.net<br></span></div><div =
+style=3D"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; =
+margin-left: 0px;"><span style=3D"font-family: -webkit-system-font, =
+Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, =
+1.0);"><b>Subject: </b></span><span style=3D"font-family: =
+-webkit-system-font, Helvetica Neue, Helvetica, sans-serif;"><b>[SpamCop =
+(http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.m76r2.v=
+c3x.hgghv5) id:7255272727]Uma remessa do seu pedido #29194772 est=C3=A1 =
+dispon=C3=AD..</b><br></span></div><div style=3D"margin-top: 0px; =
+margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span =
+style=3D"font-family: -webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif; color:rgba(0, 0, 0, 1.0);"><b>Date: </b></span><span =
+style=3D"font-family: -webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif;">April 16, 2023 at 08:58:19 MDT<br></span></div><div =
+style=3D"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; =
+margin-left: 0px;"><span style=3D"font-family: -webkit-system-font, =
+Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, 1.0);"><b>To: =
+</b></span><span style=3D"font-family: -webkit-system-font, Helvetica =
+Neue, Helvetica, =
+sans-serif;">ipabuse@acedatacenter.com<br></span></div><br><div><div>[ =
+SpamCop V5.4.0 ]<br>This message is brief for your comfort. &nbsp;Please =
+use links below for details.<br><br>Spamvertised web site: =
+http://action.swirl.nl/h13voi.hggghlfjglw.h.k7rbh.kc349.jl.k17.hx.m76r2.vc=
+3x.hgghv5<br>https://www.spamcop.net/w3m?i=3Dz7255272726z1b69058555dbf5c62=
+effd7c6381bb078z<br>http://action.swirl.nl/h13voi.hggghlfjglw.h.k7rbh.kc34=
+9.jl.k17.hx.m76r2.vc3x.hgghv5 is 108.165.129.2; Sun, 16 Apr 2023 =
+16:01:22 GMT<br><br>Spamvertised web site: =
+http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.m76r2.vc=
+3x.hgghv5<br>https://www.spamcop.net/w3m?i=3Dz7255272727z1f4895578e378a543=
+42ab5a943cbb4a2z<br>http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc34=
+9.jl.k17.hx.m76r2.vc3x.hgghv5 is 108.165.129.2; Sun, 16 Apr 2023 =
+16:01:22 GMT<br><br>[ Offending message ]<br>Received: (qmail 28002 =
+invoked from network); 16 Apr 2023 14:58:19 -0000<br>Received: from =
+mcginleygowns.ie (brownclements.sekenterprise.com [217.119.132.118])<br> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(envelope-sender =
+&lt;uspgq@rogers.com&gt;)<br> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by ptmail-mta03 =
+(qmail-ptmail-1.0.0) with SMTP<br> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for &lt;x&gt;; 16 =
+Apr 2023 14:58:19 -0000<br>Received-SPF: none (ptmail-mta03: domain at =
+rogers.com does not designate permitted sender =
+hosts)<br>X-PTMail-RemoteIP: =
+217.119.132.118<br>X-PTMail-AllowedSender-Action: <br>X-PTMail-Service: =
+default<br>Date: Sun, 16 Apr 2023 10:57:22 -0400 (EDT)<br>To: =
+x<br>Message-ID: =
+&lt;1060_______________________9888@qnuquglxhi.eu-west-1.amazonses.com&gt;=
+<br>Subject: Uma remessa do seu pedido #29194772 est=C3=A1 dispon=C3=ADvel=
+ para entrega<br>MIME-Version: 1.0<br>Content-Type: multipart/mixed; =
+boundary=3D"000000000000c94f4b05e464d657"<br>From: @Luisaseisal =
+&lt;Luisaseisal@altius-pacs.com.au&gt;<br><br>--000000000000c94f4b05e464d6=
+57<br>Content-Type: multipart/alternative; =
+boundary=3D"000000000000c94f4a05e464d655"<br><br>--000000000000c94f4b05e46=
+4d657<br>Content-Type: text/plain; =
+charset=3D"UTF-8"<br><br><br><br>--000000000000c94f4b05e464d657<br>Content=
+-Type: text/html; charset=3D"UTF-8"<br>Content-Transfer-Encoding: =
+8bit<br><br>&lt;center&gt;&lt;a =
+href=3D"http://action.swirl.nl/h13voi.hggghlfjglw.h.k7rbh.kc349.jl.k17.hx.=
+m76r2.vc3x.hgghv5"&gt;&lt;p style=3D"font-size:30px;color:#FF0000;"&gt; =
+<br>OI,Luisaseisal&lt;br&gt;&lt;/p&gt;<br>&lt;img =
+src=3D"https://www.itechflare.com/demo/filetrip/wp-content/uploads/2023/04=
+/0_screenshot_3gH8Lij3yEaRv-1681655563.png" =
+data-cke-saved-src=3D"\\srv-camping-01\ThelisPartage\ThelisData\Common\Ima=
+ges\logo =
+camping.jpg"&gt;&lt;br&gt;&lt;/p&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;br&g=
+t;&lt;br&gt;<br>&lt;hr&gt;<br>&lt;br&gt; <br>&lt;br&gt; <br>To =
+unsubscribe, &lt;a =
+href=3D"http://action.swirl.nl/h13voi.hggghlfjglw.k.k7rbh.kc349.jl.k17.hx.=
+m76r2.vc3x.hgghv5"&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;click =
+here. &lt;/a&gt;&lt;br&gt;&lt;br&gt;<br>&lt;img =
+src=3D"http://action.swirl.nl/h13voi.hggghlfjglw.g.k7rbh.kc349.jl.k17.hx.m=
+76r2.vc3x.hgghv5" width=3D'1' =
+height=3D'1'&gt;<br><br><br>--000000000000c94f4b05e464d657--<br>--00000000=
+0000c94f4b05e464d657<br><br>Content-Transfer-Encoding: =
+base64<br><br><br><br>--000000000000c94f4b05e464d657--<br><br></div></div>=
+</blockquote></div><br></body></html>=
+
+--Apple-Mail=_AA3C6A8E-460B-4C14-B14F-4525491BCC86--

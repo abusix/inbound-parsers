@@ -1,130 +1,199 @@
 # YIKES - Known Issues (inbound-parsers v2)
 
-*Last verified: 2025-10-18*
+*Last verified: 2025-10-18 (qinit)*
+
+## 🚨 ARCHITECTURE CHANGE NOTICE (2025-10-18)
+
+**Decision:** Migration from Python to Pure Go architecture
+- Parsers will be rewritten in Go (not Python)
+- Python code (`parsers/fbl.py`, `workers/fbl_worker.py`, `pyproject.toml`) will be **deleted**
+- Many Python-specific issues below are now **OBSOLETE** (marked with 🗑️)
+- See `.claude/CONTEXT.md` for full migration roadmap
+
+## 🔴 CRITICAL - BLOCKERS
+
+1. 🗑️ **[OBSOLETE - Python Dependencies] Missing required Python libraries** *(Confirmed 2025-10-18)*
+   - Status: **MOOT** - Python code will be deleted in Go migration
+   - Location: `pyproject.toml`
+   - Code locations: `parsers/fbl.py:12-13`
+   - Issue: FBL parser imports libraries not in pyproject.toml
+   - Missing:
+     - `dkimpy` - DKIM signature verification (imported line 12)
+     - `tldextract` - Domain parsing (imported line 13)
+     - `ahq_events` - Event models (referenced but not imported)
+     - `ahq_parser_processors` - IP extraction helpers (referenced but not imported)
+   - Go equivalent: Use `github.com/emersion/go-msgauth` for DKIM
+   - **No action needed** - will be resolved by Go rewrite
+
+2. **[Scripts] Missing scripts referenced in Makefile** *(Discovered 2025-10-18)*
+   - Location: `scripts/` directory
+   - Issue: Makefile commands reference non-existent scripts
+   - Missing:
+     - `scripts/compare-output.py` - `make compare` will fail (Makefile:74)
+     - `scripts/send-test-message.py` - `make kafka-produce-test` will fail (Makefile:84)
+   - Impact: **Essential development commands broken**
+   - Fix needed: Create these scripts (can be in Go or Python)
+   - Note: Comparison script still needed for v1 vs v2 validation
 
 ## 🟡 MEDIUM PRIORITY
 
-1. **[Dependencies] Missing required Python libraries**
-   - Location: `pyproject.toml`
-   - Issue: FBL parser needs libraries not yet added to dependencies
-   - Missing:
-     - `dkimpy` - DKIM signature verification
-     - `tldextract` - Domain parsing and extraction
-     - `ahq_events` - Event models (need to verify if public/internal)
-     - `ahq_parser_processors` - IP extraction helpers (need to verify if public/internal)
-   - Impact: Code won't run until dependencies added
-   - Fix needed: Add to `[tool.poetry.dependencies]` or copy code if internal
-
-2. **[Testing] No test data or fixtures**
+3. **[Testing] No test data or fixtures** *(Confirmed 2025-10-18)* ✅ Still applies
    - Location: `tests/fixtures/` (doesn't exist yet)
+   - Status: All test directories empty (unit/, integration/, comparison/)
    - Issue: Need sample FBL .eml files for testing
    - Source: Copy from v1 `sample_mails/` directory
-   - Fix needed: Create test data loader script
+   - Impact: Cannot write or run tests without fixtures
+   - Fix needed: Create fixtures directory and populate with .eml files
+   - **Still needed for Go tests**
 
-3. **[Testing] No test suite implemented**
-   - Location: `tests/` (empty)
+4. **[Testing] No test suite implemented** *(Confirmed 2025-10-18)* ✅ Still applies
+   - Location: `tests/unit/`, `tests/integration/`, `tests/comparison/`
+   - Status: All directories empty (verified with ls -la)
    - Issue: No unit, integration, or comparison tests written
-   - Impact: Can't validate parser correctness
+   - Impact: CI passes with 0 tests (misleading green checkmark)
    - Fix needed:
-     - Unit tests for FBL parser (DKIM, IP extraction, error handling)
-     - Integration tests (full pipeline)
+     - Go unit tests for FBL parser (`parsers/fbl/parser_test.go`)
+     - Integration tests (full Bento pipeline)
      - Comparison tests (v1 vs v2 output)
+   - **Rewrite tests in Go, not Python**
 
-4. **[Monitoring] No Grafana dashboard JSON**
-   - Location: `monitoring/grafana/dashboards/` (empty)
+5. **[Monitoring] No Grafana dashboard JSON** *(Confirmed 2025-10-18)* ✅ Still applies
+   - Location: `monitoring/grafana/dashboards/` (empty - verified)
    - Issue: Dashboard provisioning configured but no dashboard exists
-   - Impact: Have to create dashboard manually
+   - Impact: Have to create dashboard manually in Grafana UI
    - Fix needed: Create `fbl-overview.json` with panels for metrics
+   - Metrics available: Bento + custom Bento processor Prometheus endpoints
+   - **Still needed regardless of language**
 
-5. **[Code] Simplified ReceivedHeader parsing**
+6. 🗑️ **[OBSOLETE - Python Code] Simplified ReceivedHeader parsing**
+   - Status: **MOOT** - Python parser will be deleted
    - Location: `parsers/fbl.py:219` (commented out)
    - Issue: Event date extraction not implemented
-   - Impact: Events have `event_date: null`
-   - Fix needed: Copy `ReceivedHeader` class from v1 or implement proper date parsing
+   - Go equivalent: Implement `Received` header parsing in `parsers/fbl/received.go`
+   - **Will be rewritten in Go**
 
-6. **[Code] Simplified IP extraction**
+7. 🗑️ **[OBSOLETE - Python Code] Simplified IP extraction**
+   - Status: **MOOT** - Python parser will be deleted
    - Location: `parsers/fbl.py:233-239`
    - Issue: Using regex instead of proper IP extraction library
-   - Impact: May miss valid IPs or extract invalid ones
-   - Fix needed: Use `ahq_parser_processors.extract_all_ipv4` or copy implementation
+   - Go equivalent: Use proper IP parsing in `parsers/fbl/ip_extraction.go`
+   - **Will be rewritten in Go**
 
 ## 🟢 LOW PRIORITY / TECH DEBT
 
-7. **[Config] No poetry.lock file**
+8. 🗑️ **[OBSOLETE - Poetry] No poetry.lock file** *(Verified 2025-10-18)*
+   - Status: **MOOT** - `pyproject.toml` will be deleted in Go migration
    - Location: Root directory
-   - Issue: `poetry.lock` is gitignored (intentional for libraries)
-   - Impact: Dependency versions not pinned
-   - Fix needed: Run `poetry install` to generate, then decide if we should commit it
+   - Go equivalent: Use `go.mod` and `go.sum` for dependency locking
+   - **No action needed** - Python dependencies obsolete
 
-8. **[Scripts] Missing test data loader**
-   - Location: `scripts/send-test-message.py` (doesn't exist)
-   - Issue: No way to send test messages to Kafka
-   - Impact: Can't test locally without manual Kafka commands
-   - Fix needed: Create script to send .eml files to Kafka
+9. **[Docs] Missing .env.example** *(Verified 2025-10-18)* ✅ Still applies
+   - Location: Root directory (doesn't exist)
+   - Issue: No template for environment variables
+   - Impact: Developers don't know what env vars are needed for docker-compose
+   - Fix needed: Create `.env.example` with KAFKA_*, LOG_LEVEL, etc.
+   - Note: WORKER_URL will be removed (no HTTP worker in Go architecture)
+   - **Still needed for docker-compose**
 
-9. **[Scripts] Missing comparison test tool**
-   - Location: `scripts/compare-output.py` (referenced in Makefile but doesn't exist)
-   - Issue: No way to compare v1 vs v2 output
-   - Impact: Can't validate migration correctness
-   - Fix needed: Create comparison tool
-
-10. **[Docs] Missing .env.example**
-    - Location: Root directory
-    - Issue: No template for environment variables
-    - Impact: Developers don't know what env vars are needed
-    - Fix needed: Create `.env.example` with all variables documented
-
-11. **[Code] No email multipart handling**
+10. 🗑️ **[OBSOLETE - Python Code] No email multipart handling**
+    - Status: **MOOT** - Python worker will be deleted
     - Location: `workers/fbl_worker.py:90`
     - Issue: `parts=[]` always empty, multipart emails not parsed
-    - Impact: May miss CFBL-Address in embedded message/rfc822 parts
-    - Fix needed: Implement multipart parsing (copy from v1 `mail_parser.py`)
+    - Go equivalent: Use `mime/multipart` package in `parsers/fbl/parser.go`
+    - **Will be rewritten in Go**
 
-12. **[Security] No secrets baseline initialized**
+11. **[Security] No secrets baseline initialized** *(Critical for CI)* ✅ Still applies
     - Location: `.secrets.baseline` (doesn't exist)
+    - Blocker: CI job expects this file (.github/workflows/ci.yml:64)
     - Issue: Pre-commit hook will fail on first run
-    - Impact: Can't commit until baseline created
+    - Impact: **CI will fail** on security job
     - Fix needed: Run `detect-secrets scan > .secrets.baseline`
+    - Priority: High - blocks CI from passing
+    - **Still needed regardless of language**
 
 ## 📋 KNOWN LIMITATIONS (By Design)
 
-13. **[Architecture] FBL only**
+12. **[Architecture] FBL only** *(By design)* ✅ Still applies
     - Status: Intentional - starting with one parser
     - Impact: Can't process other abuse report types yet
-    - Plan: Add more parsers incrementally
+    - Plan: Add more parsers incrementally per roadmap (Phase 2)
+    - **First Go parser: FBL, then ShadowServer, then others**
 
-14. **[Performance] Subprocess overhead**
-    - Status: Accepted trade-off for simplicity
-    - Measured: ~0.5ms overhead vs direct call
-    - Plan: Upgrade to Unix socket HTTP if needed (after benchmarking)
+13. 🗑️ **[OBSOLETE - Subprocess overhead] Performance concern resolved**
+    - Status: **MOOT** - Go architecture eliminates subprocess overhead
+    - Old issue: ~0.5ms overhead from Python subprocess + HTTP
+    - Go solution: Direct function calls in Bento processor (nanosecond overhead)
+    - **Resolved by architecture change**
 
-15. **[Testing] No load testing**
+14. **[Testing] No load testing** *(Future work)* ✅ Still applies
     - Status: Not implemented yet
-    - Impact: Don't know max throughput
+    - Impact: Don't know max throughput or breaking points
     - Plan: Add in Phase 3 (production readiness)
+    - **Still needed for Go implementation**
 
 ## ✅ FIXED (Compared to v1)
 
-16. **[FIXED] Kafka auto-commit data loss**
+15. **[FIXED] Kafka auto-commit data loss**
     - v1 Issue: Auto-commit every 5s without manual commit after output
-    - v2 Fix: Bento `commit_period: "0s"` + manual commit after output
+    - v2 Fix: Bento `commit_period: "0s"` + manual commit after output (bento/fbl.yaml:23)
     - Status: ✅ Fixed by design
 
-17. **[FIXED] FBL rejection by abuse report logic**
+16. **[FIXED] FBL rejection by abuse report logic**
     - v1 Issue: FBL emails run through `001_mail_reject.py`
-    - v2 Fix: Separate FBL pipeline, no rejection logic
+    - v2 Fix: Separate FBL pipeline, tag-based filtering only (bento/fbl.yaml:42-52)
     - Status: ✅ Fixed by design
 
-18. **[FIXED] No observability**
+17. **[FIXED] No observability**
     - v1 Issue: No metrics, structured logging, or dashboards
-    - v2 Fix: Prometheus + Grafana + Loki from day 1
+    - v2 Fix: Prometheus + Grafana + Loki from day 1 (monitoring/ directory)
     - Status: ✅ Fixed by design
 
 ---
 
-**Next Steps:**
-1. Add missing dependencies to `pyproject.toml`
-2. Run `poetry install` to test dependency resolution
-3. Create test fixtures directory
-4. Initialize secrets baseline
-5. Write first unit test
+## 📊 Summary *(Updated 2025-10-18 - Post Go Migration Decision)*
+
+### Issue Status After Architecture Change
+
+- **CRITICAL Blockers:** 1 active (down from 2)
+  - 🗑️ Python dependencies → OBSOLETE (will be deleted)
+  - ✅ Missing scripts → STILL NEEDED (for comparison testing)
+
+- **MEDIUM Priority:** 3 active (down from 5)
+  - ✅ Test fixtures → STILL NEEDED (for Go tests)
+  - ✅ Test suite → STILL NEEDED (rewrite in Go)
+  - ✅ Grafana dashboard → STILL NEEDED
+  - 🗑️ ReceivedHeader parsing → OBSOLETE (will be rewritten in Go)
+  - 🗑️ IP extraction → OBSOLETE (will be rewritten in Go)
+
+- **LOW Priority:** 2 active (down from 4)
+  - 🗑️ poetry.lock → OBSOLETE (Python obsolete)
+  - ✅ .env.example → STILL NEEDED
+  - 🗑️ Multipart handling → OBSOLETE (will be rewritten in Go)
+  - ✅ Secrets baseline → STILL NEEDED
+
+- **By Design:** 2 active (down from 3)
+  - ✅ FBL only → STILL APPLIES
+  - 🗑️ Subprocess overhead → RESOLVED BY GO ARCHITECTURE
+  - ✅ No load testing → STILL APPLIES
+
+- **Fixed from v1:** 3 major issues resolved (unchanged)
+
+### Immediate Actions Required (Go Migration Path)
+
+**Phase 0 - Pre-Migration Setup:**
+1. ✅ Initialize secrets baseline: `detect-secrets scan > .secrets.baseline`
+2. ✅ Create test fixtures directory and copy .eml files from v1
+3. ✅ Create comparison script (`scripts/compare-output.py` or `.go`)
+4. ✅ Create `.env.example` template
+
+**Phase 1 - Go FBL Parser (see CONTEXT.md for full roadmap):**
+1. Initialize `go.mod` and Go project structure
+2. Create `parsers/fbl/` package with parser logic
+3. Write Go unit tests (`parsers/fbl/parser_test.go`)
+4. Create custom Bento processor wrapper
+5. Build custom Bento binary
+6. Run comparison tests (v1 vs v2)
+7. Delete Python code
+
+**Python Issues Now Obsolete:** 5 issues will be resolved by deleting Python code
+**Issues Still Relevant:** 6 issues still need attention in Go implementation

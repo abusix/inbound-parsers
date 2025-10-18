@@ -1,0 +1,262 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id D5067BB7-86C6-4008-B5A1-505B5FCACE44.1
+	envelope-from <abuse+bncBD5JZPHE2ANBBIU672QQMGQESHQK4CI@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 19 Apr 2023 06:50:10 +0000
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-50692ecb3c5sf1781188a12.0
+        for <abuse@digitalocean.abusehq.net>; Tue, 18 Apr 2023 23:50:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1681887010; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=BJNgKivnQzFTdU/hY0Qpd/MUM/Dd1QYUbyigJNpY6d3b9yDEbRyKGy04jXHcMOr1R7
+         2Qw0pIxFRs2ud/TfrjIXqECMu77jS3CUgY936KOXcCnORd4voXnO7imOQ/6y0jonX3Va
+         ZhEbhZyDgtSthT0Cu1nA7FuaWpLf1AXvHEB7lbB8kWRNe4NjUPULosu5YxE+cJJQdsOf
+         7suM5NuVu4AiP4L+6UzwK/6sl+4HcPs6xugg0ROFXAeuweU4lEK556E0VJwXRuARnFP0
+         KVsoIZ5f3/m3C+JrAnwB8LP6BWajjydaIWu6XGZUgNyAwG3ODn2emH2PIkIpBxvGxjJF
+         KdfQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:subject:message-id:date:from
+         :mime-version:sender:dkim-signature;
+        bh=jKJhpx4Rp5jMT2x0T9aLWlluaYBYdk5GMC24NsYFi40=;
+        b=fmn/MvW+/nK2Pwhwzoy2txlOsNTSY6PH8LbOY79skT2n54n5ZhkC6Ksh2ZaVMyfvNJ
+         9h3nnPLKEuIcyfdvybn0LgMeMukbN3hQwhoNTtXbxqUIA+LAgjPLv1C39cOJ8l3RJ8Bs
+         SoFzljY2WCgcHGb3nWGL8bP6UQl9ZB3lk9ROxizj2PqlqvmvnulxYwA2YOos8HgU3s0+
+         YrNSeim3/7pdD8/6IK3VV/w0xcdcWdXvK5lMrw5LCaqB8evYJcGCGCcPJ/2JNQqYdSGY
+         z8RiWpxlGgfnFHS8T2QfhSNAAGoUzmy4tPw2oy7zadoDc5Y9f46SshKZ3/AnGG8V3TlJ
+         DvEQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@brandsecurity-ru.20221208.gappssmtp.com header.s=20221208 header.b=EelhMaf3;
+       spf=pass (google.com: domain of post@brandsecurity.ru designates 209.85.220.41 as permitted sender) smtp.mailfrom=post@brandsecurity.ru
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1681887010; x=1684479010;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=jKJhpx4Rp5jMT2x0T9aLWlluaYBYdk5GMC24NsYFi40=;
+        b=dOB9zARMSvdyjrpnoR5V7MdEOOVZP1a7hfH9fDWUVGLwupPQVzMQG9nHfV5dmKUiLH
+         91xCil2vkTxQC4q2HmASMYSOCzHKZjFHSAxPU264ZLUhOkaaCX413knArmeYIof77zd1
+         iFeTHZDzj2HYz5IqjyY2YaaRbMxM9rsBXNerI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681887010; x=1684479010;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=jKJhpx4Rp5jMT2x0T9aLWlluaYBYdk5GMC24NsYFi40=;
+        b=Cy9L2i2QgTeebwblEqZ3ql14qVXjHXhpT3Pj5QBr1lru+JQPXWVFoOpIGo29hIvdPw
+         OwkhlOvUVhRJYq2vO3H+uZ6SjuEM9TWefvqgDQzI7DBs1nPvScuOgUK9iQB1qmGx6bgL
+         mVuI6EoTpr3LQqkgs7KBbzoi/9phk3ouBJTCm3/cY/EpezI96pvcQBh/0RG+7HMU/gXE
+         9eLuPMhBucBp+OOs7gYOgBBlfdhBwst/Wx//EDqOHRvfJDG5zQmzAi3MwVdfmfr4mgUD
+         HSOFNlbtLEK39nVKL7pI/5eAKrGTm2xl9+wd2G4+6Tnm1QfjqiI9QlMo7sQ7oJYuK8YL
+         VNdQ==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AAQBX9dWicOBakCtOftuLvaH8aoHwy0MRBpZERUDWD3xbiMKWd3qBvn1
+	z2QO6S5WguzLtZIvks4VCAtLaQ==
+X-Google-Smtp-Source: AKy350YYPRgXOvxWsmcVYi2FQ1TWs3s6Gb+lupU6OR0K4+Y0GuuH2UKH+/MqBIJE7sIxjqzUgnN2Hw==
+X-Received: by 2002:a50:d0cb:0:b0:505:3be:1bf4 with SMTP id g11-20020a50d0cb000000b0050503be1bf4mr2273058edf.1.1681887010569;
+        Tue, 18 Apr 2023 23:50:10 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:34c3:b0:504:d786:eab0 with SMTP id
+ w3-20020a05640234c300b00504d786eab0ls4777106edc.3.-pod-prod-gmail; Tue, 18
+ Apr 2023 23:50:09 -0700 (PDT)
+X-Received: by 2002:a05:6402:5159:b0:506:6cce:ca9f with SMTP id n25-20020a056402515900b005066cceca9fmr4372112edd.26.1681887009026;
+        Tue, 18 Apr 2023 23:50:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1681887009; cv=none;
+        d=google.com; s=arc-20160816;
+        b=jbIRZ32zW6tL0SSR5ukgUbGzkX96R7/okDI8ez016EZmHIUQlvX/LQwk1K3Mzb+h6q
+         MvD+V2MQvzwev2h8GLypXs9RFoa0szTemut9Kx+H687HnSM7e5Udr0mNHlgcUffe3yiy
+         AJKe8erYR/JVYoDwTRrrVUWAl7cj14sZ7QSFaP2VPH3OwafduwmEYDeRbJkaIyuFkLwt
+         jPEhgCF9SFBxPvS9Cvd08c+b+3gjvvP5gN8YKVbgzHMKGaGnxzUixA4ViMDq/Un62ZVd
+         HSWmAamyGHS7eHGZ6mre9A5/J8BJqFodc8phIVgqqO/3dB9LMHKNZNTZJzD4KTy6NvIX
+         r9pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=jKJhpx4Rp5jMT2x0T9aLWlluaYBYdk5GMC24NsYFi40=;
+        b=rwkIkI9BpELuxSVvwf9Enb+MopwsCHLv9AGSKuG3nEE+dochtyIjJ6mWevJrqF462b
+         aZrsVNgoL3m6t5C4bnRp3D7h3HLrLJ4B0j32rGUkdRV0bRUtD7yEY7aUenZ28vIYxc4C
+         PVMjP0zzZKCZE/ROyQh1As/Az4saZAZxuT00rKVq22uxgzA12QYxMdgU99RyYyhewAeG
+         2twdP6dbumPmRzf5U+ua6rZQ8GTJnMpEUXKxu4Z3E6FN+Kxf55GViSGxy91qkBpuKNIP
+         DPZY2aDMU4koKi1YC2RnuABNNKJAhNT05Wl5pRQRBT1dJNCg4bypHZkNXPjcNiZFILKF
+         m7Dg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@brandsecurity-ru.20221208.gappssmtp.com header.s=20221208 header.b=EelhMaf3;
+       spf=pass (google.com: domain of post@brandsecurity.ru designates 209.85.220.41 as permitted sender) smtp.mailfrom=post@brandsecurity.ru
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id r4-20020aa7cfc4000000b0050696bcbdacsor4818301edy.82.2023.04.18.23.50.08
+        for <abuse@digitalocean.com>
+        (Google Transport Security);
+        Tue, 18 Apr 2023 23:50:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of post@brandsecurity.ru designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+X-Received: by 2002:aa7:c94c:0:b0:506:7304:15d3 with SMTP id
+ h12-20020aa7c94c000000b00506730415d3mr5068539edt.14.1681887008376; Tue, 18
+ Apr 2023 23:50:08 -0700 (PDT)
+MIME-Version: 1.0
+From: Abuse Team <post@brandsecurity.ru>
+Date: Wed, 19 Apr 2023 09:49:58 +0300
+Message-ID: <CALWdXbhemgsXrXNA1PyDU8Mh5QKYGH7Lz=D_7EfQRVYgCN8iYw@mail.gmail.com>
+Subject: Abuse
+To: abuse@digitalocean.com
+Content-Type: multipart/alternative; boundary="000000000000afdf3c05f9aad5d0"
+X-Original-Sender: post@brandsecurity.ru
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@brandsecurity-ru.20221208.gappssmtp.com header.s=20221208
+ header.b=EelhMaf3;       spf=pass (google.com: domain of post@brandsecurity.ru
+ designates 209.85.220.41 as permitted sender) smtp.mailfrom=post@brandsecurity.ru
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--000000000000afdf3c05f9aad5d0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Representative under the Power of Attorney:
+Online Protect LLC
+105120, Moscow, Nastavnichesky lane, 17, building 1. entrance 22, floor 2,
+office 2.1.2
+post@brandsecurity.ru
+For the benefit of the Copyright Holder: =C2=ABDodo Franchising=C2=BB LLC
+Complaint about violation of intellectual rights on the website!
+
+
+
+We, Online Protect LLC, acting in the interests of =C2=ABDodo Franchising=
+=C2=BB LLC
+(hereinafter, the "Copyright Holder") under the power of attorney on all
+matters related to the protection of rights and legitimate interests,
+including the protection of rights to objects of copyright, intellectual
+property and trademarks, inform:
+=C2=ABDodo Franchising=C2=BB LLC is the Copyright Holder of the photographi=
+c works,
+images, including images containing trademarks of the Copyright Holder
+(hereinafter referred  - Images), and is the Copyright Holder of the
+trademarks =C2=AB=D0=B4=D1=80=D0=B8=D0=BD=D0=BA=D0=B8=D1=82=C2=BB, =C2=ABDO=
+DO=C2=BB, =C2=ABdodobrands.com=C2=BB, =C2=AB=D0=94=D0=9E=D0=94=D0=9E=C2=BB,=
+ etc., specified in
+the attachment to this claim.
+We inform you that the website to which you provide hosting services makes
+illegal use of the Images and trademarks of the Copyright Holder:
+
+
+https://coredp.com/dodo-pizza/
+
+In accordance with the current legislation of the Russian Federation, in
+particular in accordance with Article 1484, 1229 of the Civil Code, the
+Copyright Holder of the exclusive rights has the right to use this result
+or this means of individualization at its discretion in any way that does
+not contradict the law. Other persons may not use the corresponding result
+of intellectual activity or means of individualization without the consent
+of the Copyright Holder.
+
+The Copyright Holder has not granted the site administrator to use
+trademarks and Images on the Internet and in the website graphic design and
+did not express its consent to these actions.
+
+The Copyright Holder did not enter into a license agreement with the
+website administrator, or otherwise did not transfer the rights to use the
+trademark and Images. There are no grounds for non-contractual use of
+trademarks and Images.
+
+The site owner and the domain administrator both avoid self-removal and
+termination of the illegal use of trademarks and Images on the site.
+
+In accordance with Art. 1253.1. of the Civil Code of the Russian
+Federation, you, as a hosting provider, perform the function of an
+information intermediary providing the possibility of placing and
+transmitting the content of the specified website on the Internet and, in
+accordance with Clause 3 of Article 1253.1 of the Civil Code of the Russian
+Federation, you must promptly take the necessary and sufficient measures to
+stop the violation of the Copyright Holder's intellectual rights.
+
+Based on the foregoing, we, for and on behalf of the Copyright Holder, ask
+you to take the necessary and sufficient measures to stop the violation of
+the interests of the Copyright Holder and its intellectual property rights
+to trademarks and Images, and block access to the website, if within 24
+hours the owner of the site does not provide the evidence of legal and fair
+use of trademarks and Images.
+
+
+Please send a response to this claim by email to post@brandsecurity.ru
+
+
+Best regards,
+Online Protect LLC
+http://www.brandsecurity.ru/contacts
+
+
+Documents:
+https://rocket.brandsecurity.ru/uploads/POA_DODO_2023_1.pdf
+https://rocket.brandsecurity.ru/uploads/=D0=A2=D0=9C.pdf
+
+--000000000000afdf3c05f9aad5d0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Representative under the Power of Attorney:<br>Online Prot=
+ect LLC<br>105120, Moscow, Nastavnichesky lane, 17, building 1. entrance 22=
+, floor 2, office 2.1.2<br><a href=3D"mailto:post@brandsecurity.ru">post@br=
+andsecurity.ru</a><br>For the benefit of the Copyright Holder: =C2=ABDodo F=
+ranchising=C2=BB LLC<br>Complaint about violation of intellectual rights on=
+ the website!<br><br>=C2=A0<br><br>We, Online Protect LLC, acting in the in=
+terests of =C2=ABDodo Franchising=C2=BB LLC (hereinafter, the &quot;Copyrig=
+ht Holder&quot;) under the power of attorney on all matters related to the =
+protection of rights and legitimate interests, including the protection of =
+rights to objects of copyright, intellectual property and trademarks, infor=
+m:<br>=C2=ABDodo Franchising=C2=BB LLC is the Copyright Holder of the photo=
+graphic works, images, including images containing trademarks of the Copyri=
+ght Holder (hereinafter referred =C2=A0- Images), and is the Copyright Hold=
+er of the trademarks =C2=AB=D0=B4=D1=80=D0=B8=D0=BD=D0=BA=D0=B8=D1=82=C2=BB=
+, =C2=ABDODO=C2=BB, =C2=AB<a href=3D"http://dodobrands.com">dodobrands.com<=
+/a>=C2=BB, =C2=AB=D0=94=D0=9E=D0=94=D0=9E=C2=BB, etc., specified in the att=
+achment to this claim.<br>We inform you that the website to which you provi=
+de hosting services makes illegal use of the Images and trademarks of the C=
+opyright Holder:<br><br>=C2=A0<br><a href=3D"https://coredp.com/dodo-pizza/=
+">https://coredp.com/dodo-pizza/</a><br>=C2=A0<br>In accordance with the cu=
+rrent legislation of the Russian Federation, in particular in accordance wi=
+th Article 1484, 1229 of the Civil Code, the Copyright Holder of the exclus=
+ive rights has the right to use this result or this means of individualizat=
+ion at its discretion in any way that does not contradict the law. Other pe=
+rsons may not use the corresponding result of intellectual activity or mean=
+s of individualization without the consent of the Copyright Holder.<br><br>=
+The Copyright Holder has not granted the site administrator to use trademar=
+ks and Images on the Internet and in the website graphic design and did not=
+ express its consent to these actions. =C2=A0<br><br>The Copyright Holder d=
+id not enter into a license agreement with the website administrator, or ot=
+herwise did not transfer the rights to use the trademark and Images. There =
+are no grounds for non-contractual use of trademarks and Images. =C2=A0<br>=
+<br>The site owner and the domain administrator both avoid self-removal and=
+ termination of the illegal use of trademarks and Images on the site.<br><b=
+r>In accordance with Art. 1253.1. of the Civil Code of the Russian Federati=
+on, you, as a hosting provider, perform the function of an information inte=
+rmediary providing the possibility of placing and transmitting the content =
+of the specified website on the Internet and, in accordance with Clause 3 o=
+f Article 1253.1 of the Civil Code of the Russian Federation, you must prom=
+ptly take the necessary and sufficient measures to stop the violation of th=
+e Copyright Holder&#39;s intellectual rights.<br><br>Based on the foregoing=
+, we, for and on behalf of the Copyright Holder, ask you to take the necess=
+ary and sufficient measures to stop the violation of the interests of the C=
+opyright Holder and its intellectual property rights to trademarks and Imag=
+es, and block access to the website, if within 24 hours the owner of the si=
+te does not provide the evidence of legal and fair use of trademarks and Im=
+ages.<br><br><br>Please send a response to this claim by email to <a href=
+=3D"mailto:post@brandsecurity.ru">post@brandsecurity.ru</a><br><br>=C2=A0<b=
+r>Best regards,<br>Online Protect LLC<br><a href=3D"http://www.brandsecurit=
+y.ru/contacts">http://www.brandsecurity.ru/contacts</a><br><br><br>Document=
+s:<br><a href=3D"https://rocket.brandsecurity.ru/uploads/POA_DODO_2023_1.pd=
+f">https://rocket.brandsecurity.ru/uploads/POA_DODO_2023_1.pdf</a><br><a hr=
+ef=3D"https://rocket.brandsecurity.ru/uploads/">https://rocket.brandsecurit=
+y.ru/uploads/</a>=D0=A2=D0=9C.pdf<br></div>
+
+--000000000000afdf3c05f9aad5d0--

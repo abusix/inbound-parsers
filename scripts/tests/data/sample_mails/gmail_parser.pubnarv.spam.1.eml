@@ -1,0 +1,426 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@linode.com header.d=linode.com header.s=g1
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id B0E9D98B-6572-40C7-9BC6-35D3F222B406.1
+	envelope-from <abuse+bncBDKJX3WU7ULBB7E2Q2YQMGQE6A3CUPQ@linode.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 18 Apr 2024 21:15:42 +0000
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-36a168177f0sf27994005ab.1
+        for <abuse@linode.abusehq.net>; Thu, 18 Apr 2024 14:15:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1713474941; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Ka6chVgWqMJClKPOGMzcLXS4YKgaTIN6MUDUrA8RSBSAB/mXn/KRAWJuo0ETKKLcpX
+         93vZZ+LmZLoQ5otQA1chZ5M+Jx62dEbeOag/RSTaJMdFqpGiaCShuSMWH+wp4kaTu/tZ
+         TtAxXo2Wydvd/ACZQ51dNm3D8F5XDWqK0VOip7ks3xKu+UTQ9c2uf627IohFbkplTjUR
+         U45Pv2V87AWpXtdJQOfATzSy7ifIzrBDAS1z4E5s5YoIQktaEAK6T+54qY3kj7ANgr0k
+         P3bVszPoGO4sgFGyfE7lgZCEA8H+JTzYkjL3H0AgofUwh8jzdGsBOPfaGsIW4TqcrxPg
+         oPIw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:dkim-signature;
+        bh=bKOdUDIcUUfuSieKgxVw548COlNkBPkBafIE7MpevZg=;
+        fh=nK5PztSMfcokbYArDMBuOVB2rUBgY7jekN6UDSZQI3Y=;
+        b=btzCgtUjRHZyKWNkWiqTL+qU1gD/u/xieAFg3muPWKhldCxI4MBt7OcRoladgeQjWb
+         lUrD7zMIQ0Ul73/1kChdtyBjsgl+YHc2RpwEBB9Urftu9neDNqTsAf2dC+d3XuZXLIUU
+         vyxv/LbZXTyaZcu36XS2pGNzMgSUkJPz7FRsLkf+iXOU0ZTMjfkAj+OkhQnlpTgFuRz/
+         5rN9gHb5ESSKYKd3Rir01kgzyXBFYCWMyOHqFo0mzdIsyiGN7QqxOnu+Bdm2yoezrCiP
+         4gOrxcLGx9yCqN5SzTrKQgWdcKaNU1Y6a8MZz4Xb0yBZqj5XX50a9upB3NAuLkui8NT0
+         LYcw==;
+        darn=linode.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UlritW8F;
+       spf=pass (google.com: domain of pubnav@gmail.com designates 209.85.219.174 as permitted sender) smtp.mailfrom=pubnav@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linode.com; s=g1; t=1713474941; x=1714079741; darn=linode.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bKOdUDIcUUfuSieKgxVw548COlNkBPkBafIE7MpevZg=;
+        b=j+sFyCE891CjVB3iwUbZ5RY23kyHeZAWftsxqd/KS0sAdNnz5bLr0h9f0YXZXfPGHE
+         mnUZ0UvOc+Ohh70mUBiTwouPrtK1Et9Um+qC2ooGKymStB9eybSCp6eM/Tsg7zYPq518
+         2yFvIE603hWdxW/juWFXgC75/ipeQNj/I5kPFRL7oRMNzrMsXHCQRx+r6H8StX3lOkkT
+         aAWjAxcGiJpOhupg9kTTy+i70dadCreFopYc1LbutN/3eZB0R/EzToibxdg/dceLaapy
+         +APhdcyYDqlVM1fl2MvJ0x+aMUEeYLmWAcHgag99HlvqdP1vFq7QYhT0mLyWAuPx8tgp
+         R2og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713474941; x=1714079741;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bKOdUDIcUUfuSieKgxVw548COlNkBPkBafIE7MpevZg=;
+        b=JnX/CJdxIDRxoPvCJfcL3nMUNybt5rHBMrG6EG7jcZdyl2iBRXYZWD7U+zqthNgSFR
+         SfBO3sE3jI0lixKlgOUhchEAo+skEUargY4PJJD5NAlD/q3H1iz258BsrRZJ9fL7b0Ca
+         6/Ch7zbx6q6BOK32ZBqzXoTOoLUw13zD5IYCGySsthhKasz9xgOIpzEIB4r5QaNT67jn
+         iwhaDsvdG5YBIr6h8BsO/PloOR59miXoGoghYVMQu3NdQUqMZyWBLJe//gT/VCgi6tpl
+         2KPnUF31orbQrm+cdwTxUSv94902ONEQLOnQZP+rUHg0MXi8JGVvBV2kLyuqnDh05VAa
+         3gpQ==
+Sender: abuse@linode.com
+X-Forwarded-Encrypted: i=2; AJvYcCW48EjTEU8p3BRPV3o1uEplKdKtHiUqjSj4rUAdBJ50/An4dxVi6+2cqMUgBIIv1lupBgFCSQdIcciOKqDtK/p9o1TlUjUsJEI=
+X-Gm-Message-State: AOJu0Yy62yFuZukLLG6ZRCSD/zovnQCZxg0gBXJbhP/vx8N4Zr8wEN0+
+	o3ulSEs3Nu21tS9+UmlJtxfNr8bi6cKhHDQbPhQiqpkAwBZ8VCaC1r4MtATDhIE=
+X-Google-Smtp-Source: AGHT+IEaVoux/8Mo48MRd3Bp/ucIjL/W7K47IBq761erwmqnJyotJtpcdP2ZW/sO/LGer1e3fyGySw==
+X-Received: by 2002:a05:6e02:1b08:b0:368:9aa2:67dd with SMTP id i8-20020a056e021b0800b003689aa267ddmr443365ilv.13.1713474940880;
+        Thu, 18 Apr 2024 14:15:40 -0700 (PDT)
+X-BeenThere: abuse@linode.com
+Received: by 2002:a05:6e02:1d91:b0:36a:137b:5ad8 with SMTP id
+ e9e14a558f8ab-36bfbb14a9bls1583815ab.1.-pod-prod-00-us; Thu, 18 Apr 2024
+ 14:15:40 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1526:b0:36b:fa6e:5be7 with SMTP id i6-20020a056e02152600b0036bfa6e5be7mr390885ilu.14.1713474940006;
+        Thu, 18 Apr 2024 14:15:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1713474939; cv=none;
+        d=google.com; s=arc-20160816;
+        b=aU950zrtp+ot7YrEGIWBGoxTtLoNyR7P9XtcKgGOfIHZhVE04gWgEAnqovKl+BI/OH
+         +O8D/45H6QOAs/1qHBWD7G9Mkj4cbuWoAvG4xNqCsEjxju1HcmOgHtNZvgZnzcGIU/NC
+         5S46w280jvJdrAXbLVTnpRrp3CX8TuQCy0ybc471Z8+001YVMPlcifw5YqvGLkDRJHOA
+         WYWWPLGgJvFUJPLcqxYkKUHUO5Do5QlNoHCl/L/uyrlLxqdMfdIevLJ/1oPQcG46tuo5
+         5My1beu7WNjq38W7LVrKkUal3gh8f7lxUG051IGiDyDuZWxAoG0t5Kf/bKFtu/VoExDM
+         5e+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=bKOdUDIcUUfuSieKgxVw548COlNkBPkBafIE7MpevZg=;
+        fh=c8R60JWtzHkjNxBl3aEp7oaJxfU7us/q3clHidfY9p4=;
+        b=l77J60UTBIFXDacSm28sp81vGTguyoRLyo8jQ5tL2SDVoxZfcSFC2dtjHaTw3NzUCp
+         SJ7euktpE2oCNYNuuwidloapxD6SQEvrEIOILf4q0+TiSi5c36XfTZSFMdhlmmAQZwGu
+         NOPXLhdLu5qONCHRvrWRGJDiafIFXqGLbNSXkNgUHhZHbHbshtfqGw1anmyCVlZgmhTY
+         uhhvZNSBZLkEODaaxccqEdwiF4gBhg4237oci+3YfR5sQJOYi5ws5QkVnMhnuH5bhOfn
+         qiQxWf/HWT3O+ocs6Fx7c+fD/RpVR/5muoJbfwN8Lqg5U3fjiNhv6KS8/y5FWetk6fqo
+         AItw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UlritW8F;
+       spf=pass (google.com: domain of pubnav@gmail.com designates 209.85.219.174 as permitted sender) smtp.mailfrom=pubnav@gmail.com
+Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com. [2620:100:9001:583::1])
+        by mx.google.com with ESMTPS id q18-20020a056e02079200b0036b144a075csi978135ils.69.2024.04.18.14.15.39
+        for <abuse@linode.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Apr 2024 14:15:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pubnav@gmail.com designates 209.85.219.174 as permitted sender) client-ip=209.85.219.174;
+Received: from pps.filterd (m0050093.ppops.net [127.0.0.1])
+	by m0050093.ppops.net-00190b01. (8.17.1.24/8.17.1.24) with ESMTP id 43IJCfRJ003801
+	for <abuse@linode.com>; Thu, 18 Apr 2024 22:15:39 +0100
+Received: from ppops.net (localhost [127.0.0.1])
+	by m0050093.ppops.net-00190b01. (PPS) with ESMTP id 3xjftnv9t0-1
+	for <abuse@linode.com>; Thu, 18 Apr 2024 22:15:39 +0100 (BST)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	by m0050093.ppops.net-00190b01. (PPS) with ESMTPS id 3xjftnv9st-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 18 Apr 2024 22:15:39 +0100 (BST)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dcc6fc978ddso1179731276.0;
+        Thu, 18 Apr 2024 14:15:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVCmdDqYWYHE+XfFvnm5iSduBB538+uLuby+mSegkfDVs+man1OzoHTF6ArtkmFTsddcB7bXEpsrytQGLifM1dET28=
+X-Received: by 2002:a25:acc1:0:b0:dc6:5570:898e with SMTP id
+ x1-20020a25acc1000000b00dc65570898emr394735ybd.17.1713474938022; Thu, 18 Apr
+ 2024 14:15:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <LO2P123MB42233A790B7B8D04303B47BB940E2@LO2P123MB4223.GBRP123.PROD.OUTLOOK.COM>
+In-Reply-To: <LO2P123MB42233A790B7B8D04303B47BB940E2@LO2P123MB4223.GBRP123.PROD.OUTLOOK.COM>
+From: pubnav <pubnav@gmail.com>
+Date: Thu, 18 Apr 2024 23:15:23 +0200
+Message-ID: <CA+UoNUBiJSFaPaX438bog0pVarvxDssTcZS=BzGdO20DYJ45hA@mail.gmail.com>
+Subject: Fwd: have you though about my suggestion?
+To: Linode Abuse <abuse@linode.com>, support@linode.com, abuse@akamai.com,
+        security@akamai.com, support@akamai.com
+Content-Type: multipart/alternative; boundary="0000000000000333fc0616657929"
+X-Original-Sender: pubnav@gmail.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=UlritW8F;       spf=pass
+ (google.com: domain of pubnav@gmail.com designates 209.85.219.174 as
+ permitted sender) smtp.mailfrom=pubnav@gmail.com
+Precedence: list
+Mailing-list: list abuse@linode.com; contact abuse+owners@linode.com
+List-ID: <abuse.linode.com>
+X-Spam-Checked-In-Group: abuse@linode.com
+X-Google-Group-Id: 895230844096
+List-Post: <https://groups.google.com/a/linode.com/group/abuse/post>, <mailto:abuse@linode.com>
+List-Help: <https://support.google.com/a/linode.com/bin/topic.py?topic=25838>, <mailto:abuse+help@linode.com>
+List-Archive: <https://groups.google.com/a/linode.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+895230844096+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/linode.com/group/abuse/subscribe>
+
+--0000000000000333fc0616657929
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+ Hello,
+I am a victim of spam campains till 2 months.
+I send you this mail in aim at denouncing many spams and the fraudulous
+customer who use your domain "Linode" (AKAMAI) obfuscated behind a service
+"Cloudflare" to host his fraudulous websites.
+
+In these spams, we can find the link of the fraudulous website localised on
+your domain  "Linode" (AKAMAI) obfuscated behind a service "Cloudflare" :
+https://ablteam.com
+(site hosted on ip adress 188.114.97.3)
+https://albasweb.com
+(site hosted on ip adress 188.114.96.3)
+https://askapot.com
+(site hosted on ip adress 104.21.80.84)
+https://apolloii.com
+(site hosted on ip adress 188.114.97.3)
+https://afcousa.com
+(site hosted on ip adress 104.21.1.71)
+https://learcn.com
+(site hosted on ip adress 188.114.96.3)
+https://tpohara.com
+(site hosted on ip adress 188.114.97.3)
+https://pencomp.com
+(site hosted on ip adress 188.114.96.3)
+https://ormotels.com
+(site hosted on ip adress 188.114.97.3)
+https://intphase.com
+(site hosted on ip adress 172.67.212.220)
+https://talkflava.com
+(site hosted on ip adress 188.114.96.3)
+https://risksola.com
+(site hosted on ip adress 172.67.156.12)
+https://holsumliving.com
+(site hosted on ip adress 172.67.166.13)
+https://breathebear.com
+(site hosted on ip adress 172.67.197.86)
+https://jmbmd.com
+(site hosted on ip adress 188.114.97.3)
+https://rollsfirst.com
+(site hosted on ip adress 188.114.96.3 )
+https://kigbo.com
+(site hosted on ip adress 104.21.17.161)
+https://fesne.com
+(site hosted on ip adress 188.114.96.3)
+https://netkeib.com/unsubscribe.html
+
+
+I never asked to receive any mails from this client. He doesn't have my
+agreement to send me anything, he recovered my mail adress illegally.
+Could you please block and erase these websites from your domain "Linode"
+to avoid they go on in spamming each day ?
+Could you please take appropriate action against the offending IP and
+customer to avoid they go on in spamming each day ?
+
+Cordially,
+
+pubnav@gmail.com
+
+
+172.67.128.194
+172.67.156.12
+172.67.166.13
+172.67.197.86
+172.67.212.220
+188.114.96.3
+188.114.97.3
+104.21.80.84
+104.21.64.249
+104.21.45.96
+104.21.17.161
+104.21.16.30
+104.21.1.71
+
+
+
+---------- Forwarded message ---------
+De : WildCat <rymqna8chunnup@hotmail.com>
+Date: jeu. 18 avr. 2024 =C3=A0 20:48
+Subject: have you though about my suggestion?
+To: <kennytits03@gmail.com>
+
+
+
+
+*ScrewMeToo*
+
+*Accept Invitation - Click Here*
+<https://ablteam.com/?s1=3Dabl2&s5=3D6MSU9lrD9MB21tyr9pw0cdG77>
+
+
+Aliza 34
+
+Are you a camera? Why do I smile when I look at you?
+
+*View PHOTOS* <https://ablteam.com/?s1=3Dabl2&s5=3DXLF84fT3NVzh42uyxA232Sqr=
+8>
+
+__________________________________
+
+*1965 Bartlett Avenue Farmington Hills, MI 48335*
+*unsubscribe* <https://ablteam.com/unsub>
+
+--0000000000000333fc0616657929
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+<div>
+Hello,</div><div>
+I am a victim of spam campains till 2 months.
+
+</div>I
+ send you this mail in aim at denouncing many spams and the fraudulous=20
+customer who use your domain &quot;Linode&quot; (AKAMAI) obfuscated behind =
+a service=20
+&quot;Cloudflare&quot; to host his fraudulous websites.<br><br><div>In thes=
+e spams, we=20
+can find the link of the fraudulous website localised on your domain=20
+=C2=A0&quot;Linode&quot;
+(AKAMAI)
+
+ obfuscated behind a service &quot;Cloudflare&quot; :</div><div>
+<div><a href=3D"https://ablteam.com" target=3D"_blank">https://ablteam.com<=
+/a></div><div>
+(site hosted on ip adress 188.114.97.3)</div>
+
+</div>
+<div><a href=3D"https://albasweb.com" target=3D"_blank">https://albasweb.co=
+m</a></div><div>
+(site hosted on ip adress 188.114.96.3)</div><div><a href=3D"https://askapo=
+t.com" target=3D"_blank">https://askapot.com</a></div><div>
+(site hosted on ip adress 104.21.80.84)</div><div><a href=3D"https://apollo=
+ii.com" target=3D"_blank">https://apolloii.com</a></div><div>
+(site hosted on ip adress 188.114.97.3)</div><div><a href=3D"https://afcous=
+a.com" target=3D"_blank">https://afcousa.com</a></div><div>
+(site hosted on ip adress
+104.21.1.71)</div><div><a href=3D"https://learcn.com" target=3D"_blank">htt=
+ps://learcn.com</a>
+</div><div><div>
+(site hosted on ip adress 188.114.96.3)</div>
+
+</div><div><a href=3D"https://tpohara.com" target=3D"_blank">https://tpohar=
+a.com</a></div><div>
+(site hosted on ip adress 188.114.97.3)</div><div>
+<div></div>
+                                                <div><a href=3D"https://pen=
+comp.com" target=3D"_blank">https://pencomp.com</a></div>
+
+</div><div>
+(site hosted on ip adress 188.114.96.3)</div><div><a href=3D"https://ormote=
+ls.com" target=3D"_blank">https://ormotels.com</a></div><div>
+(site hosted on ip adress 188.114.97.3)</div><div><a href=3D"https://intpha=
+se.com" target=3D"_blank">https://intphase.com</a></div><div>
+(site hosted on ip adress 172.67.212.220)</div><div></div><div><a href=3D"h=
+ttps://talkflava.com" target=3D"_blank">https://talkflava.com</a></div><div=
+>
+(site hosted on ip adress 188.114.96.3)</div><div><a href=3D"https://riskso=
+la.com" target=3D"_blank">https://risksola.com</a></div><div>
+(site hosted on ip adress 172.67.156.12)</div><div><a href=3D"https://holsu=
+mliving.com" target=3D"_blank">https://holsumliving.com</a></div><div>
+(site hosted on ip adress 172.67.166.13)</div><div><a href=3D"https://breat=
+hebear.com" target=3D"_blank">https://breathebear.com</a></div><div>
+(site hosted on ip adress 172.67.197.86)</div><div><a href=3D"https://jmbmd=
+.com" target=3D"_blank">https://jmbmd.com</a></div><div>
+(site hosted on ip adress 188.114.97.3)</div><div><a href=3D"https://rollsf=
+irst.com" target=3D"_blank">https://rollsfirst.com</a></div><div>
+(site hosted on ip adress 188.114.96.3
+
+)</div><div><a href=3D"https://kigbo.com" target=3D"_blank">https://kigbo.c=
+om</a><br>(site hosted on ip adress 104.21.17.161)</div><div><a href=3D"htt=
+ps://fesne.com" target=3D"_blank">https://fesne.com</a></div><div>
+(site hosted on ip adress 188.114.96.3)</div><div><a href=3D"https://netkei=
+b.com/unsubscribe.html" target=3D"_blank">https://netkeib.com/unsubscribe.h=
+tml</a></div><div>
+</div><div></div><div><br></div>
+
+<br>I
+ never asked to receive any mails from this client. He doesn&#39;t have my=
+=20
+agreement to send me anything, he recovered my mail adress illegally.<br>Co=
+uld you please block and erase these websites from your domain &quot;Linode=
+&quot; to avoid they go on in spamming each day ?<br>Could you please take =
+appropriate action against the offending IP and customer to avoid they go o=
+n in spamming each day ?<br><br>Cordially,<br><br><a href=3D"mailto:pubnav@=
+gmail.com" target=3D"_blank">pubnav@gmail.com</a>
+
+<br><div><br></div><div><br></div><div>
+172.67.128.194</div><div>
+172.67.156.12</div><div>
+172.67.166.13</div><div>
+172.67.197.86
+
+</div><div>
+172.67.212.220
+
+</div><div>
+188.114.96.3<br>188.114.97.3</div><div>
+104.21.80.84</div><div>104.21.64.249<br>104.21.45.96<br>104.21.17.161<br>10=
+4.21.16.30</div><div>
+104.21.1.71</div>
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+<br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">--=
+-------- Forwarded message ---------<br>De=C2=A0: <b class=3D"gmail_sendern=
+ame" dir=3D"auto">WildCat</b> <span dir=3D"auto">&lt;<a href=3D"mailto:rymq=
+na8chunnup@hotmail.com" target=3D"_blank">rymqna8chunnup@hotmail.com</a>&gt=
+;</span><br>Date: jeu. 18 avr. 2024 =C3=A0=C2=A020:48<br>Subject: have you =
+though about my suggestion?<br>To:  &lt;<a href=3D"mailto:kennytits03@gmail=
+.com" target=3D"_blank">kennytits03@gmail.com</a>&gt;<br></div><br><br><u><=
+/u>
+
+=09
+=09
+
+<div>
+<div style=3D"text-align:center">=C2=A0</div>
+
+<pre style=3D"font-style:italic;text-align:center"><span style=3D"color:#2e=
+cc71"><span style=3D"font-size:28px"><i><b>ScrewMeToo</b></i></span></span>=
+</pre>
+
+<h2 style=3D"font-style:italic;text-align:center"><span style=3D"font-size:=
+22px"><span style=3D"font-family:Verdana,Geneva,sans-serif"><a href=3D"http=
+s://ablteam.com/?s1=3Dabl2&amp;s5=3D6MSU9lrD9MB21tyr9pw0cdG77" target=3D"_b=
+lank"><span style=3D"color:#8e44ad"><b>Accept Invitation - Click Here</b></=
+span></a></span></span></h2>
+
+<div style=3D"text-align:center"><img alt=3D""><br>
+=C2=A0</div>
+
+<div style=3D"text-align:center">
+<div><span style=3D"font-size:16px">Aliza 34</span><br>
+=C2=A0</div>
+
+<table width=3D"365" height=3D"20" cellspacing=3D"0" cellpadding=3D"0" bord=
+er=3D"0" align=3D"center">
+	<tbody>
+		<tr>
+			<td><span style=3D"font-size:18px">Are you a camera? Why do I smile when=
+ I look at you?</span></td>
+		</tr>
+	</tbody>
+</table>
+
+<div><br>
+<span style=3D"font-family:Verdana,Geneva,sans-serif"><a href=3D"https://ab=
+lteam.com/?s1=3Dabl2&amp;s5=3DXLF84fT3NVzh42uyxA232Sqr8" target=3D"_blank">=
+<span style=3D"color:#8e44ad"><i><span style=3D"font-size:22px"><b>View PHO=
+TOS</b></span></i></span></a></span><br>
+<br>
+<span style=3D"font-size:26px">__________________________________</span><br=
+>
+<i><span style=3D"font-family:Trebuchet MS,Helvetica,sans-serif">1965 Bartl=
+ett Avenue<br>
+Farmington Hills, MI 48335</span></i><br>
+<a href=3D"https://ablteam.com/unsub" target=3D"_blank"><u><b>unsubscribe</=
+b></u></a></div>
+</div>
+</div>
+
+</div></div>
+
+--0000000000000333fc0616657929--

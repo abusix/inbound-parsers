@@ -1,0 +1,601 @@
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by fe2dba61eb49 (Haraka/2.8.26) with ESMTP id 4BC82CC8-2AD5-4010-BBE0-AB5BBE168240.1
+	envelope-from <abuse+bncBCBLDNXTSEOBBFNTXKDAMGQE7ZZ64DI@digitalocean.com>;
+	Sun, 20 Jun 2021 01:27:49 +0000
+Received: by mail-qv1-f69.google.com with SMTP id r15-20020a0562140c4fb0290262f40bf4bcsf9334859qvj.11
+        for <abuse@digitalocean.abusehq.net>; Sat, 19 Jun 2021 18:27:49 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1624152469; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ZEP7S4PDn14TVMIEKW1nw7INVnCdpM962Xl36XeiIwLPbwgYUihElRTMM8ts4EcYnX
+         FkgYkGSj03rZaqnVGL4eEjitj+19vtABNoyYYBHoFjEXLYishehcLLWl3Qz7PqcsZVle
+         2zZcmv9UHA66bceSstd7/Da+7xd3Suhd+fw9UTgbLw8j/IAWKTZksjMKCstyR87OcvPu
+         ZLv4sBvo+kvy4jbq7vM50NVe7xlg/LyAt6qxLp2SozkLqbjJ3eiOTJfOyZgX+Ixq5jG0
+         tBNLLX2TgZyodrxWr8IUideD3m43PBy/uJbZGVdaWP4c/q7yWatua+XkHoElM18HbXKq
+         eGww==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :cc:to:from:sender:dkim-signature;
+        bh=GnnS0thhAHsOzNd74Pi0Orq3FZ6Z9wvqxGzuV9zUnlw=;
+        b=ICk1jPh5Ku+Pnq/67BKcEEmme3qs32tYyHh/DfYz8IPpYOa53bZfrJenyEx1KziMcH
+         s3/6N7S+DVEjjxyf6BK2kgTc48MhF/G2tTyUgYK+dSZIUPKp5DuhDlbfS765ncyPnd0s
+         751BHH8efELPdvEmkIECrDkQgmN1b3r0rQIR3cvZAm7mJwpalfesSQeBZdaILbV61Pwn
+         hTVc7tTjtiaZe35T/d3VGCvycqKJsFVFd8m7AqAYRro7PZ6Y2opNopk+dvyTOc0167Sf
+         HZvLnCzSN1Awx0dw9SC/yn57dpJqB73gexu/asKy/bvHM8YdyAqCDScfV3PxPqrIvDJZ
+         G0vg==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@twdc.onmicrosoft.com header.s=selector2-twdc-onmicrosoft-com header.b=hFIkgNUQ;
+       arc=pass (i=1 spf=pass spfdomain=disney.com dkim=pass dkdomain=disney.com dmarc=pass fromdomain=disney.com);
+       spf=pass (google.com: domain of internet.enforcement@disney.com designates 40.107.237.94 as permitted sender) smtp.mailfrom=Internet.Enforcement@disney.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=disney.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :accept-language:content-language:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-unsubscribe;
+        bh=GnnS0thhAHsOzNd74Pi0Orq3FZ6Z9wvqxGzuV9zUnlw=;
+        b=UaxroPGMuq2TYkWiDqpsiv+eABtf7VaCdDEdRgnmYp/1zmiQlXTOc5DgqyXudu6N9W
+         dsJsSw617YHe/98PPQvK9zvd69xh9kfZF5oBAPW2wj4efG91HWobo09uj+7fUOwsIgCb
+         3wLLsFUW6k+99ktib/knCuvj7dBJtdiFnscYI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
+         :thread-index:date:message-id:accept-language:content-language
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-unsubscribe;
+        bh=GnnS0thhAHsOzNd74Pi0Orq3FZ6Z9wvqxGzuV9zUnlw=;
+        b=fJrYCzwk1oogYVz0GaNevK8OLhWFtW64pPB1BlUQHMiCwh1HKPrWVs6ubwxQ7RUxu/
+         fIHWJTvWBlWMM4tJy4zo83J8vw8Xkm30EVYspChHg23Zs/EvueNbNXbP2wQvpBOffQqe
+         DnIZ06kvxgNRaYMbCkRMcRdJIRjo1CPHHutZjeqjIqkpFWegiTtjpjUNLFU3WnPwhaS7
+         3Rt6EGF+pSbUsUVcW9G/QG18ZTg2u3ivTuJKGPvUUYlim3cDUFD2tKVrzuz8/PSPFWGp
+         qTr6mg25MKKa+uAM49GHkO7aixEJBzNy8W7tmHFgxSDlSg7Sa1l5s0zXCb+GB686tCsH
+         MXKw==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOAM530g9QtUnzkIdiAWhUWDsY0CekstQhu1oYTx35BAstRcQbTuXDcz
+	rK6P1JIfbKAmXNTXS4tQXBvwVQ==
+X-Google-Smtp-Source: ABdhPJyF5F5qisNyRWhNxByz9eupmv+dTPnFLObxXk+ybaLDoXVusbeU+jk369qFN5sCGCBNADE/uA==
+X-Received: by 2002:a05:6214:b26:: with SMTP id w6mr12893827qvj.61.1624152469153;
+        Sat, 19 Jun 2021 18:27:49 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a37:62c2:: with SMTP id w185ls255302qkb.6.gmail; Sat, 19 Jun
+ 2021 18:27:48 -0700 (PDT)
+X-Received: by 2002:a37:812:: with SMTP id 18mr16557964qki.427.1624152468526;
+        Sat, 19 Jun 2021 18:27:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1624152468; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=oHIcZGosIq77UJ6Da70802M7lNHUVjhysZuy39u/1aEN0lKYIGzYbR7Rtvki3t+p/b
+         KCSmvHUq2STuWBefwXmNoLHa8Igvw7muIUWnFSP31PNOGWlv1UjHlF/cwXCPjSoRN9d6
+         tr0Kl51iO5S/sLWKQaLofwHu565+CrkPGfL/b2oZ8XoKmEh/K3hPiwYuBFadyB5xsYff
+         /cLwKO2g4F/2F9hOzHn9fbM7pmNtQV9HhFcXRnW5L1ltfkCVA/KGP+ESm8J4DYw1jvmW
+         u/A5PH/rnUrbhCeQ4r5biFp2vBS0qwQ5H8ZszDY6Pkpe1YVS47Kd9Uj9S0xWFhiK0zjc
+         3KUw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:cc:to:from:dkim-signature;
+        bh=GnnS0thhAHsOzNd74Pi0Orq3FZ6Z9wvqxGzuV9zUnlw=;
+        b=gV2JNLidrFoiy3vtIf+wgu5Dz6e3ddqNPXgBq+YdMC6hRqoyg6eorHK/oeeizSdyGr
+         9Fo7Vh4Wz3dyHqOaFDg6BFqtanpuPHXjI0m6IFge2i0ieq9F0pmGkOCyzi/GneCOKuFT
+         LwzTAhoUqt1VHxRatjxg1yctZ3Io4lllJwsVWnJgNdYW+auHpPGycPyDiiwfTGSq6OHg
+         4io+jB+OPcmG/VghEyYNtxPPZINONtLW19oBzrBQwNvkuBWTES7MrePj+KbKUA7NJmj0
+         4BLuxx/8HNWd17YHTQJLz5Lj3F5U4RTyCkoGwTy4NyzlCg7BrIC1sUWtIbVABwufI9v3
+         8Kig==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@twdc.onmicrosoft.com header.s=selector2-twdc-onmicrosoft-com header.b=hFIkgNUQ;
+       arc=pass (i=1 spf=pass spfdomain=disney.com dkim=pass dkdomain=disney.com dmarc=pass fromdomain=disney.com);
+       spf=pass (google.com: domain of internet.enforcement@disney.com designates 40.107.237.94 as permitted sender) smtp.mailfrom=Internet.Enforcement@disney.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=disney.com
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2094.outbound.protection.outlook.com. [40.107.237.94])
+        by mx.google.com with ESMTPS id k13si9984921qvc.109.2021.06.19.18.27.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 19 Jun 2021 18:27:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of internet.enforcement@disney.com designates 40.107.237.94 as permitted sender) client-ip=40.107.237.94;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UUcarvZDI/gpzTP3r8SZsR0jKHCMw2ZCfiqYYFPpV2Ungs0lSHVNxGNGq2TbNquDlsElmtoe2MLKYCDq4wy4czmbNMpfv2bMoD8DmuNqahomIDtYS4ZnY4zXtcMyWpjvz4W2gQbO79/GHmVFHHJOz65pjCa4js1glTDYgTpSQXkQBjzithqx/iqGwwN6QcXM/nuqokrirefLyqreqL6fisBtvwINMor67mLI/DG8MujJKvkyfOs9dkaHSCwgH5o+Ek6nTkPRNoX/+uZfVcrZpIZ7oLHZXvaZmrkAjlXvH366jdwpZ/S0f+8g+tjOxGH7KqF68hDFqJ3f4aGOulsm8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GnnS0thhAHsOzNd74Pi0Orq3FZ6Z9wvqxGzuV9zUnlw=;
+ b=oGJ/LQD05RwTn3po/sHos6UjyMQNs5k1hHAUIKPnvl03x1p5JmCOnjK2qoNPB8u3Ub7nVCsgoMpbfyARMIUmes3iuSsNZaf5aoARtJAkO+D7HE8oj5bBKHqcpzxYdPMY+Y0RJAA82xwpL8vQGqNRKTLsvmenLoqU+liD97PiJzxWOZQtpBKgr0VpEIGQXjypOXrLDz3QmD7lENprZI1hgccqqG4yWGrNg3nYkBg1y5hNMDzyBiM27If0Pt4o9saJy3P1Nro/0EHTPJmnzAEDnjKC6v2BDB9tFBry1AydAddDzFYRrmwEHnq6w9Se0kuvP4EVihhvEw4YipuIQ9jEbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=disney.com; dmarc=pass action=none header.from=disney.com;
+ dkim=pass header.d=disney.com; arc=none
+Received: from SA2PR03MB5932.namprd03.prod.outlook.com (2603:10b6:806:112::23)
+ by SN6PR03MB4064.namprd03.prod.outlook.com (2603:10b6:805:b9::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Sun, 20 Jun
+ 2021 01:27:45 +0000
+Received: from SA2PR03MB5932.namprd03.prod.outlook.com
+ ([fe80::188d:87d9:6c38:aacd]) by SA2PR03MB5932.namprd03.prod.outlook.com
+ ([fe80::188d:87d9:6c38:aacd%8]) with mapi id 15.20.4242.023; Sun, 20 Jun 2021
+ 01:27:45 +0000
+From: Internet Enforcement <Internet.Enforcement@disney.com>
+To: "dmca@digitalocean.com" <dmca@digitalocean.com>, "abuse@digitalocean.com"
+	<abuse@digitalocean.com>
+CC: #CORP DL-Legal-Antipiracy-Live-Events
+	<CORP.DL-LegalAntipiracyLiveEvents@disney.com>, "Rees, Wynn W."
+	<Wynn.W.Rees@disney.com>, "Whitehead, Jonathan"
+	<Jonathan.Whitehead@disney.com>
+Subject: =?Windows-1252?Q?Copyright_Infringement_Notice_=96_LIVE_EVENT:_UFC_Fight_?=
+ =?Windows-1252?Q?Night_-_Digital_Ocean_=96_CI20210619-006?=
+Thread-Topic: =?Windows-1252?Q?Copyright_Infringement_Notice_=96_LIVE_EVENT:_UFC_Fight_?=
+ =?Windows-1252?Q?Night_-_Digital_Ocean_=96_CI20210619-006?=
+Thread-Index: Addlc3eQLOpbGUCiRqymI6zrJLtnOA==
+Date: Sun, 20 Jun 2021 01:27:45 +0000
+Message-ID: <SA2PR03MB593255A5FDDC30ACA9F0CE7F930B9@SA2PR03MB5932.namprd03.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [47.146.168.55]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fa682a77-eefc-409d-5a5a-08d9338a9b53
+x-ms-traffictypediagnostic: SN6PR03MB4064:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR03MB40640705E791E4C2EF30A3A4E80B9@SN6PR03MB4064.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: E3VlRGE8moJhLrVMgD5oV2Blm/cmmIhIzpbX/QK9d6VbhxWI7x/jIuOgDcNsDDi6FJ71WvaNvuyWxQoJ87PEUgpXypGknACJ/ok595/SxTzrf5+LjVpT/wF+ova74FGVTvCBaHgbfVybLWDVpNZK8x8F+K9TneoWVjw4NpgIc0URRxRlAkDDnSxXmwJfKsaHqbgouBu1Q47/OOBAucgOwDKhMPj9K3HHewmI9dmwGerg4XmpfNYCZb01rksKhaipBdT81WVqlspohAKHj8qBsi4iZ7V0YzCM/pApcULfCRfPTkG7sCoxVSOeNVAANT/2lRJl2V2u5AN7FEXxaQu+1lgQCqLxOSvXoVwNegdRYsjjRZH8xMuIKL8FtEp5K7NT0+/5HPeCkj2BfqMumDBprw7v+k7s7HEcEZC5IuFt2sZYA5IsFx2DFbFGBQFfE9M3sid3tCIl4uIsVr16W/TRmf6cjBjwk6NUEY1wEgzhJ9R5JoTNF8ShEbfEflf8ijZX0VMVQmyB50AOYsMBRCDs/CRa1FWFP4un+GGVEoZawTEOl8guY5OKVxS/Tr41700GBfZXzFBw6IQyODwGJ0KUdSIr8TJh2quiffeS15YMtdrL3p9C9ZQM5Y6/OPY4OMrIovip5x1DTqDRwbbYNK/tiuTPe9Rgz65dC9FJnNwUrTuQ1cCHneajeAkrPm7p6j/H
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR03MB5932.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(6019001)(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(269900001)(16799955002)(478600001)(9686003)(33656002)(316002)(186003)(26005)(15188155005)(966005)(52536014)(71200400001)(8936002)(54906003)(55016002)(110136005)(5660300002)(450100002)(66556008)(66476007)(76116006)(6506007)(66946007)(66446008)(83380400001)(7696005)(107886003)(4326008)(64756008)(2906002)(166002)(38100700002)(66574015)(86362001)(15650500001)(122000001)(562404015);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?1AnR1CygLqUvdsM3fUlZAtK0SO5G8ZVGK/yCgsCpC2C8KEAcowDmWLv4?=
+ =?Windows-1252?Q?R8EYpA7/VHuq86npcoN3u5DCh/y7ldBPY3oIjh/wtdICx24bo+M8KXgq?=
+ =?Windows-1252?Q?M7gqgEXjSZ0XB6apKBFw9VPb6GhJvxV7yYyjXKQf25eIu+Jo33/Gen9I?=
+ =?Windows-1252?Q?o8o0ysjrt2eexhhxJ1PhG2qu+ZkEkCYEQdx7YWYroaQPfEX2+rKrR7+E?=
+ =?Windows-1252?Q?RLbzpW4BLJ4ADH6dkV1fDioD+KAPm0kl2xcBv/NMWi1jYIhxdhXoOKOQ?=
+ =?Windows-1252?Q?ek5KbD6LTEYNLdlgYID2iYpnf2K18q8TgZJ7aCEuC3DL+lmKwHlOMZdl?=
+ =?Windows-1252?Q?ihM0XEBR5UkJ65oi3vrFMblb5EzVrl+icTLRid4N2js74fjkMml3pIhl?=
+ =?Windows-1252?Q?WPC80nd0OyCKYsv2W7vvc7XQvCxPBcZMgS6uJQ/+FLx/B9ZYDsQgweXG?=
+ =?Windows-1252?Q?bf9kZhW6nkkwsDvjnLWrXLVf2z+WshL/CgQh9iFMNPaGM2wyJjv8Ra1Z?=
+ =?Windows-1252?Q?bu9Itw9ifFG/QDv3/Xgz0OlMJVjp9awUd7wShqOR2G03VxKZZVxanwGk?=
+ =?Windows-1252?Q?J5/rREbfXrUHeUdtnJX58Gnf0aHCje68pbAJgu0/06yO/a+pkZUkfsUX?=
+ =?Windows-1252?Q?cjjGMhsnE14aq6DHwL9ye2oi4j/uvb8SJCukyjrVadfJTe7eXS81ctFx?=
+ =?Windows-1252?Q?0wh89awM/Pn0pEBN+kLiH+hFNnlYsKla19VPm0YtIFkuJnf3xAg7xtE/?=
+ =?Windows-1252?Q?dSbwmLMn8jk4jHEVTTTMos6x1S8I+j+rgheS+x0aOAJo/5ec2QCAkCPW?=
+ =?Windows-1252?Q?W3sGPqyn970/ZdIj7dGm0t7pOl1+Ub+leF3hoAQp6zsmVzjtcKn+hgp4?=
+ =?Windows-1252?Q?6bXVr7C3C/DAmSVwVwcciVNpVYIzks0HV2zg1w0n+2r/n+NaTyHhkHM8?=
+ =?Windows-1252?Q?ZqMDY53p7DI9HePkxRIxHMR6/K5iZgg77a5BWOaW3qBTO+NO0sWTEXaH?=
+ =?Windows-1252?Q?uHRmI5jrhyB9R5rZ6Lwgkk8ncakZrK3e/EHqZqvStywO8L5GQeLT1XtM?=
+ =?Windows-1252?Q?iXa8lD3LvSD00jlQkN2MXlBo9QVF83Vd3iJKyMfC25IRvKfhqfDVCMMB?=
+ =?Windows-1252?Q?HQZDWne6UrDu+6E/deXCZWhUMKLwm5M6viMaLt1VS5VaEYWWq6MkgEe5?=
+ =?Windows-1252?Q?OMHZ8J506/VVQd33pkI5CogczW97n9IzzKzqsc2LE/u6EdXXK8RxuJHl?=
+ =?Windows-1252?Q?ofM+bmEVpWF0wdTyTHyRd1G/bSE6StIe3viBbG6PUw47yeV1yjo9HOdb?=
+ =?Windows-1252?Q?UZlUvYcp0wabVQLBmLPrdbWZNyNJGwAZgZEFdyKpUNg9H0cRK0XntcNT?=
+ =?Windows-1252?Q?2JZUV0SaUsjZhs+Ou1j82jZchzCh1WXkCkl4TUs3che5xpCrfUasrK4e?=
+Content-Type: multipart/alternative;
+	boundary="_000_SA2PR03MB593255A5FDDC30ACA9F0CE7F930B9SA2PR03MB5932namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: disney.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR03MB5932.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa682a77-eefc-409d-5a5a-08d9338a9b53
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2021 01:27:45.2566
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 56b731a8-a2ac-4c32-bf6b-616810e913c6
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3hs7h+FNrNKSUB2o+b2UGT0gRkp8eqP0PbLZYmtEMBzFo8A/WVegC/sZ8iwVWPq90HkqsGbXJb5sAXCHuXM98g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4064
+X-Original-Sender: internet.enforcement@disney.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@twdc.onmicrosoft.com header.s=selector2-twdc-onmicrosoft-com
+ header.b=hFIkgNUQ;       arc=pass (i=1 spf=pass spfdomain=disney.com
+ dkim=pass dkdomain=disney.com dmarc=pass fromdomain=disney.com);
+       spf=pass (google.com: domain of internet.enforcement@disney.com
+ designates 40.107.237.94 as permitted sender) smtp.mailfrom=Internet.Enforcement@disney.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=disney.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_SA2PR03MB593255A5FDDC30ACA9F0CE7F930B9SA2PR03MB5932namp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+Subject: Copyright Infringement Notice =96 LIVE EVENT: UFC Fight Night - Di=
+gital Ocean =96 CI20210619-006
+
+
+
+Re: Live Event =96 Unauthorized Use of Copyrighted Properties
+
+
+
+
+
+    To Whom It May Concern:
+
+
+
+
+
+    I am contacting you on behalf of Disney Enterprises, Inc. and/or its su=
+bsidiaries and affiliated companies (=93Disney=94), who own or control, or =
+are authorized to enforce by the owner of, one or more exclusive rights und=
+er copyright to the works identified, including the right to distribute suc=
+h works. This access was present on 6/19/21 Please act expeditiously to rem=
+ove or disable access to the infringing material as listed below.
+
+
+
+
+
+    Copyrighted work(s) infringed upon:
+
+    UFC Fight Night (6/19/2021)
+
+
+
+
+
+    Location of infringing material:
+IP: 143.110.219.170
+http://143.110.219.170/live/abr_ch1/live/ch1/chunks.m3u8?wmsAuthSign=3Dc2Vy=
+dmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjUzOjM3IEFNJmhhc2hfdmFsdWU9WVpPdTVHeWNwM21lWSt=
+FZUhZV3BSZz09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2xlbj01
+
+http://143.110.219.170/live/abr_ch1/live/ch1/l_4164000_1731.ts?wmsAuthSign=
+=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjUzOjM3IEFNJmhhc2hfdmFsdWU9WVpPdTVHeWNw=
+M21lWStFZUhZV3BSZz09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2x=
+lbj01
+
+IP: 206.189.29.37
+http://206.189.29.37/live/abr_ch1/live/ch1/chunks.m3u8?nimblesessionid=3D12=
+2275&wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjU0OjU1IEFNJmhhc2hfdmFs=
+dWU9TzNXMmF1WElNVEYvVE40aWdPcm4yQT09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM=
+0LjI1MiZzdHJtX2xlbj01
+
+http://206.189.29.37/live/abr_ch1/live/ch1/l_4230000_1742.ts?nimblesessioni=
+d=3D122275&wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjU0OjU1IEFNJmhhc2=
+hfdmFsdWU9TzNXMmF1WElNVEYvVE40aWdPcm4yQT09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyL=
+jY5LjM0LjI1MiZzdHJtX2xlbj01
+
+IP:134.209.202.209
+http://134.209.202.209/live/abr_ch1/live/ch1/chunks.m3u8?wmsAuthSign=3Dc2Vy=
+dmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjU2OjM4IEFNJmhhc2hfdmFsdWU9VWlaNDZadzRpcHQ4dVJ=
+3WExnR3lQZz09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2xlbj01
+
+http://134.209.202.209/live/abr_ch1/live/ch1/l_4332000_1759.ts?wmsAuthSign=
+=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjU2OjM4IEFNJmhhc2hfdmFsdWU9VWlaNDZadzRp=
+cHQ4dVJ3WExnR3lQZz09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2x=
+lbj01
+
+IP:206.189.29.34
+http://206.189.29.34/live/abr_ch1/live/ch1/chunks.m3u8?nimblesessionid=3D12=
+3351&wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDE6MTE6MDcgQU0maGFzaF92YWx1=
+ZT1WS1F6TG1vQ0I5cWhWSHpuVmFvd3ZRPT0mdmFsaWRtaW51dGVzPTcyMCZpZD0xMDguMTYyLjI=
+yMS4xNzImc3RybV9sZW49NQ=3D=3D
+
+http://206.189.29.34/live/abr_ch1/live/ch1/l_5214000_1906.ts?nimblesessioni=
+d=3D123351&wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDE6MTE6MDcgQU0maGFzaF=
+92YWx1ZT1WS1F6TG1vQ0I5cWhWSHpuVmFvd3ZRPT0mdmFsaWRtaW51dGVzPTcyMCZpZD0xMDguM=
+TYyLjIyMS4xNzImc3RybV9sZW49NQ=3D=3D
+
+IP: 143.110.219.234
+http://143.110.219.234/live/abr_ch1/live/ch1/chunks.m3u8?wmsAuthSign=3Dc2Vy=
+dmVyX3RpbWU9Ni8yMC8yMDIxIDE6MjM6MTQgQU0maGFzaF92YWx1ZT1na1FMTExkOURYWjRPbTF=
+2Uk44Si93PT0mdmFsaWRtaW51dGVzPTcyMCZpZD0xNzIuNjkuMzUuNjMmc3RybV9sZW49NQ=3D=
+=3D
+
+http://143.110.219.234/live/abr_ch1/live/ch1/l_618000_103.ts?wmsAuthSign=3D=
+c2VydmVyX3RpbWU9Ni8yMC8yMDIxIDE6MjM6MTQgQU0maGFzaF92YWx1ZT1na1FMTExkOURYWjR=
+PbTF2Uk44Si93PT0mdmFsaWRtaW51dGVzPTcyMCZpZD0xNzIuNjkuMzUuNjMmc3RybV9sZW49NQ=
+=3D=3D
+
+
+
+    IMPORTANT NOTES for infringing material:
+
+    * the infringing material listed above is related to a live video strea=
+m currently in progress
+
+    * you may need to visit the piracy website page in order to observe str=
+eaming files
+    * for reference only, here is the piracy website page: http://new.crack=
+streams.net/live/ch1.php
+    * a secondary piracy website page is: http://new.crackstreams.net/live/=
+mma-streams.php
+
+
+
+
+
+
+
+    I have a good faith belief that the infringing works are not authorized=
+ by the copyright owner, its agents, or the law and that the information in=
+ this notification is accurate.  I confirm under penalty of perjury that I =
+am authorized to act on behalf of the owner of an exclusive right in connec=
+tion with this notice.  This email is not a complete statement of Disney=92=
+s rights in connection with this matter, and nothing contained herein const=
+itutes an express or implied waiver of any rights, remedies, or defenses of=
+ Disney in connection with this matter, all of which are expressly reserved=
+.
+
+
+
+
+
+    DIGITAL SIGNATURE FOR COPYRIGHT CLAIM:
+
+    // Corey Ivy //
+
+    Disney Antipiracy
+
+    500 South Buena Vista Street
+
+    Burbank, California, 91521
+
+    United States of America
+
+    internet.enforcement@disney.com<mailto:internet.enforcement@disney.com>
+
+
+--_000_SA2PR03MB593255A5FDDC30ACA9F0CE7F930B9SA2PR03MB5932namp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle20
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle21
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+span.EmailStyle22
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+span.EmailStyle23
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+span.EmailStyle24
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+span.EmailStyle25
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">Subject: Copyright Infringement Notice =96 LIVE E=
+VENT: UFC Fight Night - Digital Ocean =96 CI20210619-006<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Re: Live Event =96 Unauthorized Use of Copyrighte=
+d Properties
+<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; To Whom It May Concern:&nbsp; =
+<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; I am contacting you on behalf =
+of Disney Enterprises, Inc. and/or its subsidiaries and affiliated companie=
+s (=93Disney=94), who own or control, or are authorized to enforce by the o=
+wner of, one or more exclusive rights under copyright
+ to the works identified, including the right to distribute such works. Thi=
+s access was present on 6/19/21 Please act expeditiously to remove or disab=
+le access to the infringing material as listed below.&nbsp;
+<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; Copyrighted work(s) infringed =
+upon: <o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;UFC Fight Night (6/19/202=
+1)<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; Location of infringing materia=
+l: <o:p></o:p></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">IP: 143.110.219.170<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://143.110.219.170=
+/live/abr_ch1/live/ch1/chunks.m3u8?wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMD=
+IxIDEyOjUzOjM3IEFNJmhhc2hfdmFsdWU9WVpPdTVHeWNwM21lWStFZUhZV3BSZz09JnZhbGlkb=
+WludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2xlbj01<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://143.110.219.170=
+/live/abr_ch1/live/ch1/l_4164000_1731.ts?wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8y=
+MC8yMDIxIDEyOjUzOjM3IEFNJmhhc2hfdmFsdWU9WVpPdTVHeWNwM21lWStFZUhZV3BSZz09JnZ=
+hbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2xlbj01<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">IP: 206.189.29.37<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://206.189.29.37/l=
+ive/abr_ch1/live/ch1/chunks.m3u8?nimblesessionid=3D122275&amp;wmsAuthSign=
+=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjU0OjU1IEFNJmhhc2hfdmFsdWU9TzNXMmF1WElN=
+VEYvVE40aWdPcm4yQT09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjI1MiZzdHJtX2x=
+lbj01<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://206.189.29.37/l=
+ive/abr_ch1/live/ch1/l_4230000_1742.ts?nimblesessionid=3D122275&amp;wmsAuth=
+Sign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDEyOjU0OjU1IEFNJmhhc2hfdmFsdWU9TzNXMmF1=
+WElNVEYvVE40aWdPcm4yQT09JnZhbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjI1MiZzdHJ=
+tX2xlbj01<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">IP:134.209.202.209<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://134.209.202.209=
+/live/abr_ch1/live/ch1/chunks.m3u8?wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMD=
+IxIDEyOjU2OjM4IEFNJmhhc2hfdmFsdWU9VWlaNDZadzRpcHQ4dVJ3WExnR3lQZz09JnZhbGlkb=
+WludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2xlbj01<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://134.209.202.209=
+/live/abr_ch1/live/ch1/l_4332000_1759.ts?wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8y=
+MC8yMDIxIDEyOjU2OjM4IEFNJmhhc2hfdmFsdWU9VWlaNDZadzRpcHQ4dVJ3WExnR3lQZz09JnZ=
+hbGlkbWludXRlcz03MjAmaWQ9MTcyLjY5LjM0LjE0MiZzdHJtX2xlbj01<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">IP:206.189.29.34<o:p><=
+/o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://206.189.29.34/l=
+ive/abr_ch1/live/ch1/chunks.m3u8?nimblesessionid=3D123351&amp;wmsAuthSign=
+=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDE6MTE6MDcgQU0maGFzaF92YWx1ZT1WS1F6TG1vQ0I5=
+cWhWSHpuVmFvd3ZRPT0mdmFsaWRtaW51dGVzPTcyMCZpZD0xMDguMTYyLjIyMS4xNzImc3RybV9=
+sZW49NQ=3D=3D<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://206.189.29.34/l=
+ive/abr_ch1/live/ch1/l_5214000_1906.ts?nimblesessionid=3D123351&amp;wmsAuth=
+Sign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMDIxIDE6MTE6MDcgQU0maGFzaF92YWx1ZT1WS1F6TG1v=
+Q0I5cWhWSHpuVmFvd3ZRPT0mdmFsaWRtaW51dGVzPTcyMCZpZD0xMDguMTYyLjIyMS4xNzImc3R=
+ybV9sZW49NQ=3D=3D<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">IP: 143.110.219.234<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://143.110.219.234=
+/live/abr_ch1/live/ch1/chunks.m3u8?wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC8yMD=
+IxIDE6MjM6MTQgQU0maGFzaF92YWx1ZT1na1FMTExkOURYWjRPbTF2Uk44Si93PT0mdmFsaWRta=
+W51dGVzPTcyMCZpZD0xNzIuNjkuMzUuNjMmc3RybV9sZW49NQ=3D=3D<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">http://143.110.219.234=
+/live/abr_ch1/live/ch1/l_618000_103.ts?wmsAuthSign=3Dc2VydmVyX3RpbWU9Ni8yMC=
+8yMDIxIDE6MjM6MTQgQU0maGFzaF92YWx1ZT1na1FMTExkOURYWjRPbTF2Uk44Si93PT0mdmFsa=
+WRtaW51dGVzPTcyMCZpZD0xNzIuNjkuMzUuNjMmc3RybV9sZW49NQ=3D=3D<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; IMPORTANT NOTES for infringing=
+ material: <o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;* the infringing material=
+ listed above is related to a live video stream currently in progress
+<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;* you may need to visit t=
+he piracy website page in order to observe streaming files
+<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;* for reference only, here i=
+s the piracy website page: <a href=3D"http://new.crackstreams.net/live/ch1.=
+php">
+http://new.crackstreams.net/live/ch1.php</a><o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; * a secondary piracy website page=
+ is: <a href=3D"http://new.crackstreams.net/live/mma-streams.php">
+http://new.crackstreams.net/live/mma-streams.php</a><o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; I have a good faith belief tha=
+t the infringing works are not authorized by the copyright owner, its agent=
+s, or the law and that the information in this notification is accurate.&nb=
+sp; I confirm under penalty of perjury that I am authorized
+ to act on behalf of the owner of an exclusive right in connection with thi=
+s notice.&nbsp; This email is not a complete statement of Disney=92s rights=
+ in connection with this matter, and nothing contained herein constitutes a=
+n express or implied waiver of any rights,
+ remedies, or defenses of Disney in connection with this matter, all of whi=
+ch are expressly reserved.
+<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; DIGITAL SIGNATURE FOR COPYRIGH=
+T CLAIM: <o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;// Corey Ivy // <o:p></o:=
+p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;Disney Antipiracy <o:p></=
+o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;500 South Buena Vista Str=
+eet <o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;Burbank, California, 9152=
+1 <o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;United States of America =
+<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;<a href=3D"mailto:interne=
+t.enforcement@disney.com">internet.enforcement@disney.com</a>
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_SA2PR03MB593255A5FDDC30ACA9F0CE7F930B9SA2PR03MB5932namp_--

@@ -1,0 +1,900 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@aruba.it header.d=aruba.it header.s=a1;
+	dkim=pass header.i=@aruba.it header.d=aruba.it header.s=a1;
+	dkim=pass header.i=@truelite.it header.d=truelite.it header.s=mail
+Received: from smtpstaff01-out01.staff.aruba.it (smtpstaff01-out01.staff.aruba.it [94.177.209.55])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 3E6BC05C-5150-432F-84A6-E526A3BC12DF.1
+	envelope-from <christian@truelite.it>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 06 Oct 2023 12:14:25 +0000
+Received: from mxstaffbe01.ad.aruba.it ([10.10.10.93])
+	by Aruba Staff Outgoing SMTP with SMTP
+	id ojiqqqRp1YBvFojiqqYRmc; Fri, 06 Oct 2023 14:14:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1696594464; bh=HEtWXdDbZb+dg6sQThDaHdnciZoZzjbsI1+VBN+CuCA=;
+	h=MIME-Version:Date:From:To:Subject:Content-Type;
+	b=HAwC1Onkkcg5EE9UyzQpfvZqMrznVRPrBrU50FS6hRYVHfassthsywxhNBc3aMsCl
+	 NrdP3Fng59DBv2mg1B7XHjEXYRLZUPfGMUL8oJnRuJbFkoyAKN0swx22P+JxrAOHfT
+	 z0/6bDeppY8dcQuXUlhfsYfp8Uo5IgPU9KcF59fu+nrUoyaEBL+hxKbbCAV2OqlvKv
+	 i0f19gdnVOuoq6rTG3t6plr7DE8UtGIvbtanLWfwuUy7XPC/FxS1YdI8+t4LQTsK2q
+	 TuuOFe4AwXRb2uat0LbkLxiXrO5xR2ogOgC1mOYXPuI4CmA29gKtjX/B3SjaTtHpmZ
+	 ydH8MDZiU5zDA==
+Received: (qmail 29932 invoked by uid 89); 6 Oct 2023 12:14:24 -0000
+Delivered-To: abuse@staff.aruba.it
+Received: (qmail 29927 invoked by uid 89); 6 Oct 2023 12:14:24 -0000
+Received: from unknown (HELO pepi1mx-mfest01.ad.aruba.it) (10.10.14.5)
+  by mxstaffbe01.ad.aruba.it with SMTP; 6 Oct 2023 12:14:24 -0000
+Received: from smtpfree01-out1.aruba.it ([94.177.209.13])
+	by bizsmtp with ESMTP
+	id ojiqqB6vVPhsxojiqqH0YU; Fri, 06 Oct 2023 14:14:24 +0200
+Received: from mxfreebe01.ad.aruba.it ([10.10.10.91])
+	by Aruba SMTP with SMTP
+	id ojiqqCOc5pTg8ojiqq0uk8; Fri, 06 Oct 2023 14:14:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1696594464; bh=HEtWXdDbZb+dg6sQThDaHdnciZoZzjbsI1+VBN+CuCA=;
+	h=MIME-Version:Date:From:To:Subject:Content-Type;
+	b=HAwC1Onkkcg5EE9UyzQpfvZqMrznVRPrBrU50FS6hRYVHfassthsywxhNBc3aMsCl
+	 NrdP3Fng59DBv2mg1B7XHjEXYRLZUPfGMUL8oJnRuJbFkoyAKN0swx22P+JxrAOHfT
+	 z0/6bDeppY8dcQuXUlhfsYfp8Uo5IgPU9KcF59fu+nrUoyaEBL+hxKbbCAV2OqlvKv
+	 i0f19gdnVOuoq6rTG3t6plr7DE8UtGIvbtanLWfwuUy7XPC/FxS1YdI8+t4LQTsK2q
+	 TuuOFe4AwXRb2uat0LbkLxiXrO5xR2ogOgC1mOYXPuI4CmA29gKtjX/B3SjaTtHpmZ
+	 ydH8MDZiU5zDA==
+Received: (qmail 25256 invoked by uid 89); 6 Oct 2023 12:14:24 -0000
+Delivered-To: abuse@aruba.it
+Received: (qmail 25251 invoked by uid 89); 6 Oct 2023 12:14:24 -0000
+Received: from unknown (HELO pepi1mx-mfefr02.ad.aruba.it) (10.10.14.24)
+  by mxfreebe01.ad.aruba.it with SMTP; 6 Oct 2023 12:14:24 -0000
+Received: from holland.truelite.it ([93.43.34.192])
+	by bizsmtp with ESMTP
+	id ojipqqDuJy9UTojipqLUCd; Fri, 06 Oct 2023 14:14:23 +0200
+X-Spam-Report: v=2.4 cv=F6REy4tN c=1 sm=1 tr=0 ts=651ffa20 cx=a_exe
+ a=WGJOeWMjRhBzRyRMiZqtKg==:117 a=WGJOeWMjRhBzRyRMiZqtKg==:17
+ a=kj9zAlcOel0A:10 a=bhdUkHdE2iEA:10 a=YTyfb9ngAAAA:8 a=2A__ile3AAAA:8
+ a=3K-8Vf9dAAAA:8 a=SSmOFEACAAAA:8 a=3g80flMcAAAA:8 a=Pu81AF0iAAAA:8
+ a=KIB6mk0uAAAA:8 a=bLKvlfX5RuINHrelXp0A:9 a=hKNnr8fBayaJPF2lBZt5WblBewM=:19
+ a=pgvQTTAEYQDDPWpu:21 a=CjuIK1q_8ugA:10 a=O23WzTs1fjcA:10
+ a=oABWVGiD4zPYY8cais1S:22 a=p1f7lBchyxdFLTUo-bNg:22 a=34KDROcXyu8fA7QoRtdG:22
+ a=WZ961i4_vI9ayheWshNf:22 a=LimLGlJ_9wKoVe8qAPih:22
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by holland.truelite.it (Postfix) with ESMTP id 90DDC6004C5;
+	Fri,  6 Oct 2023 14:14:23 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at truelite.it
+Received: from holland.truelite.it ([127.0.0.1])
+	by localhost (holland.truelite.it [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id cKKxYlW_ZiZE; Fri,  6 Oct 2023 14:14:19 +0200 (CEST)
+Received: from mail.truelite.it (localhost.localdomain [127.0.0.1])
+	by holland.truelite.it (Postfix) with ESMTP id BEA1D600477;
+	Fri,  6 Oct 2023 14:14:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=truelite.it; s=mail;
+	t=1696594459; bh=HEtWXdDbZb+dg6sQThDaHdnciZoZzjbsI1+VBN+CuCA=;
+	h=Date:From:To:Subject:From;
+	b=Dci7vv5uT2lHezV07j5CQHFD0abvgkFc5Y/leG3/XgdKO5xePNUdCr/pxWWKK/Bt8
+	 IvdD6SEgVVk36lNEQGgKC/ngH5e0g60uxWqTWU3rzLK1JFRY3e9cBX4dtAChgckgcH
+	 TKx1h5MBA5jg1QIw2uHe3m/1Y8koZ4Ebmj5Ku4Xtave7rG6VqjufPfcQFluxmWzntM
+	 qxY7e66BNKGiMJceJrtv0JKrI6dRxVDHhwFk90EbtLWT8apsCa4QJarwpYylVgI31k
+	 QAVXtsXHQhPmpYA5JZ3rAOBNn6et45dZ696WvIPJY8GzcEJGq5dLgKnPR3NRGAVsKM
+	 y8lNLg2Xd0nFg==
+MIME-Version: 1.0
+Date: Fri, 06 Oct 2023 14:14:19 +0200
+From: Christian Surchi <christian@truelite.it>
+To: abuse@antevenio.com, whitelist-complaints@eco.de, abuse@scip.es,
+  abuse@aruba.it, abuse@google.com, listaderedes.es@prosodie.com
+Subject: SPAM REPORT
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <b12fa9abcc9d48b71177de925acbeb62@truelite.it>
+X-Sender: christian@truelite.it
+Organization: Truelite srl
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Rating: mxfreebe01.ad.aruba.it 1.6.2 0/1000/N
+X-Spam-Rating: mxstaffbe01.ad.aruba.it 1.6.2 0/1000/N
+X-CMAE-Envelope: MS4xfAnET01JGkuXGTMpmnHgRd0O0e6htOxKkntJTWBc7LNV9l/Z4l2CrbQ6MRQ1hGbkgpofZ3V8g6Hx/2qaZa2oIRqjlfu02+zHQJnYa6s6sBTPTtGvZIoC
+ t2WI1fxwAYjaFda2Z/s9SWQyLByRdoLZ/FzhVqc6Gx4apjCH5tgnx6FtOI32UiUhyA4WsOPsGYlTLE2HoaoKS0JM+2REBneOzfk=
+Original-Authentication-Results: pepi1mx-mfefr02.ad.aruba.it;
+	dkim=pass header.d=truelite.it header.b=Dci7vv5u;
+	dmarc=pass header.from=truelite.it
+
+
+Received: from mta213.251.mdtor.com (mta213.251.mdtor.com 
+[185.214.213.251])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest 
+SHA256)
+	(No client certificate requested)
+	by holland.truelite.it (Postfix) with ESMTPS id 86F24600477
+	for <mailer-daemon@truelite.it>; Fri,  6 Oct 2023 13:15:55 +0200 (CEST)
+DMARC-Filter: OpenDMARC Filter v1.4.0 holland.truelite.it 86F24600477
+Authentication-Results: holland; dmarc=none (p=none dis=none) 
+header.from=news.tradit.it
+Authentication-Results: holland; spf=pass 
+smtp.mailfrom=bounces.mdrctr.com
+Authentication-Results: holland;
+	dkim=pass (1024-bit key; unprotected) header.d=news.tradit.it 
+header.i=news@news.tradit.it header.a=rsa-sha256 header.s=md2 
+header.b=Hxc6mVpZ;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=md2; 
+d=news.tradit.it;
+  h=From:Reply-To:To:Date:List-Id:List-Unsubscribe:Subject:MIME-Version:
+  Content-Type:Message-ID; i=news@news.tradit.it;
+  bh=WfQwfc/cuoSzUR1n5m/SXpVWfp0cuNHV0mxx9MH13/4=;
+  
+b=Hxc6mVpZnmnWAPJ7rdfayKRZROaTzpJAojnHZxq7/GWFP/LF64Rtw8bCqdPXby/JjvCD+6D/d98E
+    
+UWmC6hGdJ0epKscwavjjp2p0CPZT5UE/QBSq5RPWKYC72xSGr6A/I2B2bG5wLqf7+W/ZUDgStNEU
+    cAHJ0/QCNvJnaKEMxrQ=
+Received: from pmta-senderdaemon.antevenio.local (172.16.18.16) by 
+mta213.251.mdtor.com id h3vm6k34dus1 for <mailer-daemon@truelite.it>; 
+Fri, 6 Oct 2023 13:15:14 +0200 (envelope-from 
+<MD-NO--87049-2002-IT-PR--mailer+2Ddaemon=truelite.it@bounces.mdrctr.com>)
+X-CSA-complaints: whitelist-complaints@eco.de
+X-CSA-complaints: whitelist-complaints@eco.de
+X-CSA-complaints: whitelist-complaints@eco.de
+ From: =?UTF-8?Q?KOSMOS_-_I_VOSTRI_TRADUTTORI_DI_FIDUCIA?= 
+<news@news.tradit.it>
+Reply-To: =?UTF-8?Q?KOSMOS_-_I_VOSTRI_TRADUTTORI_DI_FIDUCIA?= 
+<traduzioni@traduzionikosmos.it>
+To:  <mailer-daemon@truelite.it>
+Precedence: bulk
+X-rpcampaign: mdMDNO870492002ITPR
+X-rpcampaignok: mdmdMD-NO--87049-2002-IT-PR
+X-reputation: -1
+Date: Fri, 6 Oct 2023 13:15:14 +0200
+Feedback-ID: 87049:2002:gmailmdrctr
+List-Id: 87049-177.mdrctr.com
+List-Unsubscribe: 
+<mailto:unsubscribe-md87049-2002-177-131815-1e8f72427079b9976aed78cdb58d5cbf@bounces.mdrctr.com>, 
+<http://track.mdrctr.com/track/unsubscribe/empId/87049/subId/2002/listId/177/conId/131815/conEmail/mailer-daemon@truelite.it/type/8/motivo/list-unsubscribe/signature/1e8f72427079b9976aed78cdb58d5cbf>
+X-LU: 
+<mailto:unsubscribe-md87049-2002-177-131815-1e8f72427079b9976aed78cdb58d5cbf@bounces.mdrctr.com>, 
+<http://track.mdrctr.com/track/unsubscribe/empId/87049/subId/2002/listId/177/conId/131815/conEmail/mailer-daemon@truelite.it/type/8/motivo/list-unsubscribe/signature/1e8f72427079b9976aed78cdb58d5cbf>
+X-ElasticEmail-Postback: 
+<mailto:unsubscribe-md87049-2002-177-131815-1e8f72427079b9976aed78cdb58d5cbf@lists.mdirector.com>, 
+<http://track.mdrctr.com/track/unsubscribe/empId/87049/subId/2002/listId/177/conId/131815/conEmail/mailer-daemon@truelite.it/type/8/motivo/list-unsubscribe/signature/1e8f72427079b9976aed78cdb58d5cbf>
+X-Mailer: mdirector 1.0
+Subject: =?UTF-8?Q?Benvenuto_Ottobre=C2=A0=F0=9F=8D=82?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="boundaryTagForMixed"
+Message-ID: <0.0.16.BB.1D9F846610EB91C.6F917E@mta213.251.mdtor.com>
+
+--boundaryTagForMixed
+Content-Type: multipart/alternative; 
+boundary="boundaryTagForAlternative"
+
+--boundaryTagForAlternative
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Se non visualizzi correttamente il messaggio clicca qui.=0D
+//track.mdrctr.com/track/display/empId/87049/subId/2002/listId/177/=
+conId/131815/signature/1e8f72427079b9976aed78cdb58d5cbf/conEmail/mailer-daemon@truelite.it/conMovil/-/snapI=
+d/2410173/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D=0D
+=0D
+**********************************************************************=0D
+
+
+=0D
+**********************************************************************=0D
+Se non desideri piu' ricevere messaggi via email clicca qui per 
+cancellarti=
+:=0D
+//track.mdrctr.com/track/pre-unsubscribe/category/EMAIL/empId/87049/subId/=
+2002/listId/177/conId/131815/signature/1e8f72427079b9976aed78cdb58d5cbf/conEmail/mailer-daemon@truelite.it=
+/conMovil/-/snapId/2410173=0D
+
+
+--boundaryTagForAlternative
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!-- classicEditor --><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 
+Transiti=
+onal//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html x=
+mlns=3D"http://www.w3.org/1999/xhtml"><head><META 
+http-equiv=3D"Content-Typ=
+e" content=3D"text/html; charset=3DUTF-8"><META name=3D"viewport" 
+content=
+=3D"width=3Ddevice-width" /><style>/* Email Template Styles */
+/* Version: 1.0.20 */
+/* /\/\/\/\/\/\/\/\/ CLIENT-SPECIFIC STYLES /\/\/\/\/\/\/\/\/ */
+.ExternalClass{width:100%;} /* Force Hotmail to display emails at full 
+widt=
+h */
+.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass 
+font,=
+  .ExternalClass td,.ExternalClass div {line-height: 100%;} /* Force 
+Hotmail=
+  to display normal line spacing */
+#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" 
+mess=
+age */
+table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing 
+be=
+tween tables in Outlook 2007 and up */
+img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of 
+resized=
+  image in Internet Explorer */
+body, table, td, p, a, li, span, 
+blockquote{-webkit-text-size-adjust:100%; =
+-ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile 
+changing d=
+efault text sizes */
+
+/* /\/\/\/\/\/\/\/\/ RESET STYLES /\/\/\/\/\/\/\/\/ */
+body{
+  margin:0;
+  padding:0;
+}
+
+img{
+  border:0 none;
+  line-height:100%;
+  outline:none;
+  text-decoration:none;
+}
+
+a{
+  text-decoration: none;
+  outline: none;
+}
+
+a img{
+  border:0 none;
+}
+
+table, td {
+  border-collapse:collapse !important;
+}
+
+table {
+  background-color: transparent;
+  border-top: 0;
+  border-bottom: 0;
+
+  /*line-height:150%;*/
+  max-width: 600px !important;
+}
+
+center table {
+  text-align: center;
+}
+
+tbody, td {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+}
+
+tr, img, p, h2 {
+  margin: 0;
+  padding: 0;
+}
+/* END RESET STYLES */
+
+/* HERE STARTS THE STYLES THAT ARE ALSO INLINE */
+table#template {
+  margin:0 auto; padding:0; width:initial !important; max-width: 600px 
+!impo=
+rtant;}
+
+table#template > tbody{
+  /* only affect the first tbody on first level so that it doesn't affect 
+al=
+l the tbody descendants*/
+  color: #606060;
+  font-size: 15px;
+}
+table.container{
+  width: 600px !important;
+}
+table#template{
+  font-family: helvetica;
+  text-align:left;
+}
+
+/* END*/
+/* Responsive */
+@media only screen and (max-width: 480px){
+  img {
+  width: 100% !important;
+  }
+
+  td.container-column {
+  display: block !important;
+  width: 100% !important;
+  margin: auto !important;
+  padding: 0 !important;
+  max-width: none !important;
+  }
+
+  .social-link img {
+  height: 48px;
+  width: 48px;
+  }
+
+  .imageText-component p {
+  white-space: break-spaces;
+  word-break: break-all;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  table.component {
+  width: 100% !important;
+  }
+
+  table.container {
+  width: 100% !important;
+  }
+
+  .social-component img {
+  width: auto !important;
+  }
+}
+
+@media screen and (max-width:600px) {
+  .container-column {
+  display: block !important;
+  width: 100% !important;
+  }
+
+  table {
+  max-width: 100% !important;
+  }
+}
+</style><style>/* Email Template Styles */
+/* Version: 1.0.20 */
+.image-component img:not() {
+  width: 100%;
+}
+
+img[data-aspect-ratio-locked=3D"true"] {
+  height: auto;
+}
+
+@media only screen and (max-width: 480px) {
+  .image-component img:not([data-stretch=3D"false"]),
+  .figure-component img {
+  width: 100% !important;
+  }
+
+  img[data-component=3D"image"]:not([data-stretch=3D"false"]),
+  img[data-component=3D"figure"],
+  img[data-stretch=3D"true"] {
+  width: 100% !important;
+  }
+}
+</style></head><body 
+style=3D"background-image:none;background-color:rgba(0=
+, 0, 0, 0);"><div 
+style=3D"display:none;font-size:1px;color:#fff;line-heigh=
+t:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Scopri la 
+qualit=
+&#224; dei nostri servizi</div><img 
+src=3D"https://track.mdrctr.com/track/o=
+pen/key/87049-2002-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/userid/=
+eca8d239909d5828440dda528043acc4" style=3D"display:none;" border=3D0 
+width=3D1 height=3D1 alt=3D=
+""><center><table border=3D'0' style=3D"max-width:570px;" 
+cellspacing=3D'0'=
+  cellpadding=3D'0'> <tr><td width=3D'100%'><font face=3D'Verdana' 
+size=3D'1=
+'></font></td></tr> <tr><td width=3D'100%'><font face=3D'Verdana' 
+size=3D'1=
+'>&nbsp;Se non visualizzi correttamente il messaggio <a 
+target=3D"_blank" s=
+tyle=3D'color: #53a8b5' 
+href=3D'https://track.mdrctr.com/track/display/empI=
+d/87049/subId/2002/listId/177/conId/131815/signature/1e8f72427079b9976aed78cdb58d5cbf/c=
+onEmail/mailer-daemon@truelite.it/conMovil/-/snapId/2410173/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D'=
+> clicca qui</a>.&nbsp;</font></td></tr></table></center>
+<table align=3D"center" class=3D"template" id=3D"template" 
+style=3D"width: =
+600px; font-family: Helvetica; text-align: center; border-spacing: 0px;" 
+ ><=
+!-- EDITOR-CONTENT-BEGIN --><tbody style=3D"display: block; 
+background-colo=
+r: rgb(255, 255, 255); color: rgb(96, 96, 96); border: 0px none rgb(0, 
+0, 0=
+); border-top-left-radius: 0px; border-top-right-radius: 0px; 
+border-bottom=
+-right-radius: 0px; border-bottom-left-radius: 0px; font-family: 
+Helvetica;=
+" title-color=3D"#000000" link-color=3D"#606060" class=3D"ui-sortable"> 
+<tr=
+  class=3D"ui-droppable"> <td style=3D"padding: 0px"> </td> </tr> <tr 
+class=
+=3D"ui-droppable ui-droppable-hover"> <td style=3D"padding: 0px"> </td> 
+</t=
+r> <tr class=3D"ui-droppable ui-droppable-hover" style=3D""> <td 
+style=3D"p=
+adding: 0px"> <table style=3D"width:600px;" id=3D"28" 
+class=3D"container" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody> <tr> <td 
+class=3D"=
+container-column ui-droppable" 
+style=3D"width:100%;max-width:600px;vertical=
+-align:top"> <table width=3D"100%" id=3D"id-56" class=3D"component 
+image-co=
+mponent" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" 
+i18n=3D""><tbody =
+style=3D"border: 0px none rgb(96, 96, 96); border-radius: 0px; display: 
+blo=
+ck; background-color: transparent;"><tr bgcolor=3D"Transparent" 
+style=3D"di=
+splay: inherit;"><td style=3D"padding: 2px 0px; display: inherit; 
+text-alig=
+n: left;"><img data-component=3D"image" 
+src=3D"https://static.mdirector.com=
+/files/campanias/87049/1/3/1/1/CAM/images/BANNER_BIANCO.png" 
+alt=3D"image" =
+id=3D"OWATemporaryImageDivContainer6205" height=3D"102" 
+data-aspect-ratio-l=
+ocked=3D"false" width=3D"601" style=3D"height: auto; width: 
+601px;"></td></=
+tr></tbody></table><table width=3D"100%" id=3D"id-64" class=3D"component 
+te=
+xt-component ui-draggable ui-draggable-handle ui-draggable-disabled" 
+border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" i18n=3D"" style=3D"left: 0px; 
+to=
+p: 0px;"><tbody style=3D"display: block; border: 0px none rgb(96, 96, 
+96); =
+border-radius: 5px; background-color: rgb(141, 25, 50);"><tr 
+style=3D"displ=
+ay: inherit;" bgcolor=3D"#8d1932"><td style=3D"padding: 5px 0px 10px; 
+displ=
+ay: inherit; text-align: left; color: rgb(96, 96, 96);"><p 
+style=3D"text-al=
+ign: center; margin: 0px;"><span style=3D"font-size:18px"><span 
+style=3D"fo=
+nt-family:Roboto Condensed"><a 
+href=3D"https://track.mdrctr.com/track/link/=
+key/87049-2002-7450-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contact=
+Info/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: rgb(96, 96, 96);" d=
+ata-linkid=3D"link_651fc17f9dc6e"><span 
+style=3D"color:#ffffff"><u>TRADUZIO=
+NI - INTERPRETARIATI - SPEAKERAGGI - SERVIZI WEB 
+MULTILINGUA</u></span></a>=
+</span></span></p>
+<link href=3D"https://fonts.googleapis.com/css?family=3DRoboto" 
+rel=3D"styl=
+esheet" type=3D"text/css">
+<link href=3D"https://fonts.googleapis.com/css?family=3DRoboto 
+Condensed" r=
+el=3D"stylesheet" type=3D"text/css"></td></tr></tbody></table><table 
+width=
+=3D"100%" id=3D"id-58" class=3D"component image-component ui-draggable 
+ui-d=
+raggable-handle ui-draggable-disabled" border=3D"0" cellpadding=3D"0" 
+cells=
+pacing=3D"0" i18n=3D""><tbody style=3D"border: 0px none rgb(96, 96, 96); 
+bo=
+rder-radius: 0px; display: block; background-color: transparent;"><tr 
+bgcol=
+or=3D"Transparent" style=3D"display: inherit;"><td style=3D"padding: 
+0px; d=
+isplay: inherit; text-align: left;"><a 
+href=3D"https://track.mdrctr.com/tra=
+ck/link/key/87049-2002-7451-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf=
+/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: rgb(96, 96,=
+  96);" data-linkid=3D"link_651fc17f9ddfe"><img data-component=3D"image" 
+src=
+=3D"https://static.mdirector.com/files/campanias/87049/1/9/9/0/CAM/images/N=
+EWS_OTTOBRE_(1).png" alt=3D"image" 
+id=3D"OWATemporaryImageDivContainer7745"=
+  height=3D"760" data-aspect-ratio-locked=3D"true" width=3D"601" 
+class=3D"" =
+style=3D"width: 601px; height: 
+auto;"></a></td></tr></tbody></table></td> <=
+/tr> </tbody> </table> </td> </tr><tr class=3D"ui-droppable" 
+style=3D""><td=
+  style=3D"padding: 0"><table style=3D"width:600px;" id=3D"id-74" 
+class=3D"c=
+ontainer" border=3D"0" cellpadding=3D"0" 
+cellspacing=3D"0"><tbody><tr><td c=
+lass=3D"container-column ui-droppable" 
+style=3D"width:33.33333333333333%;ma=
+x-width:200px;vertical-align:top"><table width=3D"100%" id=3D"id-75" 
+class=
+=3D"component text-component ui-draggable ui-draggable-handle 
+ui-draggable-=
+disabled" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" i18n=3D"" 
+style=
+=3D"left: 0px; top: 0px;"><tbody style=3D"display: block; border: 0px 
+none =
+rgb(96, 96, 96); border-radius: 0px; background-color: transparent;"><tr 
+st=
+yle=3D"display: inherit;" bgcolor=3D"Transparent"><td style=3D"padding: 
+0px=
+  5px; display: inherit; text-align: left; color: rgb(96, 96, 96);"><p 
+style=
+=3D"text-align: center; margin: 0px;"><a 
+href=3D"https://track.mdrctr.com/t=
+rack/link/key/87049-2002-7452-177-131815-2410173/signature/=
+1e8f72427079b9976aed78cdb58d5cbf/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: rgb(96, 9=
+6, 96);" data-linkid=3D"link_651fc17f9df4f"><u><strong><span 
+style=3D"color=
+:#b22222"><span style=3D"font-size:14px"><span 
+style=3D"font-family:Montser=
+rat">SCOPRI LE NOSTRE TRADUZIONI 
+</span></span></span></strong></u></a></p>
+
+<p style=3D"text-align: center; margin: 0px;"><a 
+href=3D"https://track.mdrc=
+tr.com/track/link/key/87049-2002-7453-177-131815-2410173/signature/=
+1e8f72427079b9976aed78cdb58d5cbf/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: r=
+gb(96, 96, 96);" data-linkid=3D"link_651fc17f9e087"><u><strong><span 
+style=
+=3D"color:#b22222"><span style=3D"font-size:14px"><span 
+style=3D"font-famil=
+y:Montserrat">PER LA MODA</span></span></span></strong></u></a></p>
+
+<p style=3D"text-align: center; margin: 0px;">&nbsp;</p>
+
+<p style=3D"text-align: center; margin: 0px;">&nbsp;</p>
+<link href=3D"https://fonts.googleapis.com/css?family=3DMontserrat" 
+rel=3D"=
+stylesheet" type=3D"text/css"></td></tr></tbody></table></td><td 
+class=3D"c=
+ontainer-column ui-droppable" 
+style=3D"width:33.33333333333333%;max-width:2=
+00px;vertical-align:top"><table width=3D"100%" id=3D"id-79" 
+class=3D"compon=
+ent text-component ui-draggable ui-draggable-handle 
+ui-draggable-disabled" =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0" i18n=3D"" 
+style=3D"left: 0=
+px; top: 0px;"><tbody style=3D"display: block; border: 0px none rgb(96, 
+96,=
+  96); border-radius: 0px; background-color: transparent;"><tr 
+style=3D"disp=
+lay: inherit;" bgcolor=3D"Transparent"><td style=3D"padding: 0px 5px; 
+displ=
+ay: inherit; text-align: left; color: rgb(96, 96, 96);"><p 
+style=3D"text-al=
+ign: center; margin: 0px;"><a 
+href=3D"https://track.mdrctr.com/track/link/k=
+ey/87049-2002-7454-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contactI=
+nfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: rgb(96, 96, 96);" da=
+ta-linkid=3D"link_651fc17f9e1b1"><u><strong><span 
+style=3D"color:#b22222"><=
+span style=3D"font-size:14px"><span 
+style=3D"font-family:Montserrat">SCOPRI=
+  I NOSTRI SERVIZI </span></span></span></strong></u></a></p>
+
+<p style=3D"text-align: center; margin: 0px;"><a 
+href=3D"https://track.mdrc=
+tr.com/track/link/key/87049-2002-7455-177-131815-2410173/signature/=
+1e8f72427079b9976aed78cdb58d5cbf/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: r=
+gb(96, 96, 96);" data-linkid=3D"link_651fc17f9e307"><u><strong><span 
+style=
+=3D"color:#b22222"><span style=3D"font-size:14px"><span 
+style=3D"font-famil=
+y:Montserrat">DI TRADUZIONE</span></span></span></strong></u></a></p>
+<link href=3D"https://fonts.googleapis.com/css?family=3DMontserrat" 
+rel=3D"=
+stylesheet" type=3D"text/css"></td></tr></tbody></table></td><td 
+class=3D"c=
+ontainer-column ui-droppable" 
+style=3D"width:33.33333333333333%;max-width:2=
+00px;vertical-align:top"><table width=3D"100%" id=3D"id-80" 
+class=3D"compon=
+ent text-component ui-draggable ui-draggable-handle 
+ui-draggable-disabled" =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0" i18n=3D"" 
+style=3D"left: 0=
+px; top: 0px;"><tbody style=3D"display: block; border: 0px none rgb(96, 
+96,=
+  96); border-radius: 0px; background-color: transparent;"><tr 
+style=3D"disp=
+lay: inherit;" bgcolor=3D"Transparent"><td style=3D"padding: 0px 5px; 
+displ=
+ay: inherit; text-align: left; color: rgb(96, 96, 96);"><p 
+style=3D"text-al=
+ign: center; margin: 0px;"><a 
+href=3D"https://track.mdrctr.com/track/link/k=
+ey/87049-2002-7456-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contactI=
+nfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: rgb(96, 96, 96);" da=
+ta-linkid=3D"link_651fc17f9e427"><u><strong><span 
+style=3D"color:#b22222"><=
+span style=3D"font-size:14px"><span 
+style=3D"font-family:Montserrat">ORGANI=
+ZZAZIONE&nbsp;PER I DIRITTI UMANI E LA TOLLERANZA 
+ETS</span></span></span><=
+/strong></u></a></p>
+<link href=3D"https://fonts.googleapis.com/css?family=3DMontserrat" 
+rel=3D"=
+stylesheet" 
+type=3D"text/css"></td></tr></tbody></table></td></tr></tbody><=
+/table></td></tr> <tr class=3D"ui-droppable"> <td style=3D"padding: 
+0px"> <=
+table style=3D"width:600px;" id=3D"30" class=3D"container" 
+cellspacing=3D"0=
+" cellpadding=3D"0" border=3D"0"> <tbody> <tr> <td 
+class=3D"container-colum=
+n ui-droppable" style=3D"width:100%;max-width:600px;vertical-align:top"> 
+<t=
+able width=3D"100%" id=3D"id-83" class=3D"component text-component" 
+border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" i18n=3D""><tbody 
+style=3D"displa=
+y: block; border: 0px none rgb(96, 96, 96); border-radius: 0px; 
+background-=
+color: transparent;"><tr style=3D"display: inherit;" 
+bgcolor=3D"Transparent=
+"><td style=3D"padding: 0px 10px; display: inherit; text-align: left; 
+color=
+: rgb(96, 96, 96);"><p style=3D"text-align: center; margin: 0px;"><span 
+sty=
+le=3D"font-size:16px"><u><a 
+href=3D"https://track.mdrctr.com/track/link/key=
+/87049-2002-7457-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contactInf=
+o/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"color: rgb(96, 96, 96);" data=
+-linkid=3D"link_651fc17f9e56a"><span 
+style=3D"color:#b22222"><strong><span =
+style=3D"font-family:Montserrat">Scopri di pi&#249; sull'evento "Diritti 
+Um=
+ani per una Cultura di Pace" leggendo l'articolo di 
+Ansa</span></strong></s=
+pan></a></u></span></p>
+
+<p style=3D"text-align: center; margin: 0px;">&nbsp;</p>
+<link href=3D"https://fonts.googleapis.com/css?family=3DMontserrat" 
+rel=3D"=
+stylesheet" type=3D"text/css"></td></tr></tbody></table><table 
+id=3D"id-54"=
+  class=3D"component image-component ui-draggable ui-draggable-handle 
+ui-dra=
+ggable-disabled" i18n=3D"" width=3D"100%" cellspacing=3D"0" 
+cellpadding=3D"=
+0" border=3D"0"><tbody style=3D"border: 0px none rgb(96, 96, 96); 
+border-ra=
+dius: 0px; display: block; background-color: transparent;"><tr 
+style=3D"dis=
+play: inherit;" bgcolor=3D"Transparent"><td style=3D"padding: 0px; 
+display:=
+  inherit; text-align: center;"><img 
+src=3D"https://static.mdirector.com/fil=
+es/campanias/87049/1/4/0/1/CAM/images/sconto.jpg" alt=3D"10% di SCONTO 
+sull=
+e traduzioni di bilanci aziendali" 
+id=3D"OWATemporaryImageDivContainer2384"=
+  title=3D"" width=3D"601" data-aspect-ratio-locked=3D"true" 
+height=3D"102" =
+style=3D"height: auto; width: 601px;"></td></tr></tbody></table><table 
+id=
+=3D"id-44" class=3D"component divisor-component ui-draggable 
+ui-draggable-h=
+andle ui-draggable-disabled" i18n=3D"" width=3D"100%" cellspacing=3D"0" 
+cel=
+lpadding=3D"0" border=3D"0" style=3D"left: 0px; top: 0px;"><tbody 
+style=3D"=
+border: 0px none rgb(96, 96, 96); border-radius: 0px; display: block; 
+backg=
+round-color: transparent;"><tr style=3D"display: inherit;" 
+bgcolor=3D"Trans=
+parent"><td style=3D"padding: 20px; display: inherit; text-align: 
+left;"><p=
+  style=3D"height: 1px; width: 100%; background-color: rgb(135, 134, 
+134); f=
+ont-size: 1px;">&nbsp;</p></td></tr></tbody></table><table id=3D"id-48" 
+cla=
+ss=3D"component ctabutton-component ui-draggable ui-draggable-handle 
+ui-dra=
+ggable-disabled" i18n=3D"" width=3D"100%" cellspacing=3D"0" 
+cellpadding=3D"=
+0" border=3D"0"><tbody style=3D"border: 0px none rgb(96, 96, 96); 
+border-ra=
+dius: 0px; display: block; background-color: transparent;"><tr 
+style=3D"dis=
+play: inherit;" bgcolor=3D"Transparent"><td style=3D"padding: 5px 20px; 
+dis=
+play: inherit; text-align: center;"><!--[if mso]><v:roundrect 
+xmlns:v=3D"ur=
+n:schemas-microsoft-com:vml" 
+xmlns:w=3D"urn:schemas-microsoft-com:office:wo=
+rd" href=3D"https://track.mdrctr.com/track/link/key/87049-2002-7458-=
+177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/=
+eca8d239909d5828440dda528043acc4" title=3D"RICHIEDI UN PREVENTIVO 
+GRATUITO" style=3D"height:50.3=
+28125px;width:391.984375px;" arcsize=3D"10%"><v:stroke color=3D"rgb(255, 
+25=
+5, 255)" weight=3D"1px" linestyle=3D"single" 
+dashstyle=3D"solid"></v:stroke=
+> <v:fill color=3D"rgb(141, 25, 
+> 50)"></v:fill><w:anchorlock></w:anchorlock><=
+v:textbox 
+style=3D"padding-left:20px;padding-top:10px;padding-right:20px;pa=
+dding-bottom:10px;mso-fit-shape-to-text:t"><center 
+style=3D"color:rgb(255, =
+255, 255);font-family:'Lucida Grande', Verdana, 
+sans-serif;font-size:18px;f=
+ont-weight:400;letter-spacing:0;">RICHIEDI UN PREVENTIVO 
+GRATUITO</center><=
+/v:textbox></v:roundrect><![endif]--><a 
+href=3D"https://track.mdrctr.com/tr=
+ack/link/key/87049-2002-7458-177-131815-2410173/signature/=
+1e8f72427079b9976aed78cdb58d5cbf/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+style=3D"display: inline-b=
+lock; text-decoration: none; height: auto; cursor: pointer; outline: 
+0px; b=
+order: 1px solid rgb(255, 255, 255); border-radius: 4px; color: rgb(255, 
+25=
+5, 255); background-color: rgb(141, 25, 50); text-align: center; 
+padding: 1=
+0px 20px; font-size: 18px; font-family: 'Lucida Grande', Verdana, 
+sans-seri=
+f; font-weight: normal; letter-spacing: normal;mso-hide:all;" 
+title=3D"RICH=
+IEDI UN PREVENTIVO GRATUITO" data-linkid=3D"link_651fc17f9e6b1">RICHIEDI 
+UN=
+  PREVENTIVO GRATUITO</a></td></tr></tbody></table><table id=3D"id-49" 
+class=
+=3D"component text-component ui-draggable ui-draggable-handle 
+ui-draggable-=
+disabled" i18n=3D"" style=3D"left: 0px; top: 0px;" width=3D"100%" 
+cellspaci=
+ng=3D"0" cellpadding=3D"0" border=3D"0"><tbody style=3D"display: block; 
+bor=
+der: 0px none rgb(96, 96, 96); border-radius: 0px; background-color: 
+transp=
+arent;"><tr style=3D"display: inherit;" bgcolor=3D"Transparent"><td 
+style=
+=3D"padding: 0px; display: inherit; text-align: left; color: rgb(96, 96, 
+96=
+);"><p style=3D"text-align: center; margin: 0px;"><span 
+style=3D"font-size:=
+12px"><em>Offerta valida fino al 31/10/2023</em></span></p>
+
+<p style=3D"text-align: center; margin: 0px;">&nbsp;</p>
+</td></tr></tbody></table><table width=3D"100%" id=3D"id-72" 
+class=3D"compo=
+nent social-component ui-draggable ui-draggable-handle 
+ui-draggable-disable=
+d" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" 
+iconstyle=3D"outline-bl=
+ack" already-edited=3D"true" 
+selected-items=3D"ico-fb.png|ico-in.png|ico-in=
+stagram.png|" i18n=3D"" style=3D"left: 0px; top: 0px;"><tbody 
+style=3D"bord=
+er: 0px none rgb(96, 96, 96); border-radius: 0px; display: block; 
+backgroun=
+d-color: transparent;"><tr bgcolor=3D"Transparent" style=3D"display: 
+inheri=
+t;"><td style=3D"padding: 0px; display: inherit; text-align: center;"><a 
+cl=
+ass=3D"social-link" 
+href=3D"https://track.mdrctr.com/track/link/key/87049-2=
+002-7459-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contactInfo/=
+Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+item-description=3D"Facebook" style=3D"color: =
+rgb(96, 96, 96);" data-linkid=3D"link_651fc17f9e810"><img 
+data-component=3D=
+"social" width=3D"32" height=3D"32" style=3D"padding-top:0px; 
+padding-right=
+:0px; padding-bottom:0px; padding-left:0px; width: 32px; height: 32px;" 
+src=
+=3D"https://static.mdirector.com/assets/imgs/social/outline-black/ico-fb.pn=
+g"></a><a class=3D"social-link" 
+href=3D"https://track.mdrctr.com/track/link=
+/key/87049-2002-7460-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contac=
+tInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+item-description=3D"" style=3D"col=
+or: rgb(96, 96, 96);" data-linkid=3D"link_651fc17f9e959"><img 
+data-componen=
+t=3D"social" width=3D"32" height=3D"32" style=3D"padding-top:0px; 
+padding-r=
+ight:0px; padding-bottom:0px; padding-left:0px; width: 32px; height: 
+32px;"=
+  
+src=3D"https://static.mdirector.com/assets/imgs/social/outline-black/ico-i=
+n.png"></a><a class=3D"social-link" 
+href=3D"https://track.mdrctr.com/track/=
+link/key/87049-2002-7461-177-131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/co=
+ntactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/eca8d239909d5828440dda528043acc4" 
+item-description=3D"Instagram"=
+  style=3D"color: rgb(96, 96, 96);" 
+data-linkid=3D"link_651fc17f9eaa0"><img =
+data-component=3D"social" width=3D"32" height=3D"32" 
+style=3D"padding-top:0=
+px; padding-right:0px; padding-bottom:0px; padding-left:0px; width: 
+32px; h=
+eight: 32px;" 
+src=3D"https://static.mdirector.com/assets/imgs/social/outlin=
+e-black/ico-instagram.png"></a></td></tr></tbody></table><table 
+id=3D"id-73=
+" class=3D"component divisor-component ui-draggable ui-draggable-handle 
+ui-=
+draggable-disabled" i18n=3D"" width=3D"100%" cellspacing=3D"0" 
+cellpadding=
+=3D"0" border=3D"0" style=3D"left: 0px; top: 0px;"><tbody 
+style=3D"border: =
+0px none rgb(96, 96, 96); border-radius: 0px; display: block; 
+background-co=
+lor: transparent;"><tr style=3D"display: inherit;" 
+bgcolor=3D"Transparent">=
+<td style=3D"padding: 20px; display: inherit; text-align: left;"><p 
+style=
+=3D"height: 1px; width: 100%; background-color: rgb(135, 134, 134); 
+font-si=
+ze: 1px;">&nbsp;</p></td></tr></tbody></table><table id=3D"31" 
+class=3D"com=
+ponent text-component ui-draggable ui-draggable-handle 
+ui-draggable-disable=
+d" i18n=3D"FOOTER" width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" 
+borde=
+r=3D"0"> <tbody style=3D"display: block; border: 0px none rgb(96, 96, 
+96); =
+border-top-left-radius: 0px; border-top-right-radius: 0px; 
+border-bottom-ri=
+ght-radius: 0px; border-bottom-left-radius: 0px; background-color: 
+rgb(217,=
+  217, 217);"> <tr style=3D"display: inherit;" bgcolor=3D"#d9d9d9"> <td 
+styl=
+e=3D"padding: 14px 0px; display: inherit; color: rgb(96, 96, 96); 
+text-alig=
+n: left; line-height: 1;"><p align=3D"center" style=3D"margin: 
+0px;"><span =
+style=3D"font-size:12px">&#169; 2022&nbsp;Kosmos Srl - Via Guido da 
+Castell=
+o 29, 42121 Reggio Emilia</span></p>
+
+<p align=3D"center" style=3D"margin: 0px;"><span 
+style=3D"font-size:12px">T=
+el. 0522 433027 - Fax 0522 015040</span></p>
+
+<p align=3D"center" style=3D"margin: 0px;"><span 
+style=3D"font-size:12px">s=
+ales@studiokosmos.com</span></p>
+
+<p align=3D"center" style=3D"margin: 0px;"><span 
+style=3D"font-size:12px"><=
+a href=3D"https://track.mdrctr.com/track/link/key/87049-2002-7462-177-=
+131815-2410173/signature/1e8f72427079b9976aed78cdb58d5cbf/contactInfo/Y29uSWQ9MTMxODE1fn5lbWFpbD1tYWlsZXItZGFlbW9uQHRydWVsaXRlLml0fn5lbXBJZD04NzA0OX5%2BbW92aWw9LX5%2Bc3ViSWQ9MjAwMn5%2BZW52SWQ9OTY3fn5saXN0SWQ9MTc3fn5zbmFwSWQ9MjQxMDE3M35%2BbWRQYXJ0cz0xfn5tZERDU3ViamVjdD1%2Bfm1kRW1haWxNRDU9ZWNhOGQyMzk5MDlkNTgyODQ0MGRkYTUyODA0M2FjYzR%2Bfm1kRW1haWxTSEEyNTY9OTc0NWIwNmRmYmQ1YTAzN2Y3MjZmNmFjZTg1ZjcxOTFlMTgzYTdhMTVlYjQ4MmZmNjFhYmJlZWUyNDMzNWY5NX5%2BcmVnaXN0ZXJEYXRlPTIwMjMtMDYtMjggMTA6Mzk6MzB%2Bfm1kRGVsaXZlcnlEYXRlPTIwMjMtMTAtNiAxMzoxNX5%2BY29uX21kNT1lZTRhY2I5NTdmODg2NzQ0Njg4MGE0NTU1MTUwMjNiZA%3D%3D/userid/=
+eca8d239909d5828440dda528043acc4" style=3D"color: rgb(96, 96, 96);" 
+data-linkid=3D"link_651fc17f9e=
+bd2">www.studiokosmos.com</a></span></p>
+</td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> 
+<tr=
+  class=3D"ui-droppable"><td style=3D"padding: 0"></td></tr><tr><td 
+style=3D=
+"padding: 0"></td></tr><tr><td style=3D"padding: 0"></td></tr><tr><td 
+style=
+=3D"padding: 0"></td></tr></tbody> <!-- EDITOR-CONTENT-END 
+--></table><tabl=
+e width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" 
+align=3D"=
+center" style=3D"width: 100%">
+   <tr>
+     <td align=3D"center" bgcolor=3D"#ffffff" valign=3D"top" 
+style=3D"max-wi=
+dth:538px; background-color: #ffffff">
+       <font size=3D"1" color=3D"#8c8c8c" face=3D"Verdana">
+         Se non desideri piu' ricevere messaggi via email
+         <a style=3D"color: #53a8b5;" 
+href=3D'https://track.mdrctr.com/track=
+/pre-unsubscribe/category/EMAIL/empId/87049/subId/2002/listId/177/c=
+onId/131815/signature/1e8f72427079b9976aed78cdb58d5cbf/conEmail/mailer-daemon@truelite.it/conMovil/-/snapId=
+/2410173'>clicca qui</a>.
+       </font>
+     </td>
+   </tr>
+</table>
+
+</body></html>=
+
+--boundaryTagForAlternative--
+
+--boundaryTagForMixed--
+

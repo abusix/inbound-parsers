@@ -1,0 +1,96 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 8015E288-A346-4A46-8C16-D8756178E1B9.1
+	envelope-from <abuse+bncBAABBP42ZWWAMGQEK5QQEFA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 01 Jan 2024 23:39:43 +0000
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-40d3eabab1esf75945215e9.2
+        for <abuse@digitalocean.abusehq.net>; Mon, 01 Jan 2024 15:39:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1704152383; x=1704757183; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:message-id:subject:to:from:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lKa4pyiou9HhvLx71uAKNlrZ8i1KDEdMDnmrupqSpKY=;
+        b=bHFUfRV0puqjPebi1hJ+Oh6BIIZbnWCdKZjFdNad3VQ2Su0ykWYw59reI+omW0RDk+
+         uftqDOfKpkI+bMtD44HhviLr/3UQDCI52a8QzqjtkxOIr/f7jWVNHvJ4wOq51uqMkaU7
+         fprWQs8PyHe9qg9Wd5R1ynFCIglhr3hoRpFA4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704152383; x=1704757183;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:message-id
+         :subject:to:from:x-beenthere:mime-version:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lKa4pyiou9HhvLx71uAKNlrZ8i1KDEdMDnmrupqSpKY=;
+        b=DZDRzv0ndgwNceFmfXHdXG1R/E6FbBLHIKzx/oG5MVG6gqwFJfPPwuc0f9pO7iwBLs
+         hY+gzwLKaPSymgpEWsJGSEllkkiqCvjACv5Y1LlySWrszx7wUBMNOK6Hqy/wcMUy6tp7
+         rTrZNvdUTKtyWsafPiyvToSQoqAxRITgMA9OeVhZsqEhl2pl4kf4ZYKoopXvyPgeMRkK
+         0Wth/8KlDIDw8G+wbMsidQ/lVR1qTCt4qE60E/L0W00/LTOnUmjmsjf2l+1deAUNMP4h
+         1IAcOJ1BlSv4uIRBR9sNiRWObF58bssMRI4AY3Hc1hqcL1FESVhQg4x1X3P6+KImI55V
+         wKXA==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0YwkoGAr16w7zvHzFRxfwETWwfJ0KUEcdD7PJmb4RNDP9Gp/HUHB
+	pNQ2zfQlkoNLETgvxK/Cy5XaUTZ0SQxC2Q==
+X-Google-Smtp-Source: AGHT+IEmBwWMrar/gJaoMnT+TZoFKz4u4RYRmbJKp16HTiZbR27qkEIQulbLNSF4OAOyZgrKVvfxvg==
+X-Received: by 2002:a05:600c:5025:b0:40d:549b:75f2 with SMTP id n37-20020a05600c502500b0040d549b75f2mr6968572wmr.65.1704152383509;
+        Mon, 01 Jan 2024 15:39:43 -0800 (PST)
+MIME-Version: 1.0
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:600c:243:b0:40d:5b7e:eada with SMTP id
+ 3-20020a05600c024300b0040d5b7eeadals297342wmj.0.-pod-prod-07-eu; Mon, 01 Jan
+ 2024 15:39:42 -0800 (PST)
+X-Received: by 2002:a05:600c:5187:b0:40d:8797:ded2 with SMTP id fa7-20020a05600c518700b0040d8797ded2mr1302872wmb.10.1704152382353;
+        Mon, 01 Jan 2024 15:39:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704152382; cv=none;
+        d=google.com; s=arc-20160816;
+        b=smvW4z27feKt6PN3Kng5T7Abtdku6HgQX7kRGH1za9xd91EK64XsUqHvsFb34nNLd5
+         lj+WuPMODxBYZdbjJP3TrV9VeAZ+POX8+0ieuOnSz38Yc82U1eEK6U9O+IfxTl9Ya0En
+         u8fNcHu1h9ANyJ+H7/XMyAaSFPTtAnuDbvG0gXFpg3y+NtFbWE7CIfmBN5wB3QOKm9I8
+         u+KeWK0rTPYQQeXH7UY07kgjeo52rRmo/5tMU467yTaAnp/CsAJGrhHbS6SrMx9MRS1y
+         Mlxv5Tr8gidNxaJuHw7SMy8ALR41EVNAOV/J6YxlkIkIh1vd/aOtBtc1KjO+/9QroJCF
+         wynw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:subject:to:from;
+        bh=lKa4pyiou9HhvLx71uAKNlrZ8i1KDEdMDnmrupqSpKY=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=d/8sAQVOCirzwJMGFWmAgmnTKCvYTo1XTn8e3YFjOJesQcDwHf1/qG8zFx/c4B/Ri9
+         XzcNJmd8Nb8qQe6SJoqYRiC3REPJ4TgxmfdCZS2YCXO6glk3PCyeH6aVaeS5gaBY0j4p
+         60IXZi9HpXKhdPNVUF4mmrw/teXnBO5k0B8buw5sWX/ir2lUXUnO8WfwtgN7gHBsT/Qi
+         GFNdu0CUpLfGi4Z99+UQtuALvbj8CIA7RvguGWgQ6EZdHQSB7XwljlLG6Y05Yz/B9vqQ
+         LrlK6J8/ydc7zzBtYdJ9fVMRJrKlmNFeSFz0LVqAVDC3ItXWd9Up8BoNd6UA90ZTRkZC
+         ISKw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of bot@acastano.fr designates 51.210.12.57 as permitted sender) smtp.mailfrom=bot@acastano.fr
+Received: from mail.acastano.fr (mail.acastano.fr. [51.210.12.57])
+        by mx.google.com with ESMTPS id n34-20020a05600c502200b0040d4a2bd330si10409371wmr.60.2024.01.01.15.39.42
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jan 2024 15:39:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of bot@acastano.fr designates 51.210.12.57 as permitted sender) client-ip=51.210.12.57;
+Received: by mail.acastano.fr (Postfix, from userid 0)
+	id F17953F273; Tue,  2 Jan 2024 00:39:41 +0100 (CET)
+From: bot@acastano.fr
+To: abuse@digitalocean.com
+Subject: 198.199.107.144: possible malicious activity from this host
+Message-Id: <20240101233941.F17953F273@mail.acastano.fr>
+Date: Tue,  2 Jan 2024 00:39:41 +0100 (CET)
+X-Original-Sender: bot@acastano.fr
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of bot@acastano.fr designates 51.210.12.57 as permitted sender) smtp.mailfrom=bot@acastano.fr
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+You are receiving this message because you are listed as the contact for the networks below. This message is intended for the person responsible for computer security at your site. If this is not the correct address, please forward this message to the appropriate party. Our logs show that malicious attempts were made from your network against machines in our domain. This is definitely not an authorized request and we view it as an attempt to probe our network for a vulnerability. Either your machine has been compromised and is now being used to launch hostile activity, or a legitimate user is engaged in activity that is probably in violation of your terms of service agreement. In either case, please investigate this matter. At the bottom of this message we have attached parts of our logs in order to help you track down the perpetrator (All times are UTC). We would appreciate a reply that this note has been received. Thank you, Jan 2 00:39:32 acastano postfix/smtpd[6718]: warning: hos
+ tname apzg-0721p-095.stretchoid.com does not resolve to address 198.199.107.144 . Please, take a look into it. Thanks

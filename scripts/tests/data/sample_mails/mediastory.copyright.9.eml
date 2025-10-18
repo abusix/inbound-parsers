@@ -1,0 +1,849 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id E039E0C3-AEF6-4F52-8BBA-7B2BB82BF609.1
+	envelope-from <abuse+bncBDB2VCNFTYMRBTFMUSOQMGQEV5FWIQQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 26 Dec 2022 03:34:37 +0000
+Received: by mail-qt1-f198.google.com with SMTP id cf23-20020a05622a401700b003ab6e87db28sf2245087qtb.18
+        for <abuse@digitalocean.abusehq.net>; Sun, 25 Dec 2022 19:34:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672025677; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Oo2BO8TaLEooY8TtWHA//Pa8HaEDULXbbTfXmnnesDknJvWiFOmHLA1QsO8zTgiVtl
+         AMQi5Ja3dUZeaCHYqPrKs/86o0n1qFvwabIUOfx14sc4lxfm86y2GsBFzYjr2QRSAEla
+         HjTwi6iHYLAu6L6KZ3bxjlY2lfX0M43dDDQPNTgEWbFN4AFds8vYwqSUoot8FwXkFTzA
+         Z8dc112qZwnzQpQ9rZeV/IBOvC32b+ojQi74yn5MaJX1Vlm06RuyLKTs9XrTN1kzR/ti
+         sbtQIkL9NbFQyxTs2irV80QQSYk5Asln6LK0e4PdrwYZjhp75xFjLy30GA+0QsLfSY6S
+         dhYQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:references:content-language:thread-index
+         :mime-version:message-id:date:subject:to:from:sender:dkim-signature;
+        bh=BH15sVJFBzY37g2lVH3m1F8TUaeAcymGDzO1JVs0lHs=;
+        b=SfKFzxvQT8lb/gatVh3yogWm4470KIPa2G1IunWRsLMTmXxcYdjufuW6VjCfT89tJI
+         /LJdDPyf2rIh/jPmE5Rfby7reoFitkgW89/pKgfZX8tQ2UdCBCtpfoGRqloks8Mk3328
+         L2CFGD/6RCGstJBEIxNl7Lg2A2NdZrKoBNFGw0meADdiFs/ePuLujyxjolw9bwikk8Eo
+         bklgtoIKPXznxicTiTuUizjXJeo/dna4Tk8PCYEdZTv+1ZpK8BF7cOocVhpRpUE4SZno
+         5MdKudMCcWA0kz1yJ1gjPoezJoGTh8vZyTmBx0qDZtzCUfo3AI9WNJTDc2FP7SsVNHds
+         XiCA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=ktLionSk;
+       spf=neutral (google.com: 74.6.134.197 is neither permitted nor denied by best guess record for domain of seongmin.an@mediastory.com) smtp.mailfrom=seongmin.an@mediastory.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:references:content-language:thread-index
+         :mime-version:message-id:date:subject:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BH15sVJFBzY37g2lVH3m1F8TUaeAcymGDzO1JVs0lHs=;
+        b=ZS5MGfIYoJ1Czdwge/MsybeuMACmRFsuuThjSr1vIwt/THFd/n39u0peFknYQj2HaL
+         OtzoM6yIOSS3fhIZ+/SdH7b1ZdBuwcgypYLozp8OsSqtopE3aTR9LhDM4ESES3VYbNfy
+         /bt/9+qQ1J8VdigTeFq8Lr9hskj+OuiZO5T5w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:references
+         :content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BH15sVJFBzY37g2lVH3m1F8TUaeAcymGDzO1JVs0lHs=;
+        b=wZkOV02dgdAYmnFHCNS5nQFLJfTZFXFkHHakPFz2qk54D5vqWUGIdhwxMdBDIPR2QW
+         j+XSiHTkxRQdPR2VhVVBWBNu+frBgoKPPLataA+AAqREULx2bnszFbdL2l9duaoq0WRB
+         F1N3Zmv2BGjIUw3BA0m7qTp7TGcv1N/nz5ep5jXK/mqSs3cBEc3u7R4B6NsE1lx2oVdp
+         xaLy8jUu7KQla8N2JZJTFHH/BgbtD58Go15iteHdWtFjYYgaOlhc2VglprDbXm8depyr
+         KmgoNZs78M1d+yYpF+BnEf4bhhItXkxvQqSWOhhhz9UWbnPXAdak1H6SnhWKD6wEvtLE
+         JZeA==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AFqh2kocF4qpmq6xivqz6fcUaQxH9BZrqSE4KgzERpAPn6d0SCBjQbMM
+	zXvAUv0XIJKFzI2NREY4Zs9WVQ==
+X-Google-Smtp-Source: AMrXdXu0SNCnbmatfobTs001PJazoCTUBjH2axhn0p4aLb66dnFLuMh4MwCMzimdg5F2EP9xTXFJYg==
+X-Received: by 2002:ac8:41da:0:b0:3ab:5e70:868a with SMTP id o26-20020ac841da000000b003ab5e70868amr625908qtm.689.1672025676896;
+        Sun, 25 Dec 2022 19:34:36 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:622a:4a0a:b0:3a5:4442:58e3 with SMTP id
+ fv10-20020a05622a4a0a00b003a5444258e3ls6880433qtb.7.-pod-prod-gmail; Sun, 25
+ Dec 2022 19:34:36 -0800 (PST)
+X-Received: by 2002:a05:622a:800a:b0:3a6:77f5:f62 with SMTP id jr10-20020a05622a800a00b003a677f50f62mr23147956qtb.54.1672025676014;
+        Sun, 25 Dec 2022 19:34:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672025676; cv=none;
+        d=google.com; s=arc-20160816;
+        b=0ij8S5y3G0jQ/C+eROLkT8I84ya4cBaqcbc9o5oS+WGKf0VyScSQHi9wxkeq5pLGqv
+         ayrEWToyBHsPLPkHBIrBB2VkRnNXdjiFw1Aw8mj+5SvQ54FyTNOjhsXBCX/Wr17gX1s/
+         vZBStR8daW6KpApF6hiQVlX7jK6ysMHNoyYgUj2brA0Vx+mAfEOE9soq4eHrNiLhM0V/
+         mDm8LOGMWqmuxgngeyjUclZWv0C3UAIPBiU6GcX7JLGW7XiGR3nqtzRb8Dwlc+/9ygs/
+         EU+wjEalcjsE5c6yvDLIpHZXFg6NFpCmqxhsxACcupvtLkwWD9UrwQAT4/4jeqYIuuwE
+         Hbnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=references:content-language:thread-index:mime-version:message-id
+         :date:subject:to:from:dkim-signature;
+        bh=BH15sVJFBzY37g2lVH3m1F8TUaeAcymGDzO1JVs0lHs=;
+        b=AIloqPnJ7k12kOYo3YMMKfAG/wJamuqZqorp4ENW6RnFB/vXbAgqcuXFIhEEBsPRk0
+         lIQE27Fh16lHbzIrSMnPVDrf4GIRuyks0q/7jwC+yaiajjODFk9hq/Sd7LdqkhLRA5qn
+         7C0e/1ArLsGO5sn6j6THB9Sc0sDHFuePFK4saY/JJIS7teOQ3LaCtPaB4AlumfpmPO9I
+         nL215qTIOiWDHI5oN1Ue+qJFXqW1DREyKYpQKNFH0Ay/zpVeqlE55KOq6gdadz+yjD3/
+         8zsZkcOA73UApsSGcROFrGtaksuYvy8cBMIuEyPXzzyJzmVUpOxLPTwnRik8T23dq95V
+         1OZg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=ktLionSk;
+       spf=neutral (google.com: 74.6.134.197 is neither permitted nor denied by best guess record for domain of seongmin.an@mediastory.com) smtp.mailfrom=seongmin.an@mediastory.com
+Received: from sonic315-23.consmr.mail.bf2.yahoo.com (sonic315-23.consmr.mail.bf2.yahoo.com. [74.6.134.197])
+        by mx.google.com with ESMTPS id bz7-20020a05622a1e8700b003a7f1f84cb0si3767622qtb.24.2022.12.25.19.34.35
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Dec 2022 19:34:35 -0800 (PST)
+Received-SPF: neutral (google.com: 74.6.134.197 is neither permitted nor denied by best guess record for domain of seongmin.an@mediastory.com) client-ip=74.6.134.197;
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1672025675; bh=MXnlYDL2dPv7UbwwJ4GNKfV/RgPsdB4biyo/XOzZRca=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=tne2NAWtW9G6SMIWBs1PP7a+mQhAXJAG31oH/5eSNTgL5ljBzPr6OjLWMtzIX3wXH3OdQ+Lvv62QSCRrndqwiEmHex+nNWc/jH8VOCH7NcAanLCXt672f6j2dfwCNBZImOtFe8Mc4H9xd5g2ciwLBIMRbQkgViChb6a+SGehjbRou3F1GmwovpqDLHZxE8HjvnP4TckhsEbY5yopIyrd4N8WCAp60RItZ0/PNBUpHKvy2bchXQ7Rm48F+wbxDdSkDm4h4At+BUgNxeuasuEzZFIDifbApVzFCNrIVUaYCTwgVGVlD0qK+Ejua5w8G68M6u6tgs3cTiEp/j5a8SbP8w==
+X-YMail-OSG: Hcb0L_oVM1nYu7_VET7IyRUas8HMxqrgKvlm90UtVeCGE1MbmJ3taHPTHPc4tIc
+ jZhhcDha7it7J5gbZHPuW3nTIgkQzZOjAH6fx5E5mxH7Tjrz4t7tfbHFWm02DthlA1hY1O.aM8CA
+ X_s4jEcJOMQB0IdNDAABKbPkvQF8QbNShRPvhY3tQHRCG._b3ieL4bLpS2pLBLloA1vqxirHLB6x
+ xSZHJzONNBf1Me6IL26BsduUAItMxzUEZsS2SsujQ1IgbDfR4jWHDGh4kTeQ2DQMOf6PBTbSriMw
+ N8Maj5FTIcY_syz0gdUHyx5aDe.2cflfOO5aHn39YiVAg8OUvaDwIVoRcqyhDEG83GeaZtSIAs.O
+ DQ6E4yGkNcb8VYLRDgKyPVJyi3jFl0gtljSsgbcCzttpa7P9GWb2RyRpPpCRWbIh393pNg4CAzyR
+ chVSRTq60vIH2c4ictuV.SR1Q.RUaen9FtKrDUOpZ699hLUG701joLJz7p40LgSC2ekoRHcrUIBU
+ 3dbuoUilytLFhFz4eKoBho81s76CKnGDi6pDHp.i.JIGlnTCklraQUleG_wB6tSNjHeXdVdgwbWi
+ TzlFxvqJSAULoAHmAbK1FKG_Is1IP1CtyKDoRUuhQQFWOGSqRDNu93xMa4BzFU4fbEqAplaU_GVj
+ YNUyLPbUIRe.Ib.wFWZjxcTnqPsjlmMq7KbSIHHmH2mE.MnS9PT0TUuXJO_wJQgzlBW_7ZSMx_Vt
+ k9bOr39V26ZswrMDX.Uyz6.erUqRr89LTkG1lD8FK2gDR8HbFql5Huis8ajW._AEIQZsO8Pzoe1X
+ FNXXYjb6EAXcWXJXDrcLh_6EJdG2kSX7bpdR8MaOW5ZH69325R2HY_FqbQ_1x5bInSwVMwMTzAMj
+ 8WGQaLlWixpJxTeTmJCAdWEzAqfYFLxmFPqSw_wh_Ges38_d7V3gvlOrCpibhSJcGsaLY6geWCdw
+ u.i8dxaKJ6gLF_Usjmm6rePkNmzEqMQlXJ8v6F.DiXT9MARwGLKWkLA2B0IRTTAAgZt1Umu3yn2_
+ VpHcW8GhtmI1wvuLl_16cWFUg2wUY0dpxgMv4LmEL9NAqWr0BZcUC0u9l_9dnhgZ1MOKHk_zBQ4A
+ Y.mrFyCj2D6LRUZ964tMcYlD.pjZzjkI7c5NbxFEr6UdY2e7be_mpIacFLrsrPLLoU2CwjI5LCXa
+ zHqt6ifjlt_RaHcxWn6GC.4YMOfRYKYeMYs_8aRVRky5hcoYzy_Q2huxRaGvMirZH3zBMk.uWzA.
+ 6TnPuGcu0XnPYu1p53pKcDq3wTjSrdjxtsI.JxiL84jvWlBQmriS37bch4mU0yWHRcBWyS1SngcN
+ H0OfsQQcilVtBhZaQIbFNe5OJxOxzs7OYv2uXBsuq.tBofX5Aw0jBMq.uKdYCrp_EN0sO0ypvemn
+ YFdPwdN5rRFtGyckfuxTIlIIqQRginJsLf6kS_y_DljEruwg5GvBC2J8D5KLL_44eygN328vmf5b
+ HsrBM6RvV7HrGIERXgkIyf7Jz_kUBLNu8gFED1OwOYllhBe7ltrPC9gpyvJW49J0hMJdD9TNJqzZ
+ gOB3i0eymOPcNZS_7Eb50jWGKBNMZkLqvkgWxM05oBzkFdgpZi2n8MIQ8yMIG4XIBH6K8EV000AF
+ fuLaNdatkY1z7Li7HJE0haQfS70X9cfZsk.7F7ZUHQ18lV0Af7J1QmziEGHRAa0OL2pq7MoGByJd
+ Uf.UZbkaRMrQU3RmVLu4HtF_hX19a4oLfnRCRqB.TJW30njTY0TbsSqPE.DfV4RYIJZ6f2FRn6RY
+ yUHym1kdZHvSOia8LGELSEnInQxrTRutqpNEG2UsTKShTKShFp5sJeaHd9OjXztnyh_x7kL8XWgG
+ jVoQg2sNpNvk.zXvYtlkNXtuyLlgKe8PPl.t7y6_XFRknmPvWqYBCD85CXK_uWqIt7FToWJy1tIv
+ 8NChsUz28MRrotqFm5MY2czYUjX.ykB6me21pKmO4UvOp8wITw6R3lrKQ9iuLzwfMwTQUdkUNbu0
+ WP6cGSFArzBFg_1PB4iwx2ohvYb0ixAbnwqyZRLvJV_vmZHWF_M9pV5XFxcv7IW9T0qqmnWP_FCo
+ A6QyEYwbTRAUxo_7UePVGOVIvdekew128NbYxH2JNh2RKmD15O8Y58CiXPU_3zpQjvnq46eikNxq
+ P06iVV3dayoMzGr46jChUFy7anVAHHeIDUoiFjEB1YhwqG1GGFfOgraYHPYRgLlkbi3hbibUBs87
+ K7w3Rew9Luzj3Oq4XGBUfyW8-
+X-Sonic-MF: <seongmin.an@mediastory.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Mon, 26 Dec 2022 03:34:35 +0000
+Received: by hermes--production-sg3-b666c6484-8fdt2 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 5e7c06631a2b79a7640378ade48cdb1a;
+          Mon, 26 Dec 2022 03:34:32 +0000 (UTC)
+From: <seongmin.an@mediastory.com>
+To: <abuse@digitalocean.com>
+Subject: [MediaStory] Content removal request
+Date: Mon, 26 Dec 2022 12:34:28 +0900
+Message-ID: <009301d918da$f7fc3b20$e7f4b160$@mediastory.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0094_01D91926.67E3E320"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdkY2vVjtmrlU+ogQ9CcZUWNIn9gXQ==
+Content-Language: ko
+References: <009301d918da$f7fc3b20$e7f4b160$.ref@mediastory.com>
+Content-Length: 30712
+X-Original-Sender: seongmin.an@mediastory.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@yahoo.com header.s=s2048 header.b=ktLionSk;       spf=neutral
+ (google.com: 74.6.134.197 is neither permitted nor denied by best guess
+ record for domain of seongmin.an@mediastory.com) smtp.mailfrom=seongmin.an@mediastory.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0094_01D91926.67E3E320
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+ 
+
+ 
+
+Dear Sir/Madam,
+
+ 
+
+My name is Seongmin An and I am the Employee of MediaStory LLC.  Infringing
+content posted on a website which your company hosts is infringing exclusive
+rights owned by my client.
+
+The infringing content was uploaded onto your websites without permission. 
+
+ 
+
+The original work, to which my client owns exclusive rights, can be found
+at: 
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20215601
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20215601
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20208446
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20208446
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20209654
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20209654
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20206257
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20206257
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20202185
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20202185
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20192696
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20183003
+
+https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=mov
+ie&dtCd=20183003
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20192193
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20192193
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20199816
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20199816
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20199816
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20182447
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20182447
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20182447
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20192206
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20192206
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20192206
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20192206
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20181434
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20181434
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20181434
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184621
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184621
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184621
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184621
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184621
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20183782
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20183782
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20183782
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20183782
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184082
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184082
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20184082
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20177539
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20177539
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20177539
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20177539
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20182530
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20182530
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20170658
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20170658
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20170658
+
+http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieList.do?dtTp=movi
+e&dtCd=20170658
+
+ 
+
+ 
+
+The unauthorized and infringing content can be found at:
+
+https://lin-2023.vkool.info/videos/zsubif35ui8pfnuqw64a1qzyer.mp4
+
+https://lin-2025.vkool.info/videos/fjay3ez5hiytdyonjf3y38hz7o.mp4
+
+https://lin-2030.vkool.info/videos/89e1dh6qzjr4fj7mpuy6gzebha.mp4
+
+https://lin-2031.vkool.info/videos/zpopis3zrjr7xrdznwn1rn6r1a.mp4
+
+https://lin-2023.vkool.info/videos/rbb1dqtj5ffzmk5y5f5mr3atze.mp4
+
+https://lin-2023.vkool.info/videos/6ec7sui98pfaukjhwsn6r3wkfy.mp4
+
+https://lin-2031.vkool.info/videos/as9o47nyzibb5y995cccstwnhh.mp4
+
+https://lin-2023.vkool.info/videos/jiifc3f4mt8rfbxg7mawpnd3sw.mp4
+
+https://lin-2023.vkool.info/videos/s9ds7ozactdxtxy1szrx1nftto.mp4
+
+https://lin-2023.vkool.info/videos/ij97qbyyqfb8zxjsrmbx8se8mc.mp4
+
+https://lin-2025.vkool.info/videos/sn8thune6tra7nucut4ruxa66e.mp4
+
+https://lin-2031.vkool.info/videos/syn1w697c3fp3m9wtmzg93j71a.mp4
+
+https://lin-2023.vkool.info/videos/s1cn6i7wtjdsbg88swcj79ei3c.mp4
+
+https://lin-2025.vkool.info/videos/eik8sgep3jrwxcbkz3jqemxmho.mp4
+
+https://lin-2025.vkool.info/videos/faom3owti3ys8g1hbotq6o97ky.mp4
+
+https://lin-2023.vkool.info/videos/kfmx9ixooj8xij5o6pa6rjeatr.mp4
+
+https://lin-2023.vkool.info/videos/817kdkzz43n93ffkhif5mqysxa.mp4
+
+https://lin-2023.vkool.info/videos/8yab8dy7c7g8urb7fxzwhb5b3r.mp4
+
+https://lin-2031.vkool.info/videos/r5oypj4ykp8b5k3f66wga77jpa.mp4
+
+https://lin-2030.vkool.info/videos/nwu5zm1jo38ftgqarepcq61cga.mp4
+
+https://lin-2030.vkool.info/videos/gegq43ug8fg3te4kq7szhb9ggw.mp4
+
+https://lin-2030.vkool.info/videos/w8f8ttjue78sfy17xx7z71wuia.mp4
+
+https://lin-2030.vkool.info/videos/gs5msehmt7ga3kwd4gdb3dwkmh.mp4
+
+https://lin-2030.vkool.info/videos/tc4if5serjda8csy4tat89iyyy.mp4
+
+https://lin-2030.vkool.info/videos/ih9qar3pijysjpu3nsqrttwxia.mp4
+
+https://lin-2031.vkool.info/videos/34xy44giqfnzzg99nsuo4t5w4r.mp4
+
+https://lin-2031.vkool.info/videos/z8owfyaegtbutqqr94kbdqw8yw.mp4
+
+https://lin-2031.vkool.info/videos/p17am4w31tg6triocsdfig65qh.mp4
+
+https://lin-2031.vkool.info/videos/i67hg7xn4iga3xk4d7464384pw.mp4
+
+https://lin-2023.vkool.info/videos/agrmp3dx1bbxmk1bddu9oa4d5c.mp4
+
+https://lin-2023.vkool.info/videos/8e6n9xmcxidf5jcqgd4k9tpy6e.mp4
+
+https://lin-2031.vkool.info/videos/6kkihwmkatdfunqs6jtcexw91c.mp4
+
+https://lin-2031.vkool.info/videos/rp4yq7ruyfdazr64enen99unso.mp4
+
+https://lin-2031.vkool.info/videos/eu5qopdhxpd38nzdfp1jjyo6ec.mp4
+
+https://lin-2031.vkool.info/videos/1gw6uyhsdffqdxu17fhdon737r.mp4
+
+https://lin-2031.vkool.info/videos/meud3q5357bkmxortp9zxwew1h.mp4
+
+https://lin-2031.vkool.info/videos/p547h6upb3fmtpet7ddgfbmqya.mp4
+
+https://lin-2030.vkool.info/videos/4aeeh8rdef8m3dhurfcumn6uke.mp4
+
+https://lin-2030.vkool.info/videos/3wnrg81ms3y998bttr4uf49pwo.mp4
+
+https://lin-2030.vkool.info/videos/icdo44e8jfycbdany7pc3ahf6c.mp4
+
+https://lin-2023.vkool.info/videos/9c8fyt8wq3bjukq4sz4rtp8rgo.mp4
+
+https://lin-2023.vkool.info/videos/rqueuyns1tyrpbkjcxtg1aa6io.mp4
+
+https://lin-2023.vkool.info/videos/e8778ywg4bgr7qo5yetg6w148w.mp4
+
+https://lin-2023.vkool.info/videos/wuuozrjm3tfw3nkgwzyik5kwme.mp4
+
+https://lin-2030.vkool.info/videos/oqmzcca68tr8pdtnjtdqwd7d4r.mp4
+
+https://lin-2030.vkool.info/videos/jhbjqpdd8tr88n3dbr9mf1eaor.mp4
+
+https://lin-2030.vkool.info/videos/65fobis9ztdktxyt943ypf511e.mp4
+
+https://lin-2023.vkool.info/videos/5mue5oamrjfgjefcjmkmsgfsqa.mp4
+
+https://lin-2030.vkool.info/videos/ck631rbx3priue6b9nn3kj4oac.mp4
+
+https://lin-2023.vkool.info/videos/4cc8a88nhtddbpfzyodcqw9ksy.mp4
+
+ 
+
+ 
+
+This letter is official notification under Section 512(c) of the Digital
+Millennium Copyright Act and I seek the removal of the aforementioned
+infringing content from your servers. I request that you immediately notify
+the infringer of this notice and inform them of their duty to remove the
+infringing content immediately, and notify them to cease any further posting
+of infringing content to your server in the future.
+
+ 
+
+Please also be advised that the law requires you, as a service provider, to
+remove or disable access to the infringing content upon receiving this
+notice. Under U.S. law a service provider, such as yourself, enjoys immunity
+from a copyright lawsuit provided that you act with deliberate speed to
+investigate and rectify ongoing copyright infringement. If service providers
+do not investigate and remove or disable the infringing content this
+immunity is lost. Therefore, in order for you to remain immune from a
+copyright infringement action you will need to investigate and ultimately
+remove or otherwise disable the infringing content from your servers with
+all due speed should the direct infringer, your client, not comply
+immediately.
+
+ 
+
+I am providing this notice in good faith and with the reasonable belief that
+rights my client company owns are being infringed. I believe the information
+in this notification to be accurate and state under penalty of perjury that
+I am authorized to act on behalf of the owner of exclusive rights.
+
+Should you wish to discuss this with me please contact me directly.
+
+ 
+
+Thank you.
+
+1326 Cordova Street, Pasadena CA 91106 
+
+Seongmin An
+
+ 
+
+ 
+
+
+------=_NextPart_000_0094_01D91926.67E3E320
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:"\B9D1\C740 \ACE0\B515";
+	panose-1:2 11 5 3 2 0 0 2 0 4;}
+@font-face
+	{font-family:"\@\B9D1\C740 \ACE0\B515";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	text-autospace:none;
+	word-break:break-hangul;
+	font-size:10.0pt;
+	font-family:"\B9D1\C740 \ACE0\B515";}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"\B9D1\C740 \ACE0\B515";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"\B9D1\C740 \ACE0\B515";}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:3.0cm 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DKO =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>Dear Sir/Madam,<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>My name is Seongmin An and I am the =
+Employee of MediaStory LLC.&nbsp; Infringing content posted on a website =
+which your company hosts is infringing exclusive rights owned by my =
+client.<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US>The =
+infringing content was uploaded onto your websites without permission. =
+<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>The original work, to which my client owns exclusive =
+rights, can be found at: <o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20215601<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20215601<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20208446<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20208446<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20209654<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20209654<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20206257<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20206257<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20202185<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20202185<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20192696<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20183003<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>https://www.kobis.or.kr/kobis/business/mast/mvie/searchMovie=
+List.do?dtTp=3Dmovie&amp;dtCd=3D20183003<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20192193<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20192193<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20199816<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20199816<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20199816<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20182447<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20182447<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20182447<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20192206<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20192206<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20192206<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20192206<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20181434<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20181434<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20181434<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184621<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184621<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184621<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184621<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184621<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20183782<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20183782<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20183782<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20183782<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184082<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184082<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20184082<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20177539<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20177539<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20177539<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20177539<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20182530<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20182530<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20170658<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20170658<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20170658<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+lang=3DEN-US>http://www.kobis.or.kr/kobis/business/mast/mvie/searchMovieL=
+ist.do?dtTp=3Dmovie&amp;dtCd=3D20170658<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>The unauthorized and infringing =
+content can be found at:<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/zsubif35ui8pfnuqw64a1qzye=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2025.vkool.info/videos/fjay3ez5hiytdyonjf3y38hz7=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/89e1dh6qzjr4fj7mpuy6gzebh=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/zpopis3zrjr7xrdznwn1rn6r1=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/rbb1dqtj5ffzmk5y5f5mr3atz=
+e.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/6ec7sui98pfaukjhwsn6r3wkf=
+y.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/as9o47nyzibb5y995cccstwnh=
+h.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/jiifc3f4mt8rfbxg7mawpnd3s=
+w.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/s9ds7ozactdxtxy1szrx1nftt=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/ij97qbyyqfb8zxjsrmbx8se8m=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2025.vkool.info/videos/sn8thune6tra7nucut4ruxa66=
+e.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/syn1w697c3fp3m9wtmzg93j71=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/s1cn6i7wtjdsbg88swcj79ei3=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2025.vkool.info/videos/eik8sgep3jrwxcbkz3jqemxmh=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2025.vkool.info/videos/faom3owti3ys8g1hbotq6o97k=
+y.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/kfmx9ixooj8xij5o6pa6rjeat=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/817kdkzz43n93ffkhif5mqysx=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/8yab8dy7c7g8urb7fxzwhb5b3=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/r5oypj4ykp8b5k3f66wga77jp=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/nwu5zm1jo38ftgqarepcq61cg=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/gegq43ug8fg3te4kq7szhb9gg=
+w.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/w8f8ttjue78sfy17xx7z71wui=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/gs5msehmt7ga3kwd4gdb3dwkm=
+h.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/tc4if5serjda8csy4tat89iyy=
+y.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/ih9qar3pijysjpu3nsqrttwxi=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/34xy44giqfnzzg99nsuo4t5w4=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/z8owfyaegtbutqqr94kbdqw8y=
+w.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/p17am4w31tg6triocsdfig65q=
+h.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/i67hg7xn4iga3xk4d7464384p=
+w.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/agrmp3dx1bbxmk1bddu9oa4d5=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/8e6n9xmcxidf5jcqgd4k9tpy6=
+e.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/6kkihwmkatdfunqs6jtcexw91=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/rp4yq7ruyfdazr64enen99uns=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/eu5qopdhxpd38nzdfp1jjyo6e=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/1gw6uyhsdffqdxu17fhdon737=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/meud3q5357bkmxortp9zxwew1=
+h.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2031.vkool.info/videos/p547h6upb3fmtpet7ddgfbmqy=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/4aeeh8rdef8m3dhurfcumn6uk=
+e.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/3wnrg81ms3y998bttr4uf49pw=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/icdo44e8jfycbdany7pc3ahf6=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/9c8fyt8wq3bjukq4sz4rtp8rg=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/rqueuyns1tyrpbkjcxtg1aa6i=
+o.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/e8778ywg4bgr7qo5yetg6w148=
+w.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/wuuozrjm3tfw3nkgwzyik5kwm=
+e.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/oqmzcca68tr8pdtnjtdqwd7d4=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/jhbjqpdd8tr88n3dbr9mf1eao=
+r.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/65fobis9ztdktxyt943ypf511=
+e.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/5mue5oamrjfgjefcjmkmsgfsq=
+a.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2030.vkool.info/videos/ck631rbx3priue6b9nn3kj4oa=
+c.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>https://lin-2023.vkool.info/videos/4cc8a88nhtddbpfzyodcqw9ks=
+y.mp4<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>This letter is official notification under Section 512(c) =
+of the Digital Millennium Copyright Act and I seek the removal of the =
+aforementioned infringing content from your servers. I request that you =
+immediately notify the infringer of this notice and inform them of their =
+duty to remove the infringing content immediately, and notify them to =
+cease any further posting of infringing content to your server in the =
+future.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>Please also be advised that the law requires you, as a =
+service provider, to remove or disable access to the infringing content =
+upon receiving this notice. Under U.S. law a service provider, such as =
+yourself, enjoys immunity from a copyright lawsuit provided that you act =
+with deliberate speed to investigate and rectify ongoing copyright =
+infringement. If service providers do not investigate and remove or =
+disable the infringing content this immunity is lost. Therefore, in =
+order for you to remain immune from a copyright infringement action you =
+will need to investigate and ultimately remove or otherwise disable the =
+infringing content from your servers with all due speed should the =
+direct infringer, your client, not comply =
+immediately.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>I am providing this notice in good faith and with the =
+reasonable belief that rights my client company owns are being =
+infringed. I believe the information in this notification to be accurate =
+and state under penalty of perjury that I am authorized to act on behalf =
+of the owner of exclusive rights.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>Should you wish to discuss this =
+with me please contact me directly.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>Thank you.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>1326 Cordova Street, Pasadena CA =
+91106 <o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>Seongmin An<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p></div></body></html>
+------=_NextPart_000_0094_01D91926.67E3E320--
+

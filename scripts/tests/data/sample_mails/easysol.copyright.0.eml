@@ -1,0 +1,642 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 1AC3DFA7-40E1-4762-8711-709DE4D246A1.1
+	envelope-from <abuse+bncBC2LLGV5UQNRBFXPYOPAMGQENTBIMMA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 25 Jan 2023 09:34:15 +0000
+Received: by mail-ed1-f69.google.com with SMTP id w3-20020a056402268300b00487e0d9b53fsf12628733edd.10
+        for <abuse@digitalocean.abusehq.net>; Wed, 25 Jan 2023 01:34:15 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1674639255; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Q/C/B1IaaJ866+gCkaOBy5EDPXfWJUiYQf5amq8AWIlENFM8+izLr1dHg8wBkf2uJw
+         X3ENGR1dUxfrJI98uTEncgMNYuq9Bpg2fb5Lrw3akYqbkVURRFz4YWJgHGye1Uz4K+kr
+         LhFlH/rlgcrMswILfgkfRHzbpd1Z3D/JNefKh857K9WegNHElQyRvA+l8ajmNjVMUzp/
+         QRRSb0oNpLWDJrsrMFBKVHi+04IAYl2TWlesYfp7BEKgXmqC9tNaufzFvU+vYNWnZzTe
+         Eb6vSlVQD2GObO50nxMNHUf8zYgZVLYA6V6q99JO6DC9Pi+Pa51D5rKFqZb1H6+fYtbz
+         vq+Q==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version:msip_labels
+         :content-language:accept-language:message-id:date:thread-index
+         :thread-topic:subject:to:from:dkim-signature;
+        bh=Q8F0KduB3/TvgqGPAHbtSE5Czkbs/bHBbiBw1k7Qf3Y=;
+        b=ytsneymSlXaXo5anquFP42gMnWDlXOU8V97kAjxSeaJrkj+GFvNm1ngSY39J6wcEQS
+         FwZfcEVIE88RRsUqGLBpWahRqPEeVIzNdtKChiH0y3h5mb4AqeZTa6Fe5UGIs/NJxaTm
+         qijqvhBK9v3MZzl4qboed85DtYJJlwvfpLOcfAqkOrwtQszDE+BNwhnqmWOy0LIAJtIv
+         Pog4tRYejWQSPgVNmQKMjVlcUl/c7vs45uO9PZiypnm3qx8EglaHRM6wZs3CtCJF70pk
+         gh5yYuyAJxBn+pNJH7W10pYZ0ouuxLPHKMDkt+aMef8vRxGfmT+wcZkNFQOGWOgW2MEX
+         CyeA==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@easysol.net header.s=selector1 header.b=sZDA1EQD;
+       arc=pass (i=1 spf=pass spfdomain=easysol.net dkim=pass dkdomain=easysol.net dmarc=pass fromdomain=easysol.net);
+       spf=fail (google.com: domain of report_ctac@easysol.net does not designate 52.101.46.6 as permitted sender) smtp.mailfrom=report_ctac@easysol.net;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=easysol.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:msip_labels:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q8F0KduB3/TvgqGPAHbtSE5Czkbs/bHBbiBw1k7Qf3Y=;
+        b=fy75sHwaFGBx6y/bEcgZdygS+MAVKS5JM9ylFLI9AmHkOuKaP8Dt7mh6tLf2Wnk+ts
+         5dWYqVrixwJSVz9xDdJT4L5mV3wUdSBTDoe75m8DdJqeYfCoybe/4TE24EZMYaFTcP4A
+         I8pVMI9WvUXtO+0qyAJGds0Ya9hIFKi7TsTbE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :msip_labels:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:to:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Q8F0KduB3/TvgqGPAHbtSE5Czkbs/bHBbiBw1k7Qf3Y=;
+        b=tXNQGmLgW2zhonhWysDxePRP+/cJYbb2t88ftsu/TFMz4umVIVp4ouh1rA65zoLgKS
+         lNNVCKsInVAyvsg8jQRbQcvTFSGIwqmIo1cl9dxtxza7mhfLz0WXmaSSsoOi+XGCQZB7
+         NYZZvA6BA5pXmwrecu/dpL1jj3nIRwoTpz75r4Cf2uzcpdmW5b95i45m1GcQP7+dTfJ+
+         oA5aNrA5dPZQDcn9uYOHnJQKxPg894PPiAnfJrm3w/5rOJRCEW2ak6n1AH6o3sYkoOoN
+         40RX5gtcMYjnoSFc9QwMNVIB7YKpE1k2A5NPpJo1+DN3V5S95J4E9nTSgBhvM0/aEOHu
+         Bl3w==
+X-Gm-Message-State: AFqh2korhNN456rsJPkCwW0d6G66Ck6C6We8JUSTa+7jWs/IcfV54sUO
+	i7nAFyvKqMnHm6EGVJqywJ1N+g==
+X-Google-Smtp-Source: AMrXdXs9LKNSOhvpw34UcMMyf9JYSJVnfR119/YAjhCXhD7AU3R6UNJpK3AtKloEgg7OuAiLgtNvCA==
+X-Received: by 2002:a17:906:25d2:b0:869:b067:6b4d with SMTP id n18-20020a17090625d200b00869b0676b4dmr4209740ejb.27.1674639254979;
+        Wed, 25 Jan 2023 01:34:14 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:906:2a89:b0:84d:4675:1cbe with SMTP id
+ l9-20020a1709062a8900b0084d46751cbels2031430eje.7.-pod-prod-gmail; Wed, 25
+ Jan 2023 01:34:13 -0800 (PST)
+X-Received: by 2002:a17:907:6e02:b0:84d:2eb0:57d6 with SMTP id sd2-20020a1709076e0200b0084d2eb057d6mr47207666ejc.52.1674639253470;
+        Wed, 25 Jan 2023 01:34:13 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674639253; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=HubtQTumhbylquDsxt3gAervnhgX14SCpHRwBe1o6fQn/HQulsTX6hrNRxplSuMbwf
+         tuuKJA5gigkwZRFrAH9w96vdxDUuLYg90zsrIH/5DjW1IVazqe08yVa27R78nVIBI+u/
+         x1wscK3ct2HgmW2SyGfGJ1THOHo9aU2z4gdKwNl5h7PLl/HPRMdfAVXtCez9u/u1OLXD
+         RBYzPkK5YpUKskmPxNCp0tp08Zxb3ohySu9at2y4eKEBKh14+KyctZoX9Tl0e4jrsShs
+         EeIUva2XlioBB/l9Le8UMB5Nf2jO9wnOQh0tgxfYIt3B7xsucPngcVgnSpwMqRB2YPdB
+         9Riw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:msip_labels:content-language:accept-language
+         :message-id:date:thread-index:thread-topic:subject:to:from
+         :dkim-signature;
+        bh=Q8F0KduB3/TvgqGPAHbtSE5Czkbs/bHBbiBw1k7Qf3Y=;
+        b=hk3AhffbVQkhQoZCfbsWsKKp/0AjuUHKVHtTcxSpjCz+lEJKkQNwQnJa1NwGKYcDe1
+         uG9PbcgFy/UddtlnEqhDYlZ5fUV9nyeHjLXSK/krcxOcxpaxHthEazLHbcS5gyBFvlzX
+         Xgkb7J8fSkMfm/qrdI8Yfht/DlSSmAN78mOJAdsyzka8NkhfFHD2ubtyc7u/jWhyYPcY
+         AZy+RvhjI/ITEaYionIDo/TPdGNixyVU9ujSUDCFBG52icOTgAWBe5vzOuVM48T2CNnN
+         r5IyA6BkCQ1dq4qVYcvYBCWilR3cIcBmUuLbNn9I17krKUPWWtil78U6/2cu7TBcfbEv
+         1G3g==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@easysol.net header.s=selector1 header.b=sZDA1EQD;
+       arc=pass (i=1 spf=pass spfdomain=easysol.net dkim=pass dkdomain=easysol.net dmarc=pass fromdomain=easysol.net);
+       spf=fail (google.com: domain of report_ctac@easysol.net does not designate 52.101.46.6 as permitted sender) smtp.mailfrom=report_ctac@easysol.net;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=easysol.net
+Received: from CO1PR02CU002-vft-obe.outbound.protection.outlook.com (mail-westus2azon11010006.outbound.protection.outlook.com. [52.101.46.6])
+        by mx.google.com with ESMTPS id ay6-20020a170907900600b0084d4e0424fbsi4702540ejc.340.2023.01.25.01.34.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 25 Jan 2023 01:34:13 -0800 (PST)
+Received-SPF: fail (google.com: domain of report_ctac@easysol.net does not designate 52.101.46.6 as permitted sender) client-ip=52.101.46.6;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HQzQKoYUQ9MMOMjeN+kSNTX0Saf/8ghLq03cZR05Z/8fIuo4rXW+jMN17bLC7kTehkjglYemuTA2XlXrevT38gq3sfn5YOMjX6JH70nIe9KRfoIt1fV7jTPzCkQMafqY0oIFOW522x3g/UMNwgkK9f9P9D4MNxaJJuyvXMyHSIESGbiqu4ZDH7Tasp/p9PBnXA0OzxQkPNWpEBE6Y8NE8Jxv/pxlLpgIJIxBsTU7FSUEc9sZ2drTrSXKjYYUO9YqkWZvYRJQFLCaZND6huE2pFNFtK7quM1ECIw2eFlT3X0M98Yle5ck9WPgisQ+OJ/UyCbBV6+hvRT4IL5MBWY/4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q8F0KduB3/TvgqGPAHbtSE5Czkbs/bHBbiBw1k7Qf3Y=;
+ b=hXFWBrorJG1hfDbnWMF5SUFI4WKfTSkTH1JAvaYCCKsKiw2IpI0pJyTPrTqcNJU0+7PNeBPyse7KwLfqfWAbrGHcU58B3uWQ0cIT15Vwx76aUWLmJHC354gs+7OsBNMz551cA1T5QaV9wkzHT/y1b9oGw8a7eN4scfTKu/xpFWkrl4yZAODCy71v/fAXt4DvVtk0RxBHrw63LW1m5Ljg5vYiRTO8KSHVkyqmU5zDPXWz58BPkUGNmjz9aq+KLrovxvvGbqViAvIB5oEoUBN9Ty3dcQgo0sfJS/KnStqgOe5SSdwSHJ/P2qfsbsQJ1Ni8OQRJFgnq0gNi8tNi+Z6WGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=easysol.net; dmarc=pass action=none header.from=easysol.net;
+ dkim=pass header.d=easysol.net; arc=none
+Received: from BY3PR05MB8370.namprd05.prod.outlook.com (2603:10b6:a03:3c1::5)
+ by MN2PR05MB6511.namprd05.prod.outlook.com (2603:10b6:208:da::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.21; Wed, 25 Jan
+ 2023 09:34:06 +0000
+Received: from BY3PR05MB8370.namprd05.prod.outlook.com
+ ([fe80::bd10:8729:e1:c45]) by BY3PR05MB8370.namprd05.prod.outlook.com
+ ([fe80::bd10:8729:e1:c45%8]) with mapi id 15.20.6043.021; Wed, 25 Jan 2023
+ 09:34:05 +0000
+From: "'TFP CTAC Reports' via abuse" <abuse@digitalocean.com>
+To: DigitalOcean Abuse <abuse@digitalocean.com>, "dmca@digitalocean.com"
+	<dmca@digitalocean.com>
+Subject: Copyright Infringement
+Thread-Topic: Copyright Infringement
+Thread-Index: AQHZMJ+fQ66R/+bd90ixpCsj3Ed4mQ==
+Date: Wed, 25 Jan 2023 09:34:05 +0000
+Message-ID: <BY3PR05MB8370190E5B28CBBAF1014D4BE9CE9@BY3PR05MB8370.namprd05.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY3PR05MB8370:EE_|MN2PR05MB6511:EE_
+x-ms-office365-filtering-correlation-id: 97c30beb-4eeb-4e8a-ff94-08dafeb74d77
+x-appgate-rule-whitelistdomains: triggered
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: w89hrjb6HokUAN4Cz4VlTPbSr7Y3FO3+I6whMeWUOrmgDapOvZf+VPorYNsEaafQEn5cMlMnsKcpjxCs3GOBSQtQ/T6OFptFYWwT6QZL9S8S6BjDs3yei6sAwrXypLyUARP3IIhymQprGTLguTm3KzoQagfZsXQEaAGcr5C93HrSdGdXTTB75agzrFCMDCXkOA4Shsj6OVEUpuUEAQ92KYguzHhlZEG3EZgp+reyhLp8HE1O6N0pRBm1k2vg9UimELSYlKNmKYUqVdZFFJ5iLj0fjvduHdbM8bpQQjNBTX1ukiK9BhLiQ65/R8fedsIbNUn7tI3/qOQ5BhLk7uACn91GCDLAeJNX4IJfHpsEmBUntrjH2uIQqBQVhorFGAQEUlGghbDvdN7iadUI9vDkW+eqza6fu6w4CDHGl4pyEOdrC13LUZN5g7SX5lhOuXZP8wvVrP23D4POqSg/wiYQ/yHHDJhx8/1W/lDUMfa2Ny0AOG0jFCB/HgMxnw6YufUTpblLuqK9IF4RY028m9tXcxIu4R3DdcXG9VaSteH4COqIwbUgbwTDKghnFTkNqxm+HH3BkA6en7PF1T+XYP4GmNaXb14ktRwOpVYb5oC3jT2URg1JROmVEWpDEv3BjhbOlQ27urEwGthO+8GZYnByZv5wlpKgQLoE3JI8Lp/3UpLRYvY/gJIa6LyqmAjREttuZcs5FkbemabZ54vew+szczjq71L+Fing+KGAXom90tEkt5FutMZqxnfDvDEg2pGZPZXCZ71il439EzeSI4DpgqEMOr/piExWPSd+xkAt8ndbVdA8jykCXeh8C70I05VvSrNDy5jVczpLV9jYEOQ+bA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR05MB8370.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(136003)(376002)(396003)(346002)(39850400004)(451199018)(1690799011)(33656002)(15974865002)(71200400001)(8676002)(316002)(7696005)(110136005)(6506007)(478600001)(966005)(5660300002)(2906002)(66446008)(7116003)(450100002)(91956017)(76116006)(66946007)(66476007)(66556008)(64756008)(52536014)(41300700001)(8936002)(38070700005)(55016003)(122000001)(38100700002)(86362001)(83380400001)(26005)(186003)(9686003)(166002)(19627405001)(131040200001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?VBqnf8OPEyG7ogZn+nbrbWhatCBHTNLMYiHRKA+qoecegfnDCRj0EKNme2?=
+ =?iso-8859-1?Q?XsHM2oGH4a4qbTvw1FXLtaiKmHhBKrmssdyYbvQ+Spnhdo8Yi37RGopQwY?=
+ =?iso-8859-1?Q?CK0ZnfNQAvm7YiLQFYSkW5+wwnKxS2Fk/IhEh6WgUb3TdyGFcCfg+RMSEa?=
+ =?iso-8859-1?Q?X+SozdzWDOZ9lWDH1GiIuv6poMeie7lr1stFl7i3cwqFN2p8hzECxlSUvx?=
+ =?iso-8859-1?Q?olLuIqJGk2OGDPSrlTZA475f2dQYz4N1W1gN6R5L/bzmCx4/0sbnwyD5zh?=
+ =?iso-8859-1?Q?QyYUFPhnvEj9p7L/rw+R0PzD4Nm/KjD8v5NIhxXdu4O8sZvfvoBNWoKJ39?=
+ =?iso-8859-1?Q?5YKjEvqXYcWAYJ9CnC8Ns05wvjT6TJ9DEWuYSnaK9/FwMVYX5lN/NaPZzH?=
+ =?iso-8859-1?Q?18ZVuC7MiupF+MCDruIFgOLjba7T45kM/F1kFDDOskq3dzcYNcGkGY1Mse?=
+ =?iso-8859-1?Q?0UWD/G0pqynGE8/Yckre2UUDTu606EMgGVqudhCn7JM2VHRPesXz6fb0tD?=
+ =?iso-8859-1?Q?H3iBYBVEVTkOhZx3Uza5pulNv7/gvqOaihTBrhRl9OYODKsytTBER5ENiE?=
+ =?iso-8859-1?Q?ftRVuXW2GNxHfd9VTAcaWBO+l826qGGQZtZzkKJhLzdSCP6nq+TSDqCQyT?=
+ =?iso-8859-1?Q?/tyBhVif2S787rWk/yFxZdH3UAzmqfNO+nPFJ9vInzFYc+f5pec7d0+HIZ?=
+ =?iso-8859-1?Q?kcFP8Eck+ofbdmQi15lrjMVlIjblxzVhFdvrIanarqsIK3kAUW/S6g+x6R?=
+ =?iso-8859-1?Q?2pAX9CclybA/wDkg9T5kWWyYDscjope7DQ4N63EJg0qXDkw1rmE6EB+jHL?=
+ =?iso-8859-1?Q?XWWvc3zAQNYlsfhSu+jHVQiZKS1D97KGn1MlaRLu4ep+l9yrecP5sn1oeN?=
+ =?iso-8859-1?Q?UYnUUso2ei9AbAGItce3QSiFGTvM/JJszMv9s+pfWfUI5zH7i7hm96daFr?=
+ =?iso-8859-1?Q?OptHv6fioKGIs17DGA+Y6MH1bfGcO8+9zvIqhX0DSEPfW6+gozRkxGkRLF?=
+ =?iso-8859-1?Q?ioF23YYrG+/yYWQEriHQSjCrYL0OIlq1LEZV0m5Yd4rXneTB1KGN8YJYyt?=
+ =?iso-8859-1?Q?YsvVUNDu2oEUk+rBvl9GSzfpXPL5i0bo8khQwfWnU8Gdtgj323bwLWSgYQ?=
+ =?iso-8859-1?Q?Kn20e0aNm3+7/XPhOdQHGD4TuMj//eVaXv6r+O2gvCK4tKz+n3UuiMmmA9?=
+ =?iso-8859-1?Q?qhSQEsaxCN2hzFPhGJ+ky360ln1G/KbylM5lsGZ2VGQjS9Y4mVl/rkJjjh?=
+ =?iso-8859-1?Q?rx0ngWfZd5J455NrenJRvYF4RQUY4pJ1+PMbfqNIIYCF64DLprSuj3ZA48?=
+ =?iso-8859-1?Q?kzkm3/9iEkG1rdKXQrfc6P1CIF5vzEy19eQj7+59pG/35IBuu3PskZRwmU?=
+ =?iso-8859-1?Q?T9fCKB02WOYkhRmv0n/dot+uctn2RCD6wh15/JbALAnzSoA4vl7y72Rol0?=
+ =?iso-8859-1?Q?1IciwBl5qyZKPiqolZhxbb0WVBj4kHBHXfek5dhwA6D4eCb6jnymvbtzK3?=
+ =?iso-8859-1?Q?fPAJd5YfiezntWiV6t4t1fmdFkn7D4WynNnUkAoKCQRka+jUcG1t5q07z2?=
+ =?iso-8859-1?Q?rfq1NaF9qtG2cFHmA3vp3YaZ8XIV?=
+Content-Type: multipart/alternative;
+	boundary="_000_BY3PR05MB8370190E5B28CBBAF1014D4BE9CE9BY3PR05MB8370namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: easysol.net
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR05MB8370.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97c30beb-4eeb-4e8a-ff94-08dafeb74d77
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2023 09:34:05.7901
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b93e809a-49c5-4a0f-a606-82b846acc30d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KSqlVWr98pM9libm5nEoCxBVFqdDgykvVXuHRFRmyMlGeKgIttRMUENeJupnLnmA1St3I8p4ScYaVlve6gTLUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6511
+X-Original-Sender: report_ctac@easysol.net
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@easysol.net header.s=selector1 header.b=sZDA1EQD;       arc=pass
+ (i=1 spf=pass spfdomain=easysol.net dkim=pass dkdomain=easysol.net dmarc=pass
+ fromdomain=easysol.net);       spf=fail (google.com: domain of
+ report_ctac@easysol.net does not designate 52.101.46.6 as permitted sender)
+ smtp.mailfrom=report_ctac@easysol.net;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=easysol.net
+X-Original-From: TFP CTAC Reports <report_ctac@easysol.net>
+Reply-To: TFP CTAC Reports <report_ctac@easysol.net>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_BY3PR05MB8370190E5B28CBBAF1014D4BE9CE9BY3PR05MB8370namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Greetings,
+
+This is an official message from AppGate, on behalf of our client Activisio=
+n Publishing, Inc.
+
+We have identified that a website hosted on your platform is performing act=
+s of infringement under the Digital Millennium Copyright Act (DMCA). This l=
+etter is a Notice of Infringement as authorized by 512(c) of the United Sta=
+tes Copyright Act. I wish to report a case of what I believe in good faith =
+to be copyright infringement of material owned by our client Activision Pub=
+lishing, Inc (the Copyright Owner).
+
+Below you will find the information necessary to make this DMCA takedown no=
+tification.
+
+An electronic signature of the Copyright Owner, or a person authorized to a=
+ct on behalf of the owner of an exclusive copyright that is allegedly infri=
+nged.
+
+Detection Monitoring Service | AppGate
+USA: +1 866 5244782
+Latin America: +57 1- 7425570
+tfp.report.ctac@appgate.com | www.appgate.com
+
+
+Legitimate game site: Activision | Games
+
+Legitimate service site: https://s.activision.com/
+
+Activision Terms of Use: https://www.activision.com/legal/terms-of-use
+
+Infringing material can be found at the following URLs:
+
+http://skycoach.gg/wow-boost/
+https://brownmagician.com/
+
+
+IP Address: 178.62.85.8
+
+The site uses the services of Cloudflare. To obtain an IP address you must =
+contact Cloudflare directly abusereply@cloudflare.com, as they will only pr=
+ovide it to the responsible hosting provider.
+
+sincerely:
+
+
+[https://d3aafpijpsak2t.cloudfront.net/images/Signature/logo@2x.png]<https:=
+//www.appgate.com/>  Digital Threat Protection Appgate       [https://d3aaf=
+pijpsak2t.cloudfront.net/images/Signature/rings@2x.png] <https://www.appgat=
+e.com/>
+<https://www.linkedin.com/company/appgate-security/>
+[https://d3aafpijpsak2t.cloudfront.net/images/Signature/likedin@2x.png] [ht=
+tps://d3aafpijpsak2t.cloudfront.net/images/Signature/twitter@2x.png]       =
+  [https://d3aafpijpsak2t.cloudfront.net/images/Signature/youtube@2x.png]
+<https://twitter.com/AppgateSecurity><https://www.youtube.com/channel/UC-8G=
+vxcZbm-R3EJNl8jYjiQ>
+E: dms@easysol.net
+O: +57 (1) 7425570
+
+
+--_000_BY3PR05MB8370190E5B28CBBAF1014D4BE9CE9BY3PR05MB8370namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+</div>
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Greetings,</span><br style=3D"color:rgb(36, 36, 36);fon=
+t-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &q=
+uot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvet=
+ica Neue&quot;, sans-serif;font-size:15px;background-color:rgb(255, 255, 25=
+5)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">This
+ is an official message from AppGate, on behalf of our client Activision Pu=
+blishing, Inc.</span><br style=3D"color:rgb(36, 36, 36);font-family:&quot;S=
+egoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quo=
+t;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, =
+sans-serif;font-size:15px;background-color:rgb(255, 255, 255)" class=3D"Con=
+tentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">We
+ have identified that a website hosted on your platform is performing acts =
+of infringement under the Digital Millennium Copyright Act (DMCA). This let=
+ter is a Notice of Infringement as authorized by 512(c) of the United State=
+s Copyright Act. I wish to report
+ a case of what I believe in good faith to be copyright infringement of mat=
+erial owned by our client Activision Publishing, Inc (the Copyright Owner).=
+</span><br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;,=
+ &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-sys=
+tem, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;fon=
+t-size:15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Below
+ you will find the information necessary to make this DMCA takedown notific=
+ation.</span><br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&=
+quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -app=
+le-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-ser=
+if;font-size:15px;background-color:rgb(255, 255, 255)" class=3D"ContentPast=
+ed0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">An
+ electronic signature of the Copyright Owner, or a person authorized to act=
+ on behalf of the owner of an exclusive copyright that is allegedly infring=
+ed.</span><br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quo=
+t;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-=
+system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;=
+font-size:15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0=
+">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Detection
+ Monitoring Service | AppGate</span><br style=3D"color:rgb(36, 36, 36);font=
+-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &qu=
+ot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helveti=
+ca Neue&quot;, sans-serif;font-size:15px;background-color:rgb(255, 255, 255=
+)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">USA:
+ +1 866 5244782</span><br style=3D"color:rgb(36, 36, 36);font-family:&quot;=
+Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&qu=
+ot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;,=
+ sans-serif;font-size:15px;background-color:rgb(255, 255, 255)" class=3D"Co=
+ntentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Latin
+ America: +57 1- 7425570</span><br style=3D"color:rgb(36, 36, 36);font-fami=
+ly:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Se=
+goe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Ne=
+ue&quot;, sans-serif;font-size:15px;background-color:rgb(255, 255, 255)" cl=
+ass=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">tfp.report.ctac@appgate.com
+ | www.appgate.com</span><br style=3D"color:rgb(36, 36, 36);font-family:&qu=
+ot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI=
+&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quo=
+t;, sans-serif;font-size:15px;background-color:rgb(255, 255, 255)" class=3D=
+"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Legitimate
+ game site: Activision | Games</span><br style=3D"color:rgb(36, 36, 36);fon=
+t-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &q=
+uot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvet=
+ica Neue&quot;, sans-serif;font-size:15px;background-color:rgb(255, 255, 25=
+5)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Legitimate
+ service site: https://s.activision.com/</span><br style=3D"color:rgb(36, 3=
+6, 36);font-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)=
+&quot;, &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &q=
+uot;Helvetica Neue&quot;, sans-serif;font-size:15px;background-color:rgb(25=
+5, 255, 255)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Activision
+ Terms of Use: https://www.activision.com/legal/terms-of-use</span><br styl=
+e=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;Segoe UI=
+ Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, BlinkMacSy=
+stemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:15px;bac=
+kground-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">Infringing
+ material can be found at the following URLs:</span><br style=3D"color:rgb(=
+36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West Euro=
+pean)&quot;, &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Robot=
+o, &quot;Helvetica Neue&quot;, sans-serif;font-size:15px;background-color:r=
+gb(255, 255, 255)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0 ContentPasted2"><a href=3D"http://skycoach.gg/wow-boost/=
+" id=3D"LPlnk843982">http://skycoach.gg/wow-boost/</a></span>
+<div class=3D"ContentPasted4"><span style=3D"color:rgb(36, 36, 36);font-fam=
+ily:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;S=
+egoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica N=
+eue&quot;, sans-serif;font-size:15px;background-color:rgb(255, 255, 255);di=
+splay:inline !important" class=3D"ContentPasted0 ContentPasted2"></span>htt=
+ps://brownmagician.com/<br class=3D"ContentPasted4">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0 ContentPasted3">IP
+ Address: 178.62.85.8</span><br style=3D"color:rgb(36, 36, 36);font-family:=
+&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe=
+ UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&=
+quot;, sans-serif;font-size:15px;background-color:rgb(255, 255, 255)" class=
+=3D"ContentPasted0">
+<br style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quot;=
+Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, Bl=
+inkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-size:=
+15px;background-color:rgb(255, 255, 255)" class=3D"ContentPasted0">
+<span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;, &quo=
+t;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-system, =
+BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;font-siz=
+e:15px;background-color:rgb(255, 255, 255);display:inline !important" class=
+=3D"ContentPasted0">The
+ site uses the services of Cloudflare. To obtain an IP address you must con=
+tact Cloudflare directly abusereply@cloudflare.com, as they will only provi=
+de it to the responsible hosting provider.</span><br style=3D"color:rgb(36,=
+ 36, 36);font-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West Europea=
+n)&quot;, &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, =
+&quot;Helvetica Neue&quot;, sans-serif;font-size:15px;background-color:rgb(=
+255, 255, 255)" class=3D"ContentPasted0">
+<div class=3D"elementToProof">
+<div id=3D"Signature">
+<div>
+<div class=3D"WordSection1" style=3D"page: WordSection1;">
+<p class=3D"MsoNormal" style=3D"margin: 0in; font-size: 11pt; font-family: =
+Calibri, sans-serif;">
+<o:p></o:p></p>
+</div>
+</div>
+</div>
+</div>
+<div><span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;,=
+ &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-sys=
+tem, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;fon=
+t-size:15px;background-color:rgb(255, 255, 255);display:inline !important" =
+class=3D"ContentPasted0"><br>
+</span></div>
+<div><span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;,=
+ &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-sys=
+tem, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;fon=
+t-size:15px;background-color:rgb(255, 255, 255);display:inline !important" =
+class=3D"ContentPasted0">sincerely:</span></div>
+<div><span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;,=
+ &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-sys=
+tem, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;fon=
+t-size:15px;background-color:rgb(255, 255, 255);display:inline !important" =
+class=3D"ContentPasted0"><br>
+</span></div>
+<div><span style=3D"color:rgb(36, 36, 36);font-family:&quot;Segoe UI&quot;,=
+ &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&quot;, -apple-sys=
+tem, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif;fon=
+t-size:15px;background-color:rgb(255, 255, 255);display:inline !important" =
+class=3D"ContentPasted0">
+<div style=3D"font-size:16px;font-family:Calibri, Helvetica, sans-serif, Em=
+ojiFont, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoCol=
+orEmoji, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbo=
+ls;margin:0px;background-color:rgb(255, 255, 255)">
+<br class=3D"ContentPasted1">
+</div>
+<div style=3D"font-size:16px;font-family:Calibri, Helvetica, sans-serif, Em=
+ojiFont, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoCol=
+orEmoji, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbo=
+ls;margin:0px;color:rgb(0, 0, 0);background-color:rgb(255, 255, 255)">
+<div style=3D"margin:0px">
+<table style=3D"font-size:medium;font-family:&quot;Times New Roman&quot;">
+<tbody>
+<tr style=3D"background-color:rgb(255, 255, 255)">
+<td width=3D"13" align=3D"left" class=3D"ContentPasted1"></td>
+<td width=3D"193" align=3D"left"><a href=3D"https://www.appgate.com/" targe=
+t=3D"_blank" rel=3D"noopener noreferrer" data-auth=3D"NotApplicable" data-s=
+afelink=3D"true" data-linkindex=3D"11" style=3D"margin:0px" class=3D"Conten=
+tPasted1"><img alt=3D"" width=3D"120" height=3D"30" style=3D"margin:0px" sr=
+c=3D"https://d3aafpijpsak2t.cloudfront.net/images/Signature/logo@2x.png"></=
+a></td>
+<td width=3D"187"><span style=3D"font-size:10pt;font-family:Arial, Helvetic=
+a, sans-serif;margin:0px;color:rgb(12, 12, 12)"><b class=3D"ContentPasted1"=
+></b></span><span style=3D"font-size:10pt;margin:0px"><strong style=3D"colo=
+r:rgb(51, 51, 51);font-family:Arial, sans-serif;font-variant-ligatures:none=
+;background-color:rgb(255, 255, 255)" class=3D"ContentPasted1">Digital
+ Threat Protection</strong></span><span style=3D"font-size:13px;font-family=
+:Arial, Helvetica, sans-serif;margin:0px;color:rgb(12, 12, 12)"><span class=
+=3D"ContentPasted1">&nbsp;</span></span><span style=3D"font-size:10pt;font-=
+family:Arial, Helvetica, sans-serif;margin:0px;color:rgb(12, 12, 12)"><stro=
+ng class=3D"ContentPasted1">Appgate</strong></span></td>
+<td width=3D"109" rowspan=3D"5" align=3D"right"><a href=3D"https://www.appg=
+ate.com/" target=3D"_blank" rel=3D"noopener noreferrer" data-auth=3D"NotApp=
+licable" data-safelink=3D"true" data-linkindex=3D"12" style=3D"margin:0px" =
+class=3D"ContentPasted1"><img alt=3D"" width=3D"109" height=3D"100" style=
+=3D"margin:0px" src=3D"https://d3aafpijpsak2t.cloudfront.net/images/Signatu=
+re/rings@2x.png"></a></td>
+</tr>
+<tr style=3D"background-color:rgb(255, 255, 255)">
+<td colspan=3D"2" rowspan=3D"4" align=3D"right"><a href=3D"https://www.link=
+edin.com/company/appgate-security/" target=3D"_blank" rel=3D"noopener noref=
+errer" data-auth=3D"NotApplicable" data-safelink=3D"true" data-linkindex=3D=
+"13" style=3D"margin:0px">
+<table width=3D"100%" align=3D"left">
+<tbody>
+<tr>
+<td width=3D"28%" align=3D"center"><img width=3D"18" height=3D"18" alt=3D""=
+ style=3D"margin:0px" class=3D"ContentPasted1" src=3D"https://d3aafpijpsak2=
+t.cloudfront.net/images/Signature/likedin@2x.png"></td>
+<td width=3D"21%"><img width=3D"20" height=3D"18" alt=3D"" style=3D"margin:=
+0px" class=3D"ContentPasted1" src=3D"https://d3aafpijpsak2t.cloudfront.net/=
+images/Signature/twitter@2x.png"></td>
+<td width=3D"51%"><img width=3D"26" height=3D"18" alt=3D"" style=3D"margin:=
+0px" class=3D"ContentPasted1" src=3D"https://d3aafpijpsak2t.cloudfront.net/=
+images/Signature/youtube@2x.png"></td>
+</tr>
+</tbody>
+</table>
+</a><a href=3D"https://twitter.com/AppgateSecurity" target=3D"_blank" rel=
+=3D"noopener noreferrer" data-auth=3D"NotApplicable" data-safelink=3D"true"=
+ data-linkindex=3D"14" style=3D"margin:0px" class=3D"ContentPasted1"></a><a=
+ href=3D"https://www.youtube.com/channel/UC-8GvxcZbm-R3EJNl8jYjiQ" target=
+=3D"_blank" rel=3D"noopener noreferrer" data-auth=3D"NotApplicable" data-sa=
+felink=3D"true" data-linkindex=3D"15" style=3D"margin:0px" class=3D"Content=
+Pasted1"></a></td>
+<td align=3D"left"><span style=3D"font-size:10pt;margin:0px" class=3D"Conte=
+ntPasted1">&nbsp;</span></td>
+</tr>
+<tr style=3D"background-color:rgb(255, 255, 255)">
+<td align=3D"left"><span style=3D"font-size:10pt;font-family:Arial, Helveti=
+ca, sans-serif;margin:0px;color:rgb(12, 12, 12)" class=3D"ContentPasted1">E=
+:</span><span style=3D"font-size:13px;font-family:Arial, Helvetica, sans-se=
+rif;margin:0px;color:rgb(12, 12, 12)"><span style=3D"font-size:10pt;margin:=
+0px" class=3D"ContentPasted1">&nbsp;</span><a target=3D"_blank" rel=3D"noop=
+ener noreferrer" data-auth=3D"NotApplicable" data-safelink=3D"true" data-li=
+nkindex=3D"16" style=3D"margin:0px;color:rgb(34, 142, 190)" class=3D"Conten=
+tPasted1"><span style=3D"font-size:10pt;margin:0px">dms@easysol.net</span><=
+/a></span></td>
+</tr>
+<tr style=3D"background-color:rgb(255, 255, 255)">
+<td align=3D"left"><span style=3D"font-size:10pt;font-family:Arial, Helveti=
+ca, sans-serif;margin:0px;color:rgb(12, 12, 12)" class=3D"ContentPasted1">O=
+: +57 (1) 7425570</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br>
+</span></div>
+</div>
+</body>
+</html>
+
+--_000_BY3PR05MB8370190E5B28CBBAF1014D4BE9CE9BY3PR05MB8370namp_--

@@ -1,0 +1,148 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id BC10DDB2-5202-446D-88CA-21AAB4884159.1
+	envelope-from <abuse+bncBAABB67MS2WQMGQEOYL4AWA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 15 Jan 2024 22:49:33 +0000
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-1d4d947ff1bsf76418515ad.1
+        for <abuse@digitalocean.abusehq.net>; Mon, 15 Jan 2024 14:49:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705358972; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ckxCvIZu4I51FGjoaaakBFa6TgO+O9LxYrhaikvvrQlP3UatHaqA441DUFDDJvUpZ1
+         S5wdK7VkbtsHbOOOx4k+2DLkHLetmW8oL3g3wcQS/3C31bcZU8z5iiPbqDmTFR6z+c9f
+         uAx1q9JeK1fFSmNs5FaCo30HqZXrFAxaDdpJ5NMgNFgKA/YCph7QgTVzAtUf4gs7LPqZ
+         xL0fkxbtxhKSInlWZQXlJCd5X2adyQMQfBpNxcvYW4PTWDMVq2IYC+WV0wPf6WHfpm+Y
+         4/dx4j+YC+kzVCpiDP11ZR5EfaYTvg3EfZswAXP2K0CQZUQ/uQVMcTk+IBM767arYBV8
+         fh8w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:feedback-id:date:message-id
+         :content-transfer-encoding:mime-version:subject:cc:to:from
+         :dkim-signature;
+        bh=xdAIJ9n3syJg0FVSWR3KePiDTCUdeZ+CMTeYzp/hN3o=;
+        fh=D52W5tYdKHUJbE1dP+rTe1HXBIsc/uhLEmPq2wlU9B0=;
+        b=p4hnsYg379rKD4X1xTYR63Unmmm7VXt8JIsnsu3LuSiBJDQi3VpE4VdaTC4ioTpP5h
+         sEuaNBtSwpr/itocNsl/MvEAwTZKIYFdkmmKXKldA8G+EYeoOTEUGzT1eZPIQmcnZ1PC
+         MZdRRJe4Z4TIw4TRS8AZo74iAR+ZfRoV/Q52MhqUVVe8cnqvmIr2VJb0yK1JalWMYzl+
+         D0FUB55VjgTvbcrUE3wqhULAlD7C4nvYyrSArh6AZNp4EVUj4/Ut/H4jx7WhqVM+YKbQ
+         Ay8by70WVGTUn00ZrjS5z4JAVuJNElKifjwJGbDW5v/S+bcmWcNtYJCWN6fu9tF9s6ab
+         frsA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@interconnect.amazon header.s=em3ejwrvxq3oblawzbcze3773iu42ra6 header.b="DaRMY/NU";
+       dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fMFIz4ec;
+       spf=pass (google.com: domain of 0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon designates 54.240.27.43 as permitted sender) smtp.mailfrom=0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=interconnect.amazon
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1705358972; x=1705963772; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:date:message-id
+         :content-transfer-encoding:mime-version:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xdAIJ9n3syJg0FVSWR3KePiDTCUdeZ+CMTeYzp/hN3o=;
+        b=AWT7baHHfEluIEvdp5QAD1/NhYoR1MHbBIYaaftcRkmpf01ivL+W/Wv0sWq7eETHL3
+         5Z2gTLSZZX5mxC9xLHra8YoFzE//Zg93o4otuWFmi8VwkhpxP9ApCJIykRchaKZ8vWcL
+         ZxpSZ9bV72wjLcWH4k3le20Z55YsGWfHSzk70=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705358972; x=1705963772;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :date:message-id:content-transfer-encoding:mime-version:subject:cc
+         :to:from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xdAIJ9n3syJg0FVSWR3KePiDTCUdeZ+CMTeYzp/hN3o=;
+        b=HY2neC5L1ermPZgTQMSZ4BwlbBNgLN4V+9zAlWy5zqqQiafu8fekLKNuA+fx/X25/M
+         6XkUupSNNX1jrI7OG+y/Pl/3ip+wj8YopvBBTIUvO1b7vDAOEpbvZ2s009cWD337Y+0r
+         bxSHZGcjeCLVNKywTfDaf6s+Q9Ldf8E60yQmCvng14WWbwyEjA1sbnXZbD6c5VivBOpV
+         I7c0qp6BjZmgRKzot/sQeH5L36S+5eM5eScWFj1e+FltjGy2H4ueQdTzLfDNZaqS30QR
+         6YaUUU16noOVrCRhoNUDdn1YZFiHWPXVCGVPJJgWdATYIDF8t9icY84rw4e/Y8Fm1hPL
+         u1QQ==
+X-Gm-Message-State: AOJu0YwTgIb0iNEhB0FzpluDTbEYhHbgRkmn5Clyge0OMIfx7n3akA+L
+	ZM0ewvQvFZSwhbw/Nnd8EujnHGvFsfWNKA==
+X-Google-Smtp-Source: AGHT+IEoLJgz03NkIMQepjQ+N/o08Fih7l2Ot3cTHecBiWNtZW6kyoCvJ8DqyHXFNF7Vi4si1UtSYg==
+X-Received: by 2002:a17:902:ebcd:b0:1d4:259:1f2a with SMTP id p13-20020a170902ebcd00b001d402591f2amr8715217plg.31.1705358971960;
+        Mon, 15 Jan 2024 14:49:31 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:930c:b0:1d4:c02e:7783 with SMTP id
+ bc12-20020a170902930c00b001d4c02e7783ls1620104plb.2.-pod-prod-00-us; Mon, 15
+ Jan 2024 14:49:31 -0800 (PST)
+X-Received: by 2002:a17:903:4042:b0:1d4:1999:d9c0 with SMTP id n2-20020a170903404200b001d41999d9c0mr5934343pla.37.1705358971016;
+        Mon, 15 Jan 2024 14:49:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705358971; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Zc8M8tAZIAa+ONPSNUEoAHOtRKd1jvF0iCdewjDcXX+Fyc6R7ebPqfncTNtGGEWd3F
+         eVcZviqQP+s0H84IiUnbpKLhY3vb8PhpmOAYBuuVzB+hImD8RYWNOSVb+5ak2ZyT6TWK
+         O5xi7WVmna95q3i6gPXZqKEgnHrnMfzNSSOblUjMWmZm4SkVQYMyBGPURoPBLM36fHwZ
+         M7YXofiEE/i7Th+Dt78kIYUMM8/B+90JXnE1dG/b/sFtFzGgWEyb5DnTVJ4J3VLjQ9vy
+         cZndKCR/xbn5+e2XXbzutj1nMvn/2UVOCHp33wVrZpGs71riDNGl7itvckasUMCAcO/d
+         Ae0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:date:message-id:content-transfer-encoding:mime-version
+         :subject:cc:to:from:dkim-signature:dkim-signature;
+        bh=xdAIJ9n3syJg0FVSWR3KePiDTCUdeZ+CMTeYzp/hN3o=;
+        fh=D52W5tYdKHUJbE1dP+rTe1HXBIsc/uhLEmPq2wlU9B0=;
+        b=t22XN2M92dlhtiUY2aW/j4mJNEXjuEa3k/H+2j2avk8rWDGPpWJxFtHaxPBvf2hzwd
+         GBdXU6tAlAVwqRdmZQkDs+E3DxESTdDRQ0q/tTQFSQLorHAnspRXijiwx26B6bViqJKh
+         05Ycf3G/Pled8lhzvowlVxc22fGqJLeKbWGOKPQZDAVN8f4QCr9tzSClPOvRKlA/uEss
+         x+IN+66mDxj6vNsArkO5Rl9topHi2D5wlS8cJfZ+Wpoe2eGFwW97dgBJVp6RPeqqnZbi
+         XHWtm3P4hrc2fwJLUYlXZGZ90Xcz5s/sZ4/kQ1FPYmXMOQWmWAUv9SHvDpo4o7Q+lAVY
+         xiPw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@interconnect.amazon header.s=em3ejwrvxq3oblawzbcze3773iu42ra6 header.b="DaRMY/NU";
+       dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fMFIz4ec;
+       spf=pass (google.com: domain of 0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon designates 54.240.27.43 as permitted sender) smtp.mailfrom=0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=interconnect.amazon
+Received: from a27-43.smtp-out.us-west-2.amazonses.com (a27-43.smtp-out.us-west-2.amazonses.com. [54.240.27.43])
+        by mx.google.com with ESMTPS id b127-20020a633485000000b005c66e4949a8si9884465pga.246.2024.01.15.14.49.30
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Jan 2024 14:49:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of 0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon designates 54.240.27.43 as permitted sender) client-ip=54.240.27.43;
+From: "'AWS Shield' via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Cc: aws-shield-external@amazon.com
+Subject: Abuse Notice - Botnet C2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Message-ID: <0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jan 2024 22:49:30 +0000
+Feedback-ID: 1.us-west-2.Ky7dLjRAyuV9Dt7zbWsSjFkgU9N/7spSY26rm/ksTFA=:AmazonSES
+X-SES-Outgoing: 2024.01.15-54.240.27.43
+X-Original-Sender: aws-shield-noreply@interconnect.amazon
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@interconnect.amazon header.s=em3ejwrvxq3oblawzbcze3773iu42ra6
+ header.b="DaRMY/NU";       dkim=pass header.i=@amazonses.com
+ header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fMFIz4ec;       spf=pass
+ (google.com: domain of 0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon
+ designates 54.240.27.43 as permitted sender) smtp.mailfrom=0101018d0f50cdc2-62757ced-7969-43e6-9153-5652c6c31896-000000@bounces.interconnect.amazon;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=interconnect.amazon
+X-Original-From: AWS Shield <aws-shield-noreply@interconnect.amazon>
+Reply-To: AWS Shield <aws-shield-noreply@interconnect.amazon>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Hello,
+
+We have identified a malware botnet that is using resources on your network for hosting its Command and Control (C2) service. Infected clients are connecting to these resources to receive instructions to initiate denial of service attacks against other networks. Please find below the list of C2 endpoints. Please contact us at aws-shield-external@amazon.com, if you need any further information for your investigation to mitigate the root cause.
+
+Thanks,
+AWS Shield - Threat Research
+
+C2 endpoints on your network:
+164.92.186.193 TCP/9511 (Botnet/Malware Type: mirai, Last Seen: 2024-01-15T22:35:48Z UTC)
+
+Also, malware samples with reference to this C2 are as follows:
+SHA256 digest: f04972bd93af551702198a699553adfc3c66bc044d8e30b18edfe56dbaa650a6
+VirusTotal Links: https://www.virustotal.com/gui/file/f04972bd93af551702198a699553adfc3c66bc044d8e30b18edfe56dbaa650a6

@@ -1,0 +1,131 @@
+# Trivy security scanner configuration
+# https://aquasecurity.github.io/trivy/latest/docs/configuration/
+
+# Scan configuration
+scan:
+  # Security checks to enable
+  security-checks:
+    - vuln      # Vulnerability scanning (CVEs)
+    - config    # Misconfigurations (Dockerfile, K8s, etc.)
+    - secret    # Secret detection in files
+
+  # Skip these directories
+  skip-dirs:
+    - vendor
+    - node_modules
+    - .git
+    - .github
+    - .claude
+    - tests/fixtures
+    - monitoring/grafana/provisioning
+
+  # Skip these files
+  skip-files:
+    - "**/*_test.go"
+    - "**/*.md"
+    - "**/testdata/**"
+
+# Vulnerability scanning
+vulnerability:
+  # Severity levels to report
+  severity:
+    - UNKNOWN
+    - LOW
+    - MEDIUM
+    - HIGH
+    - CRITICAL
+
+  # Report unfixed vulnerabilities
+  ignore-unfixed: false
+
+  # Vulnerability database
+  db:
+    # Update database before scanning
+    skip-update: false
+    # Download DB from GitHub Releases
+    repository: ghcr.io/aquasecurity/trivy-db
+
+# Secret scanning
+secret:
+  # Skip these patterns (false positives)
+  skip-paths:
+    - tests/fixtures/**
+    - "**/*.eml"
+    - "**/*.example"
+    - .secrets.baseline
+
+  # Additional secret patterns (optional)
+  config:
+    # Allow listing specific findings
+    allow-rules: []
+
+# Configuration scanning
+config:
+  # File patterns to scan
+  file-patterns:
+    dockerfile:
+      - "**/Dockerfile*"
+      - "**/*.dockerfile"
+    kubernetes:
+      - "**/*.yaml"
+      - "**/*.yml"
+
+  # Configuration checks to include
+  include-non-failures: false
+
+  # Policies
+  policy:
+    # Trace policy errors
+    trace: false
+
+# Output configuration
+format: table  # Options: table, json, sarif, cyclonedx, spdx
+
+# Report configuration
+report:
+  # Output format
+  format: table
+
+  # Only show relevant results
+  summary: true
+
+# Cache configuration
+cache:
+  # Enable cache
+  enabled: true
+
+  # Cache directory
+  dir: ~/.cache/trivy
+
+  # Clear cache before scanning
+  clear: false
+
+# Timeout for scanning (in seconds)
+timeout: 5m
+
+# Exit code
+exit-code: 1  # Exit with error if vulnerabilities found
+
+# Suppress progress output
+quiet: false
+
+# Debug mode
+debug: false
+
+# Ignore policy
+ignore-policy:
+  # Path to .trivyignore file
+  file: .trivyignore
+
+# Severity overrides for specific packages
+severity-overrides:
+  # Example: Downgrade specific CVE
+  # CVE-2021-12345: LOW
+
+# Custom policies (optional)
+# policy-bundle-repository: https://github.com/aquasecurity/trivy-policies
+
+# Compliance standards to check (optional)
+# compliance:
+#   - k8s-nsa
+#   - k8s-cis

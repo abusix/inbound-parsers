@@ -1,0 +1,312 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 527A2E97-3B8C-47BE-8887-E9FE992D36B8.1
+	envelope-from <abuse+bncBDUOBW4AUILRBMW4ZXBAMGQEQFT46YY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 19 Jun 2025 01:56:04 +0000
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-23638e1605dsf2522485ad.0
+        for <abuse@digitalocean.abusehq.net>; Wed, 18 Jun 2025 18:56:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1750298163; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=Ta21Q+0JpV/ECyLG5wkQq2dSEnsiwfoyZOe72SsT8sXze3dh9wu9LFD+uaCpdwFcE4
+         fF4mQBdtiosnx/TBTksgHaSDle0ZldqPuPqRluJR0xXTinFAeoSwbj/Wpw2pk9oZ1ofa
+         g8XUlee4VtdehZbkShjw9ZsOtY/HRgU5j72nv78OwnvguMMj1q4x8o9WlELLg89uGGAa
+         tHnBl+Wrmb1ChugrJQyHZ2+RHCaadaV8YGh1taC+pZVkEVwHZPb5P/xnUmaXRAL7MmQO
+         0SxD1QvizXwSGgrzZlPEh1rWYR2P03O5N+ApsHGNhmlQv/1sE9LsYXyL20U1CmPK1+sZ
+         FRiw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:feedback-id:date:message-id
+         :mime-version:subject:to:from:dkim-signature;
+        bh=TJFiIpjjbJSnG4J0Angks/ogR5ZYQxVnLcGcexgBhDw=;
+        fh=lCMRLlvT6UkbL838II9tX8+kEPOAi6ub8qh1oeMgNlE=;
+        b=IuPyRWG/7ORAyC4GswfxD6vPgIEHPyOOxv7TyIM0G0r//BN57IxyGPkQ3p0MF0r1Rz
+         Wbl747WjCedYAq93Eu1TYIgb5iEK60qZ9AnzQq8kJnEDC2DCwLa7IBk56oLQOwH4F9Yv
+         43oSxmUOboe1q6qZfnTOJDPJXOpnHBo8B6grTJ5IJv+tHo6banH2LrhTJn7aP4wQl9U0
+         LLHMgpO9NsjEGnfBKHdbkQK4jAbqg0hh/glb1/oKqeT5SP9rEt1lXvgVkjv88B3jr57i
+         TLa7ZwooHzIpvhsu4vWX7QhkkEIQ4o8B+9yTJ7AN2xBmJI297E0yeRBv0tHw6dv8n0h8
+         Q0DA==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@crowdstrike.com header.s=y7kfuwdrfuu4efi5isijazbe2qvn2fhq header.b=WngFg4WF;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=E0GiVOKj;
+       spf=pass (google.com: domain of 0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com designates 54.240.59.90 as permitted sender) smtp.mailfrom=0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=crowdstrike.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1750298163; x=1750902963; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:date:message-id:mime-version:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJFiIpjjbJSnG4J0Angks/ogR5ZYQxVnLcGcexgBhDw=;
+        b=Xz2Li5dErrCZiJ617r2d8jwZuleZPRanlnTK7nzq1Pzd3S9qn4y3gZigcJ5Wzme5yT
+         klOC0qpastqAXc+t69sZd0ict4yYq53deJ5DhOMmSJx2yWQykKQxGWbcAhYBSplZArJY
+         yFHVZ6AL9e8O1UDAwpOAgtZPbrkJebjpPnzyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750298163; x=1750902963;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :date:message-id:mime-version:subject:to:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJFiIpjjbJSnG4J0Angks/ogR5ZYQxVnLcGcexgBhDw=;
+        b=i05BsZSL2D9Ry17w5mU/190k7tRZ2jKY4O8t4UWFpaZEY43vQho48iQ5eWyWA6qnIu
+         GogDT8bF+IrNzNSlIv+xhnJVNTbmYcENkposNpiiykSDfOret8VFdXixOIrrS/+qqYtB
+         Gutr5r/djZDe7Dj2qNng6Pk+4Mv8kKxSj1NzgK5bNzoIOjf5cL4TlADQtxVSRI4eQpuQ
+         WVW53KtmUMSS93uRPHS8FreBaJAlsQruWv0rIm3x8ja1LfQhZMwB0d5J0j8lnTJLxpgW
+         8iGiOGcFiWDRRmuISkhiWXqIHZgsl47KsDQikAWqYGbvD2pc/XmH/wFU7rP/pB5OveLw
+         hh0w==
+X-Forwarded-Encrypted: i=2; AJvYcCWQOXW/Y8GlH4X4d2wWB7uyDrBYvuThS4qyRBEYBF+rWvzARSzI6UWVpWASuJUci11PBKVNeg==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0YxKc01JmRaP/4H2s3QD74un1OX0VYzRVqLinhz4mKv2FBIB5Iht
+	MuGCrhqnJJIEhsaVHZ9yXrYSt1XOundPiQI5sSEDmEvECBUoFLn/xPop8YuIkzV218E=
+X-Google-Smtp-Source: AGHT+IFxq2iDUPQBD9RN5xIyNqqih+g3RX8g+owuAxzZ0bhGKr/sIMriOIXY59Z11rFQsOsCkawfTw==
+X-Received: by 2002:a17:902:f683:b0:232:59b:58fe with SMTP id d9443c01a7336-2366b3169f9mr299814815ad.1.1750298162960;
+        Wed, 18 Jun 2025 18:56:02 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com; h=AZMbMZcwLEKQAAYI/SE6xeItBY4WTS8Ya5f+IirwG7rZX9fK6A==
+Received: by 2002:a17:903:120e:b0:234:b96:f00f with SMTP id
+ d9443c01a7336-237cd3b8507ls2868295ad.2.-pod-prod-07-us; Wed, 18 Jun 2025
+ 18:56:02 -0700 (PDT)
+X-Received: by 2002:a17:902:d587:b0:235:be0:db6b with SMTP id d9443c01a7336-2366b3c5a5amr285700945ad.45.1750298161270;
+        Wed, 18 Jun 2025 18:56:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1750298161; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gWCvX6GIyTL/RcFIQMclc2Ec9Iviik3zI/9twJAZamhhqZlk29SOukooYnTx7yH5ar
+         denKgm4OpSvQVcvO03aY/yX29Dsap+z277vNZPGtozLdgj4S7VDlQGo2YPtkN7QiFdqs
+         GEJ9XY3T3qHhvtDl+fvvlmvtfSuuWDu111m8gQcKPIdIsfl8Q+MzxJYFJPOu6vt7VaHK
+         Tu4XEHjwNWRaZeGAWboPHWX53wSX4nbYnaqTgqTInJazCK35bAww68q3eqrBku69kNck
+         G3QKllpaGuW8oEW4VVXkpPX3wcnVvc6jFuS7TGT90ujCkwbkUdjPn51J5EK6xzwZSAxB
+         YY5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=feedback-id:date:message-id:mime-version:subject:to:from
+         :dkim-signature:dkim-signature;
+        bh=TJFiIpjjbJSnG4J0Angks/ogR5ZYQxVnLcGcexgBhDw=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=hsiK21MpavooOhcFyXc0rxefUVEDe8HWX2U0k+oYL7h+H9AhnnYAElZLZRMtsaota+
+         JOxSfUW8jy3wG3fad0CmrydnhN//sebHhHe4Szs8okp+/UlDZwg+aKogA9M0rMmHcyXB
+         CVNZcdaRUEIh1ep6IZPR0FvnRZtTaafRMqksadHGQMRS5P/y9e8E6Bzu5ylCh4N4wCS9
+         JZp5llSE2H9CuJYcPDeG5lwQwwRBfIg1vTRHUfB/7PUeAtU0vwzNfcNNpdFXYE15Avql
+         tNKACytFyx6Wpkfy1w/QBYJwzQVCmH4CtEwFCaB9F1NoGOy3FdoN1T5tWHp/lI/QGWzO
+         tFLA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@crowdstrike.com header.s=y7kfuwdrfuu4efi5isijazbe2qvn2fhq header.b=WngFg4WF;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=E0GiVOKj;
+       spf=pass (google.com: domain of 0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com designates 54.240.59.90 as permitted sender) smtp.mailfrom=0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=crowdstrike.com
+Received: from a59-90.smtp-out.us-west-2.amazonses.com (a59-90.smtp-out.us-west-2.amazonses.com. [54.240.59.90])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-b31c1b13e4bsi5550392a12.177.2025.06.18.18.56.01
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Jun 2025 18:56:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com designates 54.240.59.90 as permitted sender) client-ip=54.240.59.90;
+From: noreply via abuse <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Subject: Urgent Takedown Request - Potentially Malicious Domain:
+ [australianlotterieshub.com]
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1991169_156761464.1750298160867"
+Message-ID: <0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@us-west-2.amazonses.com>
+Date: Thu, 19 Jun 2025 01:56:00 +0000
+Feedback-ID: ::1.us-west-2.qfIrt6YVBP0xedrIwjaUwjMyxpFmCIAoxWcTYG5VnCk=:AmazonSES
+X-SES-Outgoing: 2025.06.19-54.240.59.90
+X-Original-Sender: noreply@crowdstrike.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@crowdstrike.com header.s=y7kfuwdrfuu4efi5isijazbe2qvn2fhq
+ header.b=WngFg4WF;       dkim=pass header.i=@amazonses.com
+ header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=E0GiVOKj;       spf=pass
+ (google.com: domain of 0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com
+ designates 54.240.59.90 as permitted sender) smtp.mailfrom=0101019785e66ee3-a60814d6-5f0b-444f-847c-26f8b449aa7c-000000@mail-us-west-2.crowdstrike.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=crowdstrike.com
+X-Original-From: noreply@crowdstrike.com
+Reply-To: noreply@crowdstrike.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part_1991169_156761464.1750298160867
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+The below domain supported by your service appears to be engaged in malicious activities,
+which potentially compromises the safety and security of online users. Please take swift action
+in investigating and addressing this matter.
+
+Domain Details
+
+* Domain Name: australianlotterieshub.com Registration Date: 22.5.2025 Associated IP Address: 104.248.31.47 Nature of the Threat:
+
+* INDUSTRY_REPORTED ,
+
+Supporting Evidence
+
+* Direct Observations: This domain has been investigated and flagged by user(s)
+as malicious on 19.6.2025
+
+Investigate this domain promptly and take appropriate action, such as suspending or terminating
+the domain if your investigation confirms malicious activities.
+------=_Part_1991169_156761464.1750298160867
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3Dutf-8"><meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-=
+scale=3D1.0"><title>Crowdstrike Email</title><style type=3D"text/css">
+         /* Client-specific Styles */
+         #outlook a {padding:0;} /* Force Outlook to provide a "view in bro=
+wser" menu link. */
+         body{width:100% !important; -webkit-text-size-adjust:100%; -ms-tex=
+t-size-adjust:100%; margin:0; padding:0;}
+         /* Prevent Webkit and Windows Mobile platforms from changing defau=
+lt font sizes, while not breaking desktop design. */
+         .ExternalClass {width:100%;} /* Force Hotmail to display emails at=
+ full width */
+         .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalCl=
+ass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* For=
+ce Hotmail to display normal line spacing */
+         #backgroundTable {margin:0; padding:0; width:100% !important; line=
+-height: 100% !important;}
+         img {outline:none; text-decoration:none;border:none; -ms-interpola=
+tion-mode: bicubic;}
+         a img {border:none;}
+         .image_fix {display:block;}
+         p {margin: 1em 0;}
+
+         table td {border-collapse: collapse;}
+         table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-=
+rspace:0pt; }
+         a { color: #eb3525; text-underline:none!important; text-decoration=
+: none;text-decoration:none;}
+         /*STYLES*/
+         table[class=3Dfull] { width: 100%; clear: both; }
+
+         /*################################################*/
+         /*IPAD STYLES*/
+         /*################################################*/
+         @media only screen and (max-width: 640px) {
+         .mobile_link a[href^=3D"tel"], .mobile_link a[href^=3D"sms"] {
+         text-decoration: default;
+         color: #ffffff !important;
+         pointer-events: auto;
+         cursor: default;
+         }
+         table[class=3Ddevicewidth] {width: 440px!important;text-align:cent=
+er!important;}
+         table[class=3Ddevicewidthinner] {width: 420px!important;text-align=
+:center!important;}
+         table[class=3D"sthide"]{display: none!important;}
+         img[class=3D"bigimage"]{width: 420px!important;height:219px!import=
+ant;}
+         img[class=3D"col2img"]{width: 420px!important;height:258px!importa=
+nt;}
+         img[class=3D"image-banner"]{width: 440px!important;height:106px!im=
+portant;}
+         td[class=3D"menu"]{text-align:center !important; padding: 0 0 10px=
+ 0 !important;}
+         td[class=3D"logo"]{padding:10px 0 5px 0!important;margin: 0 auto !=
+important;}
+         img[class=3D"logo"]{padding:0!important;margin: 0 auto !important;=
+}
+         }
+         /*##############################################*/
+         /*IPHONE STYLES*/
+         /*##############################################*/
+         @media only screen and (max-width: 480px) {
+         a[href^=3D"tel"], a[href^=3D"sms"] {
+         text-decoration: none;
+         color: #ffffff; /* or whatever your want */
+         pointer-events: none;
+         cursor: default;
+         }
+         .mobile_link a[href^=3D"tel"], .mobile_link a[href^=3D"sms"] {
+         text-decoration: default;
+         color: #ffffff !important;
+         pointer-events: auto;
+         cursor: default;
+         }
+         table[class=3Ddevicewidth] {width: 280px!important;text-align:cent=
+er!important;}
+         table[class=3Ddevicewidth] td { padding: 0!important; }
+         table[class=3Ddevicewidthinner] {width: 260px!important;text-align=
+:center!important;}
+         table[class=3D"sthide"]{display: none!important;}
+         img[class=3D"bigimage"]{width: 260px!important;height:136px!import=
+ant;}
+         img[class=3D"col2img"]{width: 260px!important;height:160px!importa=
+nt;}
+         img[class=3D"image-banner"]{width: 280px!important;height:68px!imp=
+ortant;}
+
+         }
+      </style>
+</head><body>
+<!-- Header Component -->
+<table width=3D"100%" bgcolor=3D"#eb3525" cellpadding=3D"0" cellspacing=3D"=
+0" border=3D"0">
+  <tbody>
+  <tr>
+    <td style=3D"padding: 20px 0 20px 40px;">
+      <div class=3D"imgpop">
+        <a href=3D"#"><img width=3D"360" alt=3D"CrowdStrike Logo" border=3D=
+"0" style=3D"display:block; border:none; outline:none; text-decoration:none=
+;" class=3D"logo" src=3D"https://www.crowdstrike.com/wp-content/uploads/202=
+3/07/Cropped_CS_Logos_2020_InlineFullWhite.png" /></a>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<html><head><style> .no-bullets {list-style-type: none;margin-bottom: 2em;}=
+ .section {font-size: 14px;margin: auto;} .parent {display: block;margin-bo=
+ttom: 2em;} .parent > div {font-size: 16px;display: block;position: relativ=
+e;justify-content: start;} .list {li {margin-left: 5px;}li:last-child {>spa=
+n {display: none;}}} </style></head><body><div class=3Dcs-message-body styl=
+e=3D"margin: 20px auto; max-width: 800px; padding: 0 20px;font-family: Cali=
+bre"><p style=3D"margin-bottom: 2em;"><span style=3D"font-size: 14px;">The =
+below domain supported by your service appears to be engaged in malicious a=
+ctivities,<br> which potentially compromises the safety and security of onl=
+ine users. Please take swift action<br>in investigating and addressing this=
+ matter.</span></p><div><div class=3D"parent"><div class=3D"section" ><span=
+ style=3D"font-weight: bold;">Domain Details</span></div><div><ul class=3D"=
+section" style=3D"list-style: none;"><li class=3Dno-bullets><div><span>Doma=
+in Name:</span> australianlotterieshub.com</div><div><span>Registration Dat=
+e:</span> 22.5.2025</div><div><span>Associated IP Address:</span> 104.248.3=
+1.47</div><div><span>Nature of the Threat:</span> <ul class=3D"list" style=
+=3D"list-style-type: none; display: inline-flex;padding-left: 2px;"><li>IND=
+USTRY_REPORTED<span>,</span></li></ul></div></li></ul></div></div><div clas=
+s=3D"parent"><div><span style=3D"font-weight: bold;">Supporting Evidence</s=
+pan></div><div><ul class=3D"section" style=3D"list-style: none;"><li class=
+=3Dno-bullets><div><span>Direct Observations:</span> This domain has been i=
+nvestigated and flagged by user(s)<br> as malicious on 19.6.2025</div></li>=
+</ul></div></div></div><p style=3D"margin-bottom: 2em;"><span style=3D"font=
+-size: 14px;">Investigate this domain promptly and take appropriate action,=
+ such as suspending or terminating<br>the domain if your investigation conf=
+irms malicious activities.</span></p></div></body></html><!-- Footer Compon=
+ent -->
+<table width=3D"100%" bgcolor=3D"#F3F3F4" cellpadding=3D"0" cellspacing=3D"=
+0" border=3D"0">
+  <tbody>
+  <tr>
+    <td style=3D"padding: 20px 0 20px 0; font-weight: 300;">
+      <p style=3D"text-align: center; font-size: 12px; font-family: Helveti=
+ca, arial, sans-serif;">Copyright =C2=A9 2025 CrowdStrike, Inc. All rights =
+reserved.</p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
+
+------=_Part_1991169_156761464.1750298160867--

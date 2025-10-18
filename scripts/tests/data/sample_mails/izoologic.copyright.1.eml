@@ -1,0 +1,505 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 0CD13742-15F4-43F3-A088-BFE9FAB41837.1
+	envelope-from <abuse+bncBDTLXZGF6MIBB5VLZWPQMGQESOMPEOQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 20 Feb 2023 11:13:59 +0000
+Received: by mail-pl1-f199.google.com with SMTP id j18-20020a170903025200b00198aa765a9dsf658457plh.6
+        for <abuse@digitalocean.abusehq.net>; Mon, 20 Feb 2023 03:13:59 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1676891638; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=JbjZ7JBkLBimFD/fLMe0NyBKIqKy85jj/vLqgHUnc1b2dntxNAMv1tW9n5X/plWjLs
+         pAK/cwbLXpeLylCVr0r91tA3l0S+Sj1gr0EjfzzBs6J4NboGazULL4oeMlyHhegWnIbJ
+         IPp9LIlJbvHpB5cS8X3wyrkb6GxIVHmppT/Cb/uVs3GcBPdhVsMZVfFeo9NtiLH2ZgHb
+         44US39eWNP6WapxqHjly+FDRw/ybm0162ekG5MrPGd7pT5eKjZlEo1DwK9o9ZeZyQdpE
+         ra2jXRx2EQRzlC3oEf77zoPpICK+oMFAhT/BgwfXfQu4Zof1bkMbMSx8DSspcVg8qOy8
+         P55g==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :to:from:sender:dkim-signature;
+        bh=hrd+7Zv7n0ihxgFgq6wDvix/rN9w6obWNQTpNAGvQQc=;
+        b=j0QOLpBntV24mySSKi4CUzmh1k39FlHU63gSmOD6xE7lBEPVHfvl0521D7HZtIhvda
+         MBG1wEkgpq2IVhvEaH3hmr0CqW7vQW6ZOifbftr8rqWNKxVzEb/wzH5RXgKfknJJ2GsV
+         SiKwi5gKn70oEccT/9KuyegRse7jfgl+9EIEvbenhaLYgn+BTHETHZK+/UVm0EQHShai
+         pmL2+r/ufpkpDAHGUofG9IPCmOFyAY8S5AB3BwhDBVIy8eV9yLzbBcij89+UVjCYXd9p
+         hzQ/iE4moTbmlZBnBJVfKcMHsB1mSezOc+uHKPZQ09Qt+LQzBocsqslSdRVKgikDWdV3
+         yeQw==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@izoologic.onmicrosoft.com header.s=selector2-izoologic-onmicrosoft-com header.b=K8gBtHU+;
+       arc=pass (i=1 spf=pass spfdomain=izoologic.com dkim=pass dkdomain=izoologic.com dmarc=pass fromdomain=izoologic.com);
+       spf=pass (google.com: domain of security@izoologic.com designates 2a01:111:f400:fe14::61d as permitted sender) smtp.mailfrom=security@izoologic.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=izoologic.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-language:accept-language
+         :message-id:date:thread-index:thread-topic:subject:to:from:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hrd+7Zv7n0ihxgFgq6wDvix/rN9w6obWNQTpNAGvQQc=;
+        b=GmiUWQOxobEJaKeQLSK1jwvSn+XrvXDEvViBIiCOftQq6YHiNDxUEt+KKjor3yEL1a
+         mMF/hK3Tyulk5xuMJ+lHtMkznM3si5ftigh/D6+ivy9rwutfpyGxl7aKM4SRRHEbDU1A
+         Vla+RJoq4JxsJnw1XW5abdHUj8bMuFR+e8mq8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:message-id:date:thread-index
+         :thread-topic:subject:to:from:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hrd+7Zv7n0ihxgFgq6wDvix/rN9w6obWNQTpNAGvQQc=;
+        b=CEFeJuElN0MHyYqeeLYHP0t0WTHfHo/ynkcL59mBmesKRYrtgj4TcgSx03IizuaQ4K
+         26Q9bDJIbnkmHK1MFG1V68sZUlkdafkUQkU3bW3lZW7nnILdeAEHho36Y46sWEQZjPUe
+         H+OyABDIANH5m/S0kYfXuCJSlWyOHVS3e4iiCznkgbvQC5wtthaSSeZ0PLQx6o7zVUkt
+         Ai1nOqi5dh2YHtp9xqLBnZ4INMM4fqskY7BueEOcBSGuzJaWz3JBbuqkzsLz0qgaedu5
+         32eAJLRka8rBQ8DHKfAKKvQRZtQAmft9sNVkxXJF68Mgzu9b/qE6oZu33sdWbUvKC5uh
+         UFQg==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AO0yUKVoPraznU2WnnLK7xQYaDDhot1HGqfITkNuRVZr1n8gAVMvRn8E
+	NVTM/2dX66pC9YDLpvA6msYAdg==
+X-Google-Smtp-Source: AK7set/L4tpKA3O25wlyXVp4+C8SiKJJ0LRWpTo0W89sFKIonPdSFlgNsJjVgbkBO6F43Xzj9u4TDA==
+X-Received: by 2002:a62:ce0c:0:b0:5aa:72b4:2fe1 with SMTP id y12-20020a62ce0c000000b005aa72b42fe1mr157694pfg.1.1676891638478;
+        Mon, 20 Feb 2023 03:13:58 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:bd09:b0:199:50f5:6729 with SMTP id
+ p9-20020a170902bd0900b0019950f56729ls2269302pls.11.-pod-prod-gmail; Mon, 20
+ Feb 2023 03:13:57 -0800 (PST)
+X-Received: by 2002:a17:90a:d181:b0:230:a1ce:f673 with SMTP id fu1-20020a17090ad18100b00230a1cef673mr3356605pjb.4.1676891637415;
+        Mon, 20 Feb 2023 03:13:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676891637; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=phLBZH+uTVEIuyPl4wYh5z2mW6msF+r/z9NjTVq4V7nqtAJjnBWSgan9LicbIsNHea
+         FkM6oE7HAn2i3ZI3AZ1rlBITzh4bIJu7tBpzfgj4gFjx3y0YSdyWKs4dX5IrWZVo4qSo
+         5m8Ey5zwIKZigysedlEsp7d+lorsdm9fVlMESpwwkGgmD4Uocf2qmBnZgoOPmtCh9AgS
+         oqCAyJF85M7MO6DqJwxl71mtvCR0+QajcfMAFmUfeKOWnACQgdX9fKtIqxWMoLf96jIL
+         mjNnXn4rhTXd2ZkNQMkdIDKresclEmgChFmrJj0Nifbw45jOutFjfEEet7AiXcAnWhr2
+         qYjQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:to:from:dkim-signature;
+        bh=hrd+7Zv7n0ihxgFgq6wDvix/rN9w6obWNQTpNAGvQQc=;
+        b=i+Tc2kyy+gWC83fyaNcT94ZKE7uFKlplNB6PgEKmVy7MjH9M4QHcILtCLWfCjsaBjB
+         nfHHfzHUWhNYUVpFG4+udzTEybccVNrIdYjBlWtcdKXFV1ayJxG1Qz/3dBBYg4NCiEsS
+         KYxjf9Pp0jSmtA2zBJZ2pQ7yDTstsdgCIiqA6V97Jga/YMgXOKrd89+gnBhEQffFGrUL
+         bAUlEHEgC34bRkCssNtjC/PzqXZ2gN5REFTjt/+nVPOv7sjkYyZWO1DztmjGcTR4odq7
+         TUyThef4sSpXIBgT3NIwL38WtNMmp139eMBZToehk8//c6dC/wTz6mxX4h6BACWoDhaP
+         43Bw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@izoologic.onmicrosoft.com header.s=selector2-izoologic-onmicrosoft-com header.b=K8gBtHU+;
+       arc=pass (i=1 spf=pass spfdomain=izoologic.com dkim=pass dkdomain=izoologic.com dmarc=pass fromdomain=izoologic.com);
+       spf=pass (google.com: domain of security@izoologic.com designates 2a01:111:f400:fe14::61d as permitted sender) smtp.mailfrom=security@izoologic.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=izoologic.com
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on061d.outbound.protection.outlook.com. [2a01:111:f400:fe14::61d])
+        by mx.google.com with ESMTPS id t185-20020a6381c2000000b004c76dcc99c2si14348878pgd.334.2023.02.20.03.13.56
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Feb 2023 03:13:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of security@izoologic.com designates 2a01:111:f400:fe14::61d as permitted sender) client-ip=2a01:111:f400:fe14::61d;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z3qlYD8zKY9MOqMZxkHfVqM09Wmk0q4EK87noSTbYznPxSWCF4l1TSOh0zf56+1DyESHtOhuI6sePF8r9puM4jkoTmLy37KyMcicyRTdzdq7L+8Gj2ICjNqNQ4IcK8qd6b/Y8lANLBOO5e3wiHe6UhuWkcfDKSgT4AdW9nsBy7E+fgAr0UnWJZSsG1gkYBSioJmaRRRU24DkooYMyp4iOkqADka5GOjnUMXYxYD1oaTBSQwRf6TTvb8QN6CIVkkXGM78NuYcrjTGhwV2qtsxCOgmA+nT1zB4RZkm3R2O81mJK1Pz2tMXB2mdSoSyfuTWw2++MHJjUhLlGGA627LL4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hrd+7Zv7n0ihxgFgq6wDvix/rN9w6obWNQTpNAGvQQc=;
+ b=WIlw7SRZRM0OadtpEhXR3/YcSGp7e7QM/eaZ4RG3BFuMBCxpadWPjuhFwWO3ExyTTCaj38xtdpeLBysonS3RKL9HGd0MyDV7A7DisB3Ccp35YTsqNOtWUFzWp5T8ZB72BnCg08BOjtjA+cmGfcaac/NJ7L2zw402u4eouoV0oNiyeRA3qCWHr8NoRncKoYD1NgGS+bg5fIABcZzaWadqW7dRmWBNXHiZvx2IGvWLX9xPCDRN63VuBMxBsOq4kjFIQ2+DKquzgZbFlWXP8UiVzBKtm1tzTnXSx5op5oG2pVjz37b1lwmbUhbDPLRLy1VkQBuvYTDjQ5EYV7MNM3hCSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=izoologic.com; dmarc=pass action=none
+ header.from=izoologic.com; dkim=pass header.d=izoologic.com; arc=none
+Received: from CWXP265MB4539.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:17a::7)
+ by LO0P265MB6100.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:249::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20; Mon, 20 Feb
+ 2023 11:13:53 +0000
+Received: from CWXP265MB4539.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::c9bd:a809:3c18:f28]) by CWXP265MB4539.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::c9bd:a809:3c18:f28%5]) with mapi id 15.20.6111.020; Mon, 20 Feb 2023
+ 11:13:53 +0000
+From: Security iZOOlogic <security@izoologic.com>
+To: "noc@digitalocean.com" <noc@digitalocean.com>, "abuse@digitalocean.com"
+	<abuse@digitalocean.com>, "dmca@digitalocean.com" <dmca@digitalocean.com>
+Subject: ICICI Bank - Private Content Removal Request
+Thread-Topic: ICICI Bank - Private Content Removal Request
+Thread-Index: AdlFG7Cp9EuVm18sRp6IfsiE8D7d4g==
+Date: Mon, 20 Feb 2023 11:13:53 +0000
+Message-ID: <CWXP265MB4539C8EA3420A9BAADDEA4F1DEA49@CWXP265MB4539.GBRP265.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB4539:EE_|LO0P265MB6100:EE_
+x-ms-office365-filtering-correlation-id: a419a546-5a66-4c09-df42-08db13338ced
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cIM8f95faOALwscVyRvEhKgauwcs9BN3wJ+EPJ7hOynqaFJZHSwzKqdBQR0TOVGgGu+1PEYCParQ7IwGtYiqfmF1805NuLjRN+i9U4lBOjORyy3iBF77kesq5UWbJQGZjh47/8W3OHKnBjaXABliVLKl1XnAG6Ad7xGwYa4RPAmYDEY86sTuoFHJFE1HIjxRtuMji5/QqH28yVP1szkAhilQY532raDlTLCZeLeQaileGqDV28B3k7ZUK3p2HT/EwJujUrG6RQqFU9u4w3QBRa+TsVlJROQGGMo2KkPt85L2i5kQunNHkyTLU0zUMsGlabW98fIFteL+TgX6S+4WTDIHJWnyBDAzY0E3Qo24gtgM7o7xp2zPNHCYFDsyyXc3wN11H634pqyNtWPEN7emI0fftQusrdYmS1SpfZKGEKLczjlYHMFAZxyDDfJCunluAGojOjH1Ni4AhnFKQMObjWHwDZU0T2NmeItOYuNmtForDGrt2riTaq7AJ+De87o9PQC5hb6oKRs8QsMyuK/gOi2rA4L1HwTethGaGeVyb3nNK+eEmJMdV8pX2YPkqAtDeFuDqGrQRvw7ZTMHGUfsXBwMwQztEnE2lWy4STXXEsdk2oUFy1GxIuN/GM85bOVCwTRmwt/avPu4ZmcM9mvG8o08SVemfpR3KjvC9Vk00ajNi4aY3jNXYJAJrQk32U+D
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWXP265MB4539.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(346002)(39850400004)(376002)(396003)(136003)(366004)(451199018)(71200400001)(966005)(33656002)(7696005)(316002)(110136005)(478600001)(15650500001)(8936002)(2906002)(52536014)(5660300002)(41300700001)(55016003)(38070700005)(450100002)(76116006)(26005)(86362001)(66946007)(66556008)(66476007)(8676002)(64756008)(66446008)(83380400001)(6506007)(9686003)(122000001)(166002)(186003)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?c1H8XNiZaGKLUw/CXOFEMO3BI3qD4AvSl8pLZpBeaEdTQh661qn0SyLo30IJ?=
+ =?us-ascii?Q?4xHYoR5NQKVvbtvy9g2fX17oM9qwPC652NwNCxVdK+16DpYGvEGu4n8m7TEC?=
+ =?us-ascii?Q?m0SDUba4TKXoCrZEbeeKWf2knhCOXVMP5zzCpJ33VEizI2iVQ74K+EKo/ATt?=
+ =?us-ascii?Q?HHl/0etGRkARy+xEwNU0jTboSIoWMZOzBGxYxGkTvZqO0F7qm3S+Z+kTd8wG?=
+ =?us-ascii?Q?rCq9Dd9ElAQrdQvGSyAd8zLvz7JQV3JOjt2UjBXXvPmgg10h6kUuVDMolP+e?=
+ =?us-ascii?Q?XvfQI47a0Oi32I35VWkITr8OViVixxy1BhsMLpz5SQWk5uTsceFDrfif1RJa?=
+ =?us-ascii?Q?JX5Ynz88NflsGq5K+Vsl7cNdNXcWKkCmsRynH4zQqV20qVJbunl/GzdZrU/D?=
+ =?us-ascii?Q?jeXauDmnzl9PGrnk1O1diQKsflYjHLsSjzYlQ+NPYfm63rXiAZD3rAIH9oGm?=
+ =?us-ascii?Q?/ieMUz/hi7QXZfIdtzhZXv7Ww6TaGuXkmODQI0zLar3rCl71pcPv9u5hW2Xf?=
+ =?us-ascii?Q?6EgE0IHRUKpdXorjEAV3BEn5tLS+gGUvx2Bxdgi+rjDxzb6ymB7va4VSEKdm?=
+ =?us-ascii?Q?0lKdyNERI6e9+QwOCVhB1+jArOWg/vlFflUNOghWQSAEN1n3aKZebMJSDA6I?=
+ =?us-ascii?Q?gtNOFCAeaDuHYU87wNbe4q7NG7Gvj2tP5gGVUZHlVMJ47s/gwYXp2jZMR6Sx?=
+ =?us-ascii?Q?4iTxidVGWwckY8QQckQ/X6KhsXhmcW2pdO1OhabdBhYJdVqVwtpaSRlVK1BV?=
+ =?us-ascii?Q?AKWNl7MGUNt1z5Vw9AKGuUn4aDtUzZb82Aw+wjOmB4a3ZRhSw26MTy4qnjl0?=
+ =?us-ascii?Q?adzzGdZ637wNTpSpWwowcpsDswS1Stl4ofQplHeB7YkmxX0QMLJmugT5Jx3c?=
+ =?us-ascii?Q?71XZJ6Su6/EdP5uaZguG8LtlZqJpFkpY5oEPEeZCSZm+t7v+K4G3qUWHYddH?=
+ =?us-ascii?Q?wqMxlwSewHqCsSIt69UyYPCVrBr5SjZEnv8chUYskfZL9NO74u4HVYbGcyrK?=
+ =?us-ascii?Q?Yl7TqhvGI6Us5o8+ivX5hM6eOFt5/fEV56HKCwLeMrD5xmz3laAIOBrHmTTY?=
+ =?us-ascii?Q?kZ5r2Ak9n1uoG02ZPfWzewEp6ECJoFt5b07RSnJ3/Zj/9LblUCIzTILSIYxk?=
+ =?us-ascii?Q?Is2cjgty9qHhAHsuJ/WwgZvv51e18wiQTB+DG/uJ5qEh/snQMvfuXL3KDzFd?=
+ =?us-ascii?Q?dZ3/XYq/hAxPang78uwftrEXSfVKNq1FecOv64kYz97AQUW58u1hL9GVah9L?=
+ =?us-ascii?Q?colfYxDXkwcwT87bTUIcuGg1IVpgwQRiX0iEfserL0oZcg+lVV7vaBrf4VSm?=
+ =?us-ascii?Q?b9SiOlUmHwT/N98KkMbCC8XhWPasPF3VQTK+mdNiTwPjAXyxD2bMZaFgRpN9?=
+ =?us-ascii?Q?DAXTJQTAQ+p8zq35X4ZDtcREOJZEYLEEahShh56Q2pQn9aA5JYK5owcNgQSU?=
+ =?us-ascii?Q?Q6G1+vVzZ4MEuajRA+Z1esa/X3F0qdlg+E1qLljjPj9bAfaAwGZwA7VevsLi?=
+ =?us-ascii?Q?m9LPwbZrFfVVFe7kqN00Wzpk0WJQN5EanGs6UVzGkyisr1pRwp/OoGZB7TCA?=
+ =?us-ascii?Q?Taao/l7wkhnCf17jyyIY6/K3UlA956kaCdZeXp7w?=
+Content-Type: multipart/alternative;
+	boundary="_000_CWXP265MB4539C8EA3420A9BAADDEA4F1DEA49CWXP265MB4539GBRP_"
+MIME-Version: 1.0
+X-OriginatorOrg: izoologic.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB4539.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: a419a546-5a66-4c09-df42-08db13338ced
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 11:13:53.1404
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9133a44b-d8b1-4baf-938b-29136f29535e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fUEl1mef2gyp/2e+sz69X5y3yGE8OpoyXA8v5REHQAuoQYhCzdQI0BV4ggS2+GobF1ZRbKvmzmzylhFNzc9Tvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6100
+X-Original-Sender: security@izoologic.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@izoologic.onmicrosoft.com header.s=selector2-izoologic-onmicrosoft-com
+ header.b=K8gBtHU+;       arc=pass (i=1 spf=pass spfdomain=izoologic.com
+ dkim=pass dkdomain=izoologic.com dmarc=pass fromdomain=izoologic.com);
+       spf=pass (google.com: domain of security@izoologic.com designates
+ 2a01:111:f400:fe14::61d as permitted sender) smtp.mailfrom=security@izoologic.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=izoologic.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_CWXP265MB4539C8EA3420A9BAADDEA4F1DEA49CWXP265MB4539GBRP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Greetings,
+
+I am Nyra, from iZOOlogic Ltd, an authorized representative of our client, =
+ICICI Bank. The following URLs contain private documents of our client and =
+part of the company's internal circulation that should
+not be accessible online.
+
+URLs:
+https://debra.sgp1.digitaloceanspaces.com/uploads/attachment/file/1405424/I=
+CICI_Bank_Statement.pdf
+https://debra.sgp1.digitaloceanspaces.com/uploads/attachment/file/1152835/I=
+cici_statement.pdf
+https://debra.sgp1.digitaloceanspaces.com/uploads/attachment/file/1257912/I=
+CICI_Bank_Stack_Solutions.pdf
+https://debra.sgp1.digitaloceanspaces.com/payment/attachment/39112/ICICI_Co=
+rporate_e-BankingPayment_Summary.pdf
+
+Please note that our client has not authorized these documents to be public=
+ly available online, as these are confidential documents that can only be s=
+hared internally.
+
+Our client requested to have these online copies of their internal document=
+s removed or placed in a private repository as this can be used for other m=
+alicious activity that can cause damage to our client
+ICICI Bank.
+
+The official site of our client is- https://www.icicibank.com/
+
+I am providing this notice in good faith and with the reasonable belief tha=
+t my company's rights are being infringed. Under penalty of perjury, I cert=
+ify that the information in the notification is both true
+and accurate, and I have the authority to act on behalf of the owner(s) inv=
+olved.
+
+Your immediate response on this matter is highly appreciated.
+
+If you require further information on this, please let us know.
+
+Looking forward to your immediate action and response regarding this matter=
+.
+
+Faithfully,
+
+Nyra Garg
+Information Security Analyst
+iZOOlabs Security Response
+
+Global Security Operation Centre
++44 20 3734 2726
+security@izoologic.com<mailto:security@izoologic.com>
+www.izoologic.com<http://www.izoologic.com/>
+
+iZOOlogic
+
+
+--_000_CWXP265MB4539C8EA3420A9BAADDEA4F1DEA49CWXP265MB4539GBRP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:264389532;
+	mso-list-template-ids:-309941032;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-IN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Greetings,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I am Nyra, from iZOOlogic Ltd, an authorized represe=
+ntative of our client, ICICI Bank. The following URLs contain private docum=
+ents of our client and part of the company's internal circulation that shou=
+ld
+<o:p></o:p></p>
+<p class=3D"MsoNormal">not be accessible online.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">URLs:&nbsp;&nbsp; <o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://debra.sgp1.digitaloceanspaces.com=
+/uploads/attachment/file/1405424/ICICI_Bank_Statement.pdf">https://debra.sg=
+p1.digitaloceanspaces.com/uploads/attachment/file/1405424/ICICI_Bank_Statem=
+ent.pdf</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://debra.sgp1.digitaloceanspaces.com=
+/uploads/attachment/file/1152835/Icici_statement.pdf">https://debra.sgp1.di=
+gitaloceanspaces.com/uploads/attachment/file/1152835/Icici_statement.pdf</a=
+><o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://debra.sgp1.digitaloceanspaces.com=
+/uploads/attachment/file/1257912/ICICI_Bank_Stack_Solutions.pdf">https://de=
+bra.sgp1.digitaloceanspaces.com/uploads/attachment/file/1257912/ICICI_Bank_=
+Stack_Solutions.pdf</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://debra.sgp1.digitaloceanspaces.com=
+/payment/attachment/39112/ICICI_Corporate_e-BankingPayment_Summary.pdf">htt=
+ps://debra.sgp1.digitaloceanspaces.com/payment/attachment/39112/ICICI_Corpo=
+rate_e-BankingPayment_Summary.pdf</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Please note that our client has not authorized these=
+ documents to be publicly available online, as these are confidential docum=
+ents that can only be shared internally.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Our client requested to have these online copies of =
+their internal documents removed or placed in a private repository as this =
+can be used for other malicious activity that can cause damage to our clien=
+t
+<o:p></o:p></p>
+<p class=3D"MsoNormal">ICICI Bank.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">The official site of our client is- <a href=3D"https=
+://www.icicibank.com/">
+https://www.icicibank.com/</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I am providing this notice in good faith and with th=
+e reasonable belief that my company's rights are being infringed. Under pen=
+alty of perjury, I certify that the information in the notification is both=
+ true<o:p></o:p></p>
+<p class=3D"MsoNormal">and accurate, and I have the authority to act on beh=
+alf of the owner(s) involved.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Your immediate response on this matter is highly app=
+reciated.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">If you require further information on this, please l=
+et us know.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Looking forward to your immediate action and respons=
+e regarding this matter.<o:p></o:p></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-PH" style=3D"color:black;background=
+:white;mso-fareast-language:EN-PH"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-PH" style=3D"color:black;background=
+:white;mso-fareast-language:EN-PH">Faithfully,</span><span lang=3D"EN-PH" s=
+tyle=3D"color:black;mso-fareast-language:EN-PH"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-PH" style=3D"color:black;mso-fareas=
+t-language:EN-PH"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-PH" style=3D"color:black;mso-fareas=
+t-language:EN-PH">Nyra Garg<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-PH" style=3D"color:black;mso-fareas=
+t-language:EN-PH">Information Security Analyst<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US" styl=
+e=3D"color:black;mso-fareast-language:EN-PH">iZOOlabs Security Response</sp=
+an><span lang=3D"EN-PH" style=3D"color:#201F1E;mso-fareast-language:EN-PH">=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US" styl=
+e=3D"color:black;mso-fareast-language:EN-PH">&nbsp;</span><span lang=3D"EN-=
+PH" style=3D"color:#201F1E;mso-fareast-language:EN-PH"><o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US" styl=
+e=3D"font-size:10.0pt;color:#BFBFBF;mso-fareast-language:EN-PH">Global Secu=
+rity Operation Centre</span><span lang=3D"EN-PH" style=3D"color:#201F1E;mso=
+-fareast-language:EN-PH"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-PH" styl=
+e=3D"font-size:10.0pt;color:#BFBFBF;mso-fareast-language:EN-PH">+44&nbsp;20=
+ 3734 2726</span><span lang=3D"EN-PH" style=3D"color:#201F1E;mso-fareast-la=
+nguage:EN-PH"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-AU" styl=
+e=3D"font-size:10.0pt;color:#CCCCCC;mso-fareast-language:EN-PH"><a href=3D"=
+mailto:security@izoologic.com"><span style=3D"color:#0563C1">security@izool=
+ogic.com</span></a></span><span lang=3D"EN-PH" style=3D"color:#201F1E;mso-f=
+areast-language:EN-PH"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-AU" styl=
+e=3D"font-size:10.0pt;color:#CCCCCC;mso-fareast-language:EN-PH"><a href=3D"=
+http://www.izoologic.com/"><span style=3D"color:#0563C1">www.izoologic.com<=
+/span></a></span><span lang=3D"EN-PH" style=3D"color:#201F1E;mso-fareast-la=
+nguage:EN-PH"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US" styl=
+e=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,serif;color:b=
+lack;mso-fareast-language:EN-PH"><br>
+</span><b><span lang=3D"EN-PH" style=3D"font-size:14.0pt;color:#212121;mso-=
+fareast-language:EN-PH">iZOO</span></b><span lang=3D"EN-PH" style=3D"font-s=
+ize:14.0pt;color:#BFBFBF;mso-fareast-language:EN-PH">logic</span><span lang=
+=3D"EN-PH" style=3D"color:#201F1E;mso-fareast-language:EN-PH"><o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_CWXP265MB4539C8EA3420A9BAADDEA4F1DEA49CWXP265MB4539GBRP_--

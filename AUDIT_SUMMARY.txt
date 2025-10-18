@@ -1,0 +1,140 @@
+╔════════════════════════════════════════════════════════════════════╗
+║          CRITICAL: PARSER AUDIT SUMMARY                            ║
+║          Date: 2025-10-18                                          ║
+╚════════════════════════════════════════════════════════════════════╝
+
+TOTAL PARSERS AUDITED: 552
+
+┌────────────────────────────────────────────────────────────────────┐
+│ PARSER STATUS BREAKDOWN                                            │
+└────────────────────────────────────────────────────────────────────┘
+
+✓ VERIFIED (38 parsers - 6.9%)
+  ├─ Has Python source with explicit translation comment
+  ├─ Can be trusted for production use
+  └─ Examples: spamhaus, spamcop, verizon, ebay, ifpi
+
+⚠ MISSING COMMENTS (410 parsers - 74.3%)
+  ├─ Python source exists but no/incorrect translation comments
+  ├─ Likely functional but needs documentation
+  ├─ Low risk - just poor documentation
+  └─ Action: Add translation comments
+
+⚠ SIMILAR PYTHON FOUND (15 parsers - 2.7%)
+  ├─ No exact match but similar Python file exists
+  ├─ Examples: cert_fi (ncsc_fi.py), urlhaus (urlhaus.py)
+  └─ Action: Verify mapping and add comments
+
+🚨 FABRICATED - NO PYTHON SOURCE (64 parsers - 11.6%)
+  ├─ NO corresponding Python source code exists
+  ├─ Created without actual email samples
+  ├─ May never match real emails or misparse them
+  └─ CRITICAL: Must be removed before production
+
+🔴 PATTERN-BASED (37 parsers - 6.7%)
+  ├─ Explicitly marked as "pattern-based implementation"
+  ├─ Overlap with fabricated parsers
+  ├─ Guesses at email format without evidence
+  └─ Examples: apple, netflix, aws, azure, facebook
+
+┌────────────────────────────────────────────────────────────────────┐
+│ FABRICATED PARSERS BY CATEGORY                                     │
+└────────────────────────────────────────────────────────────────────┘
+
+Cloud/Hosting:    19 parsers (aws, azure, gcp, digitalocean, vultr...)
+ISPs/Telcos:      11 parsers (bell, rogers, spectrum, twc...)
+Media/Content:    10 parsers (netflix, apple, hbo, cbs, fox...)
+Tech Companies:   11 parsers (facebook, instagram, twitter, linkedin...)
+DNS/Domains:       4 parsers (namecheap, enom, route53, dnsimple)
+Security/Intel:    2 parsers (recordedfuture, paypal)
+Other:            11 parsers (etsy, fastly, internap, shopify...)
+
+TOTAL:            64+ fabricated parsers
+
+┌────────────────────────────────────────────────────────────────────┐
+│ RISK ASSESSMENT                                                     │
+└────────────────────────────────────────────────────────────────────┘
+
+🔴 CRITICAL RISK (64 parsers)
+   └─ May misclassify emails, fail to parse, or give false confidence
+
+🟡 MEDIUM RISK (410 parsers)
+   └─ Missing traceability but likely functional
+
+🟢 LOW RISK (38 parsers)
+   └─ Verified and documented
+
+┌────────────────────────────────────────────────────────────────────┐
+│ EVIDENCE OF FABRICATION                                            │
+└────────────────────────────────────────────────────────────────────┘
+
+Many parsers have telltale comments:
+
+  // Pattern-based implementation for Apple trademark/copyright reports
+  // Pattern-based stub implementation (no Python source exists)
+  // Parser for AWS abuse notifications from abuse@amazonaws.com
+  // Note: No Python source found - this is a stub implementation
+
+These parsers GUESS at email formats without actual samples.
+
+┌────────────────────────────────────────────────────────────────────┐
+│ RECOMMENDED ACTIONS                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+IMMEDIATE (CRITICAL):
+  1. ❌ DELETE or QUARANTINE all 64 fabricated parsers
+  2. ❌ DO NOT DEPLOY fabricated parsers to production
+  3. 🔍 AUDIT test data for fabricated parsers
+  4. 📝 REVIEW commit history to understand how they were created
+
+SHORT TERM (HIGH PRIORITY):
+  1. ✏️ Add translation comments to 410 parsers with missing comments
+  2. ✅ Verify functionality of renamed parsers against Python
+  3. 📋 Document which organizations actually send abuse reports
+  4. ✅ Create allowlist of verified senders
+
+LONG TERM (MAINTENANCE):
+  1. 🚫 REQUIRE evidence before adding new parsers:
+     - Actual email samples OR
+     - Python source reference OR
+     - Documented customer request with examples
+  2. 🔧 Add CI checks to prevent parsers without sources
+  3. 🎯 Quality gate: No parser without test data
+
+┌────────────────────────────────────────────────────────────────────┐
+│ FILES GENERATED                                                     │
+└────────────────────────────────────────────────────────────────────┘
+
+📄 PARSER_AUDIT_REPORT.md          - Full detailed report
+📄 parser_audit.csv                - CSV for analysis (Excel/sheets)
+📄 FABRICATED_PARSERS_TO_DELETE.txt - List for deletion
+📄 AUDIT_SUMMARY.txt               - This file
+
+Additional temporary files in /tmp/:
+  - /tmp/suspicious_parsers.txt
+  - /tmp/verified_parsers.txt
+  - /tmp/renamed_parsers.txt
+
+┌────────────────────────────────────────────────────────────────────┐
+│ CONCLUSION                                                          │
+└────────────────────────────────────────────────────────────────────┘
+
+🚨 CRITICAL QUALITY ISSUE IDENTIFIED 🚨
+
+11.6% of parsers (64 out of 552) appear to be FABRICATED without actual
+email samples or Python source code. These parsers represent a significant
+risk if deployed to production.
+
+The parsers may:
+  - Never match any real emails (wasted processing)
+  - Misparse real emails (data quality issues)
+  - Give false confidence in abuse report handling
+
+RECOMMENDATION: Immediately remove all fabricated parsers before any
+production deployment. Only use verified parsers with known sources.
+
+═══════════════════════════════════════════════════════════════════════
+
+Generated by: Claude Code / AI Flow
+Repository: /Users/tknecht/Projects/inbound-parsers
+Audit Date: 2025-10-18

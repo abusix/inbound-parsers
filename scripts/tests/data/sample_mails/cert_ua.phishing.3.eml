@@ -1,0 +1,966 @@
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+	by 053ea0284110 (Haraka/2.8.28) with ESMTP id 44811699-AFA2-4277-8615-DCC7F2D47FDC.1
+	envelope-from <abuse+bncBAABBT5DTWKAMGQEGX3H6JA@digitalocean.com>;
+	Fri, 20 May 2022 08:31:12 +0000
+Received: by mail-ed1-f70.google.com with SMTP id f20-20020a50d554000000b0042abba35e60sf5220349edj.15
+        for <abuse@digitalocean.abusehq.net>; Fri, 20 May 2022 01:31:12 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1653035471; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=xLoqYzVmECr5W7RptIDzbzDnMr4SIb+Wy7cdX73pa/q6lnvAHDZT8ehazwI32QrN8Y
+         elv3m6LN3mq6N4Xz+el/pZAjVuqeITe857TyY5WEOOnE6S7L2eLe6+C0pXi2dZmYBfAq
+         kVR5ZY3sPgCKGGB6qjzIi+ZxmCANBdo4H6dP/YSrx+DEGYApfra7EU7oG/nRL0M6h0qh
+         MnQ1Gd4CIie9wzYPxqTasKZ3FzA6rXpdcG04QL8ReLx6u/ie3L6LcZY+3TpqE8v5ITd+
+         xDeAnPfngsVZHfgRq4TrOxpBkn5sHU5+Dh7KpPw099ewxR4v6Jh4tZfnngmu1SVripok
+         BNGQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:autocrypt:subject:from:to
+         :content-language:user-agent:date:message-id:sender:dkim-signature;
+        bh=ZN5i/8cr3mvQdKSk75XDKcKoJYb46ans8DxhRAYKNVU=;
+        b=RLWoL2eem2W9WYJ7lBC0xWXEKpY9LJF1w8pZGMJsYoApKcYaANUi6tPRBCvBdyCZKZ
+         gKYKQSoLH2tzTWthgvRIGlMxMQamIjz1lmsO9N7eeVRiJ4K/AwKMofbS2G2hIEzVBfoE
+         YEXx5EFT3nsSZBawHCk0Zcy1jj/EnMzj9tnuojL6qh1C6RIhbJmpDW1ExyWEc7TQEMP/
+         Vv0yBO8yGiSxG7rUpPAZGapM7NmaC6+fLbs91T5QL5EE5CmIkNz88ofWk639lMC8npfc
+         qQ9DP77tD8vZ1cI2OgoANCYvubuDtcBSthgiP0Ll8CPAh2EGqebCAH8xDej8p87f60uo
+         q7nw==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@cert.gov.ua header.s=selector1 header.b=pEwCQQiD;
+       arc=pass (i=1 spf=pass spfdomain=cert.gov.ua dkim=pass dkdomain=cert.gov.ua dmarc=pass fromdomain=cert.gov.ua);
+       spf=pass (google.com: domain of cert@cert.gov.ua designates 2a01:111:f400:fe0d::312 as permitted sender) smtp.mailfrom=cert@cert.gov.ua;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=cert.gov.ua
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=sender:message-id:date:user-agent:content-language:to:from:subject
+         :autocrypt:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-unsubscribe;
+        bh=ZN5i/8cr3mvQdKSk75XDKcKoJYb46ans8DxhRAYKNVU=;
+        b=DrXs819HOdeRFfmfdofGoTao9NyF+t5PbFhWeIWuvQR2U4mCr03G9iQ+okCNTb6ez2
+         szuJgYIG6ZAJVNab9fbpKc8etm1p96i8JeLSJ2D7KYg5lGojJT8+AUGrpIMRdHgBvJKD
+         epFjJH8fRtFFJbZyeQbANb8+fNNwpmV0NDOLg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=sender:x-gm-message-state:message-id:date:user-agent
+         :content-language:to:from:subject:autocrypt:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-unsubscribe;
+        bh=ZN5i/8cr3mvQdKSk75XDKcKoJYb46ans8DxhRAYKNVU=;
+        b=RU6w7YI5qIplmrc9+18mtYsMZfn7dezL46ZQ0FSoTp6YkktbnLkb2I/vCQc6Gx3Q4/
+         rwtZcUzefQEZ9wbEQheP4dgSa1z5zK8N1it9ZLew7GvbFBNjadUQ2/FeH9dNP+rgNOD4
+         4lwxNLkjiPcs1k3NBQqbO6qCy9Wguosq1xOI3dfYGDrX+pqwHgGluisyVj49D23ws9Aq
+         MYg9plOytHkTyw16GIFlpYAJaSFfUdoD19xfRzMrmO3Sd8HDvbDFYT+AbDcmD49E0tNr
+         sFsjlAzsj3SBglZonxFD03V2pBPTwuCUh9WVQRecUNbCdtzl0Xbk7Ia8TVYHRM+viUKf
+         iR5Q==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOAM531DEB6dN5qshC5wFSLlLbjy2pbjQ/xhywysuRytHJEeqJCla8uO
+	QNS9dEfEBGlncBpOfjNTdupokw==
+X-Google-Smtp-Source: ABdhPJzoIlNq4rKfgBY9GkYjxaYmUiUSHhDZLCiox76xTLg+NUCkohHPrKBjEVGvCHDbuYhPcIs0Rw==
+X-Received: by 2002:a05:6402:51cb:b0:428:2617:64ba with SMTP id r11-20020a05640251cb00b00428261764bamr9491792edd.135.1653035471855;
+        Fri, 20 May 2022 01:31:11 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:5205:b0:42a:c2bb:3d7f with SMTP id
+ s5-20020a056402520500b0042ac2bb3d7fls402626edd.1.gmail; Fri, 20 May 2022
+ 01:31:11 -0700 (PDT)
+X-Received: by 2002:a50:fd11:0:b0:42a:b6af:6e13 with SMTP id i17-20020a50fd11000000b0042ab6af6e13mr9572028eds.221.1653035470950;
+        Fri, 20 May 2022 01:31:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653035470; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=lV6AEgUZzbFPo1ve/Shq3rEIVajW0h7K0TD8wKRNatz1TnDkDON1slAfqGx9TZ+iyU
+         kx8+/naZ/5ZgP3tW3gBbBiMQdXzfhP/D+aM0MHYSZFqjCYBKPL3oYFZ9JbqIjFQGaz/v
+         wHA6ih2be6XNa/6zyLEdDKL7zqzpCHNWNfpxNx6xN0orhLIKoPhild25Ay9Ie4dTabgn
+         5fKXo6FSeG7rHqzpEAyRaQF6X6G31CPjbuCxrHDVo/7NkUfpMvj+wLz2lOsDZX8BvYkB
+         g886/CSAsPGMtPbNuUzMj4jueEIUekADgnHQm3doNoAv3ENivPV+bqsBsNj8CKnzKgiI
+         sLPQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:autocrypt:subject:from:to:content-language:user-agent
+         :date:message-id:dkim-signature;
+        bh=ZN5i/8cr3mvQdKSk75XDKcKoJYb46ans8DxhRAYKNVU=;
+        b=OmRdIrNiOFwQ1xSz9srEXje/p7FGhpj8oV13LuClIh7cPqbWaMmaSxnH6pwXXj/gcI
+         5pKDe9v47TGegdc7BN/c96fz+a7KiX03vtgBPvkBSdVlfdTWCnZxVjPWOmLoYGKfYYyV
+         O9MWh9Q3x1Ih5ejHQUCL6BFib7M6ehCn6VcVSOksB43cPOkUNkrDrJ/y+wB+Bwf6qCi2
+         ie9v7cxxGG/TbF8HgAqegHmYNHiQD9vbups099jK2nvm8bGgIPTjE3TrkPJIeOdNqsZu
+         +muaC2MPi2GK0by7T3pPc8G3CyzBm7iwOK7fSsQS2BqW1QTaLPqTAj+EUJqjv/cJrMG9
+         izYQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert.gov.ua header.s=selector1 header.b=pEwCQQiD;
+       arc=pass (i=1 spf=pass spfdomain=cert.gov.ua dkim=pass dkdomain=cert.gov.ua dmarc=pass fromdomain=cert.gov.ua);
+       spf=pass (google.com: domain of cert@cert.gov.ua designates 2a01:111:f400:fe0d::312 as permitted sender) smtp.mailfrom=cert@cert.gov.ua;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=cert.gov.ua
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04hn0312.outbound.protection.outlook.com. [2a01:111:f400:fe0d::312])
+        by mx.google.com with ESMTPS id dp4-20020a170906c14400b006df76385bbasi5318461ejc.90.2022.05.20.01.31.10
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 20 May 2022 01:31:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cert@cert.gov.ua designates 2a01:111:f400:fe0d::312 as permitted sender) client-ip=2a01:111:f400:fe0d::312;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i1UBjmrHsSD88eLQqXpl8h1HKu1XPIFohL5Lqg/bnEkO5UDxJnJztaRCYsDjhK7lCp4yykE0lCpWvYALsUq+IN4MGQbhAZYoGrcmkeMo5fy7595ioHbRjhbF/QS7iDmtKXRpK3BRHqObtSW7NbDtNJ9dEOFmAm4nQ2Is1/WXxh4RAuxzW6ZhQW4pLIKROcIIzLno9Ej98avr7DY/faVa7/ZodRxo1UXRoP3gGycNwEltbUoRwtPlcV3NZfXS3cBfk302tvWE2WD+/RuWrRtgAFJ/SyMwLQtsEJepdkU3V4njaqYO+3H8GqkkZy5ffAZoNta+nef/OBZs1di46suVwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZN5i/8cr3mvQdKSk75XDKcKoJYb46ans8DxhRAYKNVU=;
+ b=cXVBjXeiPQdrLbYxY2Gewi2yvUvZWxU903kVgV5AKsi5L/CvHj/Hc+d3Te4Gv/n21JSlYUZTUdVV1hi2m1p4YlEajlMdU+0JZOIpGHLu7R6mgRdn1bfiZbhVxf/oZimF4lg3nmO7dSQyNu3ySan1rvsPUHYRSI857GmE1VdJlT5Jv8I1qz41pZLjBDqxgwRqPvrHR5sZsb1c2en+k9+3mCekxtuTc1l1V9yyDFPbzA9AeitiHom15eIIKEw4fKmDB2mHmA4b9ClPp1Ye2C3hz9RUUMcOrMl9sEiQ0R88DknLx3jrrFzb+UslBdLSYeLgvVU3Y+cxudQEm5yycCx6KQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cert.gov.ua; dmarc=pass action=none header.from=cert.gov.ua;
+ dkim=pass header.d=cert.gov.ua; arc=none
+Received: from DU0PR08MB8116.eurprd08.prod.outlook.com (2603:10a6:10:3ec::16)
+ by AM6PR08MB4007.eurprd08.prod.outlook.com (2603:10a6:20b:a1::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.15; Fri, 20 May
+ 2022 08:31:05 +0000
+Received: from DU0PR08MB8116.eurprd08.prod.outlook.com
+ ([fe80::f038:f0ae:875a:681a]) by DU0PR08MB8116.eurprd08.prod.outlook.com
+ ([fe80::f038:f0ae:875a:681a%5]) with mapi id 15.20.5250.014; Fri, 20 May 2022
+ 08:31:05 +0000
+Message-ID: <5687a2d3-e828-3914-c733-c3de05e803a8@cert.gov.ua>
+Date: Fri, 20 May 2022 11:31:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Content-Language: en-US
+To: abuse@digitalocean.com
+From: "cert@cert.gov.ua" <cert@cert.gov.ua>
+Subject: [CERT-UA#4661] Phishing website
+Autocrypt: addr=cert@cert.gov.ua; keydata=
+ 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
+ RIwGz7KCi2tep24SGC0goX4VUABCew==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bLyfSeGtn6MLy0SaAVEdMFRj"
+X-ClientProxiedBy: VI1P194CA0050.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:803:3c::39) To DU0PR08MB8116.eurprd08.prod.outlook.com
+ (2603:10a6:10:3ec::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 859f57e1-77a2-4186-146d-08da3a3b14cd
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4007:EE_
+X-Microsoft-Antispam-PRVS: <AM6PR08MB40072FF8C20288D7B8B030B390D39@AM6PR08MB4007.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dHRtSjhiT01wT1EycTJnR2dSaG1XZVVaNWlwME41Z2JjdGVmbnhHVTEzb0d6?=
+ =?utf-8?B?d2ZEMkZVY2FxajJGYnJnTUFZOURIMkNodkluK1V5cGM4KzF5eTAwRzkrL2tP?=
+ =?utf-8?B?T3YzUmx6UC9wZFd1alRWMVVJSTNKdWpqWk9ZWUo5K3NOQnFTbXM2SXRMOFA4?=
+ =?utf-8?B?QkhtRmIra2g5SGZlRjh1NWxQaUhGTDlNTG1ySXI3VUdpN2RwTFRTOU05aFRk?=
+ =?utf-8?B?dzNuZUNkZ0dzTmhoZXBvVWh0ZWNuclpEVDIvOEQxbXFsZ3U1b1V3OTV3TUNG?=
+ =?utf-8?B?MjdzWXIxbFVGVnhkeTIwQ3JETzN4SnduOTB0MVR3bE5zNm5PcTZmcWR1OWdR?=
+ =?utf-8?B?UXFOSHlaSExqRnVmQkJ1UVJFa2VTWFBlam5LaUcwU0FKcklFSzFicDVDMHVi?=
+ =?utf-8?B?Ny9yU3BySS9tdm9TUEZhRDRPUU1DeERWSXBuMmwwcm5nL2hkS1Fabks0cmN1?=
+ =?utf-8?B?VGcrbThuMFN3Ky9mcENTUE1sclBRSUZ5WnIxUU8yOXQ2c2tsODV6Z1BxSzZJ?=
+ =?utf-8?B?Q0ZpdURGYXVva0x6RVZRZnFGZXBhaHBVbE9kT01HSzJDVUlPUmZkc0cxejJv?=
+ =?utf-8?B?RCtSTkZpa2Vmd2Q1TGFwM3NtMTRpNGZGWk1DWUwzY2VoQVhQRzNSSVFXc1BL?=
+ =?utf-8?B?cElyUytsSFJld1Qxa0JBOEh1UExmMHNBeExrVjAxYytsc3AvMkJ4WlZEeVZs?=
+ =?utf-8?B?UWFWZkVuOGJ3dXlxQUZ5ekpqTmw5RzRTYkhtMWFQd1l6M3lLWXRDOUdDUkI0?=
+ =?utf-8?B?empSeWZVRnNiOHM4T1hyUFJYRHBLbENvSG5ZblFiR2VSU0hTZEJZMlB4eTIx?=
+ =?utf-8?B?Qm9QalR4UE9PYmFXN0NqbTVyLytmRE1aZTJWTVJBOEkxTGRNWXBYVDJTa0Fm?=
+ =?utf-8?B?MlJacHEzYWlzc1VYNUZ6M2ova01ZemJJRDVsNitaRC95dHhpbnRrVkZXVExX?=
+ =?utf-8?B?bGpZWHZwaklDK2E3b2JRK2VBRkJuczk0czNMOGowT21mRVFYa2wrWnJMUk1a?=
+ =?utf-8?B?dVh0VEx1Sml2QjN3V3p2dDJmNlRrZDFTRlRnbWtkUDI1bUEvL2drTVo5WUhK?=
+ =?utf-8?B?RkhINW9EbUFHRDl3d0c4Nmp6cjBRajNvcW9kWnNMaVlBOUNWcWJkSWpmcGU2?=
+ =?utf-8?B?SjVId0pldHNwU3ZkS0dHWTV3ZlNLK1E1V2NSYkgzTWFJUkpWRkRJZHlKNi94?=
+ =?utf-8?B?bjgyU1dINjJoU2JxNHd5dlZCWGdIaWNZT2FVZzF5ci85MzNYcjNZN3N0UVU2?=
+ =?utf-8?B?YTJpR0tGZDlQWS9xMXI0c20wWUg0Q00weklvR2RDYUh5Q3hkSzhTaVVocENy?=
+ =?utf-8?B?QVdCcEovdjh0V0J1cW9tYTg1MGladCtLU3ZLMzdiL3llTWxDdTBkN2JraXNP?=
+ =?utf-8?B?L1FwL3M1Vk5YTEFhZVNrem1oNDM5Y0FxbVVUTjVnTW1QTEtQZHZ5anVZcWdB?=
+ =?utf-8?B?d2VZTWJESjZpNlNnSDk2UFNDY3RqeEVCV3FXc2NUc3RtWUdaa2xTM1ljMFNm?=
+ =?utf-8?B?SmFEbDRsYThRNDRYczFKQ1U4K3M5NXFvMUpvQ2FBZk92OG8rb3hmMVBZSFNv?=
+ =?utf-8?B?V3lHT0VKT2pjYno1Nkl3cjd3aXp0dXNXa0N1dURpSUIwVk1weDJqMnNKMk5K?=
+ =?utf-8?B?ak94WDc0ZUFESVNPMWlwR2xXVE1YRm0zVkM4NXFkMVJ0S3Y4eEFUU1FIZzRv?=
+ =?utf-8?B?ZTZXeEI0SnFzSjFMRzV3bkUwMUlkNThJZ3pnNjR2ODRtY21OY29yU085MVZk?=
+ =?utf-8?B?Sm9zUmlZb1Nvb21INkxCa01GN2syck5OY21nUnlmR0VWRnpUWXE0K3hVamF4?=
+ =?utf-8?B?d2Z6VVRaVk1VUHdyU3ZPNEIvM1NWN1BHRmJCYld3dDRvYkRjc0k1ZVZjVE5Q?=
+ =?utf-8?B?K1lpOFg5b3RJRktxbUNHeW8yT3kzT3dOUXRuS0t5RkxrV3dkZnlkNi96ZjJk?=
+ =?utf-8?B?MUdzNWgvbHE4R3FTRkg2ZDBWaWlXVE4wTnUrNFlIMU5EL3RGWmFIRW5IaWUy?=
+ =?utf-8?Q?qXqvemuCPvJQgVVpHXCR1jk6KKhZdY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:6;SRV:;IPV:NLI;SFV:SPM;H:DU0PR08MB8116.eurprd08.prod.outlook.com;PTR:;CAT:OSPM;SFS:(13230001)(4636009)(34036004)(39840400004)(34096005)(136003)(376002)(346002)(366004)(396003)(316002)(38100700002)(31686004)(55236004)(2616005)(86362001)(41300700001)(31696002)(186003)(6666004)(33964004)(2906002)(6506007)(8676002)(508600001)(66556008)(66476007)(66574015)(8936002)(235185007)(5660300002)(6512007)(6486002)(6916009)(83380400001)(26005)(36756003)(41320700001)(15974865002)(66946007)(30864003)(21480400003)(45980500001)(43740500002);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVpCU2x4clBnbHYxMkwzSVJqaXE2MHJSVEZkb3MweFg4d3oxZU44V1AxTFlj?=
+ =?utf-8?B?R2s4SzB4YWJMVzhDQnVwZjV4YWJTVVJCdG42NG5NaUV6aHJqcTVJTDRpT3M1?=
+ =?utf-8?B?OElwOTlHQjcwUmpLYzZPRzlUQURGcUdJZ3NwSGM0R1Y3TjdDeHAyWVdBcTky?=
+ =?utf-8?B?aXAxOGxRdHlnYmZUOWx2NUo2OVVnUGhFODh3MXZBcE1SRTF0c1BvRjFVUFFN?=
+ =?utf-8?B?Q0xobnc1UXQ0cWJtek5TanVSWi9vdlhQYWtWU2VMRlJSaVVTMFFKcGRONkhD?=
+ =?utf-8?B?NnVYNGttOVpVZkJpM1JHKzBXaC9EQ1hrNGxKTDFDcnZaRzlrMzJQQkZOYllC?=
+ =?utf-8?B?YndFbTE0b2o2cHpET1p0MUhlRUpIY1dGZlBjS3dHZTNGdXBLSVZWenBoVkVq?=
+ =?utf-8?B?am1SaHNLcUZaNVNUK3RySENKakpxKzBjVjhDdGhkUkZHSk5uL1UybHd2MDRl?=
+ =?utf-8?B?RGMydjRYL0krdW9TQjMvMUhlUjVHQlJCRFRVOHA5QWZ0Y1ZDS0M3d2l5cTI2?=
+ =?utf-8?B?Q2xaMUM1UnhHTk1NbHZ2R3hnd01lSTRxNVFyZ0lTTDNSQm81cmtZZmI1TnJP?=
+ =?utf-8?B?dmxyaG5FWEtlMEgzOGFOWDUrNFVnM1NYQ0dxcjhYck54TWdvd1JjTE4zajU0?=
+ =?utf-8?B?blVyZUo2TW8rRE5GODcvYnJZa1VGV3pyNkFkWWNQa0JORlpHRkUrR2k2cExk?=
+ =?utf-8?B?SUpCTWNtN2FjbG9HMGJSSXpqZXJQRGR0bnJSZDMyVkxQUlJBd05SK3lLRkVq?=
+ =?utf-8?B?YkUwRDJUNHdENzJmL1gzdXZMMCtsanlneU52eElUSWNYODY3R3FhanJZVUdh?=
+ =?utf-8?B?T21ad0pjck9iMEJUajNXSXhMRmhiMVRsbVNpRHBDVlNnTXlOZjR5VEtuYkFV?=
+ =?utf-8?B?TjVwenBBNGdtclZCeGs0RTVFQlQzZ0d1WjlWRElhT2hpQ0ZzaUZudDRySVlk?=
+ =?utf-8?B?MkU1ZG9mK3RPR0E1OVlIeVhVeTlIOUlodHM2NE5xbFg5ZnpLTnFZWTJCcFFX?=
+ =?utf-8?B?RXJuV1RTNExZWUwzeVVndjBTU1l5eDRkWmlQTitTU3hDdnU1UzRReTdvM01D?=
+ =?utf-8?B?WU8vSnZPcVh3S2o4VVNiMFd6KzNSOXpaZURoR0pRRlVBdHFPTjhDVzVVaUxq?=
+ =?utf-8?B?bXlXTEMydXZtUzZ3cXFUUDZ3ampRNVdaeTM0T25JY0tXQzBOMHFiMHA5b2lp?=
+ =?utf-8?B?UExsVFpNNDNaU0ZxbVVNNVFsTy9PS2U3NDVNajFybXhjTUVOQkZmZUNDOERL?=
+ =?utf-8?B?dzQ5YVI5UFB0MGxzbjJXSXVvMCsyc1I4dW40dXBCZDVhRnIwcFdzT1hZSURY?=
+ =?utf-8?B?ekxhWDNCUlVCUWZnVlJKQWNWWjJOWU1pZGpwOWgzNmtxTlM2bXRab25USi9U?=
+ =?utf-8?B?cWVPdWlvZmwrTVowWU90d0FaZGI2SHgxek9PSHRta1lYNDdUQ0VnNFg2WVIw?=
+ =?utf-8?B?dS92VEg3ZkFGY3VTNFk0VWFoZ3FuWndlTVVtNmNyOXlYSlBLRktRckxsREJr?=
+ =?utf-8?B?NS90N1hYNlBMZ2M2WStDeGx4WGg2YjIyWFJUVEw2UGc0b2ZyeDNpTmdtNFZG?=
+ =?utf-8?B?d2l2cWtRaG5IQ2ZnZldycGNZN3hTRDI4emtYTnVvYXBseFZ6WUZBY1pKblpa?=
+ =?utf-8?B?bndJN203Rkg3U2N3b1V4OVd6SlF3NTB3WWdDdVFzU2prQ1pCaWh4clhjSnlj?=
+ =?utf-8?B?OGFTbjZ4aVFpcmczM2pYd0dXSkt4c3h1aWxlZVg3dnF4VTlSME1LNFJIcHUr?=
+ =?utf-8?B?QnJwVTh6bGQ4c2dVWUMwLzh3cDllbzJacjdlV2VYZ2t2cjVVTHgyNW9uMm4w?=
+ =?utf-8?B?QVdpZmJ4anhZemY5V0pyL3FoTEZ0bmxvWW1xQnl0SG5IQzZ0Y0tha013enpP?=
+ =?utf-8?B?d2J5NENFVDNNWU9aZ3VRYWxIQmR3enRJRDVhUjJGNmhPU1hIZEkxeis5Mko4?=
+ =?utf-8?B?dEdPU0U2SjZtV1RwaGJ1UkVDQjUxdFhWU1RCZ0pXcWRLUEtEUG81QXNIQ0po?=
+ =?utf-8?B?TzRmbDZhRHpoaVA1QkRmRkYxT1BMZE4rc0hwUTNYMGVSVDNsa052dmxYREM2?=
+ =?utf-8?B?WS8vcjNmOTZrNWhOb1NaUFFjV2VPWSt6YnJMMWZLa2toeXI4U1hQL05CNUtS?=
+ =?utf-8?B?ODBOSjUydWg5eFZVejJjWUw3amFoRmF5Y0F2OWx0bG5NOXNZWFltTHhvWjdN?=
+ =?utf-8?B?amFXZFhBVVJrekY5eTA2NDBxNTRPckdjVGZ3Mi9QU2o0Q2JSVTFtUmVBZUla?=
+ =?utf-8?B?aldsLzVRNTlVYm9pdWhPRjUyd1lmSmRGYllUcDFsNHR2QkpuQWdITFZYZHV0?=
+ =?utf-8?B?aERaRS9XME5RbVNSMXgrVldrT1JyMUJObmdiTnlMbEVseXo1ZmMrUT09?=
+X-OriginatorOrg: cert.gov.ua
+X-MS-Exchange-CrossTenant-Network-Message-Id: 859f57e1-77a2-4186-146d-08da3a3b14cd
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB8116.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 08:31:05.4061
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5dba7eed-4c8f-41c6-a31c-2d517ee5dba1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fnupsM5IQBGJ5QO4W8qAdJ03tj5ZY1FMOx4sGSnAZVv75NjoYtTb4ldZX6NR/qcGh2H/EKaEQEnnczqsRzxKXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4007
+X-Original-Sender: cert@cert.gov.ua
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert.gov.ua header.s=selector1 header.b=pEwCQQiD;       arc=pass
+ (i=1 spf=pass spfdomain=cert.gov.ua dkim=pass dkdomain=cert.gov.ua dmarc=pass
+ fromdomain=cert.gov.ua);       spf=pass (google.com: domain of
+ cert@cert.gov.ua designates 2a01:111:f400:fe0d::312 as permitted sender)
+ smtp.mailfrom=cert@cert.gov.ua;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=cert.gov.ua
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--------------bLyfSeGtn6MLy0SaAVEdMFRj
+Content-Type: multipart/mixed; boundary="------------T0XZAkcfxp4DKu6lFpLe6zJ7";
+ protected-headers="v1"
+From: "cert@cert.gov.ua" <cert@cert.gov.ua>
+To: abuse@digitalocean.com
+Message-ID: <5687a2d3-e828-3914-c733-c3de05e803a8@cert.gov.ua>
+Subject: [CERT-UA#4661] Phishing website
+
+--------------T0XZAkcfxp4DKu6lFpLe6zJ7
+Content-Type: multipart/mixed; boundary="------------FIDn5jWq5a5ttsJqOiVF00Zn"
+
+--------------FIDn5jWq5a5ttsJqOiVF00Zn
+Content-Type: multipart/alternative;
+ boundary="------------P0hX6UNWd6KHeuT01WrncCDJ"
+
+--------------P0hX6UNWd6KHeuT01WrncCDJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+Q29tcHV0ZXIgRW1lcmdlbmN5IFJlc3BvbnNlIFRlYW0gb2YgVWtyYWluZSBDRVJULVVBIHJl
+Y2VpdmVkIGluZm9ybWF0aW9uIGFib3V0DQpjb21wdXRlciB0aHJlYWRzIHRoYXQgdGFyZ2V0
+cyBVa3JhaW5pYW4gc2VnbWVudCBvZiB0aGUgSW50ZXJuZXQuDQoNCiEhLS0tLS0tLS0tLSEh
+DQoNCipUTFA6QU1CRVIqDQoNClRoaXMgZW1haWwgY29udGFpbnMgaW5mb3JtYXRpb24gYWJv
+dXQgcGhpc2hpbmcgd2ViIHJlc291cmNlcyB0aGF0IGFyZSBpbiB5b3VyDQphcmVhIG9mIHJl
+c3BvbnNpYmlsaXR5Lg0KDQpETlNEQiBvdXRwdXQ6DQoNCnxbJzE1OS42NS4xOC4xNDMnXSBB
+IDMgMjAyMi0wNS0xOCAyMToyMToyMSAyMDIyLTA1LTE5IDEwOjEwOjE5IA0Kd3d3Lml6aS1v
+cHJvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSAxIDIwMjItMDUtMTggMjE6MjA6MzEgMjAy
+Mi0wNS0xOCANCjIxOjIwOjMxIHd3dy5pdHMtZ29zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBB
+IDE0IDIwMjItMDUtMTggMjE6MjA6MzEgDQoyMDIyLTA1LTE5IDE3OjMzOjQ0IGl0cy1nb3Mu
+dG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMiAyMDIyLTA1LTE4IA0KMjE6MjA6MDAgMjAyMi0w
+NS0xOSAwOTo1NjowOSBpemktb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMyANCjIw
+MjItMDUtMTggMDk6MDY6NTkgMjAyMi0wNS0xOCAxNjozODoxMCB3d3cudW5pLW9wcm9zLnRv
+cCANClsnMTU5LjY1LjE4LjE0MyddIEEgMiAyMDIyLTA1LTE4IDA5OjA1OjMyIDIwMjItMDUt
+MTggMDk6MDc6NDQgDQp3d3cudXEtZ29zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDUgMjAy
+Mi0wNS0xOCAwOTowNDo1MiAyMDIyLTA1LTE4IA0KMTY6Mzc6NTAgdW5pLW9wcm9zLnRvcCBb
+JzE1OS42NS4xOC4xNDMnXSBBIDQwIDIwMjItMDUtMTggMDk6MDQ6MDEgDQoyMDIyLTA1LTE5
+IDA1OjIxOjMxIHVxLWdvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSAyIDIwMjItMDUtMTcg
+MDk6MzY6MTYgDQoyMDIyLTA1LTE3IDEwOjAyOjIzIGpvYi1vcHJvcy50b3AgWycxNTkuNjUu
+MTguMTQzJ10gQSAyIDIwMjItMDUtMTYgDQoyMTo1MTowMCAyMDIyLTA1LTE3IDEwOjAyOjE0
+IHd3dy5qb2Itb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgNCANCjIwMjItMDUtMTYg
+MjE6MDQ6MDMgMjAyMi0wNS0xNyAwNjowMjowMSB3d3cuamFyLWdvcy50b3AgDQpbJzE1OS42
+NS4xOC4xNDMnXSBBIDc4IDIwMjItMDUtMTYgMjE6MDA6MzIgMjAyMi0wNS0xOSAxMDo1NToz
+MSANCmphci1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMjIgMjAyMi0wNS0xNiAwNToy
+MTozMyAyMDIyLTA1LTE2IA0KMTk6MDY6MjQgcHJlLW9wcm9zLnRvcCBbJzE1OS42NS4xOC4x
+NDMnXSBBIDYgMjAyMi0wNS0xNiAwNToyMTozMyANCjIwMjItMDUtMTYgMTc6MDg6NDIgd3d3
+LnByZS1vcHJvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSAxMDAgMjAyMi0wNS0xNiANCjA1
+OjE5OjUyIDIwMjItMDUtMTcgMjA6MTY6MDggcmVhLWdvcy50b3AgWycxNTkuNjUuMTguMTQz
+J10gQSA1IA0KMjAyMi0wNS0xNiAwNToxOTo1MiAyMDIyLTA1LTE3IDA2OjAyOjM2IHd3dy5y
+ZWEtZ29zLnRvcCANClsnMTU5LjY1LjE4LjE0MyddIEEgMjc2IDIwMjItMDUtMTUgMDU6NTk6
+MTcgMjAyMi0wNS0xOSAwMjozNzoxMSANCnRlbnNlLWdvcy50b3AgWycxNTkuNjUuMTguMTQz
+J10gQSA5IDIwMjItMDUtMTQgMTQ6NDY6NTIgMjAyMi0wNS0xNyANCjA1OjQ2OjAyIHd3dy50
+b3Atb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMyAyMDIyLTA1LTE0IDE0OjQxOjA5
+IA0KMjAyMi0wNS0xNSAwNzoxMjoyNCB3d3cudGVuc2UtZ29zLnRvcCBbJzE1OS42NS4xOC4x
+NDMnXSBBIDIzNyAyMDIyLTA1LTE0IA0KMTQ6NDA6MDIgMjAyMi0wNS0xOSAxNDo1Mjo0NSB0
+b3Atb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgOSANCjIwMjItMDUtMTQgMTI6MTQ6
+MDcgMjAyMi0wNS0xNiAxODoxNjo0NyB3d3cud2Vycy1nb3MudG9wIA0KWycxNTkuNjUuMTgu
+MTQzJ10gQSAxNjggMjAyMi0wNS0xNCAxMjoxMTo1MiAyMDIyLTA1LTE5IDA5OjM3OjI2IA0K
+d2Vycy1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMiAyMDIyLTA1LTEzIDIwOjI0OjUz
+IDIwMjItMDUtMTQgDQowMjoxMzowNiB3d3cudGFzLWdvcy50b3AgWycxNTkuNjUuMTguMTQz
+J10gQSAxMCAyMDIyLTA1LTEzIDIwOjIxOjUxIA0KMjAyMi0wNS0xNiAxNzo0NDo0MyB3d3cu
+dGlvLWdvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSAxNDcgMjAyMi0wNS0xMyANCjIwOjE5
+OjU5IDIwMjItMDUtMTkgMDI6Mzc6MTMgdGlvLWdvcy50b3AgWycxNTkuNjUuMTguMTQzJ10g
+QSA0IA0KMjAyMi0wNS0xMyAyMDoxOTozOCAyMDIyLTA1LTEzIDIwOjI0OjQzIHd3dy5hd2Et
+b3Byb3MudG9wIA0KWycxNTkuNjUuMTguMTQzJ10gQSA0OCAyMDIyLTA1LTEzIDIwOjE3OjUw
+IDIwMjItMDUtMTUgMDA6NDg6MDMgDQphd2Etb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0Mydd
+IEEgMjgxIDIwMjItMDUtMTMgMjA6MTY6MjggMjAyMi0wNS0xOSANCjA5OjM3OjA0IHRhcy1n
+b3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMyAyMDIyLTA1LTEzIDA2OjUwOjU2IA0KMjAy
+Mi0wNS0xMyAxNToyMzozMiB3d3cuZXctZ29zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDUg
+MjAyMi0wNS0xMyANCjA2OjUwOjUwIDIwMjItMDUtMTMgMDc6MDQ6NDcgd3d3LmV1LW9wcm9z
+LnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDEwNCANCjIwMjItMDUtMTMgMDY6NDI6MzkgMjAy
+Mi0wNS0xMyAxOToxNjoxOSBldy1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgDQoyOSAy
+MDIyLTA1LTEzIDA2OjQxOjUzIDIwMjItMDUtMTMgMTk6MTY6MjYgZXUtb3Byb3MudG9wIA0K
+WycxNTkuNjUuMTguMTQzJ10gQSAyMDQgMjAyMi0wNS0xMSAyMTowNzo0NyAyMDIyLTA1LTEz
+IDA5OjMzOjQzIA0KamVsLWdvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSA0IDIwMjItMDUt
+MTEgMjE6MDc6NDcgMjAyMi0wNS0xMSANCjIxOjEzOjA3IHd3dy5qZWwtZ29zLnRvcCBbJzE1
+OS42NS4xOC4xNDMnXSBBIDIgMjAyMi0wNS0xMSAyMTowNzowNyANCjIwMjItMDUtMTEgMjE6
+MDk6MDMgd3d3LmpvLW9wcm9zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDI2IDIwMjItMDUt
+MTEgDQoyMTowNjo1MSAyMDIyLTA1LTEyIDIzOjQ1OjQzIGpvLW9wcm9zLnRvcCBbJzE1OS42
+NS4xOC4xNDMnXSBBIDMgDQoyMDIyLTA1LTExIDA1OjMxOjMxIDIwMjItMDUtMTIgMDY6MDY6
+Mjcgd3d3LmZvci1nb3MudG9wIA0KWycxNTkuNjUuMTguMTQzJ10gQSAzIDIwMjItMDUtMTEg
+MDU6MzA6MDYgMjAyMi0wNS0xMSAwNTozMzoyNiANCnd3dy5mb3JpLW9wcm9zLnRvcCBbJzE1
+OS42NS4xOC4xNDMnXSBBIDE0MyAyMDIyLTA1LTExIDA1OjI4OjQ5IA0KMjAyMi0wNS0xMiAx
+OTo0MDoyNyBmb3ItZ29zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDIzIDIwMjItMDUtMTEg
+DQowNToxOToyOSAyMDIyLTA1LTExIDIwOjIzOjQ0IGZvcmktb3Byb3MudG9wIFsnMTU5LjY1
+LjE4LjE0MyddIEEgMiANCjIwMjItMDUtMTAgMDU6NDM6NTIgMjAyMi0wNS0xMCAwNTo0Njow
+OSB3d3cuYW8tb3Byb3MudG9wIA0KWycxNTkuNjUuMTguMTQzJ10gQSAyIDIwMjItMDUtMTAg
+MDU6MDc6MDIgMjAyMi0wNS0xMCAwNTo0NDozMiANCnd3dy5haXMtZ29zLnRvcCBbJzE1OS42
+NS4xOC4xNDMnXSBBIDU4IDIwMjItMDUtMTAgMDU6MDQ6MzIgMjAyMi0wNS0xMiANCjE0OjA0
+OjEzIGFpcy1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgOCAyMDIyLTA1LTEwIDA1OjAx
+OjQwIA0KMjAyMi0wNS0xMCAwNjowODoxNCBhby1vcHJvcy50b3AgWycxNTkuNjUuMTguMTQz
+J10gQSAxNDEgMjAyMi0wNS0wOSANCjA4OjU3OjM5IDIwMjItMDUtMTEgMTc6MDg6Mzggd20t
+Z29zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDUgMjAyMi0wNS0wOSANCjA4OjU3OjM5IDIw
+MjItMDUtMDkgMTA6MDU6NDYgd3d3LndtLWdvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSA1
+IA0KMjAyMi0wNS0wOSAwODo1NzozOSAyMDIyLTA1LTA5IDA4OjU5OjEyIHd3dy53b3JsZC1v
+cHJvcy50b3AgDQpbJzE1OS42NS4xOC4xNDMnXSBBIDEwIDIwMjItMDUtMDkgMDg6NTY6MDcg
+MjAyMi0wNS0xMyAwNzo1NDo0NyANCndvcmxkLW9wcm9zLnRvcCBbJzE1OS42NS4xOC4xNDMn
+XSBBIDEzIDIwMjItMDUtMDggMjE6MDc6MDAgMjAyMi0wNS0wOSANCjAyOjQ4OjU4IHd3dy53
+cy1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgNyAyMDIyLTA1LTA4IDIxOjA1OjU3IA0K
+MjAyMi0wNS0wOCAyMTozMzo0MCB3d3cud2ktb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0Mydd
+IEEgNjMgMjAyMi0wNS0wOCANCjIxOjA1OjIyIDIwMjItMDUtMTEgMDc6NDI6MDUgd3MtZ29z
+LnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDcgMjAyMi0wNS0wOCANCjIxOjA0OjE5IDIwMjIt
+MDUtMDkgMDk6MzY6MjAgd2ktb3Byb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMiANCjIw
+MjItMDUtMDggMDM6NTI6MDQgMjAyMi0wNS0wOCAwMzo1NDowNyB3d3cuZXRpLW9wcm9zLnRv
+cCANClsnMTU5LjY1LjE4LjE0MyddIEEgMzAgMjAyMi0wNS0wOCAwMzozNDoxNyAyMDIyLTA1
+LTA4IDE3OjE1OjI2IA0KZXRpLW9wcm9zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDggMjAy
+Mi0wNS0wOCAwMzozNDoxNyAyMDIyLTA1LTEwIA0KMDY6MDI6MDUgd3d3LmV2LWdvcy50b3Ag
+WycxNTkuNjUuMTguMTQzJ10gQSAxNzcgMjAyMi0wNS0wOCAwMzozMjoyMiANCjIwMjItMDUt
+MTAgMTc6MDI6NTggZXYtZ29zLnRvcCBbJzE1OS42NS4xOC4xNDMnXSBBIDMgMjAyMi0wNS0w
+NiAxNzo0ODowMSANCjIwMjItMDUtMDYgMTc6NDg6MzIgd3d3LnVpLW9wcm9zLnRvcCBbJzE1
+OS42NS4xOC4xNDMnXSBBIDYgMjAyMi0wNS0wNiANCjE1OjU0OjAwIDIwMjItMDUtMDYgMjI6
+NTY6NTUgd3d3LnlpLWdvcy50b3AgWycxNTkuNjUuMTguMTQzJ10gQSA4IA0KMjAyMi0wNS0w
+NiAxNTo1MzoyOSAyMDIyLTA1LTA2IDE1OjUzOjI5IHd3dy55ZS1nb3MudG9wIFsnMTU5LjY1
+LjE4LjE0MyddIA0KQSA5IDIwMjItMDUtMDYgMTU6NTI6MzkgMjAyMi0wNS0wNyAwNDozMjo1
+OCB5aS1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIA0KQSA1IDIwMjItMDUtMDYgMTU6NDg6
+MTcgMjAyMi0wNS0wNiAyMjo1Nzo0NSB5ZS1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIA0K
+QSA1NyAyMDIyLTA1LTA2IDE1OjM3OjQyIDIwMjItMDUtMDcgMjE6NTE6NTcgdWktb3Byb3Mu
+dG9wIA0KWycxNTkuNjUuMTguMTQzJ10gQSA0IDIwMjItMDUtMDYgMTU6MzY6MTYgMjAyMi0w
+NS0wOCAwNTo0NToxMyANCnd3dy51ei1nb3MudG9wIFsnMTU5LjY1LjE4LjE0MyddIEEgMjM5
+IDIwMjItMDUtMDYgMTU6MzY6MTAgMjAyMi0wNS0wOSANCjIyOjM2OjAzIHV6LWdvcy50b3B8
+DQoNCg0KDQpQbGVhc2UgaGVscCBpbiBlbGltaW5hdGluZyB0aGUgdGhyZWF0Og0KDQogIDEu
+IEJsb2NrIGFjY2VzcyB0byB0aGUgcGhpc2hpbmcgcGFnZS4NCiAgMi4gRGVsZXRlIHBoaXNo
+aW5nIGNvbnRlbnQuDQoNCldlIHdpbGwgYWxzbyBiZSB2ZXJ5IGdyYXRlZnVsIGZvciBhbnkg
+aW5mb3JtYXRpb24gcmVnYXJkaW5nIHRoaXMgaW5jaWRlbnQsIHN1Y2ggYXM6DQoNCiAgICog
+Y29waWVzIG9mIGZpbGVzL3NjcmlwdHMgdG8gY29sbGVjdC9zdG9yZSBwZXJzb25hbCBkYXRh
+Ow0KICAgKiBsaXN0cyBvZiBJUCBhZGRyZXNzZXMgdGhhdCDRgW9ubmVjdGVkIHRvIHRoZSBw
+aGlzaGluZyBwYWdlLg0KDQohIS0tLS0tLS0tLS0hIQ0KDQpUaGlzIG1lc3NhZ2UgaXMgZGln
+aXRhbGx5IHNpZ25lZCB1c2luZyBQR1AuDQpJbmZvcm1hdGlvbiBhYm91dCB0aGUgQ0VSVC1V
+QSBQR1Aga2V5cyBpcyBhdmFpbGFibGUgYXQ6IGhYWHBzOi8vY2VydC5nb3YudWEuDQoNCklu
+IGNhc2Ugb2YgcXVlc3Rpb25zLCBvciB5b3UgYXJlIG5vdCByZWxhdGVkIHRvIHRoZSBzcGVj
+aWZpZWQgbWVzc2FnZSwgb3IgdGhpcw0KbWVzc2FnZSB3YXMgc2VudCB0byB5b3UgaW4gZXJy
+b3IsIHBsZWFzZSBjb250YWN0Y2VydEBjZXJ0Lmdvdi51YSAgYW5kIGtlZXAgdGhlDQppbmNp
+ZGVudCBudW1iZXIgW0NFUlQtVUEjNDY2MV0gb2YgdGhpcyBtZXNzYWdlIGluIHRoZSBzdWJq
+ZWN0IGxpbmUuDQoNClRoYW5rIHlvdSBmb3IgY29vcGVyYXRpb24hDQpLaW5kbHkgUmVnYXJk
+cywNCg0KQ0VSVC1VQQ0KQ29tcHV0ZXIgRW1lcmdlbmN5IFJlc3BvbnNlIFRlYW0gb2YgVWty
+YWluZSBDRVJULVVBDQpUaGUgU3RhdGUgU2VydmljZSBvZiBTcGVjaWFsIENvbW11bmljYXRp
+b24gYW5kIEluZm9ybWF0aW9uIFByb3RlY3Rpb24gb2YgVWtyYWluZQ0KMDQxMTksIFVrcmFp
+bmUsIEt5aXYsIFl1cmlpYSBJbGxpZW5rYSBzdHJlZXQsIDgzYg0Kd2ViOiBoWFhwczovL2Nl
+cnQuZ292LnVhDQpoWFhwczovL3d3dy5maXJzdC5vcmcvbWVtYmVycy90ZWFtcy9jZXJ0LXVh
+DQoNCg==
+--------------P0hX6UNWd6KHeuT01WrncCDJ
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+
+    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <pre class=3D"moz-quote-pre" wrap=3D"">Computer Emergency Response Te=
+am of Ukraine CERT-UA received information about=20
+computer threads that targets Ukrainian segment of the Internet.
+
+!!----------!!
+
+<b class=3D"moz-txt-star"><span class=3D"moz-txt-tag">*</span>TLP:AMBER<s=
+pan class=3D"moz-txt-tag">*</span></b>
+
+This email contains information about phishing web resources that are in =
+your=20
+area of responsibility.
+
+DNSDB output:
+<span><span><span><pre><code><span class=3D"hljs-attr_selector">['159.65.=
+18.143']</span>  <span class=3D"hljs-tag">A</span>  3  2022<span class=3D=
+"hljs-tag">-05-18</span> 21<span class=3D"hljs-pseudo">:21</span><span cl=
+ass=3D"hljs-pseudo">:21</span>  2022<span class=3D"hljs-tag">-05-19</span=
+> 10<span class=3D"hljs-pseudo">:10</span><span class=3D"hljs-pseudo">:19=
+</span>  <span class=3D"hljs-tag">www</span><span class=3D"hljs-class">.i=
+zi-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  1  2022<span class=3D"hljs-tag">-05-18</span> 21<spa=
+n class=3D"hljs-pseudo">:20</span><span class=3D"hljs-pseudo">:31</span> =
+ 2022<span class=3D"hljs-tag">-05-18</span> 21<span class=3D"hljs-pseudo"=
+>:20</span><span class=3D"hljs-pseudo">:31</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.its-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  14  2022<span class=3D"hljs-tag">-05-18</span> 21<sp=
+an class=3D"hljs-pseudo">:20</span><span class=3D"hljs-pseudo">:31</span>=
+  2022<span class=3D"hljs-tag">-05-19</span> 17<span class=3D"hljs-pseudo=
+">:33</span><span class=3D"hljs-pseudo">:44</span>  <span class=3D"hljs-t=
+ag">its-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-18</span> 21<spa=
+n class=3D"hljs-pseudo">:20</span><span class=3D"hljs-pseudo">:00</span> =
+ 2022<span class=3D"hljs-tag">-05-19</span> 09<span class=3D"hljs-pseudo"=
+>:56</span><span class=3D"hljs-pseudo">:09</span>  <span class=3D"hljs-ta=
+g">izi-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  3  2022<span class=3D"hljs-tag">-05-18</span> 09<spa=
+n class=3D"hljs-pseudo">:06</span><span class=3D"hljs-pseudo">:59</span> =
+ 2022<span class=3D"hljs-tag">-05-18</span> 16<span class=3D"hljs-pseudo"=
+>:38</span><span class=3D"hljs-pseudo">:10</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.uni-opros</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-18</span> 09<spa=
+n class=3D"hljs-pseudo">:05</span><span class=3D"hljs-pseudo">:32</span> =
+ 2022<span class=3D"hljs-tag">-05-18</span> 09<span class=3D"hljs-pseudo"=
+>:07</span><span class=3D"hljs-pseudo">:44</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.uq-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  5  2022<span class=3D"hljs-tag">-05-18</span> 09<spa=
+n class=3D"hljs-pseudo">:04</span><span class=3D"hljs-pseudo">:52</span> =
+ 2022<span class=3D"hljs-tag">-05-18</span> 16<span class=3D"hljs-pseudo"=
+>:37</span><span class=3D"hljs-pseudo">:50</span>  <span class=3D"hljs-ta=
+g">uni-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  40  2022<span class=3D"hljs-tag">-05-18</span> 09<sp=
+an class=3D"hljs-pseudo">:04</span><span class=3D"hljs-pseudo">:01</span>=
+  2022<span class=3D"hljs-tag">-05-19</span> 05<span class=3D"hljs-pseudo=
+">:21</span><span class=3D"hljs-pseudo">:31</span>  <span class=3D"hljs-t=
+ag">uq-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-17</span> 09<spa=
+n class=3D"hljs-pseudo">:36</span><span class=3D"hljs-pseudo">:16</span> =
+ 2022<span class=3D"hljs-tag">-05-17</span> 10<span class=3D"hljs-pseudo"=
+>:02</span><span class=3D"hljs-pseudo">:23</span>  <span class=3D"hljs-ta=
+g">job-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-16</span> 21<spa=
+n class=3D"hljs-pseudo">:51</span><span class=3D"hljs-pseudo">:00</span> =
+ 2022<span class=3D"hljs-tag">-05-17</span> 10<span class=3D"hljs-pseudo"=
+>:02</span><span class=3D"hljs-pseudo">:14</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.job-opros</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  4  2022<span class=3D"hljs-tag">-05-16</span> 21<spa=
+n class=3D"hljs-pseudo">:04</span><span class=3D"hljs-pseudo">:03</span> =
+ 2022<span class=3D"hljs-tag">-05-17</span> 06<span class=3D"hljs-pseudo"=
+>:02</span><span class=3D"hljs-pseudo">:01</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.jar-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  78  2022<span class=3D"hljs-tag">-05-16</span> 21<sp=
+an class=3D"hljs-pseudo">:00</span><span class=3D"hljs-pseudo">:32</span>=
+  2022<span class=3D"hljs-tag">-05-19</span> 10<span class=3D"hljs-pseudo=
+">:55</span><span class=3D"hljs-pseudo">:31</span>  <span class=3D"hljs-t=
+ag">jar-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  22  2022<span class=3D"hljs-tag">-05-16</span> 05<sp=
+an class=3D"hljs-pseudo">:21</span><span class=3D"hljs-pseudo">:33</span>=
+  2022<span class=3D"hljs-tag">-05-16</span> 19<span class=3D"hljs-pseudo=
+">:06</span><span class=3D"hljs-pseudo">:24</span>  <span class=3D"hljs-t=
+ag">pre-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  6  2022<span class=3D"hljs-tag">-05-16</span> 05<spa=
+n class=3D"hljs-pseudo">:21</span><span class=3D"hljs-pseudo">:33</span> =
+ 2022<span class=3D"hljs-tag">-05-16</span> 17<span class=3D"hljs-pseudo"=
+>:08</span><span class=3D"hljs-pseudo">:42</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.pre-opros</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  100  2022<span class=3D"hljs-tag">-05-16</span> 05<s=
+pan class=3D"hljs-pseudo">:19</span><span class=3D"hljs-pseudo">:52</span=
+>  2022<span class=3D"hljs-tag">-05-17</span> 20<span class=3D"hljs-pseud=
+o">:16</span><span class=3D"hljs-pseudo">:08</span>  <span class=3D"hljs-=
+tag">rea-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  5  2022<span class=3D"hljs-tag">-05-16</span> 05<spa=
+n class=3D"hljs-pseudo">:19</span><span class=3D"hljs-pseudo">:52</span> =
+ 2022<span class=3D"hljs-tag">-05-17</span> 06<span class=3D"hljs-pseudo"=
+>:02</span><span class=3D"hljs-pseudo">:36</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.rea-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  276  2022<span class=3D"hljs-tag">-05-15</span> 05<s=
+pan class=3D"hljs-pseudo">:59</span><span class=3D"hljs-pseudo">:17</span=
+>  2022<span class=3D"hljs-tag">-05-19</span> 02<span class=3D"hljs-pseud=
+o">:37</span><span class=3D"hljs-pseudo">:11</span>  <span class=3D"hljs-=
+tag">tense-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  9  2022<span class=3D"hljs-tag">-05-14</span> 14<spa=
+n class=3D"hljs-pseudo">:46</span><span class=3D"hljs-pseudo">:52</span> =
+ 2022<span class=3D"hljs-tag">-05-17</span> 05<span class=3D"hljs-pseudo"=
+>:46</span><span class=3D"hljs-pseudo">:02</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.top-opros</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  3  2022<span class=3D"hljs-tag">-05-14</span> 14<spa=
+n class=3D"hljs-pseudo">:41</span><span class=3D"hljs-pseudo">:09</span> =
+ 2022<span class=3D"hljs-tag">-05-15</span> 07<span class=3D"hljs-pseudo"=
+>:12</span><span class=3D"hljs-pseudo">:24</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.tense-gos</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  237  2022<span class=3D"hljs-tag">-05-14</span> 14<s=
+pan class=3D"hljs-pseudo">:40</span><span class=3D"hljs-pseudo">:02</span=
+>  2022<span class=3D"hljs-tag">-05-19</span> 14<span class=3D"hljs-pseud=
+o">:52</span><span class=3D"hljs-pseudo">:45</span>  <span class=3D"hljs-=
+tag">top-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  9  2022<span class=3D"hljs-tag">-05-14</span> 12<spa=
+n class=3D"hljs-pseudo">:14</span><span class=3D"hljs-pseudo">:07</span> =
+ 2022<span class=3D"hljs-tag">-05-16</span> 18<span class=3D"hljs-pseudo"=
+>:16</span><span class=3D"hljs-pseudo">:47</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.wers-gos</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  168  2022<span class=3D"hljs-tag">-05-14</span> 12<s=
+pan class=3D"hljs-pseudo">:11</span><span class=3D"hljs-pseudo">:52</span=
+>  2022<span class=3D"hljs-tag">-05-19</span> 09<span class=3D"hljs-pseud=
+o">:37</span><span class=3D"hljs-pseudo">:26</span>  <span class=3D"hljs-=
+tag">wers-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-13</span> 20<spa=
+n class=3D"hljs-pseudo">:24</span><span class=3D"hljs-pseudo">:53</span> =
+ 2022<span class=3D"hljs-tag">-05-14</span> 02<span class=3D"hljs-pseudo"=
+>:13</span><span class=3D"hljs-pseudo">:06</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.tas-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  10  2022<span class=3D"hljs-tag">-05-13</span> 20<sp=
+an class=3D"hljs-pseudo">:21</span><span class=3D"hljs-pseudo">:51</span>=
+  2022<span class=3D"hljs-tag">-05-16</span> 17<span class=3D"hljs-pseudo=
+">:44</span><span class=3D"hljs-pseudo">:43</span>  <span class=3D"hljs-t=
+ag">www</span><span class=3D"hljs-class">.tio-gos</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  147  2022<span class=3D"hljs-tag">-05-13</span> 20<s=
+pan class=3D"hljs-pseudo">:19</span><span class=3D"hljs-pseudo">:59</span=
+>  2022<span class=3D"hljs-tag">-05-19</span> 02<span class=3D"hljs-pseud=
+o">:37</span><span class=3D"hljs-pseudo">:13</span>  <span class=3D"hljs-=
+tag">tio-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  4  2022<span class=3D"hljs-tag">-05-13</span> 20<spa=
+n class=3D"hljs-pseudo">:19</span><span class=3D"hljs-pseudo">:38</span> =
+ 2022<span class=3D"hljs-tag">-05-13</span> 20<span class=3D"hljs-pseudo"=
+>:24</span><span class=3D"hljs-pseudo">:43</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.awa-opros</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  48  2022<span class=3D"hljs-tag">-05-13</span> 20<sp=
+an class=3D"hljs-pseudo">:17</span><span class=3D"hljs-pseudo">:50</span>=
+  2022<span class=3D"hljs-tag">-05-15</span> 00<span class=3D"hljs-pseudo=
+">:48</span><span class=3D"hljs-pseudo">:03</span>  <span class=3D"hljs-t=
+ag">awa-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  281  2022<span class=3D"hljs-tag">-05-13</span> 20<s=
+pan class=3D"hljs-pseudo">:16</span><span class=3D"hljs-pseudo">:28</span=
+>  2022<span class=3D"hljs-tag">-05-19</span> 09<span class=3D"hljs-pseud=
+o">:37</span><span class=3D"hljs-pseudo">:04</span>  <span class=3D"hljs-=
+tag">tas-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  3  2022<span class=3D"hljs-tag">-05-13</span> 06<spa=
+n class=3D"hljs-pseudo">:50</span><span class=3D"hljs-pseudo">:56</span> =
+ 2022<span class=3D"hljs-tag">-05-13</span> 15<span class=3D"hljs-pseudo"=
+>:23</span><span class=3D"hljs-pseudo">:32</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.ew-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  5  2022<span class=3D"hljs-tag">-05-13</span> 06<spa=
+n class=3D"hljs-pseudo">:50</span><span class=3D"hljs-pseudo">:50</span> =
+ 2022<span class=3D"hljs-tag">-05-13</span> 07<span class=3D"hljs-pseudo"=
+>:04</span><span class=3D"hljs-pseudo">:47</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.eu-opros</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  104  2022<span class=3D"hljs-tag">-05-13</span> 06<s=
+pan class=3D"hljs-pseudo">:42</span><span class=3D"hljs-pseudo">:39</span=
+>  2022<span class=3D"hljs-tag">-05-13</span> 19<span class=3D"hljs-pseud=
+o">:16</span><span class=3D"hljs-pseudo">:19</span>  <span class=3D"hljs-=
+tag">ew-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  29  2022<span class=3D"hljs-tag">-05-13</span> 06<sp=
+an class=3D"hljs-pseudo">:41</span><span class=3D"hljs-pseudo">:53</span>=
+  2022<span class=3D"hljs-tag">-05-13</span> 19<span class=3D"hljs-pseudo=
+">:16</span><span class=3D"hljs-pseudo">:26</span>  <span class=3D"hljs-t=
+ag">eu-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  204  2022<span class=3D"hljs-tag">-05-11</span> 21<s=
+pan class=3D"hljs-pseudo">:07</span><span class=3D"hljs-pseudo">:47</span=
+>  2022<span class=3D"hljs-tag">-05-13</span> 09<span class=3D"hljs-pseud=
+o">:33</span><span class=3D"hljs-pseudo">:43</span>  <span class=3D"hljs-=
+tag">jel-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  4  2022<span class=3D"hljs-tag">-05-11</span> 21<spa=
+n class=3D"hljs-pseudo">:07</span><span class=3D"hljs-pseudo">:47</span> =
+ 2022<span class=3D"hljs-tag">-05-11</span> 21<span class=3D"hljs-pseudo"=
+>:13</span><span class=3D"hljs-pseudo">:07</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.jel-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-11</span> 21<spa=
+n class=3D"hljs-pseudo">:07</span><span class=3D"hljs-pseudo">:07</span> =
+ 2022<span class=3D"hljs-tag">-05-11</span> 21<span class=3D"hljs-pseudo"=
+>:09</span><span class=3D"hljs-pseudo">:03</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.jo-opros</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  26  2022<span class=3D"hljs-tag">-05-11</span> 21<sp=
+an class=3D"hljs-pseudo">:06</span><span class=3D"hljs-pseudo">:51</span>=
+  2022<span class=3D"hljs-tag">-05-12</span> 23<span class=3D"hljs-pseudo=
+">:45</span><span class=3D"hljs-pseudo">:43</span>  <span class=3D"hljs-t=
+ag">jo-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  3  2022<span class=3D"hljs-tag">-05-11</span> 05<spa=
+n class=3D"hljs-pseudo">:31</span><span class=3D"hljs-pseudo">:31</span> =
+ 2022<span class=3D"hljs-tag">-05-12</span> 06<span class=3D"hljs-pseudo"=
+>:06</span><span class=3D"hljs-pseudo">:27</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.for-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  3  2022<span class=3D"hljs-tag">-05-11</span> 05<spa=
+n class=3D"hljs-pseudo">:30</span><span class=3D"hljs-pseudo">:06</span> =
+ 2022<span class=3D"hljs-tag">-05-11</span> 05<span class=3D"hljs-pseudo"=
+>:33</span><span class=3D"hljs-pseudo">:26</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.fori-opros</span><span class=3D"=
+hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  143  2022<span class=3D"hljs-tag">-05-11</span> 05<s=
+pan class=3D"hljs-pseudo">:28</span><span class=3D"hljs-pseudo">:49</span=
+>  2022<span class=3D"hljs-tag">-05-12</span> 19<span class=3D"hljs-pseud=
+o">:40</span><span class=3D"hljs-pseudo">:27</span>  <span class=3D"hljs-=
+tag">for-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  23  2022<span class=3D"hljs-tag">-05-11</span> 05<sp=
+an class=3D"hljs-pseudo">:19</span><span class=3D"hljs-pseudo">:29</span>=
+  2022<span class=3D"hljs-tag">-05-11</span> 20<span class=3D"hljs-pseudo=
+">:23</span><span class=3D"hljs-pseudo">:44</span>  <span class=3D"hljs-t=
+ag">fori-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-10</span> 05<spa=
+n class=3D"hljs-pseudo">:43</span><span class=3D"hljs-pseudo">:52</span> =
+ 2022<span class=3D"hljs-tag">-05-10</span> 05<span class=3D"hljs-pseudo"=
+>:46</span><span class=3D"hljs-pseudo">:09</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.ao-opros</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-10</span> 05<spa=
+n class=3D"hljs-pseudo">:07</span><span class=3D"hljs-pseudo">:02</span> =
+ 2022<span class=3D"hljs-tag">-05-10</span> 05<span class=3D"hljs-pseudo"=
+>:44</span><span class=3D"hljs-pseudo">:32</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.ais-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  58  2022<span class=3D"hljs-tag">-05-10</span> 05<sp=
+an class=3D"hljs-pseudo">:04</span><span class=3D"hljs-pseudo">:32</span>=
+  2022<span class=3D"hljs-tag">-05-12</span> 14<span class=3D"hljs-pseudo=
+">:04</span><span class=3D"hljs-pseudo">:13</span>  <span class=3D"hljs-t=
+ag">ais-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  8  2022<span class=3D"hljs-tag">-05-10</span> 05<spa=
+n class=3D"hljs-pseudo">:01</span><span class=3D"hljs-pseudo">:40</span> =
+ 2022<span class=3D"hljs-tag">-05-10</span> 06<span class=3D"hljs-pseudo"=
+>:08</span><span class=3D"hljs-pseudo">:14</span>  <span class=3D"hljs-ta=
+g">ao-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  141  2022<span class=3D"hljs-tag">-05-09</span> 08<s=
+pan class=3D"hljs-pseudo">:57</span><span class=3D"hljs-pseudo">:39</span=
+>  2022<span class=3D"hljs-tag">-05-11</span> 17<span class=3D"hljs-pseud=
+o">:08</span><span class=3D"hljs-pseudo">:38</span>  <span class=3D"hljs-=
+tag">wm-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  5  2022<span class=3D"hljs-tag">-05-09</span> 08<spa=
+n class=3D"hljs-pseudo">:57</span><span class=3D"hljs-pseudo">:39</span> =
+ 2022<span class=3D"hljs-tag">-05-09</span> 10<span class=3D"hljs-pseudo"=
+>:05</span><span class=3D"hljs-pseudo">:46</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.wm-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  5  2022<span class=3D"hljs-tag">-05-09</span> 08<spa=
+n class=3D"hljs-pseudo">:57</span><span class=3D"hljs-pseudo">:39</span> =
+ 2022<span class=3D"hljs-tag">-05-09</span> 08<span class=3D"hljs-pseudo"=
+>:59</span><span class=3D"hljs-pseudo">:12</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.world-opros</span><span class=3D=
+"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  10  2022<span class=3D"hljs-tag">-05-09</span> 08<sp=
+an class=3D"hljs-pseudo">:56</span><span class=3D"hljs-pseudo">:07</span>=
+  2022<span class=3D"hljs-tag">-05-13</span> 07<span class=3D"hljs-pseudo=
+">:54</span><span class=3D"hljs-pseudo">:47</span>  <span class=3D"hljs-t=
+ag">world-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  13  2022<span class=3D"hljs-tag">-05-08</span> 21<sp=
+an class=3D"hljs-pseudo">:07</span><span class=3D"hljs-pseudo">:00</span>=
+  2022<span class=3D"hljs-tag">-05-09</span> 02<span class=3D"hljs-pseudo=
+">:48</span><span class=3D"hljs-pseudo">:58</span>  <span class=3D"hljs-t=
+ag">www</span><span class=3D"hljs-class">.ws-gos</span><span class=3D"hlj=
+s-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  7  2022<span class=3D"hljs-tag">-05-08</span> 21<spa=
+n class=3D"hljs-pseudo">:05</span><span class=3D"hljs-pseudo">:57</span> =
+ 2022<span class=3D"hljs-tag">-05-08</span> 21<span class=3D"hljs-pseudo"=
+>:33</span><span class=3D"hljs-pseudo">:40</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.wi-opros</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  63  2022<span class=3D"hljs-tag">-05-08</span> 21<sp=
+an class=3D"hljs-pseudo">:05</span><span class=3D"hljs-pseudo">:22</span>=
+  2022<span class=3D"hljs-tag">-05-11</span> 07<span class=3D"hljs-pseudo=
+">:42</span><span class=3D"hljs-pseudo">:05</span>  <span class=3D"hljs-t=
+ag">ws-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  7  2022<span class=3D"hljs-tag">-05-08</span> 21<spa=
+n class=3D"hljs-pseudo">:04</span><span class=3D"hljs-pseudo">:19</span> =
+ 2022<span class=3D"hljs-tag">-05-09</span> 09<span class=3D"hljs-pseudo"=
+>:36</span><span class=3D"hljs-pseudo">:20</span>  <span class=3D"hljs-ta=
+g">wi-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  2  2022<span class=3D"hljs-tag">-05-08</span> 03<spa=
+n class=3D"hljs-pseudo">:52</span><span class=3D"hljs-pseudo">:04</span> =
+ 2022<span class=3D"hljs-tag">-05-08</span> 03<span class=3D"hljs-pseudo"=
+>:54</span><span class=3D"hljs-pseudo">:07</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.eti-opros</span><span class=3D"h=
+ljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  30  2022<span class=3D"hljs-tag">-05-08</span> 03<sp=
+an class=3D"hljs-pseudo">:34</span><span class=3D"hljs-pseudo">:17</span>=
+  2022<span class=3D"hljs-tag">-05-08</span> 17<span class=3D"hljs-pseudo=
+">:15</span><span class=3D"hljs-pseudo">:26</span>  <span class=3D"hljs-t=
+ag">eti-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  8  2022<span class=3D"hljs-tag">-05-08</span> 03<spa=
+n class=3D"hljs-pseudo">:34</span><span class=3D"hljs-pseudo">:17</span> =
+ 2022<span class=3D"hljs-tag">-05-10</span> 06<span class=3D"hljs-pseudo"=
+>:02</span><span class=3D"hljs-pseudo">:05</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.ev-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  177  2022<span class=3D"hljs-tag">-05-08</span> 03<s=
+pan class=3D"hljs-pseudo">:32</span><span class=3D"hljs-pseudo">:22</span=
+>  2022<span class=3D"hljs-tag">-05-10</span> 17<span class=3D"hljs-pseud=
+o">:02</span><span class=3D"hljs-pseudo">:58</span>  <span class=3D"hljs-=
+tag">ev-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  3  2022<span class=3D"hljs-tag">-05-06</span> 17<spa=
+n class=3D"hljs-pseudo">:48</span><span class=3D"hljs-pseudo">:01</span> =
+ 2022<span class=3D"hljs-tag">-05-06</span> 17<span class=3D"hljs-pseudo"=
+>:48</span><span class=3D"hljs-pseudo">:32</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.ui-opros</span><span class=3D"hl=
+js-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  6  2022<span class=3D"hljs-tag">-05-06</span> 15<spa=
+n class=3D"hljs-pseudo">:54</span><span class=3D"hljs-pseudo">:00</span> =
+ 2022<span class=3D"hljs-tag">-05-06</span> 22<span class=3D"hljs-pseudo"=
+>:56</span><span class=3D"hljs-pseudo">:55</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.yi-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  8  2022<span class=3D"hljs-tag">-05-06</span> 15<spa=
+n class=3D"hljs-pseudo">:53</span><span class=3D"hljs-pseudo">:29</span> =
+ 2022<span class=3D"hljs-tag">-05-06</span> 15<span class=3D"hljs-pseudo"=
+>:53</span><span class=3D"hljs-pseudo">:29</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.ye-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  9  2022<span class=3D"hljs-tag">-05-06</span> 15<spa=
+n class=3D"hljs-pseudo">:52</span><span class=3D"hljs-pseudo">:39</span> =
+ 2022<span class=3D"hljs-tag">-05-07</span> 04<span class=3D"hljs-pseudo"=
+>:32</span><span class=3D"hljs-pseudo">:58</span>  <span class=3D"hljs-ta=
+g">yi-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  5  2022<span class=3D"hljs-tag">-05-06</span> 15<spa=
+n class=3D"hljs-pseudo">:48</span><span class=3D"hljs-pseudo">:17</span> =
+ 2022<span class=3D"hljs-tag">-05-06</span> 22<span class=3D"hljs-pseudo"=
+>:57</span><span class=3D"hljs-pseudo">:45</span>  <span class=3D"hljs-ta=
+g">ye-gos</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  57  2022<span class=3D"hljs-tag">-05-06</span> 15<sp=
+an class=3D"hljs-pseudo">:37</span><span class=3D"hljs-pseudo">:42</span>=
+  2022<span class=3D"hljs-tag">-05-07</span> 21<span class=3D"hljs-pseudo=
+">:51</span><span class=3D"hljs-pseudo">:57</span>  <span class=3D"hljs-t=
+ag">ui-opros</span><span class=3D"hljs-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  4  2022<span class=3D"hljs-tag">-05-06</span> 15<spa=
+n class=3D"hljs-pseudo">:36</span><span class=3D"hljs-pseudo">:16</span> =
+ 2022<span class=3D"hljs-tag">-05-08</span> 05<span class=3D"hljs-pseudo"=
+>:45</span><span class=3D"hljs-pseudo">:13</span>  <span class=3D"hljs-ta=
+g">www</span><span class=3D"hljs-class">.uz-gos</span><span class=3D"hljs=
+-class">.top</span>
+<span class=3D"hljs-attr_selector">['159.65.18.143']</span>  <span class=3D=
+"hljs-tag">A</span>  239  2022<span class=3D"hljs-tag">-05-06</span> 15<s=
+pan class=3D"hljs-pseudo">:36</span><span class=3D"hljs-pseudo">:10</span=
+>  2022<span class=3D"hljs-tag">-05-09</span> 22<span class=3D"hljs-pseud=
+o">:36</span><span class=3D"hljs-pseudo">:03</span>  <span class=3D"hljs-=
+tag">uz-gos</span><span class=3D"hljs-class">.top</span></code></pre></sp=
+an></span></span>
+
+Please help in eliminating the threat:
+
+ 1. Block access to the phishing page.
+ 2. Delete phishing content.
+
+We will also be very grateful for any information regarding this incident=
+, such as:
+
+  * copies of files/scripts to collect/store personal data;
+  * lists of IP addresses that =D1=81onnected to the phishing page.
+
+!!----------!!
+
+This message is digitally signed using PGP.
+Information about the CERT-UA PGP keys is available at: hXXps://cert.gov.=
+ua.
+
+In case of questions, or you are not related to the specified message, or=
+ this=20
+message was sent to you in error, please contact <a class=3D"moz-txt-link=
+-abbreviated moz-txt-link-freetext" href=3D"mailto:cert@cert.gov.ua">cert=
+@cert.gov.ua</a> and keep the=20
+incident number [CERT-UA#4661] of this message in the subject line.
+
+Thank you for cooperation!
+Kindly Regards,
+
+CERT-UA
+Computer Emergency Response Team of Ukraine CERT-UA
+The State Service of Special Communication and Information Protection of =
+Ukraine
+04119, Ukraine, Kyiv, Yuriia Illienka street, 83b
+web: hXXps://cert.gov.ua
+hXXps://www.first.org/members/teams/cert-ua</pre>
+  </body>
+</html>
+
+--------------P0hX6UNWd6KHeuT01WrncCDJ--
+--------------FIDn5jWq5a5ttsJqOiVF00Zn
+Content-Type: application/pgp-keys; name="OpenPGP_0xB5B133C0B9FDD2B7.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB5B133C0B9FDD2B7.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+RIwGz7KCi2tep24SGC0goX4VUABCew=3D=3D
+=3D03qY
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------FIDn5jWq5a5ttsJqOiVF00Zn--
+
+--------------T0XZAkcfxp4DKu6lFpLe6zJ7--
+
+--------------bLyfSeGtn6MLy0SaAVEdMFRj
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsD5BAABCAAjFiEElJSpBi8LVej42yNatbEzwLn90rcFAmKHUcYFAwAAAAAACgkQtbEzwLn90reZ
+3gv+KAtmhFwacSu0MXw93uc4AiD1uRTfYGPBIN2XsY6L9lR4hwe+wHNCzNEISBfU3U1Pp3iH1JpA
+9xmWTvpwE5iwj8pUnUGcKheKQmdy5HW2YLLL2zMnyjPk2IVeF0rz/psF7nddoghR372wxCzRRsED
+SOv3WxFgnP/GyaFmrdd/D1/1fF/weGwtyop29uS8/Vu6NPBsK93moatyJ3tcqYDSfb+2mUcjBXlj
+rbx1Qfqgm/WMXPmoqB7s1MwCOIEnrEzSamk9K8OlEPJ93lLH8MAqW3BdYBcwdilA8RB62KFNkC6G
+U8v8EVfF9Zn3eYnXRYSLaOXvSs8hWrcAtiK9TQxc7E6mGDSIA7CsBV0lLIuV5sEytuF2T4FCShfb
+YCKNkxWM6pePk+s5G9ZFr1kHeuE8wqfHZdEDjVdHiQ6n588JXWQqyp8QgFjjyUbMOwVoWcpU0ztL
+SC5tytA9qHNa/AQHK3+yV1kJaruwLlPonkiUV8/4Z/EWzHXECsFJOA3mu/hn
+=ZyUx
+-----END PGP SIGNATURE-----
+
+--------------bLyfSeGtn6MLy0SaAVEdMFRj--

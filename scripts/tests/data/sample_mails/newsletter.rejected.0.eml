@@ -1,0 +1,608 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=none (length tag is unsupported) header.i=unknown header.d=scrippsweb.com header.s=default;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01on2071.outbound.protection.outlook.com [40.107.122.71])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 18A8AF87-05A8-4FF3-B3A7-09AC8DA7A7A1.1
+	envelope-from <bounces+SRS=1YXgS=H2@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 15 Dec 2023 12:04:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uj21OrSJGJH+km56vv/AULB11WML0OjncxBQP2EKqjuVehJEsyws69FcQ67UtDH2SVNzWVfbLQkqs6Qto0lIjQtmfzkmW6QzkFsnH7T37mb3bJ6mj4czM9pvCbuvAj8pSjXqPgUXts9TkySQFOsRNKtGtGvsosglYt7MxCX3TgKPTZ1/gLotGtG80W3qnzkt8CO74+zkMaZKRnh99bcIMzmxmU8XHVlDfvZ6+7QUGQzqP79pllH5/uP8CRhiKxf3RA7GpqOAkTzRkezkO6/LribVeQisvxy9e6SaJgKjgjRnBkehF6YDS8Q/sR90Squ4F3YiT7fgBinvnTyyzKCsRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X+nLsNW+1v07bMlz0EWCkdAR8rR+gcpWDPkWlzx9EXY=;
+ b=kQiOT6L0JsJElPEls+wFJwbtGX4W5KKWEj11Lj7DPvsqoPqt+oHu7TW4RC40e5JtOExZxYYGng7XMNlmt8LKETKrTPFTq7uWgQSxS0j0KBaH5hELcP58WdK4Yj/SuiIETgFxo21XbedVng5WKXtaKXlcP7sg9L0WEh83wNS673GcFuGgv1zCNEKVWRGTvzzJinvtxoZ1te97W2u9bshiV+VvDaKWDtS5ipXBGOPVPdSN53ZoZPSdhHUXBAT+7jDImGAXuvEld164d9k8ZvfO4P8LLT4xoY6VMgWR664flgYnXZpux9hHHIGLe6p8ZAnJSETIjp4yBWHbonKjHvA7uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 168.235.233.15) smtp.rcpttodomain=ipxo.com smtp.mailfrom=be2.maropost.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=newsletters.scrippsweb.com; dkim=pass (signature was verified)
+ header.d=scrippsweb.com; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X+nLsNW+1v07bMlz0EWCkdAR8rR+gcpWDPkWlzx9EXY=;
+ b=MUQYAVgFJbdKyLhfSH2kusQTNU6gP/Y6Eh0w9LfAzAPgusTrUGwmD4Ve//4d8Zj3gw9aHtGl1PhE6BIyH64HXx3Jz6IuckffiCSQLuw98f8NwEhhTUvgVvg0Tpv3iopJSEQ9PU34nZNDXruJ1LiVesdcne0WZOrtRCgM4vujB8mPg2YjrEEhHOXMUOlBkiIm5miPW6k/OL3fSjamrM73NdLloVuBLofJcg8pKCWnqUsVTbLiBmzpMhaz2JiO4Zs5aLfMedDtR11zjzO0D0TOsT9IK0dC3oYFVbZJEikjnVtS/vctImzkA68qynIP+ucSUKAF6gtO1iDEJS5K2fbfKg==
+Received: from CWLP123CA0139.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:87::31)
+ by LO2P302MB0069.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:378::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.31; Fri, 15 Dec
+ 2023 12:04:26 +0000
+Received: from CW2PEPF000056BC.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:401:87:cafe::3b) by CWLP123CA0139.outlook.office365.com
+ (2603:10a6:401:87::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.29 via Frontend
+ Transport; Fri, 15 Dec 2023 12:04:26 +0000
+Received-SPF: Pass (protection.outlook.com: domain of be2.maropost.com
+ designates 168.235.233.15 as permitted sender)
+ receiver=protection.outlook.com; client-ip=168.235.233.15;
+ helo=mta2.alerts.scrippsweb.com; pr=C
+Received: from mta2.alerts.scrippsweb.com (168.235.233.15) by
+ CW2PEPF000056BC.mail.protection.outlook.com (10.167.240.7) with Microsoft
+ SMTP Server id 15.20.7113.14 via Frontend Transport; Fri, 15 Dec 2023
+ 12:04:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=default; d=scrippsweb.com; t=1702641865; l=1; h=from:subject:date:
+ to; bh=nR4OLZRZ0GUjrRPiikCTwjFrqv567Fsl8w66LhE1mcQ=;
+ b=jFGBwQPF14qnrJUM9XkAOK1Z7WsbCHZPOHBVzjhehKRuGXih58nsEmveiRw1p3IBjl/L25
+ AmhkAOfTvFG7Y21NvOvQYSw56R/KhP5sZw9YBALzbT+fxaLDHCn4xmfSbAqYxWQduOigae
+ 1/h5Heuw//QnyKkpJpa3qtFazbAmyK8=
+Received: from <3077882-518030-1333@be2.maropost.com> ([168.235.233.15])
+ by 1246589-Mailer3 (envelope-from 3077882-518030-1333@be2.maropost.com)
+ (Jetsend MTA 0.0.1 with ESMTP; Fri, 15 Dec 2023 12:04:15 +0000
+Return-Path: 3077882-518030-1333@be2.maropost.com
+X-EmailSource: mmc
+Date: Fri, 15 Dec 2023 07:04:14 -0500
+From: NBC26 <WGBA@newsletters.scrippsweb.com>
+Reply-To: WGBA@newsletters.scrippsweb.com
+To: abuse@ipxo.com
+Message-ID: <fcec3ae0-7d6f-013c-842a-42010a8000f1@scrippsweb.com>
+Subject: Green Bay's Daily Weather Forecast
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_657c40be1731e_143742ad6426828058209fe";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+List-Unsubscribe: <mailto:3077882-518030-1333-168.235.233.15-gmail@abuse.maropost.com>
+X-CampaignID: 518030
+X-Campaign-ID: 518030
+X-ContactID: 3077882
+X-AccountID: 1333
+X-Binding: 168.235.233.15
+X-DkimDomain: scrippsweb.com
+X-DkimSelector: default
+X-Feedback-ID: 518030:43:1333
+X-rpcampaign: mpost_518030_43_1333
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CW2PEPF000056BC:EE_|LO2P302MB0069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3450906d-8942-471b-7670-08dbfd65fbaf
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:5;
+X-Microsoft-Antispam-Message-Info:
+	JsYzAgJxH+gaq1kjgGWSdoebjGNYOi+83AnCFfj1H3GsNbN4b3/55J6ED/Gy4cuVGZC5rD2PPTnvQVyom1PpeUEESdkEtQ8zk1KfLg4iLGcEWLECGs9X3kOk/jeW2FtfSk3gAxq9lz+uSGY+AUltdebrLY0hdyLcpPg5Z9E2NwqnRMm7L+kByra+Te0/tA+WTzgHD7EBHorXB3zg8E/WXT6HguYtGT37aC/FZzkoR8a5R326zk4s+r2rRVeh9xyIDOOVE0YXaBbbbeIlOw6XshUGI0PTLDXrbkJvPnKwtkG0biD2KAPCCSJ5pgy3+9vUaNgcyud7IRPQoWZAjDMYkrE04ijSFDwqw7YKT+6twAp+sK3Cyh+cSJUBETJ+qd+iT30r5JSpZzGRUf97UKqTd8LTR0xWtM5Zc0J8vGoqw+Ed31FsV0VG+G5LNs7lpDtFXNLFu+WmhQbd+VLgXlvv00j4+yloZAb6CsZr18QeC+5EizCVA1N2/4t1zzLEFN9WK4DhQaFwIKStZKkXEghPLPEQ5ke9zpcjemZuuTzUI3lj1EtTXbAwi9woHFrbmyJYSp6UxiWp5ZhexxPnzZKcn2PXyjnStJhJlFQrsF4FIAffQ8xLL8uXuxz4SVrAK0uart8lsrkX6xwaDL7B2F/o1f9ny39h07QdczRel7fJGO/czmV89TsNNBQUdfU4bRCMNNW85y1Jt+vneeJ+7TuT7doktIyzq3DE7fHhBFxe6ucqYPeFbJdk5GiDYBYKfJkTk4exkX4x5+kXZkBuisWHR6d/quHV4lw4FZpzM8ZBHNRy1vPTb7i7dI63dQJeDW/4hhEQJj0itstW0RiLRp1zvfIMaf8FqljB8FA5zxnMLmuaUFgUPrHc+SO8QZseXVxfu8Yt93GUobkfg/JIALtAORK0EqUkIaZABsR9mlQ/Sv8=
+X-Forefront-Antispam-Report:
+	CIP:168.235.233.15;CTRY:CA;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta2.alerts.scrippsweb.com;PTR:mta2.alerts.scrippsweb.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(39850400004)(136003)(346002)(286005)(230273577357003)(230173577357003)(64100799003)(451199024)(61400799012)(1690799017)(7066003)(83170400001)(356005)(19627405001)(31686004)(8676002)(426003)(83380400001)(2906002)(336012)(40265005)(166002)(34206002)(7636003)(70586007)(68406010)(316002)(7596003)(66899024)(31696002)(966005)(498600001)(3450700001)(42882007)(33964004)(956004)(36756003)(76236004)(9686003)(26005)(1406899027)(4306899006)(43580500001);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 12:04:25.6661
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3450906d-8942-471b-7670-08dbfd65fbaf
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: CW2PEPF000056BC.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P302MB0069
+Original-Authentication-Results: spf=pass (sender IP is 168.235.233.15)
+ smtp.mailfrom=be2.maropost.com; dkim=pass (signature was verified)
+ header.d=scrippsweb.com;dmarc=pass action=none
+ header.from=newsletters.scrippsweb.com;
+
+
+----==_mimepart_657c40be1731e_143742ad6426828058209fe
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+If you are having trouble viewing this email,
+click here.
+https://links.scrippsweb.com/a/1333/preview/518030/3077882/ddc77da4cfb4fd29bd8b931fc07349aa52826212
+
+
+
+This email was sent to abuse@ipxo.com by WGBA@newsletters.scrippsweb.com
+Manage Subscriptions
+https://links.scrippsweb.com/a/1333/unsubscribe/518030/3077882/ddc77da4cfb4fd29bd8b931fc07349aa52826212
+312 Walnut St #2800, Cincinnati, OH 45202
+
+
+----==_mimepart_657c40be1731e_143742ad6426828058209fe
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://w=
+ww.w3.org/TR/REC-html40/loose.dtd">=0D
+<html><body><table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=0D=
+
+<tr><td>=0D
+<img height=3D"1" width=3D"1" alt=3D"" style=3D"display:block;" src=3D"ht=
+tps://links.scrippsweb.com/a/1333/open/518030/3077882/ddc77da4cfb4fd29bd8=
+b931fc07349aa52826212">=0D
+<div align=3D"center" style=3D'font-size:8.0pt; font-family:"Arial","sans=
+-serif"; color:#666666;margin-bottom:10px;display:block !important'>=0D
+If you are having trouble viewing this email,=0D
+<a style=3D"border:0px" class=3D"maro_no_record" href=3D"https://links.sc=
+rippsweb.com/a/1333/preview/518030/3077882/ddc77da4cfb4fd29bd8b931fc07349=
+aa52826212?ana=3DInV0bV9zb3VyY2U9bWFyb3Bvc3QmdXRtX21lZGl1bT1lbWFpbCZjYXRl=
+Z29yeT1mb3JlY2FzdCZ1dG1fY2FtcGFpZ249V0dCQS1OZXdzbGV0dGVyLUZvcmVjYXN0Ig=3D=
+=3D&amp;message_id=3DImZjZWMzYWUwLTdkNmYtMDEzYy04NDJhLTQyMDEwYTgwMDBmMUBz=
+Y3JpcHBzd2ViLmNvbSI=3D">click here.</a>=0D
+</div>=0D
+</td></tr>=0D
+<tr><td>=0D
+=0D
+=0D
+<meta content=3D"text/html; charset=3Dutf-8" http-equiv=3D"Content-Type">=
+=0D
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0">=0D
+<title></title>=0D
+<style type=3D"text/css">a,a:link,a:visited{text-decoration:none}a:hover{=
+text-decoration:underline}h2,h2 a,h2 a:visited,h3,h3 a,h3 a:visited,h4,h5=
+,h6,.t_cht{color:#000!important}p{margin-bottom:0}.ExternalClass p,.Exter=
+nalClass span,.ExternalClass font,.ExternalClass td{line-height:100%}.Ext=
+ernalClass{width:100%}.yshortcuts a:visited{color:black;text-decoration:n=
+one!important;border-bottom:none!important;background:none!important}.ysh=
+ortcuts a:visited{color:black;text-decoration:none!important;border-botto=
+m:none!important;background:none!important}.yshortcuts a:hover{color:blac=
+k;text-decoration:none!important;border-bottom:none!important;background:=
+none!important}table td{padding:0;text-align:left}@media screen and (max-=
+device-width:430px){table{width:100%!important}.hidden{display:none}td[cl=
+ass=3D"emailcolsplit"]{width:100%!important;float:left!important;padding-=
+left:0!important;max-width:430px!important}.mobile--center{text-align:cen=
+ter!important}td[class=3D"emailcolsplit"] img{width:100%;max-width:100%!i=
+mportant;margin-bottom:5px!important}.anchor__tag{text-align:center!impor=
+tant}.margin__left{margin-left:65px}.top_padding{padding-top:40px}.paddin=
+g_none--top{padding-top:0!important}.border__none--left{border-left:0}.he=
+ader_mobile_text{font-size:16px!important}}@media screen and (max-width:4=
+30px){.hidden{display:none}td[class=3D"emailcolsplit"]{width:100%!importa=
+nt;float:left!important;padding-left:0!important;max-width:430px!importan=
+t}.mobile--center{text-align:center!important}td[class=3D"emailcolsplit"]=
+ img{width:100%;max-width:100%!important;margin-bottom:5px!important}.anc=
+hor__tag{text-align:center!important}.margin__left{margin-left:65px}.top_=
+padding{padding-top:40px}.padding_none--top{padding-top:0!important}.bord=
+er__none--left{border-left:0}.header_mobile_text{font-size:16px!important=
+}}=0D
+</style>=0D
+=0D
+=0D
+<p></p>=0D
+=0D
+<table align=3D"center" bgcolor=3D"#ECEBEB" cellpadding=3D"0" cellspacing=
+=3D"0" class=3D"portlet-layout" id=3D"main-content" width=3D"100%">=0D
+	<tbody>=0D
+		<tr>=0D
+			<td align=3D"center" bgcolor=3D"#ECEBEB" style=3D"background-color:#EC=
+EBEB;">=0D
+			<div align=3D"center" style=3D"width: 100%; max-width: 600px !importan=
+t; margin: 0 auto;">=0D
+			<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0">=0D
+				<tbody>=0D
+					<tr>=0D
+						<td align=3D"center" bgcolor=3D"#ECEBEB" style=3D"background-color:=
+ #ECEBEB" width=3D"600">=0D
+						<div class=3D"portlet-column-only" id=3D"column-1">=0D
+						<div class=3D"portlet-dropzone portlet-column-content" id=3D"layout=
+-column_column-1">=0D
+						<div class=3D"portlet-boundary portlet-boundary_56_ portlet-static =
+portlet-static-end portlet-borderless portlet-journal-content " id=3D"p_p=
+_id_56_INSTANCE_Vzp05YF5fqFD_">=0D
+						<div class=3D"portlet-body">=0D
+						<div class=3D"portlet-borderless-container">=0D
+						<div class=3D"portlet-body">=0D
+						<div class=3D"journal-content-article" id=3D"article_10155_13094905=
+0_820146829_1.0">=0D
+						<table align=3D"center" bgcolor=3D"#ecebeb" cellpadding=3D"0" cells=
+pacing=3D"0" style=3D"width: 100%;" width=3D"600">=0D
+							<tbody>=0D
+								<tr>=0D
+									<td valign=3D"top" width=3D"20">=C2=A0</td>=0D
+									<td valign=3D"top" width=3D"560">=0D
+									<table bgcolor=3D"#ecebeb" cellpadding=3D"0" cellspacing=3D"0" s=
+tyle=3D"width: 100%;">=0D
+										<tbody>=0D
+											<tr>=0D
+												<td align=3D"center" valign=3D"top">=0D
+												<table cellpadding=3D"0" cellspacing=3D"0">=0D
+													<tbody>=0D
+														<tr>=0D
+															<td>=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td height=3D"10" style=3D"font-size: 1px; line-height:=
+ 0px; margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td height=3D"70" style=3D"vertical-align: middle" vali=
+gn=3D"middle">=0D
+																		<table cellpadding=3D"0" cellspacing=3D"0">=0D
+																			<tbody>=0D
+																				<tr>=0D
+																					<td align=3D"left" valign=3D"middle" width=3D"150"><=
+a href=3D"https://links.scrippsweb.com/a/1333/click/518030/3077882/8d0028=
+70598991b4da09659655410393a6b7cf9c/ddc77da4cfb4fd29bd8b931fc07349aa528262=
+12?ana=3DInV0bV9zb3VyY2U9bWFyb3Bvc3QmdXRtX21lZGl1bT1lbWFpbCZjYXRlZ29yeT1m=
+b3JlY2FzdCZ1dG1fY2FtcGFpZ249V0dCQS1OZXdzbGV0dGVyLUZvcmVjYXN0Ig=3D=3D" sty=
+le=3D"text-decoration: none; text-align: left"><img alt=3D"wgba" border=3D=
+"0" height=3D"70" src=3D"http://assets.scrippsdigital.com/cms/images/colo=
+r_schemes/wgba/newsletter-logo.png"></a></td>=0D
+																					<td align=3D"left" valign=3D"middle" width=3D"20">=0D=
+
+																					<table cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+100%">=0D
+																						<tbody>=0D
+																							<tr>=0D
+																								<td height=3D"40" style=3D"text-align:left" valig=
+n=3D"top">=0D
+																								<div style=3D"width: 100%; border-left: 1px solid=
+ #cccccc; height: 40px">=C2=A0</div>=0D
+																								</td>=0D
+																							</tr>=0D
+																						</tbody>=0D
+																					</table>=0D
+																					</td>=0D
+																					<td align=3D"left" height=3D"35" valign=3D"middle" w=
+idth=3D"430">=0D
+																					<div class=3D"header_mobile_text" style=3D"font-fami=
+ly: helvetica, arial; color: #000000; height:35px; vertical-align: middle=
+; font-size: 28px; line-height: 38px;">Latest Forecast</div>=0D
+																					</td>=0D
+																				</tr>=0D
+																			</tbody>=0D
+																		</table>=0D
+																		</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td height=3D"10" style=3D"font-size: 1px; line-height:=
+ 0px; margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+															</td>=0D
+														</tr>=0D
+													</tbody>=0D
+												</table>=0D
+												</td>=0D
+											</tr>=0D
+										</tbody>=0D
+									</table>=0D
+									</td>=0D
+									<td valign=3D"top" width=3D"20">=C2=A0</td>=0D
+								</tr>=0D
+							</tbody>=0D
+						</table>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+=0D
+						<div class=3D"portlet-boundary portlet-boundary_56_ portlet-static =
+portlet-static-end portlet-borderless portlet-journal-content " id=3D"p_p=
+_id_56_INSTANCE_zh9pLRiTBXLr_">=0D
+						<div class=3D"portlet-body">=0D
+						<div class=3D"portlet-borderless-container">=0D
+						<div class=3D"portlet-body">=0D
+						<div class=3D"journal-content-article" id=3D"article_10155_13094905=
+0_820153356_1.0">=0D
+						<table align=3D"right" cellpadding=3D"0" cellspacing=3D"0" style=3D=
+"width: 100%" width=3D"100%">=0D
+							<tbody>=0D
+								<tr>=0D
+									<td align=3D"left" style=3D"text-align:left" valign=3D"top" widt=
+h=3D"20">=C2=A0</td>=0D
+									<td align=3D"left" style=3D"text-align:left" valign=3D"top" widt=
+h=3D"560">=0D
+									<h3 style=3D"font-family: 'Helvetica Neue', Helvetica, Arial , s=
+ans-serif; color: #000000; font-size: 24px; line-height: 28px; font-weigh=
+t: normal; margin: 0; padding: 0; text-align: left; display: inline-block=
+; margin-bottom: 5px; ">=C2=A0</h3>=0D
+									</td>=0D
+									<td align=3D"left" style=3D"text-align:left" valign=3D"top" widt=
+h=3D"20">=C2=A0</td>=0D
+								</tr>=0D
+							</tbody>=0D
+						</table>=0D
+=0D
+						<table bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=3D"0" styl=
+e=3D"width: 100%;" width=3D"600">=0D
+							<tbody>=0D
+								<tr>=0D
+									<td valign=3D"top" width=3D"20">=C2=A0</td>=0D
+									<td valign=3D"top" width=3D"560">=0D
+									<table bgcolor=3D"#ffffff" cellpadding=3D"0" cellspacing=3D"0" s=
+tyle=3D"width: 100%;">=0D
+										<tbody>=0D
+											<tr>=0D
+												<td valign=3D"top">=0D
+												<table cellpadding=3D"0" cellspacing=3D"0">=0D
+													<tbody>=0D
+														<tr>=0D
+															<td>=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td height=3D"20" style=3D"font-size: 1px; line-height:=
+ 0px; margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td height=3D"10" style=3D"font-size: 1px; line-height:=
+ 0px; margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td align=3D"left" class=3D"emailcolsplit" style=3D"tex=
+t-align:left" valign=3D"top">=0D
+<a href=3D"https://links.scrippsweb.com/a/1333/click/518030/3077882/ef58b=
+a0f83f1181b9e27bc20aebdf5479c4bfc19/ddc77da4cfb4fd29bd8b931fc07349aa52826=
+212?ana=3DInV0bV9zb3VyY2U9bWFyb3Bvc3QmdXRtX21lZGl1bT1lbWFpbCZjYXRlZ29yeT1=
+mb3JlY2FzdCZ1dG1fY2FtcGFpZ249V0dCQS1OZXdzbGV0dGVyLUZvcmVjYXN0Ig=3D=3D"><i=
+mg alt=3D"" border=3D"0" src=3D"https://ewscripps.brightspotcdn.com/dims4=
+/default/deeebc7/2147483647/strip/false/crop/960x720+160+0/resize/640x480=
+!/quality/90/?url=3Dhttps%3A%2F%2Fx-default-stgec.uplynk.com%2Fausw%2Fsli=
+ces%2Fd33%2F2e0854b6f8294fa88ac1b9d68a0a810a%2Fd333f3d8c02c4ea781c8eb326f=
+780b18%2Fposter_1582dea335774cbd851061c0421cd79d.jpg" style=3D"font-famil=
+y: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; color=
+: #767676; line-height: 18px; margin: 0; padding: 0; text-align: left; co=
+lor: #000000; width:100%; height: auto; line-height: 100%; outline: none;=
+ text-decoration: none; display: inline-block; vertical-align: middle; ma=
+x-width:100%!important; margin-bottom: 15px;"> </a>=0D
+=0D
+																		<h3 style=3D"font-weight: bold; margin: 0; padding: 0; =
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1=
+4px; color: #767676; line-height: 18px; margin: 0; padding: 0; text-align=
+: left; text-align: left; color: #222222; font-size: 18px; line-height: 2=
+4px;"><a href=3D"https://links.scrippsweb.com/a/1333/click/518030/3077882=
+/ef58ba0f83f1181b9e27bc20aebdf5479c4bfc19/ddc77da4cfb4fd29bd8b931fc07349a=
+a52826212?ana=3DInV0bV9zb3VyY2U9bWFyb3Bvc3QmdXRtX21lZGl1bT1lbWFpbCZjYXRlZ=
+29yeT1mb3JlY2FzdCZ1dG1fY2FtcGFpZ249V0dCQS1OZXdzbGV0dGVyLUZvcmVjYXN0Ig=3D=3D=
+" style=3D"text-decoration: none; color: #222222;">Forecast: Still no sno=
+w...</a></h3>=0D
+=0D
+																		<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100=
+%">=0D
+																			<tbody>=0D
+																				<tr>=0D
+																					<td height=3D"5" style=3D"font-size: 1px; line-heigh=
+t: 0px; margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+																				</tr>=0D
+																			</tbody>=0D
+																		</table>=0D
+=0D
+																		<p style=3D"font-family: 'Helvetica Neue', Helvetica, A=
+rial, sans-serif; font-size: 14px; color: #767676; line-height: 18px; mar=
+gin: 0; padding: 0; text-align: left; color: #767676; font-size: 14px; li=
+ne-height: 18px; margin: 0; text-align: left">Above normal temps carrying=
+ though the end of the month. Some rain Friday night and Saturday. Sunny =
+next week.</p>=0D
+																		<a href=3D"https://links.scrippsweb.com/a/1333/click/51=
+8030/3077882/ef58ba0f83f1181b9e27bc20aebdf5479c4bfc19/ddc77da4cfb4fd29bd8=
+b931fc07349aa52826212?ana=3DInV0bV9zb3VyY2U9bWFyb3Bvc3QmdXRtX21lZGl1bT1lb=
+WFpbCZjYXRlZ29yeT1mb3JlY2FzdCZ1dG1fY2FtcGFpZ249V0dCQS1OZXdzbGV0dGVyLUZvcm=
+VjYXN0Ig=3D=3D" style=3D"font-family: 'Helvetica Neue', Helvetica, Arial,=
+ sans-serif; font-size: 14px; color: #005687; line-height: 18px; margin: =
+0; padding: 0; text-align: left; text-align: left; font-size: 13px; color=
+: #005687!important; font-weight: bold; display: inline; text-decoration:=
+ none!important; display: block;">READ MORE</a>=0D
+</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+=0D
+															<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+=0D
+																<tbody>=0D
+																	<tr>=0D
+																		<td height=3D"20" style=3D"font-size: 1px; line-height:=
+ 0px; margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+																	</tr>=0D
+																</tbody>=0D
+															</table>=0D
+															</td>=0D
+														</tr>=0D
+													</tbody>=0D
+												</table>=0D
+												</td>=0D
+											</tr>=0D
+										</tbody>=0D
+									</table>=0D
+									</td>=0D
+									<td valign=3D"top" width=3D"20">=C2=A0</td>=0D
+								</tr>=0D
+							</tbody>=0D
+						</table>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+=0D
+						<div class=3D"portlet-boundary portlet-boundary_56_ portlet-static =
+portlet-static-end portlet-borderless portlet-journal-content " id=3D"p_p=
+_id_56_INSTANCE_cbt9RwhsHSdz_">=0D
+						<div class=3D"portlet-body">=0D
+						<div class=3D"portlet-borderless-container">=0D
+						<div class=3D"portlet-body">=0D
+						<div class=3D"journal-content-article" id=3D"article_10155_13094905=
+0_820158311_1.1">=0D
+						<table bgcolor=3D"#ECEBEB" cellpadding=3D"0" cellspacing=3D"0" widt=
+h=3D"100%">=0D
+							<tbody>=0D
+								<tr>=0D
+									<td style=3D"text-align:left" valign=3D"top">=0D
+									<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=0D
+										<tbody>=0D
+											<tr>=0D
+												<td height=3D"20" style=3D"font-size: 1px; line-height: 0px; =
+margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+											</tr>=0D
+										</tbody>=0D
+									</table>=0D
+=0D
+									<center style=3D"font-size: 8px; text-transform: uppercase; font=
+-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">Advertisement</=
+center>=0D
+=0D
+									<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=0D
+										<tbody>=0D
+											<tr>=0D
+												<td align=3D"left" style=3D"text-align:left" valign=3D"top" w=
+idth=3D"150">=C2=A0</td>=0D
+												<td align=3D"left" style=3D"text-align:left" valign=3D"top" w=
+idth=3D"300"><a class=3D"maro_no_record" href=3D"https://ads-newsletter.e=
+wscloud.com/jump?iu=3D/6088/ssp.wgba/newsletter/forecast&amp;sz=3D300x250=
+&amp;c=3D0.Liquid%20error:%20wrong%20number%20of%20arguments%20(given%201=
+,%20expected%202)_1481569063905870954_fcec3ae0-7d6f-013c-842a-42010a8000f=
+1@scrippsweb.com" mp-encode=3D"true" xt=3D"SPNOTRACK"><img alt=3D"" borde=
+r=3D"0" src=3D"https://ads-newsletter.ewscloud.com/ad?iu=3D/6088/ssp.wgba=
+/newsletter/forecast&amp;sz=3D300x250&amp;c=3D0.Liquid%20error:%20wrong%2=
+0number%20of%20arguments%20(given%201,%20expected%202)_148156906390587095=
+4_fcec3ae0-7d6f-013c-842a-42010a8000f1@scrippsweb.com" style=3D"max-width=
+: 300px!important;" width=3D"300"></a></td>=0D
+												<td align=3D"left" style=3D"text-align:left" valign=3D"top" w=
+idth=3D"150">=C2=A0</td>=0D
+											</tr>=0D
+										</tbody>=0D
+									</table>=0D
+=0D
+									<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=0D
+										<tbody>=0D
+											<tr>=0D
+												<td height=3D"20" style=3D"font-size: 1px; line-height: 0px; =
+margin: 0; padding: 0;" valign=3D"top">=C2=A0</td>=0D
+											</tr>=0D
+										</tbody>=0D
+									</table>=0D
+									</td>=0D
+								</tr>=0D
+							</tbody>=0D
+						</table>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</div>=0D
+						</td>=0D
+					</tr>=0D
+				</tbody>=0D
+			</table>=0D
+			</div>=0D
+			</td>=0D
+		</tr>=0D
+	</tbody>=0D
+</table>=0D
+=0D
+=0D
+</td></tr>=0D
+<tr><td>=0D
+<table align=3D"center" bgcolor=3D"#ECEBEB" cellpadding=3D"0" cellspacing=
+=3D"0" id=3D"main-content" width=3D"100%">=0D
+	<tbody>=0D
+		<tr>=0D
+			<td align=3D"center" bgcolor=3D"#ECEBEB" style=3D"background-color:#EC=
+EBEB;">=0D
+			<div align=3D"center" style=3D"width: 100%; max-width: 600px !importan=
+t; margin: 0 auto;">=0D
+			<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0">=0D
+				<tbody>=0D
+					<tr>=0D
+						<td align=3D"center" bgcolor=3D"#ECEBEB" style=3D"background-color:=
+ #ECEBEB" width=3D"600">=0D
+						<table align=3D"center" bgcolor=3D"#ECEBEB" cellpadding=3D"0" cells=
+pacing=3D"0" width=3D"600">=0D
+							<tbody>=0D
+								<tr>=0D
+									<td bgcolor=3D"#ECEBEB" style=3D"background-color: #ECEBEB">=0D
+									<p style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, san=
+s-serif; font-size: 14px; color: #767676; margin: 0; padding: 0; line-hei=
+ght: 15px; font-size: 12px; text-align: center; margin-bottom: 12px;">To =
+ensure delivery to your inbox, please add <a href=3D"mailto:WGBA@newslett=
+ers.scrippsweb.com" style=3D"color: #888888;">WGBA@newsletters.scrippsweb=
+.com</a> to your address book.</p>=0D
+=0D
+									<p style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, san=
+s-serif; font-size: 14px; color: #767676; margin: 0; padding: 0; line-hei=
+ght: 15px; font-size: 12px; text-align: center; margin-bottom: 12px;">To =
+select which newsletters you would like to receive, please <a href=3D"htt=
+ps://www.nbc26.com/account/sign-in">sign in with your email address to ma=
+nage subscriptions</a>. If you no longer wish to receive this newsletter,=
+ <a href=3D"https://links.scrippsweb.com/a/1333/list_unsubscribe_full/518=
+030/3077882/ddc77da4cfb4fd29bd8b931fc07349aa52826212" style=3D"color: #88=
+8888; text-decoration: underline;" target=3D"_blank">Unsubscribe</a>. If =
+you no longer wish to receive any communication, <a href=3D"http://www.nb=
+c26.com/account/unsubscribe-all-newsletters?email=3Dabuse@ipxo.com&amp;ur=
+ef=3D1481569063905870954&amp;lists=3Dall&amp;type=3Dunsubscribe" style=3D=
+"color: #888888; text-decoration: underline;">Unsubscribe From All</a>. I=
+f you have questions or need assistance, <a href=3D"http://www.nbc26.com/=
+about-us/contact-us" style=3D"text-decoration: underline; color: #a4a4a4"=
+>Contact Us</a>.</p>=0D
+=0D
+									<p style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, san=
+s-serif; color: #767676; line-height: 18px; text-align: center; line-heig=
+ht: 15px; font-size: 12px; margin: 0 0;">=C2=A9  2023 1391 North Road Gre=
+en Bay, WI 54313 <a href=3D"http://www.nbc26.com/privacy-policy" style=3D=
+"text-decoration: underline; color:#a4a4a4">Privacy Policy</a></p>=0D
+									</td>=0D
+								</tr>=0D
+							</tbody>=0D
+						</table>=0D
+						</td>=0D
+					</tr>=0D
+				</tbody>=0D
+			</table>=0D
+			</div>=0D
+			</td>=0D
+		</tr>=0D
+	</tbody>=0D
+</table>=0D
+</td></tr>=0D
+</table></body></html>=0D
+=0D
+=0D
+
+----==_mimepart_657c40be1731e_143742ad6426828058209fe--

@@ -1,0 +1,154 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id C9AD2382-870B-4967-9C22-153E9A8326A3.1
+	envelope-from <abuse+bncBCC25NF33YKRBT5T3CTQMGQEBPNDTAQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 04 Sep 2023 17:54:24 +0000
+Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-799c287fdd7sf496664241.3
+        for <abuse@digitalocean.abusehq.net>; Mon, 04 Sep 2023 10:54:24 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1693850063; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=bNWUIRg/+be6fkgz+xNFIOLD08+XvodjsAOftml1/TJadGtSpP00ccmv4pIoCaMNTJ
+         3Ki/nj+2j2T+21Waki5wZ5fOBCoh7RmHOl8kRB3xfy9kwozLlB/xsHJFicOftVhr1H0m
+         rQdQFrpiPURiLQo33XV1B+4rtfcrCQLxTkMJGKlQo+i4LbGa7OEJsKt2DKBRceI2xtH9
+         ddcUxZF15AuVE7JUIdRUGrD9mvmu9oZa/wL4ZdPgGLPExqRW9rHcBP4alKUR/xLPlVt4
+         UQPmok9XmapuLsUJbCVBL0DfCUJB7nDmkdBCifIjuTYcP8UseXXQTmGfn1UIUemORZ6u
+         dgIA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:feedback-id:mime-version:subject
+         :message-id:to:from:date:dkim-signature;
+        bh=jtOEvpe2qn8nwEx9INAUXN4cmlPFSoc1WW792i3BkgY=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=M8187tvbyYZkYHOyusA+y31NpdKarh8070LUDqrDLo8z8mZcM4L5wz0R6IVL1EUeKK
+         qC6Kfnk+T4HbM5wmo7mBM9y71onW0HohBgOv7sLYyFXghYfPzzhPqTyIeRheSHDhKrpy
+         +WULlxvqGDZhujYLTN5r3tXlWl2ch6NT9gqhlFHophBQipT3U9KQVfk/Dbujg9N3CsSj
+         hxk8+C5FYcdptbG3J+GTWhLEEh2foZ4k7mQAXKKOA+nizeHHgHlZn+x25fCRtO6tOO+e
+         I8GX9CbeEDuEow4BFuZSJYY2KaZgr9H+iH37NCCZAySAu2hDpMSpjhvVrW9v16u4vdsb
+         W5/Q==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@axur.com header.s=t22scr3vsozeeez6x44ojy5gzdxjxk3n header.b=AsmDpiOc;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ahQyhHi+;
+       spf=pass (google.com: domain of 0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com designates 54.240.8.59 as permitted sender) smtp.mailfrom=0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=axur.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1693850063; x=1694454863; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:feedback-id:mime-version:subject:message-id:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtOEvpe2qn8nwEx9INAUXN4cmlPFSoc1WW792i3BkgY=;
+        b=GjxJWnsGQv+d4TbIyN0xSoKbHFrDG3ep2p8tU9SGmlKiUo3OVmT9Gp9n9F9PI1oCEe
+         /0W2p9CHK1vFM2Nt2I5tdhR9D7OgBTUPzvOBaMZqhOszTWa7chutX1doi64argjyK8LH
+         z3vkw+Nay1p1lDixwaKmxHnOadXDly5VwA2t4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693850063; x=1694454863;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :mime-version:subject:message-id:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtOEvpe2qn8nwEx9INAUXN4cmlPFSoc1WW792i3BkgY=;
+        b=QtdMI1JrGvotCquXkv6SPcTCB7HKAzyUHW5P4awp+lrMnolmUORVJ55Hhn8oBpM3VW
+         qBW8gKbCQJuRaQaIcEngXAlMTKmF9rhJspybbspQ3jSTqVsCkTDZu1z3HroB/OQysaTZ
+         qJjJ+fU3m7pwHNNkJLGAu0o/5a5IPbe9Hkz+LbuAK6XcO7efGwpXF0dHfl2t7J96ETGK
+         OWwzyhyCNL4TQHwhOLiq+u634HskmWIMT9OyroyPaX9OE5pVn17H+MpIJHHJTromq4PI
+         cs+DNcFA7ozVN7VU11XHaH55xaHqj3djAcjxBVJhrxbgQveRZhMeG6VaWTkd9+WrTmDj
+         FrtA==
+X-Gm-Message-State: AOJu0YxJYz4oQB0+cJdgigDoXX1iT65IH70SK+fXVzvCYEzlNNchIIW1
+	UlpEVf7zD2htJZ+RRwWn1FIxmw==
+X-Google-Smtp-Source: AGHT+IFuSgrzYP+D9TjFW6nYAXzMexRekzWLnCgtG+Rx3l7fQT0SVBa8QNTJBR6kVsAvjtQH67y5iQ==
+X-Received: by 2002:a67:f3ce:0:b0:44e:a9b6:5290 with SMTP id j14-20020a67f3ce000000b0044ea9b65290mr9767260vsn.19.1693850063429;
+        Mon, 04 Sep 2023 10:54:23 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a0c:e2c9:0:b0:647:1993:92c1 with SMTP id t9-20020a0ce2c9000000b00647199392c1ls3981776qvl.1.-pod-prod-01-us;
+ Mon, 04 Sep 2023 10:54:22 -0700 (PDT)
+X-Received: by 2002:a0c:e111:0:b0:64b:5240:1375 with SMTP id w17-20020a0ce111000000b0064b52401375mr11126880qvk.8.1693850062273;
+        Mon, 04 Sep 2023 10:54:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1693850062; cv=none;
+        d=google.com; s=arc-20160816;
+        b=YnSeCTaScrm1cMgxM40xc/y9Wiz4K2co9skOQckv4OWv1xtWeQQtPziIrcw206D+qm
+         FIjRWLAb8BMKBEaJVakbrrujpFCW56lQ7H9DV49MP9beMW/rJqOlI2avVP2VFm7YXn7i
+         2Y6nwZoRdk3NnIVX45DcNdyJimOYBTxLy31/8OSjdcOiXmkeF7RGpoG2YzwtwEbRm14c
+         X4Tb2AiDpBEzHbEg7Odn72yIfRskAw9JLfpwpgUwXeOTyUUvNzUb3fi0khky8nyrccn8
+         bd6/9JjnueI4IESVdPlFR94eUMzv2NOgRHpxjQm31ES3jdUUO6SrBAytTfor4O8GZ7O6
+         B/7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:mime-version:subject:message-id:to:from:date
+         :dkim-signature:dkim-signature;
+        bh=jtOEvpe2qn8nwEx9INAUXN4cmlPFSoc1WW792i3BkgY=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=t75sZvUVFtjDdT3xsaBANBw0no11kFzpnNMeqGBxd8r+ulKs46geiUxS0xFfFsDX89
+         3Lj0dYWziL/lsUyeq2C/yAEw4hIYpv3zcZriUrjygpomcL1Gxvcy/KUX+oUZ6X9c9UF5
+         e1pKet1O7neVqrv43sTbBCPJ8zEk3y+hBV5s4rubhLyqW2B65z+WLCmVri688Bf6rpkw
+         05WJqqmlwX9d4tydAi7JjSKzMK8xGASZ15Pl++HIL4HUqQgp0i1yzljdYDeX9dfRQFR/
+         HRcMjFqiHyKazZlsolOw9V7+3qgJe8XEbQylFX16FogamHOwA4BDNp8V98lfyIkPbZnj
+         RP0g==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@axur.com header.s=t22scr3vsozeeez6x44ojy5gzdxjxk3n header.b=AsmDpiOc;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ahQyhHi+;
+       spf=pass (google.com: domain of 0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com designates 54.240.8.59 as permitted sender) smtp.mailfrom=0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=axur.com
+Received: from a8-59.smtp-out.amazonses.com (a8-59.smtp-out.amazonses.com. [54.240.8.59])
+        by mx.google.com with ESMTPS id h7-20020a0cf447000000b0064f7d133753si6753516qvm.307.2023.09.04.10.54.22
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 04 Sep 2023 10:54:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com designates 54.240.8.59 as permitted sender) client-ip=54.240.8.59;
+Date: Mon, 4 Sep 2023 17:54:21 +0000
+From: "abuse.efc via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Message-ID: <0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@email.amazonses.com>
+Subject: Abuse report: Malicious artifact hosted at your site (Tracking:
+ #EFC2261079)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_223526_330454999.1693850061149"
+Feedback-ID: 1.us-east-1.mR9CBhEVjWOSBm2JfqbUKSUhIg9Q0yq7vGnsob9WAws=:AmazonSES
+X-SES-Outgoing: 2023.09.04-54.240.8.59
+X-Original-Sender: abuse.efc@axur.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@axur.com header.s=t22scr3vsozeeez6x44ojy5gzdxjxk3n
+ header.b=AsmDpiOc;       dkim=pass header.i=@amazonses.com
+ header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=ahQyhHi+;       spf=pass
+ (google.com: domain of 0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com
+ designates 54.240.8.59 as permitted sender) smtp.mailfrom=0100018a6154c9b0-8e6ccba7-ad2c-40a4-9d8f-f254d2329d1e-000000@bounce.axur.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=axur.com
+X-Original-From: abuse.efc@axur.com
+Reply-To: abuse.efc@axur.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------=_Part_223526_330454999.1693850061149
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<pre>
+Dear Abuse/Support Team,&#10; &#10;Our monitoring tools indicate that your =
+site is hosting a malicious artifact. It seems to be a malware used in phis=
+hing/scam schemes for identity theft.&#10;&#10; The artifact is hosted at:&=
+#10; &#10; https://hiepsibaotap.com/wp-content/uploads/2022/09/godbelv.pdf =
+ &#10; &#10; Host: hiepsibaotap.com IP: 104.21.7.185 &#10;and affects finan=
+cial institutions such as: http://www.lojasrenner.com.br/&#10; &#10;We kind=
+ly ask your cooperation to remove the malicious files from your site;&#10; =
+&#10;In case we detect more than one malicious code hosted on your network,=
+ you will receive multiple messages similar to this, each one containing di=
+fferent evidence.&#10; &#10;Thanks in advance. We would also appreciate it =
+if you could provide a confirmation that this message has been received and=
+ an estimate of the time to shutdown.&#10;To contact us about this matter, =
+please inform the following tracking code: #EFC2261079.&#10;&#10; &#10;Best=
+ regards,&#10;AXUR&#10;abuse.efc@axur.com
+</pre><img name=3D'confirmation' src=3D'https://api.axur.com/gateway/1.0/em=
+ail-sender/notify/email/read/VgwhVuYkWzpcOgYd1CgTF' style=3D'display:none' =
+id=3D'confirmation' />
+------=_Part_223526_330454999.1693850061149--

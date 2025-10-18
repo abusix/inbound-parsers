@@ -1,0 +1,161 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 42C51DDC-682D-4479-8876-C0A7EBF5EC0C.1
+	envelope-from <abuse+bncBDY5T2UL5YFBBIX2YK2QMGQEZKR3HNQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 05 Aug 2024 11:53:08 +0000
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2cfe41af75esf6886651a91.2
+        for <abuse@digitalocean.abusehq.net>; Mon, 05 Aug 2024 04:53:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722858787; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=baPYNDkrlwvBOtwRXkfHD+kodRn34T2QQLG4dlcaoTRohAyHXB8Vx7SdzdcS9hWhss
+         KEiZJsDdJSUmnn0lg1FF72rLwIEyvg2Vliya69PK61XrsVGEIiFvS1Ttj6ajVm1ahci0
+         InmHoc2s4xWsCGuxcu7trhC2XTXbo4WDtYkhndMAiKLdnH+ZkWrzHQMnrvjxKVyJ1NUF
+         v0MdBN0UPXAZyaw0acrbbVA3c52WFyg8osWrqsq9sKwPfspTcjcqLJVfHSdtf0lkJ2dv
+         sQscHbIsAduZfcjIgi3rhgxffxYATB3wzSZ7kL/aa4Dk+rzAPFDROctMoB9nvQPYPpr3
+         A1Iw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:from:reply-to:mime-version:date:to
+         :message-id:subject:content-transfer-encoding:dkim-signature;
+        bh=R2Zdw81FuvJxD/pBS8A/XqVj5Knc7U98GADbYAhJOK8=;
+        fh=0yE1YmNFh2UWQ9CTVAVfuYsU9CnvVBblwl1lzAExIHY=;
+        b=yQRnDXERgwc3WjYsq9G9gfBfUD2X3BJ70N8tAoGPNAIfDbrbrAISwIlKGgxXVxqEdG
+         ayybddzp/b6TgjKdwCP1mdx2Xz8fPLbPABWRticxsM8F/ne0fBVdouvn55L5eX2Oeamq
+         Z/msaxikxuIMuNrufuyquEmo5DnbR7+iWjDrf/yaZqY9U9weYgJZQRerk7W2aK3ktkh2
+         +g4+/1LKohTmID+le3VKsrp5JzOKovKpvmZbgj5mhrjikrt4tHRoehfRqMMDz6ylMzNm
+         uwzjJzYJFG+hML/dqvNYRGHqCHk/BmpuQp6PLBEoRn9E2PBwdfP+N3xezYyywUVKRgwB
+         8eqQ==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@notify.cloudflare.com header.s=scph0619 header.b=Z3UHdmg+;
+       spf=pass (google.com: domain of msprvs1=19947kja-xqb_=bounces-265094@notify.cloudflare.com designates 192.174.87.157 as permitted sender) smtp.mailfrom="msprvs1=19947kJA-xqb_=bounces-265094@notify.cloudflare.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notify.cloudflare.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1722858787; x=1723463587; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:from:reply-to:mime-version:date:to:message-id
+         :subject:content-transfer-encoding:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R2Zdw81FuvJxD/pBS8A/XqVj5Knc7U98GADbYAhJOK8=;
+        b=AAJVatV14NbCotTLjFCB2czNlWMl1uyQbwOmhrbNrg0pJ45adQguNfrXyWLo2I0n9n
+         lNsYBZEvnCZo0sby+FhhuF9e/n3oH07qX2qtNqEX/3HoXPu5iQC8JHzMgZtyzFMO/tKC
+         fWszxa504TsT/LLF7tjDu9UiN8EwC6Vy21Hfs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722858787; x=1723463587;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:from:reply-to
+         :mime-version:date:to:message-id:subject:content-transfer-encoding
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R2Zdw81FuvJxD/pBS8A/XqVj5Knc7U98GADbYAhJOK8=;
+        b=NOllZy9qUg0GzAEKcMmoft7FTZSZoRh9dk5p3PaI3NyPmszYD4HKdeDjp9ykxh9yBP
+         AByvu/DD4xMUj3iF53gViBdupW0TwsdF3pIVHummc8DveSrQYKkA/wROZHXCdUx14F+l
+         i3ghj9xX6Wmm3R+Vb2F0oCv59tBRmrFIowuUc/JvFKsBeG1WyWfUGUJICzZ8lAw8lPWy
+         6LfVcByZnHDhyb0Z7cB7U4WRXtzgxrFQckoTtBMF6eBJfhynChlw3EizSoCZ7DRtZiNY
+         bcFqZ6gjw5etDB1415qLwhH6Ry1pzlSxyy5flMLsh6Kj5il2y9/AeCSbL+4bszi8PUBY
+         8hNQ==
+X-Forwarded-Encrypted: i=2; AJvYcCWw17iYxLv30RjQU1Jn3blVehHsOxSOa4NwmXRJq42coOb87MMVrRXEVj/57qcF0sxLE37G0hs/vd5dKy2otG2EGF/9U0xyVyJZS8majeE=
+X-Gm-Message-State: AOJu0YxxEN7IIa57BFnGUu9ZP4YGFdgCgV2gpc0y0M05/piY3G9uslOI
+	qcX7UY52PRvTYt3hD6bVN6bLrFoZz8tm+dJ0BsYDeV/wz36mmHIFibe4dyj7STM=
+X-Google-Smtp-Source: AGHT+IEJwuMC9bKF0dOrhIqoOTA99v6OJ0X/YywJDDtcnEmyQbmIRA5KEIrls8bPqsQ6Ne0shB1Cog==
+X-Received: by 2002:a17:90b:3884:b0:2cb:50ff:732e with SMTP id 98e67ed59e1d1-2cff957fe03mr12797867a91.42.1722858786749;
+        Mon, 05 Aug 2024 04:53:06 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:90a:8d01:b0:2cb:4a85:9588 with SMTP id
+ 98e67ed59e1d1-2d00d1c4fbfls1520283a91.1.-pod-prod-03-us; Mon, 05 Aug 2024
+ 04:53:06 -0700 (PDT)
+X-Received: by 2002:a05:6a20:7286:b0:1bd:1e06:9db4 with SMTP id adf61e73a8af0-1c699580ac1mr17507622637.19.1722858785658;
+        Mon, 05 Aug 2024 04:53:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722858785; cv=none;
+        d=google.com; s=arc-20160816;
+        b=cdjllgpcUl9Z7v0vn7VgIQN+xK2xW/jNPvGmhjoTcf5SXhsYLORjDKyGoN2yTwkzux
+         pOIY5qQbmJy+HSyUpLzIAz5AS8IwjiT//H1tkQWj8vSfHP5/NkL7bABywqnntHn87d14
+         I7YeV754r840MPQdbYkP64dM6rcymtHIX8uGLR63K/dk/JXK/5noPIXnSBwPif7l5Zv7
+         C8UqGwBvGx4JcN1SvIYEYpDc/Cjiemchv0x4U5NSlOqon5qmEEJNitPNPCowSHffk3bw
+         95qSvKU76IbEapo/fTq7hv/Njj6U0u3OpoTxfl1PJudvIKaLNBLog3yQI2qnUusdNZVu
+         XPMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=from:reply-to:mime-version:date:to:message-id:subject
+         :content-transfer-encoding:dkim-signature;
+        bh=R2Zdw81FuvJxD/pBS8A/XqVj5Knc7U98GADbYAhJOK8=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=vvTEGRT/+UGvyi2l/9HMPXFQjByvLwNz5m/rqjH5gNllkwInNUcUYI66gnrmqJ318c
+         MloYbeE4UWITVcWkKvvRHdlUMUp2wBDBqaO7OtkcwZA2Hblfw4kO0bgo9ImHvmtpnT2z
+         lvsrZETD0sFcJzUwnByo0OcHIz1btHP3mqpP4lm0YS/+DeZncXomevS0iEYF8vMRX/fC
+         DVvSds6esFzhWwrSKqR6zyi6W124UdF+yXu9lm5qBdNbftdJHmYZ+4MYnJIdpzis9YHQ
+         tlf9G6vgu6kKFo0AGby+DCPtN4a+AQhdkCMgsmM1WDurRExgtryl9XqkQ+1oIueToH8K
+         9ZsA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@notify.cloudflare.com header.s=scph0619 header.b=Z3UHdmg+;
+       spf=pass (google.com: domain of msprvs1=19947kja-xqb_=bounces-265094@notify.cloudflare.com designates 192.174.87.157 as permitted sender) smtp.mailfrom="msprvs1=19947kJA-xqb_=bounces-265094@notify.cloudflare.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notify.cloudflare.com
+Received: from mta-87-157.sparkpostmail.com (mta-87-157.sparkpostmail.com. [192.174.87.157])
+        by mx.google.com with ESMTPS id d9443c01a7336-1ff622c2a75si60091545ad.357.2024.08.05.04.53.05
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 05 Aug 2024 04:53:05 -0700 (PDT)
+Received-SPF: pass (google.com: domain of msprvs1=19947kja-xqb_=bounces-265094@notify.cloudflare.com designates 192.174.87.157 as permitted sender) client-ip=192.174.87.157;
+X-MSFBL: IS+DY7k6UhHojh1k8MMF9OjSCVd2Sl7+5q1zPU0wNSw=|eyJ0ZW5hbnRfaWQiOiJ
+	zcGMiLCJzdWJhY2NvdW50X2lkIjoiMCIsImN1c3RvbWVyX2lkIjoiMjY1MDk0Iiw
+	ibWVzc2FnZV9pZCI6IjY2YWIyMGJkYjA2NmE2MDA1ZmIzIiwiciI6ImFidXNlQGR
+	pZ2l0YWxvY2Vhbi5jb20ifQ==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Subject: [d706e8fa7f6d52f9]: Cloudflare received a DMCA copyright infringement complaint regarding one of your customers.
+Message-ID: <3B.FD.31963.02DB0B66@gx.mta1vrest.cc.prd.sparkpost>
+To: abuse@digitalocean.com
+Date: Mon, 05 Aug 2024 11:53:04 +0000
+MIME-Version: 1.0
+Reply-To: abusereply@cloudflare.com
+From: "'Cloudflare Trust & Safety' via abuse" <abuse@digitalocean.com>
+X-Original-Sender: abuse@notify.cloudflare.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@notify.cloudflare.com header.s=scph0619 header.b=Z3UHdmg+;
+       spf=pass (google.com: domain of msprvs1=19947kja-xqb_=bounces-265094@notify.cloudflare.com
+ designates 192.174.87.157 as permitted sender) smtp.mailfrom="msprvs1=19947kJA-xqb_=bounces-265094@notify.cloudflare.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notify.cloudflare.com
+X-Original-From: "Cloudflare Trust & Safety" <abuse@notify.cloudflare.com>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Hello,=0A=0ACloudflare received a DMCA copyright infringement complaint reg=
+arding sotwe.com=0A=0ACloudflare offers network service solutions including=
+ pass-through security services, a content distribution network (CDN), and =
+registrar services. Due to the pass-through nature of our services, our IP =
+addresses appear in WHOIS and DNS records for websites using Cloudflare, an=
+d Cloudflare cannot remove material from the Internet that is hosted by oth=
+ers.=0A=0AThe actual host for sotwe.com  are the following IP addresses. 15=
+9.89.220.151. Using the following command, you can confirm the site in ques=
+tion is hosted at that IP address: curl -v -H "Host: sotwe.com" 159.89.220.=
+151/=0A=0ABelow is the information we received:=0A=0AReporter's Name: Paul =
+Jang=0ACopyright Holder's Name: LOIHI TECHNOLOGY PTE. LTD.=0AReporter's Ema=
+il Address: abuse.reporting@marqvision.com=0AReporter's Title: [LOIHI TECHN=
+OLOGY PTE. LTD.] Notice of IP Infringement - https://www.sotwe.com=0AReport=
+er's Company Name: Marq Vision Inc.=0AReporter's Address: 750 N. San Vicent=
+e Blvd Ste. 800, California, West Hollywood, US=0A=0AReported URLs:=0A=0A=
+=09https://www.sotwe.com/kimseze139=0A=0AOriginal Work: This is Marq Vision=
+ Inc., writing to you on behalf of =E2=80=9CLOIHI TECHNOLOGY PTE. LTD.=E2=
+=80=9D (hereafter the IP Owner) as an authorized agent. =0AWe are reporting=
+ that the website =E2=80=9Chttps://www.sotwe.com=E2=80=9D is infringing on =
+the copyright of the IP Owner.=0AThe original work is a copyright image pos=
+ted on the IP Owner=E2=80=99s official website.=0AOriginal URL: =0Ahttps://=
+likey.me/sejinming=0APlease provide us with the hosting provider informatio=
+n and back-end IP address in order to prevent further confusion caused by t=
+he unauthorized use of intellectual property rights.=0AComments: =0A=0APlea=
+se address this issue with your customer.=0A=0ARegards,=0ACloudflare Trust =
+& Safety=0A
+

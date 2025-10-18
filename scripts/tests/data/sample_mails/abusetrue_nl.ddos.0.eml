@@ -1,0 +1,112 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=invalid (verification error) header.i=@abuse.true.nl header.d=abuse.true.nl header.s=key
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01on2081.outbound.protection.outlook.com [40.107.122.81])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id A5B704A5-A0FE-42A7-A380-19156B55A124.1
+	envelope-from <bounces+SRS=W6w0o=EG@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Mon, 21 Aug 2023 07:54:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ly6GtM+5ZXtJJ+l86tZU/we5HXYg+Pei8Zb2Ulsdi6c9mfhJHKsC4U1GqoonXGt5LNoaq3GRFCQZXztaXKWzZ/+phubT5gIv2KHTyfju8iq6nF3l8vXlAPkeaKaw9m0y9KFvMy4TrgMu57Go15zLY0+fjmDdwcESG0seKxwLVcE7gyaTlkYD+YptlJlu898yPmjp5nBfQAgpeM0oAKEhH1Xc6T8kUnYgDqG0EMp8mJHzPy4o3rwM/sGG2M1h6N1yAeO77IxuCcYf5+gCCpOj8VQWZN4MNiOU9KDkfJ684MrTmkWrkG/+zAKBOA6DAokXI/wBvcgysqBxAr/QRPH6SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FIvCGoJwUQfYe/7fDhhAr7TBWK/E3XMwa5aAVOCEoc8=;
+ b=diofdkG1TNqG3KwPapEzlqGfZ6FH8xF8/f+q5d0hysJG+SYdLTvBla9kQyNrqzaReUgpeFwC1RU6Uv+nJ772k3QWrIvIrtuMBF+oYD9mY3B7bs3LnMMLMHyGmkrUZlubPzY8Xr4V76CnJtgwRbtrmu+PLqZew8C/5e5MCc+eZ1skPr+tEDa3DHpqzyPn01ZkwOGxVfVsHAG+yCO5rkzm9XS3ktjmX10rlG3YsmTrjN8g85eG41uc+sHL+RGuVbhPe5Y1iJ7brEmqXCT8CwaBY3rL6t8qj3XrsipJvrR5Y3VIuDtZ367/aRZNX83NWsEwWWQ0RrOg0uM/h1xAQ1e7TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 87.233.199.106) smtp.rcpttodomain=ipxo.com smtp.mailfrom=abuse.true.nl;
+ dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=abuse.true.nl; dkim=pass (signature was verified)
+ header.d=abuse.true.nl; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FIvCGoJwUQfYe/7fDhhAr7TBWK/E3XMwa5aAVOCEoc8=;
+ b=Kji2h6MOjlHrAXWlibSaKXtmLoBS8DZmKFYPkR1z8girfyw9cMp1tUiQJ+cr21QQ3JKgX9qlahc/rEFozuSRZTz7srygavK/MzydBwKrKLSmCAao9BfL+J7IzImejkdYN7z0IF9k8yuDo4GtGMf/pxchIyHycQkTajJnEXuiaY1j9DAQUP84krJigeSjNVT9Tnwu7nyeGT2W/NQM6YlefBoYtA+byg1i+U16Xw4WmaG5VPin0lbdsXGbYu/shKmuKrKyEL0lmPfVK58L/ejXnKiE5ASQUxHF4AGXdL451Zj/EIyhdSvBD8Xv4ORf23R8D5wRvm88P0G8xFGialki3g==
+Received: from CWLP265CA0335.GBRP265.PROD.OUTLOOK.COM (2603:10a6:401:57::35)
+ by LO6P302MB0141.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:382::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
+ 2023 07:54:42 +0000
+Received: from CWLGBR01FT018.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:401:57:cafe::f3) by CWLP265CA0335.outlook.office365.com
+ (2603:10a6:401:57::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20 via Frontend
+ Transport; Mon, 21 Aug 2023 07:54:42 +0000
+Received-SPF: Pass (protection.outlook.com: domain of abuse.true.nl designates
+ 87.233.199.106 as permitted sender) receiver=protection.outlook.com;
+ client-ip=87.233.199.106; helo=snorlax03.true.nl; pr=C
+Received: from snorlax03.true.nl (87.233.199.106) by
+ CWLGBR01FT018.mail.protection.outlook.com (10.152.40.107) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6723.11 via Frontend Transport; Mon, 21 Aug 2023 07:54:42 +0000
+Received: from snorlax03.true.nl (localhost [127.0.0.1])
+	by snorlax03.true.nl (Postfix) with ESMTP id 1CE535A1
+	for <abuse@ipxo.com>; Mon, 21 Aug 2023 09:54:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=abuse.true.nl; s=key;
+	t=1692604481; bh=HxGBuSezLL8DRnxIAAtE9Q6E7bttbwkWiLNz6TYui0I=;
+	h=From:To:Subject:Date:From;
+	b=OR/QqmqEaVnz+hsS48HCnlyVl3dvMzvCQ3P331d7xHjhMQH6yH7ePHZym0JaX6nff
+	 6WEQQRLT9WXaKTTyWxm0xbbssQQCCrKyOPzmlxeZIaKUEnX+Hwrbcwp8jxFKytl0Jj
+	 hU9nFGvEfjixRi/WU1Eh7IRVuEzlAOInPoh+MJXtZ9i2EpaUEG3QtSbXDIGQBrlsVh
+	 Kp+0cHGiT9iedySZF0fC3LjtFVC3iU28YQGW4zcoeMy9GhYp1f6gUyCWdJMtinFZoy
+	 gJthO2Zy9IPATJl1/4hFYsI8BfiCyLxLKgpTtwJJlCXUl//6nltX5h+p1uPBXFv1s/
+	 U7541Q+OTM+SGCd9Epl5rKFQmTgTB4kSryD39xNIRjYqtLKeFhHRxaGRdyooqRdMHv
+	 uQihyzKol9SJ/dTWJ5FAmGyxeDiWN6Xmnd4z/lEtoCotYCpoYnIaR1ovBImZ0OHS9A
+	 xyvpUksdy80sBohRaI2yNybkQQtwyqlANrRzcH0UMXqpQwfWWHr/sfNlGTMAG9zwsO
+	 4fmSg6SEHYT4Nw2zuTsjzGJlWvQwMIDt23MwjEx7CyIYejci/xr7vkdAE7caVloOxc
+	 C7OgvftuNFkdrDWSnq8sZVIxogn3jnFRCo4JQvsTyLBPw+Z/MnAi5AtdhECtSwmRzP
+	 95ySZaWqWr+aNDuLA5OkprWM=
+From: True Security <abuse@abuse.true.nl>
+To: <abuse@ipxo.com>
+Subject: Abuse report [37.148.217.234]
+Message-Id: <20230821075441.1CE535A1@snorlax03.true.nl>
+Date: Mon, 21 Aug 2023 09:54:41 +0200 (CEST)
+Return-Path: abuse@abuse.true.nl
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLGBR01FT018:EE_|LO6P302MB0141:EE_
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 490c2873-0755-487a-965a-08dba21be0fe
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	PYnIuOGRkcXmmeOwtKZm+fQ51veeFAab+I+oNoDsEwZztFGbUYE4ePjvvKlXp4rBwLC06xGsuRgbne3ExSQecfhv5bZUIGgmJtvAZitZug7DYZYsoZr6YrEFzpUqwpOL3Khf/ZJ/a50PL90S68VJ/1txpIfDdjeIe3JrpBKBQtOeV+JZJkFHysqN3/IGVuOf/mkkMItJ73YUjihUWaAyf80Q5aa/3xPk1LPp+sS47VcWK/hYiy8kfw5wbepTLMl9aTZzJYTQXSxzWXBZPr5aMpjdwssdmmMr/HpKzzb6HxlAw89uIT87x9wF2xCu0qxSDGr1oSfb292awA8ZvWeLz4kKpMy/oMcnuxjxU18IrIuahdZx7UbPLwE9tnZALUcx1hwoeCaX3Z2TnXtUyUw+6ivx8WiRHHp9SbiSQNsETnl93UmnROVLjVw4Uf9403ys6+wUEiR31yZba+5YoD7YuBHI9K4/l249bKd+RUUSRsdtR8A4lDKY0hjgxoZVeJ42KvZhvmILHGca2Nx8nS5idd3xDjwcTA45ZKq1jLzUAykxUSvIkyetD9Vboki35A0QJjKEiVsmMmUGSMQQIeKAPf8Cyeegj4sEmjJXnJ1VTulS7IF6kQpQuznvd0L98wK/CisFOLo86SOeRrJCH2lAVZx8gknei7lNY8iWbgwoTG4M/nfRRNcGXXqvGb6Tovnhgho89mvOQl5MPwi5+9+rEs1u+yXnIlQSSXKw/UUsljOhENIkM8b8GbU3fDSBrduHfi3Mi3h6YIHQwgpHWWiKqA==
+X-Forefront-Antispam-Report:
+	CIP:87.233.199.106;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:snorlax03.true.nl;PTR:snorlax03.true.nl;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(396003)(376002)(39850400004)(451199024)(61400799006)(15974865002)(66574015)(2906002)(4744005)(83380400001)(7696005)(5660300002)(336012)(6266002)(33656002)(26005)(7116003)(86362001)(7126003)(8676002)(6862004)(68406010)(316002)(9686003)(70586007)(498600001)(356005)(7596003)(55016003)(7636003)(1076003);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 07:54:42.5010
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 490c2873-0755-487a-965a-08dba21be0fe
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	CWLGBR01FT018.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P302MB0141
+Original-Authentication-Results: spf=pass (sender IP is 87.233.199.106)
+ smtp.mailfrom=abuse.true.nl; dkim=pass (signature was verified)
+ header.d=abuse.true.nl;dmarc=pass action=none header.from=abuse.true.nl;
+
+Hello Network admin/Abuse desk,
+
+We are sending you this email because this email address is listed as the abuse contact for
+37.148.217.234. If you are not the correct contact, please update your abuse info at your
+regional Internet registry (AFRINIC/ARIN/APNIC/LACNIC/RIPE).
+
+37.148.217.234 has been attacking host(s) on our network asn15703 TrueServer details below.
+We would like you to quarantine this host and mitigate the likely infection on this host/network. 
+In addition we have submitted the IP to abuseipdb.com so it may be blacklisted by 3th parties.
+
+
+2023-08-19T16:57  This IP participated in a 80.000 requests a second HTTP ddos flood on www.kanker.nl ipv4: 87.233.198.114 ipv6: 2001:9a8:a6:0:87:233:198:114
+
+
+If you have any additional questions please direct them at security@true.nl as the mailbox this
+email was sent from is not monitored. 

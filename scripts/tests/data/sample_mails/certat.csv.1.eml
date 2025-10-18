@@ -1,0 +1,322 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@cert.at header.d=cert.at header.s=20200907
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01on2096.outbound.protection.outlook.com [40.107.122.96])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 944DF191-926F-434F-8616-09BAF3769515.1
+	envelope-from <bounces+SRS=bX5gM=OR@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Wed, 17 Jul 2024 05:11:45 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qpN0fzQMvEqL3/7A8r/gR3KCr8Qp/DR8dA7pb2SKBUMBtIdq2y18SqzjGt+e93Aq3BKBD1bePTlslpLAIx8/MGnOah54zaCODm7nZH/Vfx0s76At1mgM5qSORcAbMcB9eVvGlwvash37XEaR6UNHHYgmRJ24yBrxeq+aXX+ypUcuqb8daf4nPnf4rSqGagxGwwWutF55Ac9/194xukOpEP7kbNWCH/5Ljm9QG9DNpmyS3uQ2tNI7jTBNhiSxz+nQciRe9ex5UUWurUafmrCrucKQ0u5lhcClSz9GwWYNp6cCp6GgRNgs4E7CQ4Zusz2Buunfvw5sZK0/8CMMdzGtFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b5Zr7FvxwA6yoXvYCqXbxMPBX05KcsdwuHQACqaI7AU=;
+ b=DPsrm28Wc30n64sdaekwEVFfDRxtXg1KherP5eOi+uutf9Cv0yaJ4Xw6/968Mx0+NUWMfjkBNHfBmaxDcyq+c2NDflQnN33eQ8+YjG1Mbb3II6AAcOksWWUFe092zSzMfarYlUUH+yDdL6x13CGNQWcT9jfYiEZA5VacQ/I+r1XFvvxtoV+UU9gn8hILDzuHbjum8L8aig2RFtBX66cpCoBgvvbENJCIcj/4ZAoy31JkHeTy+V7onhgmTro+lk1cKO3nGuDUvY7w5QubGM29/y3wx6Ei8NpXm+RPgtPUWUyGTXn6En3KN9l8RktsJyMzjHbJ2/Uu1ZTYdqR2VdBkAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 83.136.38.186) smtp.rcpttodomain=ipxo.com smtp.mailfrom=cert.at; dmarc=pass
+ (p=reject sp=none pct=100) action=none header.from=cert.at; dkim=pass
+ (signature was verified) header.d=cert.at; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b5Zr7FvxwA6yoXvYCqXbxMPBX05KcsdwuHQACqaI7AU=;
+ b=I+RO7MrtP83CmV+FJRlMSmh9Io9Xhfsg+FMFNHrMmfIwl0cRTnc0ktXpWuECWxoVrd38VzhjRZtEpqjHfeLk0KMgd6v0JiLUc1fRA+y/YQaxNYfrfcwv05nGJEyidlqwmSS2mkCwCRKkfYqxHz/+dRniQeI72mStD7jhnErOCnmeCyq9KNRJ0uFJc7UcyjqWUgXGqWD2HWGdA9oJq6OcLo1W20Nk1aDx5+VApLlSstagwBCEwDkaCat6+duMCBOj+FNhYFuT0wHRwRUDEKpySDT9O2x7LVVQklpgEnVcXMdUFKQg6bET6HgH09nR81woW8ZeVkZP/DNP2GSYLkXNPg==
+Received: from LO2P265CA0006.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:62::18)
+ by LO6P302MB0335.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:385::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.31; Wed, 17 Jul
+ 2024 05:11:35 +0000
+Received: from LO1PEPF000022FD.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:62:cafe::d1) by LO2P265CA0006.outlook.office365.com
+ (2603:10a6:600:62::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.16 via Frontend
+ Transport; Wed, 17 Jul 2024 05:11:35 +0000
+Received-SPF: Pass (protection.outlook.com: domain of cert.at designates
+ 83.136.38.186 as permitted sender) receiver=protection.outlook.com;
+ client-ip=83.136.38.186; helo=trinli.cert.at; pr=C
+Received: from trinli.cert.at (83.136.38.186) by
+ LO1PEPF000022FD.mail.protection.outlook.com (10.167.240.21) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7784.11
+ via Frontend Transport; Wed, 17 Jul 2024 05:11:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cert.at; s=20200907;
+	t=1721193094; bh=sHqjjUmJivNm17z+WovONv7lsHYr+uJk6zEMJvkD8SQ=;
+	h=Date:From:Reply-To:To:In-Reply-To:References:Subject:From;
+	b=swmEtFMzavwKmmAXD0KUcxUen3RsCmxYCTE9iudPSX0V6R4UFwp+n77Of0UT5hycu
+	 ph0y6XL7uXpXtY1jtoO4p2uhVMzIyjQB4DKJga8uNz4xUvTpVxusE4YtgA5Vz1eyQH
+	 45g7z3kdMR84sqZdgjQx48pNppTqR/Dg1KjOj/1mPFIXIJ0PnuUzjBomt0lKfE5WYJ
+	 W7ZjYcS1CWzjCefVdnfA23mLZUo1m7F6gjyNhwmCCkd2nN88wikvBrlTGiW4Q8N1PR
+	 ddWRdFGkBxBaZs0x1cH+tYCBFvEXfDsjItF0mSZs2w5GuX3VwnnAZuWP6viskcjNC6
+	 E+F33BqOZTTEw==
+Received: from localhost (localhost [127.0.0.1])
+	by trinli.cert.at (Postfix) with ESMTP id 7E92D205B3
+	for <abuse@ipxo.com>; Wed, 17 Jul 2024 07:11:34 +0200 (CEST)
+Received: from trinli.cert.at ([127.0.0.1])
+ by localhost (trinli.cert.at [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id F-nZvO5gUala for <abuse@ipxo.com>; Wed, 17 Jul 2024 07:11:34 +0200 (CEST)
+Received: from cleophus.intern.cert.at (cleophus.intern.cert.at [172.21.47.118])
+	by trinli.cert.at (Postfix) with ESMTP
+	for <abuse@ipxo.com>; Wed, 17 Jul 2024 07:11:34 +0200 (CEST)
+Received: from mailcrypt.intern.cert.at (unknown [172.21.47.222])
+	by cleophus.intern.cert.at (Postfix) with ESMTP id 72DDA5E26BE
+	for <abuse@ipxo.com>; Wed, 17 Jul 2024 07:11:34 +0200 (CEST)
+Received: from mailcrypt (localhost [127.0.0.1])
+	by mailcrypt.intern.cert.at (CipherMail) with ESMTP id 4WP3vB2pr7z1yxM
+	for <abuse@ipxo.com>; Wed, 17 Jul 2024 07:11:34 +0200 (CEST)
+Received: from rt5 (rt5.intern.cert.at [172.21.47.101])
+	by mailcrypt.intern.cert.at (CipherMail) with ESMTP id 4WP3v950dGz1yxM
+	for <abuse@ipxo.com>; Wed, 17 Jul 2024 07:11:33 +0200 (CEST)
+Received: by rt5 (Postfix, from userid 33)
+	id A53DE408EF; Wed, 17 Jul 2024 07:11:33 +0200 (CEST)
+Date: Wed, 17 Jul 2024 07:11:33 +0200
+From: noreply@cert.at
+Reply-To: noreply@cert.at
+To: abuse@ipxo.com
+Message-ID: <rt-5.0.5-3136088-1721193093-1468.1928475-5-0@CERT.at>
+In-Reply-To:
+References: <RT-Ticket-1928475@CERT.at>
+Subject: [CERT.at #1928475] Vulnerable device incidents in your network: 2024-07-17
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256; 
+	boundary="----=_Part_212642_1206230519.1721193094299"
+X-RT-Loop-Prevention: CERT.at
+X-RT-Ticket: CERT.at #1928475
+X-Managed-BY: RT 5.0.5 (http://www.bestpractical.com/rt/)
+X-RT-Originator: devnull+intelmq@cert.at
+X-RT-Original-Encoding: utf-8
+Precedence: bulk
+Return-Path: team@cert.at
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO1PEPF000022FD:EE_|LO6P302MB0335:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c3a2230-7162-4df1-113d-08dca61eedeb
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|61400799027;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UGJyZEVjNWFpd2d5N1NDamx2dlVMZTFOZXkzeTRJdzBtWHJVNk81ZndjaXNX?=
+ =?utf-8?B?STlLRkU3elh4SXRLZmtSb0xqTkZGZ2xqbmVQdngzWnFpY3VsMmtReDY2ZFBK?=
+ =?utf-8?B?cXBTbXQvekFhM25DQ1k5TXphdkljU1V1aUdNVjJnSGd6S0lETlM2L3lFWTYr?=
+ =?utf-8?B?cERLZ296eUM2UzJ5am84UDVydzFZMjJIdTBITHpPSFVoWWQ3a3kxeDBMVW95?=
+ =?utf-8?B?S2xvNXIxV2dvU1UvTjhmR1RnNFl1T0VNT05QREVXMUYrMHhERmtodEtSVGZi?=
+ =?utf-8?B?TUtja2RwT2YyOUUzVXRFZWw0MjVZNmpDL2dpREJ3WGtaTk9nbytwWGFwa21Q?=
+ =?utf-8?B?aVdHL0lGejN5STZzQUdFS1haOXJZR2JLZUljSXF4bytkK0FxMXJ4R2Q3NVJW?=
+ =?utf-8?B?YTVoa1ZnMVk1cWx2N0pHMW52MkxseHYxRmNLNXAzd3AvR0MycUhra0l3MzFO?=
+ =?utf-8?B?dXF6N2hzaXpnSStyZlpvWXZHSHlSQTExNGY2T0FRMm1vVzNKejdYQkxyMEhJ?=
+ =?utf-8?B?eHF0bHBoL3ZpK25qT0JXVGdhelNoUVFVeVVYcUdMYmMyOGpSNTU3aFFWS3px?=
+ =?utf-8?B?Zzladng0S1NhYUJsNnZhd0MvTm9TWitlM2xTTTRXaGt5eXF3TmZYaEl5UEdR?=
+ =?utf-8?B?Rk85RGdBV3RNZldqMEtXWG9GVUdQYlBpWkkrMUlsa2hHem1iVGxhTHJIZXA2?=
+ =?utf-8?B?cVl6Vk9OdVUyMHN6dksvbElPZlVQT1hDQ0lydVdZOUp5ZitWY1RNTmxCdlQ4?=
+ =?utf-8?B?dnlzVDRESzY4SDhORGNvQUlXZG1HY1E3MEF2N3lKMFJwNmptWlM4b2FZNU4r?=
+ =?utf-8?B?aUxhMkRWdFdySEhSZjArdk5IajZkT1lXaUxYSDRDMGZRVW0wbDNRNGRiMEZo?=
+ =?utf-8?B?QkVBSUlCRVZ0bzg1OGFGemtwUHJ0RGpCbWhZVk0vN0h3ZXpmQnk0cG9Eczkx?=
+ =?utf-8?B?bW1KV0hwTW1xQkJKd2tqWXFETHBkNDlQQzdJak9yZ2VZbFU2ZXpDdFV4Wk1B?=
+ =?utf-8?B?dFdtSHNta012TkpFL1lZRFVoZFRmK3JUVGpZam5QelhkQXltdS96eEFld3h0?=
+ =?utf-8?B?U1Jvd3Jlc3ZLU3RhSm9PblBNZG1kY3poeTJBNHJNd3dlN1FFZmJ6T1lHd0dj?=
+ =?utf-8?B?YjN4WU15SzVLeW5vUkozeGpEY1NScXE0bUdLZHIrYko3QXB2WVZBZWNIQkNn?=
+ =?utf-8?B?RHJibXo3RTBJTVBNS2JuQ3J6U3Vpb3lyRmZQMjBuWnlQRmlDQTZCZ09sbGNB?=
+ =?utf-8?B?aGM5Z3B1eFJXMytPMGFyOElZZ1B4NTFwTS9VZkIzN2ZmbnVyUUdwa2NGVUNq?=
+ =?utf-8?B?RnV4Qmlwamh6N1QwQytjTVBVaC9CNXhla0FzSlJveG5ZZk1SR0EwdFlUVnhG?=
+ =?utf-8?B?R2cwT0xwWjl0aVBsb1dUcFE3WFNFSmdFZTVZSXNsb0oxczNRMWxObzlPWDd2?=
+ =?utf-8?B?QWdpWTJlTDFxK3Rac0RGSkZIVnUvLy9UTjRTVDVEVGRpczIxSkg1czBlakV4?=
+ =?utf-8?B?RUxEdmVISVNPYUZxT2V3NkFLMEd6ekJ6K3Zxa2lKay80TkNCZ3daWGJha0RU?=
+ =?utf-8?B?YU1jeGY2clBzYUtwOFZxdzBBaDRPeFRUN2ZwdWI5YytiekhiUzRLMTJqSmJL?=
+ =?utf-8?B?QUZpQkNJcVRzb05iOWlxMklTYmlNWnpPaHRGbFpSL293U09wZHUvbDh4d3Qx?=
+ =?utf-8?B?LzQybFZMMHBjbUR0d1pDQ2RocmVRTlJ0UStmclZyMDJCczFvOFpVU3d2UG1V?=
+ =?utf-8?B?YktBOFNUMUxTc2piSkNTVkx3cFRDZCs4UFh0c1FCZW1BQVRNRFlRUGt5cUM5?=
+ =?utf-8?B?UTY0QXZ1RWtTRURpdXNKeS82OWhnU2VVY2Fnb2w5QUFndUhWTnN2NWZZOXcv?=
+ =?utf-8?B?NDdJZU83TjJzeEtyVGtySENUd2l5c3NYbE9XZTc1WjJibHpDdGVzTFNvZ0NF?=
+ =?utf-8?B?SFprRGdZcFZYQ2s4Rm1ncXVFSm53QjM2Y2pKbS9URld6ZUFCdFpmVE9tWXBk?=
+ =?utf-8?Q?XcA+5NILvTfhvCZuLIlXJ1ylZIwCvI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:83.136.38.186;CTRY:AT;LANG:de;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:trinli.cert.at;PTR:trinli.cert.at;CAT:NONE;SFS:(13230040)(376014)(61400799027);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2024 05:11:34.9665
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c3a2230-7162-4df1-113d-08dca61eedeb
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: LO1PEPF000022FD.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P302MB0335
+Original-Authentication-Results: spf=pass (sender IP is 83.136.38.186)
+ smtp.mailfrom=cert.at; dkim=pass (signature was verified)
+ header.d=cert.at;dmarc=pass action=none header.from=cert.at;
+
+------=_Part_212642_1206230519.1721193094299
+Content-Type: multipart/mixed; boundary="----------=_1721193093-3136088-64"
+Content-Transfer-Encoding: 7bit
+
+------------=_1721193093-3136088-64
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+(English version below)
+
+Sehr geehrte Netzbetreiber,
+
+wir wurden informiert, dass die im Anhang genannten IP-Adressen aus Ihrem=
+ AS
+entweder verwundbare Systeme beherbergen,
+gehackt wurden oder sonstige Sicherheitsprobleme aufweisen.
+
+F=C3=BCr eine genaue Beschreibung des jeweiligen Problems m=C3=B6chten wi=
+r auf die
+Spalten 'identifier', 'type' und 'taxonomy' in der angehaengten CSV Datei
+verweisen als auch auf die Beschreibung unter
+https://cert.at/de/services/daten-feeds/
+
+Bitte beachten Sie auch, dass Ger=C3=A4te, die als "Vulnerable" gekennzei=
+chnet
+wurden, nicht per se selber gegen "hacking" verwundbar sein muessen. Es k=
+=C3=B6nnte
+sich hier auch um Ger=C3=A4te handeln, die zB in (UDP amplification) DDOS=
+ Attacken
+missbraucht werden k=C3=B6nnten.
+(siehe zB https://www.us-cert.gov/ncas/alerts/TA14-017A).
+
+Wenn Sie Fragen haben, senden Sie diese bitte an team@cert.at.
+Bitte geben Sie dabei Ihre Ticketnummer und Ihre IP-Adresse an.
+
+
+Wir m=C3=B6chten Sie bitten, Ihren Richtlinien entsprechend, ggf.  Gegenm=
+assnahmen
+zu ergreifen bzw. Ihre Kunden zu informieren.
+
+Mit freundlichen Gr=C3=BC=C3=9Fen,
+
+CERT.at
+
+------------------------------------
+
+Dear network owner,
+
+CERT.at was informed of IT security issues in your ASN.  For a detailed
+description of this data, please see the 'identifier', 'type' and 'taxono=
+my'
+fields in the attached (zip compressed) CSV file as well as the descripti=
+on at:
+https://www.cert.at/en/services/data/overview/
+
+As these issues are posing a growing threat,  we would like to ask you to=
+ act
+according to your policies and, if necessary, take appropriate counter
+measures.
+
+If you have any questions, please contact us at team@cert.at.
+Please include the IP addresses involved and the Ticket ID.
+
+Kind regards,
+
+CERT.at
+--
+// CERT Austria <team@cert.at> - T: +43 1 5056416 78
+// CERT.at GmbH - https://www.cert.at/
+// Firmenbuchnummer 561772k, HG Wien
+
+------------=_1721193093-3136088-64
+Content-Type: text/csv; name="2024-07-17-vulnerable.csv"
+Content-Disposition: attachment; filename="2024-07-17-vulnerable.csv"
+Content-Transfer-Encoding: 7bit
+RT-Attachment: 1928475/6876572/3214039
+
+time.source;source.ip;protocol.transport;source.port;protocol.application;source.fqdn;source.local_hostname;source.local_ip;source.url;source.asn;source.geolocation.cc;source.geolocation.city;classification.taxonomy;classification.type;classification.identifier;destination.ip;destination.port;destination.fqdn;destination.url;feed;event_description.text;event_description.url;malware.name;extra;comment;additional_field_freetext;feed.documentation;version: 1.2
+2024-07-15T15:53:39+02;109.176.250.134;tcp;22;;;;;;47692;AT;Vienna;vulnerable;vulnerable-system;cve-2024-6387;;;;;shadowserver-accessible-ssh;Possible regreSSHion vulnerability in OpenSSH server;;;"{""tag"": ""cve-2024-6387"", ""vulnerabilities"": ""cve-2024-6387""}";In this case, there are more false positives than usually expected. Please verify.;;https://www.cert.at/de/aktuelles/2024/7/regresshion-remote-unauthenticated-code-execution-vulnerability-cve-2024-6387-in-openssh-server;
+2024-07-15T19:20:42+02;179.61.251.153;tcp;22;;gamesrv01.linuxy95.at;;;;211301;DE;Frankfurt am Main;vulnerable;vulnerable-system;cve-2024-6387;;;;;shadowserver-accessible-ssh;Possible regreSSHion vulnerability in OpenSSH server;;;"{""tag"": ""cve-2024-6387"", ""vulnerabilities"": ""cve-2024-6387""}";In this case, there are more false positives than usually expected. Please verify.;;https://www.cert.at/de/aktuelles/2024/7/regresshion-remote-unauthenticated-code-execution-vulnerability-cve-2024-6387-in-openssh-server;
+2024-07-16T03:38:35+02;109.176.250.122;udp;3478;session traversal utilities for nat;mail.arrox.at;;;;47692;AT;Vienna;vulnerable;ddos-amplifier;open-stun;;;;;shadowserver-accessible-stun-service;;;;"{""amplification"": 5.0, ""tag"": ""stun""}";;;https://cert.at/de/services/daten-feeds/vulnerable/#accessible-stun;
+
+------------=_1721193093-3136088-64--
+
+------=_Part_212642_1206230519.1721193094299
+Content-Type: application/pkcs7-signature; name=smime.p7s; smime-type=signed-data
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDTALBglghkgBZQMEAgEwgAYJKoZIhvcNAQcBAACggDCCBzIw
+ggUaoAMCAQICEEPEaExaIuXaA031mPdAE3UwDQYJKoZIhvcNAQEMBQAwRjELMAkGA1UEBhMCTkwx
+GTAXBgNVBAoTEEdFQU5UIFZlcmVuaWdpbmcxHDAaBgNVBAMTE0dFQU5UIFBlcnNvbmFsIENBIDQw
+HhcNMjQwNzAyMDAwMDAwWhcNMjYwNzAyMjM1OTU5WjCBsjELMAkGA1UEBhMCQVQxETAPBgNVBAgT
+CFNhbHpidXJnMRQwEgYDVQQKEwtuaWMuYXQgR21iSDEWMBQGA1UEYRMNTlRSQVQtMTcyNTY4YjEe
+MBwGCSqGSIb3DQEJARYPbm9yZXBseUBjZXJ0LmF0MRMwEQYDVQQEEwpBdXRvbWF0aW9uMRAwDgYD
+VQQqEwdDRVJULmF0MRswGQYDVQQDExJDRVJULmF0IEF1dG9tYXRpb24wggIiMA0GCSqGSIb3DQEB
+AQUAA4ICDwAwggIKAoICAQCwP73cylYmCyvlRop3yL2JprSiOTvxS+drS4NJglB/zDD9VqLvM+59
+2W7vZzO2ssw3kHCyM3u+zvM92ZrtNizQ66olyZ6Ik5p1K6UTEP8ScNW8sBGTKRxfWufv2CZpCqmv
+YqUE1T7ElKAd8xV17Y2Awbr6OvqY/vC4RRjNvi13Z1YpPicAgXpZWYl5iw8tLXJnad5Oej6X5f8F
+E2MxOA2yatfvv88KPR2BM39utqKpH5LVu1rbubfgkxF9H7SIXJWBI+KdeUB+ukig4obLsAELan4P
+L9pjUrJ1jPZ58jfIxlcXNiWs+1emT66eANGol+acPZP/bbiY9tsEKUGTfKV1jjU+nekWNG43F33x
++LkowPMPfN0Z5bOCiNAa5anvwfiK/Ium3XgaS9R90+NrWXeUAkU2d6wHsTKPN9AEL768XJNZaB1+
+g2WXnih223cl/2qUonRX49qj7radK3MgUj2C+zrqACdEImv8l6tylNtA1P2K1jIzcm9x7ShbLE1Q
+nGpVCJ2DFjTiiGVGBvISarnGHSyV7G0eIKoZSnTNYarK1JfTO++u5MGOmJOHNTVhQM595lMQ2suy
+EAV8WQZQATWr33ujOXpYq0b/tS6FKHvcU44zVEhkbt+Hc/sl1fwRRtvMBxbykzh9X4d2oqMo753t
+jx2bjYoMCwhvlTHQaU7yrQIDAQABo4IBrTCCAakwHwYDVR0jBBgwFoAUaQChxyFY+ODFGyCwCt2n
+Ub8T2eQwHQYDVR0OBBYEFOriMqZKO/yP3fkPrkkTvLivdESNMA4GA1UdDwEB/wQEAwIFoDAMBgNV
+HRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMEBggrBgEFBQcDAjBQBgNVHSAESTBHMDoGDCsG
+AQQBsjEBAgEKBDAqMCgGCCsGAQUFBwIBFhxodHRwczovL3NlY3RpZ28uY29tL1NNSU1FQ1BTMAkG
+B2eBDAEFAwIwQgYDVR0fBDswOTA3oDWgM4YxaHR0cDovL0dFQU5ULmNybC5zZWN0aWdvLmNvbS9H
+RUFOVFBlcnNvbmFsQ0E0LmNybDB4BggrBgEFBQcBAQRsMGowPQYIKwYBBQUHMAKGMWh0dHA6Ly9H
+RUFOVC5jcnQuc2VjdGlnby5jb20vR0VBTlRQZXJzb25hbENBNC5jcnQwKQYIKwYBBQUHMAGGHWh0
+dHA6Ly9HRUFOVC5vY3NwLnNlY3RpZ28uY29tMBoGA1UdEQQTMBGBD25vcmVwbHlAY2VydC5hdDAN
+BgkqhkiG9w0BAQwFAAOCAgEANIr4VQW8cchDVla6dBL+RKv5JAOjXySym34yFiFDegrYpp0tIE3S
+4WAmRGqzZvYgSLbLLk0d9fPEl5iLxuwntoXmSNIBQlRNdD/J+RTQf3cb5Sn1VoTRpACId4Zdvyw1
+QNUDemQaUVGH5R51Jz7U+OPCHxNkgtOjVS/m1X+LVnd3YYu6ISTn5NgS5qlnoNUIkga0YGmgzWtO
+Gsvr/q+y3t41YTC9UP88NYd5s7RNLaii8f33aLBIGnRd5NPmMLRLjUFW+kxy3Ruky81qrBkLLPmj
+QI6DTuBZY7Wxmli+Ag0Qif7/3PQLpbARoVeLf59E8NMtmeYDQaI7YoiGTodkRdXTVyh0gby3Uqxl
+4X8QF8CDve+u5mPMCdpdH+LQ7LKYybiLEbPd8we8tPmGK9QK4fFgcf4cCUmYpcNkyc9H2tapzQq4
+Qev/wGxizy44412AKZGOs8ZSZglJ2Ghc0nQRHkQ3NSMZol75+i68SBS3NfMvxOjTqe52UM2u0bLF
+ZwTkMB1LvBOU8NKwKyvUUpjqlsEx3xuIUn+rajht97sNQQZ3oQ/6p00/xCE4LGWPTxWaGZCh1BRM
+nmy1CxCOWAkXvMqG+ogHQ3L+FTgLXX4GC2dxKgXbxQmZcD9t6kvF44oR82tYFvsdokdvjvmPHUcS
+LvGJkXGwK4H3FdY0i8RFPE4wggbmMIIEzqADAgECAhAxAnDUNb6bJJr4VtDh4oVJMA0GCSqGSIb3
+DQEBDAUAMIGIMQswCQYDVQQGEwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVy
+c2V5IENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRy
+dXN0IFJTQSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTAeFw0yMDAyMTgwMDAwMDBaFw0zMzA1MDEy
+MzU5NTlaMEYxCzAJBgNVBAYTAk5MMRkwFwYDVQQKExBHRUFOVCBWZXJlbmlnaW5nMRwwGgYDVQQD
+ExNHRUFOVCBQZXJzb25hbCBDQSA0MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAs0ri
+Il4nW+kEWxQENTIgFK600jFAxs1QwB6hRMqvnkphfy2Q3mKbM2otpELKlgE8/3AQPYBo7p7yeORu
+PMnAuA+oMGRb2wbeSaLcZbpwXgfCvnKxmq97/kQkOFX706F9O7/h0yehHhDjUdyMyT0zMs4AMBDR
+rAFn/b2vR3j0BSYgoQs16oSqadM3p+d0vvH/YrRMtOhkvGpLuzL8m+LTAQWvQJ92NwCyKiHspoP4
+mLPJvVpEpDMnpDbRUQdftSpZzVKTNORvPrGPRLnJ0EEVCHR82LL6oz915WkrgeCY9ImuulBn4uVs
+d9ZpubCgM/EXvVBlViKqusChSsZEn7juIsGIiDyaIhhLsd3amm8BS3bgK6AxdSMROND6hiHT182L
+mf8C+gRHxQG9McvG35uUvRu8v7bPZiJRaT7ZC2f50P4lTlnbLvWpXv5yv7hheO8bMXltiyLweLB+
+VNvg+GnfL6TW3Aq1yF1yrZAZzR4MbpjTWdEdSLKvz8+0wCwscQ81nbDOwDt9vyZ+0eJXbRkWZiqS
+cnwAg5/B1NUD4TrYlrI4n6zFp2pyYUOiuzP+as/AZnz63GvjFK69WODR2W/TK4D7VikEMhg18vhu
+Rf4hxnWZOy0vhfDR/g3aJbdsGac+diahjEwzyB+UKJOCyzvecG8bZ/u/U8PsEMZg07iIPi8CAwEA
+AaOCAYswggGHMB8GA1UdIwQYMBaAFFN5v1qqK0rPVIDh2JvAnfKyA2bLMB0GA1UdDgQWBBRpAKHH
+IVj44MUbILAK3adRvxPZ5DAOBgNVHQ8BAf8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNV
+HSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwOAYDVR0gBDEwLzAtBgRVHSAAMCUwIwYIKwYBBQUH
+AgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFAGA1UdHwRJMEcwRaBDoEGGP2h0dHA6Ly9jcmwu
+dXNlcnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5LmNybDB2Bggr
+BgEFBQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNlcnRydXN0LmNvbS9VU0VSVHJ1
+c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcwAYYZaHR0cDovL29jc3AudXNlcnRydXN0LmNv
+bTANBgkqhkiG9w0BAQwFAAOCAgEACgVOew2PHxM5AP1v7GLGw+3tF6rjAcx43D9Hl110Q+BABABg
+lkrPkES/VyMZsfuds8fcDGvGE3o5UfjSno4sij0xdKut8zMazv8/4VMKPCA3EUS0tDUoL01ugDdq
+wlyXuYizeXyH2ICAQfXMtS+raz7mf741CZvO50OxMUMxqljeRfVPDJQJNHOYi2pxuxgjKDYx4hdZ
+9G2o+oLlHhu5+anMDkE8g0tffjRKn8I1D1BmrDdWR/IdbBOj6870abYvqys1qYlPotv5N5dm+XxQ
+8vlrvY7+kfQaAYeO3rP1DM8BGdpEqyFVa+I0rpJPhaZkeWW7cImDQFerHW9bKzBrCC815a3WrEhN
+pxh72ZJZNs1HYJ+29NTB6uu4NJjaMxpk+g2puNSm4b9uVjBbPO9V6sFSG+IBqE9ckX/1XjzJtY8G
+rqoo4SiRb6zcHhp3mxj3oqWi8SKNohAOKnUc7RIP6ss1hqIFyv0xXZor4N9tnzD0Fo0JDIURjDPE
+go5WTdti/MdGTmKFQNqxyZuT9uSI2Xvhz8p+4pCYkiZqpahZlHqMFxdw9XRZQgrP+cgtOkWEaiNk
+RBbvtvLdp7MCL2OsQhQEdEbUvDM9slzZXdI7NjJokVBq3O4pls3VD2z3L/bHVBe0rBERjyM2C/HS
+Ih84rfmAqBgklzIOqXhd+4RzadUAADGCA74wggO6AgEBMFowRjELMAkGA1UEBhMCTkwxGTAXBgNV
+BAoTEEdFQU5UIFZlcmVuaWdpbmcxHDAaBgNVBAMTE0dFQU5UIFBlcnNvbmFsIENBIDQCEEPEaExa
+IuXaA031mPdAE3UwCwYJYIZIAWUDBAIBoIIBNzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwG
+CSqGSIb3DQEJBTEPFw0yNDA3MTcwNTExMzRaMCsGCSqGSIb3DQEJNDEeMBwwCwYJYIZIAWUDBAIB
+oQ0GCSqGSIb3DQEBCwUAMC8GCSqGSIb3DQEJBDEiBCDLp26Uxgryl2qkfsW1Qpbtf6xww2Jd9TVx
+QPMaXvb3XDCBngYJKoZIhvcNAQkPMYGQMIGNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+YIZIAWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIAgDAPBgkqhkiG9n0HQgoCAgCAMA0G
+CyqDCIyaSz0BAQEEMA0GCyqDCIyaSz0BAQEDMA0GCyqDCIyaSz0BAQECMAoGCCqDGoyaRAEEMA0G
+CSqGSIb3DQEBCwUABIICAFsA2lipcM80tvzsp4qvoFrkN65OWik7IWJ5acN6nOUUdZa0UQAwO9PH
+ymMBjvpUMEYJgYLP0cEH8s8iSWE//2I+ZVluW7+ghE+kZwOEYkhA4KwIvvydhLHkmFqBLP1gJNGc
+nakjtfPHI5ksrDtvu9dqN42OMIgcKTFyM5CIVcDGHz45cN7kj4aQyMNq2h3X5ehbnPHn1jxzbbuL
+g6LmKm03/2aoRILe1/79b+lm6c3tdtTe1ytKEMM56BakJFOFuDJCADAsos/htE7DCXGSz6IyKdua
+zb05MGu9bofQbh5QVkQdkxJWo0Fwx2sDMyLzcCFSCdG+TgHPPaZ+MpoWUEoFzlrJSs97gWapJn6x
+7Om0EN2LK59Jl+2jD5fIzgoCikae/t2INrMY9hXIt6cXquI+3ASIk1YhK82Ypmg/abRBvxPyKzDy
+kfmGbcDtKVzUv6oOP1sS7SYEucfU2oPoQYTySTXNmtHgTEljLxtzij2y3/9iLi2dTVVG2x3NtDgx
+Ag56Z0Mua0wHr0Yq8xtY0odEBHEs2gaTTFnWg+1mqqcXVQ4Qee7aF2yotNaSzcdezFCCsNVZvJvW
+dW7bzcl7sRQEfjzZERsJPZ5/BozKla0mYgMTAGry0tjB1MCsVybmtkdOtUg07JgdlLFTCN+SCftH
+yN6Fp9jUl+lMxnX4RNljAAAAAAAA
+------=_Part_212642_1206230519.1721193094299--

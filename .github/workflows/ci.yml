@@ -5,94 +5,270 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  schedule:
+    # Run security scans daily at 6am UTC
+    - cron: '0 6 * * *'
+
+env:
+  GO_VERSION: '1.23'
+  GOLANGCI_LINT_VERSION: 'v1.55.2'
 
 jobs:
+  # --------------------------------------------------------------------------
+  # Go Code Quality (replaces Python lint job)
+  # --------------------------------------------------------------------------
   lint:
-    name: Lint & Format Check
+    name: Go Lint & Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better analysis
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Verify Go installation
+        run: |
+          go version
+          go env
+
+      - name: Check Go formatting (gofmt)
+        run: |
+          echo "Checking Go code formatting..."
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "ERROR: The following files are not formatted:"
+            echo "$unformatted"
+            exit 1
+          fi
+          echo "✅ All Go files are properly formatted"
+
+      - name: Check import formatting (goimports)
+        run: |
+          echo "Installing goimports..."
+          go install golang.org/x/tools/cmd/goimports@latest
+          echo "Checking import formatting..."
+          unformatted=$(goimports -l .)
+          if [ -n "$unformatted" ]; then
+            echo "ERROR: The following files have incorrectly formatted imports:"
+            echo "$unformatted"
+            exit 1
+          fi
+          echo "✅ All imports are properly formatted"
+
+      - name: Run go vet
+        run: |
+          echo "Running go vet..."
+          go vet ./...
+          echo "✅ go vet passed"
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: ${{ env.GOLANGCI_LINT_VERSION }}
+          args: --config=.golangci.yml --timeout=5m --verbose
+          skip-cache: false
+          skip-pkg-cache: false
+          skip-build-cache: false
+
+  # --------------------------------------------------------------------------
+  # YAML Quality (Bento configs) - BLOCKING
+  # --------------------------------------------------------------------------
+  yaml-lint:
+    name: YAML Validation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Install yamllint
+        run: pip install yamllint
 
-      - name: Install Poetry
+      - name: Run yamllint (BLOCKING)
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "Validating YAML files..."
+          yamllint -c .yamllint.yml --strict .
+          if [ $? -ne 0 ]; then
+            echo "❌ YAML validation failed - build BLOCKED"
+            exit 1
+          fi
+          echo "✅ All YAML files are valid"
 
-      - name: Install dependencies
-        run: poetry install
+      - name: Validate Bento configs
+        run: |
+          echo "TODO: Add 'bento lint' validation once Bento binary is built"
+          echo "This will validate bento/configs/*.yaml with strict mode"
 
-      - name: Run black
-        run: poetry run black --check parsers workers tests
-
-      - name: Run isort
-        run: poetry run isort --check-only parsers workers tests
-
-      - name: Run flake8
-        run: poetry run flake8 parsers workers tests
-
-      - name: Run mypy
-        run: poetry run mypy parsers workers
-
+  # --------------------------------------------------------------------------
+  # Security Scanning (replaces Python security job + adds more)
+  # --------------------------------------------------------------------------
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write  # For SARIF upload
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          fetch-depth: 0
 
-      - name: Install Poetry
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      # Layer 1: Source code security (gosec)
+      - name: Run gosec (Go security scanner)
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "Installing gosec..."
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          echo "Running gosec security scan..."
+          gosec -fmt=sarif -out=gosec-results.sarif -exclude-generated ./...
+          if [ $? -ne 0 ]; then
+            echo "❌ gosec found security issues - build BLOCKED"
+            exit 1
+          fi
 
-      - name: Install dependencies
-        run: poetry install
+      - name: Upload gosec SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: gosec-results.sarif
+          category: gosec
 
-      - name: Run bandit
-        run: poetry run bandit -r parsers workers
+      # Layer 2: Go vulnerability database (govulncheck)
+      - name: Run govulncheck
+        run: |
+          echo "Installing govulncheck..."
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          echo "Checking for known vulnerabilities..."
+          govulncheck ./...
+          echo "✅ No known vulnerabilities found"
 
+      # Layer 3: Dependency vulnerabilities (Trivy)
+      - name: Run Trivy vulnerability scanner (go.mod)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '1'
+
+      - name: Upload Trivy SARIF
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy-dependencies
+
+      # Layer 4: Secret detection
       - name: Run detect-secrets
-        run: poetry run detect-secrets scan --baseline .secrets.baseline
+        run: |
+          echo "Installing detect-secrets..."
+          pip install detect-secrets
+          echo "Scanning for secrets..."
+          detect-secrets scan --baseline .secrets.baseline
+          echo "✅ No secrets detected"
 
+  # --------------------------------------------------------------------------
+  # Test Suite (replaces Python test job)
+  # --------------------------------------------------------------------------
   test:
-    name: Test Suite
+    name: Go Test Suite
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          python-version: '3.11'
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
 
-      - name: Install Poetry
+      - name: Download dependencies
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "Downloading Go dependencies..."
+          go mod download
+          go mod verify
+          echo "✅ Dependencies verified"
 
-      - name: Install dependencies
-        run: poetry install
+      - name: Run unit tests
+        run: |
+          echo "Running unit tests with coverage..."
+          go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+          echo "✅ All tests passed"
 
-      - name: Run tests with coverage
-        run: poetry run pytest --cov=parsers --cov=workers --cov-report=xml --cov-report=term
+      - name: Display coverage
+        run: |
+          echo "Code coverage summary:"
+          go tool cover -func=coverage.out | tail -n 1
+
+      - name: Check coverage threshold
+        run: |
+          coverage=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+          threshold=80
+          echo "Coverage: $coverage%"
+          echo "Threshold: $threshold%"
+          if (( $(echo "$coverage < $threshold" | bc -l) )); then
+            echo "❌ ERROR: Coverage $coverage% is below threshold $threshold%"
+            exit 1
+          fi
+          echo "✅ Coverage meets threshold"
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          file: ./coverage.xml
-          fail_ci_if_error: false
+          files: ./coverage.out
+          flags: unittests
+          fail_ci_if_error: true
 
+  # --------------------------------------------------------------------------
+  # Build (ensure code compiles)
+  # --------------------------------------------------------------------------
+  build:
+    name: Go Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux, darwin]
+        arch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Build Bento binary
+        env:
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+        run: |
+          echo "Building for $GOOS/$GOARCH..."
+          go build -v -o bento-parsers-${{ matrix.os }}-${{ matrix.arch }} ./cmd/bento-parsers
+          ls -lh bento-parsers-*
+          echo "✅ Build successful"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: bento-parsers-${{ matrix.os }}-${{ matrix.arch }}
+          path: bento-parsers-${{ matrix.os }}-${{ matrix.arch }}
+          retention-days: 7
+
+  # --------------------------------------------------------------------------
+  # Docker Build & Security Scan
+  # --------------------------------------------------------------------------
   docker:
-    name: Docker Build
+    name: Docker Build & Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -104,40 +280,96 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: docker/Dockerfile.bento
           push: false
+          load: true
           tags: inbound-parsers:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Run Trivy container scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'inbound-parsers:test'
+          format: 'sarif'
+          output: 'trivy-image-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      - name: Upload Trivy container SARIF
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-image-results.sarif
+          category: trivy-container
+
+  # --------------------------------------------------------------------------
+  # Integration Tests (Kafka + Bento pipeline)
+  # --------------------------------------------------------------------------
   integration:
     name: Integration Tests
     runs-on: ubuntu-latest
+    needs: [build]  # Require build to pass first
     steps:
       - uses: actions/checkout@v4
 
-      - name: Start services
-        run: docker-compose -f docker-compose.dev.yml up -d kafka zookeeper
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Start Kafka & Zookeeper
+        run: |
+          echo "Starting Kafka and Zookeeper..."
+          docker-compose -f docker-compose.dev.yml up -d kafka zookeeper
+          echo "Waiting for Kafka to be ready..."
 
       - name: Wait for Kafka
         run: |
-          timeout 60 bash -c 'until docker-compose -f docker-compose.dev.yml exec -T kafka kafka-broker-api-versions --bootstrap-server localhost:9092; do sleep 2; done'
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
-        run: poetry install
+          timeout 90 bash -c 'until docker-compose -f docker-compose.dev.yml exec -T kafka kafka-broker-api-versions --bootstrap-server localhost:9092 2>/dev/null; do echo "Waiting for Kafka..."; sleep 3; done'
+          echo "✅ Kafka is ready"
 
       - name: Run integration tests
-        run: poetry run pytest tests/integration -v
+        run: |
+          echo "Running integration tests..."
+          go test -v -tags=integration ./tests/integration/...
+          echo "✅ Integration tests passed"
 
       - name: Cleanup
         if: always()
-        run: docker-compose -f docker-compose.dev.yml down -v
+        run: |
+          echo "Stopping services..."
+          docker-compose -f docker-compose.dev.yml down -v
+          echo "✅ Cleanup complete"
+
+  # --------------------------------------------------------------------------
+  # Dependency Review (PRs only)
+  # --------------------------------------------------------------------------
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v3
+        with:
+          fail-on-severity: moderate
+
+  # --------------------------------------------------------------------------
+  # Summary Job (requires all to pass)
+  # --------------------------------------------------------------------------
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs: [lint, yaml-lint, security, test, build, docker, integration]
+    if: always()
+    steps:
+      - name: Check all jobs
+        run: |
+          if [ "${{ contains(needs.*.result, 'failure') }}" == "true" ]; then
+            echo "❌ One or more CI jobs failed"
+            exit 1
+          fi
+          echo "✅ All CI jobs passed successfully!"

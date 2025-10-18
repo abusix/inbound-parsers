@@ -1,32 +1,99 @@
 # inbound-parsers - Project Context
 
 **Created:** 2025-10-18
+**Last Updated:** 2025-10-18 (qinit)
 **Status:** 🟢 Initial foundation complete, ready for development
+**Version:** 0.1.0
 **Related:** [abusix-parsers v1](https://github.com/abusix/abusix-parsers)
 
 ---
 
-## 🎯 Project Vision
+## 🎯 Project Vision *(Updated 2025-10-18 - Architecture Change)*
 
-**Goal:** Replace abusix-parsers (v1) with a modern, multi-pipeline architecture using Bento stream processing.
+**Goal:** Replace abusix-parsers (v1) with a **pure Go** system using Bento stream processing with embedded parsers.
 
 **Why this exists:**
-1. **Critical data loss bug in v1** - Kafka auto-commit causes message loss on process crash (see v1 YIKES.md #1)
+1. **Critical data loss bug in v1** - Kafka auto-commit causes message loss on process crash
 2. **Architecture problem** - FBL/Spamtrap emails mixed with abuse reports in single pipeline
 3. **No observability** - v1 has no metrics, structured logging, or dashboards
 4. **Blocking pipeline** - One slow message blocks all others
+5. **Language complexity** - v1 Python + v2 Go/Python hybrid = operational burden
 
-**Strategy:** Strangler Fig Pattern - migrate parser-by-parser, starting with FBL only
+**NEW Architecture Decision (2025-10-18):**
+- ✅ **Pure Go** - Parsers written in Go, embedded in Bento (no Python, no HTTP overhead)
+- ✅ **Single binary** - One executable, no subprocess workers
+- ✅ **Incremental migration** - Rewrite parsers from Python to Go one-by-one
+- ✅ **Testable** - Parser logic separate from Bento (pure Go libraries)
+
+**Strategy:**
+1. Rewrite parsers from Python to Go incrementally
+2. Start with FBL parser (simplest, well-understood)
+3. Each parser is a Go library + thin Bento processor wrapper
+4. Eventually: 100% Go, delete all Python code
 
 ---
 
-## 🏗️ Architecture Overview
+## 📁 Project Structure *(Updated 2025-10-18 - NEW Go Architecture)*
+
+**FUTURE (Pure Go):**
+```
+inbound-parsers/
+├── parsers/                   # Pure Go parser libraries
+│   ├── fbl/
+│   │   ├── parser.go         # FBL parser logic
+│   │   ├── parser_test.go    # Unit tests
+│   │   ├── models.go         # Event structs
+│   │   └── dkim.go           # DKIM verification
+│   └── shadowserver/         # Next parser (future)
+│       └── parser.go
+├── bento/
+│   ├── processors/           # Thin Bento wrappers
+│   │   └── fbl_processor.go  # Calls parsers/fbl
+│   ├── main.go               # Custom Bento build
+│   └── configs/
+│       └── fbl.yaml          # Pipeline config
+├── tests/
+│   ├── parsers/              # Parser unit tests
+│   ├── integration/          # Full pipeline tests
+│   └── fixtures/             # Test .eml files
+├── monitoring/               # Observability (unchanged)
+└── scripts/                  # Dev utilities
+```
+
+**CURRENT (Transition - Python parsers marked for deletion):**
+```
+inbound-parsers/
+├── parsers/                   # ⚠️ DEPRECATED - Python parsers
+│   ├── __init__.py           # DELETE after Go migration
+│   └── fbl.py                # DELETE after Go rewrite
+├── workers/                   # ⚠️ DEPRECATED - HTTP workers
+│   ├── __init__.py           # DELETE after Go migration
+│   └── fbl_worker.py         # DELETE after Go rewrite
+├── bento/
+│   └── fbl.yaml              # Currently calls Python worker (will change)
+├── pyproject.toml            # ⚠️ DELETE after Python code removed
+├── .pre-commit-config.yaml   # ⚠️ UPDATE for Go (golangci-lint, gofmt)
+└── [rest unchanged]
+```
+
+**Key Design Decisions:**
+- **NEW:** Pure Go parsers as reusable libraries (not Bento-specific)
+- **NEW:** Bento processors are thin wrappers (separation of concerns)
+- **NEW:** Custom Bento build with embedded parsers (single binary)
+- `monitoring/` provisioned via docker-compose (unchanged)
+- `tests/` organized by type (will add parser unit tests)
+- `.claude/` for AI Flow configuration (unchanged)
+- Docker files in root (unchanged - industry standard)
+
+---
+
+## 🏗️ Architecture Overview *(Updated 2025-10-18)*
 
 ### Tech Stack
 
-**Stream Processing:**
+**Stream Processing (Pure Go):**
 - **Bento** (Go) - Kafka consumer/producer, routing, offset management
-- **Python Workers** (FastAPI) - Subprocess-based parser execution
+- **Custom Parsers** (Go) - Embedded in Bento binary (NO Python, NO HTTP)
 - **Kafka** - Message queue (same as v1)
 
 **Observability:**
@@ -36,28 +103,58 @@
 - **Promtail** - Log shipping
 
 **Development:**
-- **Poetry** - Python dependency management
+- **Go 1.21+** - Primary language for parsers and Bento
 - **Docker + docker-compose** - Local development
-- **Pre-commit hooks** - Code quality enforcement
+- **Pre-commit hooks** - golangci-lint, gofmt, gosec
 - **GitHub Actions** - CI/CD pipeline
 
-### Why Bento?
+### Why Pure Go (Not Python)?
 
-1. **Offset Management** - Manual commit after successful output (fixes v1 data loss)
-2. **Multi-Pipeline** - Run multiple independent pipelines with tag-based routing
-3. **Observability** - Built-in Prometheus metrics, structured logging
-4. **Performance** - Go-based, handles high throughput
-5. **Flexibility** - Easy to add new pipelines without touching Python code
+**Problems with Python:**
+- ❌ Subprocess overhead (0.5ms per message)
+- ❌ HTTP overhead (5ms per message with FastAPI)
+- ❌ Two languages (Go + Python) = operational complexity
+- ❌ Dependency management (Poetry, venv, pip issues)
+- ❌ Harder to debug (cross-process communication)
 
-### Why Subprocess Workers (not HTTP API)?
+**Benefits of Pure Go:**
+- ✅ **Direct function calls** - Nanosecond overhead vs milliseconds
+- ✅ **Single binary** - No subprocess, no HTTP, no workers
+- ✅ **Performance** - 10-100x faster than Python
+- ✅ **Memory efficient** - No serialization overhead
+- ✅ **Easy deployment** - One executable, no dependencies
+- ✅ **Better debugging** - Single process, standard Go tools
+- ✅ **Reusable** - Parser libraries can be used in other Go services
 
-**Options evaluated:**
-- ❌ CGO embedding - Fast but complex, GIL issues, crash risk
-- ❌ HTTP API - Simple but 5ms overhead per message
-- ✅ **Subprocess** - 0.5ms overhead, process isolation, simple
-- 🔄 Unix socket HTTP - 2ms overhead (upgrade path if needed)
+### Architecture Pattern: Library + Wrapper
 
-**Decision:** Start with subprocess (simplest), measure performance, upgrade only if needed
+**Parser (Pure Go Library):**
+```go
+// parsers/fbl/parser.go
+package fbl
+
+func Parse(emailBytes []byte) (*Event, error) {
+    // Pure logic, no Bento dependencies
+    // Testable with standard Go tests
+}
+```
+
+**Bento Processor (Thin Wrapper):**
+```go
+// bento/processors/fbl_processor.go
+package processors
+
+func (p *FBLProcessor) Process(msg *message.Batch) {
+    event, err := fbl.Parse(msg.Get(0).AsBytes())
+    // Convert to Bento message format
+}
+```
+
+**Benefits:**
+1. Parser can be unit tested independently
+2. Parser can be imported by other Go services
+3. Bento integration is minimal boilerplate
+4. Easy to profile and optimize parsers
 
 ---
 
@@ -65,19 +162,23 @@
 
 ### ✅ Completed (Initial Foundation)
 
-1. **Project Structure**
-   - `parsers/fbl.py` - FBL parser extracted from v1
-   - `workers/fbl_worker.py` - FastAPI subprocess worker
-   - `bento/fbl.yaml` - Complete pipeline configuration
+1. **Project Structure** *(Updated 2025-10-18)*
+   - `parsers/fbl.py` - FBL parser extracted from v1 (318 lines)
+   - `workers/fbl_worker.py` - FastAPI subprocess worker (173 lines)
+   - `bento/fbl.yaml` - Complete pipeline configuration (179 lines)
    - `monitoring/` - Prometheus, Grafana, Loki configs
-   - `scripts/` - dev-setup.sh, dev-reset.sh
-   - `Makefile` - 20+ development commands
+   - `scripts/` - dev-setup.sh, dev-reset.sh (2 scripts)
+   - `Makefile` - 22 development commands
+   - `tests/` - Directory structure created (unit, integration, comparison)
 
-2. **Code Quality Infrastructure**
+2. **Code Quality Infrastructure** *(Updated 2025-10-18)*
    - Pre-commit hooks (black, isort, flake8, mypy, bandit, detect-secrets)
-   - GitHub Actions CI/CD (lint, security, test, docker build)
-   - Poetry dependency management
-   - Full type hints with mypy
+   - GitHub Actions CI/CD pipeline (5 jobs: lint, security, test, docker, integration)
+   - Poetry dependency management (Python ^3.11)
+   - Full type hints with mypy (strict mode enabled)
+   - Code formatting: black (120 line length), isort
+   - Linting: flake8 (zero warnings required)
+   - Coverage: pytest with coverage reports (HTML + terminal)
 
 3. **Observability Stack**
    - Prometheus metrics endpoint (`/metrics`)
@@ -232,36 +333,87 @@ Kafka Input → Bento → Tag Filter → HTTP Request → FastAPI Worker → FBL
 
 ---
 
-## 🗺️ Migration Roadmap
+## 🗺️ Migration Roadmap *(Updated 2025-10-18 - Go Rewrite)*
 
-### Phase 1: FBL Only (Current)
-- ✅ Extract FBL parser
-- ✅ Create Bento pipeline
-- ✅ Build FastAPI worker
-- 🚧 Testing & validation
-- 🚧 Shadow consumer deployment
+### Phase 1: Go FBL Parser (Week 1-2) - CURRENT
+**Goal:** Rewrite FBL parser in Go, prove architecture works
+
+1. **Setup Go project structure**
+   - Initialize `go.mod` for inbound-parsers
+   - Create `parsers/fbl/` package structure
+   - Add Go tooling (golangci-lint, gofmt, gosec)
+   - Update CI/CD for Go (GitHub Actions)
+
+2. **Rewrite FBL parser in Go**
+   - Port DKIM verification (use `github.com/emersion/go-msgauth`)
+   - Port email parsing (use `net/mail` + custom MIME handling)
+   - Port IP extraction (regex or custom lib)
+   - Port CFBL-Address parsing
+   - Define Event struct (matches v1 output format)
+
+3. **Unit tests**
+   - Test DKIM verification (strict, relaxed, third-party)
+   - Test IP extraction edge cases
+   - Test CFBL-Address parsing
+   - Test error handling (ParserError equivalents)
+   - Target: 80%+ coverage
+
+4. **Bento integration**
+   - Create custom Bento processor (`bento/processors/fbl_processor.go`)
+   - Build custom Bento binary with processor registered
+   - Update `bento/fbl.yaml` to use Go processor (not HTTP)
+   - Test with sample emails
+
+5. **Comparison testing**
+   - Run same emails through Python parser (v1) and Go parser (v2)
+   - Compare JSON output (ignore timestamps/IDs)
+   - Verify 100% output match
+   - Document any intentional differences
+
+6. **Delete Python code**
+   - Remove `parsers/fbl.py`
+   - Remove `workers/fbl_worker.py`
+   - Remove `pyproject.toml`
+   - Update Dockerfile (Go only, no Python)
+   - Update pre-commit hooks (Go only)
 
 ### Phase 2: Add More Parsers (Month 2-3)
-**Candidates (ordered by value/risk):**
-1. `02_feedback_loop.py` (FBL) - ✅ Done
-2. Simple parsers (< 100 lines) - Low risk, build momentum
-3. `shadowserver.py` - High value (1M events/email), complex
-4. High-volume parsers - Performance critical
-5. Remaining 200+ parsers - Long tail
+**Candidates (ordered by simplicity → complexity):**
+
+1. **Simple parsers** (< 100 lines in v1)
+   - Build confidence with easy wins
+   - Establish Go parser patterns
+   - Validate test strategy
+
+2. **shadowserver.py** - High value parser
+   - 1M events per email
+   - Performance critical → Go will shine here
+   - Good benchmark for Go vs Python speed
+
+3. **High-volume parsers**
+   - Focus on throughput improvements
+   - Profile and optimize Go implementations
+
+4. **Remaining parsers** (200+)
+   - Long tail migration
+   - Consider automation/code generation
 
 **Strategy per parser:**
-1. Extract parser + dependencies from v1
-2. Write unit tests (aim for 80% coverage)
-3. Create Bento pipeline config
-4. Integration tests
-5. Shadow deployment (1 week)
-6. Canary rollout (10% → 50% → 100%)
+1. Analyze Python parser, understand logic
+2. Write Go implementation in `parsers/{name}/`
+3. Write unit tests (80%+ coverage)
+4. Create Bento processor wrapper
+5. Comparison tests (Go vs Python output)
+6. Shadow deployment (1 week, measure performance)
+7. Canary rollout (10% → 50% → 100%)
+8. Delete Python parser
 
 ### Phase 3: Shutdown v1 (Month 4-6)
-- All parsers migrated
+- All 477 parsers migrated to Go
 - v2 handling 100% traffic
 - v1 read-only for 1 month (safety net)
 - v1 shutdown + archive
+- **Celebrate:** Pure Go system, single binary! 🎉
 
 ---
 
@@ -290,6 +442,41 @@ Kafka Input → Bento → Tag Filter → HTTP Request → FastAPI Worker → FBL
 ---
 
 ## 🔧 Development Workflow
+
+### Available Make Commands *(Updated 2025-10-18)*
+
+**Setup & Environment:**
+- `make setup` - Initial project setup (poetry install, pre-commit)
+- `make dev-up` - Start development environment (docker-compose)
+- `make dev-down` - Stop development environment
+- `make dev-reset` - Reset environment to clean slate
+- `make dev-logs` - Follow logs from all services
+
+**Testing:**
+- `make test` - Run all tests with coverage
+- `make test-unit` - Run unit tests only
+- `make test-integration` - Run integration tests
+- `make test-comparison` - Run v1 vs v2 comparison tests
+- `make ci` - Run all CI checks locally (lint + test)
+
+**Code Quality:**
+- `make lint` - Run flake8 and mypy
+- `make format` - Format code with black and isort
+- `make type-check` - Run mypy type checking
+- `make security` - Run bandit and detect-secrets
+
+**Development:**
+- `make run-fbl` - Run FBL worker locally (port 8001)
+- `make logs` - View Bento FBL logs
+- `make metrics` - Open Grafana dashboard
+- `make clean` - Clean up generated files
+
+**Kafka Operations:**
+- `make kafka-consume-fbl` - Consume FBL output topic
+- `make kafka-produce-test` - Send test message to input topic
+
+**Comparison:**
+- `make compare` - Run v1 vs v2 output comparison
 
 ### Daily Development
 ```bash
@@ -423,24 +610,40 @@ make compare
 
 ## 📝 Notes for Next Session
 
-### Immediate TODOs
-1. Fix missing dependencies in `pyproject.toml`:
-   - `dkimpy` (DKIM verification)
-   - `tldextract` (domain parsing)
-   - `ahq_events` (Event models) - check if public
-   - `ahq_parser_processors` (IP extraction) - check if public
+### Immediate TODOs *(Updated 2025-10-18)*
 
-2. Create test data:
-   - Copy sample FBL .eml files from v1 to `tests/fixtures/`
-   - Create `scripts/send-test-message.py`
+**CRITICAL - Blockers:**
+1. ✅ **Dependencies audit completed** - Found in parsers/fbl.py:
+   - Line 12: `import dkim` - MISSING from pyproject.toml (needs `dkimpy`)
+   - Line 13: `import tldextract` - MISSING from pyproject.toml
+   - Referenced but not imported: `ahq_events`, `ahq_parser_processors`
+   - **Action:** Add missing dependencies or code will not run
 
-3. Write first unit test:
-   - `tests/unit/test_fbl_parser.py`
-   - Test basic DKIM verification
+2. **No test fixtures** - tests/ directories are empty:
+   - Need sample FBL .eml files in `tests/fixtures/`
+   - Copy from v1 `sample_mails/` directory
+   - **Action:** Cannot test until fixtures exist
 
-4. Create Grafana dashboard:
-   - `monitoring/grafana/dashboards/fbl-overview.json`
-   - Import into Grafana on startup
+3. **Missing scripts referenced in Makefile:**
+   - `scripts/compare-output.py` - referenced by `make compare` (line 74)
+   - `scripts/send-test-message.py` - referenced by `make kafka-produce-test` (line 84)
+   - **Action:** These commands will fail
+
+**HIGH PRIORITY - Needed Soon:**
+4. **No secrets baseline** - Pre-commit will fail:
+   - `.secrets.baseline` doesn't exist
+   - CI job expects it (.github/workflows/ci.yml:64)
+   - **Action:** Run `detect-secrets scan > .secrets.baseline`
+
+5. **No Grafana dashboard JSON:**
+   - `monitoring/grafana/dashboards/` is empty
+   - Provisioning is configured but no dashboards exist
+   - **Action:** Create `fbl-overview.json`
+
+6. **First unit test needed:**
+   - All test directories are empty
+   - CI will pass but with 0 tests (misleading)
+   - **Action:** Create `tests/unit/test_fbl_parser.py`
 
 ### Questions to Resolve
 - Is `ahq_events` library public or internal?

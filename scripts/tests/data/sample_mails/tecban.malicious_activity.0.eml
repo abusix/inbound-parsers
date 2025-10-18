@@ -1,0 +1,548 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 2913B94E-DFF7-46A2-9284-BD02AB84B6BD.1
+	envelope-from <abuse+bncBAABBI4SW3CAMGQEVT3RVRA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Sat, 02 Aug 2025 03:42:29 +0000
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-237e6963f70sf50293555ad.2
+        for <abuse@digitalocean.abusehq.net>; Fri, 01 Aug 2025 20:42:29 -0700 (PDT)
+ARC-Seal: i=4; a=rsa-sha256; t=1754106148; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=kNdfobaH/Jx796tuieeqFO2orHL49/0kXkxvyyVv/rghR9BV7JSu6kZvK+KcXuJJXb
+         UtN0n4IQo9bbFnipQ3Mn7cs02IXUbyh/zK/48rpUZEd3mx4i/MeYPStNZpf9mchErH4d
+         dQJVbLQbfVZI65kWErIx8TB40ugGNwfyb7BIYHFYTdMXRiS0CWhyQlE3SzcR5gBelIEB
+         tAk6vI2L32vCwvZ8XWmaoolMVLZPs3RVdW+Baa0K6KZFpgX1ZyXPRSsikPMwrReirJoO
+         LDoFYv4+oF/fptvvW++tQb5a6whlmgyf8SXSoBRu9uGFdtqdm5QjYuCZ4zFmgO/vARq7
+         ymlQ==
+ARC-Message-Signature: i=4; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:mime-version
+         :authentication-results-original:msip_labels:content-language
+         :accept-language:message-id:date:importance:thread-index
+         :thread-topic:subject:cc:to:from:dkim-signature;
+        bh=tpFFmUNE3RpgbdaG5eEHiwBQ7Mm2xae3h+EjOZLbPSY=;
+        fh=G/s/IeSZLItKxLf/Y9OEYBlNmgvZoS1XpcfJIoXGODw=;
+        b=K3Yff6saVaH/ElRgqBhsJxd0dlcASkV/P7jJsC78z+wGjePc0bib5Kcstl2JbEhGGI
+         7R/GVT6uhcYWszgyGgSIGTM71JgebUgfmMEuyrz9n2ZOACZ6qzI7RSjTR76zid0bE03n
+         uHQJB1ogHXR2C0r2a55b1miDkP1HW7JQ5/0Trig/GVNZ1MN0GWD1vme4aty8CiCNYrvB
+         H62gXXHLr2AKwBxrF4pDP6ttQHGiyW6qHSU6NPMqTe4fHOei5BXVE6hWLlJiE5Froata
+         gf2haQ4vO+jDuDIz6EWjtSo+9s1rVRVuCvy+ABsgtXdX1+iVeO+RmZLigi3OaNUKhB2m
+         2SQQ==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=4; mx.google.com;
+       dkim=pass header.i=@tecban.com.br header.s=selector1 header.b=LdDyrXkW;
+       dkim=pass header.i=@tecban.com.br header.s=selector1 header.b=LdDyrXkW;
+       arc=pass (i=2 dkim=pass dkdomain=tecban.com.br dmarc=pass fromdomain=tecban.com.br);
+       spf=pass (google.com: domain of csirt@tecban.com.br designates 2a01:111:f403:2412::72c as permitted sender) smtp.mailfrom=CSIRT@tecban.com.br;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=tecban.com.br
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1754106148; x=1754710948; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:mime-version:authentication-results-original
+         :msip_labels:content-language:accept-language:message-id:date
+         :importance:thread-index:thread-topic:subject:cc:to:from:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tpFFmUNE3RpgbdaG5eEHiwBQ7Mm2xae3h+EjOZLbPSY=;
+        b=ATf4sevqqy1hrmJkgBxdYGAOAPxP6htT5SkWCymIEzRL51DbvW9AmsQ6YXrNO18BvU
+         jlwinp7M/Qy+sElkeWvs3w8S7/iu75o4gc2SMom/XxHXY5KYFR1ZI2o7tuY/R+ITu5h+
+         E0p8j9TBPFclWrWltyQChmLZyH2IZfHsHA1fk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754106148; x=1754710948;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :authentication-results-original:msip_labels:content-language
+         :accept-language:message-id:date:importance:thread-index
+         :thread-topic:subject:cc:to:from:x-beenthere:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tpFFmUNE3RpgbdaG5eEHiwBQ7Mm2xae3h+EjOZLbPSY=;
+        b=C6b0dwxLAPQD2cEO5PypCWthxnvG1UGF+hSm8nVTwhBpIxNRYqUZsI5Sh/nVnTd81H
+         sbU2MQ/7pVwKxsp1pbpdjbNN8ms29xh1TFrtpx0kG0vGbEdp9v8q6OJ7jkuikgro9tnx
+         XMH3KflnhYaACjJOyLgdqGglja3lYtiu8pU42sus96dhVf8mov4wYS7WZPiuCcOPbSPX
+         lDRJrU4GNVzgQwcIvQ8+3PV3FPMT9ePB4qoQOa+zo7d53Fa7XlCIov6JRgwVqP9Kpe2l
+         givL1IfDxBQ+O6ZizoEDVqId7KF7FjDv+TnkE0NF2ZeRh3/g5aHpEMRWAgU+bmHYmTsf
+         kB/w==
+X-Forwarded-Encrypted: i=4; AJvYcCWeiR/G1ONuk8YIWuElN8yi7nygQfEYaeG7+TkwBafp0m2y5ahMEk8WGZ8pSIm8PUEWWS4/8A==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0YzMct+ADdMt5TLPLWFZcFKKwN6HDnW629mWCTPJf/ypFD3ztA+m
+	ZWTSoKPcy68RR6nAv173wSTB0o9I0By3db3YydkVKe871ubREk07CDApzAuFgmrct4M=
+X-Google-Smtp-Source: AGHT+IGe/H01jaqMyWwTswiGHAkjqblUR9hty/4rh7pIpXD0y/6iTz0moYpkB+poigmkLsJWlaKsbA==
+X-Received: by 2002:a17:902:db11:b0:234:d292:be7a with SMTP id d9443c01a7336-24246f30349mr31786295ad.1.1754106148087;
+        Fri, 01 Aug 2025 20:42:28 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com; h=AZMbMZedTpYL7bnd0GDqZDLy/gwdjpY52TOZJGBJ95BL/kZIAQ==
+Received: by 2002:a17:903:3111:b0:231:e735:850a with SMTP id
+ d9443c01a7336-241e895e271ls20514095ad.1.-pod-prod-09-us; Fri, 01 Aug 2025
+ 20:42:27 -0700 (PDT)
+X-Received: by 2002:a17:902:d4d1:b0:240:3ef:e17d with SMTP id d9443c01a7336-242470424abmr31241145ad.40.1754106147126;
+        Fri, 01 Aug 2025 20:42:27 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1754106147; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=IQc/0HONUzSAgB9LBMNguFkbBhnY3kJanHa9FPRX9o4WbWRliM2jEgr5bk1AWF2M6p
+         wX05EK5SYXFeH3YNCTxm6gR4vn08X/r3IXQlf15ts9lCSU0SSzKkzwY4K+PtevoiQFOs
+         B8fpkp2PKEopYCadAN7xjGEVP44al3blRy/bYOyf+dnu2eCXqbIhpx6XFssZA7KCmiji
+         ZejuPApY5bFd3kGhx6u5pusWUc9l1PDyxjdZ+gvy2/a5OJh34B9gJtwKWekUqhESqb2d
+         OwF6U+JutcA3JmLczvGEz4/gk7OYxIVMgm1Z5Col9eBwUrLEC9V7dh4E6VzEso9fehar
+         gcVw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:authentication-results-original:msip_labels
+         :content-language:accept-language:message-id:date:importance
+         :thread-index:thread-topic:subject:cc:to:from:dkim-signature
+         :dkim-signature;
+        bh=tpFFmUNE3RpgbdaG5eEHiwBQ7Mm2xae3h+EjOZLbPSY=;
+        fh=rsV9ZjtuVRdKAc/OCGvxSoQ90I1A2rifk79DnQc4HYQ=;
+        b=hinvKECRimLVomiNsi4sOtkiuwU8il+YFO1uDJUHIUVTiDT+Q8OOATcOBfd7NjLWnL
+         zoOb2PnOZ5SeWxQymbAbiyU/RfrhRPotUDY3SiB2XqeH/pJNeOHY1nx3ktBkOuNC8OZI
+         fhQiA5Xm+c5tNgdPVcJqvOZ/PPOAFgUZP2HTjJqm09UmZp8gv6CJ6z1OZgGP11CgWAPf
+         fuZxYEaI0o6qg/Sh2FmiV7OAFmGPl523tVcjicNNdKqiWhoruY/WaXexlkYvzot7PnRL
+         WtYq7pu2F5hAXmY6y4hdeMWYOqE3//Q2w2NVKHms+7rU9k9xnSFviw9IWJ99VkOAs2kK
+         OFrQ==;
+        dara=google.com
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@tecban.com.br header.s=selector1 header.b=LdDyrXkW;
+       dkim=pass header.i=@tecban.com.br header.s=selector1 header.b=LdDyrXkW;
+       arc=pass (i=2 dkim=pass dkdomain=tecban.com.br dmarc=pass fromdomain=tecban.com.br);
+       spf=pass (google.com: domain of csirt@tecban.com.br designates 2a01:111:f403:2412::72c as permitted sender) smtp.mailfrom=CSIRT@tecban.com.br;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=tecban.com.br
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2072c.outbound.protection.outlook.com. [2a01:111:f403:2412::72c])
+        by mx.google.com with ESMTPS id d9443c01a7336-241afbeb7bfsi64770255ad.190.2025.08.01.20.42.26
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 20:42:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of csirt@tecban.com.br designates 2a01:111:f403:2412::72c as permitted sender) client-ip=2a01:111:f403:2412::72c;
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=NuGQ08zkia5GmMrL92OTaAyB2MtSK6Mh2/ghN/alK9PauKP9nIngo716wxyo8HXPp4XizOhcW+JtDI41e/rYOjS9HQk1uhUdldQKmatAtTNCfGoEbykV1TyN2swiD2ZWCcJjp8ERxISmTi1C+163PronRmK5xfnI7k3cen5//rbd1QlyxIoXJcYT0cCt0qEEg/Kl5nVYJ2GJAfIQszfPG3fVIS2HkDPL2Posx3b/M2NP98AOAGNT3Ka2h3PeDnNW/PagBbuiN3YIvY5N9Djt3yF86NR27Yl2OMu+1lh8KQxpJKPcb1I4z/cGAy9pyd/qP74oeT+XmL5ggXi8RfbvQQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tpFFmUNE3RpgbdaG5eEHiwBQ7Mm2xae3h+EjOZLbPSY=;
+ b=uQmfPbmfydljiYVLk7OZ2FRmYkLK1Bt8J6t4LDs+A6r7Y7d6RrhI3nAFDQms7uUKpZMic8ddSj0lhgaG8QqXZw/UjgMuwJYiSPMro6z2rvYoLg52X4iFQuLFs09XwXFEvlElJPRu6qSPhWclmN5bRcxgwGjx5DNWe0TdoV1SyzDHKg4hi8tDYqIpAzcxYsFp2fjyK0VeIjgXoD1IlX0PBBVwez5Vq6EDd8G7PNLcR3TEM5NeqBw+4kjpgR0AjcCbwgV80mWJt746jxlDZ6ooUsVcMr5w4V4UKgtT+jLLjvAynyyxMP9iXfwJQ6PtVDBVA2QMnDGz0RGjhKP6BrJ3gg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=fail (sender ip is
+ 144.49.247.18) smtp.rcpttodomain=digitalocean.com
+ smtp.mailfrom=tecban.com.br; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=tecban.com.br; dkim=pass (signature was verified)
+ header.d=tecban.com.br; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=tecban.com.br] dkim=[1,1,header.d=tecban.com.br]
+ dmarc=[1,1,header.from=tecban.com.br])
+Received: from BN8PR16CA0016.namprd16.prod.outlook.com (2603:10b6:408:4c::29)
+ by SCZPR80MB7214.lamprd80.prod.outlook.com (2603:10d6:300:71::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.17; Sat, 2 Aug
+ 2025 03:42:17 +0000
+Received: from BN2PEPF000044A3.namprd02.prod.outlook.com
+ (2603:10b6:408:4c:cafe::60) by BN8PR16CA0016.outlook.office365.com
+ (2603:10b6:408:4c::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.14 via Frontend Transport; Sat,
+ 2 Aug 2025 03:42:16 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 144.49.247.18)
+ smtp.mailfrom=tecban.com.br; dkim=pass (signature was verified)
+ header.d=tecban.com.br;dmarc=pass action=none header.from=tecban.com.br;
+Received-SPF: Fail (protection.outlook.com: domain of tecban.com.br does not
+ designate 144.49.247.18 as permitted sender) receiver=protection.outlook.com;
+ client-ip=144.49.247.18;
+ helo=smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com;
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
+ (144.49.247.18) by BN2PEPF000044A3.mail.protection.outlook.com
+ (10.167.243.154) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.8 via Frontend
+ Transport; Sat, 2 Aug 2025 03:42:14 +0000
+X-CFilter-Loop: Reflected
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Rjrzj8NmaGS/8Wi8RPr5yF2Otwbw4+XD3RKNJEWHjSRyLk2cEqcwlZJvRUyparnbEB9JeyvBiaR2miAALsN6DIVkJfyFmaUDSFO0UBcFoOMT0WZaNtIJoukOVswsKCjiEDa31Ay7IEuRTFo9mqopNzU4DRh5BKvbHSg0zumOAYWMpXyPw2ByA6mb8m0+jCdald27yq+iU0tMK4BqykjH5a76HdqVPY2G6eZ8mCoydrTH4rNJ1nO4jYpfhkk3CHXVOqC7fIgxjzaytFwEkkdvAdk2GcFEdbPNYqlpQJaeDE5m1Fi68sV9VUOXnOWD+k7DBHhpiyIK3Znvmio735MWVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tpFFmUNE3RpgbdaG5eEHiwBQ7Mm2xae3h+EjOZLbPSY=;
+ b=UKzR9js3/7iWJx8BDj83mwMllQCAeBkDc75u4MjL+scYvtAHFkD1zgU0eCP9b3d4LesqsUzzxf7B1BJ842JGc6ENJ/l7hYeSeqzgt7Y6MDhOow/RN/pTX+6RDmXd/ibIZoFzTsRaFfKI2GSHBb0FmdBwpg+mRl0VnuaR6aVWg5Dk4HhZBPSPiP+ZUBq8G/jm4HcioqEDBmuN0orvzJCryukCla9AS5hGpguSMJI06NiHb3zmqekZtRRPq2+PkpNF+lglEEHUu6XebI674SWmI2SAznf1sEaS4ZSTZcmdOKwIQCWD/kDFVQNiGvVu9gRJdpVYnXxd4YHmIx7iiUBMtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=tecban.com.br; dmarc=pass action=none
+ header.from=tecban.com.br; dkim=pass header.d=tecban.com.br; arc=none
+Received: from CPWPR80MB6729.lamprd80.prod.outlook.com (2603:10d6:103:178::5)
+ by CPWPR80MB7907.lamprd80.prod.outlook.com (2603:10d6:103:252::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.18; Sat, 2 Aug
+ 2025 03:42:04 +0000
+Received: from CPWPR80MB6729.lamprd80.prod.outlook.com
+ ([fe80::fe89:2557:64a2:e0ea]) by CPWPR80MB6729.lamprd80.prod.outlook.com
+ ([fe80::fe89:2557:64a2:e0ea%7]) with mapi id 15.20.8989.015; Sat, 2 Aug 2025
+ 03:42:04 +0000
+From: "'TecBan Group | CSIRT - Computer Security Incident Response Team' via abuse" <abuse@digitalocean.com>
+To: "abuse@digitalocean.com" <abuse@digitalocean.com>
+CC: "abuse@arin.net" <abuse@arin.net>, TecBan Group | CSIRT - Computer
+ Security Incident Response Team <CSIRT@tecban.com.br>
+Subject: CSIRT - 2025-08-01 - 23H54Min - Possible Malicious Activity - Source
+ IP - 64.23.142.143
+Thread-Topic: CSIRT - 2025-08-01 - 23H54Min - Possible Malicious Activity -
+ Source IP - 64.23.142.143
+Thread-Index: AQHcA19p78HlwjHHjEup64IiX8N1cQ==
+Importance: high
+X-Priority: 1
+Date: Sat, 2 Aug 2025 03:42:04 +0000
+Message-ID: <CPWPR80MB67296131402BB42032CB5628EB21A@CPWPR80MB6729.lamprd80.prod.outlook.com>
+Accept-Language: pt-BR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_331bb91f-85df-4eae-877e-44116f7a1e81_ActionId=0e0f4330-df03-49f4-8c6e-c6f42634ed54;MSIP_Label_331bb91f-85df-4eae-877e-44116f7a1e81_ContentBits=0;MSIP_Label_331bb91f-85df-4eae-877e-44116f7a1e81_Enabled=true;MSIP_Label_331bb91f-85df-4eae-877e-44116f7a1e81_Method=Privileged;MSIP_Label_331bb91f-85df-4eae-877e-44116f7a1e81_SiteId=a8e87d00-317f-4429-b6f1-ceac0115b7d1;
+x-ms-mail-application: Microsoft Power Automate; User-Agent:
+ azure-logic-apps/1.0 (workflow 162b9ce0e80a44b48b5799a2c0e63a5c; version
+ 08584477914167707814) microsoft-flow/1.0
+x-ms-mail-operation-type: Send
+x-ms-mail-environment-id: bbb5e578-8d97-e8f0-8c66-c0fe4947dde8
+x-ms-mail-workflow: x-ms-workflow-name: 0b69240f-2ffc-4459-9d42-6da1182dadc0;
+ x-ms-workflow-run-id: 08584475007760637654500277709CU00;
+ x-ms-client-request-id: 6f6d100a-cb46-473f-a68e-003fe424c436;
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=tecban.com.br;
+x-ms-traffictypediagnostic: CPWPR80MB6729:EE_|CPWPR80MB7907:EE_|BN2PEPF000044A3:EE_|SCZPR80MB7214:EE_
+X-MS-Office365-Filtering-Correlation-Id: effa0e43-b545-4aa3-f7b7-08ddd1769251
+X-DetectorID-Processed: 439f515c-ae45-4758-9a47-e3a85a146f79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|8096899003|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?DaDlwklWs+xLjqhEXHmRaA/ZkEx2wtgyRT+MXhIRR/mOFUrplC+MTd5d6Bjr?=
+ =?us-ascii?Q?pvL0J7pw9zdoQQPjTy7Agq3mWwvy0pQzRmrQI4Vbt+jMAr8dGODtn7CIz+L2?=
+ =?us-ascii?Q?mbMZ2EavZAVFo11HY5PqpmfFH/epXJdT16fNyuM1Yf3HpF++dWMBR0tZdkNz?=
+ =?us-ascii?Q?IPrDeagHzz1PoYW2N7bpDzb1fl6nVWC5ZjVQAsPYB4yHGx89wH7fpXmLz7QE?=
+ =?us-ascii?Q?/+fU7VXVCfXOsBVDDXM9YjJTbo1WsnggejI0pEdaF39ZFspVL/Zn0XWzTz3M?=
+ =?us-ascii?Q?I/sMuxBB4Zpq3cOyLTOzFRVZZvvG2JztNdRFdGLGFoEx36OeMjCp+uUCRjd6?=
+ =?us-ascii?Q?rPMUEl39RIw6mvfBrpTd042u/SzMD5Pge5uRn7QVJ0f5e9KVuQHS9V2bwjpG?=
+ =?us-ascii?Q?NiM3lULfz5rMACzpiIF3nMdtwWrdHv2dQfMJQHjUoOvpEKXuv64yHBus+gmu?=
+ =?us-ascii?Q?462TJpik7YZP62JKuougj8s9EnFvU/xryudVmSgjLs0bwFUMXV3JyZWuJPy9?=
+ =?us-ascii?Q?amcCZv7XpTQK/sduDqbe/kfyP/Cfh6rcUxXCRLnFC3aBDFLe91k0AqBV7X2i?=
+ =?us-ascii?Q?vpWZbq5GKSS0XNsjKADldYZl58jODGu0FyN/7TWe4n/uzB22yZ4dtkM0TETN?=
+ =?us-ascii?Q?mS8DBg1T3INzvW/ecXecnoCoRK31ZuNI2x1+3UB34LFwwToZ56XEvWpJY64C?=
+ =?us-ascii?Q?6Bftnab9hv4KM+zGDYMqVoO4pVC2w19Dms5KA3II+NTQ3OKDKbAdM0XwK9t1?=
+ =?us-ascii?Q?wD0cRw2U9KZleDzvtDbkrXY4+mSKZUoD+LA7vbnhKEtgAGconwaql/tEkXgN?=
+ =?us-ascii?Q?Z6wb7oIjiPAQ3pE7wJV1hzw6jXKQuIW5sja9GE8JvWta4prk/ndOpLkZqO9N?=
+ =?us-ascii?Q?Z/hY0JUkcbN6/28oyJtnTZIAbXUvEVAt3GMIAfDEu+5ch42lgI9io7YM93NQ?=
+ =?us-ascii?Q?jkZirQU/FtTRBxADobx1Kw/Sva8a8JG7UivlJUMGweJPmSDlRO5fSyPvvD2Z?=
+ =?us-ascii?Q?g/W/k9CYUbFEOU+cdmwocbUxR2jtOLf+biBAEZzbYs71/UZ7fM4uRjaGUhHk?=
+ =?us-ascii?Q?ttdW98e6Zyo5RhoMrQE8LwoYTJUX5EaSzM2nK2lK9OLR7FEdoXpoYabR+YyA?=
+ =?us-ascii?Q?B16eabKG5J1KJL5SM8/0i9X5bH3NDTzPwUvQNPB8AlzBDdsqIiT0AoeFOzLF?=
+ =?us-ascii?Q?LG7MuVBia5jCu/VUx8LciXjgVLp53RJu+KilMby4zdBVhpIw7dv+wPAkmxwr?=
+ =?us-ascii?Q?CB3qWxydmIqVZYeHk1VTXRRVHCWWNEiSJVH44u1kBcKGkVXUZbUsBhz4SFy/?=
+ =?us-ascii?Q?Iz8P7+t0hBSXtuXICWZF0vIKamS0pSr9kCgpOfLyJV+fuP2gpt5S53GWCWqS?=
+ =?us-ascii?Q?BzjF9TXb+wLobdQ95pv1u2ny2Hz1kMMfJMl60SPi8YQnacppcP1Agz1sduZp?=
+ =?us-ascii?Q?SvGTSmVU4nA=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CPWPR80MB6729.lamprd80.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(8096899003)(38070700018);DIR:OUT;SFP:1102;
+Content-Type: multipart/alternative;
+	boundary="_000_CPWPR80MB67296131402BB42032CB5628EB21ACPWPR80MB6729lamp_"
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPWPR80MB7907
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: BN2PEPF000044A3.namprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: d349c2fe-89e9-4aae-13b3-08ddd1768c35
+X-Microsoft-Antispam: BCL:0;ARA:13230040|14060799003|1800799024|376014|82310400026|35042699022|36860700013|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yVcKVjpDu914gFjn3qYQxc5Qkg3oPNFMcxKQpyCOGmAdu3oWEKui77U36+K3?=
+ =?us-ascii?Q?+K5r5Ouka+xLVNY7V7oCG8CYZCV/B/yXjn6di5pap+ZABig+P5i7fEVpJyyP?=
+ =?us-ascii?Q?Jcar7hcjXYGHwxsiAjfY0bWKHanNQIFd6n/ihoxiOLMiPZZaG7bwpnVYIHS1?=
+ =?us-ascii?Q?EHfQOkbh96WVHTi+oZg/scG0pORGwtgvkIJS41A8NrxVYAbzDaf4aESZr7rL?=
+ =?us-ascii?Q?YqRteLkeXPmJ/45zf5jMD97uLYPxOWedwJGZ70oWTTc2u/M6UlCH2N+Zr1H4?=
+ =?us-ascii?Q?mFaZkO2PA0JCxaRNfY5wwtVVSgJ4A1r5hLV1QiMAxbHA8Ns8JzoD78U/6Ky5?=
+ =?us-ascii?Q?3CdBSPXyAjaxmVPJ0wVaeJ7Vx8j2N9vtdm5TwlVYjDfbTDXB5PNPcWpCly5A?=
+ =?us-ascii?Q?aSRznnkllaRxPh81BFecDSlWckzYJyGHKXpmOBCCVh4Kur57NV8i9RjXdHNk?=
+ =?us-ascii?Q?67XP+q4MmIblxCpH2V9gQsIMWjOIWN6omxzwzk1Y48IgQkVzz7MNH2JFTp+6?=
+ =?us-ascii?Q?SO9dBRn3/iaQZnjWQ6NYedPlZMYqD/I7tMBuZ+lKLk5iJ1WLcXZw0Jkecn+7?=
+ =?us-ascii?Q?YvqahjHkG4/joQInTpYFy6xD7SNeikxwrPTvOuMvRRZ5XlCkSqt2QfxhF1TP?=
+ =?us-ascii?Q?BPzTRfp/ceIMpCi+UHOzmD8TgsNjdAMSKe4386KZjlF1caA/S/R5W5myy/XN?=
+ =?us-ascii?Q?tNT+UUuwYFEzCz5Sn2o1zOx9lbtVd3vKfP5ayG/UfvIjyBaD7Gv8ZsMaGVVh?=
+ =?us-ascii?Q?eyn6hSeZlox08aJnsZmybQRe7z67kBxQYHOMIDywJB2owW3UAVtDtYkzRxe7?=
+ =?us-ascii?Q?DYcCFVPke5S3+5Lu2KpesvGqAHMhyzWY7yy/89yg61VU1wfIauEJNuxguoSn?=
+ =?us-ascii?Q?zENsr0AI5Wi1Uz7CyXvkWOn+b+PPsvd+/aoGSdHRnIWEBmVxmQWvGEBkmBxJ?=
+ =?us-ascii?Q?0u0+t6iiw79S8589gphIpD/s/a68e5GbmgQN+cUYMpACAnL6oF2pT/nqVYy1?=
+ =?us-ascii?Q?bL1t+veSSGb92G/PN1J+NxdphgjNZvj1xuB16EfA9NAK/ZumEiU86ZFqFpjn?=
+ =?us-ascii?Q?IDfqbNi1slelZ4R5fen+sDgbXjLFniJnJNxboluZjIxLTUpXUfhUYcEuJOXB?=
+ =?us-ascii?Q?ty8DpMbK/ycocia5CSYrwqNNWEtA6euoSpOPpid1JpWUnIUQZvSgJeZ3zrv6?=
+ =?us-ascii?Q?PK2spaB48xpScsIaEa3AYMz5Aa0laehgTsurMXCPb+r1NbHVAGF74Ll6FTXg?=
+ =?us-ascii?Q?gBcQexEfoqv1MGWXmoIZqdUsKwB+mQjM0mjPzlRokADm4Cgi6uft5NdRlR47?=
+ =?us-ascii?Q?vR88HQDu4bpBbPMb5kC/8E2LNASZ58mYSUKivUv9SyUi0zjyk7p69SPSAC4c?=
+ =?us-ascii?Q?a0E7ggidcSQdT6CD6qyKy20EJqaMk2fbFX3yWKMOUFtcSfw0gq6vuc4zDgWl?=
+ =?us-ascii?Q?SEdT75XjzGBNYZy8wIZJoqBmmjvCLlgdI4f5ZHDG30l2Ez5aZHZckQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:144.49.247.18;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com;PTR:address-144-49-247-18.dlp.protect.broadcom.com;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(376014)(82310400026)(35042699022)(36860700013)(13003099007)(8096899003);DIR:OUT;SFP:1102;
+X-OriginatorOrg: tecban.com.br
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2025 03:42:14.2941
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: effa0e43-b545-4aa3-f7b7-08ddd1769251
+X-MS-Exchange-CrossTenant-Id: a8e87d00-317f-4429-b6f1-ceac0115b7d1
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a8e87d00-317f-4429-b6f1-ceac0115b7d1;Ip=[144.49.247.18];Helo=[smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044A3.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SCZPR80MB7214
+X-Original-Sender: csirt@tecban.com.br
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@tecban.com.br header.s=selector1 header.b=LdDyrXkW;       dkim=pass
+ header.i=@tecban.com.br header.s=selector1 header.b=LdDyrXkW;       arc=pass
+ (i=2 dkim=pass dkdomain=tecban.com.br dmarc=pass fromdomain=tecban.com.br);
+       spf=pass (google.com: domain of csirt@tecban.com.br designates
+ 2a01:111:f403:2412::72c as permitted sender) smtp.mailfrom=CSIRT@tecban.com.br;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=tecban.com.br
+X-Original-From: TecBan Group | CSIRT - Computer Security Incident Response Team
+	<CSIRT@tecban.com.br>
+Reply-To: TecBan Group | CSIRT - Computer Security Incident Response Team
+	<CSIRT@tecban.com.br>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_CPWPR80MB67296131402BB42032CB5628EB21ACPWPR80MB6729lamp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Dear Sir/Madam,
+
+We represent the Computer Security Incident Response Team (CSIRT) of Tecnol=
+ogia Banc ria S/A, an esteemed financial institution. TecBan is an establis=
+hed Finance Organization with a commitment to robust security measures.
+
+The purpose of this correspondence is to formally notify you, as the design=
+ated WHOIS/RDAP contact for the network referenced below, of a matter perta=
+ining to cybersecurity. Our communication is directed to the individual res=
+ponsible for overseeing computer security within your organization. Should =
+this address not align with the appropriate contact, we kindly request that=
+ you promptly redirect this communication to the relevant party.
+
+Here, you will find logs illustrating malicious activities originating from=
+ an IP address within your network. Specifically, these logs serve as illus=
+trative samples of Injection Attempts. All timestamps provided are in accor=
+dance with UTC-3. In the table below, you can find these logs:
+
+Event Name      Source IP       Souce Port      Destination IP  Destination=
+ Port        Time    Event Count
+ZGrab Application Layer Scanner Detection       64.23.142.143   57180   200=
+.171.206.2   443     Aug 1, 2025, 11:53:59 PM        1
+Korplug Command and Control Traffic Detection   64.23.142.143   53558   200=
+.171.206.2   443     Aug 1, 2025, 11:54:17 PM        1
+
+
+
+
+This situation could indicate one of the following scenarios:
+
+1.         Compromise of a machine within your network, subsequently being =
+employed as a launch point for cyberattacks.
+2.         Engagement by a legitimate user in activities that potentially c=
+ontravene your organization's Terms of Service.
+
+We earnestly request your immediate attention to this matter. Your cooperat=
+ion in investigating and addressing this issue is greatly appreciated. Furt=
+hermore, we kindly request acknowledgment of receipt of this message.
+
+
+Best regards,
+
+TecBan s Group (Brazil)
+CSIRT - Computer Security Incident Response Team
+csirt@tecban.com.br<mailto:csirt@tecban.com.br>
+www.tecban.com.br<http://www.tecban.com.br/>
+
+
+--_000_CPWPR80MB67296131402BB42032CB5628EB21ACPWPR80MB6729lamp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
+s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
+40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--=0A=
+/* Font Definitions */=0A=
+@font-face=0A=
+	{font-family:"Cambria Math";=0A=
+	panose-1:2 4 5 3 5 4 6 3 2 4;}=0A=
+@font-face=0A=
+	{font-family:Calibri;=0A=
+	panose-1:2 15 5 2 2 2 4 3 2 4;}=0A=
+@font-face=0A=
+	{font-family:Aptos;}=0A=
+@font-face=0A=
+	{font-family:"Arial Narrow";=0A=
+	panose-1:2 11 6 6 2 2 2 3 2 4;}=0A=
+/* Style Definitions */=0A=
+p.MsoNormal, li.MsoNormal, div.MsoNormal=0A=
+	{margin:0cm;=0A=
+	font-size:11.0pt;=0A=
+	font-family:"Aptos",sans-serif;=0A=
+	mso-ligatures:standardcontextual;=0A=
+	mso-fareast-language:EN-US;}=0A=
+a:link, span.MsoHyperlink=0A=
+	{mso-style-priority:99;=0A=
+	color:#467886;=0A=
+	text-decoration:underline;}=0A=
+span.EstiloDeEmail17=0A=
+	{mso-style-type:personal-compose;=0A=
+	font-family:"Aptos",sans-serif;=0A=
+	color:windowtext;}=0A=
+.MsoChpDefault=0A=
+	{mso-style-type:export-only;=0A=
+	font-size:11.0pt;=0A=
+	mso-fareast-language:EN-US;}=0A=
+@page WordSection1=0A=
+	{size:612.0pt 792.0pt;=0A=
+	margin:70.85pt 3.0cm 70.85pt 3.0cm;}=0A=
+div.WordSection1=0A=
+	{page:WordSection1;}=0A=
+--></style><!--[if gte mso 9]><xml>=0A=
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />=0A=
+</xml><![endif]--><!--[if gte mso 9]><xml>=0A=
+<o:shapelayout v:ext=3D"edit">=0A=
+<o:idmap v:ext=3D"edit" data=3D"1" />=0A=
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"PT-BR" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">Dear Sir/Madam,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">We represent the Computer Security Incident Re=
+sponse Team (CSIRT) of Tecnologia Banc ria S/A, an esteemed financial insti=
+tution. TecBan is an established Finance Organization
+ with a commitment to robust security measures.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">The purpose of this correspondence is to forma=
+lly notify you, as the designated WHOIS/RDAP contact for the network refere=
+nced below, of a matter pertaining to cybersecurity.
+ Our communication is directed to the individual responsible for overseeing=
+ computer security within your organization. Should this address not align =
+with the appropriate contact, we kindly request that you promptly redirect =
+this communication to the relevant
+ party.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">Here, you will find logs illustrating maliciou=
+s activities originating from an IP address within your network. Specifical=
+ly, these logs serve as illustrative samples of
+ Injection Attempts. All timestamps provided are in accordance with UTC-3. =
+In the table below, you can find these logs:<o:p></o:p></span></p>
+<br>
+<style>=0A=
+Table {=0A=
+  font-family: Arial, Helvetica, sans-serif;=0A=
+  background-color: #EEEEEE;  =0A=
+  border-collapse: collapse;=0A=
+  width: 90%;=0A=
+}=0A=
+=0A=
+Table td, Table th {=0A=
+  border: 1px solid #ddd;=0A=
+  padding: 3px 3px;=0A=
+}=0A=
+=0A=
+Table th {=0A=
+  font-size: 15px;=0A=
+  font-weight: bold;=0A=
+  padding-top: 12px;=0A=
+  padding-bottom: 12px;=0A=
+  text-align: left;=0A=
+  background-color: #a8b3bc;=0A=
+  color: white;=0A=
+}=0A=
+</style>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Source IP</th>
+<th>Souce Port</th>
+<th>Destination IP</th>
+<th>Destination Port</th>
+<th>Time</th>
+<th>Event Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZGrab Application Layer Scanner Detection</td>
+<td>64.23.142.143</td>
+<td>57180</td>
+<td>200.171.206.2</td>
+<td>443</td>
+<td>Aug 1, 2025, 11:53:59 PM</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Korplug Command and Control Traffic Detection</td>
+<td>64.23.142.143</td>
+<td>53558</td>
+<td>200.171.206.2</td>
+<td>443</td>
+<td>Aug 1, 2025, 11:54:17 PM</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">This situation could indicate one of the follo=
+wing scenarios:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; Compromise of a machine within your network, subsequently being employ=
+ed as a launch point for cyberattacks.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; Engagement by a legitimate user in activities that potentially contrav=
+ene your organization's Terms of Service.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">We earnestly request your immediate attention =
+to this matter. Your cooperation in investigating and addressing this issue=
+ is greatly appreciated. Furthermore, we kindly
+ request acknowledgment of receipt of this message.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ar=
+ial Narrow&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal">&nbsp;<span style=3D"font-family:&quot;Calibri&quot;=
+,sans-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;font-=
+family:&quot;Arial Narrow&quot;,sans-serif">Best regards,<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;font-=
+family:&quot;Arial Narrow&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:12.0pt;fo=
+nt-family:&quot;Arial Narrow&quot;,sans-serif">TecBan s Group
+</span></b><span lang=3D"EN-US" style=3D"font-size:12.0pt;font-family:&quot=
+;Arial Narrow&quot;,sans-serif">(Brazil)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;font-=
+family:&quot;Arial Narrow&quot;,sans-serif">CSIRT - Computer Security Incid=
+ent Response Team
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><a href=3D"mailto:csirt@tecban.com.br"><span style=
+=3D"font-size:12.0pt;font-family:&quot;Arial Narrow&quot;,sans-serif">csirt=
+@tecban.com.br</span></a><span style=3D"font-family:&quot;Calibri&quot;,san=
+s-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><a href=3D"http://www.tecban.com.br/"><span style=3D=
+"font-size:12.0pt;font-family:&quot;Arial Narrow&quot;,sans-serif">www.tecb=
+an.com.br</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_CPWPR80MB67296131402BB42032CB5628EB21ACPWPR80MB6729lamp_--

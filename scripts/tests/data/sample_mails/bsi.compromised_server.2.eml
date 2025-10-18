@@ -1,0 +1,360 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=invalid (invalid algorithm) header.i=unknown header.d=bsi.bund.de header.s=211014-e768-ed25519;
+	dkim=pass header.i=@vodafone.onmicrosoft.com header.d=vodafone.onmicrosoft.com header.s=selector2-vodafone-onmicrosoft-com;
+	dkim=pass header.i=@bsi.bund.de header.d=bsi.bund.de header.s=211014-e768-rsa
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04lp2052.outbound.protection.outlook.com [104.47.14.52])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 01B326E8-FB81-429F-B846-C3A07629B24B.1
+	envelope-from <abuse.de+SRS=wNf3g=CP=bsi.bund.de=certbund@vodafone.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Tue, 27 Jun 2023 06:22:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IYU3YTukXX9ZNnYrr9LRLnLgH2m4CFkpGv29K11JqKWY5unOS9uiyO90lN8SZ/IERj2VzgivRGYdP3C1XLrJq4/cz0C5fcwwM5bXzgFEdj9+1ktuVgJb8byJJZ8O/FslKcFDmK3Rhrq/n1rp4ewexcufts7as4AqF7FHEf9yRulP2DTui3I7KqD+QmJMWAo6PUJ1LbikUXnpGyH4Wc5oB85O7zVXMzSUMycSevZjx505Lc8jK1gAdBCBJGiwxuqmOlkkPHS5VzLnbP74Psm9UKe+AZAy6OYObeAcjlNzFClRrXClVZXwcapH55oBYF6i2cbpUS/qDKd2BQBw80mtHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vqr1K8yluz3EN1ZN2JnZY2J2vqRPJa2WsibkImXW6Ys=;
+ b=mT5rueZ4keK5iD51YPUL5tdqjKJIbJ7nBD6YKOUOWuqgvnYfaoCHwSPUUFLL07MWM+eiXbOnBbuwCe6Sgnx46IJ8GeblGixxrHTmxkY9T4ib+Mga5rmBLoIS2p9l5Z0ivyYMrgcHcGOttzRmWKigN+YLfFYQ2pxdDt+8OnrSzWirrbLzJEcRv3Ak0SxTHiTDc/S10tOmSmt1Qd4zd6fQzaaDh8aaqUV2XyCCU+tvrSsIV6xMNxZZRk9E9lJkjxWRyRm2KSZmMhQGLAF0FQ4PX/Ox3A5VMDAB854glSJTjrI+oJhdgIvphl8pvprWroXRdQAvnjKv3S1HLRIKXvFQeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 77.87.228.76) smtp.rcpttodomain=vodafone.com smtp.mailfrom=bsi.bund.de;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=bsi.bund.de;
+ dkim=fail (signature syntax error) header.d=none; dkim=pass (signature was
+ verified) header.d=bsi.bund.de; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vodafone.onmicrosoft.com; s=selector2-vodafone-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vqr1K8yluz3EN1ZN2JnZY2J2vqRPJa2WsibkImXW6Ys=;
+ b=UXXW/RxWOY5z916WkQMAPMasWcPsVg8kfqxDaibLonp9W4esXQBjPBzkTeh1clgcPecgIcorqbz6uQg3MaHkJ9/zaWHPAKIcWLnTasfSJAWabFuRrqTPdsJxHkWg3IGiwMJE6tahoOX2ITQuGItfocsjikoKLzhRF+2z4uRttGycvo5xnICVhZUbDEpQSkyL1bMg2Qa2RNj+aHWKGR4rQ30Q+YjCr1tMx9FdsJ+DBCzwrVFMPNAcbBEH94RDpYcwZB/WXboEqOAEdh/z/0aaKVYQg9miBJM9axXdtJjZFs4Z+EYj0zcLRtdN6nkWkRKRti+G7Az9q9eWxqtSiXGlHg==
+Received: from DU2PR04CA0291.eurprd04.prod.outlook.com (2603:10a6:10:28c::26)
+ by VI1PR05MB6718.eurprd05.prod.outlook.com (2603:10a6:800:13b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Tue, 27 Jun
+ 2023 06:22:28 +0000
+Received: from DBAEUR03FT044.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:28c:cafe::6b) by DU2PR04CA0291.outlook.office365.com
+ (2603:10a6:10:28c::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.34 via Frontend
+ Transport; Tue, 27 Jun 2023 06:22:28 +0000
+Received-SPF: Pass (protection.outlook.com: domain of bsi.bund.de designates
+ 77.87.228.76 as permitted sender) receiver=protection.outlook.com;
+ client-ip=77.87.228.76; helo=m4-bn.bund.de; pr=C
+Received: from m4-bn.bund.de (77.87.228.76) by
+ DBAEUR03FT044.mail.protection.outlook.com (100.127.142.189) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6544.16 via Frontend Transport; Tue, 27 Jun 2023 06:22:28 +0000
+Received: from m4-bn.bund.de (localhost [127.0.0.1])
+	by m4-bn.bund.de (Postfix) with ESMTP id DE14A280DFF
+	for <abuse.de@vodafone.com>; Tue, 27 Jun 2023 08:22:27 +0200 (CEST)
+Received: (from localhost) by m4-bn.bund.de (MSCAN) id 4/m4-bn.bund.de/smtp-gw/mscan;
+     Tue Jun 27 08:22:27 2023
+X-NdB-Source: NdB
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/simple; d=bsi.bund.de;
+	s=211014-e768-ed25519; t=1687846946;
+	bh=vqr1K8yluz3EN1ZN2JnZY2J2vqRPJa2WsibkImXW6Ys=;
+	h=From:Date:Subject:To:MIME-Version:Content-Type:Autocrypt:Cc:
+	 Content-Transfer-Encoding:Content-Type:Date:From:In-Reply-To:
+	 Mime-Version:Openpgp:References:Reply-To:Resent-To:Sender:Subject:
+	 To;
+	b=tDWsVL4+M2TQ+lYWvdpSNtdbnAgZYqpVFXv0hswOQ64OpF0M3rTOvm9VF066B+aEW
+	 3WPw6tIvQJPjGC0KpE1Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bsi.bund.de;
+	s=211014-e768-rsa; t=1687846946;
+	bh=vqr1K8yluz3EN1ZN2JnZY2J2vqRPJa2WsibkImXW6Ys=;
+	h=From:Date:Subject:To:MIME-Version:Content-Type:Autocrypt:Cc:
+	 Content-Transfer-Encoding:Content-Type:Date:From:In-Reply-To:
+	 Mime-Version:Openpgp:References:Reply-To:Resent-To:Sender:Subject:
+	 To;
+	b=QP+FWKCCBYJ6P8GRf6K0TotBES91mcL3pA8OjkwwDqSqP1UqpHYXDCvODUvX/pg9j
+	 kB6T1qjIHFk84oQzs5Dm8/IFF8oLl2uLV9A5Dge7Q+1p7HgVJJTF92G1i8idGCWPKa
+	 g4OD557AXuELSSxa2Az45XP4KzLup/2BF8MwgxMV2IebR0qRs7yu960mFXHOdCr8Fd
+	 nqt8NpyHCpV8ojiF7PtkT8k9rkeIf68UYcPOwPEPQyethhRKe1L+wEEHjagK7mHmdo
+	 0g/03FWrYFx/m0s+ZcOwvHN+tgDoMWatMY+lcSXbTLTVA77mXWPpPKf2XI6sgV7HMF
+	 5+EFtVls6DaeA==
+X-P350-Id: 24d4010a489c942c
+X-Virus-Scanned: amavisd-new at bsi.bund.de
+X-Mailer: OTRS Mail Service (8.0.30)
+From: CERT-Bund <certbund@bsi.bund.de>
+X-Powered-BY: OTRS (https://otrs.com/)
+Date: Tue, 27 Jun 2023 08:21:27 +0200
+Subject: [CERT-Bund#2023062728000586]  Angriffe mit Confluence-Plugins
+Message-ID: <1687846886.653239.156319496@certbund.bsi.de>
+Organization: Bundesamt =?UTF-8?Q?f=C3=BCr=20?=Sicherheit in der
+ Informationstechnik
+To: abuse.de@vodafone.com
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----3BB6FC2FA4721BE719D567C546346FE4"
+X-Rusd: domwl, Pass through domain bsi.bund.de
+Return-Path: certbund@bsi.bund.de
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 68283f3b-8487-4c86-adb3-a5228f18b893:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBAEUR03FT044:EE_|VI1PR05MB6718:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47a790c2-4027-4af2-1d67-08db76d6e194
+X-LD-Processed: 68283f3b-8487-4c86-adb3-a5228f18b893,ExtAddr,ExtFwd
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	t6RVSEqSLusVxI6pd7KaweutgO9HouJYC/h0RZpTdLEN+gqSDA2YMEbZVyFYz/U4XHtXt2H1L3gZToQjx+iWpyhFpm7yaQ6rh0LDJaCZqc0Jva1hMHokT6DJIPkGr4q5tvpky+/dQQqAHC3IHw/tYfpAzQHEB0mg2emJGjarP48mli3A9ma2kwlamOnHv7qrYbOcBZKdCtoxeZ/mNdAyNxih0x3e/CAu/PBFGK0AlSRQ26RKoa6VKsNOFiFBKjXWLl5M2oF1sjx2Y+icWPV88jCTjXoKsqi5WhFiCmsR/4sQDIWthd1BjWUYd0xE1Gs4S26x+9PHwhvjUrqFMMIQLzEKchDoBv7OITyQQHvpUDSsBDy3NqRVJ+314kCW0VGIfI2x4+vYKNgritLzpNJ4wgUpEuCPL30PCVwc4JME15Pmss3g8C2wVzWVnmiaNlbQYPKSNO3gJuIzTql9Yr9o0PbfMA6dyxRasrACTX7E6+NW68R/aJtSUR/kBXokgd1MhtL7YwmpmXWOJ6L+/YDlBkEpvSi9tGTg4JCtbsOmKzoIqgi1nA4a3VMGf5eEozRhkdeCWZUmltiBxrwR/qRRhkKBILtibKhlAjxJUUm8Lsiw4iWL/N/Qde0Np/b8EIAlX0c05grYodGEn5N0zHUWRGlU8YXXjfvB5PVXScXVuqbpK0ATVjD78NkDmuO7YBbNaqRRspDE1cWz7sgey4P+lIBMh7qShRl9dahTGsUDU8k=
+X-Forefront-Antispam-Report:
+	CIP:77.87.228.76;CTRY:DE;LANG:de;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:m4-bn.bund.de;PTR:m4-bn.bund.de;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(136003)(396003)(376002)(451199021)(356005)(7636003)(82960400001)(166002)(66574015)(36756003)(15974865002)(86362001)(7596003)(42186006)(9686003)(966005)(44144004)(33964004)(36916002)(70586007)(316002)(68406010)(8676002)(336012)(26005)(235185007)(498600001)(5660300002)(34206002)(2906002)(119056002)(62816006);DIR:OUT;SFP:1101;
+X-MS-Exchange-ForwardingLoop:
+	abuse.de@vodafone.com;68283f3b-8487-4c86-adb3-a5228f18b893
+X-OriginatorOrg: vodafone.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2023 06:22:28.2247
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47a790c2-4027-4af2-1d67-08db76d6e194
+X-MS-Exchange-CrossTenant-Id: 68283f3b-8487-4c86-adb3-a5228f18b893
+X-MS-Exchange-CrossTenant-AuthSource:
+	DBAEUR03FT044.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6718
+Original-Authentication-Results: spf=pass (sender IP is 77.87.228.76)
+ smtp.mailfrom=bsi.bund.de; dkim=pass (signature was verified)
+ header.d=bsi.bund.de;dmarc=pass action=none header.from=bsi.bund.de;
+
+This is an S/MIME signed message
+
+------3BB6FC2FA4721BE719D567C546346FE4
+Content-Type: multipart/alternative; boundary="----------=_1687846887-1162-32"
+
+This is a multi-part message in MIME format...
+------------=_1687846887-1162-32
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Sehr geehrte Damen und Herren,
+
+das BSI hat in den letzten Wochen mehrere Angriffe beobachtet, bei denen ein
+malizi=C3=B6ses Confluence- oder Jira-Plugin installiert wurde (bzw. "App";=
+ im
+Kontext von Atlassian-Produkten das gleiche). In einem Fall wurde ein noch
+unbekannter Angriffsvektor genutzt, in den anderen F=C3=A4llen wurde Ende M=
+ai 2022
+eine 0-Day Schwachstelle in Confluence (CVE-2022-26134) ausgenutzt. Zu den
+Zeitpunkten der Angriffe war die Schwachstelle noch nicht =C3=B6ffentlich b=
+ekannt
+und es existierte noch kein Patch. Eine nachtr=C3=A4gliche Installation des=
+ Patches
+im Confluence-System hat zwar weitere Angriffe =C3=BCber diese Schwachstelle
+verhindert, eine bereits erfolgte Kompromittierung wurde dadurch aber nicht
+beseitigt. Zum Teil hat die Angreifergruppe die installierten Backdoor-Zug=
+=C3=A4nge
+erst stark zeitverz=C3=B6gert genutzt - teilweise erstmals in 2023. In eini=
+gen
+F=C3=A4llen wurde neben dem Plugin auch eine Webshell auf dem Confluence-Sy=
+stem
+installiert und weitere Zug=C3=A4nge in das System angelegt.
+
+Die Ausnutzung k=C3=B6nnte bereits vor Installation des Patches erfolgt sei=
+n. Das
+BSI empfiehlt alle Confluence- und Jira-Systeme zu pr=C3=BCfen, selbst wenn=
+ diese
+nicht direkt aus dem Internet erreichbar sind und auch wenn das System
+inzwischen auf einem aktuellen Stand ist. Insbesondere sollten die Server-L=
+ogs
+auf Installation/Deinstallation von Plugins gepr=C3=BCft werden.
+
+Das BSI hat keine konkreten Informationen =C3=BCber eine Betroffenheit. Auf=
+grund
+des Vorgehens der Angreifer wird trotzdem empfohlen die entsprechenden Syst=
+eme
+zu untersuchen.
+
+In Ihrem Netz k=C3=B6nnten zu der fraglichen Zeit folgende Systeme angegrif=
+fen
+worden sein:
+145.253.207.88
+178.27.155.2
+188.111.42.78
+193.189.114.60
+212.144.220.246
+37.24.47.120
+5.158.164.12
+78.42.242.247
+78.94.31.74
+78.94.65.20
+78.94.71.91
+88.79.196.210
+88.79.202.151
+88.79.202.179
+90.187.22.69
+91.64.57.43
+92.79.126.139
+92.79.27.71
+
+Mit freundlichen Gr=C3=BC=C3=9Fen
+das Team CERT-Bund
+--
+Bundesamt f=C3=BCr Sicherheit in der Informationstechnik (BSI)
+CERT-Bund
+Godesberger Allee 185-189
+D-53175 Bonn
+Telefon: +49 (0)228 99 9582 5110
+Telefax: +49 (0)228 99 9582 7025
+Web: [1]https://www.bsi.bund.de/CERT-Bund/
+PGP: [2]https://www.bsi.bund.de/CERT-Bund-Kontakt
+
+#DeutschlandDigitalSicherBSI
+
+Alle Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie
+unter www.bsi.bund.de/datenschutz
+
+=E2=80=8B
+
+[1] https://www.bsi.bund.de/CERT-Bund/
+[2] https://www.bsi.bund.de/CERT-Bund-Kontakt
+
+------------=_1687846887-1162-32
+Content-Type: text/html; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3Dutf-8"/></head><body style=3D"font-family:Geneva,Helvetic=
+a,Arial,sans-serif; font-size: 12px;">Sehr geehrte Damen und Herren,<br />
+<br />
+das BSI hat in den letzten Wochen mehrere Angriffe beobachtet, bei denen ei=
+n malizi=C3=B6ses Confluence- oder Jira-Plugin installiert wurde (bzw. "App=
+"; im Kontext von Atlassian-Produkten das gleiche). In einem Fall wurde ein=
+ noch unbekannter Angriffsvektor genutzt, in den anderen F=C3=A4llen wurde =
+Ende Mai 2022 eine 0-Day Schwachstelle in Confluence (CVE-2022-26134) ausge=
+nutzt. Zu den Zeitpunkten der Angriffe war die Schwachstelle noch nicht =C3=
+=B6ffentlich bekannt und es existierte noch kein Patch. Eine nachtr=C3=A4gl=
+iche Installation des Patches im Confluence-System hat zwar weitere Angriff=
+e =C3=BCber diese Schwachstelle verhindert, eine bereits erfolgte Kompromit=
+tierung wurde dadurch aber nicht beseitigt. Zum Teil hat die Angreifergrupp=
+e die installierten Backdoor-Zug=C3=A4nge erst stark zeitverz=C3=B6gert gen=
+utzt - teilweise erstmals in 2023. In einigen F=C3=A4llen wurde neben dem P=
+lugin auch eine Webshell auf dem Confluence-System installiert und weitere =
+Zug=C3=A4nge in das System angelegt.<br />
+<br />
+Die Ausnutzung k=C3=B6nnte bereits vor Installation des Patches erfolgt sei=
+n. Das BSI empfiehlt alle Confluence- und Jira-Systeme zu pr=C3=BCfen, selb=
+st wenn diese nicht direkt aus dem Internet erreichbar sind und auch wenn d=
+as System inzwischen auf einem aktuellen Stand ist. Insbesondere sollten di=
+e Server-Logs auf Installation/Deinstallation von Plugins gepr=C3=BCft werd=
+en.<br />
+<br />
+Das BSI hat keine konkreten Informationen =C3=BCber eine Betroffenheit. Auf=
+grund des Vorgehens der Angreifer wird trotzdem empfohlen die entsprechende=
+n Systeme zu untersuchen.<br />
+<br />
+In Ihrem Netz k=C3=B6nnten zu der fraglichen Zeit folgende Systeme angegrif=
+fen worden sein:<br />
+145.253.207.88<br />
+178.27.155.2<br />
+188.111.42.78<br />
+193.189.114.60<br />
+212.144.220.246<br />
+37.24.47.120<br />
+5.158.164.12<br />
+78.42.242.247<br />
+78.94.31.74<br />
+78.94.65.20<br />
+78.94.71.91<br />
+88.79.196.210<br />
+88.79.202.151<br />
+88.79.202.179<br />
+90.187.22.69<br />
+91.64.57.43<br />
+92.79.126.139<br />
+92.79.27.71<br />
+<br />
+<br />
+Mit freundlichen Gr=C3=BC=C3=9Fen<br />
+das Team CERT-Bund<br />
+--<br />
+Bundesamt f=C3=BCr Sicherheit in der Informationstechnik (BSI)<br />
+CERT-Bund<br />
+Godesberger Allee 185-189<br />
+D-53175 Bonn<br />
+Telefon: +49 (0)228 99 9582 5110<br />
+Telefax: +49 (0)228 99 9582 7025<br />
+Web: <a href=3D"https://www.bsi.bund.de/CERT-Bund/" target=3D"_blank" title=
+=3D"https://www.bsi.bund.de/CERT-Bund/">https://www.bsi.bund.de/CERT-Bund/<=
+/a><br />
+PGP: <a href=3D"https://www.bsi.bund.de/CERT-Bund-Kontakt" target=3D"_blank=
+" title=3D"https://www.bsi.bund.de/CERT-Bund-Kontakt">https://www.bsi.bund.=
+de/CERT-Bund-Kontakt</a><br />
+<br />
+#DeutschlandDigitalSicherBSI<br />
+<br />
+Alle Informationen zum Umgang mit Ihren personenbezogenen Daten finden Sie =
+unter www.bsi.bund.de/datenschutz<br />
+<br />
+=E2=80=8B</body></html>=
+
+------------=_1687846887-1162-32--
+
+------3BB6FC2FA4721BE719D567C546346FE4
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIK4QYJKoZIhvcNAQcCoIIK0jCCCs4CAQExDzANBglghkgBZQMEAgEFADAL
+BgkqhkiG9w0BBwGgggcoMIIHJDCCBQygAwIBAgIHAeDh8GcgljANBgkqhkiG
+9w0BAQ0FADBgMQswCQYDVQQGEwJERTEZMBcGA1UEChMQUEtJLTEtVmVyd2Fs
+dHVuZzENMAsGA1UECxMEQnVuZDEnMCUGA1UEAxMeQ0EgSVZCQiBEZXV0c2No
+ZSBUZWxla29tIEFHIDIwMB4XDTIxMTExOTA5NDIzM1oXDTI0MTExOTIzNTk1
+OVowXjELMAkGA1UEBhMCREUxDTALBgNVBAoTBEJ1bmQxDDAKBgNVBAsTA0JT
+STENMAsGA1UEBxMEQm9ubjEXMBUGA1UEAxMOR1JQOiBDRVJULUJ1bmQxCjAI
+BgNVBAUTATEwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDen3WF
+Jh5VKlVWZLRP0AlNDF2UZh2w0ZhEOPgTmo3DOTWDCfv0PdDOQhWVYYi8BD75
+olzEo96nU2CJSFMn/pKC/v6MseOezUnueEvckAeXjg6cJ81W6SPmjtTplKbX
+XcXmUUDpuTgfRP0FBEJnpwjROK8SejAx93mS99tRtKmYTdPijInj8B4hGez4
+ioS9ixQKOtGM0fEPVh9RSofJe/eox0DfUZ13G5YZVtVjkgx7SdSFRI4keUA7
++6xrOHTY7F1NA/fMNYoBkXyBFeB7Q63EK5WQ0SuUv/5hTrc8ligHQCgHXVsx
+7HxpkeHWHIC8UOstGMPMFxgksIaNnt4Vy73p+cWPXV2pDGGkUZRb+wQT/plu
+0CnVSWG2AYvaw+YUZSxQWnOD1298jZ3vS6ifNtcnTq8RCx6RzAiS0D9feJAz
+QmwRGeg9gpyofcw56uUX+c4yEZqnqvS9sr4T/7qx+xIAaADoxtzvwFSj9C2O
+Z0V8W/1IZi2b9oCCOnfFSOANnFoYQYXt+DjaPkV/HH/1VdUkKHxyvXy/p8c9
+ae3V7v1I9sBIfmOohkTfHLXGmH6gQWTcywQZ6ntg1Rb98KYfB/yvbgd0RdCE
+NBkCycua0DyeDosMMcFJxuuaOY1bw6T3qz1DIDk8qJVZ2yEgZuZFkNbJKJjs
+4tNSOvjevJGuZWPwLwIDAQABo4IB4zCCAd8wcQYDVR0jBGowaIAU520BMXxB
+MiAnybBpGhWHfcG9vkKhSqRIMEYxCzAJBgNVBAYTAkRFMRkwFwYDVQQKExBQ
+S0ktMS1WZXJ3YWx0dW5nMRwwGgYDVQQDExNQQ0EtMS1WZXJ3YWx0dW5nLTIw
+ggQkqy5LMB8GA1UdEQQYMBaBFGNlcnRidW5kQGJzaS5idW5kLmRlMIHhBgNV
+HR8EgdkwgdYwgdOggdCggc2Gb2xkYXA6Ly94NTAwLmJ1bmQuZGUvQ049Q0Eg
+SVZCQiBEZXV0c2NoZSBUZWxla29tIEFHIDIwLE9VPUJ1bmQsTz1QS0ktMS1W
+ZXJ3YWx0dW5nLEM9REU/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdIZaaHR0
+cDovL3g1MDAuYnVuZC5kZS9jZ2ktYmluL3Nob3dfYXR0cj9jbj1DQSUyMElW
+QkIlMjBEZXV0c2NoZSUyMFRlbGVrb20lMjBBRyUyMDIwJmF0dHI9Y3JsMBYG
+A1UdIAQPMA0wCwYJKwYBBAG9dAEBMA4GA1UdDwEB/wQEAwIF4DA9BggrBgEF
+BQcBAQQxMC8wLQYIKwYBBQUHMAGGIWh0dHA6Ly9vY3NwLml2YmIudGVsZXNl
+Yy5kZS9vY3NwcjANBgkqhkiG9w0BAQ0FAAOCAgEAzSetC7e4JbF2AXvnxjYp
+DlrcQI5V6xVdjdIhzkIniRPRcm/cDvCEPAfMQhlPaE0/eM1LDrWqqNawAW1J
+5ZR18lZX73KtnOwnzI1Dw5eSVdoGMevAAvQVlwlmkB1n3R2YeiZufPsZcZcS
+ZIbQYJsuKwre5f6RZbH79VhI9UOlIUptw3d+l57UB6BInoxAanWb6TVB67/o
+sJgd65GV7AXHwikGnIL/cmse6+LlvkhZwt9ZkpOGT9m9+xADz2I8RirKD3JD
+2GMKnher8lQuZpZlpxWbySTQfpwNfqOCaGSdzN7elV/kYLN7FZtCIF8JkmMo
+8Aklk6agED6jt+UrLhNHo+2FQqmPHxOvkSzVZAYE+oF83IVudv0WIwMiOKDI
+5JSTsifx7KUt3q7htDhGOHKof3vi2Cr+oFUNj0LAInmRiVyCogMa2ZbXZlz8
+HHU1xJdYtuIy7EIl98vr7c1ZvsW/4ovpL4MuVZXWTl+ph2oOsHUTt6Z+F7Vu
+udptC8mpgDrPoaQPi8yWLr4YF9Olv3JTIF0IcFnSuJddH+VVxw3fshl8u2xp
+ZwOuSZm7HYfJIJe65WpZ6v35Gk6vMmLQOJEo2o9/CJYRPhPuF85YJOAI4XEI
+6dIsw0Mdm+hJqrQa+mqrkTBmoyuyT/76v/EYFzmRO9VnNpYT2HOytvamoa/G
+3TcxggN9MIIDeQIBATBrMGAxCzAJBgNVBAYTAkRFMRkwFwYDVQQKExBQS0kt
+MS1WZXJ3YWx0dW5nMQ0wCwYDVQQLEwRCdW5kMScwJQYDVQQDEx5DQSBJVkJC
+IERldXRzY2hlIFRlbGVrb20gQUcgMjACBwHg4fBnIJYwDQYJYIZIAWUDBAIB
+BQCggeQwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUx
+DxcNMjMwNjI3MDYyMTI3WjAvBgkqhkiG9w0BCQQxIgQgEi7d0YvrSXZsD7hX
+k8AjGyOBgot400V2XWl91QnysgQweQYJKoZIhvcNAQkPMWwwajALBglghkgB
+ZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAO
+BggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZI
+hvcNAwICASgwDQYJKoZIhvcNAQEBBQAEggIA01Dw7GNw2Gw70H8a0083lUQB
+ybhrHIz4zye3vqgzrx0+x8YKXK5cYLyI0wel6pZeKHoDKu9R80dGzzMSwfyQ
+2wNSWFcHpnEDO3+4GuVmAiX/qFql+BJiZ54v6kf9XbSOnMJ14OIHem9EIXDx
+SNGCR9ESdy/1Z3lNYC3wywdZCqmFEoGt66jeUaeDHpX5EunUb0QB5LOsgeKl
+hOWQLFyhS3YWfRBI1wji+FlgM13wn70tvao4Pf16cdSZpu7soyQAUbhkBfG9
+kHiLppkcOvU60Q2TAtFjWpm0QHa7XurakIPvUD9Cy73FZvSxG5Da6NS0e7Hv
+Vofb3Pii+bpV/Y+CD701bZ320XLpjgHPvn5jmCOrQL9gn9UGvBDjJsQB+a15
+eCIgH/FMAx8cK+zJpxG2BgqUMNzzHMCnCJN4TgSOjQp79bLsJu6atHqCzJsz
+034ZqPRWxGac0k9kfMjtxGVPyi/kCipOXY9G32xs27xTkYecVe4Tu5C2Wa/y
+qezifvRUPPTNZ2S8DLGqHAV/hy+Jg54qwfOtZyWLa78YhsmU9bDvp4j6NJWk
+TWiJLQN36U3jqCMRmtlAwlsa3FcsQULHXUadEn/+t5JsVV6y0s77Rm+IyHpS
+p639dmTZfnpULXXxar1ekhPnfYC1vE2PIARGi0S8X94BLNMY4Np+R7Hv5uo=
+
+------3BB6FC2FA4721BE719D567C546346FE4--

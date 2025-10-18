@@ -1,0 +1,215 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@amazonses.com header.d=amazonses.com header.s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw;
+	dkim=pass header.i=@enf-meta.com header.d=enf-meta.com header.s=gkadu3liaktshfvao4uiphx7pxfemx5c
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021088.outbound.protection.outlook.com [52.101.100.88])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id F12D4583-FDB6-4B39-B0AC-CCAA9E780A0F.1
+	envelope-from <01000196699ab25a-a795501f-05cf-429c-aa94-bae84e63022b-000000@fdiuovh.enf-meta.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 24 Apr 2025 21:01:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sVeY1/kdCjWNWIaaMPmLk4jsmsCOweygVcNeMAfsz80b4eVf0PVeyrGD2sU14/m+4kzfrFdN8F1cq5TRRN/Bgj2uRMZaeqWI23/KSEkKMlF/vZHFX2BsDzsmMfF0sfphwMuiinALs8uNBtC/6P8pDlCfZ+IOdwBiSc/osP622jZh9dj0w4jInxua2DysodQCf9q6HL537YMsx31ylFiJbDTsTq0zO37JALlEMDF5WqIFgj+I0cW9EGBBJMOqxnNkNDMRitieyWRVu2VB3MaORdwhSGEc1X03xkrDSKTiHdPrsy9J96Q4sT80YSNJV2OYxdryNcP/1m/CnjmBCY+BkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yyyxep2VbQ/0iLCuL+jqQb2mVK4WlCyJcxgvdPpsB7A=;
+ b=Ly1UgytrgjjbkUrP2VMHUkhmdg2rXJ2ys3QOSPcIWwCHtac/kEXZeQp/9WfQTh/+PuUb0eX4xC2secRoxgb5GET6uWW89K/ucZkT2OGEJW5AFO+RYx3Q60zAhWuhx/19iGADIzxsRm6BqXxXC6/bKrDQTMasjG+kDKFdfXmaY12r/Me57ZdLgEWud7Jt8KTMSP3N2+IqSuittY6H/U3sB4HGlKv48M6pud7wQsMaoFplit9Q/FbVnXZ3UYkE62/vrUqWKxCWrZJysWQ0Oz6g/oX9XZZRjeU7hMPZjXS3s2p2/J1q7jFSuMBr0sLIfkg5QkawntswMhIqTQkGAcqK/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 23.251.229.192) smtp.rcpttodomain=abuseradar.com
+ smtp.mailfrom=fdiuovh.enf-meta.com; dmarc=bestguesspass action=none
+ header.from=enf-meta.com; dkim=pass (signature was verified)
+ header.d=enf-meta.com; dkim=pass (signature was verified)
+ header.d=amazonses.com; arc=none (0)
+Received: from LO2P265CA0149.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:9::17) by
+ CWXP265MB1960.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:81::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.27; Thu, 24 Apr 2025 21:01:09 +0000
+Received: from LO1PEPF000022FC.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9:cafe::b0) by LO2P265CA0149.outlook.office365.com
+ (2603:10a6:600:9::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.37 via Frontend Transport; Thu,
+ 24 Apr 2025 21:01:09 +0000
+Received-SPF: Pass (protection.outlook.com: domain of fdiuovh.enf-meta.com
+ designates 23.251.229.192 as permitted sender)
+ receiver=protection.outlook.com; client-ip=23.251.229.192;
+ helo=e229-192.smtp-out.amazonses.com; pr=C
+Received: from e229-192.smtp-out.amazonses.com (23.251.229.192) by
+ LO1PEPF000022FC.mail.protection.outlook.com (10.167.240.20) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
+ via Frontend Transport; Thu, 24 Apr 2025 21:01:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gkadu3liaktshfvao4uiphx7pxfemx5c; d=enf-meta.com; t=1745528468;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type;
+	bh=PXku0aOY2VLBqnJ9GrJux2HuPS37iTC3YW2kfIW+VfQ=;
+	b=byOkA03Gl/0b01vwO7CRKfhk0cMcR/mM5zLvFAtD7sdYnnnXCdlo0sjv209p85Gt
+	DkVfKtfvc7n7rx6b8whpaqY/piLXdvC6Pi7LsXHvzvqmFTuNrMm2pS0fiYf2Ng00Jy5
+	HUUFWOTzyZI2MyIJ86n8G7sgGWJSjmVwD5YRVBKOat0bie857OvfcQ/98E+XctW/G3X
+	CaLee0mvCivS8eecOpNxMVfkNj0KFVeTshsHyyjK1ZwOYN8ZWd/J3B31xQzbq6PYit4
+	Z6gnyjsMNkta+l9p7kQTbyErNzlJgD6Wtzisq3cDaOBB1ErxoLMuuiU6LJ60838lNMQ
+	gCL8uFGyig==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1745528468;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type:Feedback-ID;
+	bh=PXku0aOY2VLBqnJ9GrJux2HuPS37iTC3YW2kfIW+VfQ=;
+	b=oYisjaWI2jvklkrFobHYxyrjTDIbOFPFRyCpogZO43682fKxqEaSMQilPGlOcYq1
+	vUdWv9eAOOiJXLmcoZ/tvedyxR7QCa69tLsaDsmVR2mYu2W60BaBXAbqtUWnGKaH1Zr
+	hpXe/CE9B3HUPonlBpC+OaqtWCMmbSCFAkeIqJ5k=
+Date: Thu, 24 Apr 2025 21:01:08 +0000
+From: enf.whatsapp.2733397@enf-meta.com
+To: report@abuseradar.com
+Message-ID: <01000196699ab25a-a795501f-05cf-429c-aa94-bae84e63022b-000000@email.amazonses.com>
+Subject: Notice of Trademark Abuse - logins-whatsapp.com
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_369_926552322.1745528468031"
+Feedback-ID: ::1.us-east-1.NsmQQD74thiJjbn4h/5bkQwWkU+/Q0sFeNZqkFcVFF8=:AmazonSES
+X-SES-Outgoing: 2025.04.24-23.251.229.192
+Return-Path:
+	01000196699ab25a-a795501f-05cf-429c-aa94-bae84e63022b-000000@fdiuovh.enf-meta.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 4b06f27d-d0bc-45cd-b169-d61de1bca836:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO1PEPF000022FC:EE_|CWXP265MB1960:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf362242-b548-4c0a-e33c-08dd83732353
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|32142699015|61400799027|376014|9140799003|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VHQ2c2RSYXNOK2RraHVGWS9hOTdoMmVGbEp1Q2czb0V1eDdIczhOY2FCTzdZ?=
+ =?utf-8?B?U0dPREp3MGNCbTRiM3NEZEN1Uzl4Q0lUNVlxeU0rd1kremFjNndQUVVUQ3NY?=
+ =?utf-8?B?MHhGa0d5RE5wcXlyTFRybEFsVWpwT1lndnZlRHlITTJMZlNsWWlqZ3c1dUNm?=
+ =?utf-8?B?WGRNT3RtczFvMXh5UUZpeGJVS2N3MmlrY3JJa29kNGJVejE0cWRnOFpRYmph?=
+ =?utf-8?B?VTRtSit6dmZPMlFWUnlLWE1oOGQyWVEwTmhMRHY3WkRGa20vZUZuNjl3RHV0?=
+ =?utf-8?B?ZDg3bG9rUlMxWGl1dk5VaGVYVnlpUWRKcGp2dk4yeHZYdG8yZlE5UURkS1ls?=
+ =?utf-8?B?VFVycm1BZHNsRE1zV24yb0JBL2djUVBPbExxZzY5cGlOblg2dm5aUVREK0hK?=
+ =?utf-8?B?eHJ0WGhnYkpuYmVuOUxBdUQ1akRVTWJmL040MlNhV3FrdjdEOUJnKzJxZnI5?=
+ =?utf-8?B?TzAzc1RHU21XSkJTR0w5MnZsdnFpbWtIRVBDWmtwUklJNWRLb24xSTl3ZW9y?=
+ =?utf-8?B?cXZtUGJnZ000TEt1dDBOalF2ZUQ1VElBMHBRa0htSFFhcW1teG9oVS9rdXla?=
+ =?utf-8?B?YjF0ZEtQSlRqbjlBMFRET3Byd2FGVm51ME01NmRmUnJFSVBXRDY2bjhTMG5C?=
+ =?utf-8?B?WTdOTC9xR28raXg3L0lkYVRyN28zQ0g0bDJ0QjEvMnIrM1doYkxSNm1GZlNK?=
+ =?utf-8?B?NVRyZ1hENFVLcWVQN3VoNEVYMmRHdll3YUYybUJoZVo5ajU4UjNBYzZpMXFr?=
+ =?utf-8?B?NStPTTc3S3cyS2x3cEpXNWU4MWVPNHEzcFZZMHJ4Ti9mTUlZZlIrVWl6YVQy?=
+ =?utf-8?B?S01POTk3VXZEdUhDNEhJcm9uOVVXUHMxS1hJelp4cmp6MVA2SzBNV2FBb2w5?=
+ =?utf-8?B?dGMyb2FWN3dwaDBKSTc5RkF4S2pMNjVRb241OVloOG1LOHI4cTNTVFllYmFs?=
+ =?utf-8?B?Z0wvWWJqMWlvT0o3YVJBSGpGZzIvbmhNTmNSenJmMHp2VzdLaklTWXBHV3Jk?=
+ =?utf-8?B?TE94bHlldFhLcTFlQ0lqcTdCK1grMEs2NkR0YkNPTUFQaXZBUkd1NWdGVlZm?=
+ =?utf-8?B?ckFWcDBqTmNmZ1NlK0ltWHFCUnRSdDFxSkpUc3NCUGdwM1diQmFzM1hZcXhz?=
+ =?utf-8?B?eVQ5QzRUTWpzeXRtODRvQ0gzVHJaeWZkc2dLQWdxZzNRUnNSNDlhNmJEZWE2?=
+ =?utf-8?B?cERpb2NrZzh4U2hCeTNVaENqSnJSckFNQkVDd3A0QjhhaEt0ZlFUUW1ZZGFP?=
+ =?utf-8?B?UHFSeUoxeWtJZmEvOEdpR3czOS80TWFiaWZiVHZDNVJwNld6RmVPZ1RUc1or?=
+ =?utf-8?B?ei9KTjZPUWhIcWNST0hEdm9HSGhteEs4RDFwVDQrdGNxSEFySUxZVDJEWHZI?=
+ =?utf-8?B?bGdEQThEekJLTVczYmw0OVl2ZUFRTXo3aVh6RWpQYWFFdjFYV1VlUnhKVHJ4?=
+ =?utf-8?B?OUxYOEd4VHhCczJWQ0F1ak9sY2VjVkg3SFYrbElPdVhsVTE0b1U1bU5tejV2?=
+ =?utf-8?B?S05PYU9qazh4eG04YTJWbnIxN0JiaUErNkVJZ09aYXhrOW5WSGp2Mi9HSkc5?=
+ =?utf-8?B?UmRYOHdhTmQ1QndvZTFzNEwwYWFqV1hMUmRDRzdqUlBQWmljWmQvWnhOcmxm?=
+ =?utf-8?B?emxrSnNMNTdBRm5rUGlLK2hMTDJaaXg2aFRjTXZQWkovejZiMVVjQVF5VEkz?=
+ =?utf-8?B?bzJWZm1ZYU9MSjF5VUtTMi9ManJYakRMaityT1Q1WXp2TmVpYzM0UmdoYm1r?=
+ =?utf-8?B?Ti9RZjZxUTJlSThFaUpOVkhpeVBnSjU4bm5XeTFZc3NOWVUwb2thNFdHMThU?=
+ =?utf-8?B?WDhPeDR3VHRmdUFmaDUxUm5MQ0FVWXZSRFp0ZFhYVVdqb1o4V3pPYVRZbmVH?=
+ =?utf-8?B?bjQyblVFT2ExQUpwdk85Q1E5SFUxdS9CT2cyRGVjOG9EZEwrK25oYlVBQ08z?=
+ =?utf-8?B?V0xLMzBIZDdUTE9pQVptK2wxUERhOHlJcjEydTFZb1J2aitpVXBVWUo3MTFx?=
+ =?utf-8?B?VElBQ2VHZlBLb25KVWdFSWVCbkNhYU4xbzVab2tSR3NRbTd2YTVzS1grWjY5?=
+ =?utf-8?B?azhkNkxCdC92VTNWYTB1UmxIUFgveFhEbzNXK2xtVWk3QTdnQU9mcHNCZzJo?=
+ =?utf-8?Q?z3QklEsdER4B5cykdsMIGpDVh?=
+X-Forefront-Antispam-Report:
+	CIP:23.251.229.192;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:e229-192.smtp-out.amazonses.com;PTR:e229-192.smtp-out.amazonses.com;CAT:NONE;SFS:(13230040)(32142699015)(61400799027)(376014)(9140799003)(13003099007)(8096899003);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-OriginatorOrg: netutils.io
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 21:01:09.1312
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf362242-b548-4c0a-e33c-08dd83732353
+X-MS-Exchange-CrossTenant-Id: 4b06f27d-d0bc-45cd-b169-d61de1bca836
+X-MS-Exchange-CrossTenant-AuthSource: LO1PEPF000022FC.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB1960
+Original-Authentication-Results: spf=pass (sender IP is 23.251.229.192)
+ smtp.mailfrom=fdiuovh.enf-meta.com; dkim=pass (signature was verified)
+ header.d=enf-meta.com;dkim=pass (signature was verified)
+ header.d=amazonses.com;dmarc=bestguesspass action=none
+ header.from=enf-meta.com;
+
+------=_Part_369_926552322.1745528468031
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_368_753398659.1745528468031"
+
+------=_Part_368_753398659.1745528468031
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+April 24, 2025  
+  
+To Whom It May Concern:  
+  
+We write on behalf of WhatsApp LLC regarding the hosting and use of the domain name logins-whatsapp.com, at IP address 104.218.234.241, which contains the famous WhatsApp trademark. The registrant has used your services to host logins-whatsapp.com.  
+  
+Trademark: WhatsApp  
+  
+Country: United States  
+Registered: April 5, 2011  
+Application or Registration No.: 3939463  
+Word, Design, or Word & Design: Word  
+  
+Owner Name and Address:  
+  
+WhatsApp LLC (Delaware Corporation)  
+1 Meta Way  
+Menlo Park, CA 94025  
+United States of America  
+  
+Unauthorized use of the WhatsApp mark, such as logins-whatsapp.com, will inevitably cause confusion as to whether the domain and underlying use are authorized, endorsed, or sponsored by WhatsApp when, in fact, they are not. WhatsApp has an obligation to its users and the public to police against the registration and use of domain names that may cause such consumer confusion.  
+  
+I have a good faith belief that use of the trademarks in the domain as described above are not authorized by the trademark owner or its agent, nor is such use otherwise permissible under law. We have reached out to the registrant with no response or compliance. Please disable or suspend the domain immediately.  
+  
+I represent, under penalty of perjury, that the information in this notification is true and correct, and that I am authorized to act on behalf of the trademark owner, WhatsApp Inc.  
+  
+Please let us know if you need any additional information.  
+  
+Sincerely,  
+  
+IP & DNS Enforcement Group  
+WhatsApp LLC  
+1 Meta Way  
+Menlo Park, CA 94025  
+United States of America  
+Phone - 650 485-6064
+
+  
+  
+_Any personal data collected by Tracer and used to identify individuals for the purpose of this communication have been done in accordance with applicable privacy laws and the Tracer Privacy Policy available at: https://www.tracer.ai/legal/privacy-policy.  
+  
+Certain information provided herein may be confidential and/or protected from disclosure under applicable law. If you are not the intended recipient of this transmission, please notify the sender immediately and do not deliver, distribute or copy this transmission, disclose its contents, or take any other action in reliance upon or as a result of the information it contains._
+------=_Part_368_753398659.1745528468031
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>April 24, 2025</p>
+<p>To Whom It May Concern:</p>
+<p>We write on behalf of WhatsApp LLC regarding the hosting and use of the domain name logins-whatsapp.com, at IP address 104.218.234.241, which contains the famous WhatsApp trademark. The registrant has used your services to host logins-whatsapp.com.</p>
+<p>Trademark: WhatsApp</p>
+<p>Country: United States<br />
+Registered: April 5, 2011<br />
+Application or Registration No.: 3939463<br />
+Word, Design, or Word &amp; Design: Word</p>
+<p>Owner Name and Address:</p>
+<p>WhatsApp LLC (Delaware Corporation)<br />
+1 Meta Way<br />
+Menlo Park, CA 94025<br />
+United States of America</p>
+<p>Unauthorized use of the WhatsApp mark, such as logins-whatsapp.com, will inevitably cause confusion as to whether the domain and underlying use are authorized, endorsed, or sponsored by WhatsApp when, in fact, they are not. WhatsApp has an obligation to its users and the public to police against the registration and use of domain names that may cause such consumer confusion.</p>
+<p>I have a good faith belief that use of the trademarks in the domain as described above are not authorized by the trademark owner or its agent, nor is such use otherwise permissible under law. We have reached out to the registrant with no response or compliance. Please disable or suspend the domain immediately.</p>
+<p>I represent, under penalty of perjury, that the information in this notification is true and correct, and that I am authorized to act on behalf of the trademark owner, WhatsApp Inc.</p>
+<p>Please let us know if you need any additional information.</p>
+<p>Sincerely,</p>
+<p>IP &amp; DNS Enforcement Group<br />
+WhatsApp LLC<br />
+1 Meta Way<br />
+Menlo Park, CA 94025<br />
+United States of America<br />
+Phone - 650 485-6064</p>
+<p>_Any personal data collected by Tracer and used to identify individuals for the purpose of this communication have been done in accordance with applicable privacy laws and the Tracer Privacy Policy available at: https://www.tracer.ai/legal/privacy-policy.</p>
+<p>Certain information provided herein may be confidential and/or protected from disclosure under applicable law. If you are not the intended recipient of this transmission, please notify the sender immediately and do not deliver, distribute or copy this transmission, disclose its contents, or take any other action in reliance upon or as a result of the information it contains._</p>
+
+------=_Part_368_753398659.1745528468031--
+
+------=_Part_369_926552322.1745528468031--

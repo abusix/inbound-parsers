@@ -1,0 +1,185 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 0DB31DAC-4750-4016-BAC2-C3EEF5FC84F4.1
+	envelope-from <abuse+bncBDVI5675WIJRBUW43GUAMGQEYQ6FFKY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 29 Sep 2023 06:27:30 +0000
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f5df65f9f4sf121793655e9.2
+        for <abuse@digitalocean.abusehq.net>; Thu, 28 Sep 2023 23:27:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1695968850; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=zUN6zWRIDhnBmoPH+ENUxXolSk81pJiEJvQBcUlMiRFHYDrxHokTQM7QJ90iSlBXuB
+         rZ3EmfXi8EXGBPfcGotT5TISua2v1owb1vrEvj3BUNt1p4hvXUyCyiHLzM2+zoy0hcbN
+         iIdQLeUNXdyJoU5N9LkDaZnofP/JoMGm0KJbfeBZMrF9QAmUO1HGcSq0MTzKlotJ9huC
+         xVOZhGeprvXRbRYcSiXL1KA13dS42YD1SdhLRjgI9qrW8F0zmzEQCME+ADb3pJgVbJbU
+         p8v5tbTJfLjTXvJjn71GrogqODlvQbIHd//Mmxm9HKUcFUaVwpzoli74gWSlOQ2nDcRO
+         kFBw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-post:list-id:mailing-list
+         :precedence:reply-to:list-help:message-id:sender:date:to:from
+         :subject:mime-version:content-transfer-encoding:content-disposition
+         :dkim-signature;
+        bh=di8Lf3JfpPPZxgaNPOzXl+ZL47Y2PEH/2BVFqRUokUQ=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=0EDmXQL9JV5xE5az94TWyXeeLoeroK+AdW5KQ5Y3PnNtiKTPIcRBn7elfE1p1Pt9K8
+         VsPfaSfjeRYHt511FwjtawQw6Xe0bV+ZL8Pm4pu1Ietr05j81cZepv0TYXXTrlWetxbm
+         OJ5OnKZ2JHULIKzx6TV3Ve47mJeKFA1umOMTGQILvuzSjiJXwKjxn9iYJbRiUtZOfgQN
+         CoxZ5GVv1Rp9egZd3GtrF27GBMCX1n6IRnHfYtrUy8H+yv9yCY/EgeFlK/3qQW4CjzI3
+         GVF8A8YVf6RJc7Iu3wquGwxtIsFVebdhl0txmW1UkNlq5IZ5+ky6TK6JmXUbjEuCAR4n
+         qFeQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@ionos.com header.s=isystem1 header.b=eGzGltKN;
+       spf=pass (google.com: domain of hosting-security@ionos.com designates 212.227.15.52 as permitted sender) smtp.mailfrom=hosting-security@ionos.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=ionos.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1695968850; x=1696573650; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-post:list-id:mailing-list
+         :precedence:reply-to:x-original-authentication-results
+         :x-original-sender:list-help:message-id:sender:date:to:from:subject
+         :mime-version:content-transfer-encoding:content-disposition:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=di8Lf3JfpPPZxgaNPOzXl+ZL47Y2PEH/2BVFqRUokUQ=;
+        b=L23QeW3PPeE0bEP8PDrk6n9uPysCvYQ/73ksY2V0G5rqpXsj99/Gr3eCXOz2Bj/KtA
+         3MBlv70J8gZeEdoiZDccrILKWRKqe8A8Wo5apncjsNuEDBorKUFf3sj/fZ2oB7Pjxzqf
+         C2WcogoUcR+O+bFE1tDAaO357d8d5GmQin5cI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695968850; x=1696573650;
+        h=list-unsubscribe:list-archive:list-post:x-spam-checked-in-group
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:list-help
+         :message-id:sender:date:to:from:subject:mime-version
+         :content-transfer-encoding:content-disposition:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=di8Lf3JfpPPZxgaNPOzXl+ZL47Y2PEH/2BVFqRUokUQ=;
+        b=YFWQwztP8jCchpKJFY7ZPISZXAeF7kZTNafB49CX0/Gm/xVt4CGLjN1Fo0Qn9y/dkX
+         3lkBOGCqCyf47XCdbqOKlGSEP96wd40Nf8gJu9FUwSCkspPkX3IfTkQ5Bajynr5ELpDQ
+         zGaks/iALsgz4cCGHJD++QV2ptqzHEeH9Orh7WjteaCWHmR5oclLlAdvyxy+Pww2W8cr
+         57wrobBUkjISJRZvX0elv488qc+RcBedKo24QvQXd6rNt6oiNNsM3BmEcqhJBbxnp6Mf
+         3ySK1bYZqH//jzri9py+cjuQnoxuIjk4OGTYlKKEJRpdioeBslcOCd8jc5YLoNDwY2Ce
+         S9lw==
+X-Gm-Message-State: AOJu0YyQOekmt+VaIyDvylO0240R0dFI1BLvgZ2uMkub3JJIXnZEZO0P
+	GkKcGxb1xxyuJAo6Sq91qghoqWZpRhzr5Q==
+X-Google-Smtp-Source: AGHT+IHdnZqhSyOYokZJoaHfkVaU/n4AlgzfBeLTjA3zc4qHMo6CQH03rQpK825KN7OUiQQddQVlHA==
+X-Received: by 2002:a05:600c:365a:b0:3fe:4cbc:c345 with SMTP id y26-20020a05600c365a00b003fe4cbcc345mr2771993wmq.41.1695968850228;
+        Thu, 28 Sep 2023 23:27:30 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:600c:1d17:b0:405:ca8d:5cc3 with SMTP id
+ l23-20020a05600c1d1700b00405ca8d5cc3ls2468768wms.2.-pod-prod-04-eu; Thu, 28
+ Sep 2023 23:27:29 -0700 (PDT)
+X-Received: by 2002:a7b:c3d4:0:b0:3fe:f667:4e4c with SMTP id t20-20020a7bc3d4000000b003fef6674e4cmr2927008wmj.12.1695968848970;
+        Thu, 28 Sep 2023 23:27:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1695968848; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Z82HMfWSmR6a9WKuOwm/i9tSSAHgow8PAAT+eMhpynw2Jlb/Rg6I8XZU/cZncNPrcc
+         kDeEmkZiTt/tnPBCZnwvSbbR4sLIe/gljYVzVXqPupj1nz8QzfOZ8T+hBS6lgmUty8vO
+         LfNSba/l0WpuHE9IT4RuXoTFc4HwmqgZhW60Q5r8PIJhBNqiJJJ7Z4WZT4MI4A10fxGo
+         Yn8Tq260FmIbMueWx6juWFGl6uR3/LDHm2y4dVhl+iwwQpvjEiv3nqfVZ1ggbMR7U8NH
+         9sLnnWsUQK/o2/fSOObyddhsVsReQCPrC/yspY+l7uHcxSnqTH9ISTBTyRsHMl8YSRuv
+         5Jtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-help:message-id:sender:date:to:from:subject:mime-version
+         :content-transfer-encoding:content-disposition:dkim-signature;
+        bh=di8Lf3JfpPPZxgaNPOzXl+ZL47Y2PEH/2BVFqRUokUQ=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=akBHgTU/BhIH1/0LcpXPdgyn2Xy4j8IZ4Gyi7LkNeDPvgPPA7dZLpBPeUuFHGRF4h0
+         ib+hdvAdH9+AmDtSTxT9wVWpEiQeZcTehIdgoQ5hKNimyuEA/Ras2FKcfeJ9LcTUTkmg
+         +11GJ0kZoCKmTAhofyL2ceTMH0hZJJrtHxXK5PPG+ghe0ONNibpmYr1D9s7O82rXheyC
+         pPTy+Loz5GgpuXdipeVlEJtooEtPLzsH00LJgF8BjS/DNviiGehQr3txS9VR9VAVfSKL
+         nHHCr1oUpOehpha+JsTcHXDOWLzV/5pVt5t6B5dVcOn3X2SfpuYmsPkwa3/wyvZ0PKZm
+         CteA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ionos.com header.s=isystem1 header.b=eGzGltKN;
+       spf=pass (google.com: domain of hosting-security@ionos.com designates 212.227.15.52 as permitted sender) smtp.mailfrom=hosting-security@ionos.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=ionos.com
+Received: from mout-cscorp.1and1.com (mout-cscorp.1and1.com. [212.227.15.52])
+        by mx.google.com with ESMTPS id f19-20020a05600c155300b00405108aa9a7si412774wmg.63.2023.09.28.23.27.28
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Sep 2023 23:27:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hosting-security@ionos.com designates 212.227.15.52 as permitted sender) client-ip=212.227.15.52;
+X-UI-Sender-Class: 53a34d4a-45c6-4911-b5fb-39c792d52401
+Received: from abu-home-bs01.abuse.server.lan ([10.72.17.2]) by
+ mrs-cscorp.1and1.com (mrscorp001 [172.19.128.197]) with ESMTPSA (Nemesis) id
+ 0M2LEz-1rbsBA2mns-00s9FV for <abuse@digitalocean.com>; Fri, 29 Sep 2023
+ 08:27:28 +0200
+Received: from localhost.localdomain (localhost [127.0.0.1])
+	by abu-home-bs01.abuse.server.lan (Postfix) with ESMTP id 83AD72019EC;
+	Fri, 29 Sep 2023 06:27:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Mailer: MIME-tools 5.509 (Entity 5.509)
+X-Auto-Response-Suppress: DR,RN,NRN,OOF,AutoReply
+Subject: Abusive system found in your network - please assist! Case-ID:
+ [MR#-U2doCamTnGv4JmmfKrNHw]
+From: hosting-security via abuse <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Date: Fri, 29 Sep 2023 06:27:28 +0000
+Sender: Maurer <pmaurer@abu-home-bs01.abuse.server.lan>
+Message-Id: <20230929062728.83AD72019EC@abu-home-bs01.abuse.server.lan>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+X-CSA-Complaints: csa-complaints@eco.de
+X-Provags-ID: V03:K1:3L36sY52Kbmrx5moYwc2ivSIWbRqADL4Phv5p4Ftr+8cypYFKFY
+ Pf/45HTiOz1v32dZOJGlceFb/WTvFh2SS4e0AkffZXY99Af6rBNGIfd8/Q15fiSwgSMskNU
+ q7ye7gPz0L9dc+XaATCtC8PmLjppJLrGlBb/d7d+DFBtwD7UxtiYE3kTDOs2VwFYAMbLGVo
+ iQ3NTucyHKqH8pwo4SX4g==
+X-Original-Sender: hosting-security@ionos.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@ionos.com header.s=isystem1 header.b=eGzGltKN;       spf=pass
+ (google.com: domain of hosting-security@ionos.com designates 212.227.15.52 as
+ permitted sender) smtp.mailfrom=hosting-security@ionos.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=ionos.com
+X-Original-From: hosting-security@ionos.com
+Reply-To: hosting-security@ionos.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Dear colleagues,
+
+we have identified a system in your network that is sending phishing mails =
+via hacked contracts on our side.
+
+IP address: 167.99.38.180
+
+Details:
+
+start:	2023-09-28T16:55:19.000+00:00
+end:	2023-09-29T06:09:07.000+00:00
+sender_ip:	167.99.38.180
+mails_sent:	1302
+mailboxes_used:	1
+
+Case-ID: [MR#-U2doCamTnGv4JmmfKrNHw]
+
+The IP accessed the mailboxes using valid, but likely stolen, credentials. =
+It is very likely, the system on your end is either compromised or fraudule=
+nt.
+
+Please investigate as soon as possible!
+
+Please note that on severe - or recurring - issues, we might be forced to l=
+ock out the offending IP address from our networks.
+Do not hesitate to contact us if you need further details about this incide=
+nt. Please always provide the case id when doing so.
+
+Kind regards,
+IONOS Abuse Management
+
+--
+
+Hauptsitz Montabaur, Amtsgericht Montabaur, HRB 24498
+
+Vorstand: H=C3=BCseyin Dogan, Dr. Martin Endre=C3=9F, Claudia Frese, Arthur=
+ Mai, Dr. Markus Noga, Dr. Jens-Christian Reich, Britta Schmidt, Achim Wei=
+=C3=9F
+Aufsichtsratsvorsitzender: Sven Fritz

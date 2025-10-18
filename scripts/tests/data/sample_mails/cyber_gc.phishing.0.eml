@@ -1,0 +1,298 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id E6241766-A59F-4C41-A599-744BB2B2D35E.1
+	envelope-from <abuse+bncBAABBPOL4KPQMGQEKEJ4CCI@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Fri, 24 Feb 2023 11:55:41 +0000
+Received: by mail-ed1-f72.google.com with SMTP id ee6-20020a056402290600b004ad51f8fc36sf19220404edb.22
+        for <abuse@digitalocean.abusehq.net>; Fri, 24 Feb 2023 03:55:41 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1677239741; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=feMphqNxsuxCG68Jd/C+KudRVj28cmmpTSgX4JWE0fmOu3RjKwKPvOUvfYpwH7gP7m
+         QptFbHoDGJOcxfLIRwgjHsjrazUP23QknFyNUkj8r6NwXhl1Ep9kwN3/bw/j4IXU97xo
+         bSIjs7eif802Y6utQN+VacMxacf+DK3wIsS8luxSaV9w5Ww/eWOizbvHbu+vRqtNfB46
+         2JbJ4BX4gvyEMZEOjjMZGVuRaphyXz1qh/Q/O67ssPkm/5qjPeZR1CGVTD7TuM6L9NBU
+         fCg1gDjdGa3aL0laW0HxqptVkeaH49KcrXAf59XBrTe/RfHpIAGa4AtK/wp7ypnqu3aC
+         SY3w==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:date:message-id:to:reply-to:from
+         :mime-version:content-transfer-encoding:subject:dkim-signature;
+        bh=G1Z3a0yx+40R4c3Rz4r45TcAKPBYsfdzuM89QWIZsgA=;
+        b=SuzzEzpn9teKVO1xRJDs7P82cLxcLmOzS449XvwyvRDxKgtzhWkh3WY7kb5D29cKmm
+         ckUkPNcWnfX0b0VxcM5Wp2+3kC7jqRm1N9rRyRiQcS6d/Fsgk5/VqnJDcKlCEfSYWxQe
+         oABs1w/gDhVpr1jXpyolRaxoRWLKv41VNEU++4t2KFSuiNwPluEcdrhwaJssoiNxn9yI
+         6jX9rZZy5hLIRmlKHBR1Z8KLaUgtTwekRyu1E+0VpG/DzyWUxkrtyd5CsEpncvjDwqdO
+         S2/iNh3oFQfpnU+fHUCBFlZqxkFn8tHRFNQ0W3yGYmTklF236YxIomyi6xwJyRDrSZOT
+         bm8A==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@cyber.gc.ca header.s=selector1 header.b=sKDFJWXm;
+       arc=pass (i=1 spf=pass spfdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of notifications@cyber.gc.ca designates 2a01:111:f403:7053::617 as permitted sender) smtp.mailfrom=notifications@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:message-id:to:reply-to:from:mime-version
+         :content-transfer-encoding:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G1Z3a0yx+40R4c3Rz4r45TcAKPBYsfdzuM89QWIZsgA=;
+        b=GOOIuBGfAF8jEC5bxLFAGGdRAsFUH5W5QTKkZhJSI6+zReqEj4fWvMfVsLd4LrRntK
+         H9eyGYByltH/CXREaEYIEA52Fq7sS1T0enEcSl7nPtmVLTzvcEVMt7x6URlhgB8S34KY
+         JdXOWpMUCLOZ4+TTbiYxlmcTT3s/hYs/nB0JM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:message-id
+         :to:reply-to:from:mime-version:content-transfer-encoding:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G1Z3a0yx+40R4c3Rz4r45TcAKPBYsfdzuM89QWIZsgA=;
+        b=hepXPPflcwrQMY/DYyyCUwVsoXpr4hhuSwOdK9V+abE9UZmjO+NpTPHnmbrPnanScc
+         8w/Bi50dCwSqg4G5zIdiGjPijv7Qz4MrwCZdi701OpngEqHVPlscb0J3/gdrlD7gcmI2
+         1CtEYaWxvrWgQ788UDsSm9xXMn7Qz0H1FE1OQC+2OXREFZ0wEpSECSGgGMzV/DjHCMF1
+         GDNPmvZNnK1ummTkf4+WWJsyYwxkuprUuq6TRLc2YsxmsQqEmqtlHOQwYLlcYbVdCKLh
+         PXl+CIJBm1dHEHbfSfFV7nWswUklw8/HrPLubD3fvzkDw57W/dm5kSTc9SeiyEsgytcF
+         svJg==
+X-Gm-Message-State: AO0yUKWPt0jLGbJ/SDk4rdP5sdxd8d0LpL0EKhkxVuS/qDxLdfA/9tHR
+	8zaVRFx3dLtzU7ZJJbbr/vD6Vg==
+X-Google-Smtp-Source: AK7set8uAxDj5yAIXG51U6WT/tYja45RLJGCMqm3et575oLuSbdrocXH+bmvJ9gSVQVHunhrqZkz/g==
+X-Received: by 2002:a17:907:2be6:b0:8b1:3cdf:29cd with SMTP id gv38-20020a1709072be600b008b13cdf29cdmr10543702ejc.6.1677239741425;
+        Fri, 24 Feb 2023 03:55:41 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:907:7ea5:b0:8b1:49bd:b751 with SMTP id
+ qb37-20020a1709077ea500b008b149bdb751ls1514192ejc.11.-pod-prod-gmail; Fri, 24
+ Feb 2023 03:55:40 -0800 (PST)
+X-Received: by 2002:a17:906:e092:b0:8b1:7de3:cfb0 with SMTP id gh18-20020a170906e09200b008b17de3cfb0mr24571461ejb.2.1677239740080;
+        Fri, 24 Feb 2023 03:55:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1677239740; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=m8RWIoPaHZVKpSknBLBiXyQJ0+NFHMBbtgLcxM0IU1BmTlW9um6rTdiiX0WtZ9ANsK
+         uGXjlgLTmpmwOijP5rSMe2qNbEHU9K/c6s8fGZaAsv+Z48zACHWAwycMi0en0DHJUhxL
+         rVpz0Peq+eOfQBkshNuGkpGIChedW+kTyFqkfBafAel0KzHD7vzrjGApBHDz4YMDbB8f
+         7qHTd4UaNDAhOZVHBTCwcV1eh7+/FoNKLE4MaRgRrYoNBFp+7bi3uEXIN06NQOJ0Lx22
+         lXMew2dVGh3upxIS5+LHtGX1MlSVoRflZGrf5Gcyd7k0gvF/U9W0omiZ4m0RG3ZMEBZS
+         2edA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:to:reply-to:from:mime-version
+         :content-transfer-encoding:subject:dkim-signature;
+        bh=G1Z3a0yx+40R4c3Rz4r45TcAKPBYsfdzuM89QWIZsgA=;
+        b=NtlCra5wJ37JDGIvFiwP2tV7g7nbx9c44YNavLqLRaUxpRUoeOcYWS+vym6twtAcfT
+         QwL2sphoyBphJZZbt7eGR8Jbkgm/opyD1dUUEosXnv7F7/tLx/qqTXLTNQi/AV7JGOLb
+         43oJb/U7SYvYwiASel0h9OQlcXp3KVumf684s41ZQPoTh/7cuXEGvSBb39TkwumyI+Di
+         K2pfGynagdpqAt2+TspG9QA47u326mBUeW10vosbVj/09O6bra2UVwdMKKPMjy3a71+O
+         m4K+bDOERK9IoptuFyrR677TFAShD03BnIGWtYO0cRC+YzyxpHhxBKWbubqnZ1rjwtVF
+         cPlA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cyber.gc.ca header.s=selector1 header.b=sKDFJWXm;
+       arc=pass (i=1 spf=pass spfdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of notifications@cyber.gc.ca designates 2a01:111:f403:7053::617 as permitted sender) smtp.mailfrom=notifications@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+Received: from CAN01-YT3-obe.outbound.protection.outlook.com (mail-yt3can01on20617.outbound.protection.outlook.com. [2a01:111:f403:7053::617])
+        by mx.google.com with ESMTPS id bp14-20020a170907918e00b008e20d5e7241si10243338ejb.876.2023.02.24.03.55.39
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 Feb 2023 03:55:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of notifications@cyber.gc.ca designates 2a01:111:f403:7053::617 as permitted sender) client-ip=2a01:111:f403:7053::617;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G04dPu6UZvO+WiOtOSJJl1ggqrihU3JfclCyQ8pzpZhb8nGDjRIOAm7T13TJvLj4nwwbakJs42D+K9k0aTUpILsVJ6xN0byAb5wCoSq5RrTWJVvMq33dyMbs2XOAjQTWNJXILuoAA0f9dcStF5+JpcDjgaelFsy+iGRZlBuU6E5HKGHWWkXm8AZr7v/WRMnxhnJm1UYkLboze39dPOdPIkrLYOR902BOhoP8xAQ1sV56PQRByuuN+fa5s30itDShCMmJo3kFiDGklgBmjOLoaeKm6iVweD0P2jMkzfFwtkP1b/qkFsLwNcoXZJzR06LpZeXTLIEWO4SQZEiL48A53g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G1Z3a0yx+40R4c3Rz4r45TcAKPBYsfdzuM89QWIZsgA=;
+ b=heiz0yOKUAWMKXGNnr4tq4kS/xIVFbcnSyGOohW3JvDHa4u7kOrwjJpVl32VdYf9pk5OsSGIFEa3z+UkNu1ZaYiqCUjhiQcBQKkrOE2dgryWx31daNP9gZ6L3CbIgvfF9lhCIOxs2I38TOF6lLP3ARCuEcJZyVbZfAgwwm65nosyBo27mHfBqTmzxbRCHWMPWuUr55Y+9/iAaGnHPXiOpz8Ks2zaafw/6C9fmalISltn4L+51m+pZXhtClJgxHSvrCNMeMn0RtFWqhdW8JoZ06vxl3BQe2Hp7cbr5hNA/B1TDu+bcjDIWRdNR0XJ+ERs+8cK4rswFlVKbVyhtxVDDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 52.139.3.76) smtp.rcpttodomain=digitalocean.com smtp.mailfrom=cyber.gc.ca;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=cyber.gc.ca;
+ dkim=none (message not signed); arc=none
+Received: from BL0PR02CA0138.namprd02.prod.outlook.com (2603:10b6:208:35::43)
+ by YT2PR01MB8141.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:a4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.24; Fri, 24 Feb
+ 2023 11:55:37 +0000
+Received: from YT3CAN01FT017.eop-CAN01.prod.protection.outlook.com
+ (2603:10b6:208:35:cafe::5b) by BL0PR02CA0138.outlook.office365.com
+ (2603:10b6:208:35::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.24 via Frontend
+ Transport; Fri, 24 Feb 2023 11:55:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 52.139.3.76)
+ smtp.mailfrom=cyber.gc.ca; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=cyber.gc.ca;
+Received-SPF: Pass (protection.outlook.com: domain of cyber.gc.ca designates
+ 52.139.3.76 as permitted sender) receiver=protection.outlook.com;
+ client-ip=52.139.3.76; helo=smtp.ops.cyber.gc.ca; pr=C
+Received: from smtp.ops.cyber.gc.ca (52.139.3.76) by
+ YT3CAN01FT017.mail.protection.outlook.com (10.118.140.171) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6134.24 via Frontend Transport; Fri, 24 Feb 2023 11:55:37 +0000
+Received: by smtp.ops.cyber.gc.ca (OpenSMTPD) with ESMTP id d831e083
+	for <abuse@digitalocean.com>;
+	Fri, 24 Feb 2023 11:55:37 +0000 (UTC)
+Subject: Notification - CCCS / CCC -- Digitalocean
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+From: notifications via abuse <abuse@digitalocean.com>
+Reply-To: noreply@ops.cyber.gc.ca
+to: abuse@digitalocean.com
+Message-Id: <167724003332.1002.8606404440298618259@cyber.gc.ca>
+Date: Fri, 24 Feb 2023 12:00:33 -0000
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT3CAN01FT017:EE_|YT2PR01MB8141:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d4d6d9c-0af6-4557-ba06-08db165e0b29
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GwnK+VYXaGvkGVLkhzyxMOcK/9XXV3m8UT++TNgvC3o5mGaE9dOutQ2jj+oWeBPITlSNEaRahk2U19UQXMkG0He+RpKlSIRwLnhvQhp/UhF5Ddkqu6Y6Vvr2vWFPdCjwbIUkXyhsSMghCnngGPDFtcfOH0BQQmw/DYgtckcH+8IyJ84xgU16/P5q49+NX1sKW4s4+WBsn796pQDO/QZ9sBTkv7YF/ozaL8KKp2xvjjoRQYhfqydtJ782YFFPc5LCofLgdBtcaT1ezXnwD28z3IzR1KTvtrFTm718vSpIxGT4BoeICTJC7E0DMT9iEYTTDqYqT2zlcs6klRmzDRgrtUH7l/m9NJ5ahl94xb18mLJhH4JVLoB7oUX10Yhb2UTiwJcNYk48VaPsbBvL+HmWyB+YT6WOlugpV9gBwU+NeUssyGu/MbytKXBrDiToHHfImb95UCx163c6OjLUK08srHTj7EgRbWMfvcwWKETaymJp3cDrz+vJ5VjVKPjPICd3bzglox06mSFmPlV+VkfuGSzZPWX3af+3g+NQo6h7A2hOv4adbE5LTed13iJIDvnd/h93I5mngMQKmh3lbSEtyOBfZNx+Aj/PDKSchExGHOAlBSxTwhcBG8OZdZcVJQfLf83of2wvb7QdLwM34SAs5vfVZApCkRrPnSrqd6rQyjzfk71BOch2uk6h0TLWYbfb
+X-Forefront-Antispam-Report: CIP:52.139.3.76;CTRY:CA;LANG:fr;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp.ops.cyber.gc.ca;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(346002)(376002)(39860400002)(451199018)(36840700001)(46966006)(6916009)(8676002)(70206006)(70586007)(82310400005)(83380400001)(86362001)(66574015)(2616005)(82960400001)(40480700001)(47076005)(9686003)(336012)(356005)(36860700001)(81166007)(82740400003)(36756003)(42186006)(316002)(40140700001)(6666004)(186003)(26005)(478600001)(966005)(66899018)(5660300002)(2906002)(15650500001)(41300700001)(8936002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: cyber.gc.ca
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 11:55:37.3078
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d4d6d9c-0af6-4557-ba06-08db165e0b29
+X-MS-Exchange-CrossTenant-Id: da9cbe40-ec1e-4997-afb3-17d87574571a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da9cbe40-ec1e-4997-afb3-17d87574571a;Ip=[52.139.3.76];Helo=[smtp.ops.cyber.gc.ca]
+X-MS-Exchange-CrossTenant-AuthSource: YT3CAN01FT017.eop-CAN01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT2PR01MB8141
+X-Original-Sender: notifications@cyber.gc.ca
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cyber.gc.ca header.s=selector1 header.b=sKDFJWXm;       arc=pass
+ (i=1 spf=pass spfdomain=cyber.gc.ca dmarc=pass fromdomain=cyber.gc.ca);
+       spf=pass (google.com: domain of notifications@cyber.gc.ca designates
+ 2a01:111:f403:7053::617 as permitted sender) smtp.mailfrom=notifications@cyber.gc.ca;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cyber.gc.ca
+X-Original-From: notifications@cyber.gc.ca
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+(La version fran=C3=A7aise suit la version anglaise)=20
+=20
+TLP:AMBER=20
+=20
+**********************************************
+CANADIAN CENTRE FOR CYBER SECURITY (CCCS) NOTIFICATION
+**********************************************
+Your organization is receiving this notification because a host(s) within you=
+r area of responsibility has been identified by a trusted partner as being af=
+fected by one of the following events:=20
+-	infected with malware,=20
+-	participating in malicious behaviour,=20
+-	exposed or vulnerable, or=20
+-	has been a victim of malicious activity.=20
+The National Cyber Threat Notification System (NCTNS) is a service through wh=
+ich trusted partners provide reports to the Canadian Centre for Cyber Securit=
+y (Cyber Centre) concerning hosts in Canada that may be affected by one of th=
+e above. These are provided as-is so that they can be reviewed to address the=
+ reported event.=20
+=20
+NOTIFICATION REPORT=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Start time UTC: 2023-02-23 12:00:36Z  =20
+End time UTC: 2023-02-24 12:00:33Z  =20
+  =20
+CSV: https://notifications.ops.cyber.gc.ca:8443/u/shfpjkxyhb5l3ae2syxe1onxedc=
+zhqxn?limit=3D10000  =20
+  =20
+JSON: https://notifications.ops.cyber.gc.ca:8443/u/q5wcplbbh2hiebtqf8g59g5l8z=
+zo5rjx?limit=3D10000  =20
+  =20
+HTML: https://notifications.ops.cyber.gc.ca:8443/u/fm3qdef1ptfh09eybayx5mtz0b=
+8eirzd?limit=3D10000  =20
+  =20
+GENERAL CYBER RELATED QUESTION=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=20
+Email: contact@cyber.gc.ca=20
+Toll Free: 1-833-CYBER-88 (1-833-292-3788)=20
+Local: 613-949-7048=20
+=20
+NOTE TO READERS=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+The Canadian Centre for Cyber Security (Cyber Centre) operates as part of the=
+ Communications Security Establishment. We are Canada=E2=80=99s national auth=
+ority on cyber security and we lead the government=E2=80=99s response to cybe=
+r security events. As Canada's national computer security incident response t=
+eam, the Cyber Centre works in close collaboration with government department=
+s, critical infrastructure, Canadian businesses and international partners to=
+ prepare for, respond to, mitigate, and recover from cyber events. We do this=
+ by providing authoritative advice and support, and coordinating information =
+sharing and incident response. The Cyber Centre is outward-facing, welcoming =
+partnerships that help build a stronger, more resilient cyber space in Canada=
+.=20
+=20
+---------------------------------=20
+=20
+TLP:AMBER=20
+=20
+****************************************************
+NOTIFICATION DU CENTRE CANADIEN POUR LA CYBERS=C3=89CURIT=C3=89 (CCC)
+****************************************************
+Votre organisme re=C3=A7oit cette notification puisqu=E2=80=99un partenaire d=
+e confiance a signal=C3=A9 qu'un ou des h=C3=B4tes dans votre secteur de resp=
+onsabilit=C3=A9 avaient :=20
+-	=C3=A9t=C3=A9 infect=C3=A9s par maliciel;=20
+-	particip=C3=A9 =C3=A0 des comportements malveillants;=20
+-	=C3=A9t=C3=A9 expos=C3=A9s ou vuln=C3=A9rables;=20
+-	=C3=A9t=C3=A9 victime d=E2=80=99activit=C3=A9s malveillantes.=20
+Le Syst=C3=A8me national de notification de cybermenace (SNNC) est un service=
+ permettant aux partenaires de confiance de signaler au Centre canadien pour =
+la cybers=C3=A9curit=C3=A9 (Centre pour la cybers=C3=A9curit=C3=A9) les h=C3=
+=B4tes au Canada qui peuvent =C3=AAtre touch=C3=A9s par l=E2=80=99un ou plusi=
+eurs des =C3=A9v=C3=A9nements susmentionn=C3=A9s. Ces signalements sont fourn=
+is tels quels afin de permettre d=E2=80=99examiner les =C3=A9v=C3=A9nements e=
+t de les corriger.=20
+=20
+RAPPORT DE LA NOTIFICATION=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Heure de d=C3=A9but UTC: 2023-02-23 12:00:36Z  =20
+Heure de fin UTC: 2023-02-24 12:00:33Z  =20
+=20
+CSV: https://notifications.ops.cyber.gc.ca:8443/u/shfpjkxyhb5l3ae2syxe1onxedc=
+zhqxn?limit=3D10000  =20
+=20
+JSON: https://notifications.ops.cyber.gc.ca:8443/u/q5wcplbbh2hiebtqf8g59g5l8z=
+zo5rjx?limit=3D10000  =20
+=20
+HTML: https://notifications.ops.cyber.gc.ca:8443/u/fm3qdef1ptfh09eybayx5mtz0b=
+8eirzd?limit=3D10000  =20
+=20
+QUESTION DE NATURE G=C3=89N=C3=89RALE SUR LA CYBERS=C3=89CURIT=C3=89=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Courriel : contact@cyber.gc.ca=20
+Num=C3=A9ro sans frais : 1-833-CYBER-88 (1-833-292-3788)=20
+Local : 613-949-7048=20
+=20
+NOTE AUX LECTEURS=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Le Centre canadien pour la cybers=C3=A9curit=C3=A9 (Centre pour la cybers=C3=
+=A9curit=C3=A9) m=C3=A8ne ses activit=C3=A9s sous l=E2=80=99=C3=A9gide du Cen=
+tre de la s=C3=A9curit=C3=A9 des t=C3=A9l=C3=A9communications. Il constitue l=
+=E2=80=99autorit=C3=A9 canadienne en mati=C3=A8re de cybers=C3=A9curit=C3=A9 =
+et dirige les interventions du gouvernement lors d=E2=80=99=C3=A9v=C3=A9nemen=
+ts li=C3=A9s =C3=A0 la cybers=C3=A9curit=C3=A9. Le personnel du Centre pour l=
+a cybers=C3=A9curit=C3=A9 agit =C3=A0 titre d=E2=80=99=C3=A9quipe nationale d=
+=E2=80=99intervention en cas d=E2=80=99incident li=C3=A9 =C3=A0 la s=C3=A9cur=
+it=C3=A9 informatique et travaille =C3=A9troitement avec les minist=C3=A8res,=
+ les propri=C3=A9taires et exploitants d=E2=80=99infrastructures essentielles=
+, les entreprises canadiennes et des partenaires internationaux pour interven=
+ir en cas d=E2=80=99incident de cybers=C3=A9curit=C3=A9 ou pour att=C3=A9nuer=
+ les cons=C3=A9quences en d=C3=A9coulant. Ce faisant, il offre conseils et so=
+utien d=E2=80=99expert et coordonne les communications d=E2=80=99information =
+et l=E2=80=99intervention en cas d=E2=80=99incident. Le Centre pour la cybers=
+=C3=A9curit=C3=A9 est =C3=A0 l=E2=80=99=C3=A9coute des entit=C3=A9s externes =
+et favorise les partenariats visant =C3=A0 cr=C3=A9er un cyberespace canadien=
+ fort et r=C3=A9silient.

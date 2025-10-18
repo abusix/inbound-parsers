@@ -1,0 +1,146 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo.com header.d=ipxo.com header.s=selector1
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01hn2205.outbound.protection.outlook.com [52.100.178.205])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 892BA8D8-A98C-410D-9C8F-D2CAFE975C47.1
+	envelope-from <abuse@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 21 Jul 2023 10:34:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DxVku4m8kv8lwDWe+DDol0MDGUSyjHayNK7y+4kTtZWUKIBrNXbdTuGpU7iPyu15POLWQeR+pJebzFUmJpT+1kxTqh67Y3yC9c/SKB8enLwsmhvpOKEuXAXObC/GiyJzLzQdr6WoRNDWNLXqeeBF7NgQ6020n0Wg5Az+NFKjP2mAgmeNpLZ2l8ksMVEi8zZXDnG9JBFZ97wRzAFJxTBMoIG0S/II//uTm9gOhiszXi1dWh4YxFgVGolVU+J1KpNiNq2AMpjZqqak834HgYTp5koFql6q8wcfPS4IjQxhCLHEeGefSUWtJDjyWva3MtH5MkuCTSdcqj0pyzfFmuq3mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5fshyAYf6CAiCxdvLOn3SaokAR42E1byBlWorf+oAYk=;
+ b=CVIB4omdWyZaMDMrgplFNWAClMRgSCIC1Pg9a7qJMUfBrFG7zn1aZzBS9eXrTNbisyEXAbUzAta2I+oen91C7+tHdUbXKdeEMVddI8aip9660UUH6mA1lX/sm176x8PoTMR6NPNW5QH8M4v/7lCzEAynq3m/ZeObwkvkKzfJwK7gb3fzT3g1Skpqc9nvrTGp5IV2aya27M8DD+Wqil0rm8Pia9OfMvvThCLkE4cRkWwH5sJqafU8XpmU5IpEzjdTAfdk9+WQh0xK13LxXq0in6BDKaQVUxai27Zb2AUKhW3/4vz375jB68ZoDYQCcvWW3AJlwxevq1etDZD/kC9lsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 192.163.206.80) smtp.rcpttodomain=ipxo.com smtp.mailfrom=ipxo.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine header.from=ipxo.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5fshyAYf6CAiCxdvLOn3SaokAR42E1byBlWorf+oAYk=;
+ b=dwowYm9yCN+SDKPxq30EHf/Vg0n2CU3nTn3hRGNUFOih3wCP/uXOMJtJfvpHqFXOyYeietWNh6obWk6OofXayJZl/HATJuOsDt90y8bL6rQS0T+pC+/KV3ewGZS6B2VNP6psrrEYMtikIl+QneKonrCRzoPgwsSh1llpjDXA2Z4VHm+oAWffxA2aSHs/ANdk3W+NahGL/ciOJTwI4p4OTp8vfHG19Ina8MpcjhzDkPv0gfgg+KS/1odAw49YUrB9mflum57ksVMg1hDkzNievXqwPrynytzSI1pRim4Ar3HET+qMLPpsMN83t/B0/k0knQ6vv+hXsduTdzhEX881bw==
+Received: from CWLP123CA0165.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:88::33)
+ by LO0P302MB0082.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:360::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28; Fri, 21 Jul
+ 2023 10:34:51 +0000
+Received: from CWLGBR01FT039.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:401:88:cafe::30) by CWLP123CA0165.outlook.office365.com
+ (2603:10a6:401:88::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28 via Frontend
+ Transport; Fri, 21 Jul 2023 10:34:51 +0000
+Received-SPF: Fail (protection.outlook.com: domain of ipxo.com does not
+ designate 192.163.206.80 as permitted sender)
+ receiver=protection.outlook.com; client-ip=192.163.206.80;
+ helo=server.hovskyinnovations.com;
+Received: from server.hovskyinnovations.com (192.163.206.80) by
+ CWLGBR01FT039.mail.protection.outlook.com (10.152.40.167) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6609.28 via Frontend Transport; Fri, 21 Jul 2023 10:34:51 +0000
+Received: from v-192-223-25-72.unman-vds.premium-seattle.nfoservers.com ([192.223.25.72]:51593 helo=ipxo.com)
+	by blackroot.vashovskycorp.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <abuse@ipxo.com>)
+	id 1qKYcH-00039Q-9J;
+	Sat, 15 Jul 2023 00:18:53 -0600
+From: Netcraft Takedown Service <abuse@ipxo.com>
+To: dennis.steffan@fu-berlin.de
+Subject: Issue 44710802: Server involved in fraud at 154.16.78.112
+Date: 14 Jul 2023 23:18:51 -0700
+Message-ID: <20230714231850.A2B1ABE3590C3226@ipxo.com>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - blackroot.vashovskycorp.com
+X-AntiAbuse: Original Domain - ipxo.com
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - ipxo.com
+X-Get-Message-Sender-Via: blackroot.vashovskycorp.com: authenticated_id: admin@aws.amazon.com
+X-Authenticated-Sender: blackroot.vashovskycorp.com: admin@aws.amazon.com
+Return-Path: abuse@ipxo.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLGBR01FT039:EE_|LO0P302MB0082:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c92a432-134d-4fa0-1e60-08db89d61dac
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?TW55HSBAI581OEsles78TKX/c9vEiqx5Jo35IWYGUbn03GSYJyGV4ZgPx2V2?=
+ =?us-ascii?Q?QlsWoDXqdMOtXUEZUWuPFw2gMqVK/ndkw82TT7yomNBegnMSNWKubbavvz6W?=
+ =?us-ascii?Q?JG7ezctaC+t/89nx8F/SiWck72/wV1W/WzZ0f1QwImKJU325fnYzxOwCxa9l?=
+ =?us-ascii?Q?JfRf57c8RL5k6r8PhmCRYsrIVaFZaoSA9poNxAUbDa6pB2P619TESYTvJiRn?=
+ =?us-ascii?Q?dDvs573f1qYy0vxHjodt4EWh0CcEYJt7yjUH2Hmc4Ulxba5WWEQXYtXtgLLm?=
+ =?us-ascii?Q?2V5T2pjX2at8YyoV+PitO7Q9BMVD75tbncXf+LdyneC2+sOg/bLjzeihyYOL?=
+ =?us-ascii?Q?1FTSSFQRAzJ8IPwk3prFnCezoLVsBDBhypozgYCilzwzD9lfYvhdPP/lXw89?=
+ =?us-ascii?Q?Z35rrY91qB6uvCCAThuNGQ0EMK/FRZDTylE+tvGuoh8QXDZ7Au0F7y4TNH8Z?=
+ =?us-ascii?Q?Vpuj0UpDE6jNYbtOooh4nuUesY1FQSLJxdlxpqNd1lEn8zKRLlAusXgl5xRW?=
+ =?us-ascii?Q?rQVE1lCPlyFiz5K8jz0ogwVb1ohGnQjBeayjekiRNL4B72dADKWj0USlzlLL?=
+ =?us-ascii?Q?ZP1JjG2AyO+FHZ+8E/isdvRuX3GmTh4q0VfexHa8c0REXfF/cUaVcY23KeJm?=
+ =?us-ascii?Q?h/8WLIyg1QgtWvgoxQEnNGF6hnlJQUWdGiFf64ndbbMK0NKJDpQdWWytxCTW?=
+ =?us-ascii?Q?VCvR9o0TKSUfRwO6bb1WeHFcMDe/ti8Ec9/OU6wBHLTMB/BJnPgVGCQJke7o?=
+ =?us-ascii?Q?4nIpDPPZ9O9hP3YjdQJzMetXiE3T729eK2HDmBBqZ2KcF5h0xXH0Clw1dTut?=
+ =?us-ascii?Q?BbJu8CVsux0mldtRXqsl856LXVjF8noYO6sf9SyZ8kQvdNyMZGRM9+GIXx9B?=
+ =?us-ascii?Q?NelRoVUAkYg7jvm/a0iLqs1sXPM88e+skhz3W9uuNwnPPcEOo2xJJJAgaNDJ?=
+ =?us-ascii?Q?FZIeKfW2sCCxVwI6pRwYJsCCHJWrKKeMrDOAePY0900gr0CgkkNb+42NUffu?=
+ =?us-ascii?Q?r7qyqDggOAMmZMfDOZZ5ibg/kseWXu2G9EbD3rAHKrtVL/sRJ5vAQUW7lHaY?=
+ =?us-ascii?Q?/vOHypAu9zGMNbm+ZY1angQ0IUtHpEKAJfFPNkwUsHuaH5nUP887BiB/Ze6k?=
+ =?us-ascii?Q?1YV/4pNISmwl9ZJgaAJTuy8cXOrkOVmgtQi5uVEqd8MaEZYWBi6h3S4IC5bU?=
+ =?us-ascii?Q?tcdAAEAy+haLTpgCaKZBPIwF99v1lnt/fuQGfE7QObHQrn4F6rSSZ0vGbqFs?=
+ =?us-ascii?Q?CAE4yusHCwD9+47vyPD84QPaDDG2800CW+wryx5QSIgM2wWENqofqRFUm0ZP?=
+ =?us-ascii?Q?06+yTs4SZgLmpHCzxZqbhTOkIgo5BlhIpzH4LiWhqHIYbvtn+pvDQPoJtNkG?=
+ =?us-ascii?Q?6XZUJ/rtJbLaCUUoj1G9jKPDz3amRCNfbkBOyKAFdtkVBIDkAxLT7MOa2OgA?=
+ =?us-ascii?Q?Y9CiOeriV1NkvI+jN+GXoIMBllXAanVHZTJZ5oOAFpyrxYwNp0SHHk+2+8lT?=
+ =?us-ascii?Q?SKEV0kbjykEIMOQXZIc0oSBlmtTjrtO3orzy7ooJxPD9Q1BPFyjgGZAisTnc?=
+ =?us-ascii?Q?rjy9oIfB+ZFH1kcNPUMYbXHs5kZFuvCBF2/11s6QHFm6FWbPMK2bnMzYG6FW?=
+ =?us-ascii?Q?DSJjwdnsgg3JTvrKPnhdaCI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:192.163.206.80;CTRY:US;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:server.hovskyinnovations.com;PTR:server.hovskyinnovations.com;CAT:OSPM;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(346002)(136003)(451199021)(103936005)(336012)(1076003)(26005)(33656002)(8676002)(9786002)(34206002)(5660300002)(86362001)(15650500001)(4744005)(2906002)(36756003)(478600001)(6966003)(316002)(70586007)(68406010)(54836003)(966005)(7696005)(356005)(7596003)(7636003)(83380400001)(166002)(956004)(2616005)(500100020)(84240200001);DIR:OUT;SFP:1501;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2023 10:34:51.3608
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c92a432-134d-4fa0-1e60-08db89d61dac
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	CWLGBR01FT039.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P302MB0082
+Original-Authentication-Results: spf=fail (sender IP is 192.163.206.80)
+ smtp.mailfrom=ipxo.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=ipxo.com;
+
+<html><head>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19180">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><p><span>Hello,</span><br><br><span>We have discovered an email serve=
+r on your network that is sending e-mail</span><br><span>messages containin=
+g a malicious attachment.</span><br><br><span>We previously contacted you a=
+bout this issue on 7/14/2023 11:18:50 p.m.</span><br><br><span>We have atta=
+ched an example fraudulent e-mail demonstrating the e-mail server's</span><=
+br><span>involvement.&nbsp; Please close down this attack as soon as possib=
+le.</span><br><br><span>
+More information about the detected issue is provided at</span><br><a href=
+=3D"https://incident.netcraft.com/">https://incident.netcraft.com/</a><br><=
+br><span>Many thanks,</span><br><br><span>Netcraft</span><br><br><span>Phon=
+e: +44(0)1225 447500</span><br><span>Fax: +44(0)1225 448600</span><br><span=
+>Netcraft Issue Number: 44710802</span><br><br><span>To contact us about up=
+dates regarding this attack, please respond to this email.</span><br><span>=
+
+Please note: replies to this address will be logged, but aren't always read=
+=2E If</span><br><span>you believe you have received this email in error, o=
+r you require further</span><br><span>support, please contact:&nbsp;</span>=
+<a href=3D"mailto:takedown@netcraft.com" rel=3D"noreferrer">takedown@netcra=
+ft.com</a><span>.</span><br><br><span>This message follows the Abuse Report=
+ing Format (ARF) so can be processed</span><br><span>automatically. See&nbs=
+p;</span>
+<a href=3D"http://www.mipassoc.org/arf/" target=3D"_blank" rel=3D"noopener =
+noreferrer">http://www.mipassoc.org/arf/</a><span>&nbsp;for more informatio=
+n</span></p></body></html>

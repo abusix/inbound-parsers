@@ -1,0 +1,205 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@cert.ro header.d=cert.ro header.s=semnatSTS
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01on2051.outbound.protection.outlook.com [40.107.122.51])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 142EE265-6847-4F0F-989C-E9BDC3D4AFCF.1
+	envelope-from <bounces+SRS=2sfNK=FN@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Fri, 29 Sep 2023 09:08:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GY76ph4xJiFLzrmiMz0Db11lxvC0caOgzCOvGGfen00m3moCsKmNCS0cG+UA4AABPPJxROrfdBxOPwR1IWFb1d0JWBWTaxRneswdSQPwZWIaXImm+YzLml9YpPYQvNc0WJOWvJMcs6yolx1oinX+u2qxoCqeA9Fy9i60W0iOXkQqf4TWx6toYP1o/1DEV3aDT3QRWnmF9GEJghNOHmrCnuVra3ijM2ARHzkTICv8LHFPtj78FMQgGWEpNbha0oYVKQFxXILqe9IpVWzQOnl9inFJzvW2tkW4dBmeGwuEomn9r7Lx94bKkdJs7ydvIs+afWVM5g9T7JAf8IzNqWiwMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WaXAF0o7i88pM3Dj9T+QzUzn5e9MMS4fVi0r+yOf/jQ=;
+ b=ag2oZMS91bvr0p0RlnrdMf+TMsEb02Nu1USfvsl9I2CJa4neZPHnCiOo5FTtNvplNLwscw0IiSKnFJtMga5XUt2shsa/qWJwz7mJlMljTW0doqupjStKGbonHJjGWTvNkJB5wt9fsTp9NgRbKUYqMI03f0vNiXyETH3k/B7r9qEqhRMI2VAegUa+ayYAVPCZg2lGF96Vgq/q5s7DDLinlwwYoccNe5MKyz6FUjKeEf5bnQwGzDBZd+ZONGSnuoloHRNWJbFKjL6UZBC1vhJVf3cAREBwkGxSVw7/gSVezDjWgD8KT28Vftki7P7NKg+mTPTk0wkdICsn2L4be6+Kbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 213.177.28.103) smtp.rcpttodomain=ipxo.com smtp.mailfrom=dnsc.ro; dmarc=pass
+ (p=reject sp=none pct=100) action=none header.from=cert.ro; dkim=pass
+ (signature was verified) header.d=cert.ro; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WaXAF0o7i88pM3Dj9T+QzUzn5e9MMS4fVi0r+yOf/jQ=;
+ b=yiZi0jwXyS4nLiKpA03IZcPbdnDqv/mhX9twZCiLXsmygkvRyeWHozHyg5fF+XPsixhw1IiYGiCtNrCPn6opWnew/AIfVTefS4klvgNQ9GD+CEYwq4zacQ4vixboCPvHCkxWZYmvMpxTG0NfjUAbLKdS9BJH0utHiFZdJfHGxgoe+8MdnQMZuQOlWlSuhXOvqB9w0KbBR9paRudjdgpSP24D6aOx6JaNP11N+fRqqFJY3Ko5xrBW0VTwdZVa7HqsCXm1IOlROzWoj4cbwXe13mklDutrotp8BQBWqnd3LmzV4gj1gs4BJ3r63spv0ohPuVjZXAPD9OCBV35YR6z8Lg==
+Received: from CWLP265CA0335.GBRP265.PROD.OUTLOOK.COM (2603:10a6:401:57::35)
+ by LO2P302MB0123.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:375::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.24; Fri, 29 Sep
+ 2023 09:08:57 +0000
+Received: from CWLGBR01FT013.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:401:57:cafe::4c) by CWLP265CA0335.outlook.office365.com
+ (2603:10a6:401:57::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.26 via Frontend
+ Transport; Fri, 29 Sep 2023 09:08:57 +0000
+Received-SPF: Pass (protection.outlook.com: domain of dnsc.ro designates
+ 213.177.28.103 as permitted sender) receiver=protection.outlook.com;
+ client-ip=213.177.28.103; helo=213.177.28.103.cert.ro; pr=C
+Received: from 213.177.28.103.cert.ro (213.177.28.103) by
+ CWLGBR01FT013.mail.protection.outlook.com (10.152.40.102) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6863.15 via Frontend Transport; Fri, 29 Sep 2023 09:08:56 +0000
+Received: from mx2.cert.ro ([192.166.122.35])
+	by 213.177.28.103.cert.ro  with ESMTP id 38T98tt9007091-38T98ttB007091
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
+	for <abuse@ipxo.com>; Fri, 29 Sep 2023 12:08:55 +0300
+Received: from rtir.cert.ro (192.168.210.53) by mx2.cert.ro (Axigen)
+ with ESMTP id 11BE02; Fri, 29 Sep 2023 12:08:55 +0300
+Received: by rtir.cert.ro (Postfix, from userid 48)	id 2398A196D24;
+ Fri, 29 Sep 2023 12:16:18 +0300 (EEST)
+Subject: [DNSC #2210230] Cybersecurity incident [ DDoS --- Cybersecurity
+ incident [ DDoS  --- 80.94.92.16 ] ]
+From: "operator-6 via RT" <alerts@cert.ro>
+Reply-To: alerts@cert.ro
+In-Reply-To:
+References: <RT-Ticket-2210230@CERT-RO>
+Message-ID: <rt-4.4.4-2072-1695978977-489.2210230-39-0@CERT-RO>
+X-RT-Loop-Prevention: DNSC
+X-RT-Ticket: DNSC #2210230
+X-Managed-BY: RT 4.4.4 (http://www.bestpractical.com/rt/)
+To: abuse@ipxo.com
+X-RT-Original-Encoding: utf-8
+Precedence: bulk
+Date: Fri, 29 Sep 2023 12:16:18 +0300
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="----------=_1695978978-2072-81";
+ micalg="pgp-sha1"; protocol="application/pgp-signature"
+Received-SPF: fail (dnsc.ro: domain of apache@dnsc.ro does not designate
+ 192.168.210.53 as permitted sender) client-ip=192.168.210.53;
+ envelope-from=apache@dnsc.ro; mechanism=default; identity=mailfrom;
+ receiver=mx2.cert.ro;
+X-AXIGEN-SPF-Result: Failed
+X-FEAS-Client-IP: 192.166.122.35
+X-FE-Last-Public-Client-IP: 192.166.122.35
+X-FE-Policy-ID: 3:3:0:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=cert.ro; s=semnatSTS; c=relaxed/relaxed;
+ h=subject:from:reply-to:references:message-id:to:date:mime-version:content-type;
+ bh=WaXAF0o7i88pM3Dj9T+QzUzn5e9MMS4fVi0r+yOf/jQ=;
+ b=gy19MLIcMhl9GpBYAncUzPUyEBgpBkI/Mh4/IbeOxejuO3FgiUbfco9hXJ43u2SJEQr4kZuBku/z
+	PCo6wG15rUqF9T/G55BNhw17osXtN1+tDtumO26X2LGAJOPqBrtLRQWnx3TTj4vJEUNgNIcZwrWT
+	gxgh2QImTBGkLpSQCb961mQ9EKa4uRoYkxcJC1GyC+48QUBxR/4NhjbEoXecQh3T1to29n51NuhD
+	XNo1SJg37aY8c/m9dC5AZFDLCu7d4vZYOx6aneQfVKcIGHMD3jVOy51j3Ltx8UnpSTORj+i1ZbSN
+	5vYNV+fxQ9dCNq+UeUMsC9BitXnxpm5ZJA+BoA==
+Return-Path: apache@dnsc.ro
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLGBR01FT013:EE_|LO2P302MB0123:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea929f3e-1b5f-413e-9998-08dbc0cbb60a
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	kumdgtpLsgtFC0rf5HKMe8/Ri9aIbJplcrtHTCa9VWR9N4h1rN+y827oopWjHTsO0XN4dSq9BzfdYa+9YgiBIcDKTVK84UwcwSD531mDSrpy4sfQCBJ0reqLJCXR+1cbJozLm3yimM3jxpfOfSJV0Kn4NrQNn8Aew88ZjxkVJJCbVPPziKymZfe92ma/l9mBn9frtdow21z0zG+Z1XofgnUlakknZKqyN60200GzBNQl+Ymt02gI3qdMYitotKtCWu0XGzz0jAdei0ws3VWed7rGx6l5qo6DiBZW6JDf26OYfsW3829dvzO3Ck2A0xS8X50ZaUOBxfUrcrwRZpHyqhwNxzbz6w0IN5iOjVQ3BdNrWdQCiflDnvoESr6MnNevP4/cIOaAOQqs9blqopmnbmmX5WruzBVv/lTmPlpuiB20AdmnNxVt2OW1HYESjJvhEkd3JHxxNX23RrH4O5aGcI/fa8cbWr3lovqed1M3krnrXNziTgA6giTnk0iqNB4Gi5nrHjy08Ovr2oEmBhU5TDIrF3rfnUyiGRCgKdg54yDBfS5QuOqbp1jUbEE704RYxJzNbzU/DfHZbiji1EyxFF/e6gIoDxSsTJvZVS5eUXTEzqivtEmuVUQ4AMArD0ttCOiS78CiHeF25DktHgAyvZgKkMqsahp7bmSxd85UmLBynD7MT2fd28ZOqd/lWfPhOgCqhrX15buRm9putFRNr8zdvqyAXZJIgf5haF2XBdODMShHMZo2dWmq2YzetGyers/J3pHiyfsHXr3a/InecF9VloSe0xiQQj3UAHVLy5g=
+X-Forefront-Antispam-Report:
+	CIP:213.177.28.103;CTRY:RO;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:213.177.28.103.cert.ro;PTR:mail.cert.ro;CAT:NONE;SFS:(13230031)(6049001)(4636009)(346002)(396003)(376002)(136003)(39850400004)(61400799006)(451199024)(64100799003)(9686003)(2906002)(33964004)(83170400001)(42186006)(68406010)(70586007)(498600001)(336012)(966005)(83380400001)(33716001)(8676002)(26005)(66574015)(6266002)(356005)(7636003)(426003)(42882007)(3450700001)(5660300002)(316002)(34206002)(44144004)(102196002);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2023 09:08:56.4036
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea929f3e-1b5f-413e-9998-08dbc0cbb60a
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	CWLGBR01FT013.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P302MB0123
+Original-Authentication-Results: spf=pass (sender IP is 213.177.28.103)
+ smtp.mailfrom=dnsc.ro; dkim=pass (signature was verified)
+ header.d=cert.ro;dmarc=pass action=none header.from=cert.ro;
+
+This is a multi-part message in MIME format...
+
+------------=_1695978978-2072-81
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+Hello,
+
+As a result of measures taken by the National Cyber Security Directorate
+(DNSC), we would like to inform you that the IPs below are being used in DD=
+oS
+attacks.
+
+Please take the necessary measures to remedy this situation. Please provide=
+ us
+with feedback as soon as possible on the measures taken in this case.
+Please note that you are receiving this email because you are a contact per=
+son
+for the URL/IP in question (WHOIS records).
+
+----------- DETAILS ------------
+
+ Timestamp                    Country Name  Src ASN                      AS=
+N Number  Source IP   Source Port  DNS Name  Destination Port  Request Pack=
+et  Count=20
+ Sep 28, 2023 @ 19:51:53.172  Romania       ITP-Solutions GmbH & Co. KG  21=
+3250      89.42.88.6  8888         sl        53                dns         =
+    1=20=20=20=20=20
+
+-----------------------------------
+
+The DNSC is the national competent authority for the civilian national
+cyberspace and for the management of cybersecurity risks and incidents, as
+provided for in Article 3, para. (2) of GEO no. 104 / 22 September 2021
+approved by Law no. 11 / 07 January 2022.
+
+Regards,
+DNSC Team
+-----------------------
+The Romanian National Cyber Security Directorate
+
+T: 1911
+E: alerte@dnsc.ro
+SM: https://linktr.ee/dnsc.ro
+
+
+
+----------
+Directoratul Na=C8=9Bional de Securitate Cibernetic=C4=83 / DNSC / The Roma=
+nian National Cyber Security Directorate
+
+T: 1911
+E: alerts@dnsc.ro
+
+WWW: https://www.dnsc.ro
+Twitter: @DNSC_RO
+FB: https://www.facebook.com/DNSC.RO/
+YT: https://www.youtube.com/c/CERTROch
+
+DNSC este autoritatea competent=C4=83 la nivel na=C8=9Bional pentru spa=C8=
+=9Biul cibernetic na=C8=9Bional civil, precum =C8=99i pentru gestionarea ri=
+scurilor =C8=99i a incidentelor de securitate cibernetic=C4=83. Echipa CSIR=
+T/CERT na=C8=9Bional=C4=83 a Rom=C3=A2niei este parte a DNSC.
+
+The Directorate is the nationally competent authority for the national civi=
+lian cyberspace as well as for the management of cybersecurity risks and in=
+cidents. The Romanian national CSIRTs/CERT team is part of the Directorate.=
+
+------------=_1695978978-2072-81
+Content-Type: application/pgp-signature
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAABAgAGBQJlFpXiAAoJEJPckKOjGWWtzn0P/3SIdnG6Nc+/Hegzr7aw10AU
+plj2yKqX3YeA6Tj/3Fykg3fRmU5CM5rSvwPDkwjPOdGlyMwtfNrsS6PKLJ/PBBmv
+5p6h899PyPttHqcis+8kG9OOQ6ArcKWwrMqh+Y9y/A9YwRJZ8uNw5UbNcbg+YhF9
+yS4pA3AFzw1DtGfh8bn9NT0ONGHeTTzqNMd71cP1sqdaaBw9MAdUAevdnX7ZT/eX
+L2aU2xM4jotOG8VgkgLK1MTBIgZLbpkACDG669VyO2zd3fz+wq8sz86+nxVOBpTY
+eQ8vzjnhqUctgi0hiktRpCv13MG7bHswNVljt8wYrPYbINVxMwWY+l874pcJy15+
+59qRK4qWv60cY6O3Mok3Q4MV667Niof54y6kOr5JPCWCGrbOWJa/CcQaw67TBCfK
+R4KwiwEp5/jfr7bsuUfOHMiHJdTJzBSQhC6z1K7tZtUxrrOPEHgQtY4bMTgk5thW
+Q0uSJ+GEow2Wnq7kBorwsxg8phGkU+/vrhejhj4PeeHjJAwSKIK13taMiXPa2bNo
+B3KKP3OAI2dX31vz3lkc+U3+Nis2L6ytkRjP/BEuNGs/QKN8t3u2rY1kfJYeL1RL
+zRwiwRyTYHccQGo1vVp/McBRxOGkHySzUcADqDyGLU/nzz7KDOYtzWexbtRa0BGn
+9+4l3ux/zwRlaik70POL
+=8ES8
+-----END PGP SIGNATURE-----
+
+------------=_1695978978-2072-81--

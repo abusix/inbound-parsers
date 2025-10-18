@@ -1,0 +1,426 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@linode.com header.d=linode.com header.s=g1
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id F02E446C-DC8C-44EF-B495-D994C9DE35E2.1
+	envelope-from <abuse+bncBAABBG7E2SSQMGQE2ROMWWI@linode.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 17 Jul 2023 12:20:44 +0000
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-403ad9d7951sf47915241cf.1
+        for <abuse@linode.abusehq.net>; Mon, 17 Jul 2023 05:20:44 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1689596443; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=W+A/8kjrjpRO8cwjONkAXEJp+Jlp5yfKMMx0qopllq1ZE9igwAuzpF66sMbX0ttQQm
+         vWy2wGwRlJ8iMrlZ/eFrEknwvu3n2BNTRhzyv/gVD2P/3eYyGvop0dMkcKZ923FRPj8B
+         VrQ2QB1Bf4Fd5jAEpMldav1yDKFApfJgTjNWuLDoEYHLuuc8Gvl3Prmsq5VlTj67T0kv
+         gYMW+LTCKMI3G329/15ddtFeadbjl7eHqMtufp7AbcwDtWkWIzkgx9xWyBRWV3FFeuRK
+         erR0ktNfmA0wKWV0U3oYswIz00fdozW3jNWAxxYZ/h/79inTSR4VVEPo4C5J6uPaLPM1
+         VWUw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :to:from:sender:dkim-signature;
+        bh=Vldp9EkH+wk/mxFHwpNYGU5AsDFJET9pulgiGx5axNg=;
+        fh=QONFy78d4l8FnuhkcU1pU7V94e34bJ4AWfniMorE3LI=;
+        b=zhgiI1dbvJUMIZeVF0Xr89i6Gs1F896xk3vgBoyqVyQ4VqF43drGwkQPhG51etMlMG
+         l2H7pH+TDGU4EbFom0/hVQ/c7/7xAmQlcJeStNQCGmr+YxwVYEwAm1GwxcKLj4GVt5ww
+         q0sx1qDuXrwGDN8bWt3k77ppS1qYSs2nLYObJ4byqXS7rbwa27kR9De6jxgdXxKE92Aj
+         /3+/KyRy+kan//UcZv4i1qvQ5Jk+ipsgPwmFn0vqd3Ain2Rx8uL5xlxrXB1yjR/kKl0o
+         FjN7Cf9tR9UIR9mArj8/jlRe/Zp0a1bbrmj6tGyCwDBGF8kjRaTfo1Oyt5l+Z5TjBwt9
+         sAQQ==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@bnb.gov.br header.s=smgbnb header.b=CZ1+ei9m;
+       dkim=pass header.i=@bnbgovbr.onmicrosoft.com header.s=selector2-bnbgovbr-onmicrosoft-com header.b=ASpIYfBb;
+       arc=pass (i=1 spf=pass spfdomain=bnb.gov.br dkim=pass dkdomain=bnb.gov.br dmarc=pass fromdomain=bnb.gov.br);
+       spf=pass (google.com: domain of prvs=1562fb2d8f=csirt@bnb.gov.br designates 198.17.121.44 as permitted sender) smtp.mailfrom="prvs=1562fb2d8f=CSIRT@bnb.gov.br"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linode.com; s=g1; t=1689596443; x=1692188443;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-language:accept-language
+         :message-id:date:thread-index:thread-topic:subject:to:from:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Vldp9EkH+wk/mxFHwpNYGU5AsDFJET9pulgiGx5axNg=;
+        b=OMFbbJ/7tLizvlsIqKAuUvR1asHadj+SWHYEmQXAggoICyIh9nAwRsik1BKAdRzLzY
+         l2gaj3mxIsWbGAoeT/Zu9GGMUXezozhcSJzxVQi/nMW8rM/9eRsOdPdrJSJPho0yOnIx
+         CtM65N0vP6fJAtpLFzxKjRYQ3NmPDT6mm7MzQZDiZNC/0KEU8Ff2slTAdF01qgc0a4rK
+         TMr8A7NJr4XIdrbDqiXC3DnICGDJEiqRF+iaHwj+yo34iXqiOrPnYLUKP7i77ccoVYMX
+         Tr4CmflgqbnUhwb6/kE1PFYifc2LbZtrDk6nyDf55MQQFlwhldIDoNnS0Y73d2D9ZvfQ
+         G+2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689596443; x=1692188443;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:message-id:date:thread-index
+         :thread-topic:subject:to:from:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Vldp9EkH+wk/mxFHwpNYGU5AsDFJET9pulgiGx5axNg=;
+        b=buP4OM1S28X1t1Iwhlh8Wrw1XKZfVMeRhxMrbcOR3ka+kECRALzFh4/iaaf8+vydfL
+         swUQtCFtJmvhYS77xM3RPxb40AlMg7Lydab2Org3st69TSOiI6yuD+HNtvZizrkhUOBj
+         0RJM/2WnMo0T/D0E7GQlPPloQlNhxtBDTl+BmF2ce5MTzn0dCFjfKCZP58p80OgMyFOn
+         YTQB+tL7+PdVTCzs7vV75WFLYSxw98crS8Jq0CLtrdjquILDOcH/yO0G8t8ppexT3fcS
+         Xj/FMQBxbnAnM8O1/F9Wgy5lDPHJFb5soiLh6XWVQl0N3IDKNFxVqHe2+Tc7osUYfUJN
+         MRUw==
+Sender: abuse@linode.com
+X-Gm-Message-State: ABy/qLaMhQVz2n/rZn0bplVzOOj0MkWFAOgAorFr10AZdgw/zQsC1XCC
+	mSfnZ52H6cCupjRjIUk5Bdk1xg==
+X-Google-Smtp-Source: APBJJlGgj1HPbUjNyATRwwCtAwG+ThhV8hXkDhFxado8FAgO+r98Ga/7BTppJTlepZ1XKUI5Q0S0+w==
+X-Received: by 2002:a0c:f103:0:b0:626:1fe8:bba4 with SMTP id i3-20020a0cf103000000b006261fe8bba4mr10499928qvl.10.1689596443714;
+        Mon, 17 Jul 2023 05:20:43 -0700 (PDT)
+X-BeenThere: abuse@linode.com
+Received: by 2002:a0c:f4ce:0:b0:62d:f315:97a9 with SMTP id o14-20020a0cf4ce000000b0062df31597a9ls5190160qvm.1.-pod-prod-02-us;
+ Mon, 17 Jul 2023 05:20:42 -0700 (PDT)
+X-Received: by 2002:a0c:aad4:0:b0:635:edca:8a5c with SMTP id g20-20020a0caad4000000b00635edca8a5cmr10853027qvb.26.1689596442037;
+        Mon, 17 Jul 2023 05:20:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689596442; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=SSprXZTWAYweAVK2VpNU/YMdTj2BgZISIjTqC2g635THcqIM3kJdPGdjN/g+6Vo4sM
+         c4DrxhgmEyWGktgSVKAuKxvMDVCTRrfpLDZfgm4dCKB+8Vp8AYsF25+Z5zQbauOgYUls
+         EpXjMOYO18cokszbtUlMZNxrsVNESafE5kgOEAEfY3GB3Je2Ll6Jih8wsxv4jvHvnO6i
+         IMu3kw/s8/hIA8qQ/jzc/GHMJ4Yn4gsBBiZlif3KBB0fSkOUfrRdznX7bjsPjSs7cC9Q
+         1nYS1aeRHUc6v4csIExQFK1APQ1mhuBHmIu6ocNC8Z0UkulK3SbBwC/nN9Kfiwoda5YF
+         LUPw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:to:from:dkim-signature
+         :dkim-signature;
+        bh=Vldp9EkH+wk/mxFHwpNYGU5AsDFJET9pulgiGx5axNg=;
+        fh=QONFy78d4l8FnuhkcU1pU7V94e34bJ4AWfniMorE3LI=;
+        b=vvbmWrx80XV7FwYGwHI6QLn2D4y8uK/EGCGyf4egcE57ykOy44q+3XVfieDPayStlL
+         Pw97bQP+1QuwC7CYWJVYs9b5vJRB6B11Gd6CtADvAhbxgZFKiL+LSZwzAHlas5774v3F
+         0beRa2yX4frGuC6U3qGNqI6V5sX9ku0rmPMZsHjp9t2+mJSUzmdewfso0NRZxZDUlqv3
+         NIFWMztfbhCJ1qIpJTtYGWfnNL+tJiiUTM9/6+3PU2Q+Own1whwO+qz4khW1ZCRhyTvB
+         D9f9vDOgi/wxccE1qYyJxWt/qAJDNAC0n3O8r8VNG7WybvxQRjAr5OE9QALAwdeISHbp
+         D7Wg==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@bnb.gov.br header.s=smgbnb header.b=CZ1+ei9m;
+       dkim=pass header.i=@bnbgovbr.onmicrosoft.com header.s=selector2-bnbgovbr-onmicrosoft-com header.b=ASpIYfBb;
+       arc=pass (i=1 spf=pass spfdomain=bnb.gov.br dkim=pass dkdomain=bnb.gov.br dmarc=pass fromdomain=bnb.gov.br);
+       spf=pass (google.com: domain of prvs=1562fb2d8f=csirt@bnb.gov.br designates 198.17.121.44 as permitted sender) smtp.mailfrom="prvs=1562fb2d8f=CSIRT@bnb.gov.br"
+Received: from inbound-mail1.linode.com (inbound-mail1.linode.com. [2600:3c03::f03c:91ff:fedf:5790])
+        by mx.google.com with ESMTPS id s23-20020a0cb317000000b006320acde49csi8071666qve.275.2023.07.17.05.20.41
+        for <abuse@linode.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 17 Jul 2023 05:20:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prvs=1562fb2d8f=csirt@bnb.gov.br designates 198.17.121.44 as permitted sender) client-ip=198.17.121.44;
+Received-SPF: pass (bnb.gov.br: 198.17.121.44 is authorized to use 'prvs=1562fb2d8f=CSIRT@bnb.gov.br' in 'mfrom' identity (mechanism 'ip4:198.17.120.0/23' matched)) receiver=linode.com; identity=mailfrom; envelope-from="prvs=1562fb2d8f=CSIRT@bnb.gov.br"; helo=s1smgp05.bnb.gov.br; client-ip=198.17.121.44
+Received: from s1smgp05.bnb.gov.br (d001smt15.bnb.gov.br [198.17.121.44])
+	by inbound-mail1.linode.com (Postfix) with ESMTPS id B56EB2664D
+	for <abuse@linode.com>; Mon, 17 Jul 2023 08:20:39 -0400 (EDT)
+X-AuditID: c8a46b79-65b8470000004798-3d-64b5321537f7
+Received: from edge.bnb.gov.br (Unknown_Domain [200.164.107.55])
+	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by s1smgp05.bnb.gov.br (Symantec Messaging Gateway) with SMTP id 8B.44.18328.51235B46; Mon, 17 Jul 2023 09:20:37 -0300 (-03)
+Received: from S2EXCP01.capgv.intra.bnb (10.6.0.44) by edge.bnb.gov.br
+ (198.17.120.252) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.28; Mon, 17 Jul
+ 2023 09:20:37 -0300
+Received: from S1EXCP01.capgv.intra.bnb (10.6.0.46) by
+ S2EXCP01.capgv.intra.bnb (10.6.0.48) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Mon, 17 Jul 2023 09:20:37 -0300
+Received: from correio.bnb.gov.br (198.17.120.252) by S1EXCP01.capgv.intra.bnb
+ (10.6.0.47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.28 via Frontend
+ Transport; Mon, 17 Jul 2023 09:20:37 -0300
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (198.17.120.162)
+ by edge.bnb.gov.br (198.17.120.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Mon, 17 Jul 2023 09:20:36 -0300
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NNQhxywvrW0vyyxLaIbCwz/M6KsmWuFRxwwPh72TKGzGZcQ4v6I+GfcbvkmodgUlAIoRbbS8RFlXqZsMzIYi5p+ycB8kTZEO0SZO7095z/WEipyBAGCWg9PzMfpONIIUfCk6jeqbSNpgARRT9cSV8kwNE1D3ioysEpYlt+m9USI2EKdW1nFzuGe7hLkSJ5mYy1OYa5B2U6W6JaIDvimFwBKruOOKcDrC/mJsP0kmEIx+xKlL1oplO9LAphvYZVgi6MzdtvKxBkc3BT06W+BKBd0YWeQFVzEwoq3+Z4id+MU0c2m4A4FnEXWGPHLIXWiLCeqxwjTUXSfqSywbbEaoJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vldp9EkH+wk/mxFHwpNYGU5AsDFJET9pulgiGx5axNg=;
+ b=Qp3NZqKJhO24087I3osKD3l5C+/hBjOJ5s5B0R/TgqLSZN96uGYMCt9x/TeVRZI5gY1VPMibSG4+w7FAFaIJzHZiT3V/yFPI4mvTUp3PJ2RE/YDo7CRo5pDdY5pS4dbAmseH7xBxALNrwzX0yOu0Evyov8/NCBAUx+vrmoWJSORIGl0tto0qLM+YdM+4xgyBlpSjr1Ja2/Bwwyhw0X/UjSEKJoVcsJ0JRBhFK5pzCMmJOlUl2rya8y3VLQauQVKJ2hWORWIuxHpFGWMQl7y3wmHMoxObWH/NQyqhl45sq6nmEsz9/qO6dR50EQ0a1UB2eq2CAoBCFZ09oqAMB6uxeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bnb.gov.br; dmarc=pass action=none header.from=bnb.gov.br;
+ dkim=pass header.d=bnb.gov.br; arc=none
+Received: from RO2P152MB7797.LAMP152.PROD.OUTLOOK.COM (2603:10d6:10:103::8) by
+ RO2P152MB7325.LAMP152.PROD.OUTLOOK.COM (2603:10d6:10:124::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.31; Mon, 17 Jul 2023 12:20:21 +0000
+Received: from RO2P152MB7797.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::34d3:574b:560:6981]) by RO2P152MB7797.LAMP152.PROD.OUTLOOK.COM
+ ([fe80::34d3:574b:560:6981%4]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
+ 12:20:21 +0000
+From: CSIRT <CSIRT@bnb.gov.br>
+To: "abuse@linode.com" <abuse@linode.com>
+Subject: [GRIS-I.BNB] - Multiple IP addresses
+Thread-Topic: [GRIS-I.BNB] - Multiple IP addresses
+Thread-Index: Adm4qGbEy6165LLuQwmUBJzQ816hIw==
+Date: Mon, 17 Jul 2023 12:20:21 +0000
+Message-ID: <RO2P152MB7797CD3AE4855FD7A1B0DDF0913BA@RO2P152MB7797.LAMP152.PROD.OUTLOOK.COM>
+Accept-Language: pt-BR, en-US
+Content-Language: pt-BR
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: RO2P152MB7797:EE_|RO2P152MB7325:EE_
+x-ms-office365-filtering-correlation-id: e545c4d2-306d-476e-d66e-08db86c03106
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: q3KnJu1B2rszs6ItyC5vcwq+ugMase8JL1u85wd2UsQTKHpQyu4t/5zt0Qk7GTZ/snylDVIgQHqwkYAcxDWfgZ2uMo7dIddx/p5u5wbDhSN/ZSJHidqLp24hC+ocleRCFP/z0iUl6YPmqyqrsfoHu0+zsXQ3eSO1G5v/sZz7sUXIMnTEZQ6/jeRjp2D2S5eyCmTBzh+oSRUPx33JkhZoCl6+HaWSlBlsySDTNRrz2nt9H+Y5VmkZvJR+uzdN3WYjO5KbG223S9j6UXHTfI1ZmMhv/lX+0igGFBQd1BtEfyohTBPKZ82o05p/G5O4gAfUW2W3iYv3eUFMuheq4vqzo/+uiLjif9u4Rrfwd/cU7X5cmrSH1h4AO/xdJTljdeDLibR+oZ717FHkMFt0XsE54xonHfEPjIuS1+I4/xVGGpChzYaNWf3CO32jh7ILP+6dzomD/T2Wp1yHSnXIw9U8P2C+Ky88JERoy5LKVHYpOfGdMLf+BbVeLs6rjqw1w7aF331J3jancXqqZ5sN3Djyl++vC8t7DJpflpRU1Te3pYtwARDyZWVTCOJuVbihWzBRrqb1zVpd+n8dBcsDNzqdYNQ3IAT8H/2M7dzdiWhQa0kRF33hSDYGPMI1cUgPh4mu
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:RO2P152MB7797.LAMP152.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(376002)(136003)(396003)(346002)(366004)(451199021)(83380400001)(26005)(478600001)(6506007)(9686003)(7696005)(55016003)(71200400001)(99936003)(33656002)(66556008)(41300700001)(52536014)(38070700005)(8936002)(66446008)(5660300002)(66476007)(64756008)(76116006)(6916009)(316002)(38100700002)(8676002)(66946007)(86362001)(2906002)(4743002)(122000001)(186003)(19627235002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?gC5SLWm2cqmTHbDEda3D9gqqurXUCpyecZvEsWJUXP+0zX+lVq2PTF8sFk?=
+ =?iso-8859-1?Q?nbLqxDw7wh4eXCnGatoOGkrO+DOLyqw75/vTOOgV0Tr3VerOp+XnZs5RBs?=
+ =?iso-8859-1?Q?JWyy+SNClD/HX/PfyBy6TrLGj2hkk6PsY8ieiH79MghHNfwoN9xNqnSzNc?=
+ =?iso-8859-1?Q?tVojq9NKrBEXDthY37iXitHO4OP2fT5CTiK6p/6rxPz5wCy7WYEXjBTm7W?=
+ =?iso-8859-1?Q?mD2WrE87YYKlYRtGExF4tHpHIjftHH+IgNT5LVKnKeXbzz6Cw6C4Gkp4+j?=
+ =?iso-8859-1?Q?OgOaFRZdgzI5rWNH+0SWGYW9FhFhhF/niUqAXlVNL9i4Uti9+WKUZNiC6m?=
+ =?iso-8859-1?Q?1I68NT0kcPsn03gv9DyGzhf6GEdj51ecJEqLHl6y5VD0SWNLA7gA6429Z3?=
+ =?iso-8859-1?Q?NXrDONCLNf2ncd8GuRXAMEhAjPxzWMdQz6jyrhvJT+qxdnhTtQmSwNTwd7?=
+ =?iso-8859-1?Q?RDohGzx3YzwapNJXS9nrNhOI1lSM1mdVfUIVshIphzvu/9Bu1PRRpNZdWh?=
+ =?iso-8859-1?Q?UrEou9d/Af5Ij4Re9bPB70kxORJ6mRemiTXexH+kQDWvYfsJg+y0XyxAWT?=
+ =?iso-8859-1?Q?Q9MzhdGmXr20kDyrQ50q2ozmcSLr/STbPNvkeWEAnGsO6T4Edny+Gke/NC?=
+ =?iso-8859-1?Q?QXB1ae2wyKyKCohYldRQ3PlLafW6HaNXLg7Sy7KmyBb2OfOw61DRp+O3Fu?=
+ =?iso-8859-1?Q?kt3wX1DDkCV/RON2OuN8H28QGpqyCRjdnOGHdR8zVwoVnmJz0EmyVNzcYt?=
+ =?iso-8859-1?Q?Ztz74jJ1QHmqLABBgXOab9EiWl41t2VKlx77DZklyuPVQNBu52p8vPzeHP?=
+ =?iso-8859-1?Q?oIsLvm0F4AT2EWmSXenXExGcUdArZ2KiXFuMwIje+B/0kxQrM+mqSPyOam?=
+ =?iso-8859-1?Q?rJFGTUJx/5aVN1Zlf/4w8CBLa3n2LNXaPRZDVrLfx5iP/9em93VydIL/Bv?=
+ =?iso-8859-1?Q?sXy9V+9WC2g/mxEnfbbQfJYYYnDiD9ufnYk9XbSgct04lG4amDAYY2qdxE?=
+ =?iso-8859-1?Q?T2WzSkKSdPEryx4WD5LDLqVd1LUICFueI9d3xupv6FVhmr/YXjZ6O/xVDf?=
+ =?iso-8859-1?Q?+Rl6K/341EOOOUb1FEbu5iTgyNv/lKP5EDISHWzOjn/kKBDDEqWhCabBTQ?=
+ =?iso-8859-1?Q?lpQjx7csDugqRh4HxDG2Aq9wD6ylb+iaHUtq+rO1ueXKIxfMw7wwBEhWPa?=
+ =?iso-8859-1?Q?d1XpsjNkoTK9tAMTrzHqUxGk/WrDmEkRuThLGRHgPXDBTaG16wKbnBl+MX?=
+ =?iso-8859-1?Q?/tLhxFnOaJONZ9DiDF8BK4NSJHFYqXINDpRNtXIgh25QMHCrYWBrX6pC1x?=
+ =?iso-8859-1?Q?XDUtymUtr1zf9y3gJXfGbuj9jEXpySUkMRcA3yW2J3XFdUPf5m5ErLCJEu?=
+ =?iso-8859-1?Q?b3jmMi6sfqcc98u09kqCILgFe3sqceDBlYld1LtGVu9y3GPQTOtXqa0FSs?=
+ =?iso-8859-1?Q?MbZrGwq3sP7XSBB2d0sgtZbjScPd4vXrR/rUiOcxDypma3J5Mqt1zCsHrj?=
+ =?iso-8859-1?Q?+LPdWxlyVG+USWu3uZVn2DZvjbUjBaBuYXEFW/Ac5aQuGBuhGiKa3xkAC0?=
+ =?iso-8859-1?Q?KBzKRl01ZOAWbrfqoDYX0Eoio+LnE8FjEhmq+vr4mL6ZRAC+Vw=3D=3D?=
+Content-Type: multipart/mixed;
+	boundary="_004_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: RO2P152MB7797.LAMP152.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: e545c4d2-306d-476e-d66e-08db86c03106
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2023 12:20:21.7110
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: efb605aa-4527-4640-9dac-65d150e949ca
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SdJ8mfHnL9FSOpqcthPkV8CsAGZKk1Tv3ulyZ++GwvhhbrQR8P10EaFfdTA7jl0Kfp0FKj616p0IReX3YtoKpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: RO2P152MB7325
+X-OriginatorOrg: bnb.gov.br
+X-Brightmail-Tracker: H4sIAAAAAAAAA2WSfUxTVxjGd+5He8F1XrCEV5idMsTosNbBxuIYbCIbISOYiX+MmWBLb0qH
+	ttBL3SAm67oQMwiLixVLa8dAYAHEGEJFJQjWD0CZQRzBWFTQLmL8gCU1QEKv6/XcLUv23+95
+	nvPkvOfkZcjoBTqOMZoqOItJuy9BFkkNt5SmbY5516vXnOlZ98Ep956PUU7rqUVqJypcka7T
+	VhzYZTSYtmTsXVFycXmYLvNkfnsnNEHY0LW0GhTBAJsKS+cEogZFMtFsFwENnRMkFrMIJvzN
+	NBZPEZyc+VFK7AQMuN3Uv+Ji44hcFIhtI6HTPURIgoaAK0SJ1yC2G4HroUIMKNZLgmv5AsJ9
+	DwG2G9WSuIfAf6X3VUXGqiDYPEuKrGQ3wnnnb6/8Vawa/myZp7GfAu3uehlmNXimGpDIFLse
+	Ri/Mh7sMo2C/glDt13iKNeBZ7peLTLKxcKKnncCfoISZm9dlmGPg8UOBxuetULf4FGE/GX6f
+	DEi8BsYbayXOhJdDA1I3D7pmD5GYVdBRN0Nhfgvqm+fkmN+E6du9MvG9wJ6gofPQdfow0rj+
+	M5MrPDbJGsE/nSPaCjYKRhoCFD5ihsEHfRKr4fZRhwzzO9DW9ITEvBmcgo/6v78Jnp+bllgF
+	wpHWcDcyzC0Ibi1clYJ14Kidkf+KXu9Aq/it/H5DmeY9tc6kUxvMB9Q6SzfCS1d5FoUcIbUP
+	EQzyocRw8cHpzjEUR5nMJi5BqVjo6NZHK/TayirOYi6yWPdxvA/FM1RCrCLH+qw4mjVoK7hS
+	jivjLP+kBBPhQ8BExil5zqTnLFprRUmRuMJFfHiH42xEV0ZQV3ckLTgaGO0NXHbsrz/49ov7
+	L735iqY+T/ZYObXyi8TsgezvRo3eiLorVJ7MqrEnPU8a3+jd0fbTfHlh1t7eg7Shka9ZXdXG
+	ROW8Vnwtv2t1usF/NNOZpc9airCXNTjSmJNzOnR3t1yYDEytXc9WodKxlG1e4x+pwauxSzGk
+	sMV+6fvUT3MN1ZU1/vQ7ydvLQ7bLBf2ffPZDxuOM+NyUn3c+OTay+HnU8WLhUZQzaZz+pWBQ
+	yPvmy9Rd7w+7x3pa57iPhqpbE83++G1yW+Hx4DF+8IXQZH9W5OjPn3T4Bftf21Xtxg/fcJx+
+	NFWQrNE7N1T23VPeUsHhDXm5CRRfot26ibTw2r8B+d7KoAoEAAA=
+X-Original-Sender: csirt@bnb.gov.br
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@bnb.gov.br header.s=smgbnb header.b=CZ1+ei9m;       dkim=pass
+ header.i=@bnbgovbr.onmicrosoft.com header.s=selector2-bnbgovbr-onmicrosoft-com
+ header.b=ASpIYfBb;       arc=pass (i=1 spf=pass spfdomain=bnb.gov.br
+ dkim=pass dkdomain=bnb.gov.br dmarc=pass fromdomain=bnb.gov.br);
+       spf=pass (google.com: domain of prvs=1562fb2d8f=csirt@bnb.gov.br
+ designates 198.17.121.44 as permitted sender) smtp.mailfrom="prvs=1562fb2d8f=CSIRT@bnb.gov.br"
+Precedence: list
+Mailing-list: list abuse@linode.com; contact abuse+owners@linode.com
+List-ID: <abuse.linode.com>
+X-Spam-Checked-In-Group: abuse@linode.com
+X-Google-Group-Id: 895230844096
+List-Post: <https://groups.google.com/a/linode.com/group/abuse/post>, <mailto:abuse@linode.com>
+List-Help: <https://support.google.com/a/linode.com/bin/topic.py?topic=25838>, <mailto:abuse+help@linode.com>
+List-Archive: <https://groups.google.com/a/linode.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+895230844096+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/linode.com/group/abuse/subscribe>
+
+--_004_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_
+Content-Type: multipart/alternative;
+	boundary="_000_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_"
+
+--_000_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+
+Dear responsible,
+
+1. We are the Information Security Incident Response Team of BANCO DO NORDE=
+STE DO BRASIL. The GRIS-I.BNB is an information security incident treatment=
+ service unit integrated into the Corporate Security Environment of Banco d=
+o Nordeste do Brasil, whose mission is to ensure a computing environment wi=
+th a high level of cyber security through a prevention, treatment and respo=
+nse service to incidents that protect corporate assets, contributing to the=
+ preservation of the lives of employees who work at Banco do Nordeste do Br=
+asil facilities.
+
+2. You are receiving this message because you are listed in the WHOIS datab=
+ase as a contact for the network named below. This message is intended for =
+the person responsible for the security of your network and, if this is not=
+ the correct address, please forward it to the appropriate recipient.
+
+3. We have identified malicious activity coming from multiple IP addresses:
+a. List of attached IPs;
+
+4. We request your collaboration in accordance with your policies, so that:
+a. Traffic is stopped in order to stop malicious activities;
+b. Please send us any logs or other information related to the event;
+c. The internal source of the traffic is informed, if possible. Such inform=
+ation can be of great value in our analyses.
+
+5. We would like to thank you in advance and request that, if possible, you=
+ send us a reply confirming receipt of this message.
+
+Regards,
+GRIS-I.BNB team
+
+
+
+
+--_000_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EstiloDeEmail17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 3.0cm 70.85pt 3.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"PT-BR" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">Dear responsible,&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">1. We are the Information Security Incident Response Team of BANCO DO=
+ NORDESTE DO BRASIL. The GRIS-I.BNB is an information security incident tre=
+atment service unit integrated into the
+ Corporate Security Environment of Banco do Nordeste do Brasil, whose missi=
+on is to ensure a computing environment with a high level of cyber security=
+ through a prevention, treatment and response service to incidents that pro=
+tect corporate assets, contributing
+ to the preservation of the lives of employees who work at Banco do Nordest=
+e do Brasil facilities.&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">2. You are receiving this message because you are listed in the WHOIS=
+ database as a contact for the network named below. This message is intende=
+d for the person responsible for the security
+ of your network and, if this is not the correct address, please forward it=
+ to the appropriate recipient.&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">3. We have identified malicious activity coming from multiple IP addr=
+esses:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">a. List of attached IPs;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">4. We request your collaboration in accordance with your policies, so=
+ that:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">a. Traffic is stopped in order to stop malicious activities;&nbsp;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">b. Please send us any logs or other information related to the event;=
+&nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">c. The internal source of the traffic is informed, if possible. Such =
+information can be of great value in our analyses.&nbsp;&nbsp;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR">5. We would like to thank you in advance and request that, if possibl=
+e, you send us a reply confirming receipt of this message.&nbsp;<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"mso-fareast-language:P=
+T-BR"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:PT-BR">Regards,&=
+nbsp;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:PT-BR">GRIS-I.BN=
+B team<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:PT-BR"><o:p>&nbs=
+p;</o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_--
+
+--_004_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_
+Content-Type: text/plain; name="17_07.txt"
+Content-Description: 17_07.txt
+Content-Disposition: attachment; filename="17_07.txt"; size=57;
+	creation-date="Mon, 17 Jul 2023 12:13:07 GMT";
+	modification-date="Mon, 17 Jul 2023 12:20:21 GMT"
+Content-Transfer-Encoding: base64
+
+MTM5LjE2Mi4yMzQuMjIwDQoxNzIuMTA1LjIzOC4xMTENCjEzOS4xNjIuMTEzLjE0Mg0KDQoNCg0K
+
+--_004_RO2P152MB7797CD3AE4855FD7A1B0DDF0913BARO2P152MB7797LAMP_--

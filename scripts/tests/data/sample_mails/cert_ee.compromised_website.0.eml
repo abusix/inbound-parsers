@@ -1,0 +1,163 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@cert.ee header.d=cert.ee header.s=mail
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01on2060.outbound.protection.outlook.com [40.107.121.60])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 9ACACF4E-0270-4FE9-AC60-468765FD6CE9.1
+	envelope-from <bounces+SRS=UGdoz=HP@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Mon, 04 Dec 2023 06:17:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Su3lli54es9GPff4PUnQE3P22ul3jXvEWYtq+Y/hT3onliMCsuYxQ/Lp2GrjrF0yOJRq4KFMIliOZgIukV8CTOShJf2Z8ji50WzVHOJ8CgT2lnCwf/xvCaDO/OLXeCaGfCHQN3Kj+1MCHkN0Xc0CDEIyMwwS1Sf2Up/Y9ToTWymppVBCji1weorWq1DmfPsPUF/+mzKp75vBRQ8MMfFZDmllJaq63AQhXN7efGZimnct/rmUOEsTAY5k/FbScBWJ3js96Cu2x6Y/xZpk6QhmlyDcG/SwOKJ19YvHDRD04r2ED9Vtb6aLzUHKVjZOD9gVOlD1a2Xf4NiVTVqGnG21Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RaXEdjAF6vi4ffJ435aVOAeYHVKSM8ef4KK/YdakdHQ=;
+ b=NFLCqe2EoxaFxttameXc0lE54mUzD3CpnHfWXkzyvfPD8oE9EVTlxOr66DpI973HBbRP57Nlm2KhxuPbLHrEiI8yq5VS968pLqhjZ+MoSgK0B50ZH7gxiGxGhKIPpLdOOcArdsTCzERRlMATfQ51Jnyq/2GT4NT3SRxgGtlZ0HOLWCZ6Iu7KKhgBvyrNGH3qCmm2q3UV1LHJVSW8SXigUYmQdHBoYW6hdrR5FSmB+D9VTAroMu4GUhc/IqzT1YgjuJXvFK8y0lDC1wf5bj0QYlawZ6l81h2YDDt21pcbjv8lU3kBZssCsOH9xv9JS6QhGkWhx0FnBkaTgFS9WQSysA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 46.226.143.37) smtp.rcpttodomain=ipxo.com smtp.mailfrom=cert.ee;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=cert.ee;
+ dkim=pass (signature was verified) header.d=cert.ee; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RaXEdjAF6vi4ffJ435aVOAeYHVKSM8ef4KK/YdakdHQ=;
+ b=e1O++ZioxZvS67UahkSU7zAK0bKjyIAEjeOojUwS+c2DgjiXOV8sF0V6N5FjMRyL8/Hfkx7jsCYRgFpzJtctAFggL/Tv+6697KIHnhH+eTwTGtTzY96v/3ApGDMaWeE7yX0XYfB1xV7AvftIqyZuZjvjGJJUrXJD5SWQVqzPUQEX1npKu1T99jIk6cXbV6jo/eSD4AyvOGbW96EmOZjqIiuDhWEoZGGpcXiIT0ILNJHeHgotFHNKp2XCX+WjR+bu0/6muI2kQQPhdCR9vDVWW9xM9JNoO8/bx8nvBPpvB6MCRK7gWR0CCrqasat1B0i7J9Y8jrpEmzwAUarDhY5rCQ==
+Received: from CWLP123CA0115.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:5f::31)
+ by CWLP302MB0023.GBRP302.PROD.OUTLOOK.COM (2603:10a6:400:221::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
+ 2023 06:17:07 +0000
+Received: from CW2PEPF000056BF.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:401:5f:cafe::21) by CWLP123CA0115.outlook.office365.com
+ (2603:10a6:401:5f::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33 via Frontend
+ Transport; Mon, 4 Dec 2023 06:17:07 +0000
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of cert.ee: DNS Timeout)
+Received: from smtp-out.cert.ee (46.226.143.37) by
+ CW2PEPF000056BF.mail.protection.outlook.com (10.167.240.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7068.20 via Frontend Transport; Mon, 4 Dec 2023 06:17:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cert.ee; s=mail;
+	t=1701670624; bh=RaXEdjAF6vi4ffJ435aVOAeYHVKSM8ef4KK/YdakdHQ=;
+	h=From:To:Date;
+	b=gng3IUBI+HatPD+0udQPodAjuyoLnTeji4CEqleek0xjtxEdKdRIeieniQTuE9WCl
+	 axDoj/KEf5za1CNajaY6osx4ZvGYg3KGgGXEQVhPP1/arNPTwbjyAXNEKHa1l2tf34
+	 /CyFYzONysJA1alzOG8EpsaNhjdhb4E9EuXeX1CJDGA9wpNJSJu1C8lSaYPAZP4+dg
+	 K2Nu9ZR5T0oUufpT2dii0oXpMZ5Oxf6QAqSxgF4PDk3UWUKwS4hgR/DmecEKq7UnWb
+	 goIoOadG537fgz3ok1zVXQ+WZoVkixX6MhOhpto6Ns6CmRHyEdecvpPONXZgdLdk3S
+	 Oqm4ZN6fOfWMg==
+Received: from columbus.cert.ee (unknown [IPv6:2a00:6a00:ad1:705::29])
+	by smtp-out.cert.ee (Postfix) with ESMTP id AA29C40ABF;
+	Mon,  4 Dec 2023 08:17:04 +0200 (EET)
+Content-Type: multipart/mixed; boundary="===============6975137077372953218=="
+BIMI-Selector: v=BIMI1; s=default;
+MIME-Version: 1.0
+From: cert@cert.ee
+To: abuse@ipxo.com
+Date: Mon, 04 Dec 2023 08:17:04 +0200
+Subject: [CERT-EE] Automated vulnerability / abuse report
+Message-ID:
+ <8e7dc726-19e9-4823-ad82-d3f06daa30ab@CW2PEPF000056BF.GBRP265.PROD.OUTLOOK.COM>
+Return-Path: cert@cert.ee
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CW2PEPF000056BF:EE_|CWLP302MB0023:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad1006f8-a091-4430-38c1-08dbf490a333
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:4;
+X-Microsoft-Antispam-Message-Info:
+	nkBcOHFU8NtbLZyFu3TlN7gA54eQDE7xkQhxZd501MFrWMw14vG+Zgbrqf8+J2tHxBr8Bzdok/SQ1M/dQxT3zRT0jNXQcdmUaTQoFUZYod6OImL5a6DUR2jVW8DkUs3c3V1x/pwOO2r4N2AP5mm2GxPXiZhDfoXwAaMpud61d5ABl1L7v4wHUdpihJ1GjX60BRLG5DC/LdpHMlZl9UR3d4Tn3U7xLv89vJpwBykcoj0eoeibekJ4f2N+7bgnmEP3FO65gVJf/CWig0n/340RDCwh7k+/qPjU+9f7grFjC3mzVrYqR2SLO7KjsUI3ay/VzGD6BwLz0LlBcJFeBdUwdT+yPYY1CejF8+EdkrbR5Q+ZfQKz343sMeTWpjTQjpTzSihRGyLBhhr9dTdD5BRkkIDQIctGQZFZNpX0p9NNGrsuijCjw3vRmAiNMOECQS+Kq8xq0t/WYYS57pGJK+jiBhCT4AM1Mklqk/3IOnJdU75Kxbu1rJw/sZJuTJqWJkfUCymFe4q8XVk6nsjpb6eBGn38opS3VfCBirrZzXN9EyUvjglKHZS/dZSmbo8r/HyMNncloDrQwAbGGSefTqSMkRMitbgxEWPVKaDwpOt5YUApK/IDCZ5Q08LflHd6hpzCYzRciT95SXNk32qL6cxZm+A2X5c0NvtuOZXW2XRqBdi8YQqoGEkrSw/sZiEB9IHdtpcXhnbLun5ts3WFL2bWTR0uQEWBZ5naG26crSYg4MJ+5W/Y7o7NdCtdUmOEeGCD5l2cnCF+URatZ+9t4KFljqWCUiMGyJw3RqnSAfCnAjo=
+X-Forefront-Antispam-Report:
+	CIP:46.226.143.37;CTRY:EE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp-out.cert.ee;PTR:smtp-out.cert.ee;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(39850400004)(346002)(376002)(286005)(64100799003)(451199024)(61400799012)(31696002)(235185007)(86362001)(34206002)(66899024)(8676002)(2906002)(40140700001)(356005)(9686003)(33964004)(66574015)(7596003)(63350400001)(21470400002)(7636003)(83380400001)(6266002)(336012)(966005)(498600001)(26005)(31686004)(316002)(70586007)(68406010)(583454002);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 06:17:05.2474
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad1006f8-a091-4430-38c1-08dbf490a333
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: CW2PEPF000056BF.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP302MB0023
+Original-Authentication-Results: spf=temperror (sender IP is 46.226.143.37)
+ smtp.mailfrom=cert.ee; dkim=pass (signature was verified)
+ header.d=cert.ee;dmarc=pass action=none header.from=cert.ee;
+
+--===============6975137077372953218==
+Content-Type: text/plain; charset="utf-8"
+BIMI-Selector: v=BIMI1; s=default;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+RGVhciBSaXZlbiBDbG91ZCBPVQoKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBlLW1haWwgZnJvbSBD
+RVJULUVFIGJlY2F1c2Ugd2UgaGF2ZSBlaXRoZXIgcmVjZWl2ZWQgaW5mb3JtYXRpb24gb3Igd2Ug
+aGF2ZSBvYnNlcnZlZCBvdXJzZWx2ZXMgdGhhdCBvbmUgb3IgbW9yZSBvZiB5b3VyIElQIGFkZHJl
+c3NlcyAodGhhdCBieSBpbmZvcm1hdGlvbiBwcm92aWRlZCBieSBSSVBFIGFyZSBsb2NhdGVkIGlu
+IEVzdG9uaWEpIGFyZSByZWxhdGVkIHRvIG9uZSBvciBtb3JlIG9mIGZvbGxvd2luZyBjeWJlcnNl
+Y3VyaXR5IGNvbmNlcm5zOgotIG1hbHdhcmUgY29udHJvbCBzZXJ2ZXI7Ci0gbWFsd2FyZSBob3N0
+IHNlcnZlcjsKLSBtYWx3YXJlIGluZmVjdGlvbjsKLSB1bnBhdGNoZWQgb3IgdnVsbmVyYWJsZSBz
+eXN0ZW07Ci0gd2VhayBzZWN1cml0eSBjb25maWd1cmF0aW9uOwotIGV4Y2Vzc2l2ZSBicnV0ZWZv
+cmNpbmc7Ci0gYmxhY2tsaXN0ZWQgSVAuCgpBY2NvcmRpbmcgdG8gUklQRSBhYnVzZSBkYXRhYmFz
+ZSwgeW91IGFyZSBtYXJrZWQgYXMgdGhlIGFidXNlIGNvbnRhY3QgZm9yIHRoZSBsaXN0ZWQgaG9z
+dHMuCgpGdXJ0aGVyIGRldGFpbHMgY2FuIGJlIGZvdW5kIGluIHRoZSBhdHRhY2htZW50LiBUaGUg
+YXR0YWNobWVudCBpcyBmb3JtYXR0ZWQgYXMgYSBDU1YgZmlsZS4gQWxsIHRpbWVzdGFtcHMgYXJl
+IGluIFVUQy4KClRIRSBJTkZPUk1BVElPTiBGT1JXQVJERUQgVE8gVVMgSVMgUFJPVklERUQgIkFT
+IElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUiBJTVBMSUVELCBJ
+TkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJ
+TElUWSwgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdFTUVO
+VC4gSU4gTk8gRVZFTlQgU0hBTEwgQ0VSVC1FRSBCRSBIRUxEIExJQUJMRSBGT1IgQU5ZIENMQUlN
+LCBEQU1BR0VTIE9SIE9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09O
+VFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sIE9VVCBPRiBPUiBJTiBDT05O
+RUNUSU9OIFdJVEggVEhFIElORk9STUFUSU9OIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1Mg
+V0lUSElOLgoKQ0VSVC1FRSBpcyBhIGRlcGFydG1lbnQgb2YgRXN0b25pYW4gSW5mb3JtYXRpb24g
+U3lzdGVtIEF1dGhvcml0eSB0aGF0IGRlYWxzIHdpdGggY3liZXIgc2VjdXJpdHkgaW5jaWRlbnRz
+IHRoYXQgb2NjdXIgaW4gRXN0b25pYW4gbmV0d29ya3MgYW5kIGlzIGluIGFjY29yZGFuY2Ugd2l0
+aCBOSVMgRGlyZWN0aXZlIGFuZCBDeWJlcnNlY3VyaXR5IEFjdCB0aGUgc2luZ2xlIHBvaW50IG9m
+IGNvbnRhY3QgZm9yIEVzdG9uaWEuCgpLaW5kIHJlZ2FyZHMsCgpDRVJULUVFIC8gRXN0b25pYW4g
+SW5mb3JtYXRpb24gU3lzdGVtIEF1dGhvcml0eQpQw6RybnUgbWFhbnRlZSAxMzlhLCBUYWxsaW5u
+IDE1MTY5IEVlc3RpCiszNzIgNjYzIDAyOTkKY2VydEBjZXJ0LmVlCmh0dHBzOi8vd3d3LmNlcnQu
+ZWUKQ0VSVC1FRSBQR1A6IDdCOTYgQTVDNyAwNzlEIDBDQUYgOUJFQSBDNzEzIEIwNUQgQkQxMCBB
+MzJBIEZCN0Q=
+
+--===============6975137077372953218==
+Content-Type: application/zip
+BIMI-Selector: v=BIMI1; s=default;
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=report.csv.zip
+
+UEsDBBQAAAAAACJChFfyBMEylQUAAJUFAAAKAAAAcmVwb3J0LmNzdmNsYXNzaWZpY2F0aW9uX2lk
+ZW50aWZpZXIsY2xhc3NpZmljYXRpb25fdGF4b25vbXksY2xhc3NpZmljYXRpb25fdHlwZSxkaXJl
+Y3Rpb24sZXh0cmFfZGV0YWlsLGV4dHJhX3RhZyxmZWVkX2FjY3VyYWN5LGZlZWRfbmFtZSxmZWVk
+X3Byb3ZpZGVyLHNvdXJjZV9hYnVzZV9jb250YWN0LHNvdXJjZV9hbGxvY2F0ZWQsc291cmNlX2Fz
+X25hbWUsc291cmNlX2Fzbixzb3VyY2VfZ2VvbG9jYXRpb25fY2Msc291cmNlX2dlb2xvY2F0aW9u
+X2NpdHksc291cmNlX2dlb2xvY2F0aW9uX2xhdGl0dWRlLHNvdXJjZV9nZW9sb2NhdGlvbl9sb25n
+aXR1ZGUsc291cmNlX2lwLHNvdXJjZV9uZXR3b3JrLHNvdXJjZV9wb3J0LHNvdXJjZV9yZWdpc3Ry
+eSx0aW1lX29ic2VydmF0aW9uLHRpbWVfc291cmNlDQphY2Nlc3NpYmxlLWh0dHAsdnVsbmVyYWJs
+ZSx2dWxuZXJhYmxlLXN5c3RlbSxzb3VyY2UsMTUwOTFkM2JkYjc4ZWYyMDZjODllNDljYWNjNGI0
+YWI0MWJjMmQ2MzA2Y2VhMmRkOTE4ZTEzMGZiZTFlOGFkNSxiYXNpYy1hdXRoO2h0dHAsMTAwLjAs
+VnVsbmVyYWJsZS1IVFRQLHNoYWRvd3NlcnZlcixhYnVzZUBpcHhvLmNvbSwyMDIxLTA5LTIwVDAw
+OjAwOjAwKzAwOjAwLCJIT1NUSUxPWCwgVFIiLDIwNjUwNSxFRSxUQUxMSU5OLDU5LjAsMjYuMCwy
+MTMuMjMyLjIzOS4xMTAsMjEzLjIzMi4yMzkuMC8yNCw4MCxSSVBFLDIwMjMtMTItMDRUMDM6NDY6
+MjcrMDA6MDAsMjAyMy0xMi0wM1QxMzo1NToyMSswMDowMA0KYWNjZXNzaWJsZS1odHRwLHZ1bG5l
+cmFibGUsdnVsbmVyYWJsZS1zeXN0ZW0sc291cmNlLDE1MDkxZDNiZGI3OGVmMjA2Yzg5ZTQ5Y2Fj
+YzRiNGFiNDFiYzJkNjMwNmNlYTJkZDkxOGUxMzBmYmUxZThhZDUsYmFzaWMtYXV0aDtodHRwLDEw
+MC4wLFZ1bG5lcmFibGUtSFRUUCxzaGFkb3dzZXJ2ZXIsYWJ1c2VAaXB4by5jb20sMjAyMS0wOS0y
+MFQwMDowMDowMCswMDowMCwiSE9TVElMT1gsIFRSIiwyMDY1MDUsRUUsVEFMTElOTiw1OS4wLDI2
+LjAsMjEzLjIzMi4yMzkuMTEzLDIxMy4yMzIuMjM5LjAvMjQsODAsUklQRSwyMDIzLTEyLTA0VDAz
+OjQ2OjI3KzAwOjAwLDIwMjMtMTItMDNUMTM6NTU6MjArMDA6MDANCmFjY2Vzc2libGUtaHR0cCx2
+dWxuZXJhYmxlLHZ1bG5lcmFibGUtc3lzdGVtLHNvdXJjZSwxNTA5MWQzYmRiNzhlZjIwNmM4OWU0
+OWNhY2M0YjRhYjQxYmMyZDYzMDZjZWEyZGQ5MThlMTMwZmJlMWU4YWQ1LGJhc2ljLWF1dGg7aHR0
+cCwxMDAuMCxWdWxuZXJhYmxlLUhUVFAsc2hhZG93c2VydmVyLGFidXNlQGlweG8uY29tLDIwMjEt
+MDktMjBUMDA6MDA6MDArMDA6MDAsIkhPU1RJTE9YLCBUUiIsMjA2NTA1LEVFLFRBTExJTk4sNTku
+MCwyNi4wLDIxMy4yMzIuMjM5LjExNCwyMTMuMjMyLjIzOS4wLzI0LDgwLFJJUEUsMjAyMy0xMi0w
+NFQwMzo0NjoyNyswMDowMCwyMDIzLTEyLTAzVDEzOjU1OjEwKzAwOjAwDQpQSwECFAMUAAAAAAAi
+QoRX8gTBMpUFAACVBQAACgAAAAAAAAAAAAAAgAEAAAAAcmVwb3J0LmNzdlBLBQYAAAAAAQABADgA
+AAC9BQAAAAA=
+
+--===============6975137077372953218==--

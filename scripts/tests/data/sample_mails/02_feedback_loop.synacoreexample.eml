@@ -1,0 +1,1022 @@
+Return-Path: <fred.gribbell+caf_=fhgribbe=fuse.net@ieee.org>
+Received: from mx01.cbt.email-ash1.sync.lan (LHLO mx.fuse.net)
+ (10.219.136.237) by md05.cbt.email-ash1.sync.lan with LMTP; Fri, 19 Jan
+ 2024 10:07:11 -0500 (EST)
+Return-Path: <fred.gribbell+caf_=fhgribbe=fuse.net@ieee.org>
+X-BINDING: md05.cbt.email-ash1.sync.lan
+X-Received-HELO: from [209.85.160.48] (helo=mail-oa1-f48.google.com)
+Authentication-Results: mx01.cbt.email-ash1.sync.lan header.DKIM-Signature=@server8839.e-activist.com; dkim=pass
+Authentication-Results: mx01.cbt.email-ash1.sync.lan header.DKIM-Signature=shopnwf@nwf.org; dkim=pass
+Authentication-Results:  mx01.cbt.email-ash1.sync.lan x-tls.subject="/CN=smtp.gmail.com"; auth=fail (cipher=AES128-GCM-SHA256)
+Received: from [209.85.160.48] ([209.85.160.48:49630] helo=mail-oa1-f48.google.com)
+	by mx.fuse.net (envelope-from <fred.gribbell+caf_=fhgribbe=fuse.net@ieee.org>)
+	(ecelerity 4.4.1.20033 r(msys-ecelerity:tags/4.4.1.0^0)) with ESMTPS (cipher=AES128-GCM-SHA256
+	subject="/CN=smtp.gmail.com") 
+	id FF/4E-11631-8DF8AA56; Fri, 19 Jan 2024 10:07:01 -0500
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2108e106947so556811fac.3
+        for <fhgribbe@fuse.net>; Fri, 19 Jan 2024 07:06:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705676750; x=1706281550;
+        h=broadcastsendid:campaignerid:list-unsubscribe:feedback-id
+         :list-unsubscribe-post:mime-version:subject:message-id:to:reply-to
+         :from:date:cfbl-address:dkim-signature:dkim-signature:delivered-to
+         :x-forwarded-for:x-forwarded-to:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lzTgIsqfIciE0xgduYYfCEqkEixbegSH1cRJA1vPRu4=;
+        b=M+gNChE+TYBAnBvhccS8yYq1KTlQmoMurcnYNjnYhKdmDJ41HNaB6StfQ+UF5fcf5B
+         9uPP6+CeGZYRJzcsva+ehe/HI1HyuIVpzaFaHGYHgOOKxqs6mGOV3zznV1wsnpyKHP0k
+         /exSjbOBTLZaB3iM4chikqUiiM5c9qN2i35oOhE6AoFJE+4jkb1iM3rvXTUFUsGSARzp
+         PLPF3NPJMI5m5O/4bYgOm696dD8zIdCujnwUPxMw6JWL5EvphgAPYpfzLW8/kKC9cDIw
+         w63g+l3lsZjmADIBbjG91Gjs+t0RDTBbpaQUt0uqhKVWyAdb5z5NccGtjFNBuJGX35Ii
+         MHZw==
+X-Gm-Message-State: AOJu0YwENW9mZccWFjhBGWhZDii9pwJbtncF2T2ev2NxYXxkCV7NhBnt
+	Hjwjm79KXOxdX54t5wA9yTxR/41yZJcyIlrJIqfNcZfxgdWclVEO3mCKKqu8KcdRN7MedLGGMuj
+	jlLifPsuNHFrACt0HJ2wYK6bXjsfrx7E075CLjD2WmUOke+TGvtjMHywO1xNN0ocCYc4pjwakv0
+	0=
+X-Received: by 2002:a05:6214:27ef:b0:681:105:58b6 with SMTP id jt15-20020a05621427ef00b00681010558b6mr2453588qvb.127.1705672971147;
+        Fri, 19 Jan 2024 06:02:51 -0800 (PST)
+X-Forwarded-To: fhgribbe@fuse.net
+X-Forwarded-For: fred.gribbell@ieee.org fhgribbe@fuse.net
+Delivered-To: fred.gribbell@ieee.org
+Received: by 2002:a0c:8e4d:0:b0:67f:6a3c:734e with SMTP id w13csp1061860qvb;
+        Fri, 19 Jan 2024 06:02:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGqFrOnoYFZAgxb7LaS331Fke6WbcMoOMqTEMFRbm357WyytYx49sHDRZu8bXbfg1IVhJDT
+X-Received: by 2002:a05:651c:154d:b0:2cc:603f:5cd7 with SMTP id y13-20020a05651c154d00b002cc603f5cd7mr1951820ljp.6.1705672969538;
+        Fri, 19 Jan 2024 06:02:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705672969; cv=none;
+        d=google.com; s=arc-20160816;
+        b=wmVORDd0xZF+ZLDs6d+NoKFU6qjdGOTGwiWrGniWKjLR8UtGtvB8aMzm1G4jArh9SC
+         NgM9igz/KRrWUKeiZtItMCFxT/yA1MNZBtAdH5ikEantHwQri6093pdVubPwJjADAT58
+         G9Zu8MthYEI7Qjrs3NIQdHRqdz1U7lmI2CZy0UTroGoGbkXCn9g29Nw5+neKsa5QlsIn
+         D/5Evlq/eZaQ1DtOPwecyxyt2wkm4/haHxXySRgTAxg9feA7/OtfPd6dL5Cy/sboF/LK
+         LhjrkTte/RZhuy8hAfwSJLiu2MuH1o8b26DmVb93rxv3ulE1NVDuC/RoJUWNQZSUo6Il
+         ULIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=broadcastsendid:campaignerid:list-unsubscribe:feedback-id
+         :list-unsubscribe-post:mime-version:subject:message-id:to:reply-to
+         :from:date:cfbl-address:dkim-signature:dkim-signature;
+        bh=lzTgIsqfIciE0xgduYYfCEqkEixbegSH1cRJA1vPRu4=;
+        fh=wP2B5kCb4W4KWjOdVe77SFEzoxiUghKcZTmNBDHqMJI=;
+        b=jSySpFm28JYfEaEAjKSkoeG/55g0g/OIXxl/qrs5JFjIVK+aH4hmxJ6h615PccAbmq
+         GWUawMbu8w6cu8nruhEKFrLZrsaZ8dHZHCpoSUhvzpUKjjSv6U5KMbmDN8KMvaMw+q28
+         4W8kyZr3azwqNEN/yX5ATILpMRJGugxAX1m0EVbCBmkgfDX6r1R0yVoCufhSNJVk6v6I
+         PrC8/k1ejaMdRXaMkH0AyRpwJ6OI6P7aEu3rXW2cFOWou7pn+k53Ng75X5px+TVcKTk5
+         H+4gCUzdsb/2w12KlO7jbhGmBZrivrUQUb3JSoKH4tyBgxuXNtHYl0fOp0YftdmtsO06
+         LT3Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@nwf.org header.s=enkey2 header.b=g0CuKlJl;
+       dkim=pass header.i=@server8839.e-activist.com header.s=use2enkey2 header.b=lAahANfR;
+       spf=pass (google.com: domain of us-bounces@enbounce.nwf.org designates 66.187.205.217 as permitted sender) smtp.mailfrom=us-bounces@enbounce.nwf.org
+Received: from mx.expurgate.net (mx.expurgate.net. [195.190.135.10])
+        by mx.google.com with ESMTPS id e10-20020a5d530a000000b0033922fb83fdsi406221wrv.921.2024.01.19.06.02.49
+        for <fred.gribbell@ieee.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 19 Jan 2024 06:02:49 -0800 (PST)
+Received-SPF: pass (google.com: domain of us-bounces@enbounce.nwf.org designates 66.187.205.217 as permitted sender) client-ip=66.187.205.217;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@nwf.org header.s=enkey2 header.b=g0CuKlJl;
+       dkim=pass header.i=@server8839.e-activist.com header.s=use2enkey2 header.b=lAahANfR;
+       spf=pass (google.com: domain of us-bounces@enbounce.nwf.org designates 66.187.205.217 as permitted sender) smtp.mailfrom=us-bounces@enbounce.nwf.org
+Received: from mx.expurgate.net (helo=localhost)
+	by mx.expurgate.net with esmtp
+	id 1rQpSK-00HJ45-SH
+	for fred.gribbell@ieee.org; Fri, 19 Jan 2024 15:02:48 +0100
+Authentication-Results: eu.smtp.expurgate.cloud; dkim=pass header.s=enkey2 header.d=nwf.org header.i="shopnwf@nwf.org" header.h="CFBL-Address:Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe-Post:Feedback-ID:List-Unsubscribe"; dkim=pass header.s=use2enkey2 header.d=server8839.e-activist.com header.i="@server8839.e-activist.com" header.h="CFBL-Address:Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe-Post:Feedback-ID:List-Unsubscribe"
+Received: from [66.187.205.217] (helo=mta73-use2.e-activist.com)
+	by tlsNG-c1860d.mxtls.expurgate.net with ESMTPS (eXpurgate 4.48.0)
+	(envelope-from <us-bounces@enbounce.nwf.org>)
+	id 65aa8107-ae77-0a2a45080019-42bbcdd9d65d-3
+	for <fred.gribbell@ieee.org>; Fri, 19 Jan 2024 15:02:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=enkey2; d=nwf.org;
+ h=CFBL-Address:Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:
+ Content-Type:List-Unsubscribe-Post:Feedback-ID:List-Unsubscribe;
+ i=shopnwf@nwf.org;
+ bh=lzTgIsqfIciE0xgduYYfCEqkEixbegSH1cRJA1vPRu4=;
+ b=g0CuKlJlhjLomRdpJ7pCSz/UWKjxve4DCq11YwRY+lFdfaR3LerjLcw9oZgElhPfRGj7lF8/exJY
+   rcnc3qBdOxn2HnmkQZ2xxkL6/51Uo/JgtN6aSRlcAK4sjHQaOvTRWB7VVG/Tntge81FskmlTmwxD
+   lOOXOv3Hd0ucrzp+kjaDFVSmoDhz1oO2QhTycilAPJuWA5ArCLXwUHz426HeETCMVMiDGJuJgcDx
+   XdKqypV9xNbhXTk3BR12ZfjNfsGXuPQKeKg8FkUywPe4MLK19hPbOZI97n8YQIcy9CA+h7prlYuj
+   ZjA9qpK42HmCaB+NLoLXO/iJA5yrCBraHElmUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=use2enkey2;
+ d=server8839.e-activist.com;
+ h=CFBL-Address:Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:
+ Content-Type:List-Unsubscribe-Post:Feedback-ID:List-Unsubscribe;
+ bh=lzTgIsqfIciE0xgduYYfCEqkEixbegSH1cRJA1vPRu4=;
+ b=lAahANfRfbJppUndVa+K9xbeZEhFnH/UlZAO6h5Nt+dk/5PGK8PWkHbRahs30XfL5ggeQMIppX3l
+   qQgd6VkW68MJGJ89GHJFgzpNBxir1hesg+RtcSgB+JG6Hq8vGuF+1GFkSmeyo6y9lS2bQQKHdaV3
+   ddFfI8/QROKa4g5ttNYofjIeJR0fGz3sO+0SH/8G3NsLzmeVvkVpNxmd6aXzVQp32SsW70zRx+Mv
+   bf7flbvvAXlH4dhxVZ21NrZemeN4kMT23+5NRqrBrNip/gS+UUPdm1zmb+mGybdzW9kmeI3WZNfv
+   MxreKjNDcEWrau1D1FMbJDFhcz887Wg8DNbmHg==
+Received: by mta73-use2.e-activist.com id hla0ge35gd83 for <fred.gribbell@ieee.org>; Fri, 19 Jan 2024 09:02:47 -0500 (envelope-from <us-bounces@enbounce.nwf.org>)
+CFBL-Address: complaints@fbl-use2.e-activist.com; report=arf
+Date: Fri, 19 Jan 2024 09:02:47 -0500 (EST)
+From: National Wildlife Federation <shopnwf@nwf.org>
+Reply-To: National Wildlife Federation <shopnwf@nwf.org>
+To: fred.gribbell@ieee.org
+Message-ID: <1624800193.11846855.1705672967251@use2-prd-job2>
+Subject: FINAL DAY TO SAVE!
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_11846854_184099788.1705672967251"
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Feedback-ID: 286167:10033:engaging
+List-Unsubscribe: <mailto:1424_286167_42433566_af148e1de335d0e15cb76ed68ae86e8@us.unsubscribe.e-activist.com>,
+ <https://us.engagingnetworks.app/page/unsubscribe?q=1424&c=42433566&p=175930&b=286167&hash=af148e1de335d0e15cb76ed68ae86e8>
+campaignerId: 42433566
+X-Auto-Response-Suppress: OOF
+x-dkim-options: key-list=enlist1; s=enkey2; d=nwf.org
+x-job: national_wildlife_286167
+broadcastSendId: 286167;
+X-Virtual-MTA: mta73-use2
+X-purgate-ID: tlsNG-c1860d/1705672968-4C532304-D45394FB/19/7998036965
+X-purgate-type: clean
+X-purgate-size: 38476
+X-Vade-Verdict: commercial:mce
+X-Vade-Analysis-1: gggruggvucftvghtrhhoucdtuddrgedvkedrvdektddgjeduucetufdoteggodetrfdotffvucfrrhho
+X-Vade-Analysis-2: fhhilhgvmecuufgjpfetvefqtfdpveeuvfdpgffpggdqveeuvfenuceurghilhhouhhtmecufedtuden
+X-Vade-Analysis-3: ucdnofetkffnkffpifculddujedmnecujfgurhepfffhrhfvkffugggtjfesmhdtsggstddtjeenucfh
+X-Vade-Analysis-4: rhhomheppfgrthhiohhnrghlucghihhlughlihhfvgcuhfgvuggvrhgrthhiohhnuceoshhhohhpnhif
+X-Vade-Analysis-5: fhesnhiffhdrohhrgheqnecuggftrfgrthhtvghrnhepfefhteejieeiuefgfefhheeuieekveevtedu
+X-Vade-Analysis-6: teeiffeghefgkedtgeegiedvjeeknecuffhomhgrihhnpegvnhhgrghgihhnghhnvghtfihorhhkshdr
+X-Vade-Analysis-7: rghpphdpnhiffhdrohhrghenucfkphepvddtledrkeehrdduiedtrdegkedpieeirddukeejrddvtdeh
+X-Vade-Analysis-8: rddvudejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddtledrkeehrddu
+X-Vade-Analysis-9: iedtrdegkedphhgvlhhopehmrghilhdqohgruddqfhegkedrghhoohhglhgvrdgtohhmpdhmrghilhhf
+X-Vade-Analysis-10: rhhomhepfhhrvggurdhgrhhisggsvghllhdotggrfhgppehfhhhgrhhisggsvgepfhhushgvrdhnvght
+X-Vade-Analysis-11: sehivggvvgdrohhrghdprhgtphhtthhopehfhhhgrhhisggsvgesfhhushgvrdhnvghtpdhmthgrhhho
+X-Vade-Analysis-12: shhtpehmgidtuddrtggsthdrvghmrghilhdqrghshhdurdhshihntgdrlhgrnhdpshhpfhepphgrshhs
+X-Vade-Analysis-13: pdgukhhimhepphgrshhspdhnsggprhgtphhtthhopedupdhishgpnhgrpehtrhhuvg
+X-Vade-Client: CBT
+
+------=_Part_11846854_184099788.1705672967251
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_11846853_636537452.1705672967251"
+
+------=_Part_11846853_636537452.1705672967251
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Take an additional 20% off clearance gifts! THE NATIONAL WILDLIFE FEDERATIO=
+N Cards =00amp;amp;utm_medium=3Demail%20header~Cards}] | Adoption Center
+[https://us.engagingnetworks.app/page/email/click/10033/2280658?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] | Appa=
+rel
+[https://us.engagingnetworks.app/page/email/click/10033/2280659?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] | Home=
+ =00amp;utm_medium=3Demail%20header~HomeGarden}] | Magazines
+[https://us.engagingnetworks.app/page/email/click/10033/2280660?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] | Sale
+[https://us.engagingnetworks.app/page/email/click/10033/2280661?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]=20
+[https://us.engagingnetworks.app/page/email/click/10033/2280647?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]DON'T D=
+ELAY! It's the final hours of our mega clearance sale! Take an additional
+20% off clearance prices with code BIGSALE at checkout.
+
+Use code BIGSALE at checkout. Offer not valid on previous purchases or with=
+ any
+other offer. Discount not applicable to personalization or customizable
+products. While supplies last. BIGSALE expires 1/19/24 at 11:59 pm EST.
+
+SHOP NOW
+[https://us.engagingnetworks.app/page/email/click/10033/2280648?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]
+
+[https://us.engagingnetworks.app/page/email/click/10033/2280649?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]BRING N=
+ATURE TO LIFE
+
+Fuel their passion for wildlife with our selection of Ranger Rick magazines=
+!
+
+Shop Now
+[https://us.engagingnetworks.app/page/email/click/10033/2280649?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]
+
+
+[https://us.engagingnetworks.app/page/email/click/10033/2280650?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]FOR THE=
+ KIDS
+
+Our selection of toys, games, and gifts are perfect for fostering their lov=
+e of
+nature!
+
+Shop Now
+[https://us.engagingnetworks.app/page/email/click/10033/2280650?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]
+
+Your Purchase Supports Our Mission to Ensure Wildlife Thrive in a Rapidly
+Changing World Join the Conversation=20
+[https://us.engagingnetworks.app/page/email/click/10033/2280662?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]=20
+[https://us.engagingnetworks.app/page/email/click/10033/2280663?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D]=20
+[https://us.engagingnetworks.app/page/email/click/10033/2280664?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] Contac=
+t Us
+[https://us.engagingnetworks.app/page/email/click/10033/2280665?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] Privac=
+y Policy
+[https://us.engagingnetworks.app/page/email/click/10033/2280666?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] NWF.or=
+g
+[https://us.engagingnetworks.app/page/email/click/10033/2280667?email=3DLLJ=
+UW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] [https=
+://us.engagingnetworks.app/page/email/click/10033/2280657?email=3DLLJUW5lvP=
+bIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D] =C2=A9 2024 =
+The National Wildlife Federation, all rights reserved
+The National Wildlife Federation is a 501(c)(3) non-profit organization
+1 Stationery Place, Rexburg, ID 83441-5000 View in Browser [https://us.enga=
+gingnetworks.app/page/email/message/view?ea.campaigner.email=3DLLJUW5lvPbIh=
+IoVoS9axJPPllACnVCYb&broadcastId=3D286167&templateId=3D287370] | Unsubscrib=
+e [https://support.nwf.org/page/unsubscribe?q=3D1424&p=3D175930&b=3D286167&=
+hash=3DLLJUW5lvPbIhIoVoS9axJPPllACnVCYb]
+------=_Part_11846853_636537452.1705672967251
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office" lang=3D"en"=
+><head>
+    <meta charset=3D"utf-8"> <!-- utf-8 works for most cases -->
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width"> <!-- Forcing =
+initial-scale shouldn't be necessary -->
+    <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"> <!-- Use th=
+e latest (edge) version of IE rendering engine -->
+    <meta name=3D"x-apple-disable-message-reformatting">  <!-- Disable auto=
+-scale in iOS 10 Mail entirely -->
+    <title></title> <!-- The title tag shows in email notifications, like A=
+ndroid 4.4. -->
+
+    <!-- Web Font / @font-face : BEGIN -->
+    <!-- NOTE: If web fonts are not required, lines 10 - 29 can be safely r=
+emoved. -->
+
+    <!-- Desktop Outlook chokes on web font references and defaults to Time=
+s New Roman, so we force a safe fallback font. -->
+<!--[if mso]>
+<style>
+    body, p, a, h1, h2, h3, ul, li {
+=09font-family: Arial, Helvetica, sans-serif !important;
+    }
+    .mso_sans {
+=09font-family: Arial, Helvetica, sans-serif !important;
+    }
+</style>
+<![endif]-->
+
+    <!-- All other clients get the webfont reference; some will render the =
+font and others will silently fail to the fallbacks. Note: adding a referen=
+ce like this will sometimes throw off Outlook (Desktop) 2013 and older, and=
+ make it revert to Times New Roman. Include at own risk with that in mind. =
+More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in=
+-email/ -->
+    <!--[if !mso]><!-->
+<link href=3D"https://fonts.googleapis.com/css?family=3DFira+Sans|Patua+One=
+" rel=3D"stylesheet">
+    <!--<![endif]-->
+
+    <!-- Web Font / @font-face : END -->
+
+    <!-- CSS Reset : BEGIN -->
+    <style>
+
+        /* What it does: Remove spaces around the email design added by som=
+e email clients. */
+        /* Beware: It can remove the padding / margin and add a background =
+color to the compose a reply window. */
+        html,
+        body {
+            margin: 0 auto !important;
+            padding: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+        }
+
+=09=09        h1 {
+=09=09=09font-size: 24px;
+=09=09=09line-height: 30px;
+=09=09=09font-family: 'Patua One', Arial, sans-serif;
+=09=09=09color: #4A8D65;
+=09=09=09font-weight:normal;
+=09=09}
+=09=09li {
+=09=09=09font-size: 16px;
+=09=09=09line-height:18px;
+=09=09=09font-family: 'Fira Sans', Arial, sans-serif;
+=09=09=09color: #252525;
+=09=09=09font-weight: normal;
+=09=09=09margin-bottom: .5em;=20
+=09=09}
+=09=09
+        /* What it does: Stops email clients resizing small text. */
+        * {
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* What it does: Centers email on Android 4.4 */
+        div[style*=3D"margin: 16px 0"] {
+            margin: 0 !important;
+        }
+
+        /* What it does: Stops Outlook from adding extra spacing to tables.=
+ */
+        table,
+        td {
+            mso-table-lspace: 0pt !important;
+            mso-table-rspace: 0pt !important;
+        }
+
+        /* What it does: Fixes webkit padding issue. */
+        table {
+            border-spacing: 0 !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+            margin: 0 auto !important;
+        }
+
+        /* What it does: Uses a better rendering method when resizing image=
+s in IE. */
+        img {
+            -ms-interpolation-mode:bicubic;
+        }
+
+        /* What it does: Scales images to fit viewport. */
+        .responsive {
+           max-width: 100%;
+           height: auto;
+        }
+
+        /* What it does: Sets color for links. Styles for non-underlined, o=
+r different color links should be inline. */
+        a {
+            color: #00b2ca;
+        }
+
+        /* What it does: A work-around for email clients meddling in trigge=
+red links. */
+        *[x-apple-data-detectors],  /* iOS */
+        .unstyle-auto-detected-links *,
+        .aBn {
+            border-bottom: 0 !important;
+            cursor: default !important;
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* What it does: Prevents Gmail from displaying a download button o=
+n large, non-linked images. */
+        .a6S {
+            display: none !important;
+            opacity: 0.01 !important;
+        }
+
+        /* What it does: Prevents Gmail from changing the text color in con=
+versation threads. */
+        .im {
+            color: inherit !important;
+        }
+
+        /* If the above doesn't work, add a .g-img class to any image in qu=
+estion. */
+        img.g-img + div {
+            display: none !important;
+        }
+
+        /* What it does: Removes right gutter in Gmail iOS app: https://git=
+hub.com/TedGoas/Cerberus/issues/89  */
+        /* Create one of these media queries for each additional viewport s=
+ize you'd like to fix */
+
+        /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
+        @media only screen and (min-device-width: 320px) and (max-device-wi=
+dth: 374px) {
+            u ~ div .email-container {
+                min-width: 320px !important;
+            }
+=09=09=09.logo img {
+                max-width: 100%;
+                min-width: 300px;
+                height: auto;
+            }
+        }
+        /* iPhone 6, 6S, 7, 8, and X */
+        @media only screen and (min-device-width: 375px) and (max-device-wi=
+dth: 413px) {
+            u ~ div .email-container {
+                min-width: 375px !important;
+            }
+        }
+        /* iPhone 6+, 7+, and 8+ */
+        @media only screen and (min-device-width: 414px) {
+            u ~ div .email-container {
+                min-width: 414px !important;
+            }
+        }
+
+    </style>
+
+    <!-- What it does: Makes background images in 72ppi Outlook render at c=
+orrect size. -->
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+
+    <!-- CSS Reset : END -->
+
+    <!-- Progressive Enhancements : BEGIN -->
+    <style>
+
+=09    /* What it does: Hover styles for buttons */
+=09    .button-td,
+=09    .button-a {
+=09        transition: all 100ms ease-in;
+=09    }
+=09    .button-td-primary:hover,
+=09    .button-a-primary:hover {
+=09        background: #00ddfb !important;
+=09        border-color: #00ddfb !important;
+=09    }
+      .button-td-secondary:hover,
+=09    .button-a-secondary:hover {
+=09        background: #bce4f0 !important;
+=09        border-color: #bce4f0 !important;
+=09    }*/
+      /* Removes extra margin from p tag in Donate button in footer, so but=
+ton can be sized in Outlook correctly when user edits button text */
+      .button-td-secondary .en__component--textblock p, .button-td-primary =
+.en__component--textblock p {
+        padding: 0;
+        margin: 0;
+      }
+      .button-td-primary .en__component--textblock a {
+        text-decoration: none;
+        color: #ffffff;
+      }
+      .button-td-secondary .en__component--textblock a{
+        text-decoration: none;
+        color: #252525;
+      }
+      /* Remove the padding that EN inserts when editing button URL using t=
+he visual editor*/
+      .button-text p{
+          margin: 0;
+      }
+      /* ensure hero images are no more than 600px wide, does not work with=
+ Outlook desktop */
+      .hero-image{
+         max-width: 600px;
+      }
+        /* openbox9 Addition - Enable responsive header button */
+        @media only screen and (max-width:560px) {
+            /* Responsive table*/
+            table[class=3Dresponsivetable] {
+                width: 100% !important;
+                background-color: #d8eff6 !important;
+                padding: 0 !important;
+                display: block !important;
+                text-align: center !important;
+            }
+            #templateColumns{
+                width:100% !important;
+            }
+            .templateColumnContainer{
+=09display: block !important;
+=09width: 80% !important;
+=09text-align: center;
+=09margin: 0 auto !important;
+            }
+            .templateColumnContainer p{
+=09text-align: center !important;
+            }
+=09=09=09 .mobileHide {
+              width: 0px !important;
+              display: none !important;
+            }
+            .logo img {
+              margin-bottom: 14px;
+            }
+        }
+
+
+    </style>
+    <!-- Progressive Enhancements : END -->
+
+</head>
+<!--
+=09The email background color is defined in three places:
+=091. body tag: for most email clients
+=092. center tag: for Gmail and Inbox mobile apps and web versions of Gmail=
+, GSuite, Inbox, Yahoo, AOL, Libero, Comcast, freenet, Mail.ru, Orange.fr
+=093. mso conditional: For Windows 10 Mail
+-->
+<body width=3D"100%" style=3D"margin-top: 0px; margin-bottom: 0px; margin-l=
+eft: 0px; background-color: rgb(224, 233, 234); font-family: &quot;Fira San=
+s&quot;, sans-serif; font-size: 16px; zoom: 1; padding: 0px !important;">
+=09<center style=3D"width: 100%; background-color: #e0e9ea;">
+    <!--[if mso | IE]>
+    <table role=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%" style=3D"background-color: #e0e9ea;">
+    <tr>
+    <td>
+    <![endif]-->
+
+        <!--
+            Set the email width. Defined in two places:
+            1. max-width for all clients except Desktop Windows Outlook, al=
+lowing the email to squish on narrow but never go wider than 600px.
+            2. MSO tags for Desktop Windows Outlook enforce a 600px width.
+        -->
+        <div style=3D"max-width: 600px; margin: 0 auto;" class=3D"email-con=
+tainer">
+            <!--[if mso]>
+            <table align=3D"center" role=3D"presentation" cellspacing=3D"0"=
+ cellpadding=3D"0" border=3D"0" width=3D"600">
+            <tr>
+            <td>
+            <![endif]-->
+
+=09        <!-- Email Body : BEGIN -->
+=09        <table role=3D"presentation" style=3D"margin: auto; background-c=
+olor: #FFFFFF;" width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" align=3D"center">
+=09=09        <!-- Email Header : BEGIN -->
+=09            <tbody><!-- Preheader : BEGIN -->
+=09=09<tr>
+=09=09  <td class=3D"mso_sans" style=3D"display:none !important;
+           visibility:hidden;
+           mso-hide:all;
+           line-height:1px;
+           max-height:0px;
+           max-width:0px;
+           opacity:0;
+           overflow:hidden;
+           font-size:1px;
+           color:#000000;
+           background-color: #000000;">
+=09=09=09Take an additional 20% off clearance gifts!
+=09=09=09</td>
+=09=09</tr>
+<!-- Preheader : END --><tr>
+                                <td class=3D"mso_sans" style=3D"font-family=
+: 'Patua One', Arial, Helvetica, sans-serif; color: #ffffff; font-size: 16p=
+x; line-height: 22px; padding: 25px 25px 15px; text-align: center; backgrou=
+nd-color: #000000;">THE NATIONAL WILDLIFE FEDERATION</td>
+=09            </tr>
+=09=09        <!-- Email Header : END -->
+               =20
+               <!-- Main Nav : BEGIN -->
+<tr>
+                    =09<td class=3D"mso_sans" style=3D"background-color: #0=
+00000; padding: 8px 14px; font-family: 'Fira Sans', sans-serif; font-size: =
+11px; text-decoration:none;" align=3D"center">
+                        <a data-id=3D"9725" href=3D"https://us.engagingnetw=
+orks.app/page/email/click/10033/2280641?email=3DLLJUW5lvPbIhIoVoS9axJPPllAC=
+nVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=3D"col=
+or: #FFFFFF; text-decoration: none;">Cards &amp; Gifts</a>
+                       <span style=3D"color:#FFFFFF;">&nbsp;|&nbsp;</span>
+                       <a data-id=3D"9725" href=3D"https://us.engagingnetwo=
+rks.app/page/email/click/10033/2280642?email=3DLLJUW5lvPbIhIoVoS9axJPPllACn=
+VCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=3D"colo=
+r: #FFFFFF; text-decoration: none;">Adoption Center</a>
+                       <span style=3D"color:#FFFFFF;">&nbsp;|&nbsp;</span>
+                       <a data-id=3D"9725" href=3D"https://us.engagingnetwo=
+rks.app/page/email/click/10033/2280643?email=3DLLJUW5lvPbIhIoVoS9axJPPllACn=
+VCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=3D"colo=
+r: #FFFFFF; text-decoration: none;">Apparel</a>
+                       <span style=3D"color:#FFFFFF;">&nbsp;|&nbsp;</span> =
+                     =20
+                       <a data-id=3D"9725" href=3D"https://us.engagingnetwo=
+rks.app/page/email/click/10033/2280644?email=3DLLJUW5lvPbIhIoVoS9axJPPllACn=
+VCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=3D"colo=
+r: #FFFFFF; text-decoration: none;">Home &amp; Garden</a>
+                       <span style=3D"color:#FFFFFF;">&nbsp;|&nbsp;</span> =
+                     =20
+                       <a data-id=3D"9725" href=3D"https://us.engagingnetwo=
+rks.app/page/email/click/10033/2280645?email=3DLLJUW5lvPbIhIoVoS9axJPPllACn=
+VCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=3D"colo=
+r: #FFFFFF; text-decoration: none;">Magazines</a>
+                       <span style=3D"color:#FFFFFF;">&nbsp;|&nbsp;</span> =
+                     =20
+                       <a data-id=3D"9725" href=3D"https://us.engagingnetwo=
+rks.app/page/email/click/10033/2280646?email=3DLLJUW5lvPbIhIoVoS9axJPPllACn=
+VCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=3D"colo=
+r: #FFFFFF; text-decoration: none;">Sale</a>
+                     =20
+                        </td>
+</tr>
+                <!-- Main Nav : END -->
+               =20
+                <!-- Hero Image, Flush : BEGIN -->
+                <tr>
+                    <td style=3D"background-color: #ffffff;">
+                    <div class=3D"en__component en__component--textblock"><=
+div class=3D"en__component en__component--imageblock en__image en__image--h=
+ero"><a data-id=3D"11227" href=3D"https://us.engagingnetworks.app/page/emai=
+l/click/10033/2280647?email=3DLLJUW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YP=
+S0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank"><img alt=3D"" class=3D"emailIm=
+age" data-ratio-lock=3D"true" data-unit=3D"%" height=3D"auto" src=3D"https:=
+//acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com=
+/10033/ClearanceSale_20Off_11.png?v=3D1705594187000" style=3D"height: auto;=
+ width: 100%;" width=3D"100%"></a></div>
+</div>
+                    </td>
+                </tr>
+                <!-- Hero Image, Flush : END -->
+
+                <!-- 1 Column Text + Button : BEGIN -->
+                <tr>
+               =20
+               =20
+               =20
+               =20
+               =20
+               =20
+               =20
+                    <td style=3D"background-color: #ffffff;">
+                        <table role=3D"presentation" width=3D"100%" cellspa=
+cing=3D"0" cellpadding=3D"0" border=3D"0">
+                            <tbody>
+                            <tr>
+                                <td style=3D"padding: 10px 8% 20px; font-fa=
+mily: 'Fira Sans', sans-serif; font-size: 16px; line-height: 150%; color: #=
+252525;" width=3D"100%" align=3D"center">
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+                               =20
+<div class=3D"en__component en__component--droppable ui-sortable">
+<div class=3D"en__component en__component--repeatable">
+<div class=3D"en__component en__component--textblock"><p><span style=3D"fon=
+t-size:28px;">DON'T DELAY! It's the final hours of our mega clearance sale!=
+ Take an additional 20% off clearance prices with code <strong>BIGSALE </st=
+rong>at checkout.</span></p>
+
+<p><span style=3D"font-size:9px;">Use code BIGSALE at checkout. Offer not v=
+alid on previous purchases or with any other offer. Discount not applicable=
+ to personalization or customizable products. While supplies last. BIGSALE =
+expires 1/19/24 at 11:59 pm EST.</span></p>
+</div>
+</div>
+</div>
+                                   =20
+                                   =20
+<div class=3D"en__component en__component--droppable ui-sortable">
+<div class=3D"en__component en__component--repeatable">
+                                                                           =
+   =20
+<!-- Button : BEGIN -->
+                                    <table role=3D"presentation" style=3D"m=
+argin: auto;" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"cen=
+ter">
+                                        <tbody><tr>
+                                            <td class=3D"button-td button-t=
+d-primary" style=3D"background: #00b2ca;">
+                                                <div class=3D"en__component=
+ en__component--textblock button-text"><p style=3D"margin:0;"><a class=3D"b=
+utton-a button-a-primary" data-id=3D"11227" href=3D"https://us.engagingnetw=
+orks.app/page/email/click/10033/2280648?email=3DLLJUW5lvPbIhIoVoS9axJPPllAC=
+nVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" style=3D"background: #00b2ca; =
+border: 1px solid #00b2ca; font-family: 'Fira Sans', sans-serif; font-size:=
+ 14px; line-height: 14px; text-decoration: none; padding: 14px 20px 13px; c=
+olor: #ffffff; display: block; font-weight: bold; text-transform: uppercase=
+;" target=3D"_blank"><strong style=3D"color:#ffffff;">SHOP NOW</strong></a>=
+</p>
+</div>
+=09=09=09=09=09=09=09=09=09=09=09</td>
+                                        </tr>
+                                    </tbody></table>
+<!-- Button : END -->
+                                      </div>
+                                    </div>                                 =
+  =20
+                                   =20
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+
+<div class=3D"en__component en__component--droppable ui-sortable">
+<div class=3D"en__component en__component--repeatable">
+                    <table id=3D"templateColumns" width=3D"100%" cellspacin=
+g=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center">
+                      <tbody><tr style=3D"background-color: #ffffff;">
+                        <td class=3D"templateColumnContainer" width=3D"50%"=
+>
+                              <table width=3D"100%" cellspacing=3D"0" cellp=
+adding=3D"0" border=3D"0">
+                                  <tbody><tr>
+                                      <td style=3D"text-align: center; padd=
+ing: 20px 20px;">
+                                      <div class=3D"en__component en__compo=
+nent--textblock"><div class=3D"en__component en__component--imageblock"><a =
+data-id=3D"11227" href=3D"https://us.engagingnetworks.app/page/email/click/=
+10033/2280649?email=3DLLJUW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1Ddm=
+ZkArzVWMSmA=3D=3D"><img alt=3D"" class=3D"emailImage" data-ratio-lock=3D"tr=
+ue" data-unit=3D"%" height=3D"auto" src=3D"https://acb0a5d73b67fccd4bbe-c2d=
+8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10033/RangerRick_Mag.png?=
+v=3D1702574219000" style=3D"height: auto; width: 100%;" width=3D"100%"></a>=
+</div>
+</div>
+                                      </td>
+                                  </tr>
+                              </tbody></table>
+                        </td>
+                        <td class=3D"mobileHide" width=3D"10">
+                        </td>
+                        <td class=3D"templateColumnContainer" width=3D"50%"=
+>
+                              <table width=3D"100%" cellspacing=3D"0" cellp=
+adding=3D"0" border=3D"0">
+                                  <tbody>
+                                  <tr>
+                                    <td style=3D"padding: 20px 10px 20px; f=
+ont-family: 'Patua One', Arial, Helvetica, sans-serif; font-size: 24px; lin=
+e-height: 143%; color: #252525;">
+                                        <div class=3D"en__component en__com=
+ponent--textblock"><p style=3D"text-size-adjust: 100%; color: rgb(37, 37, 3=
+7); font-family: &quot;Patua One&quot;, Arial, Helvetica, sans-serif; font-=
+size: 24px; line-height: 24px; margin: 0px; border-bottom: 2px solid rgb(0,=
+ 178, 202); text-transform: uppercase;">BRING NATURE TO LIFE</p>
+
+<p style=3D"text-size-adjust: 100%; color: rgb(37, 37, 37); font-family: &q=
+uot;Fira Sans&quot;, sans-serif; font-size: 16px; line-height: 24px; margin=
+-top: 5px;">Fuel their passion for wildlife with our selection of Ranger Ri=
+ck magazines!</p>
+
+<p style=3D"text-size-adjust: 100%; color: rgb(37, 37, 37); font-family: &q=
+uot;Fira Sans&quot;, sans-serif; font-size: 16px; line-height: 24px; margin=
+-top: 5px;"><a data-id=3D"11227" href=3D"https://us.engagingnetworks.app/pa=
+ge/email/click/10033/2280649?email=3DLLJUW5lvPbIhIoVoS9axJPPllACnVCYb&campi=
+d=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank">Shop Now</a></p>
+</div>
+                                      </td>
+                                  </tr>
+                              </tbody></table>
+                          </td>
+                        </tr>
+                      </tbody></table>
+</div><div class=3D"en__component en__component--repeatable">
+                    <table id=3D"templateColumns" width=3D"100%" cellspacin=
+g=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center">
+                      <tbody><tr style=3D"background-color: #ffffff;">
+                        <td class=3D"templateColumnContainer" width=3D"50%"=
+>
+                              <table width=3D"100%" cellspacing=3D"0" cellp=
+adding=3D"0" border=3D"0">
+                                  <tbody><tr>
+                                      <td style=3D"text-align: center; padd=
+ing: 20px 20px;">
+                                      <div class=3D"en__component en__compo=
+nent--textblock"><div class=3D"en__component en__component--imageblock"><a =
+data-id=3D"11227" href=3D"https://us.engagingnetworks.app/page/email/click/=
+10033/2280650?email=3DLLJUW5lvPbIhIoVoS9axJPPllACnVCYb&campid=3D2YPS0za1Ddm=
+ZkArzVWMSmA=3D=3D"><img alt=3D"" class=3D"emailImage" data-ratio-lock=3D"tr=
+ue" data-unit=3D"%" height=3D"auto" src=3D"https://acb0a5d73b67fccd4bbe-c2d=
+8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10033/Kids_Gifts.jpg?v=3D=
+1705072074000" style=3D"height: auto; width: 100%;" width=3D"100%"></a></di=
+v>
+</div>
+                                      </td>
+                                  </tr>
+                              </tbody></table>
+                        </td>
+                        <td class=3D"mobileHide" width=3D"10">
+                        </td>
+                        <td class=3D"templateColumnContainer" width=3D"50%"=
+>
+                              <table width=3D"100%" cellspacing=3D"0" cellp=
+adding=3D"0" border=3D"0">
+                                  <tbody>
+                                  <tr>
+                                    <td style=3D"padding: 20px 10px 20px; f=
+ont-family: 'Patua One', Arial, Helvetica, sans-serif; font-size: 24px; lin=
+e-height: 143%; color: #252525;">
+                                        <div class=3D"en__component en__com=
+ponent--textblock"><p style=3D"text-size-adjust: 100%; color: rgb(37, 37, 3=
+7); font-family: &quot;Patua One&quot;, Arial, Helvetica, sans-serif; font-=
+size: 24px; line-height: 24px; margin: 0px; border-bottom: 2px solid rgb(0,=
+ 178, 202); text-transform: uppercase;">FOR THE KIDS</p>
+
+<p style=3D"text-size-adjust: 100%; color: rgb(37, 37, 37); font-family: &q=
+uot;Fira Sans&quot;, sans-serif; font-size: 16px; line-height: 24px; margin=
+-top: 5px;">Our selection of toys, games, and gifts are perfect for fosteri=
+ng their love of nature!</p>
+
+<p style=3D"text-size-adjust: 100%; color: rgb(37, 37, 37); font-family: &q=
+uot;Fira Sans&quot;, sans-serif; font-size: 16px; line-height: 24px; margin=
+-top: 5px;"><a data-id=3D"11227" href=3D"https://us.engagingnetworks.app/pa=
+ge/email/click/10033/2280650?email=3DLLJUW5lvPbIhIoVoS9axJPPllACnVCYb&campi=
+d=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank">Shop Now</a></p>
+</div>
+                                      </td>
+                                  </tr>
+                              </tbody></table>
+                          </td>
+                        </tr>
+                      </tbody></table>
+</div>
+</div>
+
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+<div class=3D"en__component en__component--droppable ui-sortable">
+
+</div>
+                                    </td>
+</tr>
+
+                                                                    </tbody=
+></table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style=3D"background-color: #00b2ca; padding: 10px 0=
+ 0;" width=3D"100%">
+                        <table role=3D"presentation" style=3D"margin: auto;=
+" width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"=
+center">
+                            <tbody>
+                            <tr>
+                                <td class=3D"mso_sans" style=3D"font-family=
+: 'Fira Sans', sans-serif; color: #ffffff; font-size: 16px; line-height: 22=
+px; padding:  20px 100px 0px; text-align: center;"><em><strong>Your Purchas=
+e Supports Our Mission to Ensure Wildlife Thrive in a Rapidly Changing Worl=
+d</strong></em></td>
+                            </tr>
+                                                        <tr>
+                                <td class=3D"mso_sans" style=3D"font-family=
+: 'Patua One', Arial, Helvetica, sans-serif; color: #ffffff; font-size: 18p=
+x; line-height: 22px; padding: 20px; text-align: center;">Join the Conversa=
+tion</td>
+                            </tr>
+                            <!-- Social Media : BEGIN -->
+                            <tr>
+                                <td style=3D"text-align: center; padding: 0=
+ 0 20px;" width=3D"100%">
+                                    <a data-id=3D"9725" href=3D"https://us.=
+engagingnetworks.app/page/email/click/10033/2280651?email=3DLLJUW5lvPbIhIoV=
+oS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" =
+style=3D"text-decoration: none;">
+                                        <img src=3D"https://acb0a5d73b67fcc=
+d4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10033/Facebook_I=
+con_40x40_white.png" alt=3D"Facebook" width=3D"38" height=3D"38" border=3D"=
+0">
+                                    </a> &nbsp; &nbsp;
+                                    <a data-id=3D"9725" href=3D"https://us.=
+engagingnetworks.app/page/email/click/10033/2280652?email=3DLLJUW5lvPbIhIoV=
+oS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" =
+style=3D"text-decoration: none;">
+                                        <img src=3D"https://acb0a5d73b67fcc=
+d4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10033/Twitter_Ic=
+on_40x40_white.png" alt=3D"Twitter" width=3D"38" height=3D"38" border=3D"0"=
+>
+                                    </a> &nbsp; &nbsp;
+                                   =20
+                                    <a data-id=3D"9725" href=3D"https://us.=
+engagingnetworks.app/page/email/click/10033/2280653?email=3DLLJUW5lvPbIhIoV=
+oS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" =
+style=3D"text-decoration: none;">
+                                        <img src=3D"https://acb0a5d73b67fcc=
+d4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10033/Pinterest_=
+Icon_40x40_white.png?v=3D1554747440000" alt=3D"Pinterest" width=3D"38" heig=
+ht=3D"38" border=3D"0">
+                                    </a>
+                                </td>
+                            </tr>
+                            <!-- Social Media : END -->
+                            <!-- Footer Links : BEGIN -->
+                            <tr>
+                                <td style=3D"text-align: center; background=
+-color: #252525; padding: 5px;" width=3D"100%">
+                                    <a data-id=3D"9725" href=3D"https://us.=
+engagingnetworks.app/page/email/click/10033/2280654?email=3DLLJUW5lvPbIhIoV=
+oS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" style=3D"text-deco=
+ration: none; color: #fff; font-family: 'Fira Sans', Arial, Helvetica sans-=
+serif; font-size: 13px; line-height: 30px; padding: 10px 8px;" target=3D"_b=
+lank">Contact&nbsp;Us</a> &nbsp;
+                                    <a data-id=3D"9725" href=3D"https://us.=
+engagingnetworks.app/page/email/click/10033/2280655?email=3DLLJUW5lvPbIhIoV=
+oS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" style=3D"text-deco=
+ration: none; color: #fff; font-family: 'Fira Sans', sans-serif; font-size:=
+ 13px; line-height: 30px; padding: 10px  8px;" target=3D"_blank">Privacy&nb=
+sp;Policy</a> &nbsp;
+                                    <a data-id=3D"9725" href=3D"https://us.=
+engagingnetworks.app/page/email/click/10033/2280656?email=3DLLJUW5lvPbIhIoV=
+oS9axJPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" style=3D"text-deco=
+ration: none; color: #fff; font-family: 'Fira Sans', sans-serif; font-size:=
+ 13px; line-height: 30px; padding: 10px  8px;" target=3D"_blank">NWF.org</a=
+>
+                                </td>
+                            </tr>
+                            <!-- Footer Links : END -->
+                           <tr cellspacing=3D"0">
+=09=09=09=09=09=09=09=09=09<td style=3D"text-align: center; padding: 0px 0 =
+0px; background-color: #ffffff;" width=3D"100%"><a href=3D"https://us.engag=
+ingnetworks.app/page/email/click/10033/2280657?email=3DLLJUW5lvPbIhIoVoS9ax=
+JPPllACnVCYb&campid=3D2YPS0za1DdmZkArzVWMSmA=3D=3D" target=3D"_blank" style=
+=3D"padding:0!important;margin-bottom:0px!important;"><img alt=3D"The Natio=
+nal Wildlife Federation" class=3D"responsive" border=3D"0" height=3D"130" s=
+rc=3D"https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5=
+.rackcdn.com/10033/2023NWF_email_footer_logo_whitebg.jpg?v=3D1704388347000"=
+ style=3D"border: 0;" width=3D"600"></a></td>
+=09=09=09=09=09=09=09=09</tr>
+                            <tr>
+                                <td class=3D"mso_sans" style=3D"font-family=
+: 'Fira Sans', sans-serif; font-size: 11px; color: #252525; line-height: 18=
+px; background-color: #ffffff;" width=3D"100%" align=3D"center">
+                                    =C2=A9 2024 The National Wildlife Feder=
+ation, all rights reserved<br>
+                                    The National Wildlife Federation is a 5=
+01(c)(3) non-profit organization<br>
+                                    1 Stationery Place, Rexburg, ID 83441-5=
+000
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style=3D"font-family: 'Fira Sans', sans=
+-serif; font-size: 13px; line-height: 18px; padding: 10px 0 30px; backgroun=
+d-color: #ffffff;" width=3D"100%" align=3D"center">
+                                    <a href=3D"https://us.engagingnetworks.=
+app/page/email/message/view?ea.campaigner.email=3DLLJUW5lvPbIhIoVoS9axJPPll=
+ACnVCYb&broadcastId=3D286167&templateId=3D287370" target=3D"_blank" style=
+=3D"color: #00b2ca; text-decoration: underline;"><strong style=3D"color:#00=
+b2ca; font-weight:normal;">View in Browser</strong></a> | <a href=3D"https:=
+//support.nwf.org/page/unsubscribe?q=3D1424&p=3D175930&b=3D286167&hash=3DLL=
+JUW5lvPbIhIoVoS9axJPPllACnVCYb" target=3D"_blank" style=3D"color: #00b2ca; =
+text-decoration: underline;"><strong style=3D"color:#00b2ca; font-weight:no=
+rmal;">Unsubscribe</strong></a>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+                <!-- Footer : END -->
+
+            </tbody></table>
+            <!-- Email Body : END -->
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </div>
+
+    <!--[if mso | IE]>
+    </td>
+    </tr>
+    </table>
+    <![endif]-->
+    </center>
+
+
+</body></html><img alt=3D"supporter" src=3D"https://us.engagingnetworks.app=
+/page/email/open/2YPS0za1DdmZkArzVWMSmA=3D=3D_b286167_tr0_t0.png"/>
+------=_Part_11846853_636537452.1705672967251--
+
+------=_Part_11846854_184099788.1705672967251--

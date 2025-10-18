@@ -1,0 +1,473 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@brandsecurity-ru.20221208.gappssmtp.com header.d=brandsecurity-ru.20221208.gappssmtp.com header.s=20221208
+Received: from outbound86.edis.at (outbound86.edis.at [37.235.59.86])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 24A6A7E2-41B1-4C40-A86E-F2F730224402.1
+	envelope-from <srs0=iwdg=ai=brandsecurity.ru=post@edis.at>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Mon, 17 Apr 2023 07:04:30 +0000
+Received: from barracuda01.edis.at (unknown [10.1.1.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by outbound.edis.at (Postfix) with ESMTPS id 5AF9073C86
+	for <0fdc28ad-d511-42c9-b70d-ed659d4056f1@smtp-forward.abusix.com>; Mon, 17 Apr 2023 09:04:30 +0200 (CEST)
+X-ASG-Debug-ID: 1681715069-0880b902a609c90001-a4WLQy
+Received: from queuerelay.edis.at ([10.1.1.14]) by barracuda01.edis.at with ESMTP id fgBHfUL9aas6b5un; Mon, 17 Apr 2023 09:04:29 +0200 (CEST)
+X-Barracuda-Envelope-From: srs0=iwdg=ai=brandsecurity.ru=post@edis.at
+X-Barracuda-RBL-Trusted-Forwarder: 10.1.1.14
+Received: from mail-delivery01.edis.at (unknown [10.1.1.188])
+	by queuerelay.edis.at (Postfix) with ESMTP id AE8A84042262;
+	Mon, 17 Apr 2023 09:04:29 +0200 (CEST)
+Received: from barracuda-spooling01.edis.at (barracuda-spooling01 [10.1.1.18])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail-delivery01.edis.at (Postfix) with ESMTPS id A60B710085A38
+	for <abuse@edis.at>; Mon, 17 Apr 2023 09:04:18 +0200 (CEST)
+X-Barracuda-RBL-Trusted-Forwarder: 10.1.1.188
+Received: from barracuda01.edis.at (ed-at-ms01 [10.1.1.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by barracuda-spooling01.edis.at (Postfix) with ESMTPS id B771E10083F19
+	for <abuse@edis.at>; Mon, 17 Apr 2023 09:04:14 +0200 (CEST)
+X-Barracuda-RBL-Trusted-Forwarder: 10.1.1.18
+X-Barracuda-RBL-Trusted-Forwarder: 10.1.1.17
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172]) by barracuda01.edis.at with ESMTP id iGdEmGv4ILhXVYaD (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO) for <abuse@edis.at>; Mon, 17 Apr 2023 09:04:12 +0200 (CEST)
+X-Barracuda-RBL-IP: 209.85.208.172
+X-Barracuda-Effective-Source-IP: mail-lj1-f172.google.com[209.85.208.172]
+X-Barracuda-Apparent-Source-IP: 209.85.208.172
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2a8bca69e8bso7837371fa.3
+        for <abuse@edis.at>; Mon, 17 Apr 2023 00:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brandsecurity-ru.20221208.gappssmtp.com; s=20221208; t=1681715051; x=1684307051;
+        h=mime-version:to:subject:date:message-id:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tDDjOYWoLXjMakOiGbag8VKgHReqhS7HQ9RawqH0yp4=;
+        b=GXyyTpg8QRladpa1rK3SPeX9xh9dF+rTbAmoWc+dj7DF9fR+UtYw/a8DzJP17GEyY5
+         CL+GmDP9fYMdCOQKFOo8Iy964Ps6gOPGBZ6ApC8lCzEgZf8fvukYkSKXsJZuIRFbl+RR
+         nSpH1kK2+hn9twpllyjNiYExcZHQkPcHSprY4+0Cnem9WbnnMDFF5vvmFLFZkWk9LU0U
+         N7096yVsKkIj0A+Q2X0T98APaQ6ZGGjRn86MZzecopZK3nPSiGl9aHsI7iSUpNjmrA9P
+         BZei+wZRJAuIE67BfTNzmZfkqBkPegQF3JmQmvG9jf4OOW7usee8X1byXFufunX1vykx
+         T7ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681715051; x=1684307051;
+        h=mime-version:to:subject:date:message-id:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tDDjOYWoLXjMakOiGbag8VKgHReqhS7HQ9RawqH0yp4=;
+        b=MuKZ0RMs2SWy6E4j8rIqoRdgMUM4cqgBYVC4YlvJjit90hNZKbzulg0ng/thvxQTel
+         28bNqNZIB3N9XB+GxJscwqZrGILIUMH4drRGFEwEhOri+wFeUsDp+lJEMJXzb7K5Y8Ap
+         Sx3RGKCYqC7g7espyXJ2AzCPWAsVK+5FNGJXNomHEqD8zB5I/+cn2K6UYqGCVwLfqqGH
+         Bt49Q6IjGscYZOBlDD2r7yDk0qpxxv5yX3Jyadb3jlbFsM/XwrjQWvWyw+AKqIdL3SUo
+         bI81Epi4XupnvJPv7CFD6EDoFVsyiaUnILABTRuIoVdsG2CRHO9TzLI+UzE9a00Kvs5C
+         081w==
+X-Gm-Message-State: AAQBX9cGZxglj2rjDN0+TU4aUvRICnLIioVkJ+AKyfd0TYg/4no5ODLz
+	eP8CihvA56rVIhQvc5EUc4AmAsifAOfrchPbkRg=
+X-Google-Smtp-Source: AKy350bbc3TV6c14c0W04E9DnoWTd+adMwOMiTRZwfjEgEYLiD12Ce6cCaaCxXZEaXIdWTgxeBqvoQ==
+X-Received: by 2002:ac2:568e:0:b0:4ed:c640:a20d with SMTP id 14-20020ac2568e000000b004edc640a20dmr436452lfr.49.1681715051056;
+        Mon, 17 Apr 2023 00:04:11 -0700 (PDT)
+Received: from localhost ([2a03:80c0:1:537::])
+        by smtp.gmail.com with ESMTPSA id u26-20020ac24c3a000000b004eb0dcc52ddsm1947426lfq.41.2023.04.17.00.04.10
+        for <abuse@edis.at>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 00:04:10 -0700 (PDT)
+From: BrandSecurity <post@brandsecurity.ru>
+X-Google-Original-From: BrandSecurity <post@brandsecurity.com>
+Message-ID: <41e69abe0137035c425ca3ddde85a3f3@swift.generated>
+Date: Mon, 17 Apr 2023 10:04:10 +0300
+Subject: =?utf-8?Q?=D0=9F=D0=BE=D0=B2=D1=82=D0=BE=D1=80=D0=BD=D0=BE?=
+ =?utf-8?Q?=D0=B5_=D1=83=D0=B2=D0=B5=D0=B4=D0=BE=D0=BC?=
+ =?utf-8?Q?=D0=BB=D0=B5=D0=BD=D0=B8=D0=B5_=D0=BE_=D0=BD=D0=B0=D1=80=D1=83?=
+ =?utf-8?Q?=D1=88=D0=B5=D0=BD=D0=B8=D0=B8_=D0=BF=D1=80?=
+ =?utf-8?Q?=D0=BE=D0=B2=D0=B0=D0=B9=D0=B4=D0=B5=D1=80=D1=83/Repeated?=
+ violation notice to hosting provider
+ =?utf-8?Q?=D0=9C=2E=D0=92=D0=B8=D0=B4=D0=B5=D0=BE?= TiketId:878291
+To: abuse@edis.at
+X-ASG-Orig-Subj: =?utf-8?Q?=D0=9F=D0=BE=D0=B2=D1=82=D0=BE=D1=80=D0=BD=D0=BE?=
+ =?utf-8?Q?=D0=B5_=D1=83=D0=B2=D0=B5=D0=B4=D0=BE=D0=BC?=
+ =?utf-8?Q?=D0=BB=D0=B5=D0=BD=D0=B8=D0=B5_=D0=BE_=D0=BD=D0=B0=D1=80=D1=83?=
+ =?utf-8?Q?=D1=88=D0=B5=D0=BD=D0=B8=D0=B8_=D0=BF=D1=80?=
+ =?utf-8?Q?=D0=BE=D0=B2=D0=B0=D0=B9=D0=B4=D0=B5=D1=80=D1=83/Repeated?=
+ violation notice to hosting provider
+ =?utf-8?Q?=D0=9C=2E=D0=92=D0=B8=D0=B4=D0=B5=D0=BE?= TiketId:878291
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1681715050_47ab521f7dc0848336f3b968601d6d20_=_"
+X-Virus-Scanned: by bsmtpd at edis.at
+X-Barracuda-Connect: UNKNOWN[10.1.1.14]
+X-Barracuda-Start-Time: 1681715069
+X-Barracuda-URL: https://spamfirewall.at:443/cgi-mod/mark.cgi
+X-ASG-Whitelist: Header =?UTF-8?B?YWJ1c2VcQGVkaXNcLmF0?=
+X-Virus-Scanned: by bsmtpd at edis.at
+X-Barracuda-Scan-Msg-Size: 12219
+X-Barracuda-BRTS-Status: 1
+
+
+--_=_swift_1681715050_47ab521f7dc0848336f3b968601d6d20_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Du=
+tf-8" />
+        <title>=D0=9F=D0=A0=D0=95=D0=A2=D0=95=D0=9D=D0=97=D0=98=D0=AF</titl=
+e>
+        <style type=3D"text/css">
+            body {margin: 0; padding: 0; min-width: 100%!important;}
+            .content {width: 100%; max-width: 600px;}
+        </style>
+    </head>
+<body>
+<table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0">
+    <tr>
+        <td>
+            <table class=3D"content" align=3D"center" cellpadding=3D"0" cel=
+lspacing=3D"0" border=3D"0">
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td valign=3D"top">
+                                </td>
+                                <td align=3D"right" width=3D"350px">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p><strong> <strong> =D0=
+=9A=D0=BE=D0=BC=D1=83: =D1=85=D0=BE=D1=81=D1=82=D0=B8=D0=BD=D0=B3-=D0=BF=
+=D1=80=D0=BE=D0=B2=D0=B0=D0=B9=D0=B4=D0=B5=D1=80=D1=83 =D1=81=D0=B0=D0=
+=B9=D1=82=D0=B0 mvideo-club.com <p> =D0=92 =D0=B8=D0=BD=D1=82=D0=B5=D1=
+=80=D0=B5=D1=81=D0=B0=D1=85 =D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=
+=D0=BB=D0=B0=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D1=8F: =D0=9E=D0=9E=D0=9E =C2=
+=AB=D0=9C=D0=92=D0=9C=C2=BB</p> <p> =D0=9F=D1=80=D0=B5=D0=B4=D1=81=D1=82=
+=D0=B0=D0=B2=D0=B8=D1=82=D0=B5=D0=BB=D1=8C =D0=BF=D0=BE =D0=B4=D0=BE=D0=
+=B2=D0=B5=D1=80=D0=B5=D0=BD=D0=BD=D0=BE=D1=81=D1=82=D0=B8: <p> =D0=9E=D0=
+=9E=D0=9E =C2=AB=D0=9E=D0=BD=D0=BB=D0=B0=D0=B9=D0=BD =D0=9F=D1=80=D0=BE=
+=D1=82=D0=B5=D0=BA=D1=82=C2=BB </p>
+ <p> <strong> post@brandsecurity.ru </strong> </p>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p align=3D"center"><strong> =D0=9F=D1=80=D0=B5=
+=D1=82=D0=B5=D0=BD=D0=B7=D0=B8=D1=8F =D0=BD=D0=B0 =D0=BD=D0=B0=D1=80=D1=
+=83=D1=88=D0=B5=D0=BD=D0=B8=D0=B5 =D0=B8=D0=BD=D1=82=D0=B5=D0=BB=D0=BB=
+=D0=B5=D0=BA=D1=82=D1=83=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=D1=85 =D0=BF=D1=
+=80=D0=B0=D0=B2 =D0=BD=D0=B0 =D1=81=D0=B0=D0=B9=D1=82=D0=B5 </strong></p>
+
+<p>=D0=9C=D1=8B, =D0=9E=D0=9E=D0=9E =C2=AB=D0=9E=D0=BD=D0=BB=D0=B0=D0=B9=
+=D0=BD =D0=9F=D1=80=D0=BE=D1=82=D0=B5=D0=BA=D1=82=C2=BB, =D1=83=D0=BF=D0=
+=BE=D0=BB=D0=BD=D0=BE=D0=BC=D0=BE=D1=87=D0=B5=D0=BD=D1=8B =D0=BF=D1=80=
+=D0=B5=D0=B4=D1=81=D1=82=D0=B0=D0=B2=D0=BB=D1=8F=D1=82=D1=8C =D0=B8=D0=
+=BD=D1=82=D0=B5=D1=80=D0=B5=D1=81=D1=8B <strong> =D0=9E=D0=9E=D0=9E =C2=
+=AB=D0=9C=D0=92=D0=9C=C2=BB </strong> (=D0=B4=D0=B0=D0=BB=D0=B5=D0=B5 =
+=E2=80=93 =D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=
+=D0=B0=D1=82=D0=B5=D0=BB=D1=8C) =D0=BD=D0=B0 =D0=BE=D1=81=D0=BD=D0=BE=D0=
+=B2=D0=B0=D0=BD=D0=B8=D0=B8 =D0=B4=D0=BE=D0=B2=D0=B5=D1=80=D0=B5=D0=BD=
+=D0=BD=D0=BE=D1=81=D1=82=D0=B8 =D0=BF=D0=BE =D0=B2=D1=81=D0=B5=D0=BC =D0=
+=B2=D0=BE=D0=BF=D1=80=D0=BE=D1=81=D0=B0=D0=BC, =D1=81=D0=B2=D1=8F=D0=B7=
+=D0=B0=D0=BD=D0=BD=D1=8B=D0=BC =D1=81 =D0=B7=D0=B0=D1=89=D0=B8=D1=82=D0=
+=BE=D0=B9 =D0=BF=D1=80=D0=B0=D0=B2 =D0=B8 =D0=B7=D0=B0=D0=BA=D0=BE=D0=BD=
+=D0=BD=D1=8B=D1=85 =D0=B8=D0=BD=D1=82=D0=B5=D1=80=D0=B5=D1=81=D0=BE=D0=
+=B2, =D0=B2 =D1=82=D0=BE=D0=BC =D1=87=D0=B8=D1=81=D0=BB=D0=B5 =D0=B7=D0=
+=B0=D1=89=D0=B8=D1=82=D0=BE=D0=B9 =D0=BF=D1=80=D0=B0=D0=B2 =D0=BD=D0=B0 =
+=D0=BE=D0=B1=D1=8A=D0=B5=D0=BA=D1=82=D1=8B =D0=B8=D0=BD=D1=82=D0=B5=D0=
+=BB=D0=BB=D0=B5=D0=BA=D1=82=D1=83=D0=B0=D0=BB=D1=8C=D0=BD=D0=BE=D0=B9 =
+=D1=81=D0=BE=D0=B1=D1=81=D1=82=D0=B2=D0=B5=D0=BD=D0=BD=D0=BE=D1=81=D1=82=
+=D0=B8 =D0=B8 =D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=8B=D0=B5 =D0=B7=D0=
+=BD=D0=B0=D0=BA=D0=B8 <strong> =C2=AB=D0=9C=C2=BB; =C2=AB=D0=9C.=D0=B2=
+=D0=B8=D0=B4=D0=B5=D0=BE=C2=BB; =C2=ABmvideo.ru=C2=BB,  =C2=AB=D0=AD=D0=
+=BB=D1=8C=D0=B4=D0=BE=D1=80=D0=B0=D0=B4=D0=BE=C2=BB </strong> =D0=B8 =D0=
+=BF=D1=80=D0=BE=D1=87., =D1=83=D0=BA=D0=B0=D0=B7=D0=B0=D0=BD=D0=BD=D1=8B=
+=D0=B5 =D0=B2 =D0=BF=D1=80=D0=B8=D0=BB=D0=BE=D0=B6=D0=B5=D0=BD=D0=B8=D0=
+=B8 =D0=BA =D0=BD=D0=B0=D1=81=D1=82=D0=BE=D1=8F=D1=89=D0=B5=D0=B9 =D0=BF=
+=D1=80=D0=B5=D1=82=D0=B5=D0=BD=D0=B7=D0=B8=D0=B8. </p>
+<p>=D0=A1=D0=BE=D0=BE=D0=B1=D1=89=D0=B0=D0=B5=D0=BC, =D1=87=D1=82=D0=BE =
+=D0=BD=D0=B0 =D1=81=D0=B0=D0=B9=D1=82=D0=B5 mvideo-club.com, =D0=BA=D0=
+=BE=D1=82=D0=BE=D1=80=D0=BE=D0=BC=D1=83 =D0=B2=D1=8B =D0=BE=D0=BA=D0=B0=
+=D0=B7=D1=8B=D0=B2=D0=B0=D0=B5=D1=82=D0=B5 =D1=83=D1=81=D0=BB=D1=83=D0=
+=B3=D0=B8 =D1=85=D0=BE=D1=81=D1=82=D0=B8=D0=BD=D0=B3=D0=B0, =D0=BE=D1=81=
+=D1=83=D1=89=D0=B5=D1=81=D1=82=D0=B2=D0=BB=D1=8F=D0=B5=D1=82=D1=81=D1=8F =
+=D0=BD=D0=B5=D0=B7=D0=B0=D0=BA=D0=BE=D0=BD=D0=BD=D0=BE=D0=B5 =D0=B8=D1=
+=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D0=BD=D0=B8=D0=B5 =
+=D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=8B=D1=85 =D0=B7=D0=BD=D0=B0=D0=
+=BA=D0=BE=D0=B2 =D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=
+=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D1=8F: </p>
+
+<p>https://mvideo-club.com/</p>
+
+<p>=D0=92 =D1=81=D0=BE=D0=BE=D1=82=D0=B2=D0=B5=D1=82=D1=81=D1=82=D0=B2=
+=D0=B8=D0=B8 =D1=81 =D0=B4=D0=B5=D0=B9=D1=81=D1=82=D0=B2=D1=83=D1=8E=D1=
+=89=D0=B8=D0=BC =D0=B7=D0=B0=D0=BA=D0=BE=D0=BD=D0=BE=D0=B4=D0=B0=D1=82=
+=D0=B5=D0=BB=D1=8C=D1=81=D1=82=D0=B2=D0=BE=D0=BC =D0=A0=D0=BE=D1=81=D1=
+=81=D0=B8=D0=B9=D1=81=D0=BA=D0=BE=D0=B9 =D0=A4=D0=B5=D0=B4=D0=B5=D1=80=
+=D0=B0=D1=86=D0=B8=D0=B8, =D0=B2 =D1=87=D0=B0=D1=81=D1=82=D0=BD=D0=BE=D1=
+=81=D1=82=D0=B8, =D0=B2 =D1=81=D0=BE=D0=BE=D1=82=D0=B2=D0=B5=D1=82=D1=81=
+=D1=82=D0=B2=D0=B8=D0=B8 =D1=81=D0=BE =D1=81=D1=82. 1484 =D0=93=D0=9A, =
+=D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=D0=B0=D1=82=
+=D0=B5=D0=BB=D1=8E =D0=BF=D1=80=D0=B8=D0=BD=D0=B0=D0=B4=D0=BB=D0=B5=D0=
+=B6=D0=B8=D1=82 =D0=B8=D1=81=D0=BA=D0=BB=D1=8E=D1=87=D0=B8=D1=82=D0=B5=
+=D0=BB=D1=8C=D0=BD=D0=BE=D0=B5 =D0=BF=D1=80=D0=B0=D0=B2=D0=BE =D0=B8=D1=
+=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0=D0=BD=D0=B8=D1=8F =
+=D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=8B=D1=85 =D0=B7=D0=BD=D0=B0=D0=
+=BA=D0=BE=D0=B2 =D0=B8 =D0=B8=D1=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=
+=D0=B2=D0=B0=D0=BD=D0=B8=D0=B5 =D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=
+=8B=D1=85 =D0=B7=D0=BD=D0=B0=D0=BA=D0=BE=D0=B2 =D0=B8 =D1=81=D1=85=D0=BE=
+=D0=B4=D0=BD=D1=8B=D1=85 =D1=81 =D0=BD=D0=B8=D0=BC=D0=B8 =D0=B4=D0=BE =
+=D1=81=D1=82=D0=B5=D0=BF=D0=B5=D0=BD=D0=B8 =D1=81=D0=BC=D0=B5=D1=88=D0=
+=B5=D0=BD=D0=B8=D1=8F =D0=BE=D0=B1=D0=BE=D0=B7=D0=BD=D0=B0=D1=87=D0=B5=
+=D0=BD=D0=B8=D0=B9 =D0=B1=D0=B5=D0=B7 =D1=81=D0=BE=D0=B3=D0=BB=D0=B0=D1=
+=81=D0=B8=D1=8F =D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=
+=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D1=8F =D0=B2 =D0=B3=D1=80=D0=B0=D1=84=D0=
+=B8=D1=87=D0=B5=D1=81=D0=BA=D0=BE=D0=BC =D0=BE=D1=84=D0=BE=D1=80=D0=BC=
+=D0=BB=D0=B5=D0=BD=D0=B8=D0=B8 =D1=81=D0=B0=D0=B9=D1=82=D0=B0, =D0=B2 =
+=D0=BF=D1=80=D0=B5=D0=B4=D0=BB=D0=BE=D0=B6=D0=B5=D0=BD=D0=B8=D1=8F=D1=85 =
+=D0=BE =D0=BF=D1=80=D0=BE=D0=B4=D0=B0=D0=B6=D0=B5 =D1=82=D0=BE=D0=B2=D0=
+=B0=D1=80=D0=BE=D0=B2 =D0=B8 =D1=83=D1=81=D0=BB=D1=83=D0=B3, =D0=BC=D0=
+=B0=D1=80=D0=BA=D0=B8=D1=80=D0=BE=D0=B2=D0=B0=D0=BD=D0=BD=D1=8B=D1=85 =
+=D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=8B=D0=BC=D0=B8 =D0=B7=D0=BD=D0=
+=B0=D0=BA=D0=B0=D0=BC=D0=B8, =D0=B2 =D0=BE=D0=B1=D1=8A=D1=8F=D0=B2=D0=BB=
+=D0=B5=D0=BD=D0=B8=D1=8F=D1=85, =D0=B2 =D1=80=D0=B5=D0=BA=D0=BB=D0=B0=D0=
+=BC=D0=B5 =D0=B8 =D0=B2 =D1=81=D0=B5=D1=82=D0=B8 =C2=AB=D0=98=D0=BD=D1=
+=82=D0=B5=D1=80=D0=BD=D0=B5=D1=82=C2=BB, =D0=B2 =D1=82=D0=BE=D0=BC =D1=
+=87=D0=B8=D1=81=D0=BB=D0=B5 =D0=B2 =D0=B4=D0=BE=D0=BC=D0=B5=D0=BD=D0=BD=
+=D0=BE=D0=BC =D0=B8=D0=BC=D0=B5=D0=BD=D0=B8 =D0=B8 =D0=BF=D1=80=D0=B8 =
+=D0=B4=D1=80=D1=83=D0=B3=D0=B8=D1=85 =D1=81=D0=BF=D0=BE=D1=81=D0=BE=D0=
+=B1=D0=B0=D1=85 =D0=B0=D0=B4=D1=80=D0=B5=D1=81=D0=B0=D1=86=D0=B8=D0=B8,  =
+=D0=BD=D0=B5 =D0=B4=D0=BE=D0=BF=D1=83=D1=81=D0=BA=D0=B0=D0=B5=D1=82=D1=
+=81=D1=8F. </p>
+<p>=D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=D0=B0=D1=
+=82=D0=B5=D0=BB=D1=8C <strong>=D0=BD=D0=B5 =D0=BF=D1=80=D0=B5=D0=B4=D0=
+=BE=D1=81=D1=82=D0=B0=D0=B2=D0=BB=D1=8F=D0=BB =D0=B0=D0=B4=D0=BC=D0=B8=
+=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=82=D0=BE=D1=80=D1=83 =D1=81=D0=
+=B0=D0=B9=D1=82=D0=B0 =D0=BF=D1=80=D1=8F=D0=BC=D0=BE=D0=B3=D0=BE =D0=BF=
+=D1=80=D0=B0=D0=B2=D0=B0 =D0=B8=D1=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D1=82=D1=8C =D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=8B=
+=D0=B5 =D0=B7=D0=BD=D0=B0=D0=BA=D0=B8 =D0=B2 =D1=81=D0=B5=D1=82=D0=B8 =
+=C2=AB=D0=98=D0=BD=D1=82=D0=B5=D1=80=D0=BD=D0=B5=D1=82=C2=BB =D0=B8 =D0=
+=BD=D0=B5 =D0=B2=D1=8B=D1=80=D0=B0=D0=B6=D0=B0=D0=BB =D1=81=D0=B2=D0=BE=
+=D0=B5 =D1=81=D0=BE=D0=B3=D0=BB=D0=B0=D1=81=D0=B8=D0=B5 =D0=BD=D0=B0 =D1=
+=83=D0=BA=D0=B0=D0=B7=D0=B0=D0=BD=D0=BD=D1=8B=D0=B5 =D0=B4=D0=B5=D0=B9=
+=D1=81=D1=82=D0=B2=D0=B8=D1=8F. </strong></p>
+<p><strong>=D0=9B=D0=B8=D1=86=D0=B5=D0=BD=D0=B7=D0=B8=D0=BE=D0=BD=D0=BD=
+=D1=8B=D0=B9 =D0=B4=D0=BE=D0=B3=D0=BE=D0=B2=D0=BE=D1=80, =D0=BF=D1=80=D0=
+=B5=D0=B4=D0=BC=D0=B5=D1=82=D0=BE=D0=BC =D0=BA=D0=BE=D1=82=D0=BE=D1=80=
+=D0=BE=D0=B3=D0=BE =D1=8F=D0=B2=D0=BB=D1=8F=D0=BB=D0=B0=D1=81=D1=8C =D0=
+=B1=D1=8B =D0=BF=D0=B5=D1=80=D0=B5=D0=B4=D0=B0=D1=87=D0=B0 =D0=BF=D1=80=
+=D0=B0=D0=B2 =D0=BD=D0=B0 =D0=B8=D1=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D0=BD=D0=B8=D0=B5 =D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=
+=D1=8B=D1=85 =D0=B7=D0=BD=D0=B0=D0=BA=D0=BE=D0=B2, =D0=9F=D1=80=D0=B0=D0=
+=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D1=8C =
+=D1=81 =D0=B0=D0=B4=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=
+=82=D0=BE=D1=80=D0=BE=D0=BC =D1=81=D0=B0=D0=B9=D1=82=D0=B0 =D0=BD=D0=B5 =
+=D0=B7=D0=B0=D0=BA=D0=BB=D1=8E=D1=87=D0=B0=D0=BB, =D0=B8=D0=BD=D1=8B=D0=
+=BC =D0=BE=D0=B1=D1=80=D0=B0=D0=B7=D0=BE=D0=BC =D0=BF=D1=80=D0=B0=D0=B2=
+=D0=B0 =D0=BD=D0=B5 =D0=BF=D0=B5=D1=80=D0=B5=D0=B4=D0=B0=D0=B2=D0=B0=D0=
+=BB. =D0=9E=D1=81=D0=BD=D0=BE=D0=B2=D0=B0=D0=BD=D0=B8=D1=8F =D0=B4=D0=BB=
+=D1=8F =D0=B2=D0=BD=D0=B5=D0=B4=D0=BE=D0=B3=D0=BE=D0=B2=D0=BE=D1=80=D0=
+=BD=D0=BE=D0=B3=D0=BE =D0=B8=D1=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=
+=D0=B2=D0=B0=D0=BD=D0=B8=D1=8F =D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=
+=8B=D1=85 =D0=B7=D0=BD=D0=B0=D0=BA=D0=BE=D0=B2 =D0=BE=D1=82=D1=81=D1=83=
+=D1=82=D1=81=D1=82=D0=B2=D1=83=D1=8E=D1=82. </strong></p>
+<p>=D0=92 =D1=81=D0=BE=D0=BE=D1=82=D0=B2=D0=B5=D1=82=D1=81=D1=82=D0=B2=
+=D0=B8=D0=B8 =D1=81=D0=BE =D1=81=D1=82. 1253.1. =D0=93=D0=9A =D0=A0=D0=
+=A4 =D0=B2=D1=8B, =D0=BA=D0=B0=D0=BA =D1=85=D0=BE=D1=81=D1=82=D0=B8=D0=
+=BD=D0=B3-=D0=BF=D1=80=D0=BE=D0=B2=D0=B0=D0=B9=D0=B4=D0=B5=D1=80, =D0=BE=
+=D1=81=D1=83=D1=89=D0=B5=D1=81=D1=82=D0=B2=D0=BB=D1=8F=D0=B5=D1=82=D0=B5 =
+=D1=84=D1=83=D0=BD=D0=BA=D1=86=D0=B8=D1=8E =D0=B8=D0=BD=D1=84=D0=BE=D1=
+=80=D0=BC=D0=B0=D1=86=D0=B8=D0=BE=D0=BD=D0=BD=D0=BE=D0=B3=D0=BE =D0=BF=
+=D0=BE=D1=81=D1=80=D0=B5=D0=B4=D0=BD=D0=B8=D0=BA=D0=B0, =D0=BE=D0=B1=D0=
+=B5=D1=81=D0=BF=D0=B5=D1=87=D0=B8=D0=B2=D0=B0=D1=8E=D1=89=D0=B5=D0=B3=D0=
+=BE =D0=B2=D0=BE=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=82=D1=8C =
+=D1=80=D0=B0=D0=B7=D0=BC=D0=B5=D1=89=D0=B5=D0=BD=D0=B8=D1=8F =D0=B8 =D0=
+=BF=D0=B5=D1=80=D0=B5=D0=B4=D0=B0=D1=87=D0=B8 =D0=B2 =D0=B8=D0=BD=D1=84=
+=D0=BE=D1=80=D0=BC=D0=B0=D1=86=D0=B8=D0=BE=D0=BD=D0=BD=D0=BE-=D1=82=D0=
+=B5=D0=BB=D0=B5=D0=BA=D0=BE=D0=BC=D0=BC=D1=83=D0=BD=D0=B8=D0=BA=D0=B0=D1=
+=86=D0=B8=D0=BE=D0=BD=D0=BD=D0=BE=D0=B9 =D1=81=D0=B5=D1=82=D0=B8 =C2=AB=
+=D0=98=D0=BD=D1=82=D0=B5=D1=80=D0=BD=D0=B5=D1=82=C2=BB =D0=BA=D0=BE=D0=
+=BD=D1=82=D0=B5=D0=BD=D1=82=D0=B0 =D1=83=D0=BA=D0=B0=D0=B7=D0=B0=D0=BD=
+=D0=BD=D0=BE=D0=B3=D0=BE =D1=81=D0=B0=D0=B9=D1=82=D0=B0 =D0=B8 =D1=81=D0=
+=BE=D0=B3=D0=BB=D0=B0=D1=81=D0=BD=D0=BE =D0=BF. 3 =D1=81=D1=82. 1253.1 =
+=D0=93=D0=9A =D0=A0=D0=A4 =D0=B2=D1=8B =D0=B4=D0=BE=D0=BB=D0=B6=D0=BD=D1=
+=8B =D1=81=D0=B2=D0=BE=D0=B5=D0=B2=D1=80=D0=B5=D0=BC=D0=B5=D0=BD=D0=BD=
+=D0=BE =D0=BF=D1=80=D0=B8=D0=BD=D1=8F=D1=82=D1=8C =D0=BD=D0=B5=D0=BE=D0=
+=B1=D1=85=D0=BE=D0=B4=D0=B8=D0=BC=D1=8B=D0=B5 =D0=B8 =D0=B4=D0=BE=D1=81=
+=D1=82=D0=B0=D1=82=D0=BE=D1=87=D0=BD=D1=8B=D0=B5 =D0=BC=D0=B5=D1=80=D1=
+=8B =D0=B4=D0=BB=D1=8F =D0=BF=D1=80=D0=B5=D0=BA=D1=80=D0=B0=D1=89=D0=B5=
+=D0=BD=D0=B8=D1=8F =D0=BD=D0=B0=D1=80=D1=83=D1=88=D0=B5=D0=BD=D0=B8=D1=
+=8F =D0=B8=D0=BD=D1=82=D0=B5=D0=BB=D0=BB=D0=B5=D0=BA=D1=82=D1=83=D0=B0=
+=D0=BB=D1=8C=D0=BD=D1=8B=D1=85 =D0=BF=D1=80=D0=B0=D0=B2 =D0=9F=D1=80=D0=
+=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D1=
+=8F. </p>
+<p><strong>=D0=9D=D0=B0 =D0=BE=D1=81=D0=BD=D0=BE=D0=B2=D0=B0=D0=BD=D0=B8=
+=D0=B8 =D0=B2=D1=8B=D1=88=D0=B5=D0=B8=D0=B7=D0=BB=D0=BE=D0=B6=D0=B5=D0=
+=BD=D0=BD=D0=BE=D0=B3=D0=BE, =D0=BE=D1=82 =D0=BB=D0=B8=D1=86=D0=B0 =D0=
+=B8 =D0=BF=D0=BE =D0=BF=D0=BE=D1=80=D1=83=D1=87=D0=B5=D0=BD=D0=B8=D1=8E =
+=D0=9F=D1=80=D0=B0=D0=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=D0=B0=D1=82=
+=D0=B5=D0=BB=D1=8F =D0=BF=D1=80=D0=BE=D1=81=D0=B8=D0=BC =D0=92=D0=B0=D1=
+=81 =D0=BF=D1=80=D0=B8=D0=BD=D1=8F=D1=82=D1=8C =D0=BD=D0=B5=D0=BE=D0=B1=
+=D1=85=D0=BE=D0=B4=D0=B8=D0=BC=D1=8B=D0=B5 =D0=B8 =D0=B4=D0=BE=D1=81=D1=
+=82=D0=B0=D1=82=D0=BE=D1=87=D0=BD=D1=8B=D0=B5 =D0=BC=D0=B5=D1=80=D1=8B =
+=D0=B4=D0=BB=D1=8F =D0=BF=D1=80=D0=B5=D0=BA=D1=80=D0=B0=D1=89=D0=B5=D0=
+=BD=D0=B8=D1=8F =D0=BD=D0=B0=D1=80=D1=83=D1=88=D0=B5=D0=BD=D0=B8=D1=8F =
+=D0=B8=D0=BD=D1=82=D0=B5=D0=BB=D0=BB=D0=B5=D0=BA=D1=82=D1=83=D0=B0=D0=BB=
+=D1=8C=D0=BD=D1=8B=D1=85 =D0=BF=D1=80=D0=B0=D0=B2 =D0=9F=D1=80=D0=B0=D0=
+=B2=D0=BE=D0=BE=D0=B1=D0=BB=D0=B0=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D1=8F =
+=D0=BD=D0=B0 =D1=82=D0=BE=D0=B2=D0=B0=D1=80=D0=BD=D1=8B=D0=B5 =D0=B7=D0=
+=BD=D0=B0=D0=BA=D0=B8 =D0=B8 =D0=B7=D0=B0=D0=B1=D0=BB=D0=BE=D0=BA=D0=B8=
+=D1=80=D0=BE=D0=B2=D0=B0=D1=82=D1=8C =D0=B4=D0=BE=D1=81=D1=82=D1=83=D0=
+=BF =D0=BA =D1=81=D0=B0=D0=B9=D1=82=D1=83. </strong></p>
+
+<p> =D0=9E=D1=82=D0=B2=D0=B5=D1=82 =D0=BD=D0=B0 =D0=B4=D0=B0=D0=BD=D0=BD=
+=D1=83=D1=8E =D0=BF=D1=80=D0=B5=D1=82=D0=B5=D0=BD=D0=B7=D0=B8=D1=8E =D0=
+=BF=D1=80=D0=BE=D1=81=D0=B8=D0=BC =D0=BD=D0=B0=D0=BF=D1=80=D0=B0=D0=B2=
+=D0=B8=D1=82=D1=8C =D0=BF=D0=BE =D1=8D=D0=BB=D0=B5=D0=BA=D1=82=D1=80=D0=
+=BE=D0=BD=D0=BD=D0=BE=D0=B9 =D0=BF=D0=BE=D1=87=D1=82=D0=B5: post@brandsecur=
+ity.ru </p>
+
+<p> =D0=A1 =D1=83=D0=B2=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5=D0=BC, </p>
+<p> =D0=9E=D0=9E=D0=9E =C2=AB=D0=9E=D0=BD=D0=BB=D0=B0=D0=B9=D0=BD =D0=9F=
+=D1=80=D0=BE=D1=82=D0=B5=D0=BA=D1=82=C2=BB </p>
+<p> http://www.brandsecurity.ru/contacts </p>
+
+<p>=D0=94=D0=BE=D0=BA=D1=83=D0=BC=D0=B5=D0=BD=D1=82=D1=8B:</p>
+                        <p>
+                            <p>https://rocket.brandsecurity.ru/uploads/Powe=
+rOfAttorney_MVM.pdf</p>
+<p>https://rocket.brandsecurity.ru/uploads/6e93f91ae9f1493a12f4d1dea04777cd=
+b0721d64.pdf</p>
+<p>https://rocket.brandsecurity.ru/uploads/Letter_MVM.pdf</p>
+                        </p>
+<p> =D0=95=D1=81=D0=BB=D0=B8 =D0=B4=D0=B0=D0=BD=D0=BD=D0=BE=D0=B5 =D0=BF=
+=D0=B8=D1=81=D1=8C=D0=BC=D0=BE =D0=BF=D1=80=D0=B8=D1=88=D0=BB=D0=BE =D0=
+=BD=D0=B5 =D1=81 =D0=BF=D0=BE=D1=87=D1=82=D0=BE=D0=B2=D0=BE=D0=B3=D0=BE =
+=D0=B4=D0=BE=D0=BC=D0=B5=D0=BD=D0=B0 @brandsecurity.ru, =D0=B8=D0=B3=D0=
+=BD=D0=BE=D1=80=D0=B8=D1=80=D1=83=D0=B9=D1=82=D0=B5 =D0=B5=D0=B3=D0=BE =
+=D0=B8 =D1=81=D0=BE=D0=BE=D0=B1=D1=89=D0=B8=D1=82=D0=B5 =D0=BD=D0=B0=D0=
+=BC =D0=BE=D0=B1 =D1=8D=D1=82=D0=BE=D0=BC =D0=BF=D0=BE =D0=B0=D0=B4=D1=
+=80=D0=B5=D1=81=D1=83 post@brandsecurity.ru </p>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Du=
+tf-8" />
+        <title>CLAIM</title>
+        <style type=3D"text/css">
+            body {margin: 0; padding: 0; min-width: 100%!important;}
+            .content {width: 100%; max-width: 600px;}
+        </style>
+    </head>
+<body>
+<table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0">
+    <tr>
+        <td>
+            <table class=3D"content" align=3D"center" cellpadding=3D"0" cel=
+lspacing=3D"0" border=3D"0">
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td valign=3D"top">
+                                </td>
+                                <td align=3D"right" width=3D"350px">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p><strong> To: hosting pro=
+vider of the website mvideo-club.com <p> From: =E2=80=9CMVM=E2=80=9D LLC </=
+p>
+<p> Representative under the Power of Attorney:</p>
+<p>=C2=ABOnline Protect=C2=BB LLC </p>
+<p>post@brandsecurity.ru</p>
+                                               =20
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p align=3D"center"> <strong Complaint about violat=
+ion of intellectual rights on the website </strong> </p>
+
+
+<p>We, <strong>=C2=ABOnline Protect=C2=BB LLC, </strong>are authorized to r=
+epresent the interests of =C2=ABMVM=C2=BB LLC (hereinafter, the Copyright H=
+older) on the basis of a power of attorney on all issues related to the pro=
+tection of rights and legitimate interests, including the protection of int=
+ellectual property rights and trademarks <strong>=C2=AB=D0=9C=C2=BB; =C2=
+=AB=D0=9C.=D0=B2=D0=B8=D0=B4=D0=B5=D0=BE=C2=BB; =C2=ABmvideo.ru=C2=BB,  =
+=C2=AB=D0=AD=D0=BB=D1=8C=D0=B4=D0=BE=D1=80=D0=B0=D0=B4=D0=BE=C2=BB </strong=
+>and so on, specified in the attachment to this claim. </p>
+<p>We inform you that the website to which you provide hosting services vio=
+lates the intellectual property rights of the Copyright Holder for the trad=
+emarks: </p>
+=20
+<p>https://mvideo-club.com/</p>
+
+<p>In accordance with the current legislation of the Russian Federation, in=
+ particular in accordance with Article 1484 of the Civil Code of the Russia=
+n Federation, the Copyright Holder has the exclusive right to use trademark=
+s and the use of trademarks without the consent of the Copyright Holder on =
+the in the graphic design of the website, in offers for the sale of goods a=
+nd services marked with trademarks, in ads, in advertising and on the Inter=
+net, including in the domain name and with other methods of addressing is n=
+ot allowed. </p>
+<p>The copyright holder<strong> has not granted the site administrator the =
+direct right to use the trademarks on the Internet and has not expressed it=
+s consent to these actions. </strong></p>
+<p><strong>The Copyright Holder did not enter into a license agreement with=
+ the website administrator, or otherwise did not transfer the rights to use=
+ the trademarks. There are no grounds for non-contractual use of trademarks=
+. </strong> </p>
+<p>Thus, the actions of the website administrator are a violation of the ex=
+clusive rights of the Copyright Holder to intellectual property and tradema=
+rks, the norms of the current Russian legislation. </p>
+<p>In accordance with Art. 1253.1. of the Civil Code of the Russian Federat=
+ion, you, as a hosting provider, perform the function of an information int=
+ermediary providing the possibility of placing and transmitting the content=
+ of the specified website on the Internet and, in accordance with Clause 3 =
+of Article 1253.1 of the Civil Code of the Russian Federation, you must pro=
+mptly take the necessary and sufficient measures to stop the violation of t=
+he Copyright Holder's intellectual rights. </p>
+<p><strong>Based on the above, on behalf of and on behalf of the Copyright =
+Holder, we ask you to take the necessary and sufficient measures to stop th=
+e infringement of the intellectual rights of the Copyright Holder to tradem=
+arks and block access to the site. </strong></p>
+
+<p> Please respond to this complaint via email to post@brandsecurity.ru </p=
+>
+
+<p> If you have received this letter not from @brandsecurity.ru domain, ple=
+ase ignore it and let us know by sending a letter to post@brandsecurity.ru =
+</p>
+
+<p> Kind regards,</p>
+<p> =E2=80=9COnline Protect=E2=80=9D LLC </p>
+<p> https://brandsecurity.ru/contacts  </p>
+
+<p>Documents:</p>
+                        <p>
+                            <p>https://rocket.brandsecurity.ru/uploads/Powe=
+rOfAttorney_MVM.pdf</p>
+<p>https://rocket.brandsecurity.ru/uploads/6e93f91ae9f1493a12f4d1dea04777cd=
+b0721d64.pdf</p>
+<p>https://rocket.brandsecurity.ru/uploads/Letter_MVM.pdf</p>
+                        </p>
+
+--_=_swift_1681715050_47ab521f7dc0848336f3b968601d6d20_=_--
+

@@ -1,0 +1,739 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 4E7D674E-67DC-43E2-9E4F-BF055E177B52.1
+	envelope-from <aoc+bncBC3LHL4X5IPRBR44UKRAMGQEI5XVMZY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 26 Apr 2023 02:36:56 +0000
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3f16f50aeb5sf24650375e9.3
+        for <abuse@digitalocean.abusehq.net>; Tue, 25 Apr 2023 19:36:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682476616; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=f/z4yR/4oMpz/0usmErJKCHU9p8NwaaeUDUTfFFxf9Fjtnw/9XAi74ZCB0YigpGL9y
+         ip2WrR04eo8JV6t3lFu3wdh3ypZkb3L5J914Po2ci9/7G79yoY7Rv/oWWWez/4hvRzA5
+         uatC6Ra2n0b/8pInm2ORXsImmNePkQ9mvn+g/v73CO3RkdDQqLmlYQTyhfGSh376jciW
+         ATZOorcYcxEMjqM0TWypmwoGYw9LrHApLh6bLuKxw6NxQ+PqO9zpGotabYgoARHnJ1RE
+         Q5y0BzGr6t1uPocZy/QQWyWKkbNt4wH3Qq59mjspkBPNt9WZoAVXBndEAhbpUSsQ1mVB
+         4+QQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-archive:list-help:list-post:list-id:mailing-list:precedence
+         :date:mime-version:feedback-id:list-unsubscribe-post
+         :list-unsubscribe:message-id:subject:reply-to:to:from:dkim-signature;
+        bh=LmmxpNK2RVm6HUelJdhaUPmGGww+0s7wNYYONYgN6Q4=;
+        b=vPMGBL94sBvPbvHL/BQQx2gTw9PrB4MOpMcrvehL2JJvDja+RQ2YBlnDzLbqQvwlQ5
+         Sxp6KuCJTL1z/OP6wXHxfeuLbaivzNi3Xw+Z12X8nxq8GpYrrgMvzeHK8+g3I/p2b2UP
+         1Jw67Zqe/bNN65nIjladhFfkEsuGN8pO0zXqMEOdM2xFq0nOnDAaNpDLHmM90fx5Xi8A
+         mF3V78PdKq1Bh7hG3dVJBixqZbgGk69JTJ8rnI0U1yqiu7pvQHTDpTuAt78X1VptalgM
+         QdUBSLFYCJhUdMORkbWzcr12susXeQBVI8rtaSBMYlGvtYrggyx+C39c+UZo7/Jr0cyE
+         A1UQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@bitninja.com header.s=mlsend header.b="X/n0leQ3";
+       spf=pass (google.com: domain of bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com designates 212.11.79.128 as permitted sender) smtp.mailfrom=bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bitninja.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1682476616; x=1685068616;
+        h=list-archive:list-help:list-post:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date
+         :mime-version:feedback-id:list-unsubscribe-post:list-unsubscribe
+         :message-id:subject:reply-to:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LmmxpNK2RVm6HUelJdhaUPmGGww+0s7wNYYONYgN6Q4=;
+        b=PGVtnZ4a24lvpXl9o9f4UjSVZs2czpSJqmqiOin3uxof+5WzxnmHp+oUTS8RXU6+cE
+         WNwOy21jE6G3mIpnmC1uYtUlzW42NEOFwSeSSn1z8H7YLsgfz0ZMeMlKCZIpe/kSiaUa
+         nSvxFSpw2Sd45dU4seAjxw+4XR3sFDP5m6JE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682476616; x=1685068616;
+        h=list-archive:list-help:list-post:x-spam-checked-in-group:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:mime-version:feedback-id
+         :list-unsubscribe-post:list-unsubscribe:message-id:subject:reply-to
+         :to:from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LmmxpNK2RVm6HUelJdhaUPmGGww+0s7wNYYONYgN6Q4=;
+        b=Yz/IaIMSysEH+wcUaGMoQAZSpddXafsUFik2lELa8YnSR1O/wH2qEnemNWopfwqZ0O
+         /ivTklgTnXJJsyc65en4FrIhw5XNytR/8DHCP0IeCH9tObRV6rlRcj95B9m0bm02oWcd
+         MMCYVTTB3TbZrB9SI+UYrncXRmk5dIaQ6Tc5Vth/9unXpuyCe8n5rbpQJPV1t//S62ad
+         qTE+IyWaj2x7xsYokzTsYx1OqsP5Kdb2pzaMiT/H9f2cEL6pXrUAw7vf4ERIbD1u5ZnW
+         VClTU4NuoGYa7/TY82kgaMOYAFEQ/WF+qoHAmWU4d2UQnS+b4w2FhAOv4GOyjo97K98v
+         KjqA==
+X-Gm-Message-State: AAQBX9dakXSU543STkUilGGdQr+Jta+RkDCYaNIHckm0kCZ5Ab83/C5E
+	gKDuYLLglRxDw5T7ID5TR6TgzhLcgYuBTg==
+X-Google-Smtp-Source: AKy350YLstemZ6U3t3M9acO7v04SdUVLH282N4FVhIt/atK1dL4OzjqAcSfWGc5+vlyCT9Zj2bAjqQ==
+X-Received: by 2002:a7b:cb8d:0:b0:3f1:7c38:7197 with SMTP id m13-20020a7bcb8d000000b003f17c387197mr3081871wmi.5.1682476615899;
+        Tue, 25 Apr 2023 19:36:55 -0700 (PDT)
+X-BeenThere: aoc@digitalocean.com
+Received: by 2002:a05:600c:46cf:b0:3f1:7596:66be with SMTP id
+ q15-20020a05600c46cf00b003f1759666bels266495wmo.3.-pod-control-gmail; Tue, 25
+ Apr 2023 19:36:54 -0700 (PDT)
+X-Received: by 2002:a05:600c:364c:b0:3f1:95af:172c with SMTP id y12-20020a05600c364c00b003f195af172cmr8837246wmq.41.1682476614221;
+        Tue, 25 Apr 2023 19:36:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682476614; cv=none;
+        d=google.com; s=arc-20160816;
+        b=wn3rWFROyyxMXtJviDCqv1IxKG1P729GetuFU5cWVZHbF31O/8ujfBqrBjU+qQUlxL
+         TJcRnjt4N/0pMTNO03VQ9xyXQKdiT7ny7eiWVif5yhiQYGLBOpPhhceTW8Zp7jmqVy3e
+         n9hjcxYwiGJSsm6HcxUj2qa37cQRp50Rrx4ej/tUyFFvzqD9oeOOqsh5XxwlNptxT+49
+         TsYlRszm0wge01vyDNUQpjZxx5CljMWdjnOj4hKllu4ldV2NCq+TQfbKxLqpzZCC9fW9
+         zm/ed36Pw4pJTJ21u1QqVhETViB5dZpIagxXDbSS0U7XCUkGR9Rq0OXAJPW/jQnvbbY3
+         igvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:mime-version:feedback-id:list-unsubscribe-post
+         :list-unsubscribe:message-id:subject:reply-to:to:from:dkim-signature;
+        bh=/ipDDt4JxQbQE0NcNygsvvmEmaoXkvIet9yZPd6PbkY=;
+        b=M1pyzMAMVzHD/swsIOXk0DFtbEoWkdwEpD2SNP3qzOwrhW1dChfP+XgXa3AgqBuk9F
+         OEEF4lvykbheqYJldnqliLFV+rkwa0P8/1bO0GlGWHMRADHvxDNYm1WTWpBitZVCCcM5
+         Yni8I7kUtNztY/qYFPhIhgWe7Yq78siQHSgBZ0Uo8mOGVyz5xxotZcgr6ySX+h8DnRLb
+         KyTdJst+NfQ9UZ8yVcpt78sOCv1H+oUB0ozCqLt78pxN8DRpaRzuf7TjScPr/sPp9di5
+         k0yTJJD7DE4xHa5/VT5zfZaEYOW+UkGfnS8aghwciF3vxGF3YdaTHoBCuayN21ZbTONR
+         ywXg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@bitninja.com header.s=mlsend header.b="X/n0leQ3";
+       spf=pass (google.com: domain of bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com designates 212.11.79.128 as permitted sender) smtp.mailfrom=bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bitninja.com
+Received: from mail128.mailersend.net (mail128.mailersend.net. [212.11.79.128])
+        by mx.google.com with ESMTPS id o19-20020a5d58d3000000b00303c31ba73esi8291645wrf.280.2023.04.25.19.36.54
+        for <aoc@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Apr 2023 19:36:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com designates 212.11.79.128 as permitted sender) client-ip=212.11.79.128;
+From: "'BitNinja Security' via Abuse Operations Center" <aoc@digitalocean.com>
+To: aoc@digitalocean.com
+Reply-To: info@bitninja.com
+Subject: Your server 45.55.65.128 has been registered as an attack source
+Message-ID: <64488e45f3efc4dbc500efe2@mailersend.net>
+List-Unsubscribe: <mailto:googlegroups-manage+378096071990+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/aoc/subscribe>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-MailerSend-RecipientID: 64488e45f3efc4dbc500efe2;642777668dcd91541408a40d;3vz9dle3k21gkj50
+Feedback-ID: 64488e45f3efc4dbc500efe2:642777668dcd91541408a40d:3vz9dle3k21gkj50:MailerSend
+X-MailerSend-MessageID: 64488e45c91f9d09f7006955
+MIME-Version: 1.0
+Date: Wed, 26 Apr 2023 02:36:54 +0000
+Content-Type: multipart/alternative; boundary=zE_b6lbi
+X-Original-Sender: info@bitninja.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@bitninja.com header.s=mlsend header.b="X/n0leQ3";       spf=pass
+ (google.com: domain of bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com
+ designates 212.11.79.128 as permitted sender) smtp.mailfrom=bounce-3vz9dle3k21gkj50+642777668dcd91541408a40d@mta.bitninja.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=bitninja.com
+X-Original-From: BitNinja Security <info@bitninja.com>
+Precedence: list
+Mailing-list: list aoc@digitalocean.com; contact aoc+owners@digitalocean.com
+List-ID: <aoc.digitalocean.com>
+X-Spam-Checked-In-Group: aoc@digitalocean.com
+X-Google-Group-Id: 378096071990
+List-Post: <https://groups.google.com/a/digitalocean.com/group/aoc/post>, <mailto:aoc@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:aoc+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/aoc/>
+
+--zE_b6lbi
+Content-Type: text/plain; charset="UTF-8"
+
+-- 
+You received this message because you are subscribed to the Google Groups "Abuse Operations Center" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to aoc+unsubscribe@digitalocean.com.
+To view this discussion on the web visit https://groups.google.com/a/digitalocean.com/d/msgid/aoc/64488e45f3efc4dbc500efe2%40mailersend.net.
+
+--zE_b6lbi
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns=3D"http://www.w3.=
+org/1999/xhtml"><head>
+    <title>
+    </title>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width">
+    <link rel=3D"stylesheet" href=3D"https://use.fontawesome.com/releases/v=
+5.7.2/css/all.css" integrity=3D"sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbq=
+yi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin=3D"anonymous">
+    <style type=3D"text/css">body, html {
+      margin: 0px;
+      padding: 0px;
+      -webkit-font-smoothing: antialiased;
+      text-size-adjust: none;
+      width: 100% !important;
+    }
+      table td, table {
+      }
+      #outlook a {
+        padding: 0px;
+      }
+      .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass=
+ font, .ExternalClass td, .ExternalClass div {
+        line-height: 100%;
+      }
+      .ExternalClass {
+        width: 100%;
+      }
+      @media only screen and (max-width: 480px) {
+        table, table tr td, table td {
+          width: 100% ;
+        }
+        table tr td table.edsocialfollowcontainer  {
+          width: auto;
+        }
+        img {
+          width: inherit;
+        }
+        .layer_2 {
+          max-width: 100% !important;
+        }
+        .edsocialfollowcontainer table {
+          max-width: 25% !important;
+        }
+        .edsocialfollowcontainer table td {
+          padding: 10px !important;
+        }
+        .edsocialfollowcontainer table {
+          max-width: 25% !important;
+        }
+        .edsocialfollowcontainer table td {
+          padding: 10px !important;
+        }
+      }
+    </style>
+    <link href=3D"https://fonts.googleapis.com/css?family=3DOpen+Sans:400,4=
+00i,600,600i,700,700i%20&amp;subset=3Dcyrillic,latin-ext" data-name=3D"open=
+_sans" rel=3D"stylesheet" type=3D"text/css">
+    <link rel=3D"stylesheet" type=3D"text/css" href=3D"https://cdnjs.cloudf=
+lare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+  </head><body style=3D"padding:0; margin: 0;" data-new-gr-c-s-check-loaded=
+=3D"14.1102.0" data-gr-ext-installed=3D"" data-new-gr-c-s-loaded=3D"14.1098=
+.0"><img src=3D"https://pxkjn417k504z781.click.mailersend.net/te/ows/eyJpdi=
+I6InhFb3AzOHJSNzkxY2xQcWZ1Y1pscHc9PSIsInZhbHVlIjoiNXA5ZXlNRytRc21SK1hqYTlEd=
+mVjWTMvSFYwOFNoaC85L2RMdVhhRnBnRlhzSFhHaFErV2FBYkE5Mm4vUzlCaytjOXh5V1Uvc2Fm=
+WVhjYVZ5cUFmRHhVR1dldm8zWEhEMGswaEZzdVlHa3c9IiwibWFjIjoiNDRhNWNiNzllOGMwMTE=
+2M2RiNmY3NGNkNjU0YjRmY2RmNThmMjI5ZTBjNmZlOWU2Y2Q2MGE3ZDFkMDdhZDIxNCIsInRhZy=
+I6IiJ9" alt=3D"" width=3D"1" height=3D"1" style=3D"display:block; height:0p=
+x; width:0px; max-width:0px; max-height:0px; overflow:hidden;" border=3D"0"=
+>
+    <table style=3D"height: 100%; width: 100%;" align=3D"center">
+      <tbody>
+        <tr>
+          <td valign=3D"top" id=3D"dbody" data-version=3D"2.31" style=3D"wi=
+dth: 100%; height: 100%; padding-top: 50px; padding-bottom: 50px;">
+            <!--[if (gte mso 9)|(IE)]><table align=3D"center" style=3D"max-=
+width:600px" width=3D"600" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"=
+><tr><td valign=3D"top"><![endif]-->
+            <table class=3D"layer_1" align=3D"center" border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"max-width: 600px; box-sizing: border-b=
+ox; width: 100%; margin: 0px auto;">
+              <tbody>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table border=3D"0" cellspacing=3D"0" class=3D"edcont=
+ent" style=3D"border-collapse: collapse;width:100%">
+                        <tbody>
+                          <tr>
+                            <td valign=3D"top" class=3D"edtext" style=3D'pa=
+dding: 0px; text-align: left; color: #5f5f5f; font-size: 12px; font-family:=
+ "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; word-break: b=
+reak-word; direction: ltr; box-sizing: border-box;'>
+                              <p style=3D"text-align: right; font-size: 9px=
+; margin: 0px; padding: 0px;"> Unable to view? Read it=20
+                                <a href=3D"{view}" style=3D"color: #5457ff;=
+ text-decoration: none;">online</a>=20
+                                <a href=3D"{view}" style=3D"color: #5457ff;=
+ text-decoration: none;"></a></p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"=
+0" class=3D"edcontent" style=3D"border-collapse: collapse;width:100%">
+                        <tbody>
+                          <tr>
+                            <td valign=3D"top" class=3D"emptycell" style=3D=
+"padding: 10px;">
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table class=3D"edcontent" style=3D"border-collapse: =
+collapse;width:100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0">
+                        <tbody>
+                          <tr>
+                            <td class=3D"edimg" valign=3D"top" style=3D"pad=
+ding: 0px; box-sizing: border-box; text-align: center;">
+                              <img style=3D"border-width: 0px; font-size: 1=
+2px; border-style: none; max-width: 596px; width: 100%;" width=3D"596" alt=
+=3D"Image" src=3D"https://api.smtprelay.co/userfile/63afb392-af16-47d6-beae=
+-77fab2874ed4/trail_(14).png">
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"=
+0" class=3D"edcontent" style=3D"border-collapse: collapse;width:100%">
+                        <tbody>
+                          <tr>
+                            <td valign=3D"top" class=3D"emptycell" style=3D=
+"padding: 10px;">
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table border=3D"0" cellspacing=3D"0" class=3D"edcont=
+ent" style=3D"border-collapse: collapse;width:100%">
+                        <tbody>
+                          <tr>
+                            <td valign=3D"top" class=3D"edtext" style=3D'pa=
+dding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family=
+: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; word-break: =
+break-word; direction: ltr; box-sizing: border-box;'>
+                              <p class=3D"style1 text-center" style=3D'text=
+-align: center; margin: 0px; padding: 0px; color: #000000; font-size: 32px;=
+ font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;'=
+>Server Abuse Report</p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table border=3D"0" cellspacing=3D"0" class=3D"edcont=
+ent" style=3D"border-collapse: collapse;width:100%">
+                        <tbody>
+                          <tr>
+                            <td valign=3D"top" class=3D"edtext" style=3D'pa=
+dding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family=
+: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; word-break: =
+break-word; direction: ltr; box-sizing: border-box;'><p style=3D"margin: 0p=
+x; padding: 0px;"><span style=3D"font-size: 14px;">Dear provider,
+<br><br>I am Mark Bacsko, Incident Analyst at BitNinja Server Security. <br=
+>I=E2=80=99m writing to inform you that=C2=A0<strong>we have detected malic=
+ious requests</strong>=C2=A0targeting our clients=E2=80=99 servers=C2=A0<st=
+rong>from the IP 45.55.65.128</strong> you own based on a public database. =
+<br>We=E2=80=99ve been able to stop these requests and prevent future attac=
+ks=C2=A0by <strong>adding your IP to our=C2=A0<a href=3D"https://pxkjn417k5=
+04z781.click.mailersend.net/te/cws/eyJpdiI6IldBMjhNM1Z6MlNtSThJczV6UjFtOWc9=
+PSIsInZhbHVlIjoiUnB3eDhtSkFVRkJtSm5rMTAwa0syVi92aGJHNFNhK1lXVVMyV1BNOEd4eWx=
+sbXZBOVppVlVVTFExRWkzZUNIbzZsT0Q5VTd6NXNsZHZ6RHJXRWtpUUNJREk5aUZWd0VJTXhsUC=
+tLNVhESlNmZmltdVNQNjVoZ3lvdlptRjlab3Z6dXRDTzlUQzdLSTZCb0NJdy9hNW51T3FEQzZFR=
+3o3WjJGQnZHa24xeUtVPSIsIm1hYyI6IjM3YzU0YzNhMTU2YzBlNjNmOWFmNzY3MzM4MjA3Y2Iz=
+YzYxYjhlZTE1NjM4YzBjMDUxNjY2NmRkYmNhMTg1YzUiLCJ0YWciOiIifQ,," target=3D"_bl=
+ank" style=3D"color: #5457ff; text-decoration: none;">greylist</a></strong>=
+, but we wanted to reach out and inform you, as you might not be aware.</sp=
+an></p></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr><tr><td class=3D"drow" valign=3D"top" align=3D"center"=
+ style=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px=
+; text-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D"100%" alig=
+n=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valig=
+n=3D"top"><![endif]--><div class=3D"layer_2" style=3D"max-width: 600px; dis=
+play: inline-block; vertical-align: top; width: 100%;"><table border=3D"0" =
+cellspacing=3D"0" cellpadding=3D"0" class=3D"edcontent" style=3D"border-col=
+lapse: collapse;width:100%"><tbody><tr><td valign=3D"top" class=3D"breaklin=
+e" style=3D"padding: 0px;"><p style=3D"border-style: solid none none; borde=
+r-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;">=C2=A0</p></td></tr=
+></tbody></table></div><!--[if (gte mso 9)|(IE)]></td></tr></table><![endif=
+]--></td></tr><tr><td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #c8c3c3; box-sizing: border-box; font-size: 0px; text=
+-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=3D"c=
+enter" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=3D"t=
+op"><![endif]--><div class=3D"layer_2" style=3D"max-width: 600px; display: =
+inline-block; vertical-align: top; width: 100%;"><table border=3D"0" cellsp=
+acing=3D"0" class=3D"edcontent" style=3D"border-collapse: collapse;width:10=
+0%"><tbody><tr><td valign=3D"top" class=3D"edtext" style=3D'padding: 11px; =
+text-align: left; color: #5f5f5f; font-size: 12px; font-family: "Open Sans"=
+, "Helvetica Neue", Helvetica, Arial, sans-serif; word-break: break-word; d=
+irection: ltr; box-sizing: border-box;'><p class=3D"text-center" style=3D"t=
+ext-align: center; margin: 0px; padding: 0px;"><strong><span style=3D"font-=
+size: 14px;"><em>Timestamp (UTC):=C2=A02023-04-26 02:36:52</em></span></str=
+ong></p></td></tr></tbody></table></div><!--[if (gte mso 9)|(IE)]></td></tr=
+></table><![endif]--></td></tr><tr><td class=3D"drow" valign=3D"top" align=
+=3D"center" style=3D"background-color: #ffffff; box-sizing: border-box; fon=
+t-size: 0px; text-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D=
+"100%" align=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><t=
+r><td valign=3D"top"><![endif]--><div class=3D"layer_2" style=3D"max-width:=
+ 600px; display: inline-block; vertical-align: top; width: 100%;"><table bo=
+rder=3D"0" cellspacing=3D"0" cellpadding=3D"0" class=3D"edcontent" style=3D=
+"border-collapse: collapse;width:100%"><tbody><tr><td valign=3D"top" class=
+=3D"breakline" style=3D"padding: 0px;"><p style=3D"border-style: solid none=
+ none; border-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;">=C2=A0<=
+/p></td></tr></tbody></table></div><!--[if (gte mso 9)|(IE)]></td></tr></ta=
+ble><![endif]--></td></tr><tr><td class=3D"drow" valign=3D"top" align=3D"ce=
+nter" style=3D"background-color: #ffffff; box-sizing: border-box; font-size=
+: 0px; text-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D"100%"=
+ align=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td =
+valign=3D"top"><![endif]--><div class=3D"layer_2" style=3D"max-width: 600px=
+; display: inline-block; vertical-align: top; width: 100%;"><table border=
+=3D"0" cellspacing=3D"0" class=3D"edcontent" style=3D"border-collapse: coll=
+apse;width:100%"><tbody><tr><td valign=3D"top" class=3D"edtext" style=3D'pa=
+dding: 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family=
+: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; word-break: =
+break-word; direction: ltr; box-sizing: border-box;'><p style=3D"margin: 0p=
+x; padding: 0px;"><span style=3D"font-size: 14px;">Sometimes it=E2=80=99s n=
+ot easy to notice that your servers are used as a =E2=80=9Cbot=E2=80=9D sen=
+ding malicious attacks over the Internet.=C2=A0<br>If this is the case with=
+ you, you can=C2=A0<strong>take steps to protect your and others=E2=80=99=
+=C2=A0</strong><strong>servers</strong>.</span></p></td></tr></tbody></tabl=
+e></div><!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td></tr><=
+tr><td class=3D"drow" valign=3D"top" align=3D"center" style=3D"background-c=
+olor: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"=
+><!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=3D"center" cellpaddi=
+ng=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=3D"top"><![endif]-->=
+<div class=3D"layer_2" style=3D"max-width: 600px; display: inline-block; ve=
+rtical-align: top; width: 100%;"><table border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0" class=3D"edcontent" style=3D"border-collapse: collapse;width:=
+100%"><tbody><tr><td valign=3D"top" class=3D"breakline" style=3D"padding: 0=
+px;"><p style=3D"border-style: solid none none; border-width: 1px 0px 0px; =
+margin: 8px 100px; padding: 0px;">=C2=A0</p></td></tr></tbody></table></div=
+><!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td></tr><tr><td =
+class=3D"drow" valign=3D"top" align=3D"center" style=3D"background-color: #=
+c8c3c3; box-sizing: border-box; font-size: 0px; text-align: center;"><!--[i=
+f (gte mso 9)|(IE)]><table width=3D"100%" align=3D"center" cellpadding=3D"0=
+" cellspacing=3D"0" border=3D"0"><tr><td valign=3D"top"><![endif]--><div cl=
+ass=3D"layer_2" style=3D"max-width: 600px; display: inline-block; vertical-=
+align: top; width: 100%;"><table border=3D"0" cellspacing=3D"0" class=3D"ed=
+content" style=3D"border-collapse: collapse;width:100%"><tbody><tr><td vali=
+gn=3D"top" class=3D"edtext" style=3D'padding: 32px; text-align: left; color=
+: #5f5f5f; font-size: 12px; font-family: "Open Sans", "Helvetica Neue", Hel=
+vetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizi=
+ng: border-box;'><p style=3D"margin: 0px; padding: 0px;"><span style=3D"fon=
+t-size: 18px;"><strong>ABUSE DETAILS</strong></span></p><p style=3D"margin:=
+ 0px; padding: 0px;"><br></p><p style=3D"margin: 0px; padding: 0px;"><span =
+style=3D"font-size: 14px;">To help you to fix this problem,=C2=A0you can fi=
+nd the freshest 100 logs that may help you disinfect your server <a href=3D=
+"https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6InlVc3ZzSkRmN=
+3FmS3VTTDJqMWtsd2c9PSIsInZhbHVlIjoiSkQyMjF1a3dTRC9RUGovRTlFS0tPdlhVcmJGM2ds=
+dUdPeDJ1RHBIeE8yZEhqcG5PaG9LYXFaSHQ2THVGMTJDa3NQRGd1eTRIM0lWc1J4YXMvbVNKMU1=
+tRUs4ZVB3bHJkWGhvY3MvL29wYVdsbzBBb25kaEgvRDhVUDJ1bnNPTTdwcFdLYU1yZkdDWlpmSF=
+VGSTNSVE9LMWwrcDFkMW5pbXEvY0VNVzBTbm8zYThrWlFnYlFtTTk0VnFtZjZyNG5nIiwibWFjI=
+joiZDk1NTE5ZGRiNmU3ZjNjNDVkMWVlODM2M2I2YjgxYjgyNTU0M2ZiMjJmNWFlNjVmYjg1ZmJj=
+ZjhmMWQ5ODdmZCIsInRhZyI6IiJ9" style=3D"color: #5457ff; text-decoration: non=
+e;">under the link</a>.</span></p></td></tr></tbody></table></div><!--[if (=
+gte mso 9)|(IE)]></td></tr></table><![endif]--></td></tr><tr><td class=3D"d=
+row" valign=3D"top" align=3D"center" style=3D"background-color: #c8c3c3; bo=
+x-sizing: border-box; font-size: 0px; text-align: center;"><!--[if (gte mso=
+ 9)|(IE)]><table width=3D"100%" align=3D"center" cellpadding=3D"0" cellspac=
+ing=3D"0" border=3D"0"><tr><td valign=3D"top"><![endif]--><div class=3D"lay=
+er_2" style=3D"max-width: 600px; display: inline-block; vertical-align: top=
+; width: 100%;"><table border=3D"0" cellspacing=3D"0" class=3D"edcontent" s=
+tyle=3D"border-collapse: collapse;width:100%"><tbody><tr><td valign=3D"top"=
+ class=3D"edbutton" style=3D"padding: 14px;"><table cellspacing=3D"0" cellp=
+adding=3D"0" style=3D"text-align: center; margin: 0px auto;" align=3D"cente=
+r"><tbody><tr><td align=3D"center" style=3D"border-radius: 4px; padding: 12=
+px; background: #4b62a3;"><a href=3D"https://pxkjn417k504z781.click.mailers=
+end.net/te/cws/eyJpdiI6IlUxazlIcWV2TXpFMGwzZ01JNHV3K3c9PSIsInZhbHVlIjoiUUFB=
+L1B0by85TU1jWERZVmRLZXB1NUVhSndmdlZwZzROYXpjKzVlUmpBQlRiai93NnV3ME9hOW44ZUF=
+QdDZ4L2NsRGwxYUFQRktMYVNKd0FIMkpySE5ZYlZuZ1Byb05TbldKUnJVTENheE0ybWU3d1Q3bl=
+V4aStRN3ViWFplUXA2UVg2bVlrUTVjTjVKL2t1WlJ5MFp5VjNKNnI0OGVCK2oyWWc2NjJSMnhSK=
+25GN09YZUxjQzcvQmh1ZndZTEVJIiwibWFjIjoiODg4ZDk5YzhiNTllNDE4ZjI3NTg0YWNjYzU1=
+YmEzMmI0ZjNjMzA5NmE4OGY5N2MxYzEyNjUxYmRlMzlkNWFmMyIsInRhZyI6IiJ9" target=3D=
+"_blank" style=3D'word-break: break-word; color: #ffffff; font-size: 16px; =
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; f=
+ont-weight: normal; text-decoration: none; display: inline-block;'><span st=
+yle=3D"color: #ffffff;">Check Details</span></a></td></tr></tbody></table><=
+/td></tr></tbody></table></div><!--[if (gte mso 9)|(IE)]></td></tr></table>=
+<![endif]--></td></tr><tr><td class=3D"drow" valign=3D"top" align=3D"center=
+" style=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0p=
+x; text-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D"100%" ali=
+gn=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td vali=
+gn=3D"top"><![endif]--><div class=3D"layer_2" style=3D"max-width: 600px; di=
+splay: inline-block; vertical-align: top; width: 100%;"><table border=3D"0"=
+ cellspacing=3D"0" cellpadding=3D"0" class=3D"edcontent" style=3D"border-co=
+llapse: collapse;width:100%"><tbody><tr><td valign=3D"top" class=3D"breakli=
+ne" style=3D"padding: 0px;"><p style=3D"border-style: solid none none; bord=
+er-width: 1px 0px 0px; margin: 8px 100px; padding: 0px;">=C2=A0</p></td></t=
+r></tbody></table></div><!--[if (gte mso 9)|(IE)]></td></tr></table><![endi=
+f]--></td></tr><tr><td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=3D"c=
+enter" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=3D"t=
+op"><![endif]--><div class=3D"layer_2" style=3D"max-width: 600px; display: =
+inline-block; vertical-align: top; width: 100%;"><table border=3D"0" cellsp=
+acing=3D"0" class=3D"edcontent" style=3D"border-collapse: collapse;width:10=
+0%"><tbody><tr><td valign=3D"top" class=3D"edtext" style=3D'padding: 20px; =
+text-align: left; color: #5f5f5f; font-size: 12px; font-family: "Open Sans"=
+, "Helvetica Neue", Helvetica, Arial, sans-serif; word-break: break-word; d=
+irection: ltr; box-sizing: border-box;'><table><tbody><tr><td><p style=3D"m=
+argin: 0px; padding: 0px;"><span style=3D"font-size: 14px;">Please keep in =
+mind that after the first intrusion we log all traffic between your server =
+and the BitNinja-protected servers until the IP is removed from the greylis=
+t. This means you may see valid logs beside the malicious actions in the li=
+nk above.</span></p><p style=3D"margin: 0px; padding: 0px;"><span style=3D"=
+font-size: 14px;"><br></span></p><p style=3D"margin: 0px; padding: 0px;"><s=
+pan style=3D"font-size: 14px;">If you need help finding the malicious logs,=
+ please don=E2=80=99t hesitate to contact our incident experts by replying =
+to this e-mail.</span></p></td></tr><tr><td><p style=3D"margin: 0px; paddin=
+g: 0px;"><br></p><p style=3D"margin: 0px; padding: 0px;"><span style=3D"fon=
+t-size: 14px;">Have an amazing week,</span></p><p style=3D"margin: 0px; pad=
+ding: 0px;"><br></p></td></tr><tr><td><p style=3D"margin: 0px; padding: 0px=
+;"><strong><span style=3D"font-size: 14px;">The BitNinja Team</span><br><br=
+><br></strong></p></td></tr></tbody></table></td></tr></tbody></table></div=
+><!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td></tr><tr><td =
+class=3D"drow" valign=3D"top" align=3D"center" style=3D"background-color: #=
+ffffff; box-sizing: border-box; font-size: 0px; text-align: center;"><!--[i=
+f (gte mso 9)|(IE)]><table width=3D"100%" align=3D"center" cellpadding=3D"0=
+" cellspacing=3D"0" border=3D"0"><tr><td valign=3D"top"><![endif]--><div cl=
+ass=3D"layer_2" style=3D"max-width: 600px; display: inline-block; vertical-=
+align: top; width: 100%;"><table border=3D"0" cellspacing=3D"0" class=3D"ed=
+content" style=3D"border-collapse: collapse;width:100%"><tbody><tr><td vali=
+gn=3D"top" class=3D"edsocialfollow" style=3D"padding: 20px;"><table align=
+=3D"center" style=3D"margin:0 auto" class=3D"edsocialfollowcontainer" cellp=
+adding=3D"0" border=3D"0" cellspacing=3D"0"><tbody><tr><td><!--[if mso]><ta=
+ble align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"><tr><=
+td align=3D"center" valign=3D"top"><![endif]--><table align=3D"left" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" data-service=3D"facebook"><tbody=
+><tr><td align=3D"center" valign=3D"middle" style=3D"padding:10px;"><a href=
+=3D"https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6ImM4K1FacH=
+IvM3JEUmRWY1Z0eVFnaWc9PSIsInZhbHVlIjoibElpZkUvMmFwSGRpcFNJSmJjUXBwR3dnRTg3T=
+2tGdS9XSG9CUlJjZEFIeXczZnRFd0xLSGcxVlhJZ1FyL3lTNHh5amRTU3l5M0dYSEppUTBEQWx3=
+NUszZ0RVZjNyRkxheGloVlFMNUVyczlOckVOWm5ZdnU2LzRCcE9TTjI4M2RaZGpqUHc5MzI0Zkl=
+nQkZJd3ZUUDFBPT0iLCJtYWMiOiI0MWY3MzYxNmRmZjhjNWU0NzU1MjY1NGRhNzExYzQ3Zjg2ZT=
+VjNmIxYWM5MjZiNjA5MjI2MTJkOTVkYmQ0NGFkIiwidGFnIjoiIn0," target=3D"_blank" s=
+tyle=3D"color:#5457ff;font-size:12px;font-family:"><img src=3D"https://api.=
+etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_facebo=
+ok.png" style=3D"display:block;width:32px;max-width:32px;border:none" alt=
+=3D"Facebook"></a></td></tr></tbody></table><!--[if mso]></td><td align=3D"=
+center" valign=3D"top"><![endif]--><table align=3D"left" border=3D"0" cellp=
+adding=3D"0" cellspacing=3D"0" data-service=3D"twitter"><tbody><tr><td alig=
+n=3D"center" valign=3D"middle" style=3D"padding:10px;"><a href=3D"https://p=
+xkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6Ik4yQm9NTVBJanN3QkxNNlB=
+tRFpyMkE9PSIsInZhbHVlIjoickFqWjl0M0hHMC9ybTkxYlp2S1JDTEM4dlBvQ21xbzM1RFg0eF=
+J4N1AzK3VwZ2x1ZW5sdnlBQkIvZmh0ZXppRUtjWDA3Y3dXaUtwNGlqT29IYlA2VHpsV1M1WTl2S=
+WUvRjQ4VXYyeDdOV0IxSUJsaEFNUjY4N1UvcXVkWUh5aDMiLCJtYWMiOiIyNzQ2OTRmYTAwM2Qz=
+Yjc1MGQ0MTdmY2RhODA4NzM2MzU5MWQ1NTM4YTgxODRjZjZkNzFiNGIwYjAwZjFiM2JmIiwidGF=
+nIjoiIn0," target=3D"_blank" style=3D"color:#5457ff;font-size:12px;font-fam=
+ily:"><img src=3D"https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-49=
+92ceddc1de/ro_sol_co_32_twitter.png" style=3D"display:block;width:32px;max-=
+width:32px;border:none" alt=3D"Twitter"></a></td></tr></tbody></table><!--[=
+if mso]></td><td align=3D"center" valign=3D"top"><![endif]--><table align=
+=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" data-service=3D"=
+instagram"><tbody><tr><td align=3D"center" valign=3D"middle" style=3D"paddi=
+ng:10px;"><a href=3D"https://pxkjn417k504z781.click.mailersend.net/te/cws/e=
+yJpdiI6InpJR25HbTRubzdiQ0NCSGs5M1RoK2c9PSIsInZhbHVlIjoiUTJkdUw1c1JhSkxZZ1Fk=
+c3prNGFzc0Z6Y01POFlQUVhsaUpxWUJ4TkcyeGlwRjZ0bUxEUUIrWWpaWUIrdk1IWTNtZHR1WnV=
+JNzJ0elNZZmQ3N2hCTVJJT3o0ckFsUW1mNjZYcWFVVThIczY5b3B5Q0NSTFBUSFlpcXNUSXpOV1=
+p4eFNlOFVWUEQySFdIczVqS3VubnZ3PT0iLCJtYWMiOiI1NDNkOTk2ZWI4ZmY1NDVmMjY2MzJjO=
+TEzMzMxOTcxYjRiMTVkMjI3YmE2YTA2ZDk3ZDI2NjI1NjczMmU3Y2U0IiwidGFnIjoiIn0," ta=
+rget=3D"_blank" style=3D"color:#5457ff;font-size:12px;font-family:"><img sr=
+c=3D"https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro=
+_sol_co_32_instagram.png" style=3D"display:block;width:32px;max-width:32px;=
+border:none" alt=3D"Instagram"></a></td></tr></tbody></table><!--[if mso]><=
+/td><td align=3D"center" valign=3D"top"><![endif]--><table align=3D"left" b=
+order=3D"0" cellpadding=3D"0" cellspacing=3D"0" data-service=3D"linkedin"><=
+tbody><tr><td align=3D"center" valign=3D"middle" style=3D"padding:10px;"><a=
+ href=3D"https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6Ikhna=
+1Uxb0JmeEFWWjBadFZqR2gvcVE9PSIsInZhbHVlIjoibW1rRlFNNzB5T2ZYME9IMG00VFlRRUhr=
+VzM0ckhCOEs4QmhabkpLU2wwMnU4V1pTbmxZdncwbnNpZlBmaXlhUHhqMUJIZmxrL216djBPSEZ=
+Wd3UzSWh2RUhnTGVSNlQ2Sm9WdDhEMnVRZFF5QVFMMy9HYk40b1JRSzY4QjhmbmVmZVd5VGM3RW=
+84RUFhU0VDWndWeXVBPT0iLCJtYWMiOiJlYTQ3YzQ2NjU2MWQ0MjI1MTIwZTc1NTg0ODE4YWI3N=
+TQxMDE5YjY5NGY5NTMwY2JiMWQ3YmM2N2M2ODkzYWFiIiwidGFnIjoiIn0," target=3D"_bla=
+nk" style=3D"color:#5457ff;font-size:12px;font-family:"><img src=3D"https:/=
+/api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_sol_co_32_l=
+inkedin.png" style=3D"display:block;width:32px;max-width:32px;border:none" =
+alt=3D"Linkedin"></a></td></tr></tbody></table><!--[if mso]></td><td align=
+=3D"center" valign=3D"top"><![endif]--><table align=3D"left" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" data-service=3D"mail"><tbody><tr><td ali=
+gn=3D"center" valign=3D"middle" style=3D"padding:10px;"><a href=3D"mailto:c=
+sm@bitninja.com" target=3D"_blank" style=3D"color:#5457ff;font-size:12px;fo=
+nt-family:"><img src=3D"https://api.etrck.com/userfile/a18de9fc-4724-42f2-b=
+203-4992ceddc1de/ro_sol_co_32_mail.png" style=3D"display:block;width:32px;m=
+ax-width:32px;border:none" alt=3D"Email"></a></td></tr></tbody></table><!--=
+[if mso]></td><td align=3D"center" valign=3D"top"><![endif]--><table align=
+=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" data-service=3D"=
+youtube"><tbody><tr><td align=3D"center" valign=3D"middle" style=3D"padding=
+:10px;"><a href=3D"https://pxkjn417k504z781.click.mailersend.net/te/cws/eyJ=
+pdiI6ImJWc2tqTjBDVG5VYURjS2VaYWdhNGc9PSIsInZhbHVlIjoidFU0c0owelVUa3NvWW9WOV=
+hrMXJzOFFFeWdPdFBXRXlKWjhPZyswM3EzRmFUcEpmRXc2Sm9yQ3dMY3VSbTRmNkhsdTlHeEF4e=
+XBLNmhIRkN2OEFhSndCMEpra1F3TE5UbFczK28yMm54MEJ5aVl6K3VNNS9KU1Z6dFp5b0JxUk5R=
+ZWFWaDJOOVNCQjZBdm9vRmcwQmZnPT0iLCJtYWMiOiJkY2MyZjM2MDUzODMwYjdmMzI2OGUyMzY=
+0ZjRiNmM0MzUyMWU4YmE3YzA3OTgwNzhiNDQzY2YwMTExZDJiYjM1IiwidGFnIjoiIn0," targ=
+et=3D"_blank" style=3D"color:#5457ff;font-size:12px;font-family:"><img src=
+=3D"https://api.etrck.com/userfile/a18de9fc-4724-42f2-b203-4992ceddc1de/ro_=
+sol_co_32_youtube.png" style=3D"display:block;width:32px;max-width:32px;bor=
+der:none" alt=3D"YouTube"></a></td></tr></tbody></table><!--[if mso]></td><=
+/tr></table><![endif]--></td></tr></tbody></table></td></tr></tbody></table=
+></div><!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td></tr><t=
+r><td class=3D"drow" valign=3D"top" align=3D"center" style=3D"background-co=
+lor: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;">=
+<!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=3D"center" cellpaddin=
+g=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=3D"top"><![endif]--><=
+div class=3D"layer_2" style=3D"max-width: 600px; display: inline-block; ver=
+tical-align: top; width: 100%;"><table border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0" class=3D"edcontent" style=3D"border-collapse: collapse;width:1=
+00%"><tbody><tr><td valign=3D"top" class=3D"breakline" style=3D"padding: 0p=
+x;"><p style=3D"border-style: solid none none; border-width: 1px 0px 0px; m=
+argin: 8px 100px; padding: 0px;">=C2=A0</p></td></tr></tbody></table></div>=
+<!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--></td></tr><tr><td c=
+lass=3D"drow" valign=3D"top" align=3D"center" style=3D"background-color: #f=
+fffff; box-sizing: border-box; font-size: 0px; text-align: center;"><!--[if=
+ (gte mso 9)|(IE)]><table width=3D"100%" align=3D"center" cellpadding=3D"0"=
+ cellspacing=3D"0" border=3D"0"><tr><td valign=3D"top"><![endif]--><div cla=
+ss=3D"layer_2" style=3D"max-width: 600px; display: inline-block; vertical-a=
+lign: top; width: 100%;"><table border=3D"0" cellspacing=3D"0" class=3D"edc=
+ontent" style=3D"border-collapse: collapse;width:100%"><tbody><tr><td valig=
+n=3D"top" class=3D"edtext" style=3D'padding: 20px; text-align: left; color:=
+ #5f5f5f; font-size: 12px; font-family: "Open Sans", "Helvetica Neue", Helv=
+etica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizin=
+g: border-box;'><p class=3D"text-center" style=3D"text-align: center; margi=
+n: 0px; padding: 0px;">Check out the incidents at:</p><p class=3D"text-cent=
+er" style=3D"text-align: center; margin: 0px; padding: 0px;"><a href=3D"htt=
+ps://pxkjn417k504z781.click.mailersend.net/te/cws/eyJpdiI6IncwcyswcGJLTlIvZ=
+lN1R0tKR3RNRHc9PSIsInZhbHVlIjoibWl5cllkdkw1NW9JNk12eHhZOFNWS3A4WS9GeFdPeGhs=
+am1hYXJmOG8raWFxWndFeGZ3Rzl0c1R5dDVFN0FUcVR2eC9mVitDZmR3N2RiSjVzZmNqSThKOS8=
+0M3ovcEYyNWgvRFpQVVVqRlNITDNCTHo1bjNjbVk5UkJRVEljWGp1VWV2SnJmSlNSRmFlYzU2MD=
+FnV0NOM1UzcWdxWkVtUEhIdzBzVUNYMVoxNlEvOXo4QWlxd1F4NDd4VGhpM2JCIiwibWFjIjoiN=
+mFlM2ZjNjRmZmVhNDQ0ODNiNmFhNmM2MTI1YTc1Mzk4ZjIyYTZkMjM5MmZjYWI1OTVkZmIyZWI4=
+NzcwZjAyZCIsInRhZyI6IiJ9" target=3D"_blank" style=3D"color: #5457ff; text-d=
+ecoration: none;">https://report.bitninja.com/incident-report/da58be7ecb79e=
+d7016?utm_source=3Dincident&amp;utm_content=3Dpublicpage</a><br></p></td></=
+tr></tbody></table></div><!--[if (gte mso 9)|(IE)]></td></tr></table><![end=
+if]--></td></tr>
+                <tr>
+                  <td class=3D"drow" valign=3D"top" align=3D"center" style=
+=3D"background-color: #ffffff; box-sizing: border-box; font-size: 0px; text=
+-align: center;">
+                    <!--[if (gte mso 9)|(IE)]><table width=3D"100%" align=
+=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valign=
+=3D"top"><![endif]-->
+                    <div class=3D"layer_2" style=3D"max-width: 596px; displ=
+ay: inline-block; vertical-align: top; width: 100%;">
+                      <table border=3D"0" cellspacing=3D"0" cellpadding=3D"=
+0" class=3D"edcontent" style=3D"border-collapse: collapse;width:100%">
+                        <tbody>
+                          <tr>
+                            <td valign=3D"top" class=3D"emptycell" style=3D=
+"padding: 10px;">
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]--=
+>
+                  </td>
+                </tr><tr><td class=3D"drow" valign=3D"top" align=3D"center"=
+ style=3D"background-color: #e4e6ec; box-sizing: border-box; font-size: 0px=
+; text-align: center;"><!--[if (gte mso 9)|(IE)]><table width=3D"100%" alig=
+n=3D"center" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"><tr><td valig=
+n=3D"top"><![endif]--><div class=3D"layer_2" style=3D"max-width: 600px; dis=
+play: inline-block; vertical-align: top; width: 100%;"><table border=3D"0" =
+cellspacing=3D"0" cellpadding=3D"0" class=3D"edcontent" style=3D"border-col=
+lapse: collapse;width:100%"><tbody><tr><td valign=3D"top" class=3D"emptycel=
+l" style=3D"padding: 20px;"></td></tr></tbody></table></div><!--[if (gte ms=
+o 9)|(IE)]></td></tr></table><![endif]--></td></tr>
+               =20
+               =20
+               =20
+               =20
+               =20
+               =20
+               =20
+              </tbody>
+            </table>
+            <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <p style=3D"text-align:center;">Click here to <a href=3D"https://pxkjn417=
+k504z781.click.mailersend.net/uws/642777668dcd91541408a40d?parameters=3DeyJ=
+pdiI6ImRCa0o5TW1GV3hFS0htWDBFQkNja3c9PSIsInZhbHVlIjoiS0JFeFpEb0R6dnl4VGJuWT=
+h6ZEJEZVJKc1cyaDY0TDBPN2hPOWprd2JVRzMrWnd0R1hUT0E1UzFibzFwbTVuam1iM1JxTW96b=
+08va0RFU0o0dEpKTHZuOXZoUVJ5bHZKczZmZGtNZ2dmMVk9IiwibWFjIjoiOGJkMjE2NDQ5MDk1=
+MWNkYjYyZjFjMTNlZmJlNWM1Nzc4Mjg1YjVmNjRkZDJiZTU0ZjRlZGQ2NmFlYzYxMWZiMCIsInR=
+hZyI6IiJ9" style=3D"color:#666666; text-decoration:none;">unsubscribe</a></=
+p></body><grammarly-desktop-integration data-grammarly-shadow-root=3D"true"=
+></grammarly-desktop-integration></html>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;Abuse Operations Center&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:aoc+unsubscribe@digitalocean.com">aoc+unsubscribe=
+@digitalocean.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/a/digitalocean.com/d/msgid/aoc/64488e45f3efc4dbc500efe2%40mailersend.net=
+?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/a/digita=
+locean.com/d/msgid/aoc/64488e45f3efc4dbc500efe2%40mailersend.net</a>.<br />
+
+--zE_b6lbi--

@@ -1,0 +1,271 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@cert-in.org.in header.d=cert-in.org.in header.s=certindomainkey
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2047.outbound.protection.outlook.com [40.107.7.47])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id E9B37F82-FDD7-4F5E-9117-1057EC4DFD9A.1
+	envelope-from <bounces+SRS=zKmLV=55@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Wed, 01 Feb 2023 17:54:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ixCcatm6/8ZKq09kQpk4wKsmpVlZuPnnd5Ns8WB6UQUjHjeM6yPQd9UHtv2iu2kMfd3WJyjCc2AAawrrWKgPPJRC+04kM8E56dOMlADwVlp4BWzqcUn3OSIwuCPH0wuB+vtW/86wRgX7q0z9jBSz8QR8P8zH4KjelrsZT9Z4/CU1/qGLVFfB++KvYA44qlBA4TckKF3Mtdj4dwfP4L0R706BSwWOcPEIVbjLIxy55/JHWMfS0jNVtMqjf5uOfiCDGPJhsQsWDvna054ke/56crnuJbumRnUOksbLeUgMArqvr32ZCnpwXECQXcFfdf2XxNQYpzwMyDEtuwXmbJnOow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MgkjaJhik0wav5QTmM8b7PKIGL8mww0v8SE50/iBbAU=;
+ b=MFiW53a+fPkGDhmW831fbSdrP89xO88zzE53AiRr+gmnJ2OWXwzelS3XSqh4ctEZPHzhUxUW03BT8CJhBLC//cAj9vhehT4kDsSlDgmMhDyWRt63NzEVbN2CdjFmuvGZNv+2gx33jAKDRjy3rTo6+llXHTGeuqbOonxgv/ArMup1YmtM8yOe2viYsCTbEVibXVtaeOdVbFHCtTwmx6D5qs9tjYKlDTNGb6Dr34Lvv4vPW2xsWH3YoFOaVIO7PamHIn9+agFfVw+hEhPrZnlgL3pdTcOo++8N2ivglegBjI9CJ1XiuNCb4MFrVNLnDPu6BB/BZd0foIH9WWThP49BFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 223.31.174.167) smtp.rcpttodomain=ipxo.com smtp.mailfrom=cert-in.org.in;
+ dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=cert-in.org.in; dkim=pass (signature was verified)
+ header.d=cert-in.org.in; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MgkjaJhik0wav5QTmM8b7PKIGL8mww0v8SE50/iBbAU=;
+ b=WNRDRnw4ytae4OxJ+D3LBVfyOsNGf6ElFUd2NsbhP5hRmxyGmOwBpmaDY4bgkh5C9w+DLx90RT3IiIYd59P4amwynzXQdnQGhcppr7HSzdhIxIpCJQ/Nu5S6qodK0ogmRukfwAlLJ52cnACp+GpbAVA5TdyNksMFAfa+SpVp0A43IMusaHh0pvZFkKHPBYs2BmOHKunR9Fe/hrSn1h56xDl4Jesx0QgSg6y/IB5v73ZHdPtcUjaWXBK69nfShoCZjLLdxQ9JdCq6WVYmjdDtppQ17Eg2s/BzW7eIiA6eaDywavJIQC5cthpH3ZT1gZLL/pFbkX2FBCiHW7gTc8DsVw==
+Received: from LO2P265CA0293.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a5::17)
+ by LO0P302MB0338.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:362::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
+ 2023 17:54:49 +0000
+Received: from LO2GBR01FT036.eop-gbr01.prod.protection.outlook.com
+ (2603:10a6:600:a5:cafe::39) by LO2P265CA0293.outlook.office365.com
+ (2603:10a6:600:a5::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.22 via Frontend
+ Transport; Wed, 1 Feb 2023 17:54:49 +0000
+Received-SPF: Pass (protection.outlook.com: domain of cert-in.org.in
+ designates 223.31.174.167 as permitted sender)
+ receiver=protection.outlook.com; client-ip=223.31.174.167;
+ helo=mail.cert-in.org.in; pr=C
+Received: from mail.cert-in.org.in (223.31.174.167) by
+ LO2GBR01FT036.mail.protection.outlook.com (10.152.42.163) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6064.25 via Frontend Transport; Wed, 1 Feb 2023 17:54:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; d=cert-in.org.in; s=certindomainkey; c=relaxed/simple;
+	q=dns/txt; i=@cert-in.org.in; t=1675274084; x=2539187684;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=rxG3e7Adtm7t2aJfwWRlWNOSqvXP81TDsGgQKLfTqWw=;
+	b=EoHFG6jp9GR7LJWrQoGiTBaC2PbkpWi8wa/+/liv+q+ARNeY4lYC94C3swaFOL8h
+	uL3BIdZb6raqt7YvFVfoJGbQNUFEA9SiajWo1yOH8V6+ux8RnKkhUEm6MViNwlFG
+	PvCRRk0ew9lBlaf1thWb5gpz+evoha6CvP7mAAC0Sls=;
+X-AuditID: ac110a67-83e7f70000002cf3-ee-63daa76434d8
+Received: from mailz.cert-in.org.in (Unknown_Domain [172.17.10.250])
+	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mail.cert-in.org.in (Symantec Messaging Gateway) with SMTP id 50.DA.11507.467AAD36; Wed,  1 Feb 2023 23:24:44 +0530 (IST)
+Received: from mailz.cert-in.org.in (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTPS id CC0C614917AD98
+	for <abuse@ipxo.com>; Wed,  1 Feb 2023 23:21:51 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id BD7BA14917AD9C
+	for <abuse@ipxo.com>; Wed,  1 Feb 2023 23:21:51 +0530 (IST)
+Received: from mailz.cert-in.org.in ([127.0.0.1])
+	by localhost (mailz.cert-in.org.in [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id E1ex6K1GZ9GZ for <abuse@ipxo.com>;
+	Wed,  1 Feb 2023 23:21:51 +0530 (IST)
+Received: from mailz.cert-in.org.in (mailz.cert-in.org.in [172.17.10.250])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id A8DD114917AD98
+	for <abuse@ipxo.com>; Wed,  1 Feb 2023 23:21:51 +0530 (IST)
+Date: Wed, 1 Feb 2023 23:21:51 +0530 (IST)
+From: Incident <incident@cert-in.org.in>
+To: abuse@ipxo.com
+Message-ID: <808672939.3987969.1675273911311.JavaMail.zimbra@cert-in.org.in>
+In-Reply-To: <1094915230.3979943.1675257897534.JavaMail.zimbra@cert-in.org.in>
+References: <1094915230.3979943.1675257897534.JavaMail.zimbra@cert-in.org.in>
+Subject: Active Botnet C2 under your control IP  45.84.240.87 ;
+ Ref:CERTIn-47818123
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="=_ae2df524-eea3-47cc-b30b-5df7702e4437"
+X-Originating-IP: [172.17.10.250]
+X-Mailer: Zimbra 8.8.15_GA_4272 (ZimbraWebClient - GC109 (Win)/8.8.15_GA_4257)
+Thread-Topic: Active Botnet C2 under your control IP 45.84.240.87 ; Ref:CERTIn-47818123
+Thread-Index: zJAYOc/5kZi7JuDfm2PCmGdQ8Eq+oqi0lfr5
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOJMWRmVeSWpSXmKPExsWyRpDrl27K8lvJBps6BS3WXPvD6sDocefl
+	brYAxigum5TUnMyy1CJ9uwSujCOLX7AV3LOoWLH3MksD4wWjLkZODgkBE4n+dW1MXYxcHEIC
+	G5kkft5bxQLh7GaUWPurD8pZzyhx6e9mdgjnBqPEwsPbmSGck4wSU3bOYgYZxiKgJfH17QM2
+	EJtNQEOi//cBVhBbREBI4tKDHiYQm1fAR+JD931GEJtTwE9i3vojQDUcQIN8JbqfyoCEhQVC
+	JQ4u/s8CUS4ocXLmEzCbWSBS4v/rU0wQdytK/Jq0mx3C9pPoXPCPHWSMiEC4xK/J8RBbjSQu
+	7elhmcAoPAvJpFlIJi1gZFrFKJybmJmjl5xaVKKbmaeXX5Sul5m3iRESsuk7GC/2fdY7xMjE
+	wSnVwMRd9ihv83p1Z/OE5yu4uLRez9Fxcnnlx8fXEiU7bxkDezLn3mXbZrvnsHIznp667gSX
+	+qngjE1Hb88Q7jd2Nbuse3uxUuGiH0W56q5H/joarfy0vmGvfQPrk7i8LLkLjDdWXlkf0xZz
+	TUGEW7cj/OLTJfY9+y6pLMrI354W/en015+Bl6Z5d896pHtGuGxrdmDKnqvr75/YFJ16asXa
+	bbGRXSFXky44uaxb5zb3c/CZJ+z2Xl26ZtrKfmwObGGapqKd9byH37jMLbi4Zqs8q19pkcCU
+	czbXHjDELdx74WfCgl99S/jNL37lmeN1tqtlyYzYlMte0w6EePDs5d5Yc7LP/ZjRrpN+xeoy
+	K8J1c5RYijMSDbWYi4oTAZMaEGuKAgAA
+Return-Path: incident@cert-in.org.in
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2GBR01FT036:EE_|LO0P302MB0338:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9c9afa2-dde6-4efc-158e-08db047d6861
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	PlueHN03hIY32rcY0Q6twW+yGi+Cue9bxrMCSAPpKiTAOpF3sEmEMAIs61hcRiSUGE/9oQ2e3DDAQ8vqTZDMaVkJMqoeStEqCgGNQwAU83JOIiIzkJ4DaRc0A5FKycn4OeBIbauobiwj7pMhilZvX8EDRKlWAjDeoN2CMJSRhNvqEVhqY0HP9+2HJQkVuE+2aH0AjBD+dLGA8fsCqLcdGiodHpv5FVdS3Kt7ZQCLMDD0JDgDj2At0k6gfv68R6FV8HKxtu77YJvQNzz1qOokptn4MgoJnm/F+aILGqzFKVLOyojcFkC0Ynz6v9Gx8xaWdw1+fK+72fwbKgAvGbF0bClhXvti9mG0pVCNMV6bl5qf9R5H74xDAUWS9/aJ8QbbKFRvWqIouCTHVyHsjhylABFH2ok0lCbmKik3ltBFPiKeIYZXFcSUbl0H4HVUUSXZEqYa0hjRAzskcG0aQnLtvRIeoqUj/8K8iY5H4J2HTU71BUNOBgvW/t0GXH59MsG0ldHo4FwNidg0mVhSU1PEjOzQHP1mrVqZVnRHs/s2GTguSbIGN1JD2Dt3Tr3hsQNEgn4667KcIodn//fe8opOzM+u55enJ7mPwlfez33623U/xBrARwPNf/HdSCxgzW+GhWJjLZB4bHBeALZZc1tUD33gROXw1Wd48ZfIV88Rz7pHMr6zS72/zQhVdzKUZ1qm2rEHH/jEvYl88yJPLjI9ecGf5+4S93fjHa/SbBrkej95KSrE9MCWiiNrvQQDpWBzV14lyjrsm27OUNVMqg+OhBBBoMonSkQ4XuN3re/7dm2cv0bbLOT4H4ka4AnIwhu1Odpu6CfmFfV+R/3518X/DEdh9EJJGgKrOC40ZFHvu6w=
+X-Forefront-Antispam-Report:
+	CIP:223.31.174.167;CTRY:IN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.cert-in.org.in;PTR:mail.cert-in.org.in;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(346002)(39860400002)(376002)(451199018)(336012)(2616005)(6266002)(26005)(5660300002)(33964004)(15974865002)(8676002)(68406010)(70586007)(36756003)(34206002)(426003)(66574015)(498600001)(2906002)(316002)(966005)(83380400001)(356005)(86362001)(7596003)(7636003)(7696005)(72826004);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 17:54:46.6829
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9c9afa2-dde6-4efc-158e-08db047d6861
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource:
+	LO2GBR01FT036.eop-gbr01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P302MB0338
+Original-Authentication-Results: spf=pass (sender IP is 223.31.174.167)
+ smtp.mailfrom=cert-in.org.in; dkim=pass (signature was verified)
+ header.d=cert-in.org.in;dmarc=pass action=none header.from=cert-in.org.in;
+
+--=_ae2df524-eea3-47cc-b30b-5df7702e4437
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE----- 
+Hash: SHA256 
+
+Ref:CERTIn-47818123 
+- --------------------------------- 
+
+Dear Sir/Madam, 
+
+This is an email from the Indian Computer Emergency Response Team 
+(CERT-In). CERT-In is the national nodal agency for responding to 
+cybersecurity incidents in India as per the Information Technology Act 2000 
+(Section 70B). Details are available on our website www.cert-in.org.in. 
+
+We have received a report that an IP address 45.84.240.87, which is under 
+your control, is active Botnet C2 of BumbleBee Malware. 
+
+C2 Communication information: 
+- - - - 
+- ------------------------------------------------------------------------ 
+IP address: 45.84.240.87 
+Port: 443 
+Malware: BumbleBee 
+Country: IN 
+First seen: 2023-02-01 17:25:07 UTC 
+Last seen: 2023-02-01 17:30:04 UTC 
+Proof: 
+https://feodotracker.abuse.ch/browse/host/45.84.240.87/ 
+- - - - 
+- ----------------------------------------------------------------------- 
+
+It is requested that immediate steps may kindly be taken to sanitize the IP 
+address, stop threat actors to further use these botnet C2s to control 
+infected devices and prevent occurrence of such incidents in future. 
+
+This email shall be acknowledged within 24 hours, and requisite information 
+on actions taken on the directions shall be provided within 48 hours. 
+
+- - -- 
+Thanks and Regards, 
+
+CERT-In 
+
+Incident Response Help Desk 
+e-mail: incident@cert-in.org.in 
+Phone: 1800-11-4949 
+FAX: 1800-11-6969 
+Web: http://www.cert-in.org.in 
+PGP Fingerprint: A768 083E 4475 5725 B81A A379 2156 C0C0 B620 D0B4 
+PGP Key information: 
+https://www.cert-in.org.in/s2cMainServlet?pageid=CONTACTUS 
+
+Postal address: 
+Indian Computer Emergency Response Team (CERT-In) 
+Ministry of Electronics and Information Technology 
+Government of India 
+Electronics Niketan 
+6, C.G.O. Complex 
+New Delhi-110 003 
+
+
+-----BEGIN PGP SIGNATURE----- 
+Version: Encryption Desktop 10.4.1 (Build 620) 
+Charset: utf-8 
+
+wsFVAwUBY9qnaSFWwMC2INC0AQhpyg//RW0yEPEohokugD6RKfRq5dtppiYXhNdJ 
+PwNnwIx0DuG/x1FHI8TAS2qZTjfdXuI3GOqQJoq/8TDA1P+TYwBufRBq3YjtI1iy 
+RkvT8tMut3pU5YoMskE7WgzJZAcwF+MoT9tjFNz88uLoWZc5k+l+91vO5eZ9+2U3 
+QDUvl8srZJzMbXDp0XMwmRTP5AkarwJd7B4PGLLJ6RgEmEV+7alK/y4VQwG4wejt 
+y517P1KMvhilm2ueTA7M+iIu1n//8gZj7FVlrZOwglJUAN9aT6MiJFcmyaW1cbNF 
+Bb3VW0qLNvM6OI7QoPxzncfcMu/edOY4Mj2TyLDS6KFA8Xq3gt1tUcv7Vm0Z7rjd 
+gk061R2hJKmvZK3yCwVgJd37K/pfeDqUAk36UO9fG3b9HbS/jBo1Qvv+Eiyeow9M 
+Wv+ZV5bm+YWXED1hq+I/Sv2et0JLWoSAAbPL/JpCNGjuMeh4qfzh48/rHIV7aFWC 
+vIhLrZ1nMKLpcvlhJNMfsk/0zQ3OEgLzY2Ckv0T5O80Czdb1VIOJEnQ7kUvGbf2W 
+WJDJJGXO9PrjnblrucgWVX1x+E945SSciXLkT/4XAq7mzM7T3Ys44XxYffOFVrlF 
+RHErMgQVWHykm0aHJS7LSzwcJHbXgmLFwJwHV3g6fnnhsQ3AntyfoDionDJCIm9C 
+VxbNjsx0CWM= 
+=jrPs 
+-----END PGP SIGNATURE----- 
+
+
+--=_ae2df524-eea3-47cc-b30b-5df7702e4437
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
+ize: 12pt; color: #1a1a1a"><div data-marker=3D"__QUOTED_TEXT__"><div style=
+=3D""><div>-----BEGIN PGP SIGNED MESSAGE-----</div><div>Hash: SHA256</div><=
+div><br></div><div>Ref:CERTIn-47818123</div><div>- ------------------------=
+---------</div><div><br></div><div>Dear Sir/Madam,</div><div><br></div><div=
+>This is an email from the Indian Computer Emergency Response Team</div><di=
+v>(CERT-In). CERT-In is the national nodal agency for responding to</div><d=
+iv>cybersecurity incidents in India as per the Information Technology Act 2=
+000</div><div>(Section 70B). Details are available on our website www.cert-=
+in.org.in.</div><div><br></div><div>We have received a report that an IP ad=
+dress 45.84.240.87, which is under</div><div>your control, is active Botnet=
+ C2 of BumbleBee Malware.</div><div><br></div><div>C2 Communication informa=
+tion:</div><div>- - - -</div><div>- ---------------------------------------=
+---------------------------------</div><div>IP address:&nbsp; &nbsp; &nbsp;=
+ &nbsp; 45.84.240.87</div><div>Port:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
+p; &nbsp; &nbsp; &nbsp; &nbsp;443</div><div>Malware:&nbsp; &nbsp; &nbsp; &n=
+bsp; =E2=80=83BumbleBee</div><div>Country:&nbsp; &nbsp; &nbsp; &nbsp;=E2=80=
+=83 IN</div><div>First seen:&nbsp; &nbsp; &nbsp; &nbsp; 2023-02-01 17:25:07=
+ UTC</div><div>Last seen:&nbsp; &nbsp; &nbsp; &nbsp; 2023-02-01 17:30:04 UT=
+C</div><div>Proof:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</d=
+iv><div>https://feodotracker.abuse.ch/browse/host/45.84.240.87/&nbsp; &nbsp=
+; &nbsp; &nbsp;</div><div>- - - -</div><div>- -----------------------------=
+------------------------------------------</div><div><br></div><div>It is r=
+equested that immediate steps may kindly be taken to sanitize the IP</div><=
+div>address, stop threat actors to further use these botnet C2s to control<=
+/div><div>infected devices and prevent occurrence of such incidents in futu=
+re.</div><div><br></div><div>This email shall be acknowledged within 24 hou=
+rs, and requisite information</div><div>on actions taken on the directions =
+shall be provided within 48 hours.</div><div><br></div><div>- - --</div><di=
+v>Thanks and Regards,</div><div><br></div><div>CERT-In</div><div><br></div>=
+<div>Incident Response Help Desk</div><div>e-mail: incident@cert-in.org.in<=
+/div><div>Phone: 1800-11-4949</div><div>FAX: 1800-11-6969</div><div>Web: ht=
+tp://www.cert-in.org.in</div><div>PGP Fingerprint: A768 083E 4475 5725 B81A=
+ A379 2156 C0C0 B620 D0B4</div><div>PGP Key information:</div><div>https://=
+www.cert-in.org.in/s2cMainServlet?pageid=3DCONTACTUS</div><div><br></div><d=
+iv>Postal address:</div><div>Indian Computer Emergency Response Team (CERT-=
+In)</div><div>Ministry of Electronics and Information Technology</div><div>=
+Government of India</div><div>Electronics Niketan</div><div>6, C.G.O. Compl=
+ex</div><div>New Delhi-110 003</div><div><br></div><div><br></div><div>----=
+-BEGIN PGP SIGNATURE-----</div><div>Version: Encryption Desktop 10.4.1 (Bui=
+ld 620)</div><div>Charset: utf-8</div><div><br></div><div>wsFVAwUBY9qnaSFWw=
+MC2INC0AQhpyg//RW0yEPEohokugD6RKfRq5dtppiYXhNdJ</div><div>PwNnwIx0DuG/x1FHI=
+8TAS2qZTjfdXuI3GOqQJoq/8TDA1P+TYwBufRBq3YjtI1iy</div><div>RkvT8tMut3pU5YoMs=
+kE7WgzJZAcwF+MoT9tjFNz88uLoWZc5k+l+91vO5eZ9+2U3</div><div>QDUvl8srZJzMbXDp0=
+XMwmRTP5AkarwJd7B4PGLLJ6RgEmEV+7alK/y4VQwG4wejt</div><div>y517P1KMvhilm2ueT=
+A7M+iIu1n//8gZj7FVlrZOwglJUAN9aT6MiJFcmyaW1cbNF</div><div>Bb3VW0qLNvM6OI7Qo=
+PxzncfcMu/edOY4Mj2TyLDS6KFA8Xq3gt1tUcv7Vm0Z7rjd</div><div>gk061R2hJKmvZK3yC=
+wVgJd37K/pfeDqUAk36UO9fG3b9HbS/jBo1Qvv+Eiyeow9M</div><div>Wv+ZV5bm+YWXED1hq=
++I/Sv2et0JLWoSAAbPL/JpCNGjuMeh4qfzh48/rHIV7aFWC</div><div>vIhLrZ1nMKLpcvlhJ=
+NMfsk/0zQ3OEgLzY2Ckv0T5O80Czdb1VIOJEnQ7kUvGbf2W</div><div>WJDJJGXO9Prjnblru=
+cgWVX1x+E945SSciXLkT/4XAq7mzM7T3Ys44XxYffOFVrlF</div><div>RHErMgQVWHykm0aHJ=
+S7LSzwcJHbXgmLFwJwHV3g6fnnhsQ3AntyfoDionDJCIm9C</div><div>VxbNjsx0CWM=3D</d=
+iv><div>=3DjrPs</div><div>-----END PGP SIGNATURE-----</div><div><br></div><=
+/div></div></div></body></html>
+--=_ae2df524-eea3-47cc-b30b-5df7702e4437--

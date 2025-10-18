@@ -1,0 +1,147 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id FABF87B9-09BE-4444-B985-638FEF4219C9.1
+	envelope-from <abuse+bncBAABB5PA42OQMGQENOYLLYI@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Sat, 07 Jan 2023 17:48:38 +0000
+Received: by mail-io1-f70.google.com with SMTP id o22-20020a6b5a16000000b006e2d564944asf2415993iob.7
+        for <abuse@digitalocean.abusehq.net>; Sat, 07 Jan 2023 09:48:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:date:message-id:subject:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=hph/pDyV+hZU3NMClZCNCy3gCHHnM7fuvXXacfrXayk=;
+        b=UeFNqR6vD0r1mh45MwfbW35erRbH7JFHhl0RZ5pX2/Vp0N+sxNRrFNNL0XBNMs+Hdm
+         wPvQqkBxfmcQiBmgii4l5F5HQ74b5otXvqXx2ZejAuL2N+ZO+Z0fMQBTtShQ1CtRV6BE
+         wAFZORnrGilRAhin6VgBbJAEbfaseNoyA/hPo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :date:message-id:subject:to:from:x-gm-message-state:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hph/pDyV+hZU3NMClZCNCy3gCHHnM7fuvXXacfrXayk=;
+        b=w0su9895gxTgNu5T6UX2XD0M9AXa9xm1wQnbC+STCSAr+/QYidiQg2/+zKIuDEhHvF
+         AcMrLO/gzKCMmRLrl0r0mTan+32m/8SLQ2GegdcVZPaHvIUFRQdkqZ8ZFvZ/UKsIIm/w
+         /7lusT6XpELOhGY3rxZuBb7ipcgBYPGlpLqrqp30atgXbqPGaNZ/J12qBd42kIvkL2Oz
+         j7YNoq6MbYi5N3TybGVW1u4BwXQfsYtz+J5tgroPmO7mxDa/QcOxBp6/TdVY9uhgQhH/
+         artgq24I0HHY8ioY3s1Zur0SWx42dFjJXdipNYn+r1PVwo3UQHBiWj+huvMw1U2d6T01
+         mXcg==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AFqh2krfUzihnZE9KXG+SYCx3FaKpDasJZvCEgXK0qpIDvPqxnqT06wA
+	UUS7ViOfiDTQh8yoSOpLF854RA==
+X-Google-Smtp-Source: AMrXdXsq6QE6NMriO4fWNQ8eoUbSre+0gvxtXo1ZokguNIndaaNqo1RfowCdsK7XejCwrqHgaoHWIw==
+X-Received: by 2002:a05:6e02:1212:b0:304:bc0d:949a with SMTP id a18-20020a056e02121200b00304bc0d949amr5798471ilq.103.1673113717733;
+        Sat, 07 Jan 2023 09:48:37 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6e02:ca3:b0:30b:f63e:3073 with SMTP id
+ 3-20020a056e020ca300b0030bf63e3073ls544591ilg.5.-pod-prod-gmail; Sat, 07 Jan
+ 2023 09:48:37 -0800 (PST)
+X-Received: by 2002:a92:d950:0:b0:30c:2ff1:c8d7 with SMTP id l16-20020a92d950000000b0030c2ff1c8d7mr20411788ilq.0.1673113716859;
+        Sat, 07 Jan 2023 09:48:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673113716; cv=none;
+        d=google.com; s=arc-20160816;
+        b=s7MGhAYq0To15zbmolfZU0dQ1CgogrnsOZatW7S9bPe7JyHgFXZcKf6QtP11cLuP0q
+         cL0OWBR7BbhGKMP7sSxLFpYmgnAJMWla1a/h2exNZbSrwxZ36GoEEyKrY+juA/FIb9SQ
+         O0Y54n5AYDsM+WWRB6qEYMGDjKYQSvp12xTEalkqQxHVIznII/407hUMHSoNLFmE1tUZ
+         S4S8dbzhcWK86vZkgGkgmp9odBp+SANDz0TFNO8byia3bJ7z5nP77umkWsPx9Gua8y0M
+         1w28Z1jZ6e7AxYwqSDaRJmXlKbAyT75udAFoVtC+rI8o5LCIyMirpwZxTp2n5N4UcfNe
+         hfxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:date:message-id:subject:to:from;
+        bh=hph/pDyV+hZU3NMClZCNCy3gCHHnM7fuvXXacfrXayk=;
+        b=ESqJTLmc8yo97pUevo3vNzGXAV8Y6VQw/EKR0CEHJg9yuudpC+ny1/2sSeEbbfaaSF
+         Tces6A8Xmbz1bMf6EznD2bi8OL6l/2Xz+3WQ3mIyULwqsAYNRp3r94dSS07AxrM7Ksyb
+         J71KWK8AWdBsKdJRzC2ZhUUbtGkDZJKtwfTaC3apxwY2aBvAeOujzaAWAMxFwQuTg03X
+         ksAfRrCuU+Jy+wNTAyJF+ENP+k4wC5ZE2z+7SkA2o5FHXRyAageI+O+XmmxKN1WyaiHX
+         a4iJSc4QI15Q2EM43r0nesG2c7uRaHTbXfroDtRUWzPTUdCCvu8cg7QVgSEcoRs+7cvr
+         i/8w==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of ids-reply@mieweb.com designates 64.186.38.33 as permitted sender) smtp.mailfrom=ids-reply@mieweb.com
+Received: from mieweb.com (a-1-33.med-web.com. [64.186.38.33])
+        by mx.google.com with ESMTP id i8-20020a056e0212c800b002f4d9569e9fsi4300243ilm.45.2023.01.07.09.48.36
+        for <abuse@digitalocean.com>;
+        Sat, 07 Jan 2023 09:48:36 -0800 (PST)
+Received-SPF: pass (google.com: domain of ids-reply@mieweb.com designates 64.186.38.33 as permitted sender) client-ip=64.186.38.33;
+Content-Type: multipart/mixed;
+ boundary="----sinikael-?=_1-16731137163670.7325776318150428"
+From: ids-reply@mieweb.com
+To: abuse@digitalocean.com
+Subject: Unusual Activity from 164.92.116.59 on your network
+Message-ID: <dabe98ba-8440-affd-8f50-a7cea8b4a11b@mieweb.com>
+Date: Sat, 07 Jan 2023 17:48:36 +0000
+MIME-Version: 1.0
+X-Original-Sender: ids-reply@mieweb.com
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of ids-reply@mieweb.com designates 64.186.38.33 as permitted sender) smtp.mailfrom=ids-reply@mieweb.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+------sinikael-?=_1-16731137163670.7325776318150428
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+To whom it may concern,
+We noticed unusual activity coming from 164.92.116.=
+59 on your network to one of our honeypots located at 64.186.38.33.
+
+We have reason to believe 164.92.116.59 may be compromised, is running =
+unauthorized scans of our network, or is being used for illegitimate =
+activity.
+
+Useful Information:
+Timestamp: Sat Jan 07 2023 12:48:36 GMT-0500=
+ (Eastern Standard Time)
+Source IP: 164.92.116.59
+Destination IP: 64.186.38=
+.33
+Protocol: TCP
+Source Port: 41012=20
+Destination Port: 22 (ssh)
+Geolocation:  (Denver CO US)
+Google Maps GeoIP: https://www.google.=
+com/maps/@39.7277,-104.9815,15z
+
+This is an automated message, however, you=
+ can reply to this message and a human will read your response.
+
+We have attached a file with capture data of the traffic to this email. =
+Hopefully you will be able to gather some useful information from it.
+
+Thanks,
+Network Security Department
+Medical Informatics Engineering
+www.mieweb.com
+
+------sinikael-?=_1-16731137163670.7325776318150428
+Content-Type: application/zip; name=164.92.116.59-1673113716361.json.zip
+Content-Disposition: attachment;
+ filename=164.92.116.59-1673113716361.json.zip
+Content-Transfer-Encoding: base64
+
+UEsDBBQACAAIABKOJ1YAAAAAAAAAAAAAAAAgAAAAMTY0LjkyLjExNi41OS0xNjczMTEzNzE2MzYx
+Lmpzb25VkTFPwzAQhff+isgTSCX4kiZpmUAtgg60lVomxGCcUxrhxJHtIJWq/x3bSVA6Re97Od/d
+u/MkCAjTNXkI6laIqZd5rlBriwiks3ARhQBpmCyId3PUxlnWgXkaxvMwjjunQLlurHW2wkrF6gKt
+/PAyCKIsyRK6gIhOxyRKEhp78NlxwmVbG3VyTd73pIcKi1K6MclyOzBsnaaDNGWFv7J2PclThark
+7H6F9Q+q4Q9eGv/sNRViNGW8CLMoy4YR74DaBOaQXE1YoVHSFmUJ9IQpZBYApdSCS5ejQGUwt9io
+Fj3Siu+kcvnNgELUBapNz6IOuD20YZXLEtIsBogzmgLA+IkVaj4+Wv9Kj/sT1KzyaWh9HJa15+Oq
+bEwf5uGIwR55q+zniEIEN/v9622wU9JILgX5X6YZiCta7rqLN4x/ozmcGt9lvVlu39abl85jX63G
+54qVvsSrx7wsSsOE5MjqkMuKTC5/UEsHCILCaE5mAQAAgQIAAFBLAQItAxQACAAIABKOJ1aCwmhO
+ZgEAAIECAAAgAAAAAAAAAAAAIACkgQAAAAAxNjQuOTIuMTE2LjU5LTE2NzMxMTM3MTYzNjEuanNv
+blBLBQYAAAAAAQABAE4AAAC0AQAAAAA=
+------sinikael-?=_1-16731137163670.7325776318150428--
+
+

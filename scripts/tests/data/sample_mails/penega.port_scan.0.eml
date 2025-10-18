@@ -1,0 +1,568 @@
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	by fe2dba61eb49 (Haraka/2.8.26) with ESMTP id 4222F6D9-95A9-47CD-A448-386FE20898E5.1
+	envelope-from <abuse+bncBAABBIFW32GQMGQEQT5UCHY@digitalocean.com>;
+	Mon, 13 Dec 2021 19:12:32 +0000
+Received: by mail-ed1-f72.google.com with SMTP id n11-20020aa7c68b000000b003e7d68e9874sf14813616edq.8
+        for <abuse@digitalocean.abusehq.net>; Mon, 13 Dec 2021 11:12:32 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1639422752; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=NghQSt1h4V24XCNAFmxcB82ShXcNJReKG3oYJjkTfYvtjHVUUI2phR2XEAIErQr7P7
+         BXfDfMeNTBRsyz4HlELfOYyHu6DMdyhRFxuDLBwN/MP/X/JCJBVc9mgGEQdzVuoqUMHK
+         ZV0XdQgpBeYZ2gBSBl847YEeHNfD9/g1BJagneKpJTjtTmksLOHr8mHGEutwZxC04T0Z
+         O5hcdTm9VGxWQNl4Hl3rT9XoEtYyJULa93nzOrhRI4sg+FIhD3HmPNk4aLkGn+vlS0/p
+         HcXzDyANwFGk5J0T+4u1wCpNkjxB0/FNMQIEoJ2PwD+1XOY1deHcfwPN7RTK42Fd1X7x
+         VAkg==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version
+         :suggested_attachment_session_id:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:to:from:sender:dkim-signature;
+        bh=Rs1OstQd+Q6z+J1eU7wefFPJLn3kV3U+J6u6IJMZWlk=;
+        b=boWkTEMzqnYHW/RwGbNjMPoFUl4ksaOdzjbbMLixFtx85S5ZRFpM+I9+RSdSo0mGgO
+         PWhUyUdne7vPxGUqQLWvFKS1Y3RcThnbV3SUikfIJm4QBOQQC60kbsN6B1sAi3ui40Lt
+         hOAF1vVxZAtXWGlt0r4DxxijMbRLk3Mofi38HrTDfNe60IuRAhhXjv9oB/NNqgWQMliF
+         ispDTR7e3Pdh5jSW6qV6MojLpFt+Patwymvn+Y4RJ7j/tiDRU+okQfir+bSN9EF3Egz1
+         BAOSFYMAZOJTJaqmvdYwlmzcvi1ZkG7SwMaM4pNYsaOKp4vC4yfhF3F7t04NQc5T8A5a
+         vmmg==
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@penega.com header.s=selector1 header.b=ncx0EEnz;
+       arc=pass (i=1 spf=pass spfdomain=penega.com dkim=pass dkdomain=penega.com dmarc=pass fromdomain=penega.com);
+       spf=pass (google.com: domain of dgagnon@penega.com designates 2a01:111:f400:fe5d::603 as permitted sender) smtp.mailfrom=dgagnon@penega.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=penega.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=sender:from:to:subject:thread-topic:thread-index:date:message-id
+         :references:in-reply-to:accept-language:content-language
+         :suggested_attachment_session_id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-unsubscribe;
+        bh=Rs1OstQd+Q6z+J1eU7wefFPJLn3kV3U+J6u6IJMZWlk=;
+        b=ebSKBxkPl18HvNa+DE/Itt3RWz2k6uCCpGv9XkaB3CttSf1tYtbHAMXoJbhrByQsQo
+         wgvIoEHY3ZTL7kyRPwD0VDP7WRrIpJx5d6dN09oCZLme5jY20l1HoB0U6Y1FFkKtUoth
+         ak6fI7/zUDs0x34FuvKq0Vp5daDxGn+uz0Yzw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=sender:x-gm-message-state:from:to:subject:thread-topic:thread-index
+         :date:message-id:references:in-reply-to:accept-language
+         :content-language:suggested_attachment_session_id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-unsubscribe;
+        bh=Rs1OstQd+Q6z+J1eU7wefFPJLn3kV3U+J6u6IJMZWlk=;
+        b=7NvpJvzAVen8xIMCRzy8Ny/hjrfw4OlGWx/2/epxSWIVA9Mh7zWeBmz+H+qJ8BUBCx
+         YZeoJgcgHF9nkMQ5tPjt/AEsgmx9/BU0VeoV6OcmfYD/RANWtc5xA5WOrFAUKbmCkWIE
+         rvZkEZ6BJ8WFlxooJ+LP4G8pOnFLda2Xfgg0dqzbkgZ+4dVfFwS9iNWLSpfR1dAteDNz
+         azdpfbOn8ALlhPq6ayheVT8i3NHAuek9Z5hK3SXsEqmZI0sImbuFrzYgv7Oqu1Z8UEIA
+         hHYLi91x3jkXMwDBPUryfhj4svRPh8+IFt6DVwnzfPa7spr6EYOiZQ3NL9zwpK71xkgP
+         FriA==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOAM530CTggZb/3Lz723JPQAKmXIR/dd1A7b9BXss6gxpTXtWM4gxOlw
+	W62lakNaYlKjp+f1onGZQ/A25A==
+X-Google-Smtp-Source: ABdhPJzAEsLiJP29Eo5sRD5gusTHeKoi30loj6ft457HHpbgGNFlPEYiKLVqdHTZIR2SyMKZ9H8IQg==
+X-Received: by 2002:a05:6402:5146:: with SMTP id n6mr950194edd.126.1639422752468;
+        Mon, 13 Dec 2021 11:12:32 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:907:7b98:: with SMTP id ne24ls5809832ejc.1.gmail; Mon,
+ 13 Dec 2021 11:12:31 -0800 (PST)
+X-Received: by 2002:a17:907:3e1d:: with SMTP id hp29mr356597ejc.70.1639422751578;
+        Mon, 13 Dec 2021 11:12:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639422751; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=kCYd4BP//rq1QsLs0OmZ+yUMpCRyjU4xOdo44Y7i8iIl8/JI6B94ghTtRNzOx+v5oE
+         zU5E/JDcdC53e73W1X6w8SaDTCRB+kL4+/QxQbLxgiVyvDhGHumhteRm+fu0AC8v8mJ5
+         BxJp/HoYecslv4/9GEr9F+biC52n6+vuqb1oos65i+o9p6XKd4yM3TMi6KeF1s0Z4oCC
+         UyIbqtVyGIbfu/V6wm++Ct+709GyJF6gf3G+6qRtfr5L59LHGH6gt8uJJfDeiw41Owu4
+         EKjrn3bfMf495a8JWhAfcdp7ApZdgYmCwhrrPraT4eN7sTkpSUmkqo0MxwNL0789I0Ih
+         Ey5w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:suggested_attachment_session_id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:to:from:dkim-signature;
+        bh=Rs1OstQd+Q6z+J1eU7wefFPJLn3kV3U+J6u6IJMZWlk=;
+        b=Fa52qiLgpqL/9pcqWd5rU2W0LNCKwgJNPq1u63s6GaGbhzxYJywiX+Vixr9oTFh9ck
+         3ubMb1lS0jGBnXY5lbO3oqwU9hHcKH+IaSVFjw8U4h532yhxuE7w7V6i125nCXFIBY7A
+         q/PIsIMwkpV4WWGBZHHV06La1+Ma4WkpDITYaGM49BDxa4/HEEkGmq/n0brUzVjHXMrF
+         5d5CyI/BQbIvQv4qbbaRew0CsdawQ89kv5q/TpuilPrHp1kL+7kDlt2vi5zcfxomSs5R
+         8mPMsMpQig/Y2lq8pgy5XDETT4y1E174DU8Vmr6VyCXKTF9XZi5Y94Luf+gptkmB3NwZ
+         2NIQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@penega.com header.s=selector1 header.b=ncx0EEnz;
+       arc=pass (i=1 spf=pass spfdomain=penega.com dkim=pass dkdomain=penega.com dmarc=pass fromdomain=penega.com);
+       spf=pass (google.com: domain of dgagnon@penega.com designates 2a01:111:f400:fe5d::603 as permitted sender) smtp.mailfrom=dgagnon@penega.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=penega.com
+Received: from CAN01-TO1-obe.outbound.protection.outlook.com (mail-to1can01on0603.outbound.protection.outlook.com. [2a01:111:f400:fe5d::603])
+        by mx.google.com with ESMTPS id gt15si16626039ejc.104.2021.12.13.11.12.30
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 13 Dec 2021 11:12:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of dgagnon@penega.com designates 2a01:111:f400:fe5d::603 as permitted sender) client-ip=2a01:111:f400:fe5d::603;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ivqb9Tqom5WMGb4oF2xa3yF3IlxFNS6g3AfY04DGQ04C0a+bGYBdXkpJfFEfw+B3D1kuUUk//GnYuMdHpJV34piLRnaE/hA5Tqrks12pRgOAhSmuxC4TCCYxeenVsDQZTpGQ/ypfyBpiMuTNgpgRhnNC8mJPkBwhQwJusojWbR5HNtYOCXNz1F0p1XKjaIm3PVXaesZsJb3+C2imFeVG8w4CTfCel4TW1P9aYNv+31lTsvR+knN3NWUMPGuhC0kRIgDdgejiY4IoZvnABXfOgTa5xPnurt23Ol2TV14guI3pyfUSU9gOeTeSTvREolofgnWW6J5083OTSiZBsK5SmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Rs1OstQd+Q6z+J1eU7wefFPJLn3kV3U+J6u6IJMZWlk=;
+ b=lOjEJr0Cn9pqM1lhEubTkPVes7oPacJp+Q7Z/gD6pd49oGnul8ii+j+EmSriYoznC8L+hzTqlyviK/Pyr2koM9I3ZOh85UIqByplWb4cun7/wlaPivnq4xXhY4xbwaZeKlt6pKFs0/JvkOw394e6ciKKuB26rbw10J8x3VGBvvQFg6Gb6wBLPt89sHQ28eK9Mt60x0dJH2EfRTsB4ABFOIsQ4EDrUKk146Gs2YVC4qmk1j6cF1Vs4ZRcYEMZpTp7VK7lBPGyoRtqVoYZtz7Km8FhtT/xbEMERslcMmqlt3ySwbFK5W4vXbaC/iY8dN5Jw5xhcXchsi+iFWIcy1m3qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=penega.com; dmarc=pass action=none header.from=penega.com;
+ dkim=pass header.d=penega.com; arc=none
+Received: from YQBPR0101MB4258.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:13::23) by YQXPR01MB2341.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:4c::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Mon, 13 Dec
+ 2021 19:12:29 +0000
+Received: from YQBPR0101MB4258.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::5535:f811:5793:d45f]) by YQBPR0101MB4258.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::5535:f811:5793:d45f%7]) with mapi id 15.20.4778.018; Mon, 13 Dec 2021
+ 19:12:29 +0000
+From: Daniel Gagnon <dgagnon@penega.com>
+To: "abuse@digitalocean.com" <abuse@digitalocean.com>
+Subject: Fw: lfd on cp.desjardins.penega.com: blocked 134.122.47.168
+ (CA/Canada/-)
+Thread-Topic: lfd on cp.desjardins.penega.com: blocked 134.122.47.168
+ (CA/Canada/-)
+Thread-Index: AQHX7gujqmz0EGCH2U2jPXQrpg5YYqwwzpgB
+Date: Mon, 13 Dec 2021 19:12:29 +0000
+Message-ID: <YQBPR0101MB4258DA3A55EF76A23465F1F6C7749@YQBPR0101MB4258.CANPRD01.PROD.OUTLOOK.COM>
+References: <E1mvnIn-000NRN-2x@cp.desjardins.penega.com>
+In-Reply-To: <E1mvnIn-000NRN-2x@cp.desjardins.penega.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+suggested_attachment_session_id: a8675fde-69f7-a230-9de1-0017d8d5dcc1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6e73382c-b883-4874-059f-08d9be6c81c0
+x-ms-traffictypediagnostic: YQXPR01MB2341:EE_
+x-microsoft-antispam-prvs: <YQXPR01MB23414F634B1FE34DDCDE3807C7749@YQXPR01MB2341.CANPRD01.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wUya/3AvBioCBN04C/T/iKtDUOIflE+9ZZ1v0qDF8oC2VO64YgdPxgN1rXYd5pzrQ0XWTgCHfY9lFciQ9P4GqZ0HvFpQlRf/1yr/Mv8Vibl6EbTO0oxCGIQHPosyE+zfXA+/q7LZFFRMQfrxG/GeGrCbaE/wH1qRoYvJWWeKzSMPEG4FF1GsmuNQUFvsW1IC6Ff0d7YW7v9D2TM33L8QjczzWluzPJBSD/9NjiB/cBt9c6/VZ6C6S13HVRBMXTKLzwQs/Uq5gn0Z+uFGOufh4wLUp8LYnCeymNGtMgB6nyf1xaGtSMXJFM102CoQTVcZcXwbfOXh2FgLDDFbGzcB/IqRuZMYduzTBADSXtAmf/ZjkCp/Q9lwEwXSghYQIwO+A7JIW2LiSc/PnWdOd1775GsWNrTubjgdtGa0KLHmWPS8wVzCH+6oIQ1IENzqyG38kBnzSaQwaKGpfKUf+ciXekR35ccevo6VgTKqx2U5xuPTmxM072drGG2+hxIkHJkBrZJalWCCjxgCL7KNp5SBxZ5+fHqLytva4Y5OimzQbmtXz2Io8qwPa015wFYjZvdAgkPSFgr1pf/dWOtUyxxKZ1guHyZhd8gXNoe707yOS2pO61UimV9ix50aATMvZXMO3s7R0ZQ2mfbTGAPRmZj0W/vZLtiYH9n26vnY4rQX+/bI0eMpfPr60XNc8iYJiPjkqwjYT33KDIj3S2cD8Isjt1agMmfefDYU9b0t2reHPqQFNi1Mmugzfay6u15tw0F4EH7FEGkUv/UvX6RU5damncor2l8as635OFVmQ6TGNYeTacOUiK3XcEZABlld8OjPVabDy2XaUn0nVxDj8kDkbl0x7Z550GJ24MSsqDWH1RE=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YQBPR0101MB4258.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(346002)(39830400003)(376002)(396003)(366004)(136003)(508600001)(66574015)(76116006)(122000001)(38100700002)(966005)(7696005)(186003)(16799955002)(66476007)(55016003)(66556008)(66946007)(26005)(6506007)(19273905006)(53546011)(8676002)(66446008)(5660300002)(83380400001)(52536014)(38070700005)(9686003)(2906002)(316002)(8936002)(33656002)(6916009)(15650500001)(19627405001)(71200400001)(86362001)(64756008)(40140700001)(166002)(19105195002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?k5Ak/7spvk9SPfmxYnQ+5AHpZPAmPOM3jz/XPJA9E2d+zS62BwWXnv+yQo?=
+ =?iso-8859-1?Q?uG96Ju3IPhOo9byciQoPi0iukYvuHByRIr1kFc2vgR/0GwAKvfmToYsE14?=
+ =?iso-8859-1?Q?c9NhZBVDH4YhDP8CEN2Y3mmLC2vySDO5wsVW1HuGu4I/UHWxk0DeNrsfiA?=
+ =?iso-8859-1?Q?Blk/7OagM8TdMFtNNDBM87bwa3HSZ1HGfjjXdY5wcE2/xo3AZ2ekJmwCRo?=
+ =?iso-8859-1?Q?L1YaZWHG3fyMPqV5tfpgq/FZDn8O147fyWTVdVDK/O40k3ya8qLNWKASXL?=
+ =?iso-8859-1?Q?xeDtLrAVWMCdyguTgLmJIrTARQRlpBul7w548xW/B2LODmH7imJGr7HwYx?=
+ =?iso-8859-1?Q?fTPm5ZJYJuI9A9ZN/zHw6Ji+Rc5RFsa1dVwohvV0GRBbXCFEZIAqZdBWAz?=
+ =?iso-8859-1?Q?ronyH3u3wUhitR3zEPzgR4JadG8GAGFKKeTAwr2KCusMgc7RQF7gXo4dJ6?=
+ =?iso-8859-1?Q?vPvdo4ZodFjaCJ+DiNV/Y2qr1CEhKRZv0qCFEzzOGs73puEncBoKVowSdX?=
+ =?iso-8859-1?Q?pFa5657fcsBSBrhAD3YpVdE1ccB2LqP2QEFOIv8JMcu7pq/wY7m04zpUI9?=
+ =?iso-8859-1?Q?71IBt193JBWXnDrEq77hHrpICtrPxI+PkBwXDSkRm1iubXeA41CCkrfTxV?=
+ =?iso-8859-1?Q?jqsYON4LmggitMO+4yFTO/lEdTVEo8pLDpmKGnmMF2ZjPZsQkDmDEFIaut?=
+ =?iso-8859-1?Q?DW4ZdxdxFDxh89aTNSLl7sa82erw5Man0+w1drAIUpNkgr1GdnXPbYCwkm?=
+ =?iso-8859-1?Q?bv02xXkurn3j9+r3Wd0Sx0uBSMHVxKXgLnLEzFMgfLODW5tA217F6N6YPv?=
+ =?iso-8859-1?Q?VhBDL6yrLbrSkYvdp8LMZ+W3M37XRO+rpfxPvHnO/NE59s47OCkj4trbSF?=
+ =?iso-8859-1?Q?vbRJcq2YyTNLCJ0G4aqaPeRw8O6dCEugk4YBBlZD0iOBcEQ/7BksM66BNo?=
+ =?iso-8859-1?Q?vDeevYMzPBc0omW8qDju3RCPCrCWMGsFBJK2w2ugMeujw29OB9ydtZH7k1?=
+ =?iso-8859-1?Q?vAeEwAJxmA1E732bjqocbfWFnoBz6/5ROSacG1B9n/F+uvV4Nd04sLsyJj?=
+ =?iso-8859-1?Q?x8L9KKC7hdThYBbxL5YCrc5nyGTdlnpT7OL4s9UNvAE2FT1LQXObxbgPrp?=
+ =?iso-8859-1?Q?hnwpbaNtMdVqUZVdVRgk+X5DkzWKb5LyGAnxD8Prw8K718hjnOY8PG/Yp3?=
+ =?iso-8859-1?Q?B2KcOZM3Wz/wPAx2mHphelhKD7lspsvkmTDyIKyIXX+TDjvxJEn6SULAf4?=
+ =?iso-8859-1?Q?xbVAqYQOtG6Vao6va46JADKXvz64QJp6xLq+TwaTmNvWab6wnnxNSjapeq?=
+ =?iso-8859-1?Q?M96hkSNrI1RA54cpmicfb9zXHI7VDiATDAgcdoCY/8zmx5x7eCW8boSG/b?=
+ =?iso-8859-1?Q?FxTPWzeQPG4aZQpxUHkuNESjw97KKORNGlDKdIaEtJN7boZ84MZkl3sMSF?=
+ =?iso-8859-1?Q?3E/un367J7zgAIEpFPs4AWw+eu9g5GwoZ+nLCYuOepcHGPYEqQxWLVc9I7?=
+ =?iso-8859-1?Q?hEN6iY5Muq6vFUDYnpbHh0z5yN9MntZnPxe1rWtpNWaNcPO8lGIU+Sx7OP?=
+ =?iso-8859-1?Q?C96RmViI3+51w/D8exvzjLvdBqPNk2J02lR7uhJ23vagdPDTKEKodAIMch?=
+ =?iso-8859-1?Q?8d+1XiMZNnrTPVz6ABUcA2HjhIAMeOOVhywribyWyUCD8qVB4UR++fcltc?=
+ =?iso-8859-1?Q?XQt+z501EirvXeNzi4I=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_YQBPR0101MB4258DA3A55EF76A23465F1F6C7749YQBPR0101MB4258_"
+MIME-Version: 1.0
+X-OriginatorOrg: penega.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: YQBPR0101MB4258.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e73382c-b883-4874-059f-08d9be6c81c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2021 19:12:29.1569
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4a7be34c-6c6a-4385-825d-18e6ca4faf4d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m0irhFt7IeKpjV1r2H41U8oReNwo/KwmEIExW4YpYIRHhT5ZPwo+SfkhFYQ8y0XZvpeD5LisR5AJr+wCE3GteA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQXPR01MB2341
+X-Original-Sender: dgagnon@penega.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@penega.com header.s=selector1 header.b=ncx0EEnz;       arc=pass
+ (i=1 spf=pass spfdomain=penega.com dkim=pass dkdomain=penega.com dmarc=pass
+ fromdomain=penega.com);       spf=pass (google.com: domain of
+ dgagnon@penega.com designates 2a01:111:f400:fe5d::603 as permitted sender)
+ smtp.mailfrom=dgagnon@penega.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=penega.com
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--_000_YQBPR0101MB4258DA3A55EF76A23465F1F6C7749YQBPR0101MB4258_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Network Scanning from your IP
+destination: 158.69.173.196
+
+
+[vague]
+[Penega]<http://www.penega.com/>
+370, rue Guy, #208
+Montr=E9al, QC H3J 1S6
+Daniel Gagnon
+
+Analyste de Conformit=E9
+Compliance Analyst
+
+        [facebook] <https://www.facebook.com/penega/>   [instagram] <https:=
+//www.instagram.com/penega.mtl/>             [linkedin] <https://www.linked=
+in.com/company/penega/>   [twitter] <https://www.twitter.com/penegacomm/>  =
+       [Youtube] <https://www.youtube.com/channel/UCWCFFkWGiJybFXgtkvOjNHg>
+T       514 932-4044
+
+
+
+________________________________
+From: root@cp.desjardins.penega.com <root@cp.desjardins.penega.com>
+Sent: December 10, 2021 4:19 PM
+To: System Operations <sysops@penega.com>
+Subject: lfd on cp.desjardins.penega.com: blocked 134.122.47.168 (CA/Canada=
+/-)
+
+Time:     Fri Dec 10 16:19:37 2021 -0500
+IP:       134.122.47.168 (CA/Canada/-)
+Failures: 20
+Interval: 3600 seconds
+Blocked:  Temporary Block for 3600 seconds [LF_APACHE_403]
+
+Log entries:
+
+[Fri Dec 10 16:18:56.639346 2021] [access_compat:error] [pid 88644:tid 4772=
+0467474176] [client 134.122.47.168:46244] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/
+[Fri Dec 10 16:18:56.644438 2021] [access_compat:error] [pid 88645:tid 4772=
+0484284160] [client 134.122.47.168:46246] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/something_not_existing_
+[Fri Dec 10 16:18:56.654298 2021] [access_compat:error] [pid 88754:tid 4772=
+0484284160] [client 134.122.47.168:46250] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/226w0IqK5SpiZF5LSkAHAHKHdex
+[Fri Dec 10 16:18:56.871192 2021] [access_compat:error] [pid 88644:tid 4772=
+0433854208] [client 134.122.47.168:46342] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/dashboard
+[Fri Dec 10 16:18:56.885301 2021] [access_compat:error] [pid 88645:tid 4772=
+0433854208] [client 134.122.47.168:46346] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/translations
+[Fri Dec 10 16:19:01.225259 2021] [access_compat:error] [pid 88644:tid 4772=
+0440157952] [client 134.122.47.168:47864] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/
+[Fri Dec 10 16:19:01.671951 2021] [access_compat:error] [pid 88645:tid 4772=
+0440157952] [client 134.122.47.168:60424] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php, referer: http://p=
+opdepot.desjardins.com
+[Fri Dec 10 16:19:01.672118 2021] [access_compat:error] [pid 88645:tid 4772=
+0440157952] [client 134.122.47.168:60424] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php, referer: http://p=
+opdepot.desjardins.com
+[Fri Dec 10 16:19:26.545400 2021] [access_compat:error] [pid 88755:tid 4772=
+0454866688] [client 134.122.47.168:56492] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/
+[Fri Dec 10 16:19:27.512165 2021] [access_compat:error] [pid 88645:tid 4772=
+0456967936] [client 134.122.47.168:56796] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/axis2
+[Fri Dec 10 16:19:28.518656 2021] [access_compat:error] [pid 88645:tid 4772=
+0459069184] [client 134.122.47.168:57100] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/axis
+[Fri Dec 10 16:19:32.505575 2021] [access_compat:error] [pid 88755:tid 4772=
+0461170432] [client 134.122.47.168:42668] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/something_not_existing_
+[Fri Dec 10 16:19:32.505805 2021] [access_compat:error] [pid 88755:tid 4772=
+0461170432] [client 134.122.47.168:42668] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php
+[Fri Dec 10 16:19:32.508065 2021] [access_compat:error] [pid 88644:tid 4772=
+0463271680] [client 134.122.47.168:42674] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/dashboard
+[Fri Dec 10 16:19:32.508236 2021] [access_compat:error] [pid 88644:tid 4772=
+0463271680] [client 134.122.47.168:42674] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php
+[Fri Dec 10 16:19:32.523436 2021] [access_compat:error] [pid 88645:tid 4772=
+0463271680] [client 134.122.47.168:42676] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/226w0IqK5SpiZF5LSkAHAHKHdex
+[Fri Dec 10 16:19:32.523611 2021] [access_compat:error] [pid 88645:tid 4772=
+0463271680] [client 134.122.47.168:42676] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php
+[Fri Dec 10 16:19:32.523772 2021] [access_compat:error] [pid 88754:tid 4772=
+0465372928] [client 134.122.47.168:42680] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/translations
+[Fri Dec 10 16:19:32.523972 2021] [access_compat:error] [pid 88754:tid 4772=
+0465372928] [client 134.122.47.168:42680] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php
+[Fri Dec 10 16:19:32.583123 2021] [access_compat:error] [pid 88755:tid 4772=
+0463271680] [client 134.122.47.168:42698] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/
+[Fri Dec 10 16:19:32.583371 2021] [access_compat:error] [pid 88755:tid 4772=
+0463271680] [client 134.122.47.168:42698] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php
+
+
+--_000_YQBPR0101MB4258DA3A55EF76A23465F1F6C7749YQBPR0101MB4258_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+Network Scanning from your IP
+<div>destination:&nbsp;<span style=3D"background-color: rgb(255, 255, 255);=
+ font-family: &quot;Open Sans&quot;, Arial, sans-serif;">158.69.173.196</sp=
+an></div>
+<br>
+</div>
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div id=3D"Signature">
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<table width=3D"600" style=3D"font-family:&quot;Times New Roman&quot;">
+<tbody>
+<tr>
+<td colspan=3D"2" width=3D"100%" height=3D"60" valign=3D"top"><img alt=3D"v=
+ague" width=3D"100%" height=3D"60" style=3D"display:block" src=3D"http://ap=
+i.penega.com/signatures/images/header.png"></td>
+</tr>
+<tr>
+<td width=3D"50%" valign=3D"top">
+<table height=3D"131">
+<tbody>
+<tr>
+<td width=3D"200" valign=3D"top"><a href=3D"http://www.penega.com/"><img al=
+t=3D"Penega" width=3D"200" height=3D"60" src=3D"http://api.penega.com/signa=
+tures/images/logo-penega.png"></a></td>
+</tr>
+<tr>
+<td valign=3D"top" height=3D"44">
+<table>
+<tbody>
+<tr>
+<td valign=3D"center" style=3D"font-family: &quot;Proxima Nova&quot;, Arial=
+, Helvetica, sans-serif; font-weight: 300; font-size: 12px; line-height: 18=
+px; color: rgb(150, 155, 159);">
+370, rue Guy, #208<br>
+Montr=E9al, QC H3J 1S6</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td width=3D"50%" valign=3D"top">
+<table height=3D"131">
+<tbody>
+<tr>
+<td colspan=3D"2" valign=3D"top" height=3D"32" style=3D"font-family: AbrilF=
+atface-Regular, Arial, Helvetica, sans-serif; font-size: 24px; color: rgb(4=
+2, 56, 64);">
+Daniel Gagnon</td>
+</tr>
+<tr>
+<td height=3D"1px">&nbsp;</td>
+</tr>
+<tr>
+<td colspan=3D"2" valign=3D"top" height=3D"18" style=3D"font-family: &quot;=
+Proxima Nova&quot;, Arial, Helvetica, sans-serif; font-weight: 300; color: =
+rgb(42, 56, 64);">
+Analyste de Conformit=E9</td>
+</tr>
+<tr>
+<td colspan=3D"2" valign=3D"top" height=3D"18" style=3D"font-family: &quot;=
+Proxima Nova&quot;, Arial, Helvetica, sans-serif; font-weight: 300; color: =
+rgb(150, 155, 159);">
+Compliance Analyst</td>
+</tr>
+<tr>
+<td height=3D"50px">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td width=3D"50%" height=3D"30" valign=3D"center">
+<table>
+<tbody>
+<tr>
+<td width=3D"1" style=3D"font-size:1px">&nbsp;</td>
+<td valign=3D"bottom"><a href=3D"https://www.facebook.com/penega/" style=3D=
+"font-weight:bold"><img alt=3D"facebook" height=3D"28" src=3D"http://api.pe=
+nega.com/signatures/images/fb-icone.png"></a></td>
+<td valign=3D"bottom"><a href=3D"https://www.instagram.com/penega.mtl/" sty=
+le=3D"font-weight:bold"><img alt=3D"instagram" height=3D"28" src=3D"http://=
+api.penega.com/signatures/images/instagram-icone.png"></a></td>
+<td width=3D"1" style=3D"font-size:1px">&nbsp;</td>
+<td valign=3D"bottom"><a href=3D"https://www.linkedin.com/company/penega/" =
+style=3D"font-weight:bold"><img alt=3D"linkedin" height=3D"28" src=3D"http:=
+//api.penega.com/signatures/images/linkedin-icone.png"></a></td>
+<td valign=3D"bottom"><a href=3D"https://www.twitter.com/penegacomm/" style=
+=3D"font-weight:bold"><img alt=3D"twitter" height=3D"28" src=3D"http://api.=
+penega.com/signatures/images/twitter-icone.png"></a></td>
+<td valign=3D"bottom"><a href=3D"https://www.youtube.com/channel/UCWCFFkWGi=
+JybFXgtkvOjNHg" style=3D"font-weight:bold"><img alt=3D"Youtube" height=3D"2=
+8" src=3D"http://api.penega.com/signatures/images/youtube-icone.png"></a></=
+td>
+</tr>
+</tbody>
+</table>
+</td>
+<td width=3D"50%" height=3D"30" valign=3D"top">
+<table>
+<tbody>
+<tr>
+<td width=3D"20%" style=3D"font-family: &quot;Proxima Nova&quot;, Arial, He=
+lvetica, sans-serif; font-weight: bold; font-size: 14px; color: rgb(42, 56,=
+ 64);">
+T</td>
+<td style=3D"font-family: &quot;Proxima Nova&quot;, Arial, Helvetica, sans-=
+serif; font-size: 14px; color: rgb(42, 56, 64); line-height: 18px;">
+514 932-4044</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Proxima Nova&quot;, Arial, Helvetica, sans-=
+serif; font-size: 14px; font-weight: bold; color: rgb(42, 56, 64);">
+<br>
+</td>
+<td style=3D"font-family: &quot;Proxima Nova&quot;, Arial, Helvetica, sans-=
+serif; font-size: 14px; color: rgb(42, 56, 64);">
+<br>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div id=3D"appendonsend"></div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size: 11pt;"><b>From:</b> root@cp.desjardins.=
+penega.com &lt;root@cp.desjardins.penega.com&gt;<br>
+<b>Sent:</b> December 10, 2021 4:19 PM<br>
+<b>To:</b> System Operations &lt;sysops@penega.com&gt;<br>
+<b>Subject:</b> lfd on cp.desjardins.penega.com: blocked 134.122.47.168 (CA=
+/Canada/-)</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">Time:&nbsp;&nbsp;&nbsp;&nbsp; Fri Dec 10 16:19:37 =
+2021 -0500<br>
+IP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 134.122.47.168 (CA/Canada/-)<br>
+Failures: 20<br>
+Interval: 3600 seconds<br>
+Blocked:&nbsp; Temporary Block for 3600 seconds [LF_APACHE_403]<br>
+<br>
+Log entries:<br>
+<br>
+[Fri Dec 10 16:18:56.639346 2021] [access_compat:error] [pid 88644:tid 4772=
+0467474176] [client 134.122.47.168:46244] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/<br>
+[Fri Dec 10 16:18:56.644438 2021] [access_compat:error] [pid 88645:tid 4772=
+0484284160] [client 134.122.47.168:46246] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/something_not_existing_<br>
+[Fri Dec 10 16:18:56.654298 2021] [access_compat:error] [pid 88754:tid 4772=
+0484284160] [client 134.122.47.168:46250] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/226w0IqK5SpiZF5LSkAHAHKHdex<=
+br>
+[Fri Dec 10 16:18:56.871192 2021] [access_compat:error] [pid 88644:tid 4772=
+0433854208] [client 134.122.47.168:46342] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/dashboard<br>
+[Fri Dec 10 16:18:56.885301 2021] [access_compat:error] [pid 88645:tid 4772=
+0433854208] [client 134.122.47.168:46346] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/translations<br>
+[Fri Dec 10 16:19:01.225259 2021] [access_compat:error] [pid 88644:tid 4772=
+0440157952] [client 134.122.47.168:47864] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/<br>
+[Fri Dec 10 16:19:01.671951 2021] [access_compat:error] [pid 88645:tid 4772=
+0440157952] [client 134.122.47.168:60424] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php, referer:
+<a href=3D"http://popdepot.desjardins.com">http://popdepot.desjardins.com</=
+a><br>
+[Fri Dec 10 16:19:01.672118 2021] [access_compat:error] [pid 88645:tid 4772=
+0440157952] [client 134.122.47.168:60424] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php, referer:
+<a href=3D"http://popdepot.desjardins.com">http://popdepot.desjardins.com</=
+a><br>
+[Fri Dec 10 16:19:26.545400 2021] [access_compat:error] [pid 88755:tid 4772=
+0454866688] [client 134.122.47.168:56492] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/<br>
+[Fri Dec 10 16:19:27.512165 2021] [access_compat:error] [pid 88645:tid 4772=
+0456967936] [client 134.122.47.168:56796] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/axis2<br>
+[Fri Dec 10 16:19:28.518656 2021] [access_compat:error] [pid 88645:tid 4772=
+0459069184] [client 134.122.47.168:57100] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/axis<br>
+[Fri Dec 10 16:19:32.505575 2021] [access_compat:error] [pid 88755:tid 4772=
+0461170432] [client 134.122.47.168:42668] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/something_not_existing_<br>
+[Fri Dec 10 16:19:32.505805 2021] [access_compat:error] [pid 88755:tid 4772=
+0461170432] [client 134.122.47.168:42668] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php<br>
+[Fri Dec 10 16:19:32.508065 2021] [access_compat:error] [pid 88644:tid 4772=
+0463271680] [client 134.122.47.168:42674] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/dashboard<br>
+[Fri Dec 10 16:19:32.508236 2021] [access_compat:error] [pid 88644:tid 4772=
+0463271680] [client 134.122.47.168:42674] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php<br>
+[Fri Dec 10 16:19:32.523436 2021] [access_compat:error] [pid 88645:tid 4772=
+0463271680] [client 134.122.47.168:42676] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/226w0IqK5SpiZF5LSkAHAHKHdex<=
+br>
+[Fri Dec 10 16:19:32.523611 2021] [access_compat:error] [pid 88645:tid 4772=
+0463271680] [client 134.122.47.168:42676] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php<br>
+[Fri Dec 10 16:19:32.523772 2021] [access_compat:error] [pid 88754:tid 4772=
+0465372928] [client 134.122.47.168:42680] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/translations<br>
+[Fri Dec 10 16:19:32.523972 2021] [access_compat:error] [pid 88754:tid 4772=
+0465372928] [client 134.122.47.168:42680] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php<br>
+[Fri Dec 10 16:19:32.583123 2021] [access_compat:error] [pid 88755:tid 4772=
+0463271680] [client 134.122.47.168:42698] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/<br>
+[Fri Dec 10 16:19:32.583371 2021] [access_compat:error] [pid 88755:tid 4772=
+0463271680] [client 134.122.47.168:42698] AH01797: client denied by server =
+configuration: /home.sdb2/popdepot/public_html/index.php<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_YQBPR0101MB4258DA3A55EF76A23465F1F6C7749YQBPR0101MB4258_--

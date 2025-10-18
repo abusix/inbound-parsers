@@ -1,0 +1,380 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id C5EE0A6A-6599-42AC-8352-BF4BDD5B440F.1
+	envelope-from <abuse+bncBAABBIOB7CWAMGQETYGKZJQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 10 Jan 2024 04:44:18 +0000
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-6dde6d74d57sf1449532a34.0
+        for <abuse@digitalocean.abusehq.net>; Tue, 09 Jan 2024 20:44:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1704861857; x=1705466657; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:message-id:mime-version:reply-to:subject
+         :from:cc:to:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=40nqxori02r/eG2Wcp4J9x4Fu17eM9WjYQmzaMCfM6k=;
+        b=O3cyXLOkeQeor0qjJ4ebeOyUJ72oKwbq8iMbDIPUXnj35anVGz7+sDXzpJvfZe1hhi
+         yaRbbOZ+6G77MsZKIF4DNt0ftDeoYxPzgKWLSBbOrbJyKLlTkfVMpoDGZ9LQ1m1HMYKR
+         1HQCxqP8TQlQMYWJxrgnlyIRsbEnYoIRqfE7Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704861857; x=1705466657;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:message-id
+         :mime-version:reply-to:subject:from:cc:to:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=40nqxori02r/eG2Wcp4J9x4Fu17eM9WjYQmzaMCfM6k=;
+        b=Jz+NYvxSikvKAfF4wpddkvEQgHfbUTYL1lLVkQjiDrywJ3EpQDcbTLIYP+hLjqkuh2
+         tKrImYnfdbSK/a1HYsZQnYM607ATSuw9ELNhdv4/BWHPMs7eFqxH1zF8psrQ/4WdgynK
+         SsWuyciTfQ417y+ebvBmIZ8n7nq54NrJPqoxWc0nei7GQg87eKmIhysU5u9tjR3W7CfV
+         AhdjCzGerK8K4VfM7Oa1Smdtie/2otHKto5ch22li3ljMJkAEqLm3CvJ+P3xecY1Jjtk
+         9q0IoZnGF2yBYxwvNpmN4Kja/BuEDvv158X6Y6UlT5PKx3waMAZSr79dy8KHczDcephH
+         +B/g==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AOJu0YzuFFKIsgu3ZfH6kWxGCoXkNAyw6uizKMyhOuV3+S9bzx8izI/G
+	rbNuqx+GzWw9TqpRtbnNdao5hJCrQEtUzQ==
+X-Google-Smtp-Source: AGHT+IHqIM6JR8XLd5SVEQ/3uhjx9mWjk70Y03bUBVO+jumcGH9D5pzKUUiA5I+mj4dM9LSNBa0vvA==
+X-Received: by 2002:a9d:738b:0:b0:6dd:e11c:1856 with SMTP id j11-20020a9d738b000000b006dde11c1856mr186880otk.19.1704861857439;
+        Tue, 09 Jan 2024 20:44:17 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6820:22a4:b0:598:93c0:2539 with SMTP id
+ ck36-20020a05682022a400b0059893c02539ls493117oob.2.-pod-prod-01-us; Tue, 09
+ Jan 2024 20:44:17 -0800 (PST)
+X-Received: by 2002:a05:6358:8404:b0:174:d9c0:91a2 with SMTP id b4-20020a056358840400b00174d9c091a2mr440546rwk.56.1704861856448;
+        Tue, 09 Jan 2024 20:44:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704861856; cv=none;
+        d=google.com; s=arc-20160816;
+        b=q4X+VgfgrIHasFPC3TdHcskrJOAo4bc+3cqn0uLmov46GaJMZhE8F3cUq738UcvGgH
+         sJkcISK3ku/Ui9Rrqc2KXSEi5rIRpujoQlXKIeT9ngk+daHRgeit9ijRauK6suuy3SFn
+         y4lHnzAQ+33rUce8Lu0oqjWVglGHP5Ux/gsQnJCR+eJBGWikvGwt0U2zAsypvNBztkp0
+         mUR/eMtLYfFzGvQcv/O4UQdVZDCTaGHlPUVwtmwBmspqwA0DezwNMisncCK3/XlUHhoB
+         p0WMu/h2o1sEyfgf8Nn+r1SyQ//YdUvSxUm1y2LsA/8vDueVJYPZ42sqjqw24aETeyJ5
+         LXTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:mime-version:reply-to:subject:from:cc:to;
+        bh=40nqxori02r/eG2Wcp4J9x4Fu17eM9WjYQmzaMCfM6k=;
+        fh=/4XCWSP5n6QeJfXxMdNDTfIDzdgC4UHAuueXuAWPSnA=;
+        b=Bm2lREvOapADCFJSjZVldtYwKB71qjNsbnjNx3BGmrO2RTgD7ImcMuRo39nkTtVyuG
+         DyiCTTRSYsp0kkUQHP+SRsBhIUvIR/lmllm3hlZaeJVluTNtw3EeF96BEK1Zbi6plgjk
+         jZ0L2/6x3SNX1iLDLGuNbWpd4yF4qqIPco78Jca6W7L91CWaZwaSyAU0BaCDGex1sn/O
+         V/zWpBkK4G9eN1MA+LhNEE1fCw8loF25tamQGQDm32DGQLT8KgHkdsp1mKkGsXqmoU4/
+         KmWApJSZUpTq8/ALEhGYFd3wZgQZ462xdInU5IgbLkwn9lApWqKZtH9ra4rkQsmLYxGa
+         czgQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of postmaster@jade.net designates 202.75.0.2 as permitted sender) smtp.mailfrom=postmaster@jade.net
+Received: from mx1.jade.net (mx1.jade.net. [202.75.0.2])
+        by mx.google.com with ESMTP id k7-20020a633d07000000b005cdfdfccfffsi2815308pga.403.2024.01.09.20.44.16
+        for <abuse@digitalocean.com>;
+        Tue, 09 Jan 2024 20:44:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of postmaster@jade.net designates 202.75.0.2 as permitted sender) client-ip=202.75.0.2;
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.jade.net (Jade Networks Mailer) with ESMTP id 5229711B0B6
+	for <abuse@digitalocean.com>; Wed, 10 Jan 2024 12:44:15 +0800 (HKT)
+Received: from mx1.jade.net ([127.0.0.1])
+ by localhost (mx1.jade.net [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ygvOhqt1Cpj9; Wed, 10 Jan 2024 12:44:09 +0800 (HKT)
+Received: from gw2.jade.net (gw2.jade.net [202.75.0.6])
+	by mx1.jade.net (Jade Networks Mailer) with ESMTP;
+	Wed, 10 Jan 2024 12:44:09 +0800 (HKT)
+Received: by gw2.jade.net (Postfix, from userid 1021)
+	id 8A8C714024E; Wed, 10 Jan 2024 12:44:09 +0800 (HKT)
+To: abuse@digitalocean.com
+Cc: Jade Networks SPAM Abuse Reports <abuse-reports@jade.net>
+From: Jade Networks SPAM Abuse Reports <abuse-reports@jade.net>
+Subject: [Abuse Report] Ref. Inquiry
+Reply-To: abuse-reports@jade.net
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=feedback-report;
+	boundary="---------------------spamc-notify-1246415"
+Message-Id: <20240110044409.8A8C714024E@gw2.jade.net>
+Date: Wed, 10 Jan 2024 12:44:09 +0800 (HKT)
+X-Original-Sender: abuse-reports@jade.net
+X-Original-Authentication-Results: mx.google.com;       spf=pass (google.com:
+ domain of postmaster@jade.net designates 202.75.0.2 as permitted sender) smtp.mailfrom=postmaster@jade.net
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multi-part message in MIME format
+
+-----------------------spamc-notify-1246415
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+SPAM REPORT
+
+SPAM was received from the IP Address 159.65.236.199 by Jade Networks.  The attached message contains the original message complete with all 
+message headers as received by our systems.  Our MTA's also record in the Received: header fields the connecting host IP address as well as 
+the message envelope and sender information as presented to our system (the SMTP MAIL FROM and RCPT TO data).
+
+This report is in standard Abuse Reporting Feedback format (see RFC 5965 and related Internet standards for additional information).  The 
+details in the ARF data (attached) is duplicated in this summary section for sites without automated ARF processing tools.  The original 
+message header and WHOIS details for the connecting host can be found at the end of this section.  The ARF data and original message are also 
+included as attachments for sites with automated ARF handling tools.
+
+ALL INFORMATION NEEDED FOR MESSAGE TRACKING IS INCLUDED IN THE ATTACHED MESSAGE AND SUMMARY INFORMATION BELOW.  Should you need any assistance 
+in interpreting the message headers or any other information presented here please let us know.  Information about our spam prevention policies, 
+how we go about collecting information, and the interpretation of these notification messages can be found at http://jade-networks.com/spam/
+
+Message Header Summary
+----------------------
+
+
+Original Message Header
+-----------------------
+Return-Path: <wiza@carminerobel.shop>
+Delivered-To: unknown
+Received: from gw2.jade.net (202.75.0.6:143) by gw2 with IMAP4 getmail6
+  msgid:1697467239/17204; 10 Jan 2024 04:44:08 -0000
+Received: from mx2.jade.net (mx2.jade.net [202.75.0.3])
+	 by gw2 with LMTPA;
+	 Wed, 10 Jan 2024 01:42:16 +0800
+X-Cyrus-Session-Id: gw2-1704822136-904320-2-14557641479009810420
+X-Sieve: CMU Sieve 3.0
+Received: from localhost (localhost [127.0.0.1])
+	by mx2.jade.net (Jade Networks Mailer) with ESMTP id BE917FB466
+	for <suggestions@teachers-network.com>; Wed, 10 Jan 2024 01:42:16 +0800 (HKT)
+Received: from mx2.jade.net ([127.0.0.1])
+ by localhost (mx2.jade.net [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NDRsSi5rl25Y for <suggestions@teachers-network.com>;
+ Wed, 10 Jan 2024 01:42:11 +0800 (HKT)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=159.65.236.199;
+ helo=mail.carminerobel.shop; envelope-from=wiza@carminerobel.shop;
+ receiver=teachers-network.com 
+X-Greylist: delayed 319 seconds by postgrey-1.37 at mx2.jade.net;
+ Wed, 10 Jan 2024 01:42:11 HKT
+Received: from mail.carminerobel.shop (carminerobel.shop [159.65.236.199])
+	by mx2.jade.net (Jade Networks Mailer) with ESMTP
+	for <suggestions@teachers-network.com>; Wed, 10 Jan 2024 01:42:11 +0800 (HKT)
+Received: from carminerobel.shop (unknown [193.56.255.200])
+	by mail.carminerobel.shop (Postfix) with ESMTPA id B814C864C3
+	for <suggestions@teachers-network.com>;
+ Tue,  9 Jan 2024 08:36:47 -0900 (AKST)
+Reply-To: Ms. Chanoknun S <procurement@ssskvvt.com>
+From: Ms. Chanoknun S <wiza@carminerobel.shop>
+To: suggestions@teachers-network.com
+Subject: Ref. Inquiry 
+Date: 9 Jan 2024 09:36:47 -0800
+Message-ID: <20240109093646.F0AFCB48603532F0@carminerobel.shop>
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-getmail-retrieved-from-mailbox: INBOX
+
+WHOIS Record
+------------
+
+#
+# ARIN WHOIS data and services are subject to the Terms of Use
+# available at: https://www.arin.net/resources/registry/whois/tou/
+#
+# If you see inaccuracies in the results, please report at
+# https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
+#
+# Copyright 1997-2024, American Registry for Internet Numbers, Ltd.
+#
+
+
+NetRange:       159.65.0.0 - 159.65.255.255
+CIDR:           159.65.0.0/16
+NetName:        DIGITALOCEAN-159-65-0-0
+NetHandle:      NET-159-65-0-0-1
+Parent:         NET159 (NET-159-0-0-0-0)
+NetType:        Direct Allocation
+OriginAS:       AS14061
+Organization:   DigitalOcean, LLC (DO-13)
+RegDate:        2017-10-24
+Updated:        2020-04-03
+Comment:        Routing and Peering Policy can be found at https://www.as14061.net
+Comment:        
+Comment:        Please submit abuse reports at https://www.digitalocean.com/company/contact/#abuse
+Ref:            https://rdap.arin.net/registry/ip/159.65.0.0
+
+
+
+OrgName:        DigitalOcean, LLC
+OrgId:          DO-13
+Address:        101 Ave of the Americas
+Address:        FL2
+City:           New York
+StateProv:      NY
+PostalCode:     10013
+Country:        US
+RegDate:        2012-05-14
+Updated:        2023-10-23
+Ref:            https://rdap.arin.net/registry/entity/DO-13
+
+
+OrgNOCHandle: NOC32014-ARIN
+OrgNOCName:   Network Operations Center
+OrgNOCPhone:  +1-347-875-6044 
+OrgNOCEmail:  noc@digitalocean.com
+OrgNOCRef:    https://rdap.arin.net/registry/entity/NOC32014-ARIN
+
+OrgTechHandle: NOC32014-ARIN
+OrgTechName:   Network Operations Center
+OrgTechPhone:  +1-347-875-6044 
+OrgTechEmail:  noc@digitalocean.com
+OrgTechRef:    https://rdap.arin.net/registry/entity/NOC32014-ARIN
+
+OrgAbuseHandle: ABUSE5232-ARIN
+OrgAbuseName:   Abuse, DigitalOcean 
+OrgAbusePhone:  +1-347-875-6044 
+OrgAbuseEmail:  abuse@digitalocean.com
+OrgAbuseRef:    https://rdap.arin.net/registry/entity/ABUSE5232-ARIN
+
+
+#
+# ARIN WHOIS data and services are subject to the Terms of Use
+# available at: https://www.arin.net/resources/registry/whois/tou/
+#
+# If you see inaccuracies in the results, please report at
+# https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
+#
+# Copyright 1997-2024, American Registry for Internet Numbers, Ltd.
+#
+
+-----------------------spamc-notify-1246415
+Content-Type: message/feedback-report
+
+
+
+-----------------------spamc-notify-1246415
+Content-Type: message/rfc822
+Content-Disposition: inline
+
+Return-Path: <wiza@carminerobel.shop>
+Delivered-To: unknown
+Received: from gw2.jade.net (202.75.0.6:143) by gw2 with IMAP4 getmail6
+  msgid:1697467239/17204; 10 Jan 2024 04:44:08 -0000
+Received: from mx2.jade.net (mx2.jade.net [202.75.0.3])
+	 by gw2 with LMTPA;
+	 Wed, 10 Jan 2024 01:42:16 +0800
+X-Cyrus-Session-Id: gw2-1704822136-904320-2-14557641479009810420
+X-Sieve: CMU Sieve 3.0
+Received: from localhost (localhost [127.0.0.1])
+	by mx2.jade.net (Jade Networks Mailer) with ESMTP id BE917FB466
+	for <suggestions@teachers-network.com>; Wed, 10 Jan 2024 01:42:16 +0800 (HKT)
+Received: from mx2.jade.net ([127.0.0.1])
+ by localhost (mx2.jade.net [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NDRsSi5rl25Y for <suggestions@teachers-network.com>;
+ Wed, 10 Jan 2024 01:42:11 +0800 (HKT)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=159.65.236.199;
+ helo=mail.carminerobel.shop; envelope-from=wiza@carminerobel.shop;
+ receiver=teachers-network.com
+X-Greylist: delayed 319 seconds by postgrey-1.37 at mx2.jade.net;
+ Wed, 10 Jan 2024 01:42:11 HKT
+Received: from mail.carminerobel.shop (carminerobel.shop [159.65.236.199])
+	by mx2.jade.net (Jade Networks Mailer) with ESMTP
+	for <suggestions@teachers-network.com>; Wed, 10 Jan 2024 01:42:11 +0800 (HKT)
+Received: from carminerobel.shop (unknown [193.56.255.200])
+	by mail.carminerobel.shop (Postfix) with ESMTPA id B814C864C3
+	for <suggestions@teachers-network.com>;
+ Tue,  9 Jan 2024 08:36:47 -0900 (AKST)
+Reply-To: Ms. Chanoknun S <procurement@ssskvvt.com>
+From: Ms. Chanoknun S <wiza@carminerobel.shop>
+To: suggestions@teachers-network.com
+Subject: Ref. Inquiry
+Date: 9 Jan 2024 09:36:47 -0800
+Message-ID: <20240109093646.F0AFCB48603532F0@carminerobel.shop>
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-getmail-retrieved-from-mailbox: INBOX
+
+<html><head>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.20477">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;">Dear Sir,<br>Haapy New Year,<br><br>We are a registered vendor an=
+d supplier to the United Nations and various international NGOs. Currently,=
+ we have an urgent requirement.<br>&nbsp;<br>We are interested in your prod=
+ucts.&nbsp;Kindly send us your price list and latest catalogue.<br><br>Your=
+ early response will be much appreciated!<br><br></p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;"><!--?xml:namespace prefix =3D "o" /--><o:p></o:p>&nbsp;</p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;">Best regards,<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;">Ms. Chanoknun S. (Natt)<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;"><span></span><o:p><br></o:p></p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;">TSK&nbsp;<span>&nbsp;</span>Co., Ltd<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"margin: 0in; color: rgb(0, 0, 0); text-tran=
+sform: none; text-indent: 0px; letter-spacing: normal; font-family: Calibri=
+, sans-serif; font-size: 11pt; font-style: normal; font-weight: 400; word-s=
+pacing: 0px; white-space: normal; orphans: 2; widows: 2; background-color: =
+rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-caps: norm=
+al; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-de=
+coration-color: initial; text-decoration-thickness:=20
+initial;">Procurement Department<br>
+<span style=3D'color: rgb(0, 0, 0); text-transform: none; text-indent: 0px;=
+ letter-spacing: normal; font-family: "Segoe UI", Tahoma; font-size: 14px; =
+font-style: normal; font-weight: 400; word-spacing: 0px; float: none; displ=
+ay: inline !important; white-space: normal; orphans: 2; widows: 2; backgrou=
+nd-color: rgb(255, 255, 255); font-variant-ligatures: normal; font-variant-=
+caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initia=
+l; text-decoration-color: initial;=20
+text-decoration-thickness: initial;'>Email : <a href=3D"mailto:procurement@=
+ssskvvt.com">procurement@ssskvvt.com</a></span></p></body></html>
+
+-----------------------spamc-notify-1246415--

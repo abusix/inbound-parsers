@@ -1,10 +1,16 @@
 repos:
+  # ----------------------------------------------------------------------------
+  # General file quality (language-agnostic)
+  # ----------------------------------------------------------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        exclude: '\.eml$'  # Exclude email test fixtures
       - id: end-of-file-fixer
+        exclude: '\.eml$'
       - id: check-yaml
+        args: ['--unsafe']  # Allow custom YAML tags (Bento configs)
       - id: check-added-large-files
         args: ['--maxkb=1000']
       - id: check-json
@@ -12,41 +18,98 @@ repos:
       - id: check-merge-conflict
       - id: detect-private-key
 
-  - repo: https://github.com/psf/black
-    rev: 24.1.1
+  # ----------------------------------------------------------------------------
+  # Go code quality (replaces black, isort, flake8, mypy)
+  # ----------------------------------------------------------------------------
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
     hooks:
-      - id: black
-        language_version: python3.11
+      # Format Go code (replaces black)
+      - id: go-fmt
+        name: gofmt - Format Go code
+        args: ['-s']  # Simplify code
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+      # Format imports (replaces isort)
+      - id: go-imports
+        name: goimports - Format Go imports
+
+      # Static analysis (replaces some flake8)
+      - id: go-vet
+        name: go vet - Static analysis
+
+      # Build check (replaces some mypy - ensures code compiles)
+      - id: go-build
+        name: go build - Ensure code compiles
+
+      # Run unit tests with coverage (BLOCKING on 80% threshold)
+      - id: go-unit-tests
+        name: go test - Run unit tests with coverage check
+        args: ['-short', '-race', '-coverprofile=coverage.out']
+
+      # Check coverage threshold (matches CI requirement)
+      - id: go-critic
+        name: go-coverage-check - Enforce 80% coverage minimum
+        entry: bash -c 'go test -short -coverprofile=coverage.out ./... && coverage=$(go tool cover -func=coverage.out | grep total | awk "{print \$3}" | sed "s/%//"); threshold=80; echo "Coverage: $coverage% (Threshold: $threshold%)"; if (( $(echo "$coverage < $threshold" | bc -l) )); then echo "❌ Coverage below threshold"; exit 1; fi; echo "✅ Coverage OK"'
+        language: system
+        pass_filenames: false
+        types: [go]
+
+      # Tidy dependencies
+      - id: go-mod-tidy
+        name: go mod tidy - Clean dependencies
+
+  # ----------------------------------------------------------------------------
+  # Go linting (replaces flake8, bandit) - BLOCKING
+  # ----------------------------------------------------------------------------
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.55.2
     hooks:
-      - id: isort
-        name: isort (python)
+      - id: golangci-lint
+        name: golangci-lint - Comprehensive Go linting (BLOCKING)
+        args:
+          - --config=.golangci.yml
+          - --timeout=5m
+          - --new-from-rev=HEAD~1  # Only check new/changed code for speed
+        pass_filenames: false  # Run on whole project for best results
 
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
+  # ----------------------------------------------------------------------------
+  # YAML quality (for Bento configs) - BLOCKING
+  # ----------------------------------------------------------------------------
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
     hooks:
-      - id: flake8
-        args: ['--max-line-length=120', '--extend-ignore=E203,W503']
+      - id: yamllint
+        name: yamllint - Validate YAML files (STRICT MODE)
+        args: ['-c', '.yamllint.yml', '--strict']
+        types: [yaml]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+  # ----------------------------------------------------------------------------
+  # Security scanning - BLOCKING
+  # ----------------------------------------------------------------------------
+
+  # gosec - Go security scanner (matches CI, runs independently for visibility)
+  - repo: local
     hooks:
-      - id: mypy
-        additional_dependencies: [types-all]
-        args: [--ignore-missing-imports]
+      - id: gosec
+        name: gosec - Go security scanner (BLOCKING)
+        entry: bash -c 'if command -v gosec &> /dev/null; then gosec -exclude-generated ./...; else echo "⚠️  gosec not installed, run: make go-setup"; exit 1; fi'
+        language: system
+        types: [go]
+        pass_filenames: false
 
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.6
-    hooks:
-      - id: bandit
-        args: ['-c', 'pyproject.toml']
-        additional_dependencies: ['bandit[toml]']
-
+  # Secret detection
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
+        name: detect-secrets - Scan for secrets (BLOCKING)
         args: ['--baseline', '.secrets.baseline']
-        exclude: package.lock.json
+        exclude: |
+          (?x)^(
+            .*\.eml$|
+            .*\.lock$|
+            go\.sum$
+          )$
+
+  # Note: Trivy runs in CI only (too slow for pre-commit)
+  # Note: govulncheck runs in CI only (requires network access)

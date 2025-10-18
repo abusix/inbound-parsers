@@ -1,0 +1,192 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com;
+	dkim=pass header.i=@cert.pt header.d=cert.pt header.s=default
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01on2124.outbound.protection.outlook.com [40.107.121.124])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 66035432-EEA7-4210-9170-4B0D780C0064.1
+	envelope-from <bounces+SRS=S9v6l=NU@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Tue, 18 Jun 2024 09:55:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d/Us03t3pp274sSSW3AYf8FH+Upb77UJfOZdpMxxbFM6pLe6XZxpsCD04CM4AAmnbHUxNXEZnGWRLs1y8bsj2JLk3MNzesAfijU8IpSzkXoT9IKwV6lfXO24HfK636tZEryYQUgPTap5bcOHK2ifEbW4nDLvz2+AfSXHAAibHf5+PNPr/Lt3gMav+11z2xVOb6oGkRQp+rwVs+iyBtBbn6zed4itu/GCafVZj2VxbtRLaLjqf1DnEWHXZLz0WnQLMptlmeBUO/QInQm97sZqN6ExD/pd+Kuak+SNM9uj7B/f9S3/JMWE9NvUX+55QuJjCTWuhN6FSMMFNmHGCZcuPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kVKvqugbhOx6PYMJxCwLrCpQ1idN2Ozx5+0OmxROYdI=;
+ b=R6m2yvLs6Elvj6kZZzZhvsbGHStmfiom1HfQJEeOtY5UwLOG54a6lPAxhHvcEpPPxZ2wKpkwaAxyjSWqobisV5vM79JwZm4Xz/QTbT6GFE3nDdYMUUJX+0I/s3cKkRJLNzIY0cm8Z0jSIYAWBx1r4I+KraD5B4hlT+qlbvgyklLErp0jnU9s9vPOkCQkJTipwb3RxNjC3gz/M1D9tGtkpAnAICb3bEYoQxhoIzxuFJWoRVaOvheWiSlS4mlcpy5PjPmOxdAgBm92WNB5DvqmeX8RrKgFEh+4HdqLOdCsRz/Rcr18bAo2GRl7YdZu2kLx6rfi6kZ3yzs3E+w4D/c5Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 83.240.202.173) smtp.rcpttodomain=ipxo.com smtp.mailfrom=cert.pt; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=cert.pt;
+ dkim=pass (signature was verified) header.d=cert.pt; arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kVKvqugbhOx6PYMJxCwLrCpQ1idN2Ozx5+0OmxROYdI=;
+ b=D+kD0kkrp8BkYIIMjdZZGYLZcs9jaEOiVpQhUO+X0nZE3fgAE7VwdgthPDVnAP+y2+j3hKhtyFNpUPZOhd/E+4HtKramC6ZAhs9iFw8EYIPadlOoiPTXB8Q2IotzruMLLwxmWVoJJuauUGdaVwSN61THcfOI8JqzhLn7HbANf/behznawjhkZMTjjEhf+rYLmajS0Gy37MeXhSw1mRZzD33gD1uZDCjZaiXeDXK4me9jSyxdpj1bgbypSMx1I6FOzxCHubkqVs+biJ70mrAYMoG28eaUtN8WOx9YE3UW5PbF3eCiI0DiuvIFg4pp6fYWg72C8WxMJFYQciJDlm+iBQ==
+Received: from CWLP265CA0305.GBRP265.PROD.OUTLOOK.COM (2603:10a6:401:5d::29)
+ by LO8P302MB1338.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:3e2::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Tue, 18 Jun
+ 2024 09:55:29 +0000
+Received: from CW2PEPF000056BF.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:401:5d:cafe::a7) by CWLP265CA0305.outlook.office365.com
+ (2603:10a6:401:5d::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31 via Frontend
+ Transport; Tue, 18 Jun 2024 09:55:29 +0000
+Received-SPF: Pass (protection.outlook.com: domain of cert.pt designates
+ 83.240.202.173 as permitted sender) receiver=protection.outlook.com;
+ client-ip=83.240.202.173; helo=mx02.cncs.gov.pt; pr=C
+Received: from mx02.cncs.gov.pt (83.240.202.173) by
+ CW2PEPF000056BF.mail.protection.outlook.com (10.167.240.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.15 via Frontend Transport; Tue, 18 Jun 2024 09:55:28 +0000
+Received: from ccdcvmm1app03.oper.local ([192.168.62.5])
+	by mx02.cncs.gov.pt  with ESMTP id 45I9tRb3020873-45I9tRb4020873
+	for <abuse@ipxo.com>; Tue, 18 Jun 2024 10:55:27 +0100
+Received: by ccdcvmm1app03.oper.local (Postfix, from userid 48)
+	id B102540AF0F7; Tue, 18 Jun 2024 10:55:27 +0100 (WEST)
+Subject: [CNCS|CERT.PT #188458] [TLP:AMBER] Intrusion Attempts - Login Attempts [IPXO]
+From: "Dinis Cruz (CNCS - CERT.PT)" <cert@cert.pt>
+Reply-To: cert@cert.pt
+In-Reply-To: <rt-4.4.4-22607-1718704504-684.188458-5-0@CNCS>
+References: <RT-Ticket-188458@CNCS>
+ <rt-4.4.4-22607-1718704504-684.188458-5-0@CNCS>
+Message-ID: <rt-4.4.4-22261-1718704527-404.188458-5-0@CNCS>
+X-RT-Loop-Prevention: CNCS|CERT.PT
+X-RT-Ticket: CNCS|CERT.PT #188458
+X-Managed-BY: RT 4.4.4 (http://www.bestpractical.com/rt/)
+X-RT-Originator: dinis.cruz@cncs.gov.pt
+To: abuse@ipxo.com
+Content-Type: text/plain; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+Precedence: bulk
+Date: Tue, 18 Jun 2024 10:55:27 +0100
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-FEAS-Client-IP: 192.168.62.5
+X-FE-Policy-ID: 6:1:36:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=cert.pt; s=default; c=relaxed/relaxed;
+ h=subject:from:reply-to:references:message-id:to:content-type:date:mime-version;
+ bh=kVKvqugbhOx6PYMJxCwLrCpQ1idN2Ozx5+0OmxROYdI=;
+ b=TzdIXVasYc8Zgd2myb1x2ZTN3C8rfOYnO7uHiwrquHo/0JvkMXJjZ6mV/5da4lG5HZYL7QzKRz6B
+	FxwSxQ/7RiD/akyjyDpPJBkG73Yn+wdAcs0fNmgWny7bM37UgfU8DlD+iFkDRDYpF5+HaGueL+uE
+	JDr3NqnocuMreEAv5SI1sjQAgt+yv8SsHT/v/VklJ8lLDnMsmmqkwhVbZ5FBW/d8wIK2PgeiAZAX
+	AidH20aQNTCTnv2gkrVH0lDNNHtarGE0jinpI1lxpaTQEbq6yOPaJDWu14kZhhTXxeBOLl6wtIhx
+	E/J2x8Ylr8eegBt+oOHdZE/ZTK3JcZcuh32aag==
+Return-Path: cert@cert.pt
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CW2PEPF000056BF:EE_|LO8P302MB1338:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d7ea099-5bf3-46c8-1ef2-08dc8f7cc8ca
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|61400799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R2pxTkNmcXRVNTZmamZzYVJ3T3hMZ1AyVkF2bmNpVitKTmhUdkhhSlM3Q3Va?=
+ =?utf-8?B?TUhaSjE3UVZuSGdsaDVqazV2VzVrYTdMbDRjSXQvNWdlVlpLWkE1UmNWYitv?=
+ =?utf-8?B?bldMbUk2MllWY29oSmVtNnBESmt0aDFzSW13cFVoQlVsY0lFY1NaVXVZR21j?=
+ =?utf-8?B?dWh3dXJvbVhaNjNDbDJISytNM2twYThWQ1QzaVQ4VHR4alRJamx4SitXNUZJ?=
+ =?utf-8?B?T1FaQkliVGNBeGpIMGxZVnEvNmpjREl0aVZtWVc5UjBaS2QzUWUzb0UxUkgr?=
+ =?utf-8?B?Tk5jcThSamNDclI4UUN2bkJPQkxKUzZocHh4QS9iODZSZHJGaUE1M3VQdi81?=
+ =?utf-8?B?Sy8rdE5ZS0RNd3pmMWR0MTVieUN6NGVSbmw4OE1NSlRVY1EzRkpZdUUwSGZs?=
+ =?utf-8?B?b3pCWGJQMThwbVVHZXhjaUt0UWVHd3J5VWJZdkd5Sk90Sk9pVUdHNjlqa0Yz?=
+ =?utf-8?B?ZFlGZmFVT21RclhFRkxGZHUvT3FZd1NDRkdFd3pwZ3hyMGtWNlhqTDNCSXh4?=
+ =?utf-8?B?ak1kZWpEZzJIa2xhYkpVd1Vmdk9RRVUyM04ySmFWU1F5QjVuRHJJdGc4b01U?=
+ =?utf-8?B?dkZ0eHNKTW43VmZrSDlNYTFIbkFFRmtiaFpTN29TazN0dk5TZ05aY2NBRDVw?=
+ =?utf-8?B?aWNQZnFwSTdYaXpLZHhnNnppa2dLSHlKYmxhU0I2SkJ3Q3dOSlYyRktTOTRR?=
+ =?utf-8?B?QVJsNUUxdFlHSXdUSmN4RDJDKzJtV24yT2NCL1c1a3hvdlAwd3FYdU8ydmZY?=
+ =?utf-8?B?TXNOY3V5RHZMc2crRkxnalhJeUJKUktFR3ZZOWtldm1KU1hQeGpaZ0NkdVZs?=
+ =?utf-8?B?RFU1WHBPZ3BjSE9IVWJlK0V5ZGMrQjhsM2JzU29jNG9nbHFYbkV5OUdvUnFi?=
+ =?utf-8?B?OTdtb3ZiRklyODREYmhDWEhCL0RxYUY4V3cxZzhGRnhYRG1hRTFkejVYaTkx?=
+ =?utf-8?B?d2tFeDFNa1BVZ1dVbVVTYmxRdldlMmlXY1U3QzhqRnVtZUdTSUltSkxCSnYw?=
+ =?utf-8?B?MEFpSHJqVkZtbHp4TEsrWHJNaE5oYzhkUzBrb2d1QXdTRXNyb1BhdVY3VXJa?=
+ =?utf-8?B?Tm9FT1NnOVAyYkZQOXR0YU85K0FmNXJlU2I4UU9udkFucGRnbWVhTC9YMzBa?=
+ =?utf-8?B?bEZmZ3pEQ2ltMG12QTVERkJGU080ak16dkw2bitFajQzR1VTSlhPZ1FXR3g3?=
+ =?utf-8?B?ZnNPQjY4ZkhkZUZqT1lOMjBaOHhETml4ME1GQlZVZGhMcjNKTlBkVkxTNUM2?=
+ =?utf-8?B?Y2kzYTg1dlBjb29TTnI4LzR4ZEV0aWpJei85WFBlNWYvbW1JMjhJZDdWbGxu?=
+ =?utf-8?B?VXkxdkdobnJ4WVpGSUpXK29vY0lEbTIrYktFdlg4SzlFTFNVTk9lNlJBa1Mx?=
+ =?utf-8?B?c0dEWnZmMkN2UGVxNTcxeVM0c0dJaGVGdjdQT0x2Z2pPTFMzYnRRbVNFMk5D?=
+ =?utf-8?B?QnRRbFZtL2JNc2gwVHRzWEl6SDFGd1JiQW5rbzVCYnJSNWIzS3N1ZTBVMGNE?=
+ =?utf-8?B?anVFNlhzRjI4M3FjMS96bjZxZDJhU0ExSHlLNFRQRUNnUVZSeTAyYUFEQ0Nx?=
+ =?utf-8?B?ZWNOTHJFKyt1Q1loY1N1ZHZMOFV1UmlvVFdLU0UzZjZNQm5tKzZ3cFdGeWhT?=
+ =?utf-8?B?S09qOWNDbzlRK2d1UUNVZ1N3QUxHQ1VwK3JOa0I5anp3QmJHV2pTQkFlNkRB?=
+ =?utf-8?B?OFZqWmRKekcwWlc5UVZ1M2dLWjJEMnUrSjJhYnVSd3hzQ0lDRnZOVmNrMjFJ?=
+ =?utf-8?B?eGJReFFDb1d1NnQ0bGNpd3QwSDJxMStrT2NHeTM1Q29xRW9mWlRYVUh2aGly?=
+ =?utf-8?B?ZnZ2dk1tV1dNZUdSUzZyTDNnUEw5L3lVRE1VRjIrTVNQNUxkVTV3L3p4RzBh?=
+ =?utf-8?B?bExnSVo1aUthMzFHbUZaK1h2OHlPQUFZd2tYRU0vMHFSSkFiV1kycVlhN2Fw?=
+ =?utf-8?B?N2VkbkxuMlV2akFINkNpQ0JzbjE3bCs4M0EwL1kyQk0zRVBrY2szMXY1OUoz?=
+ =?utf-8?B?UzJtcndzVjZRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:83.240.202.173;CTRY:PT;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mx02.cncs.gov.pt;PTR:mx02.cncs.gov.pt;CAT:NONE;SFS:(13230037)(376011)(61400799024);DIR:OUT;SFP:1102;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 09:55:28.5142
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d7ea099-5bf3-46c8-1ef2-08dc8f7cc8ca
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: CW2PEPF000056BF.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P302MB1338
+Original-Authentication-Results: spf=pass (sender IP is 83.240.202.173)
+ smtp.mailfrom=cert.pt; dkim=pass (signature was verified)
+ header.d=cert.pt;dmarc=pass action=none header.from=cert.pt;
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+[TLP:AMBER]
+
+Dear Sir or Madam,
+
+We have been informed that a system from your constituency has been involved in an incident:
+
+Incident Classification: Login Attempts
+
+IP: 
+
+147.79.72.216
+
+Description: CERT.PT has been notified that the IP above were used to login in systems they do not have permission to do so.
+
+We are asking you to:
+a) Verify the claim;
+b) Verify the integrity of the allegedly participating system;
+c) Take appropriate actions to prevent further incidents;
+d) Provide feedback on this incident with actions taken.
+
+We thank you in advance for your cooperation and request that you maintain the IDENTIFIER [CNCS|CERT.PT #ID] present in the subject of this message in the next related communications.
+
+Please get back to us if you need assistance or information,
+Best regards,
+
+CERT.PT
+Portuguese National Cybersecurity Centre
+
+Website: https://www.cncs.gov.pt/pt/certpt
+E-mail: cert@cert.pt
+T: +351 210 497 399
+
+- --
+CERT.PT is the security incident response service of the Portuguese National Cybersecurity Centre.
+CERT.PT uses Traffic Light Protocol (TLP): https://www.cncs.gov.pt/pt/certpt/tlp/
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJmcVmPAAoJEDrJ3s6g96z7GuAP/iu77HHxQ2h21lKowyLBNZFA
++/NYxVSGvpLTUXnZL7USeGN5QtSmZCns00t3H4o3vFCSUIjeEXb4s05wTtvq31eB
+T7sBmuM0hcEoQFAdr4O8rsJSElMImTYwYtV3L+Oy/pGaI/vOZsVPpHnv5b522G95
+TwfVRMIPsp2YukOtC8TmsIxwA+lCbKWG2M2kc+XiChnF4qNSaQiaWdjuB3vOMASg
+hlQz77qXUM3W/9b0XXcLXWJuMh5DHUVoMhnyV4OjDBp4NYdqzyfCXr02wubH/3Bh
+SKdjyNuJXX9nRs5NBBbxqgw/bXw5AKRLLU9ZC7MArVcnJXiNhQNRp3Mrdp8m3I5d
+8lMKatcoTEq1UIQOWKfwnI0pitFXco93nuxZnp5Df01crG7fO7iQGNHcknFG2Eqa
+oJzP+zVGqgNL++7RwDZW1RskHOEOWiR3p+LsmiLHFAk17eq2OtMCW7jTJkw3DF/C
+9YQKSCVXcsy9Sn57uUQXWevxB33MVQQVZNAMqlAtg4luKsuBK7Nn2tDvUX8ZymO3
+RQtqeBH9uxMlYA1laGNRIbuKjJ8A3Hv9ziGwH0+0/U8BpqOjQPTBA78fXgiQBe1c
+ZNwt1Ylw+Xycomez3prYfzzn6tuSasPmlAzEkTElUuZDR21q1olCGPgG6W5Xy241
+Y/cj5dnOb0zPoMdugkji
+=0o5j
+-----END PGP SIGNATURE-----

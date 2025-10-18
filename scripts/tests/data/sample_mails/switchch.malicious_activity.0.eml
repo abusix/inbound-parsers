@@ -1,0 +1,242 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 334319DD-7565-4344-B753-548CC882BD90.1
+	envelope-from <abuse+bncBDE7B2WZQMBRBP4CUSPAMGQEAAHCEGY@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 19 Jan 2023 08:37:20 +0000
+Received: by mail-ej1-f71.google.com with SMTP id du14-20020a17090772ce00b0087108bbcfa6sf1091956ejc.7
+        for <abuse@digitalocean.abusehq.net>; Thu, 19 Jan 2023 00:37:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674117440; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=V/5sJcFIgP/tLVpXj1hTC8PNdcHr9mbunm+XsQfNIc+Kxlsd+3Ljt6x2ECVUQlVc1E
+         +lnSUxjQKW7yhbFxF85S00dBNQNoaf6NtYeEdwyO9R3B3B43tEAsz0ujpIzTlEsUYeos
+         7+SzWoocFmvfsXGC9J2P2LtX2755z/ORDyqd+TFDfN3xN3hUxxX1nroDxMTmjX7LO/iG
+         oQzC8Qnj6nMlsu4rdIlJvoNengKqry+FxSeGZnR+A78D4E6FRzhTzhGUTBIhGj+mXlzu
+         R0s+XdaWl81MjrTjefJrPuPvvO6NXrBKJT5E3EyiSMMGGfjcSjkUhsfSxmls6/Yhui7I
+         RVjg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:date:message-id:from:to:subject
+         :mime-version:content-transfer-encoding:content-disposition:sender
+         :dkim-signature;
+        bh=kPAyP5nf8x78qNWWrz3iE2KduwlhuMuiYyLmSKCGdz8=;
+        b=mAtcIYNXSVCQBA6An9J43CCdjcDJsxYldzrwhaEzdLjbjnsmXH13Z2avIPI7SEtahI
+         OIvD+hdNc4NIPbwte/m7KPmXAyH/FwW0mISViNRRT6KVBbNUCRQMQrglslIrcoVpRrBx
+         FnA70w81Cz9fJK9SubSMxaAM80DA8jcywMDTXr+sLNHKKzByeactfyf4sY2eRgLZi8b2
+         rg4oHn1E4OjwSFrJC+pFn1j5tPe+MK06XvjuRzWF3/9o4rHhux2V7BeMb2PVU16Wi4HM
+         6cBbPR06SlCHuXjxV4qXO37G55ETLM+9MqcdD+SAZJM55rtXyc2Qj0y89I4OugyTRTl+
+         P9zw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@switch.ch header.s=selector1 header.b=JYsc+c0P;
+       spf=pass (google.com: domain of cert@switch.ch designates 85.235.88.34 as permitted sender) smtp.mailfrom=cert@switch.ch;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=switch.ch
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:message-id:from:to:subject:mime-version
+         :content-transfer-encoding:content-disposition:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kPAyP5nf8x78qNWWrz3iE2KduwlhuMuiYyLmSKCGdz8=;
+        b=ETbOVFuXmHdE/0UnTt3qp16U7E5//M8vNyCG9BU9/7lAGY2LqfecCrBJkR5dWUOgI/
+         8cTho/rVOS4P67HlUURkmTPAELK5bPobxqqijlTh6Kv2GSFpWtr1m1UQraZ7jcKj+9Rw
+         PsBhlpRBA9PlupBkSz+E+Q4Q0vV3oyScoApNM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:message-id
+         :from:to:subject:mime-version:content-transfer-encoding
+         :content-disposition:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kPAyP5nf8x78qNWWrz3iE2KduwlhuMuiYyLmSKCGdz8=;
+        b=TrJQ3sJJofH8qluTYguEJA0fGeVhUZDYfwayaO7befSgBWSCMMwkhSC/6nXVlymDCe
+         zZDdIT5rM2ptrSTyC/RPHZ13pznK/6JZhzqoSsxxb9cVuX30Th4I0xzTRAisYcTQJ5Jj
+         ENY2azAbf2QZ4L5cpgnHEm9MUlhMjHfjn6SBupsn8+jUkEmIdk9VytGhL6O36qW9+iOj
+         VZAmOzVuVC6wC7wx8zYNbSVjzvlrsxnvjUwfQanYnf9demzrL4rODWFYPASGeSGFbz7Y
+         H27GnW2tcEtALNdGPG/TiQP+yvkXYofr+WWbM6X4ed6Tu4gQpnhrUMJw3PYyfu3GSz23
+         YIfA==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AFqh2kr2R4I14CMjLeaEHq5gLbPHY6nDRKFYhEUvFbP4bQk+G4WS/Jb7
+	5WewHiDBZGTj9+Wv9uZPhqDipw==
+X-Google-Smtp-Source: AMrXdXv7hAoBQz9+MR5P2zyp6FoGdnw9wopEWsgZm9cONBylD3/EDwvYu/u/U/j+CIIcRMZcbcYrUg==
+X-Received: by 2002:a17:907:7855:b0:855:63bb:d3cb with SMTP id lb21-20020a170907785500b0085563bbd3cbmr962452ejc.532.1674117440049;
+        Thu, 19 Jan 2023 00:37:20 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a05:6402:1e8e:b0:488:1679:c417 with SMTP id
+ f14-20020a0564021e8e00b004881679c417ls918756edf.1.-pod-prod-gmail; Thu, 19
+ Jan 2023 00:37:18 -0800 (PST)
+X-Received: by 2002:a05:6402:c41:b0:499:d0e3:7745 with SMTP id cs1-20020a0564020c4100b00499d0e37745mr12398218edb.14.1674117438578;
+        Thu, 19 Jan 2023 00:37:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674117438; cv=none;
+        d=google.com; s=arc-20160816;
+        b=VhPbbynpe2iqaVUjxly0asI+U8vB5FGA77EPoFmHKOFO8QvEdneDmCTuybOi8JDkM+
+         K/RHPyoHGW5BKdNdhr5kt6ZcijClU2K+jWGdJ5nNrDOE4WsUzRVfxdeMMHOd1UFBYiKQ
+         R/6y4zt8k6QedGOVN2Eqh1Rp7uEnT6GGO0+RYBC1CSW9C3/Mq6TmiUd3pLhDmYmEdh9f
+         bxrC8bNHjBFm7JtkKu09QF1ZufSFBdLxPXhrovRV85oAAJd9qIbMwAx7NsyFCGf9nTtE
+         paq4VdXE/3TKHo6A3+X7x7KbrSzl7+43xZXWZTE1JIm+pkYf3INRZ1JZJimyd1/lP9oq
+         nKAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:from:to:subject:mime-version
+         :content-transfer-encoding:content-disposition:dkim-signature;
+        bh=kPAyP5nf8x78qNWWrz3iE2KduwlhuMuiYyLmSKCGdz8=;
+        b=Kqz6VeV1GFpWK4zFnEqeObQbIdybpn4RL63ohQF7YChhFm+1FDQJW1sOHTymXlB7CV
+         XWKRcuZZ4mw/FLL4hBrowoeXAGyrV93WQXM2KBkMMXdGBre5EJStuKEvvZg66+r0d3Zb
+         4Fl/m5PGSJYlrSrIsOLgDVGB/f12K8UjLvOhuxrgnaa0BPPjONNc9NLpPxpCTcPUcmk9
+         5lUsfo16SH2v2yqOrGu17mPzoFg4udMQCnv6dfHui0X5zVm0Q24IDcQ0RAffHIEP0O5h
+         XJjBae9sspoP20kVxB9bGDVjEWPbQxd3/z8bbm7dUhKm1Oma2VEpWYCD4VzBtb42Xeic
+         PWqw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@switch.ch header.s=selector1 header.b=JYsc+c0P;
+       spf=pass (google.com: domain of cert@switch.ch designates 85.235.88.34 as permitted sender) smtp.mailfrom=cert@switch.ch;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=switch.ch
+Received: from mx3.switch.ch (mx3.switch.ch. [85.235.88.34])
+        by mx.google.com with ESMTPS id v23-20020aa7dbd7000000b0048ec2e6ba3dsi33225397edt.585.2023.01.19.00.37.18
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Jan 2023 00:37:18 -0800 (PST)
+Received-SPF: pass (google.com: domain of cert@switch.ch designates 85.235.88.34 as permitted sender) client-ip=85.235.88.34;
+X-IronPort-MAIL-FROM: cert@switch.ch
+X-IronPort-RCPT-TO: abuse@digitalocean.com
+X-IronPort-AV: E=Sophos;i="5.97,228,1669071600"; 
+   d="scan'208";a="1884228"
+Received: from adula.switch.ch ([130.59.198.88])
+  by mx3.switch.ch with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 09:37:18 +0100
+Received: from switch.managed-otrs.com (cyclone.switch.ch [130.59.113.30])
+	by adula.switch.ch (Postfix) with ESMTPS id F398D1F00CD
+	for <abuse@digitalocean.com>; Thu, 19 Jan 2023 09:37:17 +0100 (CET)
+Received: by switch.managed-otrs.com (Postfix, from userid 101)
+	id E79E95F4395F; Thu, 19 Jan 2023 08:37:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Subject: [SWITCH#2023011910001472] Misuse of your website cucinaexpress[.]ch
+To: abuse@digitalocean.com
+From: SWITCH-CERT <cert@switch.ch>
+X-Powered-BY: OTRS (https://otrs.com/)
+X-Mailer: OTRS Mail Service (8.0.28)
+Message-ID: <1674117396.942856.509848168@storm.switch.ch>
+Date: Thu, 19 Jan 2023 08:36:36 +0000
+X-Original-Sender: cert@switch.ch
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@switch.ch header.s=selector1 header.b=JYsc+c0P;       spf=pass
+ (google.com: domain of cert@switch.ch designates 85.235.88.34 as permitted
+ sender) smtp.mailfrom=cert@switch.ch;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=switch.ch
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Pour la version fran=C3=A7aise, voir plus bas.
+Per la versione italiana vedi in basso.
+Please see below for English version.
+
+Sehr geehrte(r) digitalocean.com
+
+Sie sind als Hoster f=C3=BCr den Domain-Namen cucinaexpress[.]ch eingetrage=
+n.=20
+
+Wir haben festgestellt, dass die Webseite cucinaexpress[.]ch f=C3=BCr Drive=
+-By missbraucht wird.=20
+
+Wir m=C3=B6chten Sie bitten den Missbrauch bis 20.1.2023 9:36 zu beseitigen=
+.=20
+
+Sollte Ihre Webseite am 20.1.2023 9:36 immer noch missbraucht werden, wird =
+der Domain-Name von SWITCH zum Schutz der Internetnutzenden vor=C3=BCbergeh=
+end deaktiviert.=20
+
+Die genauen Informationen zu diesem Missbrauch, alle betroffenen URLs, den =
+aktuellen Status sowie die f=C3=BCr cucinaexpress[.]ch eingetragenen Kontak=
+te finden Sie auf:
+https://www.switch.ch/de/saferinternet/domainstatus/?domain=3Dcucinaexpress=
+.ch&auth=3D2023011910001472
+
+Kontaktstelle Safer Internet
+saferinternet@switch.ch
+http://www.switch.ch/de/saferinternet
+
+------------------------------------------------------------------------
+
+Cher / Ch=C3=A8re digitalocean.com
+
+Vous =C3=AAtes inscrit(e) comme h=C3=A9bergeur h=C3=A9bergeur pour le nom d=
+e domaine  cucinaexpress[.]ch.=20
+
+Nous avons constat=C3=A9 que le site cucinaexpress[.]ch est infect=C3=A9 pa=
+r : Drive-By.=20
+
+Veuillez nettoyer votre site d'ici le 20.1.2023 9:36.=20
+
+Si votre site n'=C3=A9tait pas nettoy=C3=A9 d'ici le 20.1.2023 9:36, le nom=
+ de domaine serait temporairement d=C3=A9sactiv=C3=A9 par SWITCH afin de pr=
+ot=C3=A9ger les usagers d'Internet.=20
+
+Vous trouverez les informations pr=C3=A9cises sur cet abus, toutes les URL =
+touch=C3=A9es, l'=C3=A9tat actuel et les contacts inscrits pour cucinaexpre=
+ss[.]ch sur:
+https://www.switch.ch/fr/saferinternet/domainstatus/?domain=3Dcucinaexpress=
+.ch&auth=3D2023011910001472
+
+Point de contact Safer Internet
+saferinternet@switch.ch
+http://www.switch.ch/fr/saferinternet/
+
+------------------------------------------------------------------------
+
+Gentile digitalocean.com
+
+Lei =C3=A8 registrato come hoster per il nome a dominio cucinaexpress[.]ch.=
+=20
+
+Abbiamo constatato che il sito web cucinaexpress[.]ch =C3=A8 usato abusivam=
+ente per  Drive-By.=20
+
+La preghiamo di ripulire il Suo sito web entro il 20.1.2023 9:36.=20
+
+Se non avr=C3=A0 ripulito il Suo sito web entro il 20.1.2023 9:36, SWITCH d=
+isattiver=C3=A0 temporaneamente il Suo nome a dominio per proteggere gli ut=
+enti di Internet.=20
+
+Le informazioni dettagliate su questo abuso, sugli URL interessati, sullo s=
+tatus attuale e sui contatti registrati per cucinaexpress[.]ch sono disponi=
+bili qui:
+https://www.switch.ch/it/saferinternet/domainstatus/?domain=3Dcucinaexpress=
+.ch&auth=3D2023011910001472
+
+Punto di contatto Safer Internet
+saferinternet@switch.ch
+http://www.switch.ch/it/saferinternet
+
+------------------------------------------------------------------------
+
+Dear digitalocean.com
+
+You are registered as the hoster for the domain name cucinaexpress[.]ch.=20
+
+It has come to our attention that the website cucinaexpress[.]ch is being m=
+isused for Drive-By.=20
+
+Please clean your website by 20.1.2023 9:36.=20
+
+If you have not yet cleaned your website by 20.1.2023 9:36, SWITCH will tem=
+porarily deactivate the domain name in order to protect Internet users.=20
+
+You can find detailed information on this misuse, all the URLs affected, th=
+e current status and the contacts registered for cucinaexpress[.]ch at:
+https://www.switch.ch/en/saferinternet/domainstatus/?domain=3Dcucinaexpress=
+.ch&auth=3D2023011910001472
+
+Safer Internet contact
+saferinternet@switch.ch
+http://www.switch.ch/en/saferinternet=

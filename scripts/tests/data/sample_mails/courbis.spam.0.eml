@@ -1,0 +1,116 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@ipxo1.onmicrosoft.com header.d=ipxo1.onmicrosoft.com header.s=selector1-ipxo1-onmicrosoft-com
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (mail-cwxgbr01on2060.outbound.protection.outlook.com [40.107.121.60])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 1DD762A1-F191-4061-8372-CD7353C344F8.1
+	envelope-from <bounces+SRS=8ffu2=H3@ipxo.com>
+	tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256;
+	Sat, 16 Dec 2023 06:53:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FNvKyfT4zmylPFr3elcdEriQ4i6nw8bI5gv6OusOwdG4EMpklDJgfyFkxv33sVHldk/F7EvxBRDKu/sJ2AtPvmoMxhn52J2POIhcMI1njqFaLXhgJJVx7Y/Y5IURyzUuCTDaHdKDVSm+y375QZ+BTGkepY/lvzZGKkHimCj/K5AXfX1Hor7ur4OgCvrPs+kuPX/wIMQ80isZL8D9zbLo1mHK1KKMu7rizPJHjCp/CLUEoHM047cMxMsmYXVGRf6mp/mdvMVhHREs+D2YlYdPUaPtSlsyTE5yk3S9MD2yQDM2IPEvwjbsDk/Ucw7CsOP03SKPX9E3t7a/oUHAcavKzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ROr/a1eyaqaN+wfHcWFIrErbVlcEZXdf4X2WPlgu3Oo=;
+ b=k67/D+jEcZ9PW4XhZlAgqOBINqYxLhA6c4oJeNhra5yK7XHOXSSAgO7L6FT1zkK14Sb1n4R18i9L/deHks7CkliGyKITjdJUE7EwoRJPma61j+/+FxpksKLrIhpEwNvtRYL2fLnB0TrRx/ODLXEUKGbjqIl1m2wtbJtsqOB6fsYXV5u07NslyuNzyhUaN5fCrqdGkDtpEuVoCFdngUFkO0FObcWq209hT6emXI8/u4OTgNij919kP+cpinKU2ZpW0dz7OuJmddxUM8WW38A1udBaktW+5R/9YosnSpUHbgbIpnlHGpML9S4yBhhkMY9TpVnSeS7qEmHrJBq5cK/KRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 155.133.131.180) smtp.rcpttodomain=ipxo.com smtp.mailfrom=courbis.fr;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=courbis.fr; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipxo1.onmicrosoft.com;
+ s=selector1-ipxo1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ROr/a1eyaqaN+wfHcWFIrErbVlcEZXdf4X2WPlgu3Oo=;
+ b=reHVfVl+nPyIdXBc3ru0QkjK5qoiNMdJJ6NVA3ZQZUF28yCAtQBy6f8nloSUM3hD5GARi39KH3nfm2QadXKFQDePdMSNK2OLIlRIzsEd4FU90MPVt7Yrtz20b1GxEy7VCg+WqpWS51dpSXADv8Wgnw56tJvaxr3qr9gr7X2oSFtvInWdK2ydfNcaECHgHqQcKN1s9L0XmLfuJ9P5Yvum3nODOeBRMmfaNXMIpkR8LTTBSN8kZWOmV3w2qAa04AplntsAUDunTW4gByenbaX0XNF5PSyg6934N3trzErh00to+QAvGmvD9ywE5sfm268l5ypQ6Peg8aWpc4voJ1PwNw==
+Received: from LO4P123CA0584.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:276::15)
+ by LO0P302MB0116.GBRP302.PROD.OUTLOOK.COM (2603:10a6:600:365::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.35; Sat, 16 Dec
+ 2023 06:53:09 +0000
+Received: from LN2PEPF000100CD.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:276:cafe::a1) by LO4P123CA0584.outlook.office365.com
+ (2603:10a6:600:276::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.34 via Frontend
+ Transport; Sat, 16 Dec 2023 06:53:09 +0000
+Received-SPF: Pass (protection.outlook.com: domain of courbis.fr designates
+ 155.133.131.180 as permitted sender) receiver=protection.outlook.com;
+ client-ip=155.133.131.180; helo=www.courbis.fr; pr=C
+Received: from www.courbis.fr (155.133.131.180) by
+ LN2PEPF000100CD.mail.protection.outlook.com (10.167.240.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7113.14 via Frontend Transport; Sat, 16 Dec 2023 06:53:09 +0000
+Received: from www.courbis.fr (localhost [127.0.0.1])
+	by www.courbis.fr (8.15.2/8.15.2/Debian-8+deb9u1) with ESMTP id 3BG6r9oH004519
+	for <abuse@ipxo.com>; Sat, 16 Dec 2023 07:53:09 +0100
+Received: (from www-data@localhost)
+	by www.courbis.fr (8.15.2/8.15.2/Submit) id 3BG6r97H004518
+	for abuse@ipxo.com; Sat, 16 Dec 2023 07:53:09 +0100
+Date: Sat, 16 Dec 2023 07:53:09 +0100
+Message-Id: <202312160653.3BG6r97H004518@www.courbis.fr>
+X-Authentication-Warning: www.courbis.fr: www-data set sender to spam-report@courbis.fr using -f
+MIME-Version: 1.0
+To: abuse@ipxo.com
+Subject: Spam report for ip 181.215.16.128
+From: spam-report@courbis.fr
+Content-ID: <message.html>
+Content-type: text/html
+Content-Description: An object packed by metasend
+Content-Transfer-Encoding: quoted-printable
+Return-Path: spam-report@courbis.fr
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: ccd1991f-e8ff-4208-8fa7-7f4e85bea110:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LN2PEPF000100CD:EE_|LO0P302MB0116:EE_
+X-MS-Office365-Filtering-Correlation-Id: e81d99dc-ef02-4caa-8e40-08dbfe03a9fc
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-LD-Processed: ccd1991f-e8ff-4208-8fa7-7f4e85bea110,ExtAddr
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	FMxQfnXHKYF1uM4IxGnWFuMF2JPBHUSqnP882nNzQiAECgnd3G4kdkwBFrCFtL9gBL+tbNqT480WLcH4Ra65R4S2kjg3odCIKpod/LqzzAUgbwyFHl4/L5A+bb0wa9Iisrhnhvf5jU0ilEW8pkzpKKlo2BfsxCJFJrSbwdBd8+PYUXhWHAJt4Ia8pVV++OCbb79cPULc27Tbf3pGSsWym2O5FhjhooxOl+4l6QfA9KlJF8nQtQYBPI6WjNYR84y8Ke6gwyCK5RqfsiOGsXpxUh9Dnhxh4pIVfWDAv/i7pGBgcsIRYFzZZo26YpiQS5GdSfzzWHeEvuSO5STaeBgomeiNouaR+AxFzpObInmLCrb1wZi7uVaELJcTmgdHwQnaQ9VZq/2qy4TsQRlmsHtoRQPcj0Jjj1K/pShkck5rCiQ04RmyQToWUg2jkMBe4742+Vrt/17tutQ1/faWFFAC2bFpFPJA5SY2PlafOigoCi9FZkgEW2F+HMl9x3Jbfn8M9aVk1vdvTEm9B9fPBHQoUM7qEnh8x8g1+uZhPj8C4DRrqDxWWfPH4+raCO0SYLVr+JU5JBNvXQg91H9Nmlsk3JdtatJOU8q7jhak5xjMJYyHuPPCRAX8Fb9VwRvgSOA3vr1pbNFqqtHur1pFF5VG1Auuks5YpIOEt+VSXo5nHOSJl4mGrm2cDevNv/BP5TrmyLJFS/4KxJpxUoutyAOGHzFZuabfMJUquocnm0CXWbpfGNG0VAn0R0zol0WKv28hZ2QS+h56xZZizpiMmIB67ObLqWg6Bd5u7aWGbIkYsb8=
+X-Forefront-Antispam-Report:
+	CIP:155.133.131.180;CTRY:FR;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:www.courbis.fr;PTR:www.courbis.fr;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(136003)(396003)(39850400004)(61400799012)(451199024)(64100799003)(83380400001)(1076003)(336012)(26005)(8676002)(5660300002)(34206002)(4744005)(2906002)(4001150100001)(498600001)(316002)(68406010)(9686003)(42186006)(70586007)(7636003)(356005)(7596003)(86362001)(47956004)(14943795004);DIR:OUT;SFP:1101;
+X-ExternalRecipientOutboundConnectors: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-OriginatorOrg: ipxo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2023 06:53:09.2690
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e81d99dc-ef02-4caa-8e40-08dbfe03a9fc
+X-MS-Exchange-CrossTenant-Id: ccd1991f-e8ff-4208-8fa7-7f4e85bea110
+X-MS-Exchange-CrossTenant-AuthSource: LN2PEPF000100CD.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P302MB0116
+Original-Authentication-Results: spf=pass (sender IP is 155.133.131.180)
+ smtp.mailfrom=courbis.fr; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=courbis.fr;
+
+Dear Sir/Madam,<br>
+<br>
+We have detected abuse from the IP address 181.215.16.128, which accordin=
+g to a whois lookup is on your network. We would appreciate if you would =
+investigate and take action as appropriate.<br>
+<br>
+Illegal action loggued : spam post on our website (date : 2023-12-15 10:1=
+7:06 - French time); please ask if you require any further information.<b=
+r>
+<br>
+See <href=3Dhttp://www.stopforumspam.com/ipcheck/181.215.16.128>Stop Foru=
+m Spam's reccords</a> (http://www.stopforumspam.com/ipcheck/181.215.16.12=
+8) for more details.
+<br>
+NOTE : this IP adress will be reported as "toxic" to various blacklists a=
+round the world.<br>
+<br>
+(If you are not the correct person to contact about this please accept ou=
+r apologies - your e-mail address was extracted from the whois record by =
+an automated process.)<br>
+<br>
+Best regards<br>
+<br>
+P. Courbis<br>
+Site owner<br>
+<br>
+<br>
+Mail sent to abuse@ipxo.com<br>
+
+

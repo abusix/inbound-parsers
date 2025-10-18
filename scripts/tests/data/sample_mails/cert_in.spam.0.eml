@@ -1,0 +1,1054 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 7B9244EC-94EE-4634-A3FA-B22542173CEA.1
+	envelope-from <abuse+bncBC6NF5PRSYBBBEUAROOQMGQEUPMRVJQ@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Wed, 21 Dec 2022 08:13:07 +0000
+Received: by mail-pj1-f70.google.com with SMTP id p11-20020a17090a680b00b002233455d706sf799782pjj.4
+        for <abuse@digitalocean.abusehq.net>; Wed, 21 Dec 2022 00:13:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1671610386; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=qhZJnqCOHvo7Gxvs/KjkrPlFk15uKkb0Gfs+6mcWRd4WiA77bN0Vf4lkoHlU+YfimJ
+         gqV+ShRSORpcYoMimBT7BALvX0HD6cIhM9tq9XNqqnWheBUyGGs04SlgB+b0jGrR/agN
+         DG6mkHoakyuP9cJWf9NI/qf2wUdhQd4sEZnIRGwC74gHNt8RRRIWcEcO2fZomrZqzblI
+         P444X1BzHeM1jFUk7YM1SQcPzmMErwCA6+QKD1I4llyEA3j9JdOPhUtqoaaZwAL3FvI/
+         IWptMBiH88KIPmvY5dg97nv65TPm486GmNCSNF6QlsHhr/KAu4VmUMqjOMjIgj6T6Z+X
+         YPOg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:thread-topic:thread-index
+         :mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=vUS4nLjUIhfrqVqpFe8IPsoCJfgRUdH94f83c3TEizo=;
+        b=YCyBRGUM2YAR+rzL4LKn97jj8XBHg1Ezh91ipG8z6UzHg9QsNvGXIVizBgIIR31MMo
+         7+/0YWlK40hNwAQkJHDhqG3WC0lgMyHpgqWWnLwF35vqWTR6/mkMwN7XEQk9jDpdevkK
+         06oAJblxuz9if0aPT+5MG5dglHKX/vwumsTaLfDq8ybV0E4CtSm6zD0psKHE162M+SDc
+         lZ23FBTHj11PT+OBufAJr+FPp79ppyUsKI13+zwQ7yB7HyRhw4+3o/t6zNIK5ox0GvM1
+         +yqhe6xDARMjxfLxVhs2PP+gN2p3gdef2i66rUidjALku5J+o6M0No1QTuanmPG+33rt
+         rAFg==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert-in.org.in header.s=certindomainkey header.b="efRXLH/g";
+       spf=pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.107 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:reply-to:x-original-authentication-results
+         :x-original-sender:thread-topic:thread-index:mime-version:subject
+         :message-id:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vUS4nLjUIhfrqVqpFe8IPsoCJfgRUdH94f83c3TEizo=;
+        b=CtYMDw8wuMuGkqQmkQTglObBZL0kA9FokViZY1PHLMMRnT0U3vhsAZaD278gk0Gzf6
+         +yg7DAZhmGdsa4oPMpXwQAhkAqWqyLzwVDl5g6JDLkBFd3vCLR10xbkhI26l387pwOYI
+         gh9s+H5cuOf5la0TIitCU4lQBWGJeri9ENpBo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:thread-topic
+         :thread-index:mime-version:subject:message-id:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vUS4nLjUIhfrqVqpFe8IPsoCJfgRUdH94f83c3TEizo=;
+        b=K71yKl/z6Iq1u+PPAyyU4fAH7RPjlFUfte9R+XOHfLBAG3jhWQKfqmnfnxKP+FzSV2
+         VAYYZz07msMZ5Ia6lUyOPr9m3c0AH2/0lgofE+HUMUHEOrYk/2cV8R9dzDrozi/XaeJJ
+         cjqaT7DJNwUcPnRTaXkLuVLzai3GT7dGd1xFx7CZsZbzCw1cA9vFL2zy/C4z7IsxOyWA
+         DlppOp1lX8xr1//a+OtU2ezpLVBc7kEhBDqklypCZ+CpR8ErEKwEemghBRUcNijBBJ6T
+         il1AmX/fid8oKxWdTYBuNTBaYmQ/L2DMo3wZeK8i3D6RB53a9udKma9QZGwn2q6iz7ha
+         C++g==
+X-Gm-Message-State: AFqh2kpiZ0fg51fvbxQFTXTzParh8CB0Te37Oq7+T2B8G57EGn69KhS4
+	vIhE2EynnnYWn8kea9eUvIb2+Q==
+X-Google-Smtp-Source: AMrXdXvlNwDbJ7+3F4Xt/7/rn7g8r2mG42a7pEx0/JB086O7yaLcfiF6Mug+wYuNTw1tVQigZVhCnA==
+X-Received: by 2002:a17:902:c941:b0:188:d4ea:2567 with SMTP id i1-20020a170902c94100b00188d4ea2567mr72671pla.155.1671610386533;
+        Wed, 21 Dec 2022 00:13:06 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a17:902:e311:b0:186:af8a:6095 with SMTP id
+ q17-20020a170902e31100b00186af8a6095ls16205460plc.4.-pod-prod-gmail; Wed, 21
+ Dec 2022 00:13:05 -0800 (PST)
+X-Received: by 2002:a17:902:6805:b0:191:1545:a652 with SMTP id h5-20020a170902680500b001911545a652mr524986plk.31.1671610385267;
+        Wed, 21 Dec 2022 00:13:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671610385; cv=none;
+        d=google.com; s=arc-20160816;
+        b=C+CZWlXdRubKyvWB6OvDL4uhlRzLOXq4cxXIBfqXZqt01hsZ3q+h9+X1aBXGgZ/2bV
+         +zgmvjV8eaEPaKKZLOJAWK1fMr4TWkx2Gi+fDxZbuBOp9D2PkOoBqUJ76YHZTvjcyK5g
+         bbcHDHNp2SA5gvvGVKMS3xHTEJ/eiShPFLQoPRwnV8LtoTIaZJ74cVzeXlb1zrWmgY9H
+         LCb/tpLv0D1l5ey8oOWnItb41jo9id3zpxY2TycIzblHxJPoqsiNsMA2QUyDML28AQ3r
+         cy1YAaHlo7oQ58eAKMT6sgljdQ1uCNrqK9Q9mX4BqgtY9f/x5dqimnyaENHce0tXSDuN
+         h4zQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=thread-topic:thread-index:mime-version:subject:message-id:to:from
+         :date:dkim-signature;
+        bh=vUS4nLjUIhfrqVqpFe8IPsoCJfgRUdH94f83c3TEizo=;
+        b=eCQRwLmluBt5IXUf7ebZwQqaMZXshBiTFTdFLmx6ff4+FhU6NZs8T0CjRDZlMi+6J9
+         asc/moJISiKOQh2uerpLH38y7eogzXG3STGxw4XBaYc/HtLOPxxyNjCj0bMMWlIzozMh
+         2IKwTAlMgpIPsSEBhpX2Qj5KbwwjaAph4JB5saPq4rd24HwbOskscT3pRY8V+VoKlKJ8
+         88GouzlKLEG+xVnc7ug0ECDVZdxdC4bj9MixJWVeYOY5X8ixrSzLWuxmKSS+Ls7GgLxD
+         Vvid8LnhC0dmijt/3X/Y22O1h5vVkw5JL0btK2zHxnYrbwFmynLQnifxFtl7iy4M76pg
+         0kQw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert-in.org.in header.s=certindomainkey header.b="efRXLH/g";
+       spf=pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.107 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+Received: from mail.cert-in.org.in (mail.cert-in.org.in. [59.176.167.107])
+        by mx.google.com with ESMTP id f10-20020a170902ce8a00b001892c399db0si17470950plg.363.2022.12.21.00.13.04
+        for <abuse@digitalocean.com>;
+        Wed, 21 Dec 2022 00:13:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of incident@cert-in.org.in designates 59.176.167.107 as permitted sender) client-ip=59.176.167.107;
+X-AuditID: ac110a67-200b5700000028d2-73-63a2c00f1efc
+Received: from mailz.cert-in.org.in (Unknown_Domain [172.17.10.250])
+	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mail.cert-in.org.in (Symantec Messaging Gateway) with SMTP id 11.16.10450.F00C2A36; Wed, 21 Dec 2022 13:43:03 +0530 (IST)
+Received: from mailz.cert-in.org.in (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTPS id D965B14836B7C8
+	for <abuse@digitalocean.com>; Wed, 21 Dec 2022 13:40:51 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id CAE2D14836B7C9
+	for <abuse@digitalocean.com>; Wed, 21 Dec 2022 13:40:51 +0530 (IST)
+Received: from mailz.cert-in.org.in ([127.0.0.1])
+	by localhost (mailz.cert-in.org.in [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id XiL2HTxCXYoC for <abuse@digitalocean.com>;
+	Wed, 21 Dec 2022 13:40:51 +0530 (IST)
+Received: from mailz.cert-in.org.in (mailz.cert-in.org.in [172.17.10.250])
+	by mailz.cert-in.org.in (Postfix) with ESMTP id A71E314836B7C8
+	for <abuse@digitalocean.com>; Wed, 21 Dec 2022 13:40:51 +0530 (IST)
+Date: Wed, 21 Dec 2022 13:40:51 +0530 (IST)
+From: "'Incident' via abuse" <abuse@digitalocean.com>
+To: abuse@digitalocean.com
+Message-ID: <1721147200.814116.1671610251596.JavaMail.zimbra@cert-in.org.in>
+Subject: Stopping of Spamming Activity ; Ref:  CLOUDFLARENET6122022
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="=_e7359062-7da4-4de5-a361-66f4c06b4920"
+X-Originating-IP: [172.17.10.250]
+X-Mailer: Zimbra 8.8.15_GA_4272 (ZimbraWebClient - GC108 (Win)/8.8.15_GA_4257)
+Thread-Index: FcJ2YCDiiT4z9DQaI7RZmcmsP+zCWA==
+Thread-Topic: Stopping of Spamming Activity ; Ref: CLOUDFLARENET6122022
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIJMWRmVeSWpSXmKPExsWyRpDrly7/gUXJBpNuylncmDuPzYHR48vr
+	p8wBjFFcNimpOZllqUX6dglcGZdf72Uq6H7FWPF/nlsD47rzjF2MnBwSAiYS0/5cYe9i5OIQ
+	EtjIJPGm+QRYQkjgMKNE5yt3iMR2RoktXxZDVT1glHj95hwLhHORUWLBhOlMIC0sAtoSl5fe
+	YwWx2QQ0JPp/HwCzRQSkJJ5dgqjhFfCR+HP9ApgtLOAscXj9LUaIuKDEyZlPWEBsZoFIiWu3
+	D7JB3Kco8WvSbnYI209i4eo+NoiZehITHr9lh7DdJWZsfs00gVFwFpJRs5CMWsDItIpRODcx
+	M0cvObWoRDczTy+/KF0vM28TIyQM03cwXuz7rHeIkYmDU6qByeEsS0KS+L6na4W9VyzbJDA7
+	Nvr2FUerkv0zP69dmzajXDNS8Iioflq9pwBzoy3f37Y9O/dFzw88XnqsRix0+/5wp/1sj2T5
+	/aPWucn0a388UlW02+Fb3KyfZ6feFurMXfQynrvliL9OofRD3aVySg7X1iTcOsd2IDui96xn
+	/9dohtladUulGNdu95fZIbRlcnRjqUdYTg5TsPMX5l8mSVNvu6eazlt79q5/0Pb0gssWGwtW
+	cb6b/+YOc7bJue8mzbVfGgXqDy3xmv8ys91E9+oF2edSHcu+2BsdPHKVc0HhxZVbhX0jn8nM
+	OFXCJRGv/5e5Tp3lZXbtJje7+VqT5mVnJbQcrLI/cPDr0wu5SizFGYmGWsxFxYkA9d4BDnQC
+	AAA=
+X-Original-Sender: incident@cert-in.org.in
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert-in.org.in header.s=certindomainkey header.b="efRXLH/g";
+       spf=pass (google.com: domain of incident@cert-in.org.in designates
+ 59.176.167.107 as permitted sender) smtp.mailfrom=incident@cert-in.org.in;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert-in.org.in
+X-Original-From: Incident <incident@cert-in.org.in>
+Reply-To: Incident <incident@cert-in.org.in>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--=_e7359062-7da4-4de5-a361-66f4c06b4920
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE----- 
+Hash: SHA256 
+
+
+
+Ref.No: CLOUDFLARENET6122022 
+
+Dear Sir/Madam, 
+
+We have received a report that some of your hosts with IP addresses 
+
+listed in the attachment, are used for sending/relaying unsolicited spam 
+mails on 01-29 November 2022. 
+
+IP Addresses 
+
+Email-Header 
+
+139.59.17.80 
+
+- From ******** 
+
+
+Received: from *** ([139.59.17.80]) by sbmky209sc.softbank.ne.jp with SMTP 
+id <********>; Thu, 3 Nov 2022 21:**:** +0900 
+
+
+Received: from *** by 139.59.17.80; Thu, 03 Nov 2022 08:**:** -0400 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Thu, 03 Nov 2022 18:**:** +0600 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.61.193 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.61.193]) by sbmky210sc.softbank.ne.jp 
+with SMTP id <********>; Fri, 4 Nov 2022 15:**:** +0900 
+
+
+Received: from *** by 139.59.61.193; Fri, 04 Nov 2022 04:**:** -0200 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Fri, 04 Nov 2022 00:**:** -0600 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.66.145 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.66.145]) by ebmky118sc.i.softbank.jp 
+with SMTP id <********>; Sat, 5 Nov 2022 21:**:** +0900 
+
+
+Received: from *** by 139.59.66.145; Sat, 05 Nov 2022 11:**:** -0100 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Sat, 05 Nov 2022 09:**:** -0300 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+139.59.35.1 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.35.1]) by sbmts205sc.softbank.ne.jp with 
+SMTP id <********>; Mon, 7 Nov 2022 08:**:** +0900 
+
+
+Received: from *** by 139.59.35.1; Mon, 07 Nov 2022 00:**:** +0100 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Mon, 07 Nov 2022 00:**:** +0100 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.35.1 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.35.1]) by sbmts201sc.softbank.ne.jp with 
+SMTP id <********>; Thu, 10 Nov 2022 08:**:** +0900 
+
+
+Received: from *** by 139.59.35.1; Thu, 10 Nov 2022 04:**:** +0500 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Thu, 10 Nov 2022 03:**:** +0400 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.35.1 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.35.1]) by sbmts205sc.softbank.ne.jp with 
+SMTP id <********>; Mon, 14 Nov 2022 01:**:** +0900 
+
+
+Received: from *** by 139.59.35.1; Sun, 13 Nov 2022 13:**:** -0300 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Sun, 13 Nov 2022 22:**:** +0600 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.17.80 
+
+- From ******** 
+
+
+Received: from *** ([139.59.17.80]) by ebmky105sc.i.softbank.jp with SMTP 
+id <********>; Tue, 15 Nov 2022 19:**:** +0900 
+
+
+Received: from *** by 139.59.17.80; Tue, 15 Nov 2022 03:**:** -0700 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Tue, 15 Nov 2022 12:**:** +0200 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+139.59.68.143 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.68.143]) by sbmky202sc.softbank.ne.jp 
+with SMTP id <********>; Sun, 20 Nov 2022 03:**:** +0900 
+
+
+Received: from *** by 139.59.68.143; Sat, 19 Nov 2022 23:**:** +0500 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Sat, 19 Nov 2022 13:**:** -0500 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.17.80 
+
+- From ******** 
+
+
+Received: from *** ([139.59.17.80]) by sbmky206sc.softbank.ne.jp with SMTP 
+id <********>; Tue, 22 Nov 2022 17:**:** +0900 
+
+
+Received: from *** by 139.59.17.80; Tue, 22 Nov 2022 01:**:** -0700 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Tue, 22 Nov 2022 05:**:** -0300 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+139.59.68.143 
+
+- From ******** 
+
+
+Received: from *** (really [139.59.68.143]) by ebmky109sc.i.softbank.jp 
+with SMTP id <********>; Wed, 23 Nov 2022 09:**:** +0900 
+
+
+Received: from *** by 139.59.68.143; Tue, 22 Nov 2022 17:**:** -0700 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Wed, 23 Nov 2022 04:**:** +0400 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+139.59.68.143 
+
+- From ******** 
+
+
+Authentication-Results: ezweb.ne.jp; spf=hardfail reason=policy; 
+sender-id=softfail header.from=***@yahoo.co.jp 
+
+
+Received: from *** (unknown [139.59.68.143]) by msmx.au.com (au mail) with 
+SMTP id 795521600A8; Fri, 25 Nov 2022 13:**:** +0900 (JST) 
+
+
+Received: from *** by 139.59.68.143; Fri, 25 Nov 2022 07:**:** +0300 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Fri, 25 Nov 2022 03:**:** -0100 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+139.59.17.80 
+
+- From ******** 
+
+
+Received: from *** ([139.59.17.80]) by sbmts201sc.softbank.ne.jp with SMTP 
+id <********>; Fri, 25 Nov 2022 13:**:** +0900 
+
+
+Received: from *** by 139.59.17.80; Thu, 24 Nov 2022 23:**:** -0500 
+
+
+*** 
+
+
+From: ******** 
+
+
+To: ******** 
+
+
+Subject: ******** 
+
+
+Date: Thu, 24 Nov 2022 22:**:** -0600 
+
+
+X-Mailer: ******** 
+
+
+MIME-Version: 1.0 
+
+
+Content-Type: text/plain; charset="SHIFT_JIS" 
+
+
+Content-Transfer-Encoding: 7bit 
+
+
+Message-Id: ******** 
+
+
+X-BMTA-TYPE-ISP: ******** 
+
+If you are not the appropriate staff to handle this matter, you are 
+
+requested to immediately escalate this matter to the attention of 
+
+concerned authority. 
+
+We greatly appreciate your prompt attention to this matter. Kindly 
+
+intimate us about action taken in this matter at the earliest. 
+
+In case of any technical advice is needed you may contact our Incident 
+
+Response Help Desk. 
+
+- -- 
+Thanks and Regards, 
+
+CERT-In 
+
+Incident Response Help Desk 
+e-mail: incident@cert-in.org.in 
+Phone: 1800-11-4949 
+FAX: 1800-11-6969 
+Web: http://www.cert-in.org.in 
+PGP Fingerprint: A768 083E 4475 5725 B81A A379 2156 C0C0 B620 D0B4 
+PGP Key information: 
+https://www.cert-in.org.in/s2cMainServlet?pageid=CONTACTUS 
+
+Postal address: 
+Indian Computer Emergency Response Team (CERT-In) 
+Ministry of Electronics and Information Technology 
+Government of India 
+Electronics Niketan 
+6, C.G.O. Complex 
+New Delhi-110 003 
+
+-----BEGIN PGP SIGNATURE----- 
+Version: Encryption Desktop 10.4.1 (Build 620) - not licensed for commercial use: www.pgp.com 
+Charset: utf-8 
+
+wsFVAwUBY6LAGSFWwMC2INC0AQi2chAAwWb4Vj08weAWnYmK+QjtzJ+3It3AVRwM 
+XQ0dkvJsERjU83DYMTz/bClinzEtkjMA0PJihPbviSdO+rQONnwbIdlbuLcjR77r 
+iTyLzo3ZekxebOrnzCCR/kBDh0pKpoSn4h5S7f95+CzQYCHA0tv2OLwRb/bhm7zp 
+F2MnnDaTioKhtGyBLGogsQ6lG0WDKPAxOvQAwVUfYrCokwjx8o0Pq0UaAfjyfbqS 
+PPAA2Qzo9FVCkl+Naifmy0W+u6erzlUuPipIsX4qQoANECso8Zph/IugueastBRT 
+I70wdQfdDH7iH7/ZuMdpUJIEDo+kva4IU6hxiR85049ZzNAxJnOExY5QFdTMKwaT 
+3xMfxG3Ah08iDuCjkiJFxjM85kgom5mwSmWNkkV8CIys0DMqQonH8rJPK/17NoGh 
++iKIZz7PSNTd+sEy2oIFaEAGZMRYfUgrTZIPswMnOdV5bMkKYquWNiqFAF2+Bl7E 
+IMmRjTNh0f68dWW/bNNGvy0TKEc0NleBy6wO1rXGLv85/tiGQpvK+o2jcQaWF691 
+nElGvp+lGAR+hyzSsXB+iPuMC3xEaAPuoWQhhFgr/imfMfYLoEhSNVl+6kJqeQQi 
++cfxQoSIig+YY5aEFNFiImunY2fawP+SddpAm3QY447cojbflIuiTSpN39GTnK3+ 
+qFVYvEjds9c= 
+=DGBx 
+-----END PGP SIGNATURE----- 
+
+
+--=_e7359062-7da4-4de5-a361-66f4c06b4920
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><div id=3D"zimbraEditorContainer" style=3D"font-family: arial, =
+helvetica, sans-serif; font-size: 12pt; color: #1a1a1a" class=3D"44"><div><=
+style type=3D"text/css" scoped=3D"">
+<!--
+ /* Font Definitions */
+ @font-face
+=09{font-family:"Cambria Math";
+=09panose-1:2 4 5 3 5 4 6 3 2 4;
+=09mso-font-charset:0;
+=09mso-generic-font-family:roman;
+=09mso-font-pitch:variable;
+=09mso-font-signature:3 0 0 0 1 0;}
+@font-face
+=09{font-family:Calibri;
+=09panose-1:2 15 5 2 2 2 4 3 2 4;
+=09mso-font-charset:0;
+=09mso-generic-font-family:swiss;
+=09mso-font-pitch:variable;
+=09mso-font-signature:-469750017 -1073732485 9 0 511 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+=09{mso-style-unhide:no;
+=09mso-style-qformat:yes;
+=09mso-style-parent:"";
+=09margin-top:0in;
+=09margin-right:0in;
+=09margin-bottom:8.0pt;
+=09margin-left:0in;
+=09line-height:107%;
+=09mso-pagination:widow-orphan;
+=09font-size:11.0pt;
+=09font-family:"Calibri",sans-serif;
+=09mso-ascii-font-family:Calibri;
+=09mso-ascii-theme-font:minor-latin;
+=09mso-fareast-font-family:Calibri;
+=09mso-fareast-theme-font:minor-latin;
+=09mso-hansi-font-family:Calibri;
+=09mso-hansi-theme-font:minor-latin;
+=09mso-bidi-font-family:"Times New Roman";
+=09mso-bidi-theme-font:minor-bidi;
+=09mso-ansi-language:EN-IN;}
+.zimbra43
+=09{mso-style-type:export-only;
+=09mso-default-props:yes;
+=09font-family:"Calibri",sans-serif;
+=09mso-ascii-font-family:Calibri;
+=09mso-ascii-theme-font:minor-latin;
+=09mso-fareast-font-family:Calibri;
+=09mso-fareast-theme-font:minor-latin;
+=09mso-hansi-font-family:Calibri;
+=09mso-hansi-theme-font:minor-latin;
+=09mso-bidi-font-family:"Times New Roman";
+=09mso-bidi-theme-font:minor-bidi;
+=09mso-ansi-language:EN-IN;}
+.zimbra44
+=09{mso-style-type:export-only;
+=09margin-bottom:8.0pt;
+=09line-height:107%;}
+@page WordSection1
+=09{size:8.5in 11.0in;
+=09margin:1.0in 1.0in 1.0in 1.0in;
+=09mso-header-margin:.5in;
+=09mso-footer-margin:.5in;
+=09mso-paper-source:0;}
+div.WordSection1
+=09{page:WordSection1;}
+-->
+</style></div><div><div>-----BEGIN PGP SIGNED MESSAGE-----</div><div>Hash: =
+SHA256</div><div><br></div><div><br></div><div><br></div><div>Ref.No: CLOUD=
+FLARENET6122022</div><div><br></div><div>Dear Sir/Madam,</div><div><br></di=
+v><div>We have received a report that some of your hosts with IP addresses<=
+/div><div><br></div><div>listed in the attachment, are used for sending/rel=
+aying unsolicited spam</div><div>mails on 01-29 November 2022.</div><div><b=
+r></div><div>IP Addresses</div><div><br></div><div>Email-Header</div><div><=
+br></div><div>139.59.17.80</div><div><br></div><div>- From ********</div><d=
+iv><br></div><div>&nbsp;</div><div><br></div><div>Received: from *** ([139.=
+59.17.80]) by sbmky209sc.softbank.ne.jp with SMTP</div><div>id &lt;********=
+&gt;; Thu, 3 Nov 2022 21:**:** +0900</div><div><br></div><div>&nbsp;</div><=
+div><br></div><div>Received: from *** by 139.59.17.80; Thu, 03 Nov 2022 08:=
+**:** -0400</div><div><br></div><div>&nbsp;</div><div><br></div><div>***</d=
+iv><div><br></div><div>&nbsp;</div><div><br></div><div>From: ********</div>=
+<div><br></div><div>&nbsp;</div><div><br></div><div>To: ********</div><div>=
+<br></div><div>&nbsp;</div><div><br></div><div>Subject: ********</div><div>=
+<br></div><div>&nbsp;</div><div><br></div><div>Date: Thu, 03 Nov 2022 18:**=
+:** +0600</div><div><br></div><div>&nbsp;</div><div><br></div><div>X-Mailer=
+: ********</div><div><br></div><div>&nbsp;</div><div><br></div><div>MIME-Ve=
+rsion: 1.0</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content=
+-Type: text/plain; charset=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;</d=
+iv><div><br></div><div>Content-Transfer-Encoding: 7bit</div><div><br></div>=
+<div>&nbsp;</div><div><br></div><div>Message-Id: ********</div><div><br></d=
+iv><div>&nbsp;</div><div><br></div><div>X-BMTA-TYPE-ISP: ********</div><div=
+><br></div><div>139.59.61.193</div><div><br></div><div>- From ********</div=
+><div><br></div><div>&nbsp;</div><div><br></div><div>Received: from *** (re=
+ally [139.59.61.193]) by sbmky210sc.softbank.ne.jp</div><div>with SMTP id &=
+lt;********&gt;; Fri, 4 Nov 2022 15:**:** +0900</div><div><br></div><div>&n=
+bsp;</div><div><br></div><div>Received: from *** by 139.59.61.193; Fri, 04 =
+Nov 2022 04:**:** -0200</div><div><br></div><div>&nbsp;</div><div><br></div=
+><div>***</div><div><br></div><div>&nbsp;</div><div><br></div><div>From: **=
+******</div><div><br></div><div>&nbsp;</div><div><br></div><div>To: *******=
+*</div><div><br></div><div>&nbsp;</div><div><br></div><div>Subject: *******=
+*</div><div><br></div><div>&nbsp;</div><div><br></div><div>Date: Fri, 04 No=
+v 2022 00:**:** -0600</div><div><br></div><div>&nbsp;</div><div><br></div><=
+div>X-Mailer: ********</div><div><br></div><div>&nbsp;</div><div><br></div>=
+<div>MIME-Version: 1.0</div><div><br></div><div>&nbsp;</div><div><br></div>=
+<div>Content-Type: text/plain; charset=3D"SHIFT_JIS"</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>Content-Transfer-Encoding: 7bit</div><di=
+v><br></div><div>&nbsp;</div><div><br></div><div>Message-Id: ********</div>=
+<div><br></div><div>&nbsp;</div><div><br></div><div>X-BMTA-TYPE-ISP: ******=
+**</div><div><br></div><div>139.59.66.145</div><div><br></div><div>- From *=
+*******</div><div><br></div><div>&nbsp;</div><div><br></div><div>Received: =
+from *** (really [139.59.66.145]) by ebmky118sc.i.softbank.jp</div><div>wit=
+h SMTP id &lt;********&gt;; Sat, 5 Nov 2022 21:**:** +0900</div><div><br></=
+div><div>&nbsp;</div><div><br></div><div>Received: from *** by 139.59.66.14=
+5; Sat, 05 Nov 2022 11:**:** -0100</div><div><br></div><div>&nbsp;</div><di=
+v><br></div><div>From: ********</div><div><br></div><div>&nbsp;</div><div><=
+br></div><div>To: ********</div><div><br></div><div>&nbsp;</div><div><br></=
+div><div>Subject: ********</div><div><br></div><div>&nbsp;</div><div><br></=
+div><div>Date: Sat, 05 Nov 2022 09:**:** -0300</div><div><br></div><div>&nb=
+sp;</div><div><br></div><div>X-Mailer: ********</div><div><br></div><div>&n=
+bsp;</div><div><br></div><div>MIME-Version: 1.0</div><div><br></div><div>&n=
+bsp;</div><div><br></div><div>Content-Type: text/plain; charset=3D"SHIFT_JI=
+S"</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-Transfe=
+r-Encoding: 7bit</div><div><br></div><div>&nbsp;</div><div><br></div><div>M=
+essage-Id: ********</div><div><br></div><div>139.59.35.1</div><div><br></di=
+v><div>- From ********</div><div><br></div><div>&nbsp;</div><div><br></div>=
+<div>Received: from *** (really [139.59.35.1]) by sbmts205sc.softbank.ne.jp=
+ with</div><div>SMTP id &lt;********&gt;; Mon, 7 Nov 2022 08:**:** +0900</d=
+iv><div><br></div><div>&nbsp;</div><div><br></div><div>Received: from *** b=
+y 139.59.35.1; Mon, 07 Nov 2022 00:**:** +0100</div><div><br></div><div>&nb=
+sp;</div><div><br></div><div>***</div><div><br></div><div>&nbsp;</div><div>=
+<br></div><div>From: ********</div><div><br></div><div>&nbsp;</div><div><br=
+></div><div>To: ********</div><div><br></div><div>&nbsp;</div><div><br></di=
+v><div>Subject: ********</div><div><br></div><div>&nbsp;</div><div><br></di=
+v><div>Date: Mon, 07 Nov 2022 00:**:** +0100</div><div><br></div><div>&nbsp=
+;</div><div><br></div><div>X-Mailer: ********</div><div><br></div><div>&nbs=
+p;</div><div><br></div><div>MIME-Version: 1.0</div><div><br></div><div>&nbs=
+p;</div><div><br></div><div>Content-Type: text/plain; charset=3D"SHIFT_JIS"=
+</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-Transfer-=
+Encoding: 7bit</div><div><br></div><div>&nbsp;</div><div><br></div><div>Mes=
+sage-Id: ********</div><div><br></div><div>&nbsp;</div><div><br></div><div>=
+X-BMTA-TYPE-ISP: ********</div><div><br></div><div>139.59.35.1</div><div><b=
+r></div><div>- From ********</div><div><br></div><div>&nbsp;</div><div><br>=
+</div><div>Received: from *** (really [139.59.35.1]) by sbmts201sc.softbank=
+.ne.jp with</div><div>SMTP id &lt;********&gt;; Thu, 10 Nov 2022 08:**:** +=
+0900</div><div><br></div><div>&nbsp;</div><div><br></div><div>Received: fro=
+m *** by 139.59.35.1; Thu, 10 Nov 2022 04:**:** +0500</div><div><br></div><=
+div>&nbsp;</div><div><br></div><div>***</div><div><br></div><div>&nbsp;</di=
+v><div><br></div><div>From: ********</div><div><br></div><div>&nbsp;</div><=
+div><br></div><div>To: ********</div><div><br></div><div>&nbsp;</div><div><=
+br></div><div>Subject: ********</div><div><br></div><div>&nbsp;</div><div><=
+br></div><div>Date: Thu, 10 Nov 2022 03:**:** +0400</div><div><br></div><di=
+v>&nbsp;</div><div><br></div><div>X-Mailer: ********</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>MIME-Version: 1.0</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>Content-Type: text/plain; charset=3D"SHI=
+FT_JIS"</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-Tr=
+ansfer-Encoding: 7bit</div><div><br></div><div>&nbsp;</div><div><br></div><=
+div>Message-Id: ********</div><div><br></div><div>&nbsp;</div><div><br></di=
+v><div>X-BMTA-TYPE-ISP: ********</div><div><br></div><div>139.59.35.1</div>=
+<div><br></div><div>- From ********</div><div><br></div><div>&nbsp;</div><d=
+iv><br></div><div>Received: from *** (really [139.59.35.1]) by sbmts205sc.s=
+oftbank.ne.jp with</div><div>SMTP id &lt;********&gt;; Mon, 14 Nov 2022 01:=
+**:** +0900</div><div><br></div><div>&nbsp;</div><div><br></div><div>Receiv=
+ed: from *** by 139.59.35.1; Sun, 13 Nov 2022 13:**:** -0300</div><div><br>=
+</div><div>&nbsp;</div><div><br></div><div>***</div><div><br></div><div>&nb=
+sp;</div><div><br></div><div>From: ********</div><div><br></div><div>&nbsp;=
+</div><div><br></div><div>To: ********</div><div><br></div><div>&nbsp;</div=
+><div><br></div><div>Subject: ********</div><div><br></div><div>&nbsp;</div=
+><div><br></div><div>Date: Sun, 13 Nov 2022 22:**:** +0600</div><div><br></=
+div><div>&nbsp;</div><div><br></div><div>X-Mailer: ********</div><div><br><=
+/div><div>&nbsp;</div><div><br></div><div>MIME-Version: 1.0</div><div><br><=
+/div><div>&nbsp;</div><div><br></div><div>Content-Type: text/plain; charset=
+=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;</div><div><br></div><div>Con=
+tent-Transfer-Encoding: 7bit</div><div><br></div><div>&nbsp;</div><div><br>=
+</div><div>Message-Id: ********</div><div><br></div><div>&nbsp;</div><div><=
+br></div><div>X-BMTA-TYPE-ISP: ********</div><div><br></div><div>139.59.17.=
+80</div><div><br></div><div>- From ********</div><div><br></div><div>&nbsp;=
+</div><div><br></div><div>Received: from *** ([139.59.17.80]) by ebmky105sc=
+.i.softbank.jp with SMTP</div><div>id &lt;********&gt;; Tue, 15 Nov 2022 19=
+:**:** +0900</div><div><br></div><div>&nbsp;</div><div><br></div><div>Recei=
+ved: from *** by 139.59.17.80; Tue, 15 Nov 2022 03:**:** -0700</div><div><b=
+r></div><div>&nbsp;</div><div><br></div><div>From: ********</div><div><br><=
+/div><div>&nbsp;</div><div><br></div><div>To: ********</div><div><br></div>=
+<div>&nbsp;</div><div><br></div><div>Subject: ********</div><div><br></div>=
+<div>&nbsp;</div><div><br></div><div>Date: Tue, 15 Nov 2022 12:**:** +0200<=
+/div><div><br></div><div>&nbsp;</div><div><br></div><div>X-Mailer: ********=
+</div><div><br></div><div>&nbsp;</div><div><br></div><div>MIME-Version: 1.0=
+</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-Type: tex=
+t/plain; charset=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;</div><div><b=
+r></div><div>Content-Transfer-Encoding: 7bit</div><div><br></div><div>&nbsp=
+;</div><div><br></div><div>Message-Id: ********</div><div><br></div><div>13=
+9.59.68.143</div><div><br></div><div>- From ********</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>Received: from *** (really [139.59.68.14=
+3]) by sbmky202sc.softbank.ne.jp</div><div>with SMTP id &lt;********&gt;; S=
+un, 20 Nov 2022 03:**:** +0900</div><div><br></div><div>&nbsp;</div><div><b=
+r></div><div>Received: from *** by 139.59.68.143; Sat, 19 Nov 2022 23:**:**=
+ +0500</div><div><br></div><div>&nbsp;</div><div><br></div><div>***</div><d=
+iv><br></div><div>&nbsp;</div><div><br></div><div>From: ********</div><div>=
+<br></div><div>&nbsp;</div><div><br></div><div>To: ********</div><div><br><=
+/div><div>&nbsp;</div><div><br></div><div>Subject: ********</div><div><br><=
+/div><div>&nbsp;</div><div><br></div><div>Date: Sat, 19 Nov 2022 13:**:** -=
+0500</div><div><br></div><div>&nbsp;</div><div><br></div><div>X-Mailer: ***=
+*****</div><div><br></div><div>&nbsp;</div><div><br></div><div>MIME-Version=
+: 1.0</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-Type=
+: text/plain; charset=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;</div><d=
+iv><br></div><div>Content-Transfer-Encoding: 7bit</div><div><br></div><div>=
+&nbsp;</div><div><br></div><div>Message-Id: ********</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>X-BMTA-TYPE-ISP: ********</div><div><br>=
+</div><div>139.59.17.80</div><div><br></div><div>- From ********</div><div>=
+<br></div><div>&nbsp;</div><div><br></div><div>Received: from *** ([139.59.=
+17.80]) by sbmky206sc.softbank.ne.jp with SMTP</div><div>id &lt;********&gt=
+;; Tue, 22 Nov 2022 17:**:** +0900</div><div><br></div><div>&nbsp;</div><di=
+v><br></div><div>Received: from *** by 139.59.17.80; Tue, 22 Nov 2022 01:**=
+:** -0700</div><div><br></div><div>&nbsp;</div><div><br></div><div>***</div=
+><div><br></div><div>&nbsp;</div><div><br></div><div>From: ********</div><d=
+iv><br></div><div>&nbsp;</div><div><br></div><div>To: ********</div><div><b=
+r></div><div>&nbsp;</div><div><br></div><div>Subject: ********</div><div><b=
+r></div><div>&nbsp;</div><div><br></div><div>Date: Tue, 22 Nov 2022 05:**:*=
+* -0300</div><div><br></div><div>&nbsp;</div><div><br></div><div>X-Mailer: =
+********</div><div><br></div><div>&nbsp;</div><div><br></div><div>MIME-Vers=
+ion: 1.0</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-T=
+ype: text/plain; charset=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;</div=
+><div><br></div><div>Content-Transfer-Encoding: 7bit</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>Message-Id: ********</div><div><br></div=
+><div>&nbsp;</div><div><br></div><div>X-BMTA-TYPE-ISP: ********</div><div><=
+br></div><div>139.59.68.143</div><div><br></div><div>- From ********</div><=
+div><br></div><div>&nbsp;</div><div><br></div><div>Received: from *** (real=
+ly [139.59.68.143]) by ebmky109sc.i.softbank.jp</div><div>with SMTP id &lt;=
+********&gt;; Wed, 23 Nov 2022 09:**:** +0900</div><div><br></div><div>&nbs=
+p;</div><div><br></div><div>Received: from *** by 139.59.68.143; Tue, 22 No=
+v 2022 17:**:** -0700</div><div><br></div><div>&nbsp;</div><div><br></div><=
+div>From: ********</div><div><br></div><div>&nbsp;</div><div><br></div><div=
+>To: ********</div><div><br></div><div>&nbsp;</div><div><br></div><div>Subj=
+ect: ********</div><div><br></div><div>&nbsp;</div><div><br></div><div>Date=
+: Wed, 23 Nov 2022 04:**:** +0400</div><div><br></div><div>&nbsp;</div><div=
+><br></div><div>X-Mailer: ********</div><div><br></div><div>&nbsp;</div><di=
+v><br></div><div>MIME-Version: 1.0</div><div><br></div><div>&nbsp;</div><di=
+v><br></div><div>Content-Type: text/plain; charset=3D"SHIFT_JIS"</div><div>=
+<br></div><div>&nbsp;</div><div><br></div><div>Content-Transfer-Encoding: 7=
+bit</div><div><br></div><div>&nbsp;</div><div><br></div><div>Message-Id: **=
+******</div><div><br></div><div>139.59.68.143</div><div><br></div><div>- Fr=
+om ********</div><div><br></div><div>&nbsp;</div><div><br></div><div>Authen=
+tication-Results: ezweb.ne.jp; spf=3Dhardfail reason=3Dpolicy;</div><div>se=
+nder-id=3Dsoftfail header.from=3D***@yahoo.co.jp</div><div><br></div><div>&=
+nbsp;</div><div><br></div><div>Received: from *** (unknown [139.59.68.143])=
+ by msmx.au.com (au mail) with</div><div>SMTP id 795521600A8; Fri, 25 Nov 2=
+022 13:**:** +0900 (JST)</div><div><br></div><div>&nbsp;</div><div><br></di=
+v><div>Received: from *** by 139.59.68.143; Fri, 25 Nov 2022 07:**:** +0300=
+</div><div><br></div><div>&nbsp;</div><div><br></div><div>From: ********</d=
+iv><div><br></div><div>&nbsp;</div><div><br></div><div>To: ********</div><d=
+iv><br></div><div>&nbsp;</div><div><br></div><div>Subject: ********</div><d=
+iv><br></div><div>&nbsp;</div><div><br></div><div>Date: Fri, 25 Nov 2022 03=
+:**:** -0100</div><div><br></div><div>&nbsp;</div><div><br></div><div>X-Mai=
+ler: ********</div><div><br></div><div>&nbsp;</div><div><br></div><div>MIME=
+-Version: 1.0</div><div><br></div><div>&nbsp;</div><div><br></div><div>Cont=
+ent-Type: text/plain; charset=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;=
+</div><div><br></div><div>Content-Transfer-Encoding: 7bit</div><div><br></d=
+iv><div>&nbsp;</div><div><br></div><div>Message-Id: ********</div><div><br>=
+</div><div>139.59.17.80</div><div><br></div><div>- From ********</div><div>=
+<br></div><div>&nbsp;</div><div><br></div><div>Received: from *** ([139.59.=
+17.80]) by sbmts201sc.softbank.ne.jp with SMTP</div><div>id &lt;********&gt=
+;; Fri, 25 Nov 2022 13:**:** +0900</div><div><br></div><div>&nbsp;</div><di=
+v><br></div><div>Received: from *** by 139.59.17.80; Thu, 24 Nov 2022 23:**=
+:** -0500</div><div><br></div><div>&nbsp;</div><div><br></div><div>***</div=
+><div><br></div><div>&nbsp;</div><div><br></div><div>From: ********</div><d=
+iv><br></div><div>&nbsp;</div><div><br></div><div>To: ********</div><div><b=
+r></div><div>&nbsp;</div><div><br></div><div>Subject: ********</div><div><b=
+r></div><div>&nbsp;</div><div><br></div><div>Date: Thu, 24 Nov 2022 22:**:*=
+* -0600</div><div><br></div><div>&nbsp;</div><div><br></div><div>X-Mailer: =
+********</div><div><br></div><div>&nbsp;</div><div><br></div><div>MIME-Vers=
+ion: 1.0</div><div><br></div><div>&nbsp;</div><div><br></div><div>Content-T=
+ype: text/plain; charset=3D"SHIFT_JIS"</div><div><br></div><div>&nbsp;</div=
+><div><br></div><div>Content-Transfer-Encoding: 7bit</div><div><br></div><d=
+iv>&nbsp;</div><div><br></div><div>Message-Id: ********</div><div><br></div=
+><div>&nbsp;</div><div><br></div><div>X-BMTA-TYPE-ISP: ********</div><div><=
+br></div><div>&nbsp;If you are not the appropriate staff to handle this mat=
+ter, you are</div><div><br></div><div>requested to immediately escalate thi=
+s matter to the attention of</div><div><br></div><div>concerned authority.<=
+/div><div><br></div><div>We greatly appreciate your prompt attention to thi=
+s matter. Kindly</div><div><br></div><div>intimate us about action taken in=
+ this matter at the earliest.</div><div><br></div><div>In case of any techn=
+ical advice is needed you may contact our Incident</div><div><br></div><div=
+>Response Help Desk.</div><div><br></div><div>- --</div><div>Thanks and Reg=
+ards,</div><div><br></div><div>CERT-In</div><div><br></div><div>Incident Re=
+sponse Help Desk</div><div>e-mail: incident@cert-in.org.in</div><div>Phone:=
+ 1800-11-4949</div><div>FAX: 1800-11-6969</div><div>Web: http://www.cert-in=
+.org.in</div><div>PGP Fingerprint: A768 083E 4475 5725 B81A A379 2156 C0C0 =
+B620 D0B4</div><div>PGP Key information:</div><div>https://www.cert-in.org.=
+in/s2cMainServlet?pageid=3DCONTACTUS</div><div><br></div><div>Postal addres=
+s:</div><div>Indian Computer Emergency Response Team (CERT-In)</div><div>Mi=
+nistry of Electronics and Information Technology</div><div>Government of In=
+dia</div><div>Electronics Niketan</div><div>6, C.G.O. Complex</div><div>New=
+ Delhi-110 003</div><div><br></div><div>-----BEGIN PGP SIGNATURE-----</div>=
+<div>Version: Encryption Desktop 10.4.1 (Build 620) - not licensed for comm=
+ercial use: www.pgp.com</div><div>Charset: utf-8</div><div><br></div><div>w=
+sFVAwUBY6LAGSFWwMC2INC0AQi2chAAwWb4Vj08weAWnYmK+QjtzJ+3It3AVRwM</div><div>X=
+Q0dkvJsERjU83DYMTz/bClinzEtkjMA0PJihPbviSdO+rQONnwbIdlbuLcjR77r</div><div>i=
+TyLzo3ZekxebOrnzCCR/kBDh0pKpoSn4h5S7f95+CzQYCHA0tv2OLwRb/bhm7zp</div><div>F=
+2MnnDaTioKhtGyBLGogsQ6lG0WDKPAxOvQAwVUfYrCokwjx8o0Pq0UaAfjyfbqS</div><div>P=
+PAA2Qzo9FVCkl+Naifmy0W+u6erzlUuPipIsX4qQoANECso8Zph/IugueastBRT</div><div>I=
+70wdQfdDH7iH7/ZuMdpUJIEDo+kva4IU6hxiR85049ZzNAxJnOExY5QFdTMKwaT</div><div>3=
+xMfxG3Ah08iDuCjkiJFxjM85kgom5mwSmWNkkV8CIys0DMqQonH8rJPK/17NoGh</div><div>+=
+iKIZz7PSNTd+sEy2oIFaEAGZMRYfUgrTZIPswMnOdV5bMkKYquWNiqFAF2+Bl7E</div><div>I=
+MmRjTNh0f68dWW/bNNGvy0TKEc0NleBy6wO1rXGLv85/tiGQpvK+o2jcQaWF691</div><div>n=
+ElGvp+lGAR+hyzSsXB+iPuMC3xEaAPuoWQhhFgr/imfMfYLoEhSNVl+6kJqeQQi</div><div>+=
+cfxQoSIig+YY5aEFNFiImunY2fawP+SddpAm3QY447cojbflIuiTSpN39GTnK3+</div><div>q=
+FVYvEjds9c=3D</div><div>=3DDGBx</div><div>-----END PGP SIGNATURE-----</div>=
+</div><div><br></div></div></body></html>
+--=_e7359062-7da4-4de5-a361-66f4c06b4920--

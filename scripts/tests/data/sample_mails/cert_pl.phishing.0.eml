@@ -1,0 +1,157 @@
+Authentication-Results: prod-smtp-forward01;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com [209.85.208.200])
+	by prod-smtp-forward01 (Haraka) with ESMTPS id 160906F7-CF89-4C90-9E86-2F8A6C0901C4.1
+	envelope-from <abuse+bncBCINPSGAZQKBBHHQVG5QMGQE7WUUUTA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Tue, 24 Dec 2024 09:00:13 +0000
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-3022a57a4fdsf20591731fa.1
+        for <abuse@digitalocean.abusehq.net>; Tue, 24 Dec 2024 01:00:13 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1735030813; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=WMuegZsqs6djR7mExDJbSNtl4AmlrJbcq1S4y2fc/T99816yowENbLauD8nUyveBJV
+         xG2STbauXXuoEwIFa45JrorlTRAJUacuuB0OEnIUEBZCCA5Zf1XLjVCg1nWFdEgSlUbF
+         eLRFXe5DRSOdhDGm1B08CxEx8rCN8pu2aLStB69k/s5ZQYCVnWSJEy4m9mGjMSIWLu9y
+         T2A4I/Fv+Ujck26EoTy5mXuM2sObwpCMNeuVJaTghyNkMEIXRClLJjCJ1Et4ag0873YN
+         w/0C9y0OFhvwgHAf3MRTZOBFJUfs/XVrWrlVQGG6rb5UbYTL/oOq5C/7BraTRZL4+PKX
+         lEHw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:content-transfer-encoding:mime-version:date:precedence
+         :references:message-id:to:reply-to:subject:from:dkim-signature;
+        bh=MKFB0QfDr3sRQveGJsS7DGE7Rx3mAUVn9iTjEYPx4LU=;
+        fh=leRcsAaI3YNH4+8UebXXfLmj2z7GRocM9j6H7w24mhA=;
+        b=NeS5Uarj0jkKWIcQeOl1O+8KYOZMNcqjwDuku6PhiOQm3MqhYj1yY9KELn+G/XRVyh
+         0Ds5o42lzvkn6SsVgtjfKAH0pNnLSPm10gfCoIQVVTKktF9dGca7qpglivnYxIrPDsLx
+         fvRN9Cx02DHEWJ4dSeukBEEmiqbjdjkRrWzboiBopAySq/yfRYfJprmX9n/vuqfggjUg
+         7Vhsaq9wtv+m1/SLwyrNS9cBa4XYpyFdc61xkeWzmq3EUCm0v/6Y9Q8Lc8xoAwicOokq
+         gT8mPe1lX4N5vcZ5+/c83R0hrnlngts7uv+NRBXi+u4C3dfA3z4sfWhfhHWW7hEvccoL
+         y9Eg==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@cert.pl header.s=cmx header.b="Rq/dyN/i";
+       spf=pass (google.com: domain of cert@cert.pl designates 195.187.6.5 as permitted sender) smtp.mailfrom=cert@cert.pl;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert.pl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1735030813; x=1735635613; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:date:precedence:references
+         :message-id:to:reply-to:subject:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MKFB0QfDr3sRQveGJsS7DGE7Rx3mAUVn9iTjEYPx4LU=;
+        b=GfGMRIOVkQFQpIUFI350YQFVxX0xVWQp3LwmmMiD4e6FuzRO67jP5o63SKcGN1N/k4
+         vG0r787Rt9ljrNRTSqIuHP/GxaIzUFGQNKKlevphjmKB9lWGK5VUltq8e9RzIGxQDXHV
+         oX8olXtZk3voXvyrE+zqIMhfZorCHXEnqFYlQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735030813; x=1735635613;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:date:precedence:references
+         :message-id:to:reply-to:subject:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MKFB0QfDr3sRQveGJsS7DGE7Rx3mAUVn9iTjEYPx4LU=;
+        b=nTcCjEjd4mssnYCFdDQIZgFUWslMUYa5hFtz0S9eouno8Bt969Ng70Z8znIop43wKF
+         evrt/NgkYrFc9p/3tAdKbZD4eZp3IQBfJDmS/CdXpQpx5Bi0ck7gxTYaHhRm5sBgsBJ+
+         NX5LWe7G1KL0NT4rUa7l2Lrh80K+QpLeyK1U+b1vl6Un/LyHqVVyuE4TOvYRIU2XPxKf
+         LgecdLWaFFDVd2ZBD/Fm4knVDYAMQYmbYNLoaCSPI46wvilJOOc2gxMqsJlXp1qJqfZx
+         +iNx/l7tHMjPZ3Zwzy5X0MpO37xL3tBhYz+bTZljHptudyXArs1oRgXK/CBZv1PR4OIg
+         1+aA==
+X-Forwarded-Encrypted: i=2; AJvYcCXq4AE2ST3If2Fo1Ot7n9Op1bhVKXnYqVJx/Q6H7EpYwTJj2Rayw3hBF0DBQOn4wbi+dquf2w==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0Yyq55ITLIO1amCmmft4Ze2s4e1a/U1dJ5OUxrHUFAoIebQHfGwM
+	R8nzlihFZxNXADZt/L1W1MRXBY570v1KyQRQ9Df3REQqzs+aRIlQVfKQ8NGvhl4=
+X-Google-Smtp-Source: AGHT+IFZgR0B+VOW/ql4bvbrehIJRJQohVQnKJ6TNrin+zsIgvVJVPZ2dOz02mPB3Fk14rTKt1JZ6w==
+X-Received: by 2002:a05:651c:78e:b0:300:41a8:126b with SMTP id 38308e7fff4ca-3046863c3a0mr38541361fa.39.1735030812959;
+        Tue, 24 Dec 2024 01:00:12 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a2e:9cd6:0:b0:2ff:a069:421d with SMTP id 38308e7fff4ca-30458024d37ls3844051fa.2.-pod-prod-04-eu;
+ Tue, 24 Dec 2024 01:00:11 -0800 (PST)
+X-Received: by 2002:a05:651c:2127:b0:300:1cdb:6652 with SMTP id 38308e7fff4ca-304685c0b8cmr52026301fa.31.1735030810595;
+        Tue, 24 Dec 2024 01:00:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1735030810; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IKx5KNEyIVsbClv+ibU01nerC/18S2xNNjrMBx9rnaYtDMkicpReEHVDsOv4IlHs3l
+         6arH5OXCoF6SZO1sr+z3JKBQ4E/yQ9+YJfZSm0F5Z3ixxQQCyffveVC77eOYYPLX9HkO
+         66CPQXhCsBzPkRfG2ZGG1ibW3gqJ9FY+Nms0KGhsT/bxRRNS1vTFgJJjapSAmXZzO3s4
+         M4y9zKBCOZKZTx0tU7+MRsWGKlfg7taAviWqHQmQga9Hsr6psU6edylPrqwWOzzB/phI
+         UEDI61P7xUyx5LPBElxRLN8rtgf5XVP4LtO6kylrhTw+kYOeDrdyWRXmO7PH64+n7tdJ
+         EyWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:mime-version:date:precedence:references
+         :message-id:to:reply-to:subject:from:dkim-signature;
+        bh=MKFB0QfDr3sRQveGJsS7DGE7Rx3mAUVn9iTjEYPx4LU=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=XzJzT1W2z5QgF8JJQNrHlBT8pNf5/YrCpLUbO3LKxL4o7HaHFDSZk7kFfApI+zNRGW
+         Efa4jL6pCtB0QJzC5yA69mUlWztY/tANkg1xnpJjtNo/GrVeOoHa3T9f23TuBd7jDZM1
+         JaCevZ9M3OAa5MrdT0WZUfhKmSRVrKILh9jQ0YC9JP4k3hyuX6gfdi/PV//3l1wzyRqV
+         eKG6koKNKf3I2lON9tXqMIli2YD+xE8PJbfGRLE/Kz8qODmE490txC3qMTCJnMMjCCWH
+         3wheyv1autS1uQar4kjZ75hh9KQI28tMOjDePpjjgL7VKQdzCV+cX7LeinU1zQqiGyak
+         5peg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cert.pl header.s=cmx header.b="Rq/dyN/i";
+       spf=pass (google.com: domain of cert@cert.pl designates 195.187.6.5 as permitted sender) smtp.mailfrom=cert@cert.pl;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cert.pl
+Received: from cmx1.cert.pl (cmx1.cert.pl. [195.187.6.5])
+        by mx.google.com with ESMTPS id 38308e7fff4ca-3045adab24dsi38144061fa.95.2024.12.24.01.00.10
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Dec 2024 01:00:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of cert@cert.pl designates 195.187.6.5 as permitted sender) client-ip=195.187.6.5;
+Received: from cmx1.cert.pl (localhost.localdomain [127.0.0.1])
+	by cmx1.cert.pl (Proxmox) with ESMTP id 4D46F41E1A
+	for <abuse@digitalocean.com>; Tue, 24 Dec 2024 10:00:10 +0100 (CET)
+From: "'CERT Polska via RT' via abuse" <abuse@digitalocean.com>
+Subject: [CERT.PL #3916954] [fraud] hosted on 68.183.6.87: phishing targeting investment / fraudalent scheme investment
+Reply-To: cert@cert.pl
+To: abuse@digitalocean.com
+Message-ID: <rt-5.0.5-11879-1735030809-43.3916954-10-0@Cert>
+X-RT-Loop-Prevention: rt.cert.pl
+X-RT-Ticket: rt.cert.pl #3916954
+Content-Type: multipart/alternative;
+ boundary="----------=_1735030809-11879-201"
+References: <RT-Ticket-3916954@Cert>
+X-Managed-BY: RT 5.0.5 (http://www.bestpractical.com/rt/)
+Precedence: list
+Date: Tue, 24 Dec 2024 10:00:09 +0100
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Original-Sender: cert@cert.pl
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@cert.pl header.s=cmx header.b="Rq/dyN/i";       spf=pass
+ (google.com: domain of cert@cert.pl designates 195.187.6.5 as permitted
+ sender) smtp.mailfrom=cert@cert.pl;       dmarc=pass (p=REJECT sp=REJECT
+ dis=NONE) header.from=cert.pl
+X-Original-From: "CERT Polska via RT" <cert@cert.pl>
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+This is a multi-part message in MIME format...
+
+------------=_1735030809-11879-201
+RT-Attach-Message: yes
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-RT-Original-Encoding: utf-8
+
+This transaction appears to have no content
+
+
+------------=_1735030809-11879-201
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-RT-Original-Encoding: utf-8
+
+This transaction appears to have no content
+
+------------=_1735030809-11879-201--
+

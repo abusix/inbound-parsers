@@ -1,0 +1,487 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 8A5BAC73-EBC2-4B1C-9213-5D16DC81A4A8.1
+	envelope-from <abuse+bncBAABBQ4K6OPQMGQEKM6VYMA@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Mon, 27 Feb 2023 14:59:16 +0000
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-536a4eba107sf143316837b3.19
+        for <abuse@digitalocean.abusehq.net>; Mon, 27 Feb 2023 06:59:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1677509955; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=jjiN8G4X5p1INV6/RxsAEELCwOu71NziwWmruDmitOj+1RXzASE8LjskzCuw+pEr24
+         aAO1yr+SNLXjBxNhU+pgAtpVSpyUymMhGCGnmKhpbVQJLoioPmqj3i9uySYsscZSCDgM
+         abQ/963u+KiGOJlujjPnq25EykysrjB7hVUtvXMv6RjmmwlWzgo1c7gHABlH4LJDhDYB
+         LMAws46d/LzFcEeXrGSEF2ZAF8eRXwETeXPFaQBvf1GOpvJN1LvlJLjJoBttEvAL8BHz
+         nHGD4otqiBTT+RNrZAJ1T0C+1Jm4ntHNd5oezOQgL2boqqOioKv0yPulZKiID6sP+cVE
+         ysXQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:reply-to:subject:message-id:mime-version
+         :from:date:sender:dkim-signature;
+        bh=eqDr7k5XjwEi53E8KZuwcpd6KJluVEOhBpcSLF6rKGg=;
+        b=KH7GmW1p2wMEqysHwK5/I/cnlywkOyvE5gYn65oNXMByyog6LvBfNQwSwGc/BQyDuu
+         stjHsyxOHdOlHAmqVAkaD/K/jVzAEukQK5WR9CkzTIHsZyZI1EzjK3qoW8rZWUdQPfRf
+         GA5r0dv/ZNhvMugwsDYjbEUSqrUCzuM2RWyagnSgUWtk+nxCACQwLkFgSnQN8SOdrjpk
+         2q79HWc3BwqtPrjQbymZJCbOtvABuB8ydIb0ncL2+3+yFCQqhKmkBthIk1fsk1DAkwcu
+         Tyf70qa+q3HYdotU8jNmD+HrG972bPh28Luol7yYBv05lyzrig0gde6CgMgphA8wtJCS
+         2ozQ==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@takedownreporting.com header.s=s1 header.b=vPBz6BMF;
+       spf=pass (google.com: domain of bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com designates 167.89.43.252 as permitted sender) smtp.mailfrom="bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:reply-to:subject:message-id:mime-version:from
+         :date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eqDr7k5XjwEi53E8KZuwcpd6KJluVEOhBpcSLF6rKGg=;
+        b=cxpNYbzgvtPWb5wfvYy8XdyqTZl9a/G18+mSX2vgL7A2Ut+7etZRvNo7aYPRl5JJjj
+         biZqs/UEWhsgtsOi1O4zOEVwE9WkEao61UjyoiKwCPllkznJaZRevkChXEEeAIzlbi1/
+         /lr2sJrgyzqiknAxJPqa7Vp61XxGQ3rsZhX7M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:reply-to
+         :subject:message-id:mime-version:from:date:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eqDr7k5XjwEi53E8KZuwcpd6KJluVEOhBpcSLF6rKGg=;
+        b=PyTjIxBxVmYAiwf6I362oF/QeTKTxJksqyaeaPKwyXzVZg4EoYYWO65hLilQfnoHsh
+         aorbf2wwAT8Q9EmyJdU0fzoUuOEH1vq4svWOkApr+LAW4XTffX1b8lu5viFcYK7d86hD
+         gaXtgbcw1YAJw5rAoD0AOTo1/9D7hmfdrjbIz0aGQuEXTW8jbnz6PeMb8nCIpPYKr1Se
+         3JOsLsOadcSBrKq5GF07x+qeniWdBpCHvDcJSt+2z3gPHfoU4ChIHHvvhk18FY5/XBoV
+         xcep6oNj9WcY/cZ5JsAY6IFYpnuNxTU1FxRkovoijvcDx0xqFacLoh4WjRjXcRQNF4r3
+         Hlog==
+Sender: abuse@digitalocean.com
+X-Gm-Message-State: AO0yUKXbURh+iSjU+45pIzQvtriYzgSyVAvGogcGE7tP1s1Gc+FGcmXB
+	wPdJ9RMS9f2C3aWvQD+glbYoSw==
+X-Google-Smtp-Source: AK7set8qJQe5TefZKTXoUW2W/BH5BszODdOXesdpc7tS5Zy9miUwn/TS04E1EjRj5HvNPKzeVLYJig==
+X-Received: by 2002:a05:6902:140c:b0:8f3:904a:2305 with SMTP id z12-20020a056902140c00b008f3904a2305mr7626678ybu.2.1677509955299;
+        Mon, 27 Feb 2023 06:59:15 -0800 (PST)
+X-BeenThere: abuse@digitalocean.com
+Received: by 2002:a25:3d1:0:b0:968:1610:89cd with SMTP id 200-20020a2503d1000000b00968161089cdls5652334ybd.6.-pod-prod-gmail;
+ Mon, 27 Feb 2023 06:59:14 -0800 (PST)
+X-Received: by 2002:a25:fb11:0:b0:a02:c2eb:65f1 with SMTP id j17-20020a25fb11000000b00a02c2eb65f1mr17080532ybe.50.1677509954522;
+        Mon, 27 Feb 2023 06:59:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1677509954; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TgeddbXAJvm3TocoPRWyHogZEvAsINQxfm7KSa1ludJTDEDpafCTrBjSnDWOhQw3N/
+         NOnjSnGp84H3a2xbf2po8pMeKogNd2LDOftY0ICP4j4VnwWWuhAigpUDryi7J9qxJZTh
+         HObN6oCUCyF+kceajl+GQlLpcKoijMK4B5XVB/oBsJHHrWL98B2lpm0nuCA++WJh0oM7
+         abDFq5bIaHxBO24uhtczUxYh907aF6+X5iFEzBOa+n8buN83gF8Js5eHWGmk7XIZngoB
+         Kedu1WfVUHXeM7EofWv41LTnvXkauXoFSji27RQMZMrccR6FXjjGvmIDN3+zdt+wM03u
+         KVuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:reply-to:subject:message-id:mime-version:from:date
+         :dkim-signature;
+        bh=eqDr7k5XjwEi53E8KZuwcpd6KJluVEOhBpcSLF6rKGg=;
+        b=ThjnSu4G5j62HzR0r7j2ACOTS+hP3OQch2UGw96mcYCyOx9PZkzRFJrUBCxQTxprlA
+         l9OimjTiF9Tcqp6xqRyNZSUjIQM41Ef3qg2LD8415xQpvxm9tvMfkVNcXNCGzKCsf78+
+         Lzt0o3t67Ca68qV8ejl1qVqFLLgx23axX2unIDaJ0ejqdI3/5GF4R7LBLqlt12cfDsmo
+         RADq9Hvi8JiYOZvcu/U7g9XW95O0wf5HdWOEPSqAnpa0F9MR07W22EAZTnLSKHimKzGT
+         2vEQDjo9H+vRbjuWg1m0JBhfHfuLRmccUR/fNRKkTeXrIe3SkmzpAtchgJlEw4nZ2dea
+         VARg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@takedownreporting.com header.s=s1 header.b=vPBz6BMF;
+       spf=pass (google.com: domain of bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com designates 167.89.43.252 as permitted sender) smtp.mailfrom="bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com"
+Received: from o1.mx.zerofox.com (o1.mx.zerofox.com. [167.89.43.252])
+        by mx.google.com with ESMTPS id n8-20020a25e908000000b0092c40ee3c7csi9418063ybd.42.2023.02.27.06.59.13
+        for <abuse@digitalocean.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 06:59:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com designates 167.89.43.252 as permitted sender) client-ip=167.89.43.252;
+Received: by filterdrecv-5784594f58-xbb2k with SMTP id filterdrecv-5784594f58-xbb2k-1-63FCC540-8C
+        2023-02-27 14:59:12.820179815 +0000 UTC m=+487554.885086917
+Received: from Njk5MzM0 (unknown)
+	by geopod-ismtpd-3-1 (SG) with HTTP
+	id JukwrMyUSve23LpZsRqMTg
+	Mon, 27 Feb 2023 14:59:12.722 +0000 (UTC)
+Content-Type: multipart/alternative; boundary=889e1b76c2de4465b749f2934616a6436bfcf794bff2a1f3f3d46f8d9fcd
+Date: Mon, 27 Feb 2023 14:59:12 +0000 (UTC)
+From: domains@takedownreporting.com
+Mime-Version: 1.0
+Message-ID: <JukwrMyUSve23LpZsRqMTg@geopod-ismtpd-3-1>
+Subject: Abuse test
+Reply-To: domains@takedownreporting.com
+X-SG-EID: =?us-ascii?Q?r3doS9zilJQonFa202YGJDLNDzdNyCLybTsStT=2F5osBaQedCXZDtAO54Wqydzz?=
+ =?us-ascii?Q?l59FPk777gLy8s=2FfIiY3sWLiBgF3atsILORql3i?=
+ =?us-ascii?Q?3vBhPtykocVQ90c+4AAdnqqpeOqQSfmt17NpY+r?=
+ =?us-ascii?Q?mBnH9RmWahyFGqRSHdnxJRRFt3ePCgZI2LoYFMI?=
+ =?us-ascii?Q?Soiw3tUBBuvub51t+9NQXiNiAN=2FhAJmgMQB5UAK?=
+ =?us-ascii?Q?AB+3DIhPmKDUItfIw=3D?=
+X-SG-ID: =?us-ascii?Q?N2C25iY2uzGMFz6rgvQsb8raWjw0ZPf1VmjsCkspi=2FICV6loYqhRZ+h0M0zS=2Fv?=
+ =?us-ascii?Q?+CBY+zWfvwm+D5yWMaKKAg3O34dlFdCKEBJ05D6?=
+ =?us-ascii?Q?fpVUAjOwuLJJjeBrDj06agtupQP3vvKIeoNYcLe?=
+ =?us-ascii?Q?dTunmjle8wkplnhTasmfrq3etQfFYCdNXQ8ruj5?=
+ =?us-ascii?Q?5urutnef4DrW64LtKADh7ZM6kk36AxtWEcmDIUU?=
+ =?us-ascii?Q?HRIZLt5Zw+UXK2xVI=3D?=
+To: abuse@digitalocean.com
+X-Entity-ID: n5PFqJxgJMs8vRCjnrHQ+Q==
+X-Original-Sender: domains@takedownreporting.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@takedownreporting.com header.s=s1 header.b=vPBz6BMF;       spf=pass
+ (google.com: domain of bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com
+ designates 167.89.43.252 as permitted sender) smtp.mailfrom="bounces+699334-3ea4-abuse=digitalocean.com@em7770.takedownreporting.com"
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+--889e1b76c2de4465b749f2934616a6436bfcf794bff2a1f3f3d46f8d9fcd
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Mime-Version: 1.0
+
+To Whom It May Concern:
+              =20
+
+               The following URL: hxxp://admin.eduvisor.app/uploads/aa/nbg1=
+/?entity=3D749655 which resolves to the 138.197.152.52 IP address is involv=
+ed in an active phishing campaign.
+              =20
+
+               The webpage mentioned above is being used to harvest login c=
+redentials and or solicit user information in an abusive and malicious mann=
+er.=20
+              =20
+
+               As the Host and/or Registrar of hxxp://admin.eduvisor.app/up=
+loads/aa/nbg1/?entity=3D749655 we would like to request that this content i=
+s  immediately removed or revoked, and or the account is suspended or termi=
+nated as expeditiously as possible.=20
+              =20
+
+               Please respond to this email if any further information is n=
+eeded to process this request or if this request cannot be processed.=20
+              =20
+
+               Please confirm receipt and remediation of this request at yo=
+ur earliest convenience.
+              =20
+
+               =20
+                  =20
+                =20
+
+                     =20
+                      =20
+                         map[ip_address:138.197.152.52 offending_content_ur=
+l:hxxp://admin.eduvisor.app/uploads/aa/nbg1/?entity=3D749655 screenshots:[h=
+ttps://cdn.zerofox.com/screenshots/9cc6bfe4af6b63d632272d8a7be7c31285473635=
+_1677509891_90deae5cc06a1979b0688b299b08c541.png] sgParameters:map[replyTo:=
+domains@takedownreporting.com templateID:d-fe273e126fa9455ba02694dd068d0fb3=
+ templateName:Untitled Version versionID:03145d35-42cf-4623-bdfc-5438d58115=
+a2]]
+                       =20
+                    =20
+                  =20
+
+              =20
+
+               Thanks,
+--889e1b76c2de4465b749f2934616a6436bfcf794bff2a1f3f3d46f8d9fcd
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=us-ascii
+Mime-Version: 1.0
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Active Phishing Campaign</title>
+  <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" =
+/>
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1">
+  <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge" />
+  <meta name=3D"x-apple-disable-message-reformatting" />
+  <style type=3D"text/css">
+    /* FONTS */
+    @media screen {
+
+      /* latin-ext */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(htt=
+ps://fonts.gstatic.com/s/opensans/v15/u-WUoqrET9fUeobQW7jkRYX0hVgzZQUfRDuZr=
+PvH3D8.woff2) format('woff2');
+        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+20A0-20AB, U+20A=
+D-20CF, U+2C60-2C7F, U+A720-A7FF;
+      }
+
+      /* latin */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(htt=
+ps://fonts.gstatic.com/s/opensans/v15/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0j=
+ans920.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C=
+6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
+      }
+
+      /* latin-ext */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://f=
+onts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzIjoYw3YTyktCCer_ilOlhE=
+.woff2) format('woff2');
+        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+20A0-20AB, U+20A=
+D-20CF, U+2C60-2C7F, U+A720-A7FF;
+      }
+
+      /* latin */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://f=
+onts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzBampu5_7CjHW5spxoeN3Vs=
+.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C=
+6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
+      }
+
+      /* iOS BLUE LINKS */
+      a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+      }
+    }
+
+    /* MOBILE STYLES */
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 32px !important;
+        line-height: 32px !important;
+      }
+
+      .body-content td {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+
+      .body-content .body-padding {
+        width: 0 !important;
+      }
+
+      .body-content * {
+        line-height: 1.6em;
+      }
+
+      .header-content {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+
+      .header-content .header-margin {
+        height: 20px !important;
+      }
+    }
+
+    /* CLIENT-SPECIFIC STYLES */
+    body,
+    table,
+    td,
+    a {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      -ms-interpolation-mode: bicubic;
+    }
+
+    /* RESET STYLES */
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+
+    table {
+      border-collapse: collapse !important;
+    }
+
+    body {
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ANDROID CENTER FIX */
+    div[style*=3D"margin: 16px 0;"] {
+      margin: 0 !important;
+    }
+
+    div {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* HEADER STYLES */
+    .header {
+      max-width: 600px;
+    }
+
+    .header .header-title {
+      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+      color: #ffffff;
+      font-size: 22px;
+      text-decoration: none;
+    }
+
+    .header .header-title img {
+      width: 40px;
+      max-width: 40px;
+      min-width: 40px;
+      vertical-align: middle;
+    }
+
+    .custom-logo {
+      height: 34px;
+      width: auto;
+    }
+
+    /* BODY STYLES FOR INLINE */
+    .body-content a {
+      color: #000001;
+    }
+
+    .body-content p {
+      margin: 0 0 20px 0;
+    }
+
+    .body-content ol,
+    .body-content ul {
+      padding: 0px 50px 0px 50px;
+    }
+
+    .body-content li {
+      padding: 0px 0px 20px 0px;
+    }
+
+    .body-content strong {
+      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body style=3D"background-color: #ffffff; margin: 0 !important; padding: 0 =
+!important;">
+  <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+    <!-- COPY BLOCK -->
+    <tr>
+      <td class=3D"body-content" bgcolor=3D"#ffffff" align=3D"center" style=
+=3D"padding: 0px 10px 0px 10px;">
+        <!--[if (gte mso 9)|(IE)]>
+      <table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=3D=
+"0" width=3D"600">
+        <tr>
+          <td align=3D"center" valign=3D"top" width=3D"600">
+      <![endif]-->
+        <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"10=
+0%" style=3D"max-width: 600px;">
+          <!-- COPY -->
+          <tr>
+            <td bgcolor=3D"#ffffff" width=3D"50" class=3D"body-padding">&nb=
+sp;</td>
+            <td bgcolor=3D"#ffffff" align=3D"left">
+              <pre
+                style=3D"white-space: pre-line; color: #000001; font-family=
+: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: =
+400; line-height: 20px;">
+                <br/>
+                To Whom It May Concern:
+                <br/>
+                The following URL: hxxp://admin.eduvisor.app/uploads/aa/nbg=
+1/?entity=3D749655 which resolves to the 138.197.152.52 IP address is invol=
+ved in an active phishing campaign.
+                <br/>
+                The webpage mentioned above is being used to harvest login =
+credentials and or solicit user information in an abusive and malicious man=
+ner.=20
+                <br/>
+                As the Host and/or Registrar of hxxp://admin.eduvisor.app/u=
+ploads/aa/nbg1/?entity=3D749655 we would like to request that this content =
+is  immediately removed or revoked, and or the account is suspended or term=
+inated as expeditiously as possible.=20
+                <br/>
+                Please respond to this email if any further information is =
+needed to process this request or if this request cannot be processed.=20
+                <br/>
+                Please confirm receipt and remediation of this request at y=
+our earliest convenience.
+                <br/>
+                 <table>
+                    <tr bgcolor=3D"#ffffff" >
+                      <td>=20
+                        <a href=3D"" style=3D"color: #0072CE;">
+                          https://cdn.zerofox.com/screenshots/9cc6bfe4af6b6=
+3d632272d8a7be7c31285473635_1677509891_90deae5cc06a1979b0688b299b08c541.png
+                        </a>=20
+                      </td>
+                    </tr>
+                  </table>
+                <br/>
+                Thanks,
+                <br/>
+              </pre>
+            </td>
+            <td bgcolor=3D"#ffffff" width=3D"50" class=3D"body-padding">&nb=
+sp;</td>
+          </tr>
+        </table>
+        <!--[if (gte mso 9)|(IE)]>
+      </td>
+      </tr>
+      </table>
+      <![endif]-->
+      </td>
+    </tr>
+  </table>
+
+<img src=3D"https://mx.zerofox.com/wf/open?upn=3DC3FBqjBcgfjLvjYsWf-2Fh9J6Q=
+UR6smPFOAtb0wcZeHo4R2V9tjepV0UokKEsBfCQsSes0qz6NIb0zP2YLUJYhF1p237f6-2FSgkh=
+55CTQRlIboZwD4qcXTVNXxOfU3EFjf6ZeA-2FUZn88eXf89UtPuqiAu4cQnR-2BofnSfYDHgfR-=
+2BiEpwblsLVqAw-2BECAaufP1o3CrSjqwTi3XCeFukGcMtklyknxI3JvNhrryEyfKjK57AcxVGU=
+ml-2BnzETLa3YPTuLV4aZVNrDtPPs-2B4VWSNhvfT4iN1Ui-2Fp5z40BRARV8MXfavcJ-2FteQ-=
+2B5xRJ-2BTh4EYdxySgFnCoq6XFYD-2BC7W-2BWTwOQTZc9Fz-2FCngB3FX4-2B8-2FwL-2BrLD=
+asfNcYNvZR5oSMjx2rXMPO0G5MCmdkkVqNFq15O0w-3D-3D" alt=3D"" width=3D"1" heigh=
+t=3D"1" border=3D"0" style=3D"height:1px !important;width:1px !important;bo=
+rder-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;=
+margin-right:0 !important;margin-left:0 !important;padding-top:0 !important=
+;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !imp=
+ortant;"/></body>
+
+</html>
+--889e1b76c2de4465b749f2934616a6436bfcf794bff2a1f3f3d46f8d9fcd--

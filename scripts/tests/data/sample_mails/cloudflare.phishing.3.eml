@@ -1,0 +1,165 @@
+Authentication-Results: prod-smtp-forward02;
+	dkim=pass header.i=@digitalocean.com header.d=digitalocean.com header.s=google
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
+	by prod-smtp-forward02 (Haraka) with ESMTPS id 3230CCAF-EEF3-4F06-8260-477F023D3041.1
+	envelope-from <abuse+bncBDY5T2UL5YFBBJ7C2LDAMGQED6MGG4Q@digitalocean.com>
+	tls TLS_AES_256_GCM_SHA384;
+	Thu, 25 Sep 2025 03:04:08 +0000
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-739a2c79726sf6876187b3.0
+        for <abuse@digitalocean.abusehq.net>; Wed, 24 Sep 2025 20:04:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758769447; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=lKB47q+gVfLwAqaGJ2LDKUZQoj8vSXANxXUKe6gpJLO9LcTZc1fIpHkrlqXEwz2BMq
+         2B91sJzBUH5qgAJbWTgHWYpCebRKjfbl2cHAWVIbNbYx6J25EIqvYZD8a3tyIixqpzlz
+         YJjTAKF3rW50nnuz7z/TB50kGGBdswV79P3Yzb3mJKku3DAp4O2HjYmdN4K2NMBXfKw1
+         ZsbTFKL4TfUvCGRJz8hjWM45Nnlmls/CdwV1WJJsug1MXYICGROb+EyagfvCgFlUuXqf
+         HKQyc2Ca+aRZaRPe2OLL/o87uBeKYXW/uML3kg/Bcn+isb+EtKuv8a5fqO0gpXPUqjpj
+         xLBA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:from:reply-to:mime-version:date:to
+         :message-id:subject:content-transfer-encoding:dkim-signature;
+        bh=KxdONiNTq6fejqDqgi4zP7mOKL156WFOdmQvJZ0McHg=;
+        fh=4tUVrAVjS8oTkYeEIVV4mnqirCe0Z/jNGgwOmevSJ4Y=;
+        b=IFicVWqKmTPf4zYNb52xGF1ta99JUq85V53YsaaxHpWkRJ6LSvorzg04lS6GWtVxhk
+         DaNg1NkRzJKXM5X9vdnEJa3EuYASew8tDZHhFXp3x9ACsvhPaEw2C+/UO4/pdHLn7pde
+         /5maM5OvFn158yVBYYeDcLWreeJXAQ8l7huScp8lHu/3c3veodymqCRxoR1P6OaRhIJk
+         FYEQGaSwBEcRVUwPINT1xhfoSJKSqozoCVyNYy8WTPLc2m5rMHtprRUNSix/K34reVhM
+         5YIRoxVWOG8/g0dc109nmnZ0nrG63h0ltgX+Ymo51eaL21H4139eXwvCWv9tWSOLBb5i
+         Unjg==;
+        darn=digitalocean.abusehq.net
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@notify.cloudflare.com header.s=scph0619 header.b="mg4fs/Y8";
+       spf=pass (google.com: domain of msprvs1=20363uy9iw-c1=bounces-265094@notify.cloudflare.com designates 192.174.87.158 as permitted sender) smtp.mailfrom="msprvs1=20363uY9IW-c1=bounces-265094@notify.cloudflare.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notify.cloudflare.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=digitalocean.com; s=google; t=1758769447; x=1759374247; darn=digitalocean.abusehq.net;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:from:reply-to:mime-version:date:to:message-id
+         :subject:content-transfer-encoding:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KxdONiNTq6fejqDqgi4zP7mOKL156WFOdmQvJZ0McHg=;
+        b=Dz5KJsmeEbQR10ug8BHLvauZ2OEHRi2r7zcxDCHh8UzNT32SEtyKMUCMdzBls5LyHw
+         Q8N7m5rtsdLuhoC6HoJJ4o8ARUQeGhaPaMUAsZlCmpy8/AdGE11qhwUzBHoa77vkyeYT
+         lITg53iHCzev6AQ1qmZ9ZczkxAS2y9z/LH6EI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758769447; x=1759374247;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:from:reply-to
+         :mime-version:date:to:message-id:subject:content-transfer-encoding
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KxdONiNTq6fejqDqgi4zP7mOKL156WFOdmQvJZ0McHg=;
+        b=vXODd7toPy4mNtdUVIkA738dmAlXoXUk7UgUbER4bOBCHeiqbDbL2PKTDDpnTtpgRG
+         Okz7cirZ/NpVWwJ9WixhRPhmCkyuKBI6ns3qLE9Eq2/CcKsjpfPgJxtgfxH49TNm8U4M
+         AcmAzxu6fidb7f4asBSah++1udKzGVeqbD06q9t0jii0xjKeNF/vU/ENS1vbAHjP6tDN
+         wZM0isb3DNMNNNNUjn4qlbsvXH3/wYD9/doptnyE2zQyQfTa7SuSe6EA++kuoXT4EEao
+         zEPckzPTPNeprTOU5I9dzcWzasAJAmJZVY0SsPG5re5I4PAzL6uDu3oNah+xjNbzfRlz
+         4K7A==
+X-Forwarded-Encrypted: i=2; AJvYcCXR2dISkX/31RZhqyvE6yc0e86BpCPhuIPvQ8kNSyesZ82wJ0bRZkQxlLmL+EqNFhx3VrnFkA==@digitalocean.abusehq.net
+X-Gm-Message-State: AOJu0YyMqXmIrA90pEDEq7Sy2eyJ83pMU2PhYszXEOYZHDMhOaPADtt9
+	Rw9tMyfBxmD6g4nyGxHYuG9avT0gpqlThbzi3f2O4H9DD9sQ23frR/DxuU+S7QiPazw=
+X-Google-Smtp-Source: AGHT+IGOJEQURM43Kaezx4w8kMd+I6LC91xbVBtDvy2YECxGGi2qfjnl61ZGbFd4jqlw+qmVLzVEYQ==
+X-Received: by 2002:a05:690c:8690:10b0:763:a14d:19a4 with SMTP id 00721157ae682-76403422708mr16796677b3.36.1758769447706;
+        Wed, 24 Sep 2025 20:04:07 -0700 (PDT)
+X-BeenThere: abuse@digitalocean.com; h="ARHlJd6cVmkUdAmlRs8lvbVpHFS0clOjVo1CZeYSlhkNv3viZQ=="
+Received: by 2002:a05:690e:2581:b0:633:b16b:72ad with SMTP id
+ 956f58d0204a3-6361b3a2bb9ls190072d50.0.-pod-prod-07-us; Wed, 24 Sep 2025
+ 20:04:07 -0700 (PDT)
+X-Received: by 2002:a05:690c:350e:b0:732:41ef:4025 with SMTP id 00721157ae682-764026bb147mr22766817b3.41.1758769446873;
+        Wed, 24 Sep 2025 20:04:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758769446; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T4ZhNGyviSLtdvkBhFCBqmuiFZsvqywzJczJm0hPkysAUHdRAHp+M8NrjaS1VkzUNW
+         p9rs9T5FxMSBULFvGmiWrpcPsxnvwSEnSbeDck6Nkuw7MMd8rdHGo9/fkp0eM2fTeTnq
+         nLbW2eL+jjeLZGNK5Fy6DNFoCFLOahevDJu3R6/OBq/c/SUSMaNKngsj4uU4QAab8hG3
+         IuECwoQ7VuHZFgW8ORpkTueXsFEDVEdBygxtEMm/SgDbGmzdY4nGyCUOJ0Z83HcJ5FM0
+         2/dkVttSagFtmdm+sGmJtJKEWkKJX7r/5OfiqFB8+vnuGbSdTfMZEIEbOJVsiAtHh/kO
+         ZR5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=from:reply-to:mime-version:date:to:message-id:subject
+         :content-transfer-encoding:dkim-signature;
+        bh=KxdONiNTq6fejqDqgi4zP7mOKL156WFOdmQvJZ0McHg=;
+        fh=1XHk68KDnDWYe8TiHMUKN1s7f1wKWmzqg4DM7xfFvDE=;
+        b=gATLMEsKwZ2B3ANFhPHwGWQFJSyAv14rpu7ta+Vtm+GQx4zJzRk+SpXynQdkXYnJJj
+         GP9amuqb/jjw953g6I6aJBjX0LEwyBn/RNl+p/DDD2rOQG5XvUPDDCFOOb1iAu++UD7t
+         0ZgKnL8oSEy6nmzYOffvx7aGWjgIbL58Lno7S2LJuBkAh/7eWT3xbjAzoC+IZq6zSTA3
+         0Nek0sW/CrbZS9eFTk5pt41ezq+pQJeBOYvu1+8DK4GEzlqVQZB0V3rUr/IEtc5qMNAZ
+         mXhEQ/LvY+ZwPLRR3q5t2jkF24DQbax/EoDOpUfvq9VxgF69rpLZkeR0xaqzuOdn67vB
+         dHdQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@notify.cloudflare.com header.s=scph0619 header.b="mg4fs/Y8";
+       spf=pass (google.com: domain of msprvs1=20363uy9iw-c1=bounces-265094@notify.cloudflare.com designates 192.174.87.158 as permitted sender) smtp.mailfrom="msprvs1=20363uY9IW-c1=bounces-265094@notify.cloudflare.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notify.cloudflare.com
+Received: from mta-87-158.sparkpostmail.com (mta-87-158.sparkpostmail.com. [192.174.87.158])
+        by mx.google.com with ESMTPS id 00721157ae682-765daba99dasi2549107b3.549.2025.09.24.20.04.06
+        for <abuse@digitalocean.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 Sep 2025 20:04:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of msprvs1=20363uy9iw-c1=bounces-265094@notify.cloudflare.com designates 192.174.87.158 as permitted sender) client-ip=192.174.87.158;
+X-MSFBL: KoojaWLWSV4aER7qfVuiWywroJ9Z8Q1BN61EFmIAcYE=|eyJtZXNzYWdlX2lkIjo
+	iNjhkNDI1YjFkNDY4NDVjMDE1ZmQiLCJzdWJhY2NvdW50X2lkIjoiMCIsImN1c3R
+	vbWVyX2lkIjoiMjY1MDk0IiwiciI6ImFidXNlQGRpZ2l0YWxvY2Vhbi5jb20iLCJ
+	0ZW5hbnRfaWQiOiJzcGMifQ==
+Received: from [10.90.19.3] ([10.90.19.3])
+	by i-0ecefe47b8f196703.mta1vrest.sd.prd.sparkpost (ecelerity 5.1.0.74604 r(msys-ecelerity:tags/5.1.0.10)) with REST
+	id DF/59-41665-521B4D86; Thu, 25 Sep 2025 03:04:05 +0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Subject: [12bfa3f6214b527d]: Cloudflare received a phishing report regarding one of your customers.
+Message-ID: <DF.59.41665.521B4D86@i-0ecefe47b8f196703.mta1vrest.sd.prd.sparkpost>
+To: abuse@digitalocean.com
+Date: Thu, 25 Sep 2025 03:04:05 +0000
+MIME-Version: 1.0
+Reply-To: noreply@notify.cloudflare.com
+From: "'Cloudflare Trust & Safety' via abuse" <abuse@digitalocean.com>
+X-Original-Sender: abuse@notify.cloudflare.com
+X-Original-Authentication-Results: mx.google.com;       dkim=pass
+ header.i=@notify.cloudflare.com header.s=scph0619 header.b="mg4fs/Y8";
+       spf=pass (google.com: domain of msprvs1=20363uy9iw-c1=bounces-265094@notify.cloudflare.com
+ designates 192.174.87.158 as permitted sender) smtp.mailfrom="msprvs1=20363uY9IW-c1=bounces-265094@notify.cloudflare.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notify.cloudflare.com
+X-Original-From: "Cloudflare Trust & Safety" <abuse@notify.cloudflare.com>
+Precedence: list
+Mailing-list: list abuse@digitalocean.com; contact abuse+owners@digitalocean.com
+List-ID: <abuse.digitalocean.com>
+X-Spam-Checked-In-Group: abuse@digitalocean.com
+X-Google-Group-Id: 331087551970
+List-Post: <https://groups.google.com/a/digitalocean.com/group/abuse/post>, <mailto:abuse@digitalocean.com>
+List-Help: <https://support.google.com/a/digitalocean.com/bin/topic.py?topic=25838>,
+ <mailto:abuse+help@digitalocean.com>
+List-Archive: <https://groups.google.com/a/digitalocean.com/group/abuse/>
+List-Unsubscribe: <mailto:googlegroups-manage+331087551970+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/a/digitalocean.com/group/abuse/subscribe>
+
+Hello,
+
+Cloudflare received a phishing report regarding ads[.]account-verify-business-use[.]cfd
+
+Please be aware Cloudflare offers network service solutions including pass-through security services, a content distribution network (CDN) and registrar services. Due to the pass-through nature of our services, our IP addresses appear in WHOIS and DNS records for websites using Cloudflare. Cloudflare is generally not a website hosting provider, and we cannot remove material from the Internet that is hosted by others.
+
+The actual host for ads[.]account-verify-business-use[.]cfd  is account-verify-business-use[.]cfd . Using the following command, you can confirm the site in question is hosted at that IP address: curl -v -H "Host: ads[.]account-verify-business-use[.]cfd" 138.68.5.188/
+
+Below is the information we received:
+
+Reporter's Name: DNS Abuse Institute/NetBeacon
+Reporter's Email Address: support@netbeacon.org
+Reporter's Company Name: DNS Abuse Institute/NetBeacon
+
+Reported URLs:
+hxxps://ads[.]account-verify-business-use[.]cfd/express
+
+
+Logs or Evidence of Abuse: Reported to NetBeacon: Phishing attack - Source: APWG
+
+
+Please address this issue with your customer.
+
+To respond to this issue, please reply to abusereply@cloudflare.com.
+
+Regards,
+Cloudflare Trust & Safety
+
